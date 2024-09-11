@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>flowbite-pro-react-admin-dashboard</h1>
+  <h1>Proprly Admin Dashboard</h1>
   <p>
     Get started with a premium admin dashboard layout built with React, Tailwind CSS and Flowbite featuring 21 example pages including charts, kanban board, mailing system, and more.
   </p>
