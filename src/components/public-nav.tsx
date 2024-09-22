@@ -1,8 +1,14 @@
 import { Navbar, Button } from "flowbite-react";
 import type { FC } from "react";
 import { HiOutlineLogin } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const PublicNav: FC = function () {
+  const navigate = useNavigate();
+
+  const gotoLogin = () => {
+    navigate("/");
+  };
   return (
     <Navbar fluid className="bg-transparent p-6">
       <div className="flex items-center gap-x-9">
@@ -18,7 +24,7 @@ const PublicNav: FC = function () {
           <Navbar.Link href="#">Proprly</Navbar.Link>
           <Navbar.Link href="#">Contact Us</Navbar.Link>
         </Navbar.Collapse>
-        <Button>
+        <Button onClick={() => gotoLogin()}>
           Login <HiOutlineLogin className="ml-3 text-lg" />
         </Button>
         <Navbar.Toggle />

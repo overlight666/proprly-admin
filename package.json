@@ -27,10 +27,12 @@
   "dependencies": {
     "apexcharts": "^3.41.0",
     "classnames": "^2.3.2",
-    "flowbite": "^1.8.0",
+    "flowbite": "^1.8.1",
     "flowbite-react": "^0.5.0",
     "react-apexcharts": "^1.4.1",
+    "react-hook-form": "^7.53.0",
     "react-icons": "^4.10.1",
+    "react-phone-input-2": "^2.15.1",
     "react-sortablejs": "^6.1.4",
     "sortablejs": "^1.15.0",
     "svgmap": "^2.10.1"

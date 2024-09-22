@@ -3,8 +3,13 @@ import type { FC } from "react";
 import PublicNav from "../../components/public-nav";
 import { Card, Label, TextInput, Button } from "flowbite-react";
 import PublicFooter from "../../components/public-footer";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPasswordPage: FC = function () {
+  const navigate = useNavigate();
+  const gotoPage = (page: string) => {
+    navigate(`/${page}`);
+  };
   return (
     <>
       <div className="bg-[url('/images/Background.png')]">
@@ -40,7 +45,11 @@ const ForgotPasswordPage: FC = function () {
 
               <p className="mb-6 text-center text-sm text-gray-500 dark:text-gray-300">
                 Not registered yet?&nbsp;
-                <a href="#" className="text-primary-600 dark:text-primary-300">
+                <a
+                  href="javascript:void(0)"
+                  className="text-primary-600 dark:text-primary-300"
+                  onClick={() => gotoPage("signup")}
+                >
                   Create an account
                 </a>
               </p>

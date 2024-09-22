@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Routes, Route } from "react-router";
-import DashboardPage from "./pages";
+// import DashboardPage from "./pages";
 import ForgotPasswordPage from "./pages/authentication/forgot-password";
 import ProfileLockPage from "./pages/authentication/profile-lock";
 import ResetPasswordPage from "./pages/authentication/reset-password";
@@ -31,7 +31,8 @@ const App: FC = function () {
     <AuthProvider>
       <Routes>
         <Route element={<FlowbiteWrapper />}>
-          <Route path="/" element={<DashboardPage />} index />
+          <Route path="/" element={<SignInPage />} index />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />
           <Route path="/mailing/read" element={<MailingReadPage />} />

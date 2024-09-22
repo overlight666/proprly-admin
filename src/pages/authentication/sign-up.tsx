@@ -1,80 +1,270 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
+/* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import type { FC } from "react";
+import { Card } from "flowbite-react";
+import { useState, type FC } from "react";
+import PublicFooter from "../../components/public-footer";
+import PublicNav from "../../components/public-nav";
+import "react-phone-input-2/lib/style.css";
+import RegistrationStep1 from "../../components/registration-components/step1";
+import RegistrationStep2 from "../../components/registration-components/step2";
+import RegistrationStep3 from "../../components/registration-components/step3";
+import RegistrationStep4 from "../../components/registration-components/step4";
+import RegistrationStep5 from "../../components/registration-components/step5";
 
 const SignUpPage: FC = function () {
+  const [formData, setFormData] = useState<any>({
+    fullname: "",
+    email: "",
+    password: "",
+    mobile: "",
+    agreed: false,
+    step: 1,
+    organization: "",
+    country: "",
+  });
+
+  const [errors, setErrors] = useState<any>([]);
+  const handleInputChange = (event: any) => {
+    try {
+      const { name, value } = event.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: name === "agreed" ? event.target.checked : value,
+      }));
+    } catch (error) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        ["mobile"]: event,
+      }));
+    }
+  };
+
+  const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData.step === 1) {
+      let valid = true;
+      if (formData.fullname === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Full name is required"]);
+      }
+      if (formData.email === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Email is required"]);
+      }
+      if (formData.mobile === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Mobile number is required"]);
+      }
+      if (formData.password === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Password is required"]);
+      }
+      if (formData.agreed === false) {
+        valid = false;
+        setErrors((oldArray) => [
+          ...oldArray,
+          "Please agree to the Terms of Service and Private Policy",
+        ]);
+      }
+      if (valid) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          ["step"]: prevFormData.step + 1,
+        }));
+      }
+    } else if (formData.step === 2) {
+      let valid = true;
+      if (formData.organization === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Organization is required"]);
+      }
+      if (formData.country === "") {
+        valid = false;
+        setErrors((oldArray) => [...oldArray, "Country is required"]);
+      }
+      if (valid) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          ["step"]: prevFormData.step + 1,
+        }));
+      }
+    }
+    console.log(formData);
+  };
+
+  const removeError = (index) => {
+    setErrors((prevState) => [
+      ...prevState.slice(0, index),
+      ...prevState.slice(index + 1),
+    ]);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
-      <a href="/" className="my-6 flex items-center gap-x-1 lg:my-0">
-        <img
-          alt="Flowbite logo"
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="mr-3 h-10"
-        />
-        <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-          Flowbite
-        </span>
-      </a>
-      <Card
-        horizontal
-        imgSrc="/images/authentication/create-account.jpg"
-        imgAlt=""
-        className="w-full md:max-w-[1024px] md:[&>*]:w-full md:[&>*]:p-16 [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 lg:[&>img]:block"
-      >
-        <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
-          Create a Free Account
-        </h1>
-        <form>
-          <div className="mb-4 flex flex-col gap-y-3">
-            <Label htmlFor="email">Your email</Label>
-            <TextInput
-              id="email"
-              name="email"
-              placeholder="name@company.com"
-              type="email"
-            />
-          </div>
-          <div className="mb-6 flex flex-col gap-y-3">
-            <Label htmlFor="password">Your password</Label>
-            <TextInput
-              id="password"
-              name="password"
-              placeholder="••••••••"
-              type="password"
-            />
-          </div>
-          <div className="mb-6 flex flex-col gap-y-3">
-            <Label htmlFor="confirmPassword">Confirm password</Label>
-            <TextInput
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="••••••••"
-              type="password"
-            />
-          </div>
-          <div className="mb-6 flex items-center gap-x-3">
-            <Checkbox id="acceptTerms" name="acceptTerms" />
-            <Label htmlFor="acceptTerms">
-              I accept the&nbsp;
-              <a href="#" className="text-primary-700 dark:text-primary-200">
-                Terms and Conditions
-              </a>
-            </Label>
-          </div>
-          <div className="mb-7">
-            <Button type="submit" className="w-full lg:w-auto">
-              Create account
-            </Button>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-300">
-            Already have an account?&nbsp;
-            <a href="#" className="text-primary-600 dark:text-primary-200">
-              Login here
-            </a>
-          </p>
-        </form>
-      </Card>
-    </div>
+    <>
+      <div className="bg-[url('/images/Background.png')] bg-cover">
+        <PublicNav />
+        <div className="flex items-center justify-center pt-32 max-lg:px-10">
+          <Card
+            horizontal
+            imgAlt=""
+            className="md:max-h-auto relative mt-[60px] w-full md:max-w-[500px] md:[&>*]:w-full md:[&>*]:p-16 [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 lg:[&>img]:block"
+          >
+            {formData.step !== 5 && (
+              <ol className="absolute left-2 top-5 flex w-full items-center text-xs font-medium text-gray-900 sm:text-base">
+                <li className="relative flex w-full text-gray-900  after:absolute  after:left-[100px] after:top-3  after:inline-block after:h-0.5 after:w-[100px] after:bg-gray-200 after:content-[''] lg:after:top-4">
+                  <div className="z-10 block whitespace-nowrap">
+                    {(formData.step >= 1 && (
+                      <svg
+                        className="mx-auto mb-3 h-6 w-6"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M19.1272 7.89384L18.2355 7.00102C18.0469 6.81332 17.9436 6.56305 17.9436 6.29789V5.03464C17.9436 3.39201 16.6071 2.05527 14.9648 2.05527H13.7017C13.4406 2.05527 13.1844 1.949 12.9997 1.76428L12.107 0.871465C10.9453 -0.290488 9.0567 -0.290488 7.89495 0.871465L7.0003 1.76428C6.81561 1.949 6.55943 2.05527 6.29828 2.05527H5.03525C3.39291 2.05527 2.0564 3.39201 2.0564 5.03464V6.29789C2.0564 6.56305 1.95313 6.81332 1.76547 7.00102L0.872803 7.89284C0.309801 8.45594 0 9.20476 0 10.0002C0 10.7957 0.310793 11.5446 0.872803 12.1067L1.76447 12.9995C1.95313 13.1872 2.0564 13.4374 2.0564 13.7026V14.9659C2.0564 16.6085 3.39291 17.9452 5.03525 17.9452H6.29828C6.55943 17.9452 6.81561 18.0515 7.0003 18.2362L7.89296 19.13C8.47384 19.71 9.23642 20 9.99901 20C10.7616 20 11.5242 19.71 12.1051 19.129L12.9977 18.2362C13.1844 18.0515 13.4406 17.9452 13.7017 17.9452H14.9648C16.6071 17.9452 17.9436 16.6085 17.9436 14.9659V13.7026C17.9436 13.4374 18.0469 13.1872 18.2355 12.9995L19.1272 12.1077C19.6892 11.5446 20 10.7967 20 10.0002C20 9.20376 19.6902 8.45594 19.1272 7.89384ZM14.5229 8.84028L8.56519 12.8128C8.39738 12.925 8.20475 12.9796 8.0141 12.9796C7.75792 12.9796 7.50372 12.8803 7.31209 12.6886L5.32618 10.7024C4.93794 10.3141 4.93794 9.68642 5.32618 9.29811C5.71443 8.9098 6.34197 8.9098 6.73022 9.29811L8.14021 10.7083L13.4207 7.18773C13.8785 6.88284 14.4941 7.00598 14.7979 7.46282C15.1028 7.91966 14.9796 8.53639 14.5229 8.84028Z"
+                          fill="#1A56DB"
+                        />
+                      </svg>
+                    )) || (
+                      <span className="mx-auto mb-3 flex h-6 w-6 items-center justify-center rounded-full border-none border-indigo-600 bg-none text-sm text-gray-600 lg:h-6 lg:w-6">
+                        1
+                      </span>
+                    )}
+                    <div className="flex !w-[100px] items-center justify-center text-center text-xs">
+                      Personal Info
+                    </div>
+                  </div>
+                </li>
+                <li className="relative flex w-full text-gray-900  after:absolute  after:left-[120px] after:top-3  after:inline-block after:h-0.5 after:w-[100px] after:bg-gray-200 after:content-[''] lg:after:top-4">
+                  <div className="z-10 ml-7 block whitespace-nowrap">
+                    {(formData.step >= 2 && (
+                      <svg
+                        className="mx-auto mb-3 h-6 w-6"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M19.1272 7.89384L18.2355 7.00102C18.0469 6.81332 17.9436 6.56305 17.9436 6.29789V5.03464C17.9436 3.39201 16.6071 2.05527 14.9648 2.05527H13.7017C13.4406 2.05527 13.1844 1.949 12.9997 1.76428L12.107 0.871465C10.9453 -0.290488 9.0567 -0.290488 7.89495 0.871465L7.0003 1.76428C6.81561 1.949 6.55943 2.05527 6.29828 2.05527H5.03525C3.39291 2.05527 2.0564 3.39201 2.0564 5.03464V6.29789C2.0564 6.56305 1.95313 6.81332 1.76547 7.00102L0.872803 7.89284C0.309801 8.45594 0 9.20476 0 10.0002C0 10.7957 0.310793 11.5446 0.872803 12.1067L1.76447 12.9995C1.95313 13.1872 2.0564 13.4374 2.0564 13.7026V14.9659C2.0564 16.6085 3.39291 17.9452 5.03525 17.9452H6.29828C6.55943 17.9452 6.81561 18.0515 7.0003 18.2362L7.89296 19.13C8.47384 19.71 9.23642 20 9.99901 20C10.7616 20 11.5242 19.71 12.1051 19.129L12.9977 18.2362C13.1844 18.0515 13.4406 17.9452 13.7017 17.9452H14.9648C16.6071 17.9452 17.9436 16.6085 17.9436 14.9659V13.7026C17.9436 13.4374 18.0469 13.1872 18.2355 12.9995L19.1272 12.1077C19.6892 11.5446 20 10.7967 20 10.0002C20 9.20376 19.6902 8.45594 19.1272 7.89384ZM14.5229 8.84028L8.56519 12.8128C8.39738 12.925 8.20475 12.9796 8.0141 12.9796C7.75792 12.9796 7.50372 12.8803 7.31209 12.6886L5.32618 10.7024C4.93794 10.3141 4.93794 9.68642 5.32618 9.29811C5.71443 8.9098 6.34197 8.9098 6.73022 9.29811L8.14021 10.7083L13.4207 7.18773C13.8785 6.88284 14.4941 7.00598 14.7979 7.46282C15.1028 7.91966 14.9796 8.53639 14.5229 8.84028Z"
+                          fill="#1A56DB"
+                        />
+                      </svg>
+                    )) || (
+                      <span className="mx-auto mb-3 flex h-6 w-6 items-center justify-center rounded-full border-none border-indigo-600 bg-none text-sm text-gray-600 lg:h-6 lg:w-6">
+                        2
+                      </span>
+                    )}
+                    <div className="flex !w-[100px] items-center justify-center text-center text-xs">
+                      Organization Info
+                    </div>
+                  </div>
+                </li>
+                <li className="relative flex w-full text-gray-900">
+                  <div className="z-10 ml-12 block whitespace-nowrap">
+                    {(formData.step >= 3 && (
+                      <svg
+                        className="mx-auto mb-3 h-6 w-6"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M19.1272 7.89384L18.2355 7.00102C18.0469 6.81332 17.9436 6.56305 17.9436 6.29789V5.03464C17.9436 3.39201 16.6071 2.05527 14.9648 2.05527H13.7017C13.4406 2.05527 13.1844 1.949 12.9997 1.76428L12.107 0.871465C10.9453 -0.290488 9.0567 -0.290488 7.89495 0.871465L7.0003 1.76428C6.81561 1.949 6.55943 2.05527 6.29828 2.05527H5.03525C3.39291 2.05527 2.0564 3.39201 2.0564 5.03464V6.29789C2.0564 6.56305 1.95313 6.81332 1.76547 7.00102L0.872803 7.89284C0.309801 8.45594 0 9.20476 0 10.0002C0 10.7957 0.310793 11.5446 0.872803 12.1067L1.76447 12.9995C1.95313 13.1872 2.0564 13.4374 2.0564 13.7026V14.9659C2.0564 16.6085 3.39291 17.9452 5.03525 17.9452H6.29828C6.55943 17.9452 6.81561 18.0515 7.0003 18.2362L7.89296 19.13C8.47384 19.71 9.23642 20 9.99901 20C10.7616 20 11.5242 19.71 12.1051 19.129L12.9977 18.2362C13.1844 18.0515 13.4406 17.9452 13.7017 17.9452H14.9648C16.6071 17.9452 17.9436 16.6085 17.9436 14.9659V13.7026C17.9436 13.4374 18.0469 13.1872 18.2355 12.9995L19.1272 12.1077C19.6892 11.5446 20 10.7967 20 10.0002C20 9.20376 19.6902 8.45594 19.1272 7.89384ZM14.5229 8.84028L8.56519 12.8128C8.39738 12.925 8.20475 12.9796 8.0141 12.9796C7.75792 12.9796 7.50372 12.8803 7.31209 12.6886L5.32618 10.7024C4.93794 10.3141 4.93794 9.68642 5.32618 9.29811C5.71443 8.9098 6.34197 8.9098 6.73022 9.29811L8.14021 10.7083L13.4207 7.18773C13.8785 6.88284 14.4941 7.00598 14.7979 7.46282C15.1028 7.91966 14.9796 8.53639 14.5229 8.84028Z"
+                          fill="#1A56DB"
+                        />
+                      </svg>
+                    )) || (
+                      <span className="mx-auto mb-3 flex h-6 w-6 items-center justify-center rounded-full border-none border-indigo-600 bg-none text-sm text-gray-600 lg:h-6 lg:w-6">
+                        3
+                      </span>
+                    )}
+                    <div className="flex !w-[100px] items-center justify-center text-center text-xs">
+                      {formData.step == 3 ? "Verify" : "Verify Mobile No"}
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            )}
+            {errors.length > 0 &&
+              errors.map((e, index) => {
+                return (
+                  <span
+                    key={index}
+                    id="badge-dismiss-red"
+                    className="me-2 inline-flex items-center justify-between rounded bg-red-100 px-2 py-1 text-sm font-medium text-red-800 dark:bg-red-900 dark:text-red-300"
+                  >
+                    {e}
+                    <button
+                      type="button"
+                      className="ms-2 inline-flex items-center justify-center  rounded-sm bg-transparent p-1 text-sm text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300"
+                      data-dismiss-target="#badge-dismiss-red"
+                      aria-label="Remove"
+                      onClick={() => removeError(index)}
+                    >
+                      <svg
+                        className="h-2 w-2"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                );
+              })}
+            {formData.step === 1 && (
+              <RegistrationStep1
+                fullname={formData.fullname}
+                email={formData.email}
+                password={formData.password}
+                mobile={formData.mobile}
+                handleInputChange={handleInputChange}
+                step={formData.step}
+                agreed={formData.agreed}
+                nextStep={nextStep}
+              />
+            )}
+            {formData.step === 2 && (
+              <RegistrationStep2
+                country={formData.country}
+                organization={formData.organization}
+                handleInputChange={handleInputChange}
+                step={formData.step}
+                nextStep={nextStep}
+              />
+            )}
+            {formData.step === 3 && (
+              <RegistrationStep3
+                email={formData.email}
+                handleInputChange={handleInputChange}
+                step={formData.step}
+                nextStep={nextStep}
+              />
+            )}
+            {formData.step === 4 && (
+              <RegistrationStep4
+                mobile={formData.mobile}
+                handleInputChange={handleInputChange}
+                step={formData.step}
+                nextStep={nextStep}
+              />
+            )}
+            {formData.step === 5 && <RegistrationStep5 />}
+          </Card>
+        </div>
+        <PublicFooter />
+      </div>
+    </>
   );
 };
 
