@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
 import { Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
@@ -62,15 +63,17 @@ const ExampleSidebar: FC = function () {
             <Sidebar.Items>
               <Sidebar.ItemGroup>
                 <Sidebar.Item
-                  href="/"
+                  href="/organization"
                   icon={HiChartPie}
                   className={
-                    "/" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
+                    "/organization" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
                   }
                 >
-                  Dashboard
+                  Organizations
                 </Sidebar.Item>
-                <Sidebar.Item
+                {/* <Sidebar.Item
                   href="/kanban"
                   icon={HiViewGrid}
                   className={
@@ -221,11 +224,11 @@ const ExampleSidebar: FC = function () {
                   icon={HiInformationCircle}
                 >
                   Help
-                </Sidebar.Item>
+                </Sidebar.Item> */}
               </Sidebar.ItemGroup>
             </Sidebar.Items>
           </div>
-          <BottomMenu />
+          {/* <BottomMenu /> */}
         </div>
       </Sidebar>
     </div>
@@ -309,7 +312,7 @@ const LanguageDropdown: FC = function () {
         <li>
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <div className="inline-flex items-center">
               <svg
@@ -350,7 +353,7 @@ const LanguageDropdown: FC = function () {
         <li>
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <div className="inline-flex items-center">
               <svg
@@ -370,7 +373,7 @@ const LanguageDropdown: FC = function () {
         <li>
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <div className="inline-flex items-center">
               <svg
@@ -392,7 +395,7 @@ const LanguageDropdown: FC = function () {
         <li>
           <a
             href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <div className="inline-flex items-center">
               <svg

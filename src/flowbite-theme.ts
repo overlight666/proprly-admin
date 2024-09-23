@@ -50,7 +50,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
   },
   navbar: {
     root: {
-      base: "fixed z-30 w-full",
+      base: "fixed z-30 w-full bg-[#0F0059]",
     },
   },
   sidebar: {
