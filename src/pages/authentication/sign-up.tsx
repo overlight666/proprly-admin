@@ -18,16 +18,26 @@ import { registerLead } from "../../store/features/reducers";
 import type { LeadState } from "../../types";
 
 const SignUpPage: FC = function () {
-  const { isIdle, loading }: LeadState = useSelector(
+  const { isIdle, loading, leadData }: LeadState = useSelector(
     (state: any) => state.lead
   );
+  const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isIdle && loading) {
-      console.log("is Posted");
+    if (!isIdle && loading) {
+      setIsTriggered(true);
     }
-  }, [isIdle, loading]);
+    if (isTriggered && isIdle && !loading) {
+      if (leadData.id !== undefined && leadData.id > 0) {
+        //go to success page
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          ["step"]: prevFormData.step + 1,
+        }));
+      }
+    }
+  }, [isIdle, isTriggered, leadData.id, loading]);
 
   const [formData, setFormData] = useState<any>({
     fullname: "",
@@ -107,7 +117,6 @@ const SignUpPage: FC = function () {
         }));
       }
     }
-    console.log(formData);
   };
 
   const removeError = (index) => {

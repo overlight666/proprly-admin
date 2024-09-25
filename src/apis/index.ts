@@ -8,6 +8,7 @@ export type leadRegistration = {
   mobileNumber?: string;
   organizationName?: string;
   organizationCountryCode?: string;
+  id?: number;
 };
 
 export const signupLead = async (params: leadRegistration) => {

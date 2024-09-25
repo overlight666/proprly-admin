@@ -14,6 +14,7 @@ const leadInitialValue = {
   mobileNumber: "",
   organizationName: "",
   organizationCountryCode: "",
+  id: 0,
 };
 // Define the initial state using that type
 const initialState: LeadState = {
@@ -37,7 +38,6 @@ export const leadSlice = createSlice({
       state.isIdle = false;
     });
     builder.addCase(registerLead.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.leadData = action.payload;
       state.loading = false;
       state.isIdle = true;
