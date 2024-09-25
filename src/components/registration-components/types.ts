@@ -11,4 +11,6 @@ export type UserRegistration = {
   handleInputChange: (event: any) => void;
   step: number;
   nextStep: React.FormEventHandler;
+  nextStepOtp?: any;
+  setErrors?: any;
 };
