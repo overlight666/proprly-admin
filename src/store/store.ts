@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counterSlice";
 import userReducer from "./features/userSlice";
 import leadReducer from "./features/leadSlice";
+import organizationReducer from "./features/organizationSlice";
 // ...
 
 export const store: any = configureStore({
@@ -10,6 +11,7 @@ export const store: any = configureStore({
     counter: counterReducer,
     user: userReducer,
     lead: leadReducer,
+    organization: organizationReducer,
   },
 });
 

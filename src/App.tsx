@@ -25,7 +25,8 @@ import UserSettingsPage from "./pages/users/settings";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
-import OrganizationPage from "./pages/organization";
+import OrganizationPage from "./pages/organization/organization";
+import OrganizationNewPage from "./pages/organization/newOrganization";
 
 const App: FC = function () {
   return (
@@ -34,6 +35,7 @@ const App: FC = function () {
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={<SignInPage />} index />
           <Route path="/organization" element={<OrganizationPage />} />
+          <Route path="/organization/new" element={<OrganizationNewPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />

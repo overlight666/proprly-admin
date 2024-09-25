@@ -11,9 +11,29 @@ export type leadRegistration = {
   id?: number;
 };
 
+export type organizationRegistration = {
+  name: string;
+  timezone: string;
+  currency: string;
+  dateFormat: string;
+  id?: number;
+};
+
 export const signupLead = async (params: leadRegistration) => {
   return api
     .post(`/signup-leads`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const newOrganization = async (params: organizationRegistration) => {
+  return api
+    .post(`/admin/organizations`, params)
     .then((response) => {
       return response.data;
     })

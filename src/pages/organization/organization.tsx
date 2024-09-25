@@ -2,11 +2,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import type { FC } from "react";
-import NavbarSidebarLayout from "../layouts/navbar-sidebar";
+import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Button } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const OrganizationPage: FC = function () {
+  const navigate = useNavigate();
+  const gotoPage = (page) => {
+    navigate(`${page}`);
+  };
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="overflow-x-auto bg-[#ffffff] ">
@@ -14,7 +19,10 @@ const OrganizationPage: FC = function () {
           <span className="text-gray-600">
             Please start by creating a new organization!
           </span>
-          <Button type="submit" className="mt-7 w-[200px]">
+          <Button
+            onClick={() => gotoPage("/organization/new")}
+            className="mt-7 w-[200px]"
+          >
             <div className="flex items-center gap-x-2 text-xs">
               <HiPlus />
               Add new organization
