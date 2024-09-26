@@ -5,6 +5,7 @@ import PublicNav from "../../components/public-nav";
 import { Card, Label, TextInput, Checkbox, Button } from "flowbite-react";
 import PublicFooter from "../../components/public-footer";
 import { useNavigate } from "react-router-dom";
+import ErrorHandler from "../../components/error";
 
 const SignIn: FC = function () {
   const navigate = useNavigate();
@@ -57,41 +58,7 @@ const SignIn: FC = function () {
             <span className="mb-3 text-center text-[#6B7280] ">
               Enter your email and password to sign in!
             </span>
-            {errors.length > 0 &&
-              errors.map((e, index) => {
-                return (
-                  <span
-                    key={index}
-                    id="badge-dismiss-red"
-                    className="me-2 inline-flex items-center justify-between rounded bg-red-100 px-2 py-1 text-sm font-medium text-red-800 dark:bg-red-900 dark:text-red-300"
-                  >
-                    {e}
-                    <button
-                      type="button"
-                      className="ms-2 inline-flex items-center justify-center  rounded-sm bg-transparent p-1 text-sm text-red-400 hover:bg-red-200 hover:text-red-900 dark:hover:bg-red-800 dark:hover:text-red-300"
-                      data-dismiss-target="#badge-dismiss-red"
-                      aria-label="Remove"
-                      onClick={() => removeError(index)}
-                    >
-                      <svg
-                        className="h-2 w-2"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 14 14"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                        />
-                      </svg>
-                    </button>
-                  </span>
-                );
-              })}
+            <ErrorHandler errors={errors} setErrors={setErrors} />
             <form onSubmit={tryLogin}>
               <div className="mb-4 flex flex-col gap-y-3">
                 <Label htmlFor="email">Email*</Label>

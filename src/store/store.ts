@@ -1,18 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counterSlice";
 import userReducer from "./features/userSlice";
 import leadReducer from "./features/leadSlice";
 import organizationReducer from "./features/organizationSlice";
-// ...
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const reducers = combineReducers({
+  counter: counterReducer,
+  user: userReducer,
+  lead: leadReducer,
+  organization: organizationReducer,
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store: any = configureStore({
-  reducer: {
-    counter: counterReducer,
-    user: userReducer,
-    lead: leadReducer,
-    organization: organizationReducer,
-  },
+  reducer: persistedReducer,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
