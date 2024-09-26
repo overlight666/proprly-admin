@@ -14,6 +14,8 @@ import {
   HiInboxIn,
   HiInformationCircle,
   HiLockClosed,
+  HiOutlinePlusSm,
+  HiPlus,
   HiSearch,
   HiShoppingBag,
   HiUsers,
@@ -22,6 +24,7 @@ import {
 
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
+import { FaPlus } from "react-icons/fa";
 
 const ExampleSidebar: FC = function () {
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
@@ -64,14 +67,17 @@ const ExampleSidebar: FC = function () {
               <Sidebar.ItemGroup>
                 <Sidebar.Item
                   href="/organization"
-                  icon={HiChartPie}
+                  // icon={HiChartPie}
                   className={
                     "/organization" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700"
                       : ""
                   }
                 >
-                  Organizations
+                  <div className="flex w-full items-center justify-between">
+                    Organizations
+                    <HiPlus color="primary" className="text-primary-700" />
+                  </div>
                 </Sidebar.Item>
                 {/* <Sidebar.Item
                   href="/kanban"
