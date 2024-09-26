@@ -3,9 +3,16 @@ import { TbFileExport } from "react-icons/tb";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { MdFormatListNumbered } from "react-icons/md";
 import { Button } from "flowbite-react";
+import { HiPlus } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 const OrganizationHeader = function () {
+  const navigate = useNavigate();
+  const gotoPage = (page) => {
+    navigate(`${page}`);
+  };
+
   return (
-    <div className="mt-5 grid grid-cols-7 gap-2">
+    <div className="mt-5 grid grid-cols-9 gap-2">
       <div className="relative col-span-3 w-full">
         <input
           type="search"
@@ -75,6 +82,15 @@ const OrganizationHeader = function () {
           </div>
         </Button>
       </div>
+      <Button
+        onClick={() => gotoPage("/organization/new")}
+        className="col-span-2 w-[200px]"
+      >
+        <div className="flex items-center gap-x-2 text-xs">
+          <HiPlus />
+          Add organization
+        </div>
+      </Button>
     </div>
   );
 };

@@ -6,6 +6,10 @@ export interface LeadState {
   isIdle: boolean;
 }
 
+export interface UserState {
+  value: number;
+}
+
 export interface ImageState {
   imageData: ImageType;
   isIdle: boolean;
@@ -38,4 +42,11 @@ export interface Organization {
   createdAt: string;
   updatedAt: string;
   image: ImageType;
+}
+
+export interface ReducerTypes {
+  organization: OrgState;
+  uploads: ImageState;
+  lead: LeadState;
+  user: UserState;
 }

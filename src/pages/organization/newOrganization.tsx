@@ -74,7 +74,7 @@ const OrganizationNewPage: FC = function () {
           imageId: 0,
         }));
         dispatch(clear());
-        navigate(`/organization/${orgData.id}`);
+        navigate(`/organization`);
       }
     }
   }, [isIdle, isTriggered, orgData.id, loading]);

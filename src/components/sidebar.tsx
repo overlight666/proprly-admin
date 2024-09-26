@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
-import { Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
+import { Button, Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { RiOrganizationChart } from "react-icons/ri";
@@ -102,10 +102,19 @@ const ExampleSidebar: FC = function () {
                       <>
                         <Sidebar.Item
                           href={`/organization/${org.id}`}
-                          icon={RiOrganizationChart}
                           className="ml-2 text-[14px]"
                         >
-                          {org.name}
+                          <div className="flex items-center">
+                            <div className="mr-3 flex h-6 items-center justify-center rounded bg-blue-100 p-2 shadow">
+                              {" "}
+                              <span className="text-blue-600">
+                                {" "}
+                                {org.name.charAt(0)}
+                              </span>
+                            </div>
+
+                            {org.name}
+                          </div>
                         </Sidebar.Item>
                       </>
                     );

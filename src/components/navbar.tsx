@@ -474,7 +474,7 @@ const UserDropdown: FC = function () {
       <Dropdown.Item>Settings</Dropdown.Item>
       <Dropdown.Item>Earnings</Dropdown.Item>
       <Dropdown.Divider />
-      <Dropdown.Item>Sign out</Dropdown.Item>
+      <Dropdown.Item href="/">Sign out</Dropdown.Item>
     </Dropdown>
   );
 };
