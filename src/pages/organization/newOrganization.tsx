@@ -48,7 +48,7 @@ const OrganizationNewPage: FC = function () {
     country: "",
     imageId: 0,
   });
-  console.log(myImage);
+
   useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
       setFormData((prevFormData) => ({
@@ -59,9 +59,9 @@ const OrganizationNewPage: FC = function () {
   }, [myImage.imageData.id, myImage.imageData]);
 
   useEffect(() => {
-    if (!isIdle && loading) {
-      setIsTriggered(true);
-    }
+    // if (!isIdle && loading) {
+    //   setIsTriggered(true);
+    // }
     if (isTriggered && isIdle && !loading) {
       if (orgData.id !== undefined && orgData.id > 0) {
         toast.success("Organization registerd successfuly!");
@@ -73,6 +73,7 @@ const OrganizationNewPage: FC = function () {
           name: "",
           imageId: 0,
         }));
+        dispatch(clear());
         navigate("/organization");
       }
     }
@@ -137,6 +138,7 @@ const OrganizationNewPage: FC = function () {
       valid = false;
     }
     if (valid) {
+      setIsTriggered(true);
       dispatch(registerOrg(formData));
     }
   };
