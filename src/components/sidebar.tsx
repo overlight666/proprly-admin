@@ -44,7 +44,11 @@ const ExampleSidebar: FC = function () {
   const [isUsersOpen, setUsersOpen] = useState(true);
 
   useEffect(() => {
-    dispatch(getOrganizations());
+    try {
+      dispatch(getOrganizations());
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {

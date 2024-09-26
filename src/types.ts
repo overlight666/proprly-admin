@@ -6,6 +6,11 @@ export interface LeadState {
   isIdle: boolean;
 }
 
+export interface ImageState {
+  imageData: ImageType;
+  isIdle: boolean;
+}
+
 export interface OrgState {
   orgData: organizationRegistration;
   loading: boolean;
@@ -13,7 +18,7 @@ export interface OrgState {
   orgList: Organization[];
 }
 
-interface ImageType {
+export interface ImageType {
   id: number;
   name: string;
   key: string;

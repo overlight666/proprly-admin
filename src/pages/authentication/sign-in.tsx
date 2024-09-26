@@ -26,13 +26,6 @@ const SignIn: FC = function () {
     }));
   };
 
-  const removeError = (index) => {
-    setErrors((prevState) => [
-      ...prevState.slice(0, index),
-      ...prevState.slice(index + 1),
-    ]);
-  };
-
   const tryLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.email === "admin@gmail.com" && formData.password === "admin") {

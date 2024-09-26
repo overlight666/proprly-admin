@@ -4,6 +4,7 @@ import counterReducer from "./features/counterSlice";
 import userReducer from "./features/userSlice";
 import leadReducer from "./features/leadSlice";
 import organizationReducer from "./features/organizationSlice";
+import imageReducer from "./features/imageSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   user: userReducer,
   lead: leadReducer,
   organization: organizationReducer,
+  uploads: imageReducer,
 });
 
 const persistConfig = {
