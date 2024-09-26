@@ -81,19 +81,31 @@ const OrganizationNewPage: FC = function () {
     let valid = true;
     setErrors([]);
     if (formData.name === "") {
-      setErrors((oldArray) => [...oldArray, "Organization name is required!"]);
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Organization name is required!",
+      ]);
       valid = false;
     }
     if (formData.timezone === "") {
-      setErrors((oldArray) => [...oldArray, "Timezone is required!"]);
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Timezone is required!",
+      ]);
       valid = false;
     }
     if (formData.country === "") {
-      setErrors((oldArray) => [...oldArray, "Country is required!"]);
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Country is required!",
+      ]);
       valid = false;
     }
     if (formData.currency === "") {
-      setErrors((oldArray) => [...oldArray, "Currency is required!"]);
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Currency is required!",
+      ]);
       valid = false;
     }
     if (valid) {

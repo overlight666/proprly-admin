@@ -30,12 +30,16 @@ const SignUpPage: FC = function () {
       setIsTriggered(true);
     }
     if (isTriggered && isIdle && !loading) {
-      if (leadData.id !== undefined && leadData.id > 0) {
-        //go to success page
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          ["step"]: prevFormData.step + 1,
-        }));
+      try {
+        if (leadData.id !== undefined && leadData.id > 0) {
+          //go to success page
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            ["step"]: prevFormData.step + 1,
+          }));
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   }, [isIdle, isTriggered, leadData.id, loading]);
@@ -73,24 +77,37 @@ const SignUpPage: FC = function () {
       let valid = true;
       if (formData.fullname === "") {
         valid = false;
-        setErrors((oldArray) => [...oldArray, "Full name is required"]);
+        setErrors((oldArray) => [
+          ...[...new Set(oldArray)],
+          "Full name is required",
+        ]);
       }
       if (formData.email === "") {
         valid = false;
-        setErrors((oldArray) => [...oldArray, "Email is required"]);
+        setErrors((oldArray) => [
+          ...[...new Set(oldArray)],
+
+          "Email is required",
+        ]);
       }
       if (formData.mobile === "") {
         valid = false;
-        setErrors((oldArray) => [...oldArray, "Mobile number is required"]);
+        setErrors((oldArray) => [
+          ...[...new Set(oldArray)],
+          "Mobile number is required",
+        ]);
       }
       if (formData.password === "") {
         valid = false;
-        setErrors((oldArray) => [...oldArray, "Password is required"]);
+        setErrors((oldArray) => [
+          ...[...new Set(oldArray)],
+          "Password is required",
+        ]);
       }
       if (formData.agreed === false) {
         valid = false;
         setErrors((oldArray) => [
-          ...oldArray,
+          ...[...new Set(oldArray)],
           "Please agree to the Terms of Service and Private Policy",
         ]);
       }

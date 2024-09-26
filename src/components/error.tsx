@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type errors = {
   errors: string[];
@@ -16,15 +14,10 @@ const ErrorHandler = function (props: errors) {
     ]);
   };
 
-  useEffect(() => {
-    const uniq = [...new Set(errors)];
-    setErrors(uniq);
-  }, [errors, setErrors]);
-
   return (
     errors.length > 0 && (
       <div className="relative mt-[20px] w-full">
-        {errors.map((e, index) => {
+        {[...new Set(errors)].map((e, index) => {
           return (
             <span
               key={index}

@@ -56,7 +56,7 @@ const RegistrationStep1 = function (props: UserRegistration) {
         </div>
         <div className="mb-6 flex flex-col gap-y-3">
           <PhoneInput
-            country={"us"}
+            country={"au"}
             inputClass="!w-full !h-[40px]"
             value={mobile}
             onChange={(value) => handleInputChange(value)}
