@@ -119,13 +119,13 @@ const OrganizationNewPage: FC = function () {
       <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 pt-6 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
         <div className="col-span-full">
           <Breadcrumb className="mb-4">
-            <Breadcrumb.Item href="#">
+            <Breadcrumb.Item href="/organization">
               <div className="flex items-center gap-x-3">
                 <HiHome className="text-xl" />
                 <span className="dark:text-white">Organizations</span>
               </div>
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/e-commerce/products">
+            <Breadcrumb.Item href="/organization/new">
               Add Organization
             </Breadcrumb.Item>
           </Breadcrumb>

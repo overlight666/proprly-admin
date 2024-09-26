@@ -3,18 +3,21 @@
 import { Button } from "flowbite-react";
 import type { UserRegistration } from "./types";
 import OTPInput from "../OTPInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const RegistrationStep3 = function (props: UserRegistration) {
   const { email, setErrors, nextStepOtp } = props;
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
   const handleSubmit = () => {
-    console.log(OTP.join(""));
     if (OTP.join("") !== "111111") {
       setErrors((oldArray) => [...oldArray, "Invalid OTP"]);
     } else {
       nextStepOtp();
     }
   };
+
+  // useEffect(() => {
+
+  // }, [])
 
   return (
     <>
