@@ -10,4 +10,27 @@ export interface OrgState {
   orgData: organizationRegistration;
   loading: boolean;
   isIdle: boolean;
+  orgList: Organization[];
+}
+
+interface ImageType {
+  id: number;
+  name: string;
+  key: string;
+  mimeType: string;
+  createdAt: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface Organization {
+  id: number;
+  name: string;
+  timezone: string;
+  currency: string;
+  dateFormat: string;
+  imageId: number;
+  createdAt: string;
+  updatedAt: string;
+  image: ImageType;
 }

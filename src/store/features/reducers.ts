@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
-import { newOrganization, signupLead } from "../../apis";
+import { getAllOrganizations, newOrganization, signupLead } from "../../apis";
 
 export const registerLead: any = createAsyncThunk(
   "type/postData",
@@ -22,6 +22,19 @@ export const registerOrg: any = createAsyncThunk(
   async (data: organizationRegistration) => {
     try {
       const response = await newOrganization(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getOrganizations: any = createAsyncThunk(
+  "type/getData",
+  async () => {
+    try {
+      const response = await getAllOrganizations();
       // If you want to get something back
       return response.data;
     } catch (err) {

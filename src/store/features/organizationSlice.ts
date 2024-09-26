@@ -2,7 +2,7 @@
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { registerOrg } from "./reducers";
+import { getOrganizations, registerOrg } from "./reducers";
 import type { OrgState } from "../../types";
 
 // Define the initial state using that type
@@ -18,6 +18,7 @@ const initialState: OrgState = {
   loading: false,
   orgData: initialValue,
   isIdle: true,
+  orgList: [],
 };
 
 export const organizationSlice = createSlice({
@@ -40,6 +41,20 @@ export const organizationSlice = createSlice({
       state.isIdle = true;
     });
     builder.addCase(registerOrg.rejected, (state) => {
+      state.loading = false;
+      state.isIdle = true;
+    });
+    //get organization
+    builder.addCase(getOrganizations.pending, (state) => {
+      state.loading = true;
+      state.isIdle = false;
+    });
+    builder.addCase(getOrganizations.fulfilled, (state, action) => {
+      state.orgList = action.payload;
+      state.loading = false;
+      state.isIdle = true;
+    });
+    builder.addCase(getOrganizations.rejected, (state) => {
       state.loading = false;
       state.isIdle = true;
     });

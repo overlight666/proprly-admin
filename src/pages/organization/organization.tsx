@@ -5,7 +5,9 @@ import type { FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Button } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
+
 import { useNavigate } from "react-router-dom";
+import OrganizationHeader from "../../components/organizationHeader";
 
 const OrganizationPage: FC = function () {
   const navigate = useNavigate();
@@ -15,6 +17,12 @@ const OrganizationPage: FC = function () {
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="overflow-x-auto bg-[#ffffff] ">
+        <div className="col-span-full p-5">
+          <h1 className="text-lg font-bold text-gray-900 dark:text-white sm:text-2xl">
+            Organizations
+          </h1>
+          <OrganizationHeader />
+        </div>
         <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
           <span className="text-gray-600">
             Please start by creating a new organization!

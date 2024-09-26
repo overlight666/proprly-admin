@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Breadcrumb, Button, Label, TextInput } from "flowbite-react";
@@ -14,6 +16,8 @@ import type { OrgState } from "../../types";
 import { registerOrg } from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { uploadImage } from "../../apis";
+import { useNavigate } from "react-router";
 
 type organization = {
   name: string;
@@ -21,6 +25,7 @@ type organization = {
   currency: string;
   dateFormat: string;
   country: string;
+  imageId: number;
 };
 const OrganizationNewPage: FC = function () {
   const [showCard1, setShowCard1] = useState(true);
@@ -31,12 +36,15 @@ const OrganizationNewPage: FC = function () {
   );
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [file, setFile] = useState<any>(undefined);
   const [formData, setFormData] = useState<organization>({
     name: "",
     timezone: "",
     currency: "",
-    dateFormat: "mm/dd/yyyy",
+    dateFormat: "dd-mm-yyyy",
     country: "",
+    imageId: 0,
   });
 
   useEffect(() => {
@@ -52,7 +60,9 @@ const OrganizationNewPage: FC = function () {
           timezone: "",
           currency: "",
           name: "",
+          imageId: 0,
         }));
+        navigate("/organization");
       }
     }
   }, [isIdle, isTriggered, orgData.id, loading]);
@@ -108,8 +118,31 @@ const OrganizationNewPage: FC = function () {
       ]);
       valid = false;
     }
+    if (formData.imageId === 0) {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Your uploaded images has encounter an error please re-upload",
+      ]);
+      valid = false;
+    }
     if (valid) {
       dispatch(registerOrg(formData));
+    }
+  };
+
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      setFile(event.target.files[0]);
+      const res = await uploadImage(event.target.files[0]);
+      console.log(res[0].id);
+      if (res[0].id && res[0].id > 0) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          imageId: res[0].id,
+        }));
+      }
     }
   };
 
@@ -206,42 +239,46 @@ const OrganizationNewPage: FC = function () {
                     <Label htmlFor="timezone">Upload Image</Label>
 
                     <div className="flex w-full items-center justify-center">
-                      <label
-                        htmlFor="dropzone-file"
-                        className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
-                      >
-                        <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                          <svg
-                            className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 16"
-                          >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                            />
-                          </svg>
-                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">
-                              Click to upload
-                            </span>{" "}
-                            or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            SVG, PNG, JPG or GIF (MAX. 800x400px)
-                          </p>
-                        </div>
-                        <input
-                          id="dropzone-file"
-                          type="file"
-                          className="hidden"
-                        />
-                      </label>
+                      {(file === undefined && (
+                        <label
+                          htmlFor="dropzone-file"
+                          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
+                        >
+                          <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                            <svg
+                              className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 20 16"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                              />
+                            </svg>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              SVG, PNG, JPG or GIF (MAX. 800x400px)
+                            </p>
+                          </div>
+                          <input
+                            id="dropzone-file"
+                            type="file"
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleUpload}
+                          />
+                        </label>
+                      )) || <img src={URL.createObjectURL(file)} alt="file" />}
                     </div>
                   </div>
                 </div>

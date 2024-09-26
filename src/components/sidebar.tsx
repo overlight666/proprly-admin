@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
 import { Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
+import { RiOrganizationChart } from "react-icons/ri";
 import {
   HiAdjustments,
   HiChartPie,
@@ -25,14 +29,23 @@ import {
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
 import { FaPlus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrganizations } from "../store/features/reducers";
+import type { Organization, OrgState } from "../types";
 
 const ExampleSidebar: FC = function () {
+  const dispatch = useDispatch();
+  const { orgList }: OrgState = useSelector((state: any) => state.organization);
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
     useSidebarContext();
 
   const [currentPage, setCurrentPage] = useState("");
   const [isEcommerceOpen, setEcommerceOpen] = useState(true);
   const [isUsersOpen, setUsersOpen] = useState(true);
+
+  useEffect(() => {
+    dispatch(getOrganizations());
+  }, []);
 
   useEffect(() => {
     const newPage = window.location.pathname;
@@ -79,6 +92,20 @@ const ExampleSidebar: FC = function () {
                     <HiPlus color="primary" className="text-primary-700" />
                   </div>
                 </Sidebar.Item>
+                {(orgList.length &&
+                  orgList.map((org: Organization) => {
+                    return (
+                      <>
+                        <Sidebar.Item
+                          href={`/organization/${org.id}`}
+                          icon={RiOrganizationChart}
+                          className="ml-2 text-[14px]"
+                        >
+                          {org.name}
+                        </Sidebar.Item>
+                      </>
+                    );
+                  })) || <></>}
                 {/* <Sidebar.Item
                   href="/kanban"
                   icon={HiViewGrid}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import api from "./instance";
 
@@ -34,6 +35,36 @@ export const signupLead = async (params: leadRegistration) => {
 export const newOrganization = async (params: organizationRegistration) => {
   return api
     .post(`/admin/organizations`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const uploadImage = async (file: any) => {
+  const formData = new FormData();
+  formData.append("files", file);
+  return api({
+    method: "post",
+    url: "/upload",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getAllOrganizations = async () => {
+  return api
+    .get(`/admin/organizations`)
     .then((response) => {
       return response.data;
     })
