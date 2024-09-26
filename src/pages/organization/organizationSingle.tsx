@@ -55,7 +55,8 @@ const OrganizationSingle: FC = function () {
         </div>
         <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
           <span className="text-gray-600">
-            Please start by creating a new organization!
+            <b>Congratulations</b> on creating your first Organization!! Please
+            add a project before adding any properties
           </span>
           <Button
             onClick={() => gotoPage("/organization/new")}
