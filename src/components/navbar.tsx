@@ -53,7 +53,7 @@ const ExampleNavbar: FC = function () {
                 {isOpenOnSmallScreens && isSmallScreen() ? (
                   <HiX className="h-6 w-6" />
                 ) : (
-                  <HiMenuAlt1 className="h-6 w-6 text-white" />
+                  <HiMenuAlt1 className="h-6 w-6 " />
                 )}
               </button>
             )}
