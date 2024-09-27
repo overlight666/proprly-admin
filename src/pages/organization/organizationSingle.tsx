@@ -129,7 +129,11 @@ const OrganizationSingle: FC = function () {
             </ul>
           </div>
           <div className={`w-full mt-5 h-[200px] overflow-hidden`}>
-            <img src={`${selectedOrg?.image.url}`} alt="" />
+            <img
+              className="object-fill h-[200px] w-full"
+              src={`${selectedOrg?.image.url}`}
+              alt=""
+            />
           </div>
         </div>
         {orgTab === 1 ? (
