@@ -17,12 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerLead } from "../../store/features/reducers";
 import type { LeadState } from "../../types";
 import ErrorHandler from "../../components/error";
+import SuccessHandler from "../../components/success";
 
 const SignUpPage: FC = function () {
   const { isIdle, loading, leadData }: LeadState = useSelector(
     (state: any) => state.lead
   );
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
+  const [header, setHeader] = useState("Lets get started");
+  const [subHeader, setSubHeader] = useState("Sign Up for your new account!");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,6 +59,27 @@ const SignUpPage: FC = function () {
   });
 
   const [errors, setErrors] = useState<any>([]);
+  const [success, setSuccess] = useState<any>([]);
+
+  const resendOTP = () => {
+    setSuccess((oldArray) => [
+      ...[...new Set(oldArray)],
+      "OTP sent successfully!",
+    ]);
+  };
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      setSuccess([]);
+    }
+  }, [errors, setSuccess]);
+
+  useEffect(() => {
+    if (success.length > 0) {
+      setErrors([]);
+    }
+  }, [success, setErrors]);
+
   const handleInputChange = (event: any) => {
     try {
       const { name, value } = event.target;
@@ -112,6 +136,8 @@ const SignUpPage: FC = function () {
         ]);
       }
       if (valid) {
+        setHeader("Organization Info");
+        setSubHeader("Sign Up for your new account!");
         setFormData((prevFormData) => ({
           ...prevFormData,
           ["step"]: prevFormData.step + 1,
@@ -119,6 +145,7 @@ const SignUpPage: FC = function () {
       }
     } else if (formData.step === 2) {
       let valid = true;
+
       if (formData.organization === "") {
         valid = false;
         setErrors((oldArray) => [...oldArray, "Organization is required"]);
@@ -128,6 +155,9 @@ const SignUpPage: FC = function () {
         setErrors((oldArray) => [...oldArray, "Country is required"]);
       }
       if (valid) {
+        setHeader("Verify your Email Address");
+        setSubHeader(`We emailed you a six-digit code to ${formData.email}. Enter the code below
+              to confirm your email adress.`);
         setErrors([]);
         setFormData((prevFormData) => ({
           ...prevFormData,
@@ -151,6 +181,12 @@ const SignUpPage: FC = function () {
       // console.log(response);
       dispatch(registerLead(params));
     } else {
+      setHeader("Verify your Mobile Number");
+      setSubHeader(` We sent you a six-digit code to xxxxxx
+        ${
+          formData.mobile && formData.mobile.substr(formData.mobile.length - 3)
+        }. Enter the code to confirm
+        your mobile number.`);
       setFormData((prevFormData) => ({
         ...prevFormData,
         ["step"]: prevFormData.step + 1,
@@ -244,6 +280,13 @@ const SignUpPage: FC = function () {
                 </li>
               </ol>
             )}
+            <h1 className="mt-10 text-center text-2xl font-bold text-blue-900 dark:text-white md:text-2xl">
+              {header}
+            </h1>
+            <span className="-mt-3 mb-3 text-center text-[#6B7280]">
+              {subHeader}
+            </span>
+            <SuccessHandler success={success} setSuccess={setSuccess} />
             <ErrorHandler errors={errors} setErrors={setErrors} />
             {formData.step === 1 && (
               <RegistrationStep1
@@ -268,21 +311,27 @@ const SignUpPage: FC = function () {
             )}
             {formData.step === 3 && (
               <RegistrationStep3
+                resendOTP={resendOTP}
                 email={formData.email}
                 handleInputChange={handleInputChange}
                 step={formData.step}
                 nextStep={nextStep}
                 setErrors={setErrors}
+                setSuccess={setSuccess}
+                success={success}
                 nextStepOtp={nextStepOtp}
               />
             )}
             {formData.step === 4 && (
               <RegistrationStep4
+                resendOTP={resendOTP}
                 mobile={formData.mobile}
                 handleInputChange={handleInputChange}
                 step={formData.step}
                 nextStep={nextStep}
                 setErrors={setErrors}
+                setSuccess={setSuccess}
+                success={success}
                 nextStepOtp={nextStepOtp}
               />
             )}

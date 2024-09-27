@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { BsListTask } from "react-icons/bs";
 import { TbFileExport } from "react-icons/tb";
 import { AiOutlineAppstore } from "react-icons/ai";
@@ -5,7 +6,14 @@ import { MdFormatListNumbered } from "react-icons/md";
 import { Button } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateGrid } from "../store/features/appSlice";
+import type { AppState, ReducerTypes } from "../types";
 const OrganizationHeader = function () {
+  const { isGrid }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const gotoPage = (page) => {
     navigate(`${page}`);
@@ -64,17 +72,21 @@ const OrganizationHeader = function () {
           </div>
         </Button>
         <Button
-          // onClick={() => gotoPage("/organization/new")}
+          onClick={() => {
+            dispatch(updateGrid(!isGrid));
+          }}
           color="gray"
-          className="mx-1 w-[50px]"
+          className={`mx-1 w-[50px] ${isGrid && "bg-gray-100 text-blue-600"}`}
         >
           <div className="flex items-center gap-x-2 text-xs">
             <AiOutlineAppstore />
           </div>
         </Button>
         <Button
-          // onClick={() => gotoPage("/organization/new")}
-          className="mx-1 w-[50px]"
+          onClick={() => {
+            dispatch(updateGrid(!isGrid));
+          }}
+          className={`mx-1 w-[50px] ${!isGrid && "bg-gray-100 text-blue-600"}`}
           color="gray"
         >
           <div className="flex items-center gap-x-2 text-xs">

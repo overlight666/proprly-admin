@@ -3,13 +3,14 @@
 import { Button } from "flowbite-react";
 import type { UserRegistration } from "./types";
 import OTPInput from "../OTPInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const RegistrationStep3 = function (props: UserRegistration) {
-  const { email, setErrors, nextStepOtp } = props;
+  const { setErrors, nextStepOtp, resendOTP } = props;
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
+
   const handleSubmit = () => {
-    if (OTP.join("") !== "111111") {
-      setErrors((oldArray) => [...oldArray, "Invalid OTP"]);
+    if (OTP.join("") !== "123456") {
+      setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
     } else {
       nextStepOtp();
     }
@@ -21,14 +22,6 @@ const RegistrationStep3 = function (props: UserRegistration) {
 
   return (
     <>
-      <h1 className="mt-10 text-center text-2xl font-bold text-blue-900 dark:text-white md:text-2xl">
-        Verify your Email Address
-      </h1>
-      <span className="-mt-3 mb-3 text-center text-[#6B7280]">
-        We emailed you a six-digit code to {email}. Enter the code below to
-        confirm your email adress.
-      </span>
-      {/* <form onSubmit={nextStep}> */}
       <div className="mb-4 flex flex-col gap-y-3">
         <span>OTP</span>
         <OTPInput
@@ -47,7 +40,11 @@ const RegistrationStep3 = function (props: UserRegistration) {
         </Button>
       </div>
       <p className="my-6 text-center text-sm text-gray-500 dark:text-gray-300">
-        <a href="#" className="text-primary-600 dark:text-primary-300">
+        <a
+          href="#"
+          className="text-primary-600 dark:text-primary-300"
+          onClick={() => resendOTP()}
+        >
           Resend OTP
         </a>
       </p>

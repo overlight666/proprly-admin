@@ -38,7 +38,12 @@ const ForgotPasswordPage: FC = function () {
               </div>
 
               <div className="my-10">
-                <Button type="submit" className="w-full">
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    gotoPage("reset-password");
+                  }}
+                >
                   Send Reset Instructions
                 </Button>
               </div>

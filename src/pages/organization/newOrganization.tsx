@@ -64,7 +64,7 @@ const OrganizationNewPage: FC = function () {
     // }
     if (isTriggered && isIdle && !loading) {
       if (orgData.id !== undefined && orgData.id > 0) {
-        toast.success("Organization registerd successfuly!");
+        toast.success("Organization registerd successfully!");
         setFormData((prevFormData) => ({
           ...prevFormData,
           country: "",

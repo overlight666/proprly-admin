@@ -13,4 +13,7 @@ export type UserRegistration = {
   nextStep: React.FormEventHandler;
   nextStepOtp?: any;
   setErrors?: any;
+  setSuccess?: any;
+  resendOTP?: any;
+  success?: any;
 };

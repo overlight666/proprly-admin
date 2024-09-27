@@ -31,7 +31,7 @@ const SignIn: FC = function () {
     if (formData.email === "admin@gmail.com" && formData.password === "admin") {
       gotoPage("organization");
     } else {
-      setErrors((oldArray) => [...oldArray, "Email or password is incorrect!"]);
+      setErrors((oldArray) => [...oldArray, "Incorrect username or password!"]);
     }
   };
 

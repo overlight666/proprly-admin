@@ -5,12 +5,6 @@ const RegistrationStep2 = function (props: UserRegistration) {
   const { organization, country, nextStep, handleInputChange } = props;
   return (
     <>
-      <h1 className="mt-10 text-center text-2xl font-bold text-blue-900 dark:text-white md:text-2xl">
-        Organization Info
-      </h1>
-      <span className="-mt-3 mb-3 text-center text-[#6B7280]">
-        Sign Up for your new account!
-      </span>
       <form onSubmit={nextStep}>
         <div className="mb-4 flex flex-col gap-y-3">
           <Label htmlFor="organization">Select Country*</Label>

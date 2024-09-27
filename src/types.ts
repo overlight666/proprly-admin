@@ -15,6 +15,12 @@ export interface ImageState {
   isIdle: boolean;
 }
 
+export interface AppState {
+  isGrid: boolean;
+  projectTab: number;
+  orgTab: number;
+}
+
 export interface OrgState {
   orgData: organizationRegistration;
   loading: boolean;
@@ -49,4 +55,5 @@ export interface ReducerTypes {
   uploads: ImageState;
   lead: LeadState;
   user: UserState;
+  application: AppState;
 }
