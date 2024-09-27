@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
@@ -101,7 +103,7 @@ const ProjectNewPage: FC = function () {
   };
 
   const [openModal, setOpenModal] = useState(false);
-
+  const [searchAddress, setSearchAddress] = useState(false);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -316,11 +318,64 @@ const ProjectNewPage: FC = function () {
                         type="search"
                       />
                     </form>
-                    <span className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400">
-                      ENTER AN ADDRESS MANUALLY{" "}
+                    <span
+                      onClick={() => setSearchAddress(!searchAddress)}
+                      className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400"
+                    >
+                      {searchAddress
+                        ? "ENTER AN ADDRESS MANUALLY"
+                        : "ENTER AN ADDRESS AUTOMATICALLY"}
                       <FaAngleRight className="mx-1" />
                     </span>
                   </div>
+                  {!searchAddress && (
+                    <div>
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="name">House no/Unit no</Label>
+                        <TextInput
+                          id="house"
+                          name="house"
+                          //   value={formData.name}
+                          //   onChange={handleInputChange}
+                          placeholder="Add house no or unit no"
+                          required
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="line1">Address line 1</Label>
+                        <TextInput
+                          id="line1"
+                          name="line1"
+                          //   value={formData.name}
+                          //   onChange={handleInputChange}
+                          placeholder="Address line 1"
+                          required
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="line1">Address line 2</Label>
+                        <TextInput
+                          id="line2"
+                          name="line2"
+                          //   value={formData.name}
+                          //   onChange={handleInputChange}
+                          placeholder="Address line 2"
+                          required
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="line3">Address line 3</Label>
+                        <TextInput
+                          id="line3"
+                          name="line3"
+                          //   value={formData.name}
+                          //   onChange={handleInputChange}
+                          placeholder="Address line 3"
+                          required
+                        />
+                      </div>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Upload Image</Label>
 
