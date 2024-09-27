@@ -7,7 +7,7 @@ import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
-import { HiHome, HiPlus } from "react-icons/hi";
+import { HiHome, HiPlus, HiSearch } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
 import { FaAngleRight } from "react-icons/fa6";
@@ -302,12 +302,20 @@ const ProjectNewPage: FC = function () {
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="address">Address</Label>
-                    <input
-                      type="search"
-                      id="search-dropdown"
-                      className="z-20 block w-full rounded-[5px] rounded-e-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500"
-                      placeholder="Start by typing an address e.g. 123 Main... "
-                    />
+                    <form className="hidden md:block">
+                      <Label htmlFor="search" className="sr-only">
+                        Search
+                      </Label>
+                      <TextInput
+                        icon={HiSearch}
+                        id="search"
+                        name="search"
+                        placeholder="Search"
+                        required
+                        size={32}
+                        type="search"
+                      />
+                    </form>
                     <span className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400">
                       ENTER AN ADDRESS MANUALLY{" "}
                       <FaAngleRight className="mx-1" />
