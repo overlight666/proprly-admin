@@ -35,6 +35,10 @@ const OrganizationSingle: FC = function () {
     setSelectedOrg(newList);
   }, [id, orgList]);
 
+  useEffect(() => {
+    dispatch(updateOrgTab(1));
+  }, []);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="overflow-x-auto bg-[#ffffff] ">

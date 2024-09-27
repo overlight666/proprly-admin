@@ -6,7 +6,7 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label, TextInput } from "flowbite-react";
+import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
 import { HiHome, HiPlus } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,6 +99,8 @@ const ProjectNewPage: FC = function () {
       dispatch(uploadImageFile(event.target.files[0]));
     }
   };
+
+  const [openModal, setOpenModal] = useState(true);
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -434,10 +436,9 @@ const ProjectNewPage: FC = function () {
                 <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Button
-                      // onClick={() => {
-                      //   dispatch(updateProjectTab(1));
-                      //   gotoPage(`/organization/${id}/new`);
-                      // }}
+                      onClick={() => {
+                        setOpenModal(true);
+                      }}
                       className="mt-7 w-[200px]"
                     >
                       <div className="flex items-center gap-x-2 text-xs">
@@ -498,6 +499,43 @@ const ProjectNewPage: FC = function () {
           <></>
         )}
       </div>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Add new Tower</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="name">Tower Name</Label>
+              <TextInput
+                id="name"
+                name="name"
+                // value={formData.name}
+                // onChange={handleInputChange}
+                placeholder="Enter your tower name"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="floors">No of floors</Label>
+              <select
+                id="floors"
+                name="floors"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              >
+                <option selected>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setOpenModal(false)}>Submit</Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </NavbarSidebarLayout>
   );
 };

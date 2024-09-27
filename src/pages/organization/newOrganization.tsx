@@ -6,7 +6,7 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label, TextInput } from "flowbite-react";
+import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
@@ -158,6 +158,8 @@ const OrganizationNewPage: FC = function () {
     }
   };
 
+  const [openModal, setOpenModal] = useState(true);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -180,6 +182,109 @@ const OrganizationNewPage: FC = function () {
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
         <div className="flex w-full flex-col">
+          <div className="flex w-full items-center justify-between border-b-[1px]">
+            <h1 className="font-bold">Builder Information</h1>
+            {showCard2 ? (
+              <FaAngleUp
+                className="h-[50px] cursor-pointer"
+                onClick={() => setShowCard2(!showCard2)}
+              />
+            ) : (
+              <FaAngleDown
+                className="h-[50px] cursor-pointer"
+                onClick={() => setShowCard2(!showCard2)}
+              />
+            )}
+          </div>
+          {showCard2 && (
+            <div>
+              <div className="grid w-full grid-cols-2  max-md:grid-cols-1">
+                <div className="grid grid-cols-1 gap-y-2 pt-8">
+                  <Label htmlFor="builder">Builder list</Label>
+                  <select
+                    id="builder"
+                    name="builder"
+                    // value={country}
+                    // onChange={handleInputChange}
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  >
+                    <option selected>Select</option>
+                  </select>
+                </div>
+                <div className="ml-3 mt-14 flex items-center">
+                  <Button color="primary">
+                    <GoPlus />
+                    Attach Builder
+                  </Button>
+                </div>
+              </div>
+
+              <div className="relative mt-10 w-full overflow-x-auto">
+                <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                  <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        FULL NAME
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        <div className="flex items-center">
+                          PHONE
+                          <a href="#">
+                            <svg
+                              className="ms-1.5 h-3 w-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                            </svg>
+                          </a>
+                        </div>
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        <div className="flex items-center">
+                          EMAIL ADDRESS
+                          <a href="#">
+                            <svg
+                              className="ms-1.5 h-3 w-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                            </svg>
+                          </a>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                      <th
+                        scope="row"
+                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                      >
+                        John Doe
+                      </th>
+                      <td className="px-6 py-4">09998345342</td>
+                      <td className="px-6 py-4">test@admin.com</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="mt-5 flex items-center text-[14px] text-[blue]">
+                  <a
+                    href="javascript:void(0)"
+                    onClick={() => setOpenModal(true)}
+                  >
+                    ADD NEW BUILDER
+                  </a>
+                  <GoPlus />
+                </div>
+              </div>
+            </div>
+          )}
           <div className="flex w-full items-center justify-between border-b-[1px]">
             <h1 className="font-bold">Organizational Information</h1>
             {showCard1 ? (
@@ -340,104 +445,7 @@ const OrganizationNewPage: FC = function () {
               </form>
             </div>
           )}
-          <div className="flex w-full items-center justify-between border-b-[1px]">
-            <h1 className="font-bold">Builder Information</h1>
-            {showCard2 ? (
-              <FaAngleUp
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard2(!showCard2)}
-              />
-            ) : (
-              <FaAngleDown
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard2(!showCard2)}
-              />
-            )}
-          </div>
-          {showCard2 && (
-            <div>
-              <div className="grid w-full grid-cols-2  max-md:grid-cols-1">
-                <div className="grid grid-cols-1 gap-y-2 pt-8">
-                  <Label htmlFor="builder">Builder list</Label>
-                  <select
-                    id="builder"
-                    name="builder"
-                    // value={country}
-                    // onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  >
-                    <option selected>Select</option>
-                  </select>
-                </div>
-                <div className="ml-3 mt-14 flex items-center">
-                  <Button color="primary">
-                    <GoPlus />
-                    Attach Builder
-                  </Button>
-                </div>
-              </div>
 
-              <div className="relative mt-10 w-full overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        FULL NAME
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        <div className="flex items-center">
-                          PHONE
-                          <a href="#">
-                            <svg
-                              className="ms-1.5 h-3 w-3"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                            </svg>
-                          </a>
-                        </div>
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        <div className="flex items-center">
-                          EMAIL ADDRESS
-                          <a href="#">
-                            <svg
-                              className="ms-1.5 h-3 w-3"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                            </svg>
-                          </a>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        John Doe
-                      </th>
-                      <td className="px-6 py-4">09998345342</td>
-                      <td className="px-6 py-4">test@admin.com</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="mt-5 flex items-center text-[14px] text-[blue]">
-                  <a href="">ADD NEW BUILDER</a>
-                  <GoPlus />
-                </div>
-              </div>
-            </div>
-          )}
           <div className="grid grid-cols-12 gap-5 pt-10">
             <Button
               color="primary"
@@ -452,6 +460,65 @@ const OrganizationNewPage: FC = function () {
           </div>
         </div>
       </div>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Add new Builder</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <TextInput
+                id="name"
+                name="name"
+                // value={formData.name}
+                // onChange={handleInputChange}
+                placeholder="Enter full name"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="mobile">Mobile number</Label>
+              <TextInput
+                id="mobile"
+                name="mobile"
+                // value={formData.name}
+                // onChange={handleInputChange}
+                placeholder="Enter mobile number"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="email">Email address</Label>
+              <TextInput
+                id="email"
+                name="email"
+                type="email"
+                // value={formData.name}
+                // onChange={handleInputChange}
+                placeholder="Enter email address"
+                required
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="password">Password</Label>
+              <TextInput
+                type="password"
+                id="password"
+                name="password"
+                // value={formData.name}
+                // onChange={handleInputChange}
+                placeholder="******"
+                required
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setOpenModal(false)}>Submit</Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </NavbarSidebarLayout>
   );
 };
