@@ -100,7 +100,7 @@ const ProjectNewPage: FC = function () {
     }
   };
 
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <NavbarSidebarLayout isFooter={false}>
