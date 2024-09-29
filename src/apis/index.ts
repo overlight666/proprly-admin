@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
+import type { Project } from "../types";
 import api from "./instance";
 
 export type leadRegistration = {
@@ -65,6 +66,54 @@ export const uploadImage = async (file: any) => {
 export const getAllOrganizations = async () => {
   return api
     .get(`/admin/organizations`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const newProject = async (params: Project) => {
+  return api
+    .post(`/projects`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const newTower = async (params: Project) => {
+  return api
+    .post(`/project_towers`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getTowers = async (id: any) => {
+  return api
+    .get(`/project_towers/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getprojects = async (id: any) => {
+  return api
+    .get(`/organization/${id}/projects`)
     .then((response) => {
       return response.data;
     })

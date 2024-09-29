@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { leadRegistration, organizationRegistration } from "./apis";
 
 export interface LeadState {
@@ -26,6 +27,53 @@ export interface OrgState {
   loading: boolean;
   isIdle: boolean;
   orgList: Organization[];
+}
+
+export interface TowerResponseState {
+  id?: number;
+}
+
+export interface TowerData {
+  id: number;
+  name: string;
+  projectId: string;
+  numFloors: string;
+  organizationId?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Project {
+  id?: number;
+  name: string;
+  organizationId: number;
+  type: string;
+  maintenance_service_type: string;
+  address: string;
+  image: string;
+}
+
+export interface ProjectListType {
+  id: number;
+  organizationId: number;
+  name: string;
+  type: string;
+  maintenanceServiceType: string;
+  numBasementLevels: any;
+  address: string;
+  image: string;
+  createdAt?: string;
+  updatedAt?: string;
+  projectTower: TowerData[];
+}
+
+export interface ProjectState {
+  projectData: Project;
+  isIdle: boolean;
+  projectResponse: Project;
+  towerResponse: TowerResponseState;
+  towerData: TowerData[];
+  projectList: ProjectListType[];
 }
 
 export interface ImageType {

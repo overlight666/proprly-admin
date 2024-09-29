@@ -96,7 +96,8 @@ const ExampleSidebar: FC = function () {
                     <HiPlus color="primary" className="text-primary-700" />
                   </div>
                 </Sidebar.Item>
-                {(orgList.length &&
+                {(orgList &&
+                  orgList.length &&
                   orgList.map((org: Organization) => {
                     return (
                       <>

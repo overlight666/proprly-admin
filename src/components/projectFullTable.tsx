@@ -1,8 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProjects } from "../store/features/reducers";
+import type { ProjectListType, ProjectState } from "../types";
+
 const ProjectFullTable = function () {
+  const { id }: any = useParams();
+  const dispatch = useDispatch();
+  const { projectList }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+
+  useEffect(() => {
+    dispatch(getProjects(id));
+  }, [dispatch, id]);
+
   return (
     <>
       <div className="relative overflow-x-auto p-2 shadow-md sm:rounded-lg">
@@ -41,20 +58,66 @@ const ProjectFullTable = function () {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div className="bg-red flex w-full items-center">
-                  <span className="ml-10 text-center">No projects found!</span>
-                </div>
-              </td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
+          {!projectList ? (
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div className="bg-red flex w-full items-center">
+                    <span className="ml-10 text-center">
+                      No projects found!
+                    </span>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {projectList &&
+                projectList.map((p: ProjectListType, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
+                    >
+                      <td className="w-4 p-4">
+                        <div className="flex items-center">
+                          <input
+                            id="checkbox-table-search-1"
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
+                          />
+                          <label
+                            htmlFor="checkbox-table-search-1"
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+                      <th
+                        scope="row"
+                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                      >
+                        {p.name}
+                      </th>
+                      <td className="px-6 py-4">{p.type.toUpperCase()}</td>
+                      <td className="px-6 py-4">
+                        {p.maintenanceServiceType === "before_7_year"
+                          ? "Before 7 Years"
+                          : "After 7 Years"}
+                      </td>
+                      <td className="px-6 py-4">{p.projectTower.length}</td>
+                      <td className="px-6 py-4"></td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
         </table>
         <nav
           className="flex-column flex flex-wrap items-center justify-between py-4 md:flex-row"

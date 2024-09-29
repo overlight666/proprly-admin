@@ -18,25 +18,42 @@ import type {
   ImageState,
   Organization,
   OrgState,
+  ProjectState,
   ReducerTypes,
 } from "../../types";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router";
 import { updateProjectTab } from "../../store/features/appSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
-import { uploadImageFile } from "../../store/features/reducers";
+import {
+  uploadImageFile,
+  registerProject,
+  postTower,
+  getTowersReducer,
+} from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
-type organization = {
+type projectType = {
   name: string;
+  organizationId: number;
   type: string;
-  service: string;
+  maintenance_service_type: string;
   address: string;
-  levels: string;
+  image: string;
 };
+
+type towerType = {
+  levels?: string;
+  name: string;
+  projectId: number;
+  numFloors: string;
+};
+
 const ProjectNewPage: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
+  const { projectResponse, towerResponse, towerData }: ProjectState =
+    useSelector((state: any) => state.project);
   const { id }: any = useParams();
   //   const navigate = useNavigate();
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
@@ -48,28 +65,53 @@ const ProjectNewPage: FC = function () {
   //   };
 
   useEffect(() => {
+    if (projectResponse && projectResponse.id && projectResponse.id > 0) {
+      dispatch(updateProjectTab(2));
+    }
+  }, [projectResponse]);
+
+  useEffect(() => {
+    console.log(towerResponse);
+    if (towerResponse && towerResponse.id && towerResponse.id > 0) {
+      dispatch(getTowersReducer(projectResponse.id));
+    }
+  }, [towerResponse]);
+
+  useEffect(() => {
     const newList = orgList.find((org) => org.id == id);
     setSelectedOrg(newList);
   }, [id, orgList]);
 
   const [errors, setErrors] = useState<any>([]);
+  const [unitNo, setUnitNo] = useState<any>("");
+  const [line1, setLine1] = useState<any>("");
+  const [line2, setLine2] = useState<any>("");
+  const [line3, setLine3] = useState<any>("");
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const dispatch = useDispatch();
   //   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
-  const [formData, setFormData] = useState<organization>({
+  const [formData, setFormData] = useState<projectType>({
     name: "",
+    organizationId: id,
     type: "",
-    service: "",
+    maintenance_service_type: "",
     address: "",
+    image: "",
+  });
+
+  const [towerFormData, setTowerData] = useState<towerType>({
     levels: "0",
+    projectId: (projectResponse.id && projectResponse.id) || 0,
+    name: "",
+    numFloors: "0",
   });
 
   useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        imageId: myImage.imageData.id,
+        image: myImage.imageData.id.toString(),
       }));
     }
   }, [myImage.imageData.id, myImage.imageData]);
@@ -94,11 +136,95 @@ const ProjectNewPage: FC = function () {
     }
   };
 
+  const handleInputChangeTower = (event: any) => {
+    try {
+      const { name, value } = event.target;
+
+      setTowerData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return;
     } else {
       dispatch(uploadImageFile(event.target.files[0]));
+    }
+  };
+
+  useEffect(() => {
+    if (!searchAddress) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        address: `${unitNo}, ${line1}, ${line2}, ${line3}`,
+      }));
+    }
+  }, [unitNo, line1, line2, line3]);
+
+  const saveTower = () => {
+    let valid = true;
+    if (towerFormData.name === "") {
+      toast.error("Tower name is required");
+      valid = false;
+    }
+    if (towerFormData.projectId <= 0) {
+      toast.error("There was an error in adding your tower!");
+      valid = false;
+    }
+    if (towerFormData.numFloors === "0") {
+      toast.error("Please select floors");
+      valid = false;
+    }
+    if (valid) {
+      dispatch(postTower(towerFormData));
+      setOpenModal(false);
+    }
+  };
+
+  const postProject = () => {
+    let valid = true;
+    setErrors([]);
+    if (formData.name === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Project name is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.address === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Address is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.maintenance_service_type === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Service type is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.image === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Image is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.type === "") {
+      setErrors((oldArray) => [...[...new Set(oldArray)], "Type is required!"]);
+      valid = false;
+    }
+
+    if (valid) {
+      dispatch(registerProject(formData));
+      //   dispatch(updateProjectTab(2));
     }
   };
 
@@ -288,18 +414,19 @@ const ProjectNewPage: FC = function () {
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
-                    <Label htmlFor="organization">
+                    <Label htmlFor="maintenance_service_type">
                       Maintenance and Service type
                     </Label>
                     <select
-                      id="service"
-                      name="service"
-                      value={formData.service}
+                      id="maintenance_service_type"
+                      name="maintenance_service_type"
+                      value={formData.maintenance_service_type}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
                       <option selected>Select</option>
-                      <option value="a">A</option>
+                      <option value="before_7_year">Before 7 Years</option>
+                      <option value="after_7_year">After 7 Years</option>
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
@@ -335,8 +462,8 @@ const ProjectNewPage: FC = function () {
                         <TextInput
                           id="house"
                           name="house"
-                          //   value={formData.name}
-                          //   onChange={handleInputChange}
+                          value={unitNo}
+                          onChange={(event) => setUnitNo(event.target.value)}
                           placeholder="Add house no or unit no"
                           required
                         />
@@ -346,8 +473,8 @@ const ProjectNewPage: FC = function () {
                         <TextInput
                           id="line1"
                           name="line1"
-                          //   value={formData.name}
-                          //   onChange={handleInputChange}
+                          value={line1}
+                          onChange={(event) => setLine1(event.target.value)}
                           placeholder="Address line 1"
                           required
                         />
@@ -357,8 +484,8 @@ const ProjectNewPage: FC = function () {
                         <TextInput
                           id="line2"
                           name="line2"
-                          //   value={formData.name}
-                          //   onChange={handleInputChange}
+                          value={line2}
+                          onChange={(event) => setLine2(event.target.value)}
                           placeholder="Address line 2"
                           required
                         />
@@ -368,8 +495,8 @@ const ProjectNewPage: FC = function () {
                         <TextInput
                           id="line3"
                           name="line3"
-                          //   value={formData.name}
-                          //   onChange={handleInputChange}
+                          value={line3}
+                          onChange={(event) => setLine3(event.target.value)}
                           placeholder="Address line 3"
                           required
                         />
@@ -469,8 +596,9 @@ const ProjectNewPage: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        dispatch(updateProjectTab(2));
+                        postProject();
                       }}
+                      disabled={!myImage.isIdle}
                       color="primary"
                     >
                       Proceed to Tower/Basement
@@ -523,7 +651,7 @@ const ProjectNewPage: FC = function () {
                   <select
                     id="levels"
                     name="levels"
-                    value={formData.levels}
+                    value={towerFormData.levels}
                     onChange={handleInputChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
@@ -571,8 +699,8 @@ const ProjectNewPage: FC = function () {
               <TextInput
                 id="name"
                 name="name"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={towerFormData.name}
+                onChange={handleInputChangeTower}
                 placeholder="Enter your tower name"
                 required
               />
@@ -580,8 +708,10 @@ const ProjectNewPage: FC = function () {
             <div className="grid grid-cols-1 gap-y-2">
               <Label htmlFor="floors">No of floors</Label>
               <select
-                id="floors"
-                name="floors"
+                id="numFloors"
+                name="numFloors"
+                value={towerFormData.numFloors}
+                onChange={handleInputChangeTower}
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
                 <option selected>Select</option>
@@ -593,7 +723,7 @@ const ProjectNewPage: FC = function () {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>Submit</Button>
+          <Button onClick={() => saveTower()}>Submit</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Cancel
           </Button>

@@ -6,6 +6,7 @@ import leadReducer from "./features/leadSlice";
 import organizationReducer from "./features/organizationSlice";
 import imageReducer from "./features/imageSlice";
 import appReducer from "./features/appSlice";
+import projectReducer from "./features/projectSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   organization: organizationReducer,
   uploads: imageReducer,
   application: appReducer,
+  project: projectReducer,
 });
 
 const persistConfig = {
