@@ -23,7 +23,7 @@ const initialValue = {
 const initialState: ProjectState = {
   projectData: initialValue,
   isIdle: true,
-  projectResponse: initialValue,
+  projectResponse: undefined,
   towerResponse: {},
   towerData: [],
   projectList: [],
@@ -34,8 +34,10 @@ export const projectSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    registration: (state) => {
-      console.log(state);
+    clearProject: (state) => {
+      state.projectResponse = undefined;
+      state.towerResponse = {};
+      state.towerData = [];
     },
   },
   extraReducers: (builder) => {
@@ -78,7 +80,7 @@ export const projectSlice = createSlice({
       state.isIdle = false;
     });
     builder.addCase(getTowersReducer.fulfilled, (state, action) => {
-      state.towerData = action.payload;
+      state.towerData = action.payload.projectTower;
       state.isIdle = true;
     });
     builder.addCase(getTowersReducer.rejected, (state) => {
@@ -87,7 +89,7 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { registration } = projectSlice.actions;
+export const { clearProject } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;

@@ -16,6 +16,8 @@ import { type OrgState } from "../../types";
 import { useParams } from "react-router-dom";
 import { updateOrgTab, updateProjectTab } from "../../store/features/appSlice";
 import ProjectFullTable from "../../components/projectFullTable";
+import { clearProject } from "../../store/features/projectSlice";
+import { clear } from "../../store/features/imageSlice";
 
 const OrganizationSingle: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
@@ -144,6 +146,8 @@ const OrganizationSingle: FC = function () {
             </span>
             <Button
               onClick={() => {
+                dispatch(clear());
+                dispatch(clearProject());
                 dispatch(updateProjectTab(1));
                 gotoPage(`/organization/${id}/new`);
               }}
@@ -208,7 +212,16 @@ const OrganizationSingle: FC = function () {
                     </div>
                   </Button>
                 </div>
-                <Button color="primary" className="mx-5 ">
+                <Button
+                  color="primary"
+                  className="mx-5 "
+                  onClick={() => {
+                    dispatch(clear());
+                    dispatch(clearProject());
+                    dispatch(updateProjectTab(1));
+                    gotoPage(`/organization/${id}/new`);
+                  }}
+                >
                   <div className="flex items-center gap-x-2 text-xs">
                     <HiPlus />
                     Add new project

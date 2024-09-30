@@ -70,7 +70,7 @@ export interface ProjectListType {
 export interface ProjectState {
   projectData: Project;
   isIdle: boolean;
-  projectResponse: Project;
+  projectResponse: Project | undefined;
   towerResponse: TowerResponseState;
   towerData: TowerData[];
   projectList: ProjectListType[];

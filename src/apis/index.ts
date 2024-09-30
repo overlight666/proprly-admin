@@ -101,9 +101,9 @@ export const newTower = async (params: Project) => {
 
 export const getTowers = async (id: any) => {
   return api
-    .get(`/project_towers/${id}`)
+    .get(`/projects/${id}`)
     .then((response) => {
-      return response.data;
+      return response;
     })
     .catch((error) => {
       // log request error if any

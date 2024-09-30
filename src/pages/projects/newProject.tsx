@@ -52,8 +52,9 @@ type towerType = {
 
 const ProjectNewPage: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
-  const { projectResponse, towerResponse, towerData }: ProjectState =
-    useSelector((state: any) => state.project);
+  const { projectResponse, towerResponse }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
   const { id }: any = useParams();
   //   const navigate = useNavigate();
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
@@ -71,9 +72,8 @@ const ProjectNewPage: FC = function () {
   }, [projectResponse]);
 
   useEffect(() => {
-    console.log(towerResponse);
     if (towerResponse && towerResponse.id && towerResponse.id > 0) {
-      dispatch(getTowersReducer(projectResponse.id));
+      dispatch(getTowersReducer(projectResponse && projectResponse.id));
     }
   }, [towerResponse]);
 
@@ -102,7 +102,7 @@ const ProjectNewPage: FC = function () {
 
   const [towerFormData, setTowerData] = useState<towerType>({
     levels: "0",
-    projectId: (projectResponse.id && projectResponse.id) || 0,
+    projectId: projectResponse && projectResponse.id ? projectResponse.id : 0,
     name: "",
     numFloors: "0",
   });
@@ -172,16 +172,22 @@ const ProjectNewPage: FC = function () {
       toast.error("Tower name is required");
       valid = false;
     }
-    if (towerFormData.projectId <= 0) {
-      toast.error("There was an error in adding your tower!");
+    if (!projectResponse) {
+      toast.error(
+        "There was an error in adding your tower!, create a project first!"
+      );
       valid = false;
     }
     if (towerFormData.numFloors === "0") {
       toast.error("Please select floors");
       valid = false;
     }
+    const newTowerData = {
+      ...towerFormData,
+      projectId: projectResponse && projectResponse.id,
+    };
     if (valid) {
-      dispatch(postTower(towerFormData));
+      dispatch(postTower(newTowerData));
       setOpenModal(false);
     }
   };
