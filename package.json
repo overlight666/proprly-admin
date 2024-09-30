@@ -40,6 +40,7 @@
     "react-sortablejs": "^6.1.4",
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
+    "simple-datatables": "^9.1.0",
     "sortablejs": "^1.15.0",
     "svgmap": "^2.10.1"
   },

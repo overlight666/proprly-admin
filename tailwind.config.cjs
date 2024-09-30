@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./index.html",
-    "./node_modules/flowbite-react/lib/**/*.{js,ts}",
-    "./src/**/*.{ts,tsx}",
+    "./node_modules/flowbite-react/lib/**/*.{js,ts,js}",
+    "./src/**/*.{ts,tsx, js}",
   ],
   theme: {
     colors: {
@@ -69,5 +70,9 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [
+    require("flowbite/plugin")({
+      datatables: true,
+    }),
+  ],
 };
