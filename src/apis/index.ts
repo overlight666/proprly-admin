@@ -21,6 +21,11 @@ export type organizationRegistration = {
   id?: number;
 };
 
+export type loginUserType = {
+  email: string;
+  password: string;
+};
+
 export type OtpType = {
   otp: string;
   type: string;
@@ -153,5 +158,16 @@ export const resendOTP = async (params: OtpType) => {
     .catch((error) => {
       // log request error if any
       return error;
+    });
+};
+
+export const userLogin = async (params: loginUserType) => {
+  return api
+    .post(`/login`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.data;
     });
 };

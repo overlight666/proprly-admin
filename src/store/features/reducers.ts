@@ -13,6 +13,7 @@ import {
   resendOTP,
   signupLead,
   uploadImage,
+  userLogin,
 } from "../../apis";
 import type { Project } from "../../types";
 
@@ -135,6 +136,19 @@ export const resendOtpVerify: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await resendOTP(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const loginUser: any = createAsyncThunk(
+  "loginUser",
+  async (data: any) => {
+    try {
+      const response = await userLogin(data);
       // If you want to get something back
       return response;
     } catch (err) {

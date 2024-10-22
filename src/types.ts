@@ -14,7 +14,8 @@ export interface LeadState {
 }
 
 export interface UserState {
-  value: number;
+  userData: User;
+  isIdle: boolean;
 }
 
 export interface ImageState {
@@ -110,4 +111,22 @@ export interface ReducerTypes {
   lead: LeadState;
   user: UserState;
   application: AppState;
+}
+
+export interface userData {
+  id: number;
+  fullName: string;
+  email: string;
+  mobile: string;
+  isEmailVerified: boolean;
+  isMobileVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  error: string;
+  message: string;
+  token: string;
+  user: userData | undefined;
 }

@@ -36,7 +36,14 @@ const App: FC = function () {
       <Routes>
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={<SignInPage />} index />
-          <Route path="/organization" element={<OrganizationPage />} />
+          <Route
+            path="/organization"
+            element={
+              <ProtectedRoute>
+                <OrganizationPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/organization/:id" element={<OrganizationSingle />} />
           <Route path="/organization/new" element={<OrganizationNewPage />} />
           <Route path="/organization/:id/new" element={<ProjectNewPage />} />

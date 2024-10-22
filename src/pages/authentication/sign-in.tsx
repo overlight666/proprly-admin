@@ -1,19 +1,41 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import PublicNav from "../../components/public-nav";
 import { Card, Label, TextInput, Checkbox, Button } from "flowbite-react";
 import PublicFooter from "../../components/public-footer";
 import { useNavigate } from "react-router-dom";
 import ErrorHandler from "../../components/error";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/features/reducers";
+import type { UserState } from "../../types";
+import { useAuth } from "../../hooks/useAuth";
 
 const SignIn: FC = function () {
+  const { isIdle, userData }: UserState = useSelector(
+    (state: any) => state.user
+  );
+  const { login }: any = useAuth();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<any>([]);
   const [formData, setFormData] = useState({
     password: "",
     email: "",
   });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isIdle && userData.error) {
+      setErrors((oldArray) => [...oldArray, userData.error]);
+    } else if (isIdle && userData.user && userData.token) {
+      login(userData);
+      gotoPage("organization");
+    }
+  }, [isIdle, userData]);
+
   const gotoPage = (page: string) => {
     navigate(`/${page}`);
   };
@@ -28,10 +50,13 @@ const SignIn: FC = function () {
 
   const tryLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formData.email === "admin@gmail.com" && formData.password === "admin") {
-      gotoPage("organization");
+    if (formData.email.trim() === "" && formData.password.trim() === "") {
+      setErrors((oldArray) => [
+        ...oldArray,
+        "Username and password are required!",
+      ]);
     } else {
-      setErrors((oldArray) => [...oldArray, "Incorrect username or password!"]);
+      dispatch(loginUser(formData));
     }
   };
 
@@ -89,7 +114,7 @@ const SignIn: FC = function () {
                 </a>
               </div>
               <div className="mb-1">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" isProcessing={!isIdle}>
                   Sign In
                 </Button>
               </div>
