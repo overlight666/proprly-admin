@@ -165,9 +165,9 @@ export const userLogin = async (params: loginUserType) => {
   return api
     .post(`/login`, params)
     .then((response) => {
-      return response.data;
+      return response && response.data;
     })
     .catch((error) => {
-      return error.response.data;
+      return error && error.response && error.response.data;
     });
 };

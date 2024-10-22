@@ -23,7 +23,7 @@ import UserListPage from "./pages/users/list";
 import UserProfilePage from "./pages/users/profile";
 import UserSettingsPage from "./pages/users/settings";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import PrivateRoutes from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
 import OrganizationPage from "./pages/organization/organization";
 import OrganizationNewPage from "./pages/organization/newOrganization";
@@ -36,14 +36,9 @@ const App: FC = function () {
       <Routes>
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={<SignInPage />} index />
-          <Route
-            path="/organization"
-            element={
-              <ProtectedRoute>
-                <OrganizationPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<PrivateRoutes />}>
+            <Route path="/organization" element={<OrganizationPage />} />
+          </Route>
           <Route path="/organization/:id" element={<OrganizationSingle />} />
           <Route path="/organization/new" element={<OrganizationNewPage />} />
           <Route path="/organization/:id/new" element={<ProjectNewPage />} />
@@ -81,14 +76,6 @@ const App: FC = function () {
           <Route path="/users/list" element={<UserListPage />} />
           <Route path="/users/profile" element={<UserProfilePage />} />
           <Route path="/users/settings" element={<UserSettingsPage />} />
-          <Route
-            path="/secret"
-            element={
-              <ProtectedRoute>
-                <UserSettingsPage />
-              </ProtectedRoute>
-            }
-          />
         </Route>
       </Routes>
     </AuthProvider>

@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/prop-types */
-import { Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export const ProtectedRoute = ({ children }) => {
-  const { user }: any = useAuth();
-  if (!user) {
-    // user is not authenticated
-    return <Navigate to="/sign-in" />;
-  }
-  return children;
+const PrivateRoutes = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { isAuthenticated }: any = useAuth();
+  console.log(isAuthenticated);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/sign-in" />;
 };
+export default PrivateRoutes;

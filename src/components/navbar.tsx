@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import type { FC } from "react";
 import {
@@ -27,6 +28,8 @@ import {
 } from "react-icons/hi";
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -448,6 +451,13 @@ const AppDrawerDropdown: FC = function () {
 };
 
 const UserDropdown: FC = function () {
+  const { logout }: any = useAuth();
+  const navigate = useNavigate();
+  const signout = () => {
+    logout();
+    navigate("/sign-in");
+  };
+
   return (
     <Dropdown
       arrowIcon={false}
@@ -474,7 +484,7 @@ const UserDropdown: FC = function () {
       <Dropdown.Item>Settings</Dropdown.Item>
       <Dropdown.Item>Earnings</Dropdown.Item>
       <Dropdown.Divider />
-      <Dropdown.Item href="/">Sign out</Dropdown.Item>
+      <Dropdown.Item onClick={() => signout()}>Sign out</Dropdown.Item>
     </Dropdown>
   );
 };

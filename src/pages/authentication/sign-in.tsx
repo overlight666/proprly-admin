@@ -28,10 +28,10 @@ const SignIn: FC = function () {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isIdle && userData.error) {
+    if (isIdle && userData && userData.error) {
       setErrors((oldArray) => [...oldArray, userData.error]);
-    } else if (isIdle && userData.user && userData.token) {
-      login(userData);
+    } else if (isIdle && userData && userData.user && userData.token) {
+      login(userData.token);
       gotoPage("organization");
     }
   }, [isIdle, userData]);
