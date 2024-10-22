@@ -9,6 +9,8 @@ import {
   newOrganization,
   newProject,
   newTower,
+  otpVerification,
+  resendOTP,
   signupLead,
   uploadImage,
 } from "../../apis";
@@ -110,6 +112,29 @@ export const postTower: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await newTower(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const VerifyOtp: any = createAsyncThunk("postOtp", async (data: any) => {
+  try {
+    const response = await otpVerification(data);
+    // If you want to get something back
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+export const resendOtpVerify: any = createAsyncThunk(
+  "resendOtp",
+  async (data: any) => {
+    try {
+      const response = await resendOTP(data);
       // If you want to get something back
       return response;
     } catch (err) {

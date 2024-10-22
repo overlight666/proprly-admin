@@ -21,6 +21,12 @@ export type organizationRegistration = {
   id?: number;
 };
 
+export type OtpType = {
+  otp: string;
+  type: string;
+  id: any;
+};
+
 export const signupLead = async (params: leadRegistration) => {
   return api
     .post(`/signup-leads`, params)
@@ -114,6 +120,33 @@ export const getTowers = async (id: any) => {
 export const getprojects = async (id: any) => {
   return api
     .get(`/organization/${id}/projects`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const otpVerification = async (params: OtpType) => {
+  const otpPayload = {
+    otp: params.otp,
+  };
+  return api
+    .post(`/signup-leads/${params.id}/verify/${params.type}`, otpPayload)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const resendOTP = async (params: OtpType) => {
+  return api
+    .post(`signup-leads/${params.id}/resend/${params.type}`)
     .then((response) => {
       return response.data;
     })

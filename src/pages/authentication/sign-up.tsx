@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable tailwindcss/no-custom-classname */
@@ -12,16 +13,27 @@ import RegistrationStep2 from "../../components/registration-components/step2";
 import RegistrationStep3 from "../../components/registration-components/step3";
 import RegistrationStep4 from "../../components/registration-components/step4";
 import RegistrationStep5 from "../../components/registration-components/step5";
-import { type leadRegistration } from "../../apis";
+import { type OtpType, type leadRegistration } from "../../apis";
 import { useDispatch, useSelector } from "react-redux";
-import { registerLead } from "../../store/features/reducers";
-import type { LeadState } from "../../types";
+import {
+  registerLead,
+  resendOtpVerify,
+  VerifyOtp,
+} from "../../store/features/reducers";
+import type { LeadState, OtpState } from "../../types";
 import ErrorHandler from "../../components/error";
 import SuccessHandler from "../../components/success";
+import {
+  clearOtp,
+  clearResendResponse,
+} from "../../store/features/otpHandlingSlice";
 
 const SignUpPage: FC = function () {
   const { isIdle, loading, leadData }: LeadState = useSelector(
     (state: any) => state.lead
+  );
+  const { otpResponse, verifying, resendResponse }: OtpState = useSelector(
+    (state: any) => state.otpVerifier
   );
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const [header, setHeader] = useState("Lets get started");
@@ -45,7 +57,7 @@ const SignUpPage: FC = function () {
         console.log(error);
       }
     }
-  }, [isIdle, isTriggered, leadData.id, loading]);
+  }, [isIdle, isTriggered, leadData?.id, loading]);
 
   const [formData, setFormData] = useState<any>({
     fullname: "",
@@ -62,11 +74,67 @@ const SignUpPage: FC = function () {
   const [success, setSuccess] = useState<any>([]);
 
   const resendOTP = () => {
-    setSuccess((oldArray) => [
-      ...[...new Set(oldArray)],
-      "OTP sent successfully!",
-    ]);
+    const params = {
+      id: leadData.id,
+      type: formData.step === 3 ? "email" : "mobile-number",
+    };
+    dispatch(resendOtpVerify(params));
   };
+
+  useEffect(() => {
+    if (resendResponse) {
+      setErrors([]);
+      setSuccess([]);
+      if (resendResponse.data.sent) {
+        setSuccess((oldArray) => [
+          ...[...new Set(oldArray)],
+          "OTP sent successfully!",
+        ]);
+        dispatch(clearResendResponse());
+      } else {
+        setErrors((oldArray) => [...oldArray, "Unable to resend OTP!"]);
+      }
+    }
+  }, [resendResponse]);
+
+  useEffect(() => {
+    if (otpResponse) {
+      if (formData.step === 3) {
+        if (otpResponse && otpResponse.data.verified) {
+          setHeader("Verify your Mobile Number");
+          setSubHeader(` We sent you a six-digit code to xxxxxx
+          ${
+            formData.mobile &&
+            formData.mobile.substr(formData.mobile.length - 3)
+          }. Enter the code to confirm
+          your mobile number.`);
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            ["step"]: prevFormData.step + 1,
+          }));
+        } else {
+          if (otpResponse && !otpResponse.data.verified) {
+            setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
+          }
+        }
+      }
+      if (formData.step === 4) {
+        if (otpResponse && otpResponse.data.verified) {
+          setHeader("");
+          setSubHeader("");
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            ["step"]: prevFormData.step + 1,
+          }));
+        } else {
+          if (otpResponse && !otpResponse.data.verified) {
+            setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
+          }
+        }
+      }
+      dispatch(clearOtp());
+    }
+  }, [otpResponse]);
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -97,6 +165,8 @@ const SignUpPage: FC = function () {
 
   const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors([]);
+    setSuccess([]);
     if (formData.step === 1) {
       let valid = true;
       if (formData.fullname === "") {
@@ -159,38 +229,43 @@ const SignUpPage: FC = function () {
         setSubHeader(`We emailed you a six-digit code to ${formData.email}. Enter the code below
               to confirm your email adress.`);
         setErrors([]);
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          ["step"]: prevFormData.step + 1,
-        }));
+        setSuccess([]);
+        // setFormData((prevFormData) => ({
+        //   ...prevFormData,
+        //   ["step"]: prevFormData.step + 1,
+        // }));
+
+        const params: leadRegistration = {
+          email: formData.email,
+          fullName: formData.fullname,
+          mobileNumber: formData.mobile,
+          password: formData.password,
+          organizationCountryCode: formData.country,
+          organizationName: formData.organization,
+        };
+        dispatch(registerLead(params));
       }
     }
   };
 
-  const nextStepOtp = async () => {
-    if (formData.step === 4) {
-      const params: leadRegistration = {
-        email: formData.email,
-        fullName: formData.fullname,
-        mobileNumber: formData.mobile,
-        password: formData.password,
-        organizationCountryCode: formData.country,
-        organizationName: formData.organization,
+  const nextStepOtp = async (otp: any) => {
+    setErrors([]);
+    setSuccess([]);
+    if (formData.step === 3) {
+      const otpParams: OtpType = {
+        id: leadData.id,
+        type: "email",
+        otp: otp,
       };
-      // const response = await signupLead(params);
-      // console.log(response);
-      dispatch(registerLead(params));
-    } else {
-      setHeader("Verify your Mobile Number");
-      setSubHeader(` We sent you a six-digit code to xxxxxx
-        ${
-          formData.mobile && formData.mobile.substr(formData.mobile.length - 3)
-        }. Enter the code to confirm
-        your mobile number.`);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        ["step"]: prevFormData.step + 1,
-      }));
+      dispatch(VerifyOtp(otpParams));
+    }
+    if (formData.step === 4) {
+      const otpParams: OtpType = {
+        id: leadData.id,
+        type: "mobile-number",
+        otp: otp,
+      };
+      dispatch(VerifyOtp(otpParams));
     }
   };
 
@@ -307,6 +382,7 @@ const SignUpPage: FC = function () {
                 handleInputChange={handleInputChange}
                 step={formData.step}
                 nextStep={nextStep}
+                loading={loading}
               />
             )}
             {formData.step === 3 && (
@@ -320,6 +396,7 @@ const SignUpPage: FC = function () {
                 setSuccess={setSuccess}
                 success={success}
                 nextStepOtp={nextStepOtp}
+                verifying={verifying}
               />
             )}
             {formData.step === 4 && (
@@ -333,6 +410,7 @@ const SignUpPage: FC = function () {
                 setSuccess={setSuccess}
                 success={success}
                 nextStepOtp={nextStepOtp}
+                verifying={verifying}
               />
             )}
             {formData.step === 5 && <RegistrationStep5 />}

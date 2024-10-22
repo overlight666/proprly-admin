@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button } from "flowbite-react";
@@ -5,16 +6,16 @@ import type { UserRegistration } from "./types";
 import OTPInput from "../OTPInput";
 import { useState } from "react";
 const RegistrationStep3 = function (props: UserRegistration) {
-  const { setErrors, nextStepOtp, resendOTP } = props;
+  const { nextStepOtp, resendOTP, verifying } = props;
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
   const handleSubmit = () => {
     // handle api request here but I'm console logging it
     console.log(OTP.join(""));
-    if (OTP.join("") !== "123456") {
-      setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
-    } else {
-      nextStepOtp();
-    }
+    // if (OTP.join("") !== "123456") {
+    //   setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
+    // } else {
+    nextStepOtp(OTP.join(""));
+    // }
   };
 
   return (
@@ -33,7 +34,11 @@ const RegistrationStep3 = function (props: UserRegistration) {
         </span>
       </div>
       <div className="mb-1">
-        <Button onClick={() => handleSubmit()} className="w-full">
+        <Button
+          onClick={() => handleSubmit()}
+          className="w-full"
+          isProcessing={verifying}
+        >
           Verify & Proceed
         </Button>
       </div>

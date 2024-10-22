@@ -2,7 +2,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import type { UserRegistration } from "./types";
 const RegistrationStep2 = function (props: UserRegistration) {
-  const { organization, country, nextStep, handleInputChange } = props;
+  const { organization, country, nextStep, handleInputChange, loading } = props;
   return (
     <>
       <form onSubmit={nextStep}>
@@ -31,7 +31,7 @@ const RegistrationStep2 = function (props: UserRegistration) {
           />
         </div>
         <div className="mb-1">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" isProcessing={loading}>
             Next
           </Button>
         </div>

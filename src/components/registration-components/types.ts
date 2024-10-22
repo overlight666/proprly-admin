@@ -16,4 +16,6 @@ export type UserRegistration = {
   setSuccess?: any;
   resendOTP?: any;
   success?: any;
+  verifying?: boolean;
+  loading?: boolean;
 };

@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { leadRegistration, organizationRegistration } from "./apis";
 
+export interface OtpState {
+  otpResponse: any;
+  verifying: boolean;
+  resendResponse: any;
+}
+
 export interface LeadState {
   leadData: leadRegistration;
   loading: boolean;
