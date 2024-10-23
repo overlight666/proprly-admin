@@ -161,9 +161,9 @@ export const resendOTP = async (params: OtpType) => {
     });
 };
 
-export const userLogin = async (params: loginUserType) => {
+export const userLogin = async (params: loginUserType, isAdmin: boolean) => {
   return api
-    .post(`/login`, params)
+    .post(isAdmin ? `/admin/login` : `/login`, params)
     .then((response) => {
       return response && response.data;
     })

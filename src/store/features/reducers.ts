@@ -148,7 +148,11 @@ export const loginUser: any = createAsyncThunk(
   "loginUser",
   async (data: any) => {
     try {
-      const response = await userLogin(data);
+      const params = {
+        email: data.email,
+        password: data.password,
+      };
+      const response = await userLogin(params, data.isAdmin);
       // If you want to get something back
       return response;
     } catch (err) {

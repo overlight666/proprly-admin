@@ -25,6 +25,7 @@ const SignIn: FC = function () {
   const [formData, setFormData] = useState({
     password: "",
     email: "",
+    isAdmin: false,
   });
 
   const dispatch = useDispatch();

@@ -25,6 +25,7 @@ const SignIn: FC = function () {
   const [formData, setFormData] = useState({
     password: "",
     email: "",
+    isAdmin: true,
   });
 
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const SignIn: FC = function () {
         updateUserData({
           ...userData.user,
           userType: "admin",
-          permissions: ["can_add_organization"],
+          permissions: ["can_add_organization", "can_view_organization"],
         })
       );
       gotoPage("organization");

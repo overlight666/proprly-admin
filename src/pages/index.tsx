@@ -1493,13 +1493,13 @@ const AcquisitionOverview: FC = function () {
             <div className="overflow-hidden shadow sm:rounded-lg">
               <Table className="min-w-full table-fixed">
                 <Table.Head>
-                  <Table.HeadCell className="whitespace-nowrap rounded-l border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                  <Table.HeadCell className="whitespace-nowrap rounded-l border-x-0 bg-gray-50 px-4 py-3 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
                     Top Channels
                   </Table.HeadCell>
-                  <Table.HeadCell className="whitespace-nowrap border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                  <Table.HeadCell className="whitespace-nowrap border-x-0 bg-gray-50 px-4 py-3 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
                     Users
                   </Table.HeadCell>
-                  <Table.HeadCell className="min-w-[140px] whitespace-nowrap rounded-r border-x-0 bg-gray-50 py-3 px-4 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
+                  <Table.HeadCell className="min-w-[140px] whitespace-nowrap rounded-r border-x-0 bg-gray-50 px-4 py-3 text-left align-middle text-xs font-semibold uppercase text-gray-700 dark:bg-gray-700 dark:text-white">
                     Acquisition
                   </Table.HeadCell>
                 </Table.Head>
@@ -1826,7 +1826,7 @@ const Transactions: FC = function () {
                       $5000
                     </Table.Cell>
                     <Table.Cell className="flex whitespace-nowrap p-4">
-                      <span className="mr-2 rounded-md bg-purple-100 py-0.5 px-2.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
+                      <span className="mr-2 rounded-md bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
                         In progress
                       </span>
                     </Table.Cell>
@@ -1903,7 +1903,7 @@ const Transactions: FC = function () {
                       $11,436
                     </Table.Cell>
                     <Table.Cell className="flex whitespace-nowrap p-4">
-                      <span className="mr-2 rounded-md bg-purple-100 py-0.5 px-2.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
+                      <span className="mr-2 rounded-md bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800 dark:bg-purple-200">
                         In progress
                       </span>
                     </Table.Cell>
