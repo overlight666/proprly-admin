@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import type { ReactNode } from "react";
 import { createContext, useState } from "react";
+import type { userData } from "../types";
 
 type Props = {
   children?: ReactNode;
@@ -9,8 +11,8 @@ type Props = {
 type IAuthContext = {
   authenticated: boolean;
   setAuthenticated: (newState: boolean) => void;
-  user: object;
-  setUser: (newState: object) => void;
+  user: userData | null;
+  setUser: (newState: any) => void;
   token: string;
   setToken: (newState: string) => void;
 };
@@ -20,7 +22,7 @@ const initialValue = {
   setAuthenticated: () => {},
   setUser: () => {},
   setToken: () => {},
-  user: {},
+  user: null,
   token: "",
 };
 
@@ -31,9 +33,15 @@ const AuthProvider = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(
     initialValue.authenticated
   );
-  const [user, setUser] = useState(initialValue.user);
+  const [user, setUser] = useState<userData | null>(initialValue.user);
   const [token, setToken] = useState(initialValue.token);
-  console.log(authenticated, user, token);
+
+  //   if (user && user.userType === "admin") {
+  //     setUser({ ...user, permissions: ["can_add_organization"] });
+  //   }
+  //   if (user && user.userType === "builder") {
+  //     setUser({ ...user, permissions: ["can_view_organization"] });
+  //   }
 
   return (
     <AuthContext.Provider

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/features/reducers";
 import type { UserState } from "../../types";
 import { AuthContext } from "../../hooks/authProvider";
+import { updateUserData } from "../../store/features/userSlice";
 
 const SignIn: FC = function () {
   const { isIdle, userData }: UserState = useSelector(
@@ -32,12 +33,24 @@ const SignIn: FC = function () {
     if (isIdle && userData && userData.error) {
       setErrors((oldArray) => [...oldArray, userData.error]);
     } else if (isIdle && userData && userData.user && userData.token) {
-      setUser(userData);
+      setUser({
+        ...userData.user,
+        userType: "admin",
+        permissions: ["can_add_organization"],
+      });
       setToken(userData.token);
       setAuthenticated(true);
+      localStorage.setItem("token", userData.token);
+      dispatch(
+        updateUserData({
+          ...userData.user,
+          userType: "admin",
+          permissions: ["can_add_organization"],
+        })
+      );
       gotoPage("organization");
     }
-  }, [isIdle, userData]);
+  }, [isIdle]);
 
   const gotoPage = (page: string) => {
     navigate(`/${page}`);

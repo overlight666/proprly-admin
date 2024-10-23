@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 // import type { RootState } from "../store";
-import type { UserState } from "../../types";
+import type { userData, UserState } from "../../types";
 import { loginUser } from "./reducers";
 
 // Define the initial state using that type
@@ -25,6 +27,9 @@ export const userSlice = createSlice({
       state.userData.token = "";
       state.userData.user = undefined;
     },
+    updateUserData: (state, action: PayloadAction<userData>) => {
+      state.userData.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
@@ -40,7 +45,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearUser } = userSlice.actions;
+export const { clearUser, updateUserData } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

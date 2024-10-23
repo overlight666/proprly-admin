@@ -24,12 +24,14 @@ import UserListPage from "./pages/users/list";
 import UserProfilePage from "./pages/users/profile";
 import UserSettingsPage from "./pages/users/settings";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
-import PrivateRoutes from "./components/ProtectedRoute";
+import PrivateRoutes from "./hooks/ProtectedRoute";
 import { AuthProvider } from "./hooks/authProvider";
 import OrganizationPage from "./pages/organization/organization";
 import OrganizationNewPage from "./pages/organization/newOrganization";
 import OrganizationSingle from "./pages/organization/organizationSingle";
 import ProjectNewPage from "./pages/projects/newProject";
+import Authorization from "./hooks/Authorization";
+import PERMISSIONS from "./helpers/permission";
 
 const App: FC = function () {
   return (
@@ -38,8 +40,20 @@ const App: FC = function () {
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={<SignInPage />} index />
           <Route path="/admin" element={<SignInPageAdmin />} />
-          <Route element={<PrivateRoutes />}>
+          {/* <Route element={<PrivateRoutes />}>
             <Route path="/organization" element={<OrganizationPage />} />
+          </Route> */}
+          <Route
+            element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_ORG]} />}
+          >
+            <Route
+              path="/organization"
+              element={
+                <PrivateRoutes>
+                  <OrganizationPage />
+                </PrivateRoutes>
+              }
+            />
           </Route>
           <Route path="/organization/:id" element={<OrganizationSingle />} />
           <Route path="/organization/new" element={<OrganizationNewPage />} />

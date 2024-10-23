@@ -122,6 +122,8 @@ export interface userData {
   isMobileVerified: boolean;
   createdAt: string;
   updatedAt: string;
+  userType?: string;
+  permissions?: any[];
 }
 
 export interface User {
