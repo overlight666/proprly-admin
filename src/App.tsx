@@ -5,6 +5,7 @@ import ForgotPasswordPage from "./pages/authentication/forgot-password";
 import ProfileLockPage from "./pages/authentication/profile-lock";
 import ResetPasswordPage from "./pages/authentication/reset-password";
 import SignInPage from "./pages/authentication/sign-in";
+import SignInPageAdmin from "./pages/authentication/sign-in-admin";
 import SignUpPage from "./pages/authentication/sign-up";
 import EcommerceBillingPage from "./pages/e-commerce/billing";
 import EcommerceInvoicePage from "./pages/e-commerce/invoice";
@@ -24,7 +25,7 @@ import UserProfilePage from "./pages/users/profile";
 import UserSettingsPage from "./pages/users/settings";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
 import PrivateRoutes from "./components/ProtectedRoute";
-import { AuthProvider } from "./hooks/useAuth";
+import { AuthProvider } from "./hooks/authProvider";
 import OrganizationPage from "./pages/organization/organization";
 import OrganizationNewPage from "./pages/organization/newOrganization";
 import OrganizationSingle from "./pages/organization/organizationSingle";
@@ -36,6 +37,7 @@ const App: FC = function () {
       <Routes>
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={<SignInPage />} index />
+          <Route path="/admin" element={<SignInPageAdmin />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/organization" element={<OrganizationPage />} />
           </Route>

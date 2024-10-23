@@ -1,10 +1,13 @@
-import { Outlet, Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../hooks/authProvider";
+import { useContext } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PrivateRoutes = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { isAuthenticated }: any = useAuth();
-  console.log(isAuthenticated);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/sign-in" />;
+  const { authenticated } = useContext(AuthContext);
+
+  if (!authenticated) return <Navigate to="/sign-in" replace />;
+
+  return <Outlet />;
 };
 export default PrivateRoutes;

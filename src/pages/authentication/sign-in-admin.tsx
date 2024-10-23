@@ -32,10 +32,9 @@ const SignIn: FC = function () {
     if (isIdle && userData && userData.error) {
       setErrors((oldArray) => [...oldArray, userData.error]);
     } else if (isIdle && userData && userData.user && userData.token) {
-      setUser(userData.user);
+      setUser(userData);
       setToken(userData.token);
       setAuthenticated(true);
-      localStorage.setItem("token", userData.token);
       gotoPage("organization");
     }
   }, [isIdle, userData]);

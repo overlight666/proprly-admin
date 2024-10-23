@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import type { FC } from "react";
+import { useContext, type FC } from "react";
 import {
   Avatar,
   DarkThemeToggle,
@@ -28,8 +28,10 @@ import {
 } from "react-icons/hi";
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
-import { useAuth } from "../hooks/useAuth";
+import { AuthContext } from "../hooks/authProvider";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../store/features/userSlice";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -451,10 +453,15 @@ const AppDrawerDropdown: FC = function () {
 };
 
 const UserDropdown: FC = function () {
-  const { logout }: any = useAuth();
+  const { setUser, setToken, setAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const signout = () => {
-    logout();
+    setUser({});
+    setToken("");
+    setAuthenticated(false);
+    dispatch(clearUser());
+    localStorage.removeItem("token");
     navigate("/sign-in");
   };
 
