@@ -94,7 +94,7 @@ export const newProject = async (params: Project) => {
     })
     .catch((error) => {
       // log request error if any
-      return error;
+      return error.response;
     });
 };
 

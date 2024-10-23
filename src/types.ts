@@ -18,6 +18,7 @@ export interface LeadState {
 export interface UserState {
   userData: User;
   isIdle: boolean;
+  loginTrigger: boolean;
 }
 
 export interface ImageState {
@@ -60,6 +61,7 @@ export interface Project {
   maintenance_service_type: string;
   address: string;
   image: string;
+  errors?: any;
 }
 
 export interface ProjectListType {
@@ -83,6 +85,7 @@ export interface ProjectState {
   towerResponse: TowerResponseState;
   towerData: TowerData[];
   projectList: ProjectListType[];
+  projectTrigger: boolean;
 }
 
 export interface ImageType {

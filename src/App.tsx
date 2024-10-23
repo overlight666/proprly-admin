@@ -32,17 +32,19 @@ import OrganizationSingle from "./pages/organization/organizationSingle";
 import ProjectNewPage from "./pages/projects/newProject";
 import Authorization from "./hooks/Authorization";
 import PERMISSIONS from "./helpers/permission";
+import PublicRoute from "./hooks/PublicRoute";
 
 const App: FC = function () {
   return (
     <AuthProvider>
       <Routes>
         <Route element={<FlowbiteWrapper />}>
-          <Route path="/" element={<SignInPage />} index />
-          <Route path="/admin" element={<SignInPageAdmin />} />
-          {/* <Route element={<PrivateRoutes />}>
-            <Route path="/organization" element={<OrganizationPage />} />
-          </Route> */}
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<SignInPage />} index />
+            <Route path="/admin" element={<SignInPageAdmin />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+          </Route>
+
           <Route
             element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_ORG]} />}
           >
@@ -54,10 +56,32 @@ const App: FC = function () {
                 </PrivateRoutes>
               }
             />
+            <Route
+              path="/organization/:id"
+              element={
+                <PrivateRoutes>
+                  <OrganizationSingle />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/new"
+              element={
+                <PrivateRoutes>
+                  <OrganizationNewPage />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/new"
+              element={
+                <PrivateRoutes>
+                  <ProjectNewPage />
+                </PrivateRoutes>
+              }
+            />
           </Route>
-          <Route path="/organization/:id" element={<OrganizationSingle />} />
-          <Route path="/organization/new" element={<OrganizationNewPage />} />
-          <Route path="/organization/:id/new" element={<ProjectNewPage />} />
+
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />
@@ -68,7 +92,7 @@ const App: FC = function () {
           <Route path="/pages/maintenance" element={<MaintenancePage />} />
           <Route path="/pages/404" element={<NotFoundPage />} />
           <Route path="/pages/500" element={<ServerErrorPage />} />
-          <Route path="/sign-in" element={<SignInPage />} />
+
           <Route path="/authentication/sign-up" element={<SignUpPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />

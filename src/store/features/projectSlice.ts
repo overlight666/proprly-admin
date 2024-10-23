@@ -27,6 +27,7 @@ const initialState: ProjectState = {
   towerResponse: {},
   towerData: [],
   projectList: [],
+  projectTrigger: false,
 };
 
 export const projectSlice = createSlice({
@@ -39,6 +40,9 @@ export const projectSlice = createSlice({
       state.towerResponse = {};
       state.towerData = [];
     },
+    clearTrigger: (state) => {
+      state.projectTrigger = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerProject.pending, (state) => {
@@ -47,6 +51,7 @@ export const projectSlice = createSlice({
     builder.addCase(registerProject.fulfilled, (state, action) => {
       state.projectResponse = action.payload;
       state.isIdle = true;
+      state.projectTrigger = true;
     });
     builder.addCase(registerProject.rejected, (state) => {
       state.isIdle = true;
@@ -89,7 +94,7 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { clearProject } = projectSlice.actions;
+export const { clearProject, clearTrigger } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;

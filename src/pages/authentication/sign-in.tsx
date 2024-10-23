@@ -12,10 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/features/reducers";
 import type { UserState } from "../../types";
 import { AuthContext } from "../../hooks/authProvider";
-import { updateUserData } from "../../store/features/userSlice";
+import {
+  clearLoginTrigger,
+  updateUserData,
+} from "../../store/features/userSlice";
 
 const SignIn: FC = function () {
-  const { isIdle, userData }: UserState = useSelector(
+  const { isIdle, userData, loginTrigger }: UserState = useSelector(
     (state: any) => state.user
   );
   const { setAuthenticated, setUser, setToken, user } = useContext(AuthContext);
@@ -31,28 +34,37 @@ const SignIn: FC = function () {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isIdle && userData && userData.error) {
-      setErrors((oldArray) => [...oldArray, userData.error]);
-    } else if (isIdle && userData && userData.user && userData.token && !user) {
-      setUser({
-        ...userData.user,
-        userType: "builder",
-        permissions: ["can_view_organization"],
-      });
-
-      setToken(userData.token);
-      setAuthenticated(true);
-      localStorage.setItem("token", userData.token);
-      dispatch(
-        updateUserData({
+    if (loginTrigger) {
+      if (isIdle && userData && userData.error) {
+        setErrors((oldArray) => [...oldArray, userData.error]);
+      } else if (
+        isIdle &&
+        userData &&
+        userData.user &&
+        userData.token &&
+        !user
+      ) {
+        setUser({
           ...userData.user,
           userType: "builder",
           permissions: ["can_view_organization"],
-        })
-      );
-      gotoPage("organization");
+        });
+
+        setToken(userData.token);
+        setAuthenticated(true);
+        localStorage.setItem("token", userData.token);
+        dispatch(
+          updateUserData({
+            ...userData.user,
+            userType: "builder",
+            permissions: ["can_view_organization"],
+          })
+        );
+        gotoPage("organization");
+      }
+      dispatch(clearLoginTrigger());
     }
-  }, [isIdle]);
+  }, [loginTrigger]);
 
   const gotoPage = (page: string) => {
     navigate(`/${page}`);

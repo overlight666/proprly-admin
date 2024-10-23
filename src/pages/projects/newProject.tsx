@@ -34,6 +34,7 @@ import {
   getTowersReducer,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
+import { clearTrigger } from "../../store/features/projectSlice";
 type projectType = {
   name: string;
   organizationId: number;
@@ -52,9 +53,8 @@ type towerType = {
 
 const ProjectNewPage: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
-  const { projectResponse, towerResponse }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { projectResponse, towerResponse, projectTrigger }: ProjectState =
+    useSelector((state: any) => state.project);
   const { id }: any = useParams();
   //   const navigate = useNavigate();
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
@@ -78,7 +78,7 @@ const ProjectNewPage: FC = function () {
   }, [towerResponse]);
 
   useEffect(() => {
-    const newList = orgList.find((org) => org.id == id);
+    const newList = orgList && orgList.find((org) => org.id == id);
     setSelectedOrg(newList);
   }, [id, orgList]);
 
@@ -158,6 +158,19 @@ const ProjectNewPage: FC = function () {
   };
 
   useEffect(() => {
+    if (projectTrigger) {
+      if (projectResponse && projectResponse.errors) {
+        toast.error(projectResponse.errors[0].message);
+        dispatch(clearTrigger());
+      }
+      if (projectResponse && projectResponse.id) {
+        dispatch(updateProjectTab(2));
+        dispatch(clearTrigger());
+      }
+    }
+  }, [projectTrigger]);
+
+  useEffect(() => {
     if (!searchAddress) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -230,7 +243,6 @@ const ProjectNewPage: FC = function () {
 
     if (valid) {
       dispatch(registerProject(formData));
-      dispatch(updateProjectTab(2));
     }
   };
 

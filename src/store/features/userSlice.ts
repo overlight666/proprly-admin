@@ -14,6 +14,7 @@ const initialState: UserState = {
     token: "",
     user: undefined,
   },
+  loginTrigger: false,
   isIdle: true,
 };
 
@@ -30,6 +31,9 @@ export const userSlice = createSlice({
     updateUserData: (state, action: PayloadAction<userData>) => {
       state.userData.user = action.payload;
     },
+    clearLoginTrigger: (state) => {
+      state.loginTrigger = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
@@ -38,6 +42,7 @@ export const userSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.userData = action.payload;
       state.isIdle = true;
+      state.loginTrigger = true;
     });
     builder.addCase(loginUser.rejected, (state) => {
       state.isIdle = true;
@@ -45,7 +50,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearUser, updateUserData } = userSlice.actions;
+export const { clearUser, updateUserData, clearLoginTrigger } =
+  userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

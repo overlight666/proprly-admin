@@ -18,6 +18,7 @@ import { updateOrgTab, updateProjectTab } from "../../store/features/appSlice";
 import ProjectFullTable from "../../components/projectFullTable";
 import { clearProject } from "../../store/features/projectSlice";
 import { clear } from "../../store/features/imageSlice";
+import Dashboard from "./dashboard";
 
 const OrganizationSingle: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
@@ -139,27 +140,28 @@ const OrganizationSingle: FC = function () {
           </div>
         </div>
         {orgTab === 1 ? (
-          <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
-            <span className="text-gray-600">
-              <b>Congratulations</b> on creating your first Organization!!
-              Please add a project before adding any properties
-            </span>
-            <Button
-              onClick={() => {
-                dispatch(clear());
-                dispatch(clearProject());
-                dispatch(updateProjectTab(1));
-                gotoPage(`/organization/${id}/new`);
-              }}
-              className="mt-7 w-[200px]"
-            >
-              <div className="flex items-center gap-x-2 text-xs">
-                <HiPlus />
-                Add new project
-              </div>
-            </Button>
-          </div>
+          <Dashboard />
         ) : (
+          // <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
+          //   <span className="text-gray-600">
+          //     <b>Congratulations</b> on creating your first Organization!!
+          //     Please add a project before adding any properties
+          //   </span>
+          //   <Button
+          //     onClick={() => {
+          //       dispatch(clear());
+          //       dispatch(clearProject());
+          //       dispatch(updateProjectTab(1));
+          //       gotoPage(`/organization/${id}/new`);
+          //     }}
+          //     className="mt-7 w-[200px]"
+          //   >
+          //     <div className="flex items-center gap-x-2 text-xs">
+          //       <HiPlus />
+          //       Add new project
+          //     </div>
+          //   </Button>
+          // </div>
           <div className="flex w-full flex-col">
             <div className="w-full border-b-2 py-5">
               <div className="flex">
