@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
@@ -6,14 +7,25 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
+import {
+  Breadcrumb,
+  Button,
+  Label,
+  Modal,
+  TextInput,
+  Select,
+} from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
-import type { ImageState, OrgState } from "../../types";
-import { registerOrg, uploadImageFile } from "../../store/features/reducers";
+import type { ImageState, LeadState, OrgState, UserState } from "../../types";
+import {
+  getAllBuilders,
+  registerOrg,
+  uploadImageFile,
+} from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
@@ -31,10 +43,21 @@ type organization = {
 const OrganizationNewPage: FC = function () {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
+  const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
+  const [selectedBuilder, setSelectedBuilder] = useState("");
+  const [tempBuilders, setTempBuilder] = useState<any>([]);
+  const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
+  // const { builderList, loadingBuilders }: LeadState = useSelector(
+  //   (state: any) => state.lead
+  // );
+
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -50,6 +73,10 @@ const OrganizationNewPage: FC = function () {
   });
 
   useEffect(() => {
+    dispatch(getAllBuilders());
+  }, []);
+
+  useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -62,22 +89,42 @@ const OrganizationNewPage: FC = function () {
     // if (!isIdle && loading) {
     //   setIsTriggered(true);
     // }
-    if (isTriggered && isIdle && !loading) {
-      if (orgData.id !== undefined && orgData.id > 0) {
-        toast.success("Organization registerd successfully!");
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          country: "",
-          timezone: "",
-          currency: "",
-          name: "",
-          imageId: 0,
-        }));
-        dispatch(clear());
+    console.log(orgData);
+    if (orgData && orgData.name === "error") {
+      toast.error(
+        "We encountered some errors during the process, please contact admin"
+      );
+      dispatch(clear());
+      setTimeout(() => {
         navigate(`/organization`);
+      }, 5000);
+    } else {
+      if (isTriggered && isIdle && !loading) {
+        if (orgData.id !== undefined && orgData.id > 0) {
+          toast.success("Organization registerd successfully!");
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            country: "",
+            timezone: "",
+            currency: "",
+            name: "",
+            imageId: 0,
+          }));
+          dispatch(clear());
+          navigate(`/organization`);
+        }
       }
     }
-  }, [isIdle, isTriggered, orgData.id, loading]);
+  }, [isIdle, isTriggered, orgData, loading]);
+
+  const addSelectedBuilder = () => {
+    if (selectedBuilder) {
+      setSelectedBuilderList((oldArray) => [
+        ...oldArray,
+        JSON.parse(selectedBuilder),
+      ]);
+    }
+  };
 
   const handleInputChange = (event: any) => {
     try {
@@ -137,9 +184,10 @@ const OrganizationNewPage: FC = function () {
       ]);
       valid = false;
     }
+    const newData = { ...formData, users: selectedBuilderList };
     if (valid) {
       setIsTriggered(true);
-      dispatch(registerOrg(formData));
+      dispatch(registerOrg(newData));
     }
   };
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -158,6 +206,20 @@ const OrganizationNewPage: FC = function () {
     }
   };
 
+  const addBuilderToList = () => {
+    const temp = {
+      fullName: name,
+      mobile,
+      password,
+      email,
+    };
+    setTempBuilder((oldArray) => [...oldArray, temp]);
+    setEmail("");
+    setName("");
+    setMobile("");
+    setPassword("");
+    setOpenModal(false);
+  };
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -201,18 +263,36 @@ const OrganizationNewPage: FC = function () {
               <div className="grid w-full grid-cols-2  max-md:grid-cols-1">
                 <div className="grid grid-cols-1 gap-y-2 pt-8">
                   <Label htmlFor="builder">Builder list</Label>
-                  <select
+                  <Select
                     id="builder"
                     name="builder"
                     // value={country}
-                    // onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    onChange={(event) => setSelectedBuilder(event.target.value)}
+
+                    // className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
+                    {/* {(!loadingBuilders &&
+                      builderList &&
+                      builderList.data.map((obj: any) => {
+                        return (
+                          <option key={obj.id} value={JSON.stringify(obj)}>
+                            {obj.fullName}
+                          </option>
+                        );
+                      })) || <option selected>Select</option>} */}
                     <option selected>Select</option>
-                  </select>
+                    {tempBuilders.length &&
+                      tempBuilders.map((obj: any, index: any) => {
+                        return (
+                          <option key={index} value={JSON.stringify(obj)}>
+                            {obj.fullName}
+                          </option>
+                        );
+                      })}
+                  </Select>
                 </div>
                 <div className="ml-3 mt-14 flex items-center">
-                  <Button color="primary">
+                  <Button color="primary" onClick={() => addSelectedBuilder()}>
                     <GoPlus />
                     Attach Builder
                   </Button>
@@ -261,16 +341,34 @@ const OrganizationNewPage: FC = function () {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        John Doe
-                      </th>
-                      <td className="px-6 py-4">09998345342</td>
-                      <td className="px-6 py-4">test@admin.com</td>
-                    </tr>
+                    {selectedBuilderList.length ? (
+                      selectedBuilderList.map((obj: any, index: any) => {
+                        return (
+                          <tr
+                            key={index}
+                            className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <th
+                              scope="row"
+                              className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                            >
+                              {obj.fullName}
+                            </th>
+                            <td className="px-6 py-4">{obj.mobile}</td>
+                            <td className="px-6 py-4">{obj.email}</td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={3}
+                          style={{ textAlign: "center", padding: "10px" }}
+                        >
+                          <span>NO RECORD</span>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
                 <div className="mt-5 flex items-center text-[14px] text-[blue]">
@@ -469,8 +567,8 @@ const OrganizationNewPage: FC = function () {
               <TextInput
                 id="name"
                 name="name"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 placeholder="Enter full name"
                 required
               />
@@ -480,8 +578,8 @@ const OrganizationNewPage: FC = function () {
               <TextInput
                 id="mobile"
                 name="mobile"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={mobile}
+                onChange={(event) => setMobile(event.target.value)}
                 placeholder="Enter mobile number"
                 required
               />
@@ -492,8 +590,8 @@ const OrganizationNewPage: FC = function () {
                 id="email"
                 name="email"
                 type="email"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 placeholder="Enter email address"
                 required
               />
@@ -504,8 +602,8 @@ const OrganizationNewPage: FC = function () {
                 type="password"
                 id="password"
                 name="password"
-                // value={formData.name}
-                // onChange={handleInputChange}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 placeholder="******"
                 required
               />
@@ -513,7 +611,7 @@ const OrganizationNewPage: FC = function () {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>Submit</Button>
+          <Button onClick={() => addBuilderToList()}>Submit</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Cancel
           </Button>

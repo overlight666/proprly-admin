@@ -38,9 +38,9 @@ type projectType = {
   name: string;
   organizationId: number;
   type: string;
-  maintenance_service_type: string;
+  maintenanceServiceType: string;
   address: string;
-  image: string;
+  imageId: string;
 };
 
 type towerType = {
@@ -95,9 +95,9 @@ const ProjectNewPage: FC = function () {
     name: "",
     organizationId: id,
     type: "",
-    maintenance_service_type: "",
+    maintenanceServiceType: "",
     address: "",
-    image: "",
+    imageId: "",
   });
 
   const [towerFormData, setTowerData] = useState<towerType>({
@@ -111,7 +111,7 @@ const ProjectNewPage: FC = function () {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        image: myImage.imageData.id.toString(),
+        imageId: myImage.imageData.id.toString(),
       }));
     }
   }, [myImage.imageData.id, myImage.imageData]);
@@ -209,14 +209,14 @@ const ProjectNewPage: FC = function () {
       ]);
       valid = false;
     }
-    if (formData.maintenance_service_type === "") {
+    if (formData.maintenanceServiceType === "") {
       setErrors((oldArray) => [
         ...[...new Set(oldArray)],
         "Service type is required!",
       ]);
       valid = false;
     }
-    if (formData.image === "") {
+    if (formData.imageId === "") {
       setErrors((oldArray) => [
         ...[...new Set(oldArray)],
         "Image is required!",
@@ -230,7 +230,7 @@ const ProjectNewPage: FC = function () {
 
     if (valid) {
       dispatch(registerProject(formData));
-      //   dispatch(updateProjectTab(2));
+      dispatch(updateProjectTab(2));
     }
   };
 
@@ -420,13 +420,13 @@ const ProjectNewPage: FC = function () {
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
-                    <Label htmlFor="maintenance_service_type">
+                    <Label htmlFor="maintenanceServiceType">
                       Maintenance and Service type
                     </Label>
                     <select
-                      id="maintenance_service_type"
-                      name="maintenance_service_type"
-                      value={formData.maintenance_service_type}
+                      id="maintenanceServiceType"
+                      name="maintenanceServiceType"
+                      value={formData.maintenanceServiceType}
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >

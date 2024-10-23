@@ -11,6 +11,8 @@ export interface LeadState {
   leadData: leadRegistration;
   loading: boolean;
   isIdle: boolean;
+  builderList: any;
+  loadingBuilders: boolean;
 }
 
 export interface UserState {

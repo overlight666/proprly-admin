@@ -2,7 +2,7 @@
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { registerLead } from "./reducers";
+import { getAllBuilders, registerLead } from "./reducers";
 import type { LeadState } from "../../types";
 
 // Define a type for the slice state
@@ -21,6 +21,8 @@ const initialState: LeadState = {
   loading: false,
   leadData: leadInitialValue,
   isIdle: true,
+  builderList: [],
+  loadingBuilders: false,
 };
 
 export const leadSlice = createSlice({
@@ -45,6 +47,16 @@ export const leadSlice = createSlice({
     builder.addCase(registerLead.rejected, (state) => {
       state.loading = false;
       state.isIdle = true;
+    });
+    builder.addCase(getAllBuilders.pending, (state) => {
+      state.loadingBuilders = true;
+    });
+    builder.addCase(getAllBuilders.fulfilled, (state, action) => {
+      state.builderList = action.payload;
+      state.loadingBuilders = false;
+    });
+    builder.addCase(getAllBuilders.rejected, (state) => {
+      state.loadingBuilders = false;
     });
   },
 });

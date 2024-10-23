@@ -171,3 +171,15 @@ export const userLogin = async (params: loginUserType, isAdmin: boolean) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const listOfBuilders = async () => {
+  return api
+    .get(`/admin/signup-leads`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

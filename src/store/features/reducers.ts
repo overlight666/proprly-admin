@@ -6,6 +6,7 @@ import {
   getAllOrganizations,
   getprojects,
   getTowers,
+  listOfBuilders,
   newOrganization,
   newProject,
   newTower,
@@ -153,6 +154,19 @@ export const loginUser: any = createAsyncThunk(
         password: data.password,
       };
       const response = await userLogin(params, data.isAdmin);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllBuilders: any = createAsyncThunk(
+  "getAllBuilders",
+  async () => {
+    try {
+      const response = await listOfBuilders();
       // If you want to get something back
       return response;
     } catch (err) {
