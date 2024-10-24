@@ -1,14 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, useTheme } from "flowbite-react";
+import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
 import { type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
-import { HiDotsHorizontal } from "react-icons/hi";
+import { FaDownload } from "react-icons/fa";
+import {
+  HiArrowNarrowRight,
+  HiCalendar,
+  HiDotsHorizontal,
+} from "react-icons/hi";
 import { TbFileExport } from "react-icons/tb";
 
 const Dashboard: FC = function () {
   return (
-    <div className="grid grid-rows-3 gap-2">
+    <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
         <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-5">
           <div className="flex items-center">
@@ -187,7 +192,7 @@ const Dashboard: FC = function () {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 px-5">
+      <div className="grid grid-cols-2 gap-2 p-5">
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
           <div className="flex w-full items-center justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
@@ -366,6 +371,196 @@ const Dashboard: FC = function () {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="my-6 w-full px-5">
+        <div className="grid grid-cols-2 gap-1">
+          <div className="flex flex-col">
+            <h3 className="my-5 text-xl font-bold leading-none text-gray-900 dark:text-white">
+              Timeline
+            </h3>
+            <Timeline>
+              <Timeline.Item>
+                <Timeline.Point icon={HiCalendar} />
+                <Timeline.Content>
+                  <Timeline.Time>February 2022</Timeline.Time>
+                  <Timeline.Title>
+                    Application UI code in Tailwind CSS
+                  </Timeline.Title>
+                  <Timeline.Body>
+                    Get access to over 20+ pages including a dashboard layout,
+                    charts, kanban board, calendar, and pre-order E-commerce &
+                    Marketing pages.
+                  </Timeline.Body>
+                  <Button color="gray">
+                    Learn More
+                    <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                  </Button>
+                </Timeline.Content>
+              </Timeline.Item>
+              <Timeline.Item>
+                <Timeline.Point icon={HiCalendar} />
+                <Timeline.Content>
+                  <Timeline.Time>March 2022</Timeline.Time>
+                  <Timeline.Title>Marketing UI design in Figma</Timeline.Title>
+                  <Timeline.Body>
+                    All of the pages and components are first designed in Figma
+                    and we keep a parity between the two versions even as we
+                    update the project.
+                  </Timeline.Body>
+                </Timeline.Content>
+              </Timeline.Item>
+              <Timeline.Item>
+                <Timeline.Point icon={HiCalendar} />
+                <Timeline.Content>
+                  <Timeline.Time>April 2022</Timeline.Time>
+                  <Timeline.Title>
+                    E-Commerce UI code in Tailwind CSS
+                  </Timeline.Title>
+                  <Timeline.Body>
+                    Get started with dozens of web components and interactive
+                    elements built on top of Tailwind CSS.
+                  </Timeline.Body>
+                </Timeline.Content>
+              </Timeline.Item>
+            </Timeline>
+          </div>
+          <Defects />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Defects: FC = function () {
+  return (
+    <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
+      <div className="mb-4">
+        <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+          Defects
+        </h3>
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center ">
+            <span className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+              0
+            </span>
+            <div className="ml-2 flex items-center rounded bg-green-100 p-1">
+              <svg
+                width="8"
+                height="11"
+                viewBox="0 0 8 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4.19488 1.07086L4.19524 1.0712L7.19063 3.92456C7.23191 3.96638 7.25042 4.01682 7.24999 4.06422C7.24955 4.11249 7.22939 4.16382 7.18551 4.20563C7.14083 4.24818 7.07554 4.27626 7.00253 4.27686C6.93073 4.27745 6.86568 4.25136 6.82007 4.2105L5.10468 2.57645L4.25981 1.77165V2.93848V9.78571C4.25981 9.83449 4.2397 9.88649 4.19532 9.92876C4.15012 9.97181 4.08385 10 4.00996 10C3.93607 10 3.8698 9.97181 3.82461 9.92876C3.78023 9.88649 3.76011 9.83449 3.76011 9.78571V2.93848V1.77235L2.91541 2.5763L1.1945 4.21418L1.19445 4.21412L1.1881 4.22037C1.16619 4.24199 1.13865 4.2605 1.10645 4.27368C1.07422 4.28687 1.03872 4.29411 1.00223 4.29442C0.965733 4.29472 0.930049 4.28806 0.897472 4.27536C0.864927 4.26268 0.836922 4.24455 0.814492 4.22318C0.792114 4.20186 0.775814 4.17787 0.765257 4.15329C0.754729 4.12878 0.74978 4.10343 0.750008 4.07849C0.750235 4.05354 0.755648 4.0282 0.766676 4.00375C0.777737 3.97922 0.794564 3.95537 0.817455 3.93431L0.817506 3.93436L0.823786 3.92838L3.82319 1.0712L3.82355 1.07086C3.84531 1.05009 3.87255 1.03242 3.90426 1.02007L3.90426 1.02007L3.90596 1.01941C3.97167 0.993532 4.04676 0.993532 4.11247 1.01941L4.11247 1.01941L4.11416 1.02007C4.14588 1.03242 4.17312 1.05009 4.19488 1.07086Z"
+                  fill="#0E9F6E"
+                  stroke="#0E9F6E"
+                />
+              </svg>
+              <span className="ml-1 text-[12px] text-green-500">0%</span>
+            </div>
+          </div>
+          <div>
+            <table className="w-full border-collapse rounded border border-gray-100">
+              <tr>
+                <td className="border border-gray-100 p-1">
+                  <span className="text-[12px]">1 year</span>
+                </td>
+                <td className="border border-gray-100 p-1">
+                  <span className="text-[12px]">30 days</span>
+                </td>
+                <td className="border border-gray-100 p-1">
+                  <span className="text-[12px]">7 days</span>
+                </td>
+                <td className="border border-gray-100 p-1">
+                  <span className="text-[12px]">24 hours</span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <fieldset className="my-5 flex flex-row items-center gap-4">
+          <span className="text-[14px]">Show only:</span>
+          <div className="flex items-center gap-2">
+            <Radio
+              id="united-state"
+              name="countries"
+              value="USA"
+              defaultChecked
+            />
+            <Label htmlFor="united-state">All</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Radio id="germany" name="countries" value="Germany" />
+            <Label htmlFor="germany">Properties</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Radio id="spain" name="countries" value="Spain" />
+            <Label htmlFor="spain">Common Areas</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button color="gray">
+              <div className="flex items-center text-xs">
+                <FaDownload className="mr-2" />
+                Export
+              </div>
+            </Button>
+          </div>
+        </fieldset>
+      </div>
+      <ul className="space-y-6">
+        <li className="w-full items-center sm:flex">
+          <div className="mb-3 flex items-center sm:mb-0">
+            <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
+              Logged
+            </span>
+          </div>
+          <div className="flex w-full flex-col">
+            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "35%" }}
+              >
+                {" "}
+                35%
+              </div>
+            </div>
+            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "35%" }}
+              >
+                {" "}
+                35%
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+        {/* <Datepicker /> */}
+        <div className="shrink-0">
+          <a
+            href="#"
+            className="inline-flex items-center rounded-lg p-2 text-xs font-medium uppercase text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700 sm:text-sm"
+          >
+            Report
+            <svg
+              className="ml-1 h-4 w-4 sm:h-5 sm:w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </div>

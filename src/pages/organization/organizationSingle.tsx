@@ -34,7 +34,7 @@ const OrganizationSingle: FC = function () {
   };
 
   useEffect(() => {
-    const newList = orgList.find((org) => org.id == id);
+    const newList = orgList && orgList.find((org) => org.id == id);
     setSelectedOrg(newList);
   }, [id, orgList]);
 
