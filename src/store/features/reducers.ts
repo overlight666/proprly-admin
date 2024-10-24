@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
   getAllOrganizations,
+  getOneProject,
   getprojects,
   getTowers,
   listOfBuilders,
@@ -64,6 +65,19 @@ export const getProjects: any = createAsyncThunk(
       const response = await getprojects(id);
       // If you want to get something back
       return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getSingleProject: any = createAsyncThunk(
+  "getSingleProject",
+  async (id: any) => {
+    try {
+      const response = await getOneProject(id);
+      // If you want to get something back
+      return response;
     } catch (err) {
       console.error(err);
     }

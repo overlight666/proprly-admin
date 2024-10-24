@@ -4,44 +4,63 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
-import { Button, Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
+import { Dropdown, Sidebar, Spinner, TextInput, Tooltip } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { RiOrganizationChart } from "react-icons/ri";
+// import { RiOrganizationChart } from "react-icons/ri";
 import {
   HiAdjustments,
-  HiChartPie,
-  HiChartSquareBar,
-  HiClipboard,
+  // HiChartPie,
+  // HiChartSquareBar,
+  // HiClipboard,
   HiCog,
-  HiCollection,
-  HiInboxIn,
-  HiInformationCircle,
-  HiLockClosed,
-  HiOutlinePlusSm,
+  HiDotsVertical,
+  // HiCollection,
+  // HiInboxIn,
+  // HiInformationCircle,
+  // HiLockClosed,
+  // HiOutlinePlusSm,
   HiPlus,
   HiSearch,
-  HiShoppingBag,
-  HiUsers,
-  HiViewGrid,
+  // HiShoppingBag,
+  // HiUsers,
+  // HiViewGrid,
 } from "react-icons/hi";
 
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
-import { FaPlus } from "react-icons/fa";
+// import { FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrganizations } from "../store/features/reducers";
-import type { Organization, OrgState } from "../types";
+import type { Organization, OrgState, ProjectState } from "../types";
+import { matchPath, useLocation, useParams } from "react-router-dom";
+import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
+  const { projectList, loadedProject }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
     useSidebarContext();
 
+  const { id, project_id }: any = useParams();
   const [currentPage, setCurrentPage] = useState("");
   const [isEcommerceOpen, setEcommerceOpen] = useState(true);
   const [isUsersOpen, setUsersOpen] = useState(true);
+  const [selectedOrg, setSelectedOrg] = useState<Organization>();
+  const { pathname } = useLocation();
+
+  const currentRoute = ["/organization"].find((pattern) => {
+    return matchPath(pattern, pathname);
+  });
+
+  useEffect(() => {
+    const newList = orgList && orgList.find((org) => org.id == id);
+    setSelectedOrg(newList);
+  }, [id, orgList]);
 
   useEffect(() => {
     try {
@@ -82,21 +101,91 @@ const ExampleSidebar: FC = function () {
             </form>
             <Sidebar.Items>
               <Sidebar.ItemGroup>
-                <Sidebar.Item
-                  href="/organization"
-                  // icon={HiChartPie}
-                  className={
-                    "/organization" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  <div className="flex w-full items-center justify-between">
-                    Organizations
-                    <HiPlus color="primary" className="text-primary-700" />
-                  </div>
-                </Sidebar.Item>
-                {(orgList &&
+                {currentRoute === "/organization" ? (
+                  <Sidebar.Item
+                    href="/organization"
+                    // icon={HiChartPie}
+                    className={
+                      "/organization" === currentPage
+                        ? "bg-gray-100 dark:bg-gray-700"
+                        : ""
+                    }
+                  >
+                    <div className="flex w-full items-center justify-between">
+                      Organizations
+                      <HiPlus color="primary" className="text-primary-700" />
+                    </div>
+                  </Sidebar.Item>
+                ) : (
+                  selectedOrg && (
+                    <>
+                      <Sidebar.Item
+                        href={`/organization/${selectedOrg.id}`}
+                        className="text-[14px]"
+                      >
+                        <div className="flex w-full items-center">
+                          <div className="mr-3 flex h-6 items-center justify-center rounded bg-blue-100 p-2 shadow">
+                            {" "}
+                            <span className="text-blue-600">
+                              {" "}
+                              {selectedOrg.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div className="flex w-full items-center justify-between">
+                            {selectedOrg.name}
+                            <HiDotsVertical
+                              color="primary"
+                              className="text-primary-700"
+                            />
+                          </div>
+                        </div>
+                      </Sidebar.Item>
+                      {projectList.length > 0 ? (
+                        projectList.map((obj) => {
+                          return (
+                            <>
+                              <Sidebar.Item
+                                href={`/organization/${selectedOrg.id}/project/${obj.id}`}
+                                className={`ml-2 text-[14px] ${
+                                  obj.id == project_id && "bg-gray-200"
+                                }`}
+                              >
+                                <div className={`flex items-center `}>
+                                  <div
+                                    className={`mr-3 flex h-6 items-center justify-center rounded p-2 shadow`}
+                                  >
+                                    {" "}
+                                    {obj.id == project_id ? (
+                                      <FaRegFolderOpen />
+                                    ) : (
+                                      <FaRegFolder />
+                                    )}
+                                  </div>
+
+                                  {obj.name}
+                                </div>
+                              </Sidebar.Item>
+                            </>
+                          );
+                        })
+                      ) : !loadedProject ? (
+                        <div className="flex justify-center">
+                          <Spinner
+                            aria-label="Alternate spinner button example"
+                            size="sm"
+                          />
+                          <span className="pl-3 text-[12px]">
+                            Loading Project...
+                          </span>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  )
+                )}
+
+                {/* {(orgList &&
                   orgList.length &&
                   orgList.map((org: Organization) => {
                     return (
@@ -119,159 +208,7 @@ const ExampleSidebar: FC = function () {
                         </Sidebar.Item>
                       </>
                     );
-                  })) || <></>}
-                {/* <Sidebar.Item
-                  href="/kanban"
-                  icon={HiViewGrid}
-                  className={
-                    "/kanban" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  Kanban
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="/mailing/inbox"
-                  icon={HiInboxIn}
-                  label="3"
-                  className={
-                    "/mailing/inbox" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  Inbox
-                </Sidebar.Item>
-                <Sidebar.Collapse
-                  icon={HiShoppingBag}
-                  label="E-commerce"
-                  open={isEcommerceOpen}
-                >
-                  <Sidebar.Item
-                    href="/e-commerce/products"
-                    className={
-                      "/e-commerce/products" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Products
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/e-commerce/billing"
-                    className={
-                      "/e-commerce/billing" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Billing
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/e-commerce/invoice"
-                    className={
-                      "/e-commerce/invoice" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Invoice
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse
-                  icon={HiUsers}
-                  label="Users"
-                  open={isUsersOpen}
-                >
-                  <Sidebar.Item
-                    href="/users/list"
-                    className={
-                      "/users/list" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Users list
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/profile"
-                    className={
-                      "/users/profile" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Profile
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/feed"
-                    className={
-                      "/users/feed" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Feed
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/settings"
-                    className={
-                      "/users/settings" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Settings
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse icon={HiChartSquareBar} label="Pages">
-                  <Sidebar.Item href="/pages/pricing">Pricing</Sidebar.Item>
-                  <Sidebar.Item href="/pages/maintenance">
-                    Maintenace
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/pages/404">404 not found</Sidebar.Item>
-                  <Sidebar.Item href="/pages/500">
-                    500 server error
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse icon={HiLockClosed} label="Authentication">
-                  <Sidebar.Item href="/authentication/sign-in">
-                    Sign in
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/sign-up">
-                    Sign up
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/forgot-password">
-                    Forgot password
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/reset-password">
-                    Reset password
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/profile-lock">
-                    Profile lock
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-              </Sidebar.ItemGroup>
-              <Sidebar.ItemGroup>
-                <Sidebar.Item
-                  href="https://github.com/themesberg/flowbite-react/"
-                  icon={HiClipboard}
-                >
-                  Docs
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="https://flowbite-react.com/"
-                  icon={HiCollection}
-                >
-                  Components
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="https://github.com/themesberg/flowbite-react/issues"
-                  icon={HiInformationCircle}
-                >
-                  Help
-                </Sidebar.Item> */}
+                  })) || <></>} */}
               </Sidebar.ItemGroup>
             </Sidebar.Items>
           </div>

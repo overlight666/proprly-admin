@@ -32,7 +32,8 @@ import OrganizationSingle from "./pages/organization/organizationSingle";
 import ProjectNewPage from "./pages/projects/newProject";
 import Authorization from "./hooks/Authorization";
 import PERMISSIONS from "./helpers/permission";
-import PublicRoute from "./hooks/PublicRoute";
+import PublicRoute from "./hooks/publicRoute";
+import ProjectSingle from "./pages/projects/projectSingle";
 
 const App: FC = function () {
   return (
@@ -77,6 +78,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ProjectNewPage />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id"
+              element={
+                <PrivateRoutes>
+                  <ProjectSingle />
                 </PrivateRoutes>
               }
             />

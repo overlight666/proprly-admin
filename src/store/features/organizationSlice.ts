@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { getOrganizations, registerOrg } from "./reducers";
-import type { OrgState } from "../../types";
+import type { Organization, OrgState } from "../../types";
 
 // Define the initial state using that type
 const initialValue = {
@@ -19,6 +21,7 @@ const initialState: OrgState = {
   orgData: initialValue,
   isIdle: true,
   orgList: [],
+  selectedOrganization: undefined,
 };
 
 export const organizationSlice = createSlice({
@@ -28,6 +31,12 @@ export const organizationSlice = createSlice({
   reducers: {
     registration: (state) => {
       console.log(state);
+    },
+    setSelectedOrganization: (
+      state,
+      action: PayloadAction<Organization | undefined>
+    ) => {
+      state.selectedOrganization = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -61,7 +70,8 @@ export const organizationSlice = createSlice({
   },
 });
 
-export const { registration } = organizationSlice.actions;
+export const { registration, setSelectedOrganization } =
+  organizationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;

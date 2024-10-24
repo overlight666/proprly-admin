@@ -18,11 +18,13 @@ const ProjectFullTable = function () {
   );
 
   useEffect(() => {
-    dispatch(getProjects(id));
-  }, [dispatch, id]);
+    if (!projectList) {
+      dispatch(getProjects(id));
+    }
+  }, []);
 
   useEffect(() => {
-    if (document.getElementById("project-table-full") && projectList) {
+    if (document.getElementById("project-table-full") && projectList.length) {
       try {
         const datatable = new DataTable("#project-table-full", {
           searchable: false,

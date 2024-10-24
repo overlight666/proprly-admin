@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
   getProjects,
+  getSingleProject,
   getTowersReducer,
   postTower,
   registerProject,
@@ -15,9 +16,9 @@ const initialValue = {
   name: "",
   organizationId: 0,
   type: "",
-  maintenance_service_type: "",
+  maintenanceServiceType: "",
   address: "",
-  image: "",
+  imageId: undefined,
 };
 
 const initialState: ProjectState = {
@@ -28,6 +29,9 @@ const initialState: ProjectState = {
   towerData: [],
   projectList: [],
   projectTrigger: false,
+  loadedProject: false,
+  selectedProject: undefined,
+  hasProjectSelected: false,
 };
 
 export const projectSlice = createSlice({
@@ -39,6 +43,10 @@ export const projectSlice = createSlice({
       state.projectResponse = undefined;
       state.towerResponse = {};
       state.towerData = [];
+    },
+    clearProjectList: (state) => {
+      state.projectList = [];
+      state.loadedProject = false;
     },
     clearTrigger: (state) => {
       state.projectTrigger = false;
@@ -59,9 +67,11 @@ export const projectSlice = createSlice({
     //get projects
     builder.addCase(getProjects.pending, (state) => {
       state.isIdle = false;
+      state.loadedProject = false;
     });
     builder.addCase(getProjects.fulfilled, (state, action) => {
       state.projectList = action.payload;
+      state.loadedProject = true;
       state.isIdle = true;
     });
     builder.addCase(getProjects.rejected, (state) => {
@@ -91,10 +101,22 @@ export const projectSlice = createSlice({
     builder.addCase(getTowersReducer.rejected, (state) => {
       state.isIdle = true;
     });
+    //get one project
+    builder.addCase(getSingleProject.pending, (state) => {
+      state.hasProjectSelected = false;
+    });
+    builder.addCase(getSingleProject.fulfilled, (state, action) => {
+      state.selectedProject = action.payload;
+      state.hasProjectSelected = true;
+    });
+    builder.addCase(getSingleProject.rejected, (state) => {
+      state.hasProjectSelected = false;
+    });
   },
 });
 
-export const { clearProject, clearTrigger } = projectSlice.actions;
+export const { clearProject, clearTrigger, clearProjectList } =
+  projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;

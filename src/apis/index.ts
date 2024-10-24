@@ -183,3 +183,15 @@ export const listOfBuilders = async () => {
       return error;
     });
 };
+
+export const getOneProject = async (id: any) => {
+  return api
+    .get(`/projects/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

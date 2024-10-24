@@ -37,6 +37,7 @@ export interface OrgState {
   loading: boolean;
   isIdle: boolean;
   orgList: Organization[];
+  selectedOrganization: Organization | undefined;
 }
 
 export interface TowerResponseState {
@@ -55,12 +56,16 @@ export interface TowerData {
 
 export interface Project {
   id?: number;
-  name: string;
   organizationId: number;
+  name: string;
   type: string;
-  maintenance_service_type: string;
+  maintenanceServiceType: string;
+  numBasementLevels?: any | null;
   address: string;
-  image: string;
+  imageId: number | undefined;
+  createdAt?: string;
+  updatedAt?: string;
+  projectTower?: TowerData[];
   errors?: any;
 }
 
@@ -86,6 +91,9 @@ export interface ProjectState {
   towerData: TowerData[];
   projectList: ProjectListType[];
   projectTrigger: boolean;
+  loadedProject: boolean;
+  selectedProject: Project | undefined;
+  hasProjectSelected: boolean;
 }
 
 export interface ImageType {
