@@ -4,7 +4,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useContext, useEffect, useState, type FC } from "react";
 import PublicNav from "../../components/public-nav";
-import { Card, Label, TextInput, Checkbox, Button } from "flowbite-react";
+import {
+  Card,
+  Label,
+  TextInput,
+  Checkbox,
+  Button,
+  Spinner,
+} from "flowbite-react";
 import PublicFooter from "../../components/public-footer";
 import { useNavigate } from "react-router-dom";
 import ErrorHandler from "../../components/error";
@@ -21,7 +28,7 @@ const SignIn: FC = function () {
   const { isIdle, userData, loginTrigger }: UserState = useSelector(
     (state: any) => state.user
   );
-  const { setAuthenticated, setUser, setToken, user } = useContext(AuthContext);
+  const { setAuthenticated, setUser, setToken } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState<any>([]);
@@ -37,13 +44,7 @@ const SignIn: FC = function () {
     if (loginTrigger) {
       if (isIdle && userData && userData.error) {
         setErrors((oldArray) => [...oldArray, userData.error]);
-      } else if (
-        isIdle &&
-        userData &&
-        userData.user &&
-        userData.token &&
-        !user
-      ) {
+      } else if (isIdle && userData && userData.user && userData.token) {
         setUser({
           ...userData.user,
           userType: "builder",
@@ -144,8 +145,19 @@ const SignIn: FC = function () {
                 </a>
               </div>
               <div className="mb-1">
-                <Button type="submit" className="w-full" isProcessing={!isIdle}>
-                  Sign In
+                <Button type="submit" className="w-full">
+                  {isIdle ? (
+                    `Sign In`
+                  ) : (
+                    <>
+                      <Spinner
+                        aria-label="Alternate spinner button example"
+                        size="sm"
+                        color="success"
+                      />
+                      <span className="pl-3">Sign In</span>
+                    </>
+                  )}
                 </Button>
               </div>
 

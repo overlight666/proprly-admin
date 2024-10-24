@@ -47,7 +47,14 @@ const App: FC = function () {
           </Route>
 
           <Route
-            element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_ORG]} />}
+            element={
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_ORG,
+                  PERMISSIONS.CAN_ADD_ORG,
+                ]}
+              />
+            }
           >
             <Route
               path="/organization"

@@ -457,12 +457,12 @@ const UserDropdown: FC = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signout = () => {
-    setUser({});
+    setUser(undefined);
     setToken("");
     setAuthenticated(false);
     dispatch(clearUser());
     localStorage.removeItem("token");
-    navigate("/sign-in");
+    navigate("/");
   };
 
   return (

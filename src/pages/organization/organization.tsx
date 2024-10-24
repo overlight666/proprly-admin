@@ -22,6 +22,7 @@ const OrganizationPage: FC = function () {
   const { orgList }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
+
   const { isGrid }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -44,6 +45,7 @@ const OrganizationPage: FC = function () {
             <span className="text-gray-600">
               Please start by creating a new organization!
             </span>
+
             <Button
               onClick={() => gotoPage("/organization/new")}
               className="mt-7 w-[200px]"

@@ -8,11 +8,15 @@ import { HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGrid } from "../store/features/appSlice";
-import type { AppState, ReducerTypes } from "../types";
+import type { AppState, ReducerTypes, UserState } from "../types";
 const OrganizationHeader = function () {
   const { isGrid }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const gotoPage = (page) => {
@@ -94,15 +98,17 @@ const OrganizationHeader = function () {
           </div>
         </Button>
       </div>
-      <Button
-        onClick={() => gotoPage("/organization/new")}
-        className="col-span-2 w-[200px]"
-      >
-        <div className="flex items-center gap-x-2 text-xs">
-          <HiPlus />
-          Add organization
-        </div>
-      </Button>
+      {userData.user?.permissions?.includes("can_add_organization") && (
+        <Button
+          onClick={() => gotoPage("/organization/new")}
+          className="col-span-2 w-[200px]"
+        >
+          <div className="flex items-center gap-x-2 text-xs">
+            <HiPlus />
+            Add organization
+          </div>
+        </Button>
+      )}
     </div>
   );
 };

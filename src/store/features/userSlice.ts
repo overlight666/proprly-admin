@@ -38,6 +38,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
       state.isIdle = false;
+      state.loginTrigger = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.userData = action.payload;
@@ -46,6 +47,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(loginUser.rejected, (state) => {
       state.isIdle = true;
+      state.loginTrigger = false;
     });
   },
 });
