@@ -31,6 +31,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
+import { registerToOrg } from "../../apis";
 
 type organization = {
   name: string;
@@ -41,6 +42,10 @@ type organization = {
   imageId: number;
 };
 const OrganizationNewPage: FC = function () {
+  const { builderList, loadingBuilders }: LeadState = useSelector(
+    (state: any) => state.lead
+  );
+
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [name, setName] = useState("");
@@ -49,14 +54,11 @@ const OrganizationNewPage: FC = function () {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
   const [selectedBuilder, setSelectedBuilder] = useState("");
-  const [tempBuilders, setTempBuilder] = useState<any>([]);
+  const [tempBuilders, setTempBuilder] = useState<any>();
   const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  // const { builderList, loadingBuilders }: LeadState = useSelector(
-  //   (state: any) => state.lead
-  // );
 
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
@@ -75,6 +77,12 @@ const OrganizationNewPage: FC = function () {
   useEffect(() => {
     dispatch(getAllBuilders());
   }, []);
+
+  useEffect(() => {
+    if (!loadingBuilders && builderList) {
+      setTempBuilder(builderList.data);
+    }
+  }, [loadingBuilders]);
 
   useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
@@ -123,6 +131,7 @@ const OrganizationNewPage: FC = function () {
         ...oldArray,
         JSON.parse(selectedBuilder),
       ]);
+      console.log(selectedBuilderList);
     }
   };
 
@@ -184,7 +193,15 @@ const OrganizationNewPage: FC = function () {
       ]);
       valid = false;
     }
-    const newData = { ...formData, users: selectedBuilderList };
+    const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
+    builderToAttach.map(async (builder: any) => {
+      const params = {
+        id: builder.id,
+      };
+      await registerToOrg(params);
+    });
+    const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
+    const newData = { ...formData, users: newBuilder };
     if (valid) {
       setIsTriggered(true);
       dispatch(registerOrg(newData));
@@ -441,7 +458,8 @@ const OrganizationNewPage: FC = function () {
                         );
                       })) || <option selected>Select</option>} */}
                     <option selected>Select</option>
-                    {tempBuilders.length &&
+                    {tempBuilders &&
+                      tempBuilders.length &&
                       tempBuilders.map((obj: any, index: any) => {
                         return (
                           <option key={index} value={JSON.stringify(obj)}>
@@ -514,7 +532,9 @@ const OrganizationNewPage: FC = function () {
                             >
                               {obj.fullName}
                             </th>
-                            <td className="px-6 py-4">{obj.mobile}</td>
+                            <td className="px-6 py-4">
+                              {obj.mobile ? obj.mobile : obj.mobileNumber}
+                            </td>
                             <td className="px-6 py-4">{obj.email}</td>
                           </tr>
                         );

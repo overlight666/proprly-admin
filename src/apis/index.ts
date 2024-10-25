@@ -195,3 +195,14 @@ export const getOneProject = async (id: any) => {
       return error;
     });
 };
+
+export const registerToOrg = async (params: any) => {
+  return api
+    .post(`/admin/signup-leads/organization`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

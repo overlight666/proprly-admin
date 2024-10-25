@@ -7,7 +7,7 @@ import PublicFooter from "../../components/public-footer";
 const ResetPasswordPage: FC = function () {
   return (
     <>
-      <div className="bg-[url('/images/Background.png')]">
+      <div className="bg-[url('/images/Background.png')] bg-cover">
         <PublicNav />
         <div className="flex items-center justify-center pt-32 max-lg:px-10">
           <Card
