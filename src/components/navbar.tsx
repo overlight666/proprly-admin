@@ -30,8 +30,9 @@ import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
 import { AuthContext } from "../hooks/authProvider";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/features/userSlice";
+import type { UserState } from "../types";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -454,6 +455,7 @@ const AppDrawerDropdown: FC = function () {
 
 const UserDropdown: FC = function () {
   const { setUser, setToken, setAuthenticated } = useContext(AuthContext);
+  const { userData }: UserState = useSelector((state: any) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signout = () => {
@@ -482,9 +484,9 @@ const UserDropdown: FC = function () {
       }
     >
       <Dropdown.Header>
-        <span className="block text-sm">Neil Sims</span>
+        <span className="block text-sm">{userData.user?.fullName}</span>
         <span className="block truncate text-sm font-medium">
-          neil.sims@flowbite.com
+          {userData.user?.email}
         </span>
       </Dropdown.Header>
       <Dropdown.Item>Dashboard</Dropdown.Item>

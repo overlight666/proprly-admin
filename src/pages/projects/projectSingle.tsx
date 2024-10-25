@@ -31,6 +31,7 @@ import { clearTrigger } from "../../store/features/projectSlice";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
 import ConfigureAccordion from "./configure";
+import ConfigureAccordionUser from "./userItems/configure";
 
 type towerType = {
   levels?: string;
@@ -293,7 +294,7 @@ const ProjectSingle: FC = function () {
                   <path d="M9.8 10.8424C10.1866 10.8424 10.5 10.5149 10.5 10.1109C10.5 9.70691 10.1866 9.3794 9.8 9.3794C9.4134 9.3794 9.1 9.70691 9.1 10.1109C9.1 10.5149 9.4134 10.8424 9.8 10.8424Z" />
                   <path d="M5.124 7.12414C5.19608 6.78616 5.35876 6.47661 5.593 6.23169L6.09 5.71451C6.25217 5.54418 6.44505 5.40916 6.65748 5.31724C6.86991 5.22533 7.09768 5.17836 7.3276 5.17904C7.3675 5.17904 7.4067 5.18636 7.4459 5.18855C7.73398 4.50446 7.79434 3.7392 7.61732 3.01505C7.4403 2.2909 7.03612 1.64965 6.46937 1.19376C5.90262 0.737867 5.206 0.493649 4.49082 0.500126C3.77564 0.506602 3.08317 0.763398 2.52406 1.22948C1.96496 1.69557 1.57147 2.34404 1.40649 3.07129C1.24151 3.79854 1.31454 4.56259 1.61392 5.24136C1.91331 5.92014 2.42176 6.47446 3.05805 6.81576C3.69433 7.15705 4.42172 7.26563 5.124 7.12414Z" />
                 </svg>
-                Attach User
+                User
               </a>
             </li>
           </ul>
@@ -397,8 +398,12 @@ const ProjectSingle: FC = function () {
               </div>
             </div>
           </div>
-        ) : (
+        ) : projectTab === 3 ? (
           <ConfigureAccordion />
+        ) : projectTab === 4 ? (
+          <ConfigureAccordionUser />
+        ) : (
+          <></>
         )}
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
