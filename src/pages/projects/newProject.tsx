@@ -23,7 +23,7 @@ import type {
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { updateProjectTab } from "../../store/features/appSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
@@ -89,6 +89,7 @@ const ProjectNewPage: FC = function () {
   const [line3, setLine3] = useState<any>("");
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   //   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
   const [formData, setFormData] = useState<projectType>({
@@ -166,6 +167,7 @@ const ProjectNewPage: FC = function () {
       if (projectResponse && projectResponse.id) {
         dispatch(updateProjectTab(2));
         dispatch(clearTrigger());
+        navigate(`/organization/${id}/project/${projectResponse.id}`);
       }
     }
   }, [projectTrigger]);

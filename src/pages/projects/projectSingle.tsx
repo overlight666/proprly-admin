@@ -138,7 +138,7 @@ const ProjectSingle: FC = function () {
     }
     const newTowerData = {
       ...towerFormData,
-      projectId: projectResponse && projectResponse.id,
+      projectId: project_id,
     };
     if (valid) {
       dispatch(postTower(newTowerData));
