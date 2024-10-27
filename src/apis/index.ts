@@ -112,7 +112,7 @@ export const newTower = async (params: Project) => {
 
 export const getTowers = async (id: any) => {
   return api
-    .get(`/projects/${id}`)
+    .get(`/project_towers/${id}`)
     .then((response) => {
       return response;
     })

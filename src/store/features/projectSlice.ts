@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
@@ -9,7 +10,7 @@ import {
   postTower,
   registerProject,
 } from "./reducers";
-import type { ProjectState } from "../../types";
+import type { ProjectState, TowerData } from "../../types";
 
 // Define the initial state using that type
 const initialValue = {
@@ -28,10 +29,12 @@ const initialState: ProjectState = {
   towerResponse: {},
   towerData: [],
   projectList: [],
+  projectTowers: [],
   projectTrigger: false,
   loadedProject: false,
   selectedProject: undefined,
   hasProjectSelected: false,
+  gettingTowers: false,
 };
 
 export const projectSlice = createSlice({
@@ -50,6 +53,9 @@ export const projectSlice = createSlice({
     },
     clearTrigger: (state) => {
       state.projectTrigger = false;
+    },
+    updateTowers: (state, action: PayloadAction<TowerData[]>) => {
+      state.projectTowers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -103,19 +109,22 @@ export const projectSlice = createSlice({
     });
     //get one project
     builder.addCase(getSingleProject.pending, (state) => {
+      state.gettingTowers = true;
       state.hasProjectSelected = false;
     });
     builder.addCase(getSingleProject.fulfilled, (state, action) => {
       state.selectedProject = action.payload;
       state.hasProjectSelected = true;
+      state.gettingTowers = false;
     });
     builder.addCase(getSingleProject.rejected, (state) => {
       state.hasProjectSelected = false;
+      state.gettingTowers = false;
     });
   },
 });
 
-export const { clearProject, clearTrigger, clearProjectList } =
+export const { clearProject, clearTrigger, clearProjectList, updateTowers } =
   projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

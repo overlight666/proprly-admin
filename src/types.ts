@@ -89,11 +89,13 @@ export interface ProjectState {
   projectResponse: Project | undefined;
   towerResponse: TowerResponseState;
   towerData: TowerData[];
+  projectTowers: TowerData[];
   projectList: ProjectListType[];
   projectTrigger: boolean;
   loadedProject: boolean;
   selectedProject: Project | undefined;
   hasProjectSelected: boolean;
+  gettingTowers: boolean;
 }
 
 export interface ImageType {

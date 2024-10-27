@@ -10,12 +10,12 @@ import type { ProjectState } from "../types";
 import { DataTable } from "simple-datatables";
 import { useEffect } from "react";
 const ProjectTable = function () {
-  const { towerData }: ProjectState = useSelector(
+  const { projectTowers, gettingTowers }: ProjectState = useSelector(
     (state: any) => state.project
   );
 
   useEffect(() => {
-    if (document.getElementById("tower-table") && towerData) {
+    if (document.getElementById("tower-table") && projectTowers) {
       try {
         const datatable = new DataTable("#tower-table", {
           searchable: false,
@@ -46,7 +46,7 @@ const ProjectTable = function () {
         console.log(error);
       }
     }
-  }, [towerData]);
+  }, [projectTowers]);
 
   return (
     <>
@@ -67,9 +67,10 @@ const ProjectTable = function () {
           </tr>
         </thead>
         <tbody>
-          {towerData &&
-            towerData.length &&
-            towerData.map((t, index) => {
+          {(projectTowers &&
+            projectTowers.length &&
+            !gettingTowers &&
+            projectTowers.map((t, index) => {
               return (
                 <tr
                   key={index}
@@ -98,7 +99,19 @@ const ProjectTable = function () {
                   </td>
                 </tr>
               );
-            })}
+            })) || (
+            <tr>
+              <th colSpan={3}>
+                <div className="flex w-full items-center justify-center">
+                  <span className="text-center text-gray-200">
+                    {!gettingTowers
+                      ? "No data to display"
+                      : "Fetching new towers"}
+                  </span>
+                </div>
+              </th>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* </div> */}

@@ -7,7 +7,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
+import {
+  Breadcrumb,
+  Button,
+  Label,
+  Modal,
+  Spinner,
+  TextInput,
+} from "flowbite-react";
 import { HiHome, HiPlus } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,11 +30,11 @@ import { useParams } from "react-router";
 import { updateProjectTab } from "../../store/features/appSlice";
 import {
   postTower,
-  getTowersReducer,
+  // getTowersReducer,
   getSingleProject,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
-import { clearTrigger } from "../../store/features/projectSlice";
+import { clearTrigger, updateTowers } from "../../store/features/projectSlice";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
 import ConfigureAccordion from "./configure";
@@ -49,10 +56,13 @@ const ProjectSingle: FC = function () {
     towerResponse,
     projectTrigger,
     selectedProject,
+    gettingTowers,
   }: ProjectState = useSelector((state: any) => state.project);
   const { id, project_id }: any = useParams();
   //   const navigate = useNavigate();
 
+  const [errors, setErrors] = useState<any>([]);
+  const dispatch = useDispatch();
   const { projectTab }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -64,10 +74,14 @@ const ProjectSingle: FC = function () {
   }, [projectResponse]);
 
   useEffect(() => {
-    if (towerResponse && towerResponse.id && towerResponse.id > 0) {
-      dispatch(getTowersReducer(projectResponse && projectResponse.id));
+    if (
+      (towerResponse && towerResponse.id && towerResponse.id > 0) ||
+      project_id
+    ) {
+      // dispatch(getTowersReducer(project_id));
+      dispatch(getSingleProject(project_id));
     }
-  }, [towerResponse]);
+  }, [project_id, towerResponse]);
 
   useEffect(() => {
     if (!selectedOrganization) {
@@ -80,16 +94,20 @@ const ProjectSingle: FC = function () {
     if (!selectedProject) {
       dispatch(getSingleProject(project_id));
     }
-  }, []);
+  }, [selectedProject]);
 
-  const [errors, setErrors] = useState<any>([]);
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (selectedProject && selectedProject.projectTower) {
+      dispatch(updateTowers(selectedProject.projectTower));
+    }
+  }, [selectedProject]);
+
   //   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
 
   const [towerFormData, setTowerData] = useState<towerType>({
     levels: "0",
-    projectId: projectResponse && projectResponse.id ? projectResponse.id : 0,
+    projectId: project_id || 0,
     name: "",
     numFloors: "0",
   });
@@ -126,7 +144,7 @@ const ProjectSingle: FC = function () {
       toast.error("Tower name is required");
       valid = false;
     }
-    if (!projectResponse) {
+    if (!selectedProject) {
       toast.error(
         "There was an error in adding your tower!, create a project first!"
       );
@@ -146,7 +164,6 @@ const ProjectSingle: FC = function () {
     }
   };
 
-  console.log(selectedProject);
   const [openModal, setOpenModal] = useState(false);
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -343,11 +360,24 @@ const ProjectSingle: FC = function () {
                         setOpenModal(true);
                       }}
                       className="mt-7 w-[200px]"
+                      disabled={gettingTowers}
                     >
-                      <div className="flex items-center gap-x-2 text-xs">
-                        <HiPlus />
-                        Add new tower
-                      </div>
+                      {!gettingTowers ? (
+                        <div className="flex items-center gap-x-2 text-xs">
+                          <HiPlus />
+                          Add new tower
+                        </div>
+                      ) : (
+                        <>
+                          <Spinner
+                            aria-label="Alternate spinner button example"
+                            size="sm"
+                            color="success"
+                            className="mr-2"
+                          />
+                          Add new tower
+                        </>
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -382,7 +412,7 @@ const ProjectSingle: FC = function () {
                       //   }}
                       color="primary"
                     >
-                      Create Project
+                      Update Project
                     </Button>
                     <Button
                       className="mx-1"
