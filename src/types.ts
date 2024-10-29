@@ -96,6 +96,21 @@ export interface ProjectState {
   selectedProject: Project | undefined;
   hasProjectSelected: boolean;
   gettingTowers: boolean;
+  defectCodeList: DefectCode[] | undefined;
+  defectCodeResponse: DefectCode | undefined;
+}
+
+export interface DefectCode {
+  id: number;
+  defectName: string;
+  defectCode: string;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId: string | null;
+  organizationId: string | null;
+  projectId: string | null | number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ImageType {
@@ -111,7 +126,7 @@ export interface ImageType {
 export interface Organization {
   id: number;
   name: string;
-  timezone: string;
+  timezone: Timezone;
   currency: string;
   dateFormat: string;
   imageId: number;
@@ -120,6 +135,16 @@ export interface Organization {
   image: ImageType;
 }
 
+export interface Timezone {
+  abbreviation: string;
+  createdAt: string;
+  description: string;
+  id: number;
+  name: string;
+  offset: string;
+  regionId: number;
+  updatedAt: string;
+}
 export interface ReducerTypes {
   organization: OrgState;
   uploads: ImageState;

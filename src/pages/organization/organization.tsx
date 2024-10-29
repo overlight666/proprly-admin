@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import type { FC } from "react";
+import { type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Button } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
@@ -99,7 +99,9 @@ const OrganizationPage: FC = function () {
                         </div>
                         <div className="flex text-[13px]">
                           <span className="mr-2">Timezone:</span>
-                          <span className="text-gray-600">{org.timezone}</span>
+                          <span className="text-gray-600">
+                            {org.timezone.name}
+                          </span>
                         </div>
                       </div>
                       <div className="mt-2 flex flex-col">

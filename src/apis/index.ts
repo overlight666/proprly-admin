@@ -206,3 +206,26 @@ export const registerToOrg = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const addDefectCode = async (params: any) => {
+  return api
+    .post(`/defect-code`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getAllDefectCode = async () => {
+  return api
+    .get(`/defect-code`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Accordion, Button } from "flowbite-react";
 import DefectCodeManagement from "./configureItems/codeManagement";
 import TradeMapping from "./configureItems/tradeMapping";
 import PropertyChecklist from "./configureItems/propertyChecklist";
 import CommonArea from "./configureItems/commonArea";
 
-export default function ConfigureAccordion() {
+export default function ConfigureAccordion({ project_id }: any) {
   return (
     <div>
       <Accordion>
         <Accordion.Panel>
           <Accordion.Title>Defect Code Management</Accordion.Title>
           <Accordion.Content>
-            <DefectCodeManagement />
+            <DefectCodeManagement project_id={project_id} />
           </Accordion.Content>
         </Accordion.Panel>
         <Accordion.Panel>

@@ -429,7 +429,7 @@ const ProjectSingle: FC = function () {
             </div>
           </div>
         ) : projectTab === 3 ? (
-          <ConfigureAccordion />
+          <ConfigureAccordion project_id={project_id} />
         ) : projectTab === 4 ? (
           <ConfigureAccordionUser />
         ) : (

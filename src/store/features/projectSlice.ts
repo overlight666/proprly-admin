@@ -4,9 +4,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
+  getDefectCodeList,
   getProjects,
   getSingleProject,
   getTowersReducer,
+  postDefectCode,
   postTower,
   registerProject,
 } from "./reducers";
@@ -35,6 +37,8 @@ const initialState: ProjectState = {
   selectedProject: undefined,
   hasProjectSelected: false,
   gettingTowers: false,
+  defectCodeList: [],
+  defectCodeResponse: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -120,6 +124,30 @@ export const projectSlice = createSlice({
     builder.addCase(getSingleProject.rejected, (state) => {
       state.hasProjectSelected = false;
       state.gettingTowers = false;
+    });
+    // add defect
+    builder.addCase(postDefectCode.pending, (state) => {
+      state.defectCodeResponse = undefined;
+      state.defectCodeList = undefined;
+    });
+    builder.addCase(postDefectCode.fulfilled, (state, action) => {
+      state.defectCodeResponse = action.payload;
+    });
+    builder.addCase(postDefectCode.rejected, (state) => {
+      state.defectCodeResponse = undefined;
+    });
+    // get All Defect Code
+    builder.addCase(getDefectCodeList.pending, (state) => {
+      state.defectCodeList = undefined;
+    });
+    builder.addCase(getDefectCodeList.fulfilled, (state, action) => {
+      state.defectCodeList =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getDefectCodeList.rejected, (state) => {
+      state.defectCodeList = undefined;
     });
   },
 });

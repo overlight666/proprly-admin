@@ -3,6 +3,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
+  addDefectCode,
+  getAllDefectCode,
   getAllOrganizations,
   getOneProject,
   getprojects,
@@ -136,6 +138,19 @@ export const postTower: any = createAsyncThunk(
   }
 );
 
+export const postDefectCode: any = createAsyncThunk(
+  "postDefectCode",
+  async (data: any) => {
+    try {
+      const response = await addDefectCode(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const VerifyOtp: any = createAsyncThunk("postOtp", async (data: any) => {
   try {
     const response = await otpVerification(data);
@@ -181,6 +196,19 @@ export const getAllBuilders: any = createAsyncThunk(
   async () => {
     try {
       const response = await listOfBuilders();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getDefectCodeList: any = createAsyncThunk(
+  "getAllDefectCode",
+  async () => {
+    try {
+      const response = await getAllDefectCode();
       // If you want to get something back
       return response;
     } catch (err) {

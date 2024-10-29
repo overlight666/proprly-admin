@@ -1,8 +1,68 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
+import { AddDefectCodeModal } from "../modals/addDefectCodeModal";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { DefectCode, ProjectState } from "../../../types";
+import { getDefectCodeList } from "../../../store/features/reducers";
+import { DataTable } from "simple-datatables";
 
-export default function DefectCodeManagement() {
+export default function DefectCodeManagement({ project_id }: any) {
+  const { defectCodeList }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+  const [isOpen, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  console.log(defectCodeList);
+
+  useEffect(() => {
+    if (defectCodeList === undefined) {
+      dispatch(getDefectCodeList());
+    }
+  }, [defectCodeList, dispatch]);
+
+  useEffect(() => {
+    if (document.getElementById("defect-code-table") && defectCodeList) {
+      try {
+        const datatable = new DataTable("#defect-code-table", {
+          searchable: false,
+          fixedHeight: true,
+          paging: true,
+          perPage: 5,
+          perPageSelect: [5, 10, 15, 20, 25],
+          sortable: false,
+          firstLast: true,
+          nextPrev: true,
+          classes: {
+            selector:
+              "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg",
+            active: "[&>button]:text-white [&>button]:bg-blue-600",
+            paginationListItemLink:
+              "flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
+            pagination: "datatable-pagination-test",
+            paginationList:
+              "inline-flex h-8 -space-x-px text-sm rtl:space-x-reverse",
+            bottom:
+              "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
+            top: "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
+            table: "p-20",
+          },
+        });
+        datatable.update();
+        // OrgTableData(orgList);
+        // console.log(orgList);
+        // dataTable.insert(newData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [defectCodeList]);
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-center justify-between">
@@ -40,7 +100,7 @@ export default function DefectCodeManagement() {
             </div>
           </div>
         </form>
-        <Button className="mx-2 w-[200px]">
+        <Button className="mx-2 w-[200px]" onClick={() => setOpen(true)}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Add New Defect Code
@@ -49,7 +109,7 @@ export default function DefectCodeManagement() {
       </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
         <table
-          id="organization-project-table"
+          id="defect-code-table"
           className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         >
           <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -67,43 +127,48 @@ export default function DefectCodeManagement() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-              <th
-                scope="row"
-                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-              >
-                1
-              </th>
-              <td className="px-6 py-4">Gyprocker</td>
-              <td className="px-6 py-4">G1</td>
-              <td className="px-6 py-4">
-                <Button color="gray" className="w-[50px]">
-                  <div className="flex items-center gap-x-2 text-xs">
-                    <BsThreeDots />
+            {(defectCodeList &&
+              defectCodeList.length > 0 &&
+              defectCodeList.map((obj: DefectCode, index: any) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                    >
+                      {obj.id}
+                    </th>
+                    <td className="px-6 py-4">{obj.defectName}</td>
+                    <td className="px-6 py-4">{obj.defectCode}</td>
+                    <td className="px-6 py-4">
+                      <Button color="gray" className="w-[50px]">
+                        <div className="flex items-center gap-x-2 text-xs">
+                          <BsThreeDots />
+                        </div>
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })) || (
+              <tr>
+                <td colSpan={4}>
+                  <div className="flex w-full items-center justify-center">
+                    <span className="text-gray-300">No data to available</span>
                   </div>
-                </Button>
-              </td>
-            </tr>
-            <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-              <th
-                scope="row"
-                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-              >
-                2
-              </th>
-              <td className="px-6 py-4">Painter</td>
-              <td className="px-6 py-4">PT1</td>
-              <td className="px-6 py-4">
-                <Button color="gray" className="w-[50px]">
-                  <div className="flex items-center gap-x-2 text-xs">
-                    <BsThreeDots />
-                  </div>
-                </Button>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
+      <AddDefectCodeModal
+        setOpen={setOpen}
+        isOpen={isOpen}
+        project_id={project_id}
+      />
     </div>
   );
 }
