@@ -10,6 +10,7 @@ import {
   getprojects,
   getTowers,
   listOfBuilders,
+  listOfLeads,
   newOrganization,
   newProject,
   newTower,
@@ -203,6 +204,16 @@ export const getAllBuilders: any = createAsyncThunk(
     }
   }
 );
+
+export const getAllLeads: any = createAsyncThunk("getAllLeads", async () => {
+  try {
+    const response = await listOfLeads();
+    // If you want to get something back
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 export const getDefectCodeList: any = createAsyncThunk(
   "getAllDefectCode",

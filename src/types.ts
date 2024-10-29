@@ -13,6 +13,21 @@ export interface LeadState {
   isIdle: boolean;
   builderList: any;
   loadingBuilders: boolean;
+  loadingLeads: boolean;
+  leadList: Lead[] | undefined;
+}
+
+export interface Lead {
+  id: number;
+  fullName: string;
+  email: string;
+  mobileNumber: string;
+  organizationName: string;
+  organizationCountryCode: string;
+  isEmailVerified: boolean;
+  isMobileVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserState {

@@ -32,7 +32,7 @@ import isSmallScreen from "../helpers/is-small-screen";
 // import { FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrganizations } from "../store/features/reducers";
-import type { Organization, OrgState, ProjectState } from "../types";
+import type { Organization, OrgState, ProjectState, UserState } from "../types";
 import { matchPath, useLocation, useParams } from "react-router-dom";
 import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
 
@@ -42,7 +42,7 @@ const ExampleSidebar: FC = function () {
   const { projectList, loadedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  const { userData }: UserState = useSelector((state: any) => state.user);
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
     useSidebarContext();
 
@@ -53,7 +53,12 @@ const ExampleSidebar: FC = function () {
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
   const { pathname } = useLocation();
 
-  const currentRoute = ["/organization"].find((pattern) => {
+  const currentRoute = [
+    "/organization",
+    "/organization/new",
+    "/signup-leads",
+    "signup-leads/view",
+  ].find((pattern) => {
     return matchPath(pattern, pathname);
   });
 
@@ -101,21 +106,43 @@ const ExampleSidebar: FC = function () {
             </form>
             <Sidebar.Items>
               <Sidebar.ItemGroup>
-                {currentRoute === "/organization" ? (
-                  <Sidebar.Item
-                    href="/organization"
-                    // icon={HiChartPie}
-                    className={
-                      "/organization" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    <div className="flex w-full items-center justify-between">
-                      Organizations
-                      <HiPlus color="primary" className="text-primary-700" />
-                    </div>
-                  </Sidebar.Item>
+                {currentRoute === "/organization" ||
+                currentRoute === "/organization/new" ||
+                currentRoute === "/signup-leads" ||
+                currentRoute === "signup-leads/view" ? (
+                  <>
+                    <Sidebar.Item
+                      href="/organization"
+                      // icon={HiChartPie}
+                      className={
+                        "/organization" === currentPage
+                          ? "bg-gray-100 dark:bg-gray-700"
+                          : ""
+                      }
+                    >
+                      <div className="flex w-full items-center justify-between">
+                        Organizations
+                        <HiPlus color="primary" className="text-primary-700" />
+                      </div>
+                    </Sidebar.Item>
+                    {userData.user?.permissions?.includes(
+                      "can_access_leads"
+                    ) && (
+                      <Sidebar.Item
+                        href="/signup-leads"
+                        // icon={HiChartPie}
+                        className={
+                          "/signup-leads" === currentPage
+                            ? "bg-gray-100 dark:bg-gray-700"
+                            : ""
+                        }
+                      >
+                        <div className="flex w-full items-center justify-between text-[16px]">
+                          Sign-Up Leads
+                        </div>
+                      </Sidebar.Item>
+                    )}
+                  </>
                 ) : (
                   selectedOrg && (
                     <>

@@ -48,7 +48,11 @@ const SignIn: FC = function () {
         setUser({
           ...userData.user,
           userType: "admin",
-          permissions: ["can_view_organization", "can_add_organization"],
+          permissions: [
+            "can_view_organization",
+            "can_add_organization",
+            "can_access_leads",
+          ],
         });
 
         setToken(userData.token);
@@ -58,7 +62,11 @@ const SignIn: FC = function () {
           updateUserData({
             ...userData.user,
             userType: "admin",
-            permissions: ["can_view_organization", "can_add_organization"],
+            permissions: [
+              "can_view_organization",
+              "can_add_organization",
+              "can_access_leads",
+            ],
           })
         );
         gotoPage("organization");

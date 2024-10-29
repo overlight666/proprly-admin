@@ -34,6 +34,8 @@ import Authorization from "./hooks/Authorization";
 import PERMISSIONS from "./helpers/permission";
 import PublicRoute from "./hooks/publicRoute";
 import ProjectSingle from "./pages/projects/projectSingle";
+import SignupLeads from "./pages/admin/sign-up-leads";
+import ViewSignupLead from "./pages/admin/view-leads";
 
 const App: FC = function () {
   return (
@@ -97,7 +99,28 @@ const App: FC = function () {
               }
             />
           </Route>
-
+          <Route
+            element={
+              <Authorization permissions={[PERMISSIONS.CAN_ACCESS_LEADS]} />
+            }
+          >
+            <Route
+              path="/signup-leads"
+              element={
+                <PrivateRoutes>
+                  <SignupLeads />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/signup-leads/view"
+              element={
+                <PrivateRoutes>
+                  <ViewSignupLead />
+                </PrivateRoutes>
+              }
+            />
+          </Route>
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />

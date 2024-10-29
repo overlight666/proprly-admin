@@ -37,7 +37,7 @@ const OrganizationPage: FC = function () {
           <h1 className="text-lg font-bold text-gray-900 dark:text-white sm:text-2xl">
             Organizations
           </h1>
-          <OrganizationHeader />
+          <OrganizationHeader canAddOrg={true} canTransformTable={true} />
         </div>
 
         {(orgList && orgList.length === 0 && (

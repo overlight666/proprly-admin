@@ -184,6 +184,18 @@ export const listOfBuilders = async () => {
     });
 };
 
+export const listOfLeads = async () => {
+  return api
+    .get(`/admin/signup-leads`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const getOneProject = async (id: any) => {
   return api
     .get(`/projects/${id}`)

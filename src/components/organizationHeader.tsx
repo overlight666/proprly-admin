@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { BsListTask } from "react-icons/bs";
 import { TbFileExport } from "react-icons/tb";
@@ -9,10 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGrid } from "../store/features/appSlice";
 import type { AppState, ReducerTypes } from "../types";
-const OrganizationHeader = function () {
+import { clear } from "../store/features/imageSlice";
+const OrganizationHeader = function (props: any) {
   const { isGrid }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
+
+  const { canAddOrg, canTransformTable } = props;
   // const { userData }: UserState = useSelector(
   //   (state: ReducerTypes) => state.user
   // );
@@ -75,39 +79,52 @@ const OrganizationHeader = function () {
             Export CSV
           </div>
         </Button>
-        <Button
-          onClick={() => {
-            dispatch(updateGrid(!isGrid));
-          }}
-          color="gray"
-          className={`mx-1 w-[50px] ${isGrid && "bg-gray-100 text-blue-600"}`}
-        >
-          <div className="flex items-center gap-x-2 text-xs">
-            <AiOutlineAppstore />
-          </div>
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch(updateGrid(!isGrid));
-          }}
-          className={`mx-1 w-[50px] ${!isGrid && "bg-gray-100 text-blue-600"}`}
-          color="gray"
-        >
-          <div className="flex items-center gap-x-2 text-xs">
-            <MdFormatListNumbered />
-          </div>
-        </Button>
+        {canTransformTable && (
+          <>
+            <Button
+              onClick={() => {
+                dispatch(updateGrid(!isGrid));
+              }}
+              color="gray"
+              className={`mx-1 w-[50px] ${
+                isGrid && "bg-gray-100 text-blue-600"
+              }`}
+            >
+              <div className="flex items-center gap-x-2 text-xs">
+                <AiOutlineAppstore />
+              </div>
+            </Button>
+            <Button
+              onClick={() => {
+                dispatch(updateGrid(!isGrid));
+              }}
+              className={`mx-1 w-[50px] ${
+                !isGrid && "bg-gray-100 text-blue-600"
+              }`}
+              color="gray"
+            >
+              <div className="flex items-center gap-x-2 text-xs">
+                <MdFormatListNumbered />
+              </div>
+            </Button>
+          </>
+        )}
       </div>
-      {/* {userData.user?.permissions?.includes("can_add_organization") && ( */}
-      <Button
-        onClick={() => gotoPage("/organization/new")}
-        className="col-span-2 w-[200px]"
-      >
-        <div className="flex items-center gap-x-2 text-xs">
-          <HiPlus />
-          Add organization
-        </div>
-      </Button>
+      {canAddOrg && (
+        <Button
+          onClick={() => {
+            dispatch(clear());
+            gotoPage("/organization/new");
+          }}
+          className="col-span-2 w-[200px]"
+        >
+          <div className="flex items-center gap-x-2 text-xs">
+            <HiPlus />
+            Add organization
+          </div>
+        </Button>
+      )}
+
       {/* )} */}
     </div>
   );
