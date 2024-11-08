@@ -10,6 +10,7 @@ export type leadRegistration = {
   mobileNumber?: string;
   organizationName?: string;
   organizationCountryCode?: string;
+  organizationTimezone?: string;
   id?: number;
 };
 
@@ -235,6 +236,30 @@ export const getAllDefectCode = async () => {
     .get(`/defect-code`)
     .then((response) => {
       return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getRegions = async () => {
+  return api
+    .get(`/region`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getCountries = async () => {
+  return api
+    .get(`/countries`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
     })
     .catch((error) => {
       // log request error if any

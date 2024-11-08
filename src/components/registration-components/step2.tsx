@@ -1,23 +1,101 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, TextInput } from "flowbite-react";
 import type { UserRegistration } from "./types";
+import Select from "react-select";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppState } from "../../types";
+import { getAllCountries } from "../../store/features/reducers";
 const RegistrationStep2 = function (props: UserRegistration) {
-  const { organization, country, nextStep, handleInputChange, loading } = props;
+  const { countries }: AppState = useSelector(
+    (state: any) => state.application
+  );
+  const { organization, nextStep, handleInputChange, loading, country } = props;
+  const [options, setOptions] = useState<any>([]);
+  const [timezoneOption, setTimezoneOptions] = useState<any>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCountries());
+  }, []);
+
+  useEffect(() => {
+    if (country) {
+      const tz = countries.find(
+        (obj) => obj.countryCode.toLowerCase() === country.toLowerCase()
+      )?.timezone;
+      const ntz =
+        tz &&
+        tz.map((t) => {
+          return {
+            label: t.name,
+            value: t.name,
+            id: t.id,
+          };
+        });
+      setTimezoneOptions(ntz);
+    }
+  }, [country]);
+
+  useEffect(() => {
+    if (countries.length > 0) {
+      const noptions = countries.map((c) => {
+        return {
+          value: c.countryName.toLowerCase(),
+          code: c.countryCode,
+          label: c.countryName,
+          ...c,
+        };
+      });
+      setOptions(noptions);
+    }
+  }, [countries]);
+
   return (
     <>
       <form onSubmit={nextStep}>
         <div className="mb-4 flex flex-col gap-y-3">
           <Label htmlFor="organization">Select Country*</Label>
-          <select
+          <Select
+            // className="basic-single"
+            classNamePrefix="select"
+            options={options}
+            isSearchable={true}
+            defaultValue={options[13]}
+            onChange={(event) =>
+              handleInputChange({
+                target: {
+                  name: "country",
+                  value: event.code,
+                },
+              })
+            }
             id="country"
             name="country"
-            value={country}
-            onChange={handleInputChange}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          >
-            <option selected>Select</option>
-            <option value="AU">Australia</option>
-          </select>
+            // value={country}
+          />
+        </div>
+        <div className="mb-4 flex flex-col gap-y-3">
+          <Label htmlFor="organization">Select Time-Zone*</Label>
+          <Select
+            // className="basic-single"
+            classNamePrefix="select"
+            options={timezoneOption}
+            isSearchable={true}
+            onChange={(event: any) =>
+              handleInputChange({
+                target: {
+                  name: "timezone",
+                  value: event?.value,
+                },
+              })
+            }
+            id="timezone"
+            name="timezone"
+            // value={country}
+          />
         </div>
         <div className="mb-4 flex flex-col gap-y-3">
           <Label htmlFor="organization">Organization name*</Label>

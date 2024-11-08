@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -11,17 +12,17 @@ import type { LeadState, ReducerTypes } from "../../types";
 import { getAllLeads } from "../../store/features/reducers";
 
 const SignupLeads: FC = function () {
-  const { leadList }: LeadState = useSelector(
-    (state: ReducerTypes) => state.lead
-  );
+  // const { leadList }: LeadState = useSelector(
+  //   (state: ReducerTypes) => state.lead
+  // );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (leadList === undefined) {
-      dispatch(getAllLeads());
-    }
-  }, [dispatch, leadList]);
+    // if (leadList === undefined) {
+    dispatch(getAllLeads());
+    // }
+  }, []);
 
   return (
     <NavbarSidebarLayout isFooter={false}>

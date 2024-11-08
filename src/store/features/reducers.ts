@@ -6,8 +6,10 @@ import {
   addDefectCode,
   getAllDefectCode,
   getAllOrganizations,
+  getCountries,
   getOneProject,
   getprojects,
+  getRegions,
   getTowers,
   listOfBuilders,
   listOfLeads,
@@ -215,6 +217,31 @@ export const getAllLeads: any = createAsyncThunk("getAllLeads", async () => {
   }
 });
 
+export const getAllRegions: any = createAsyncThunk(
+  "getAllRegions",
+  async () => {
+    try {
+      const response = await getRegions();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllCountries: any = createAsyncThunk(
+  "getAllCountries",
+  async () => {
+    try {
+      const response = await getCountries();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const getDefectCodeList: any = createAsyncThunk(
   "getAllDefectCode",
   async () => {

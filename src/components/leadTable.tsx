@@ -21,7 +21,6 @@ const LeadTable = function () {
   const { leadList }: LeadState = useSelector(
     (state: ReducerTypes) => state.lead
   );
-  console.log(leadList);
 
   useEffect(() => {
     if (document.getElementById("lead-project-table") && leadList) {
@@ -135,20 +134,33 @@ const LeadTable = function () {
                     >
                       {lead.fullName}
                     </th>
-                    <td className="px-6 py-4">{lead.mobileNumber}</td>
-                    <td className="px-6 py-4">{lead.email}</td>
-                    <td className="px-6 py-4">{lead.organizationName}</td>
-                    <td className="px-6 py-4">
+                    <th className="px-6 py-4">{lead.mobileNumber}</th>
+                    <th className="px-6 py-4">{lead.email}</th>
+                    <th className="px-6 py-4">{lead.organizationName}</th>
+                    <th className="px-6 py-4">
                       {lead.organizationCountryCode}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex w-auto items-center rounded-md border border-transparent bg-yellow-100 px-2.5 py-0.5 text-sm text-yellow-800 shadow-sm transition-all">
-                        Pending
+                    </th>
+                    <th className="px-6 py-4">
+                      <div
+                        className={`flex w-auto items-center rounded-md border border-transparent  px-2.5 py-0.5 text-sm  shadow-sm transition-all ${
+                          lead.status === "pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : lead.status === "rejected"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {lead.status &&
+                          lead.status
+                            .toLowerCase()
+                            .replace(/\b[a-z]/g, function (letter) {
+                              return letter.toUpperCase();
+                            })}
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
+                    </th>
+                    <th className="px-6 py-4">
                       {moment(lead.createdAt).format("DD MMM YYYY")}
-                    </td>
+                    </th>
                     <td className="px-6 py-4">
                       <Dropdown
                         label=""

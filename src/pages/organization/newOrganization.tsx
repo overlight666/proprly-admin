@@ -13,16 +13,24 @@ import {
   Label,
   Modal,
   TextInput,
-  Select,
+  Select as Select2,
 } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
-import type { ImageState, LeadState, OrgState, UserState } from "../../types";
+import type {
+  AppState,
+  ImageState,
+  LeadState,
+  OrgState,
+  Timezone,
+  UserState,
+} from "../../types";
 import {
   getAllBuilders,
+  getAllRegions,
   registerOrg,
   uploadImageFile,
 } from "../../store/features/reducers";
@@ -32,6 +40,7 @@ import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
 import { registerToOrg } from "../../apis";
+import Select from "react-select";
 
 type organization = {
   name: string;
@@ -40,6 +49,8 @@ type organization = {
   dateFormat: string;
   country: string;
   imageId: number;
+  regionId: number;
+  timezoneId: number;
 };
 const OrganizationNewPage: FC = function () {
   const { builderList, loadingBuilders }: LeadState = useSelector(
@@ -56,9 +67,14 @@ const OrganizationNewPage: FC = function () {
   const [selectedBuilder, setSelectedBuilder] = useState("");
   const [tempBuilders, setTempBuilder] = useState<any>();
   const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
+  const [options, setOptions] = useState<any>([]);
+  const [timezoneOption, setTimezoneOptions] = useState<any>([]);
+
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
+
+  const { regions }: AppState = useSelector((state: any) => state.application);
 
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
@@ -72,11 +88,28 @@ const OrganizationNewPage: FC = function () {
     dateFormat: "dd-mm-yyyy",
     country: "",
     imageId: 0,
+    regionId: 0,
+    timezoneId: 0,
   });
 
   useEffect(() => {
     dispatch(getAllBuilders());
+    dispatch(getAllRegions());
   }, []);
+
+  useEffect(() => {
+    if (regions.length > 0) {
+      const noptions = regions.map((c) => {
+        return {
+          value: c.regionName.toLowerCase(),
+          code: c.regionCode,
+          label: c.regionName,
+          ...c,
+        };
+      });
+      setOptions(noptions);
+    }
+  }, [regions]);
 
   useEffect(() => {
     if (!loadingBuilders && builderList) {
@@ -97,7 +130,6 @@ const OrganizationNewPage: FC = function () {
     // if (!isIdle && loading) {
     //   setIsTriggered(true);
     // }
-    console.log(orgData);
     if (orgData && orgData.name === "error") {
       toast.error(
         "We encountered some errors during the process, please contact admin"
@@ -137,12 +169,27 @@ const OrganizationNewPage: FC = function () {
 
   const handleInputChange = (event: any) => {
     try {
-      const { name, value } = event.target;
+      const { name, value, currency, id, timezone } = event.target;
       if (name === "country") {
-        setFormData((prevFormData) => ({
+        setFormData((prevFormData): any => ({
           ...prevFormData,
           [name]: value,
-          ["currency"]: "AUD",
+          ["currency"]: currency,
+          regionId: id,
+        }));
+        const tz = timezone.map((t: Timezone) => {
+          return {
+            label: t.name,
+            value: t.name,
+            id: t.id,
+          };
+        });
+        setTimezoneOptions(tz);
+      } else if (name === "timezone") {
+        setFormData((prevFormData): any => ({
+          ...prevFormData,
+          [name]: value,
+          timezoneId: id,
         }));
       } else {
         setFormData((prevFormData) => ({
@@ -292,7 +339,25 @@ const OrganizationNewPage: FC = function () {
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="organization">Select Country</Label>
-                    <select
+                    <Select
+                      // className="basic-single"
+                      classNamePrefix="select"
+                      options={options}
+                      isSearchable={true}
+                      defaultValue={options[13]}
+                      onChange={(event) =>
+                        handleInputChange({
+                          target: {
+                            name: "country",
+                            ...event,
+                          },
+                        })
+                      }
+                      id="country"
+                      name="country"
+                      // value={country}
+                    />
+                    {/* <select
                       id="country"
                       name="country"
                       value={formData.country}
@@ -301,7 +366,7 @@ const OrganizationNewPage: FC = function () {
                     >
                       <option selected>Select</option>
                       <option value="AU">Australia</option>
-                    </select>
+                    </select> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="currency">Currency</Label>
@@ -317,7 +382,24 @@ const OrganizationNewPage: FC = function () {
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Select Timezone</Label>
-                    <select
+                    <Select
+                      // className="basic-single"
+                      classNamePrefix="select"
+                      options={timezoneOption}
+                      isSearchable={true}
+                      onChange={(event: any) =>
+                        handleInputChange({
+                          target: {
+                            name: "timezone",
+                            ...event,
+                          },
+                        })
+                      }
+                      id="timezone"
+                      name="timezone"
+                      // value={country}
+                    />
+                    {/* <select
                       id="timezone"
                       name="timezone"
                       value={formData.timezone}
@@ -326,7 +408,7 @@ const OrganizationNewPage: FC = function () {
                     >
                       <option selected>Select</option>
                       <option value="Australia/Sydney">Australia/Sydney</option>
-                    </select>
+                    </select> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Upload Image</Label>
@@ -440,7 +522,7 @@ const OrganizationNewPage: FC = function () {
               <div className="grid w-full grid-cols-2  max-md:grid-cols-1">
                 <div className="grid grid-cols-1 gap-y-2 pt-8">
                   <Label htmlFor="builder">Builder list</Label>
-                  <Select
+                  <Select2
                     id="builder"
                     name="builder"
                     // value={country}
@@ -467,7 +549,7 @@ const OrganizationNewPage: FC = function () {
                           </option>
                         );
                       })}
-                  </Select>
+                  </Select2>
                 </div>
                 <div className="ml-3 mt-14 flex items-center">
                   <Button color="primary" onClick={() => addSelectedBuilder()}>

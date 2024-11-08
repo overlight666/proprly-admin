@@ -26,6 +26,7 @@ export interface Lead {
   organizationCountryCode: string;
   isEmailVerified: boolean;
   isMobileVerified: boolean;
+  status?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -45,6 +46,26 @@ export interface AppState {
   isGrid: boolean;
   projectTab: number;
   orgTab: number;
+  regions: Regions[];
+  countries: Country[];
+}
+
+export interface Country {
+  id: number;
+  countryName: string;
+  countryCode: string;
+  timezone: Timezone[];
+}
+
+export interface Regions {
+  id: number;
+  regionName: string;
+  regionCode: string;
+  currency: string;
+  dateFormat: string;
+  createdAt: string;
+  updatedAt: string;
+  timezone: Timezone[];
 }
 
 export interface OrgState {
@@ -160,6 +181,7 @@ export interface Timezone {
   regionId: number;
   updatedAt: string;
 }
+
 export interface ReducerTypes {
   organization: OrgState;
   uploads: ImageState;

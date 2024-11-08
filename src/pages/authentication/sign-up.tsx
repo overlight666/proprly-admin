@@ -68,6 +68,7 @@ const SignUpPage: FC = function () {
     step: 1,
     organization: "",
     country: "",
+    timezone: "",
   });
 
   const [errors, setErrors] = useState<any>([]);
@@ -242,6 +243,7 @@ const SignUpPage: FC = function () {
           password: formData.password,
           organizationCountryCode: formData.country,
           organizationName: formData.organization,
+          organizationTimezone: formData.timezone,
         };
         dispatch(registerLead(params));
       }
