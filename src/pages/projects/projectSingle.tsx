@@ -26,7 +26,7 @@ import type {
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { updateProjectTab } from "../../store/features/appSlice";
 import {
   postTower,
@@ -59,7 +59,7 @@ const ProjectSingle: FC = function () {
     gettingTowers,
   }: ProjectState = useSelector((state: any) => state.project);
   const { id, project_id }: any = useParams();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
@@ -407,18 +407,18 @@ const ProjectSingle: FC = function () {
                   <div className="flex">
                     <Button
                       className="mx-1"
-                      //   onClick={() => {
-                      //     dispatch(updateProjectTab(2));
-                      //   }}
+                      onClick={() => {
+                        dispatch(updateProjectTab(3));
+                      }}
                       color="primary"
                     >
                       Update Project
                     </Button>
                     <Button
                       className="mx-1"
-                      //   onClick={() => {
-                      //     dispatch(updateProjectTab(2));
-                      //   }}
+                      onClick={() => {
+                        navigate(`/organization/${selectedOrganization?.id}`);
+                      }}
                       color="gray"
                     >
                       Cancel

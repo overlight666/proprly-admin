@@ -343,18 +343,18 @@ const ProjectNewPage: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(3))}
+                // onClick={() => dispatch(updateProjectTab(3))}
                 className={
                   projectTab === 3
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 text-gray-300 hover:border-gray-300 dark:hover:text-gray-300`
                 }
               >
                 <svg
                   className={
                     projectTab === 3
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
-                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
+                      : `me-2 h-4 w-4 text-gray-400 dark:text-gray-500 dark:group-hover:text-gray-300 text-gray-300`
                   }
                   width="14"
                   height="15"
@@ -372,18 +372,18 @@ const ProjectNewPage: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(4))}
+                // onClick={() => dispatch(updateProjectTab(4))}
                 className={
                   projectTab === 4
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 dark:hover:text-gray-300 text-gray-300`
                 }
               >
                 <svg
                   className={
                     projectTab === 4
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
-                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
+                      : `me-2 h-4 w-4 text-gray-400 dark:text-gray-500 dark:group-hover:text-gray-300 text-gray-300`
                   }
                   width="14"
                   height="15"
