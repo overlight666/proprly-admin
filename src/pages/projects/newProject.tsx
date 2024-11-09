@@ -625,9 +625,9 @@ const ProjectNewPage: FC = function () {
                     </Button>
                     <Button
                       className="mx-1"
-                      //   onClick={() => {
-                      //     dispatch(updateProjectTab(2));
-                      //   }}
+                      onClick={() => {
+                        navigate(`/organization/${selectedOrg?.id}`);
+                      }}
                       color="gray"
                     >
                       Cancel
@@ -685,18 +685,18 @@ const ProjectNewPage: FC = function () {
                   <div className="flex">
                     <Button
                       className="mx-1"
-                      //   onClick={() => {
-                      //     dispatch(updateProjectTab(2));
-                      //   }}
+                      onClick={() => {
+                        dispatch(updateProjectTab(3));
+                      }}
                       color="primary"
                     >
                       Create Project
                     </Button>
                     <Button
                       className="mx-1"
-                      //   onClick={() => {
-                      //     dispatch(updateProjectTab(2));
-                      //   }}
+                      onClick={() => {
+                        navigate(`/organization/${selectedOrg?.id}`);
+                      }}
                       color="gray"
                     >
                       Cancel

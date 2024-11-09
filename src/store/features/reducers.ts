@@ -4,7 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
   addDefectCode,
-  getAllDefectCode,
+  getAllDefectCodebyProject,
   getAllOrganizations,
   getCountries,
   getOneProject,
@@ -242,11 +242,11 @@ export const getAllCountries: any = createAsyncThunk(
     }
   }
 );
-export const getDefectCodeList: any = createAsyncThunk(
-  "getAllDefectCode",
-  async () => {
+export const getDefectCodeListByProject: any = createAsyncThunk(
+  "getAllDefectCodeByProjectId",
+  async (id) => {
     try {
-      const response = await getAllDefectCode();
+      const response = await getAllDefectCodebyProject(id);
       // If you want to get something back
       return response;
     } catch (err) {

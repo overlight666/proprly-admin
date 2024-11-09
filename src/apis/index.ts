@@ -231,9 +231,9 @@ export const addDefectCode = async (params: any) => {
     });
 };
 
-export const getAllDefectCode = async () => {
+export const getAllDefectCodebyProject = async (id: any) => {
   return api
-    .get(`/defect-code`)
+    .get(`/defect-code?projectId=${id}`)
     .then((response) => {
       return response.data;
     })

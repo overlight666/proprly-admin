@@ -8,7 +8,7 @@ import { AddDefectCodeModal } from "../modals/addDefectCodeModal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { DefectCode, ProjectState } from "../../../types";
-import { getDefectCodeList } from "../../../store/features/reducers";
+import { getDefectCodeListByProject } from "../../../store/features/reducers";
 import { DataTable } from "simple-datatables";
 
 export default function DefectCodeManagement({ project_id }: any) {
@@ -18,16 +18,18 @@ export default function DefectCodeManagement({ project_id }: any) {
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(defectCodeList);
+  useEffect(() => {
+    // if (defectCodeList === undefined) {
+    dispatch(getDefectCodeListByProject(project_id));
+    // }
+  }, []);
 
   useEffect(() => {
-    if (defectCodeList === undefined) {
-      dispatch(getDefectCodeList());
-    }
-  }, [defectCodeList, dispatch]);
-
-  useEffect(() => {
-    if (document.getElementById("defect-code-table") && defectCodeList) {
+    if (
+      document.getElementById("defect-code-table") &&
+      defectCodeList &&
+      defectCodeList?.length > 0
+    ) {
       try {
         const datatable = new DataTable("#defect-code-table", {
           searchable: false,
