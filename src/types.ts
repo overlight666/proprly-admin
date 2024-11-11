@@ -46,6 +46,7 @@ export interface AppState {
   isGrid: boolean;
   projectTab: number;
   orgTab: number;
+  propertyTab: number;
   regions: Regions[];
   countries: Country[];
 }
@@ -133,7 +134,11 @@ export interface ProjectState {
   hasProjectSelected: boolean;
   gettingTowers: boolean;
   defectCodeList: DefectCode[] | undefined;
+  tradeCodeList: TradeCode[] | undefined;
   defectCodeResponse: DefectCode | undefined;
+  tradeCodeResponse: TradeCode | undefined;
+  isTradeFired?: boolean;
+  isCodeFired?: boolean;
 }
 
 export interface DefectCode {
@@ -147,6 +152,20 @@ export interface DefectCode {
   projectId: string | null | number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface TradeCode {
+  id: number;
+  tradeName: string;
+  tradeCode: string;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId?: string | null;
+  organizationId: string | null;
+  projectId: string | null | number;
+  createdAt: string;
+  updatedAt: string;
+  defectcode: DefectCode[];
 }
 
 export interface ImageType {

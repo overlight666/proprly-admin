@@ -36,6 +36,7 @@ import PublicRoute from "./hooks/publicRoute";
 import ProjectSingle from "./pages/projects/projectSingle";
 import SignupLeads from "./pages/admin/sign-up-leads";
 import ViewSignupLead from "./pages/admin/view-leads";
+import Properties from "./pages/properties/properties";
 
 const App: FC = function () {
   return (
@@ -95,6 +96,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ProjectSingle />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/properties"
+              element={
+                <PrivateRoutes>
+                  <Properties />
                 </PrivateRoutes>
               }
             />

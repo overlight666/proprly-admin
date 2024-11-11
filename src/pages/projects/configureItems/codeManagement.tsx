@@ -5,65 +5,58 @@ import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { AddDefectCodeModal } from "../modals/addDefectCodeModal";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import type { DefectCode, ProjectState } from "../../../types";
-import { getDefectCodeListByProject } from "../../../store/features/reducers";
 import { DataTable } from "simple-datatables";
 
 export default function DefectCodeManagement({ project_id }: any) {
   const { defectCodeList }: ProjectState = useSelector(
     (state: any) => state.project
   );
+  const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (defectCodeList === undefined) {
-    dispatch(getDefectCodeListByProject(project_id));
-    // }
-  }, []);
-
-  useEffect(() => {
-    if (
-      document.getElementById("defect-code-table") &&
-      defectCodeList &&
-      defectCodeList?.length > 0
-    ) {
-      try {
-        const datatable = new DataTable("#defect-code-table", {
-          searchable: false,
-          fixedHeight: true,
-          paging: true,
-          perPage: 5,
-          perPageSelect: [5, 10, 15, 20, 25],
-          sortable: false,
-          firstLast: true,
-          nextPrev: true,
-          classes: {
-            selector:
-              "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg",
-            active: "[&>button]:text-white [&>button]:bg-blue-600",
-            paginationListItemLink:
-              "flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
-            pagination: "datatable-pagination-test",
-            paginationList:
-              "inline-flex h-8 -space-x-px text-sm rtl:space-x-reverse",
-            bottom:
-              "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            top: "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            table: "p-20",
-          },
-        });
-        datatable.update();
-        // OrgTableData(orgList);
-        // console.log(orgList);
-        // dataTable.insert(newData);
-      } catch (error) {
-        console.log(error);
+    if (defectCodeList && defectCodeList.length > 0 && ref.current !== null) {
+      if (
+        document.getElementById("defect-code-table") &&
+        ref.current !== null
+      ) {
+        try {
+          setTimeout(() => {
+            const datatable = new DataTable("#defect-code-table", {
+              searchable: false,
+              fixedHeight: false,
+              paging: true,
+              perPage: 5,
+              perPageSelect: [5, 10, 15, 20, 25],
+              sortable: false,
+              firstLast: true,
+              nextPrev: true,
+              classes: {
+                selector:
+                  "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg",
+                active: "[&>button]:text-white [&>button]:bg-blue-600",
+                paginationListItemLink:
+                  "flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
+                pagination: "datatable-pagination-test",
+                paginationList:
+                  "inline-flex h-8 -space-x-px text-sm rtl:space-x-reverse",
+                bottom:
+                  "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
+                top: "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
+                table: "p-20",
+              },
+            });
+            datatable.update();
+          }, 1000);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
-  }, [defectCodeList]);
+  });
 
   return (
     <div className="flex w-full flex-col">
@@ -111,6 +104,7 @@ export default function DefectCodeManagement({ project_id }: any) {
       </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
         <table
+          ref={ref}
           id="defect-code-table"
           className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         >

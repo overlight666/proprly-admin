@@ -4,8 +4,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
   addDefectCode,
+  addTradeCode,
   getAllDefectCodebyProject,
   getAllOrganizations,
+  getAllTradeCodebyProject,
   getCountries,
   getOneProject,
   getprojects,
@@ -247,6 +249,31 @@ export const getDefectCodeListByProject: any = createAsyncThunk(
   async (id) => {
     try {
       const response = await getAllDefectCodebyProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getTradeCodeListByProject: any = createAsyncThunk(
+  "getAllTradeCodebyProjectId",
+  async (id) => {
+    try {
+      const response = await getAllTradeCodebyProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+export const postTradeCode: any = createAsyncThunk(
+  "postTradeCode",
+  async (data: any) => {
+    try {
+      const response = await addTradeCode(data);
       // If you want to get something back
       return response;
     } catch (err) {

@@ -8,8 +8,10 @@ import {
   getProjects,
   getSingleProject,
   getTowersReducer,
+  getTradeCodeListByProject,
   postDefectCode,
   postTower,
+  postTradeCode,
   registerProject,
 } from "./reducers";
 import type { ProjectState, TowerData } from "../../types";
@@ -39,6 +41,10 @@ const initialState: ProjectState = {
   gettingTowers: false,
   defectCodeList: [],
   defectCodeResponse: undefined,
+  tradeCodeResponse: undefined,
+  tradeCodeList: [],
+  isTradeFired: false,
+  isCodeFired: false,
 };
 
 export const projectSlice = createSlice({
@@ -46,6 +52,12 @@ export const projectSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    fireTrade: (state) => {
+      state.isTradeFired = false;
+    },
+    fireCode: (state) => {
+      state.isCodeFired = false;
+    },
     clearProject: (state) => {
       state.projectResponse = undefined;
       state.towerResponse = {};
@@ -128,6 +140,7 @@ export const projectSlice = createSlice({
     // add defect
     builder.addCase(postDefectCode.pending, (state) => {
       state.defectCodeResponse = undefined;
+      state.isCodeFired = true;
       // state.defectCodeList = undefined;
     });
     builder.addCase(postDefectCode.fulfilled, (state, action) => {
@@ -135,6 +148,20 @@ export const projectSlice = createSlice({
     });
     builder.addCase(postDefectCode.rejected, (state) => {
       state.defectCodeResponse = undefined;
+    });
+    //add trade
+
+    // add defect
+    builder.addCase(postTradeCode.pending, (state) => {
+      state.tradeCodeResponse = undefined;
+      state.isTradeFired = true;
+      // state.defectCodeList = undefined;
+    });
+    builder.addCase(postTradeCode.fulfilled, (state, action) => {
+      state.tradeCodeResponse = action.payload;
+    });
+    builder.addCase(postTradeCode.rejected, (state) => {
+      state.tradeCodeResponse = undefined;
     });
     // get All Defect Code
     builder.addCase(getDefectCodeListByProject.pending, (state) => {
@@ -149,11 +176,30 @@ export const projectSlice = createSlice({
     builder.addCase(getDefectCodeListByProject.rejected, (state) => {
       state.defectCodeList = undefined;
     });
+    // get All Trade Code
+    builder.addCase(getTradeCodeListByProject.pending, (state) => {
+      state.tradeCodeList = undefined;
+    });
+    builder.addCase(getTradeCodeListByProject.fulfilled, (state, action) => {
+      state.tradeCodeList =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getTradeCodeListByProject.rejected, (state) => {
+      state.tradeCodeList = undefined;
+    });
   },
 });
 
-export const { clearProject, clearTrigger, clearProjectList, updateTowers } =
-  projectSlice.actions;
+export const {
+  clearProject,
+  clearTrigger,
+  clearProjectList,
+  updateTowers,
+  fireTrade,
+  fireCode,
+} = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;

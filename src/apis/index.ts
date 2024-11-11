@@ -231,6 +231,17 @@ export const addDefectCode = async (params: any) => {
     });
 };
 
+export const addTradeCode = async (params: any) => {
+  return api
+    .post(`/trade-code`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
 export const getAllDefectCodebyProject = async (id: any) => {
   return api
     .get(`/defect-code?projectId=${id}`)
@@ -243,6 +254,17 @@ export const getAllDefectCodebyProject = async (id: any) => {
     });
 };
 
+export const getAllTradeCodebyProject = async (id: any) => {
+  return api
+    .get(`/trade-code?projectId=${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
 export const getRegions = async () => {
   return api
     .get(`/region`)

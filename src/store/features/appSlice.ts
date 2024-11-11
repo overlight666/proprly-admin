@@ -9,6 +9,7 @@ import { getAllCountries, getAllRegions } from "./reducers";
 const initialState: AppState = {
   isGrid: true,
   projectTab: 1,
+  propertyTab: 1,
   orgTab: 1,
   regions: [],
   countries: [],
@@ -27,6 +28,9 @@ export const appSlice = createSlice({
     },
     updateOrgTab: (state, action) => {
       state.orgTab = action.payload;
+    },
+    updatePropertyTab: (state, action) => {
+      state.propertyTab = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,7 +61,8 @@ export const appSlice = createSlice({
   },
 });
 
-export const { updateGrid, updateProjectTab, updateOrgTab } = appSlice.actions;
+export const { updateGrid, updateProjectTab, updateOrgTab, updatePropertyTab } =
+  appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

@@ -4,8 +4,19 @@ import DefectCodeManagement from "./configureItems/codeManagement";
 import TradeMapping from "./configureItems/tradeMapping";
 import PropertyChecklist from "./configureItems/propertyChecklist";
 import CommonArea from "./configureItems/commonArea";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getDefectCodeListByProject } from "../../store/features/reducers";
 
 export default function ConfigureAccordion({ project_id }: any) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // if (defectCodeList === undefined) {
+    dispatch(getDefectCodeListByProject(project_id));
+    // }
+  }, []);
+
   return (
     <div>
       <Accordion>
@@ -18,7 +29,7 @@ export default function ConfigureAccordion({ project_id }: any) {
         <Accordion.Panel>
           <Accordion.Title>Trade & Defect Code Mapping</Accordion.Title>
           <Accordion.Content>
-            <TradeMapping />
+            <TradeMapping project_id={project_id} />
           </Accordion.Content>
         </Accordion.Panel>
         <Accordion.Panel>
