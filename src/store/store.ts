@@ -8,6 +8,7 @@ import imageReducer from "./features/imageSlice";
 import appReducer from "./features/appSlice";
 import otpReducer from "./features/otpHandlingSlice";
 import projectReducer from "./features/projectSlice";
+import propertyReducer from "./features/propertySlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   uploads: imageReducer,
   application: appReducer,
   project: projectReducer,
+  property: propertyReducer,
   otpVerifier: otpReducer,
 });
 

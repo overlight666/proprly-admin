@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
-import type { Project } from "../types";
+import type { Project, Property } from "../types";
 import api from "./instance";
 
 export type leadRegistration = {
@@ -90,6 +90,18 @@ export const getAllOrganizations = async () => {
 export const newProject = async (params: Project) => {
   return api
     .post(`/projects`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error.response;
+    });
+};
+
+export const newProperty = async (params: Property) => {
+  return api
+    .post(`/property`, params)
     .then((response) => {
       return response.data;
     })

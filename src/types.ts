@@ -141,6 +141,12 @@ export interface ProjectState {
   isCodeFired?: boolean;
 }
 
+export interface PropertyState {
+  propertyData: Property | undefined;
+  isIdle: boolean;
+  propertyResponse: Project | undefined;
+}
+
 export interface DefectCode {
   id: number;
   defectName: string;
@@ -152,6 +158,25 @@ export interface DefectCode {
   projectId: string | null | number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Property {
+  name: string | undefined;
+  projectId: number | undefined;
+  projectTowerId: number | undefined;
+  lotNo: any;
+  floor: number | undefined;
+  unitNo: any;
+  tower: any;
+  bedroom: any;
+  bathroom: any;
+  ensuite: any;
+  studyRoom: any;
+  storage: any;
+  parkingSpaces: any;
+  internalArea: any;
+  externalArea: any;
+  status: string;
 }
 
 export interface TradeCode {

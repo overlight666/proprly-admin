@@ -37,6 +37,7 @@ import ProjectSingle from "./pages/projects/projectSingle";
 import SignupLeads from "./pages/admin/sign-up-leads";
 import ViewSignupLead from "./pages/admin/view-leads";
 import Properties from "./pages/properties/properties";
+import AddProperty from "./pages/properties/newProperty";
 
 const App: FC = function () {
   return (
@@ -96,6 +97,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ProjectSingle />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/properties/new"
+              element={
+                <PrivateRoutes>
+                  <AddProperty />
                 </PrivateRoutes>
               }
             />

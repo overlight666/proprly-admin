@@ -117,7 +117,9 @@ export const projectSlice = createSlice({
       state.isIdle = false;
     });
     builder.addCase(getTowersReducer.fulfilled, (state, action) => {
-      state.towerData = action.payload.projectTower;
+      state.towerData = action.payload.projectTower
+        ? action.payload.projectTower
+        : action.payload;
       state.isIdle = true;
     });
     builder.addCase(getTowersReducer.rejected, (state) => {

@@ -5,9 +5,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { type FC } from "react";
+import { useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button } from "flowbite-react";
+import { Breadcrumb, Button, Label, Modal } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import type {
@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePropertyTab } from "../../store/features/appSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
+import { useNavigate } from "react-router";
 
 const Properties: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
@@ -31,8 +32,17 @@ const Properties: FC = function () {
   const { selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  const [openModal, setOpenModal] = useState(false);
+  const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const uploadProperty = () => {
+    if (uploadType === "single") {
+      navigate(
+        `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties/new`
+      );
+    }
+  };
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -132,7 +142,7 @@ const Properties: FC = function () {
           <div className="mt-7 flex ">
             <Button
               onClick={() => {
-                dispatch(updatePropertyTab(3));
+                setOpenModal(true);
               }}
               className="mx-1 w-[200px]"
             >
@@ -156,6 +166,32 @@ const Properties: FC = function () {
           </div>
         </div>
       </div>
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Add Property</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-y-2">
+              <Label htmlFor="floors">Select upload type</Label>
+              <select
+                id="uploadType"
+                name="uploadType"
+                value={uploadType}
+                onChange={(e) => setUploadType(e.target.value)}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              >
+                <option value="single">Single Property</option>
+                <option value="bulk">Bulk Upload</option>
+              </select>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => uploadProperty()}>Submit</Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </NavbarSidebarLayout>
   );
 };

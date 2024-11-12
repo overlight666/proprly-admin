@@ -17,6 +17,7 @@ import {
   listOfLeads,
   newOrganization,
   newProject,
+  newProperty,
   newTower,
   otpVerification,
   resendOTP,
@@ -24,7 +25,7 @@ import {
   uploadImage,
   userLogin,
 } from "../../apis";
-import type { Project } from "../../types";
+import type { Project, Property } from "../../types";
 
 export const registerLead: any = createAsyncThunk(
   "postSignup",
@@ -57,6 +58,19 @@ export const registerProject: any = createAsyncThunk(
   async (data: Project) => {
     try {
       const response = await newProject(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const registerProperty: any = createAsyncThunk(
+  "postProperty",
+  async (data: Property) => {
+    try {
+      const response = await newProperty(data);
       // If you want to get something back
       return response.data;
     } catch (err) {
