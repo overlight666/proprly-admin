@@ -27,7 +27,7 @@ const LeadTable = function () {
       try {
         const datatable = new DataTable("#lead-project-table", {
           searchable: false,
-          fixedHeight: true,
+          fixedHeight: false,
           paging: true,
           perPage: 5,
           perPageSelect: [5, 10, 15, 20, 25],

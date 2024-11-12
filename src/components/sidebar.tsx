@@ -59,6 +59,7 @@ const ExampleSidebar: FC = function () {
     "/signup-leads",
     "signup-leads/view",
     "/organization/:id/project/:project_id/properties",
+    "/organization/:id/project/:project_id/properties/new",
   ].find((pattern) => {
     return matchPath(pattern, pathname);
   });
@@ -198,8 +199,10 @@ const ExampleSidebar: FC = function () {
                                       href={`/organization/${selectedOrg.id}/project/${obj.id}/properties`}
                                       className={`ml-2 mt-5 text-[14px] ${
                                         currentRoute ==
-                                          "/organization/:id/project/:project_id/properties" &&
-                                        "text-[blue]"
+                                          "/organization/:id/project/:project_id/properties" ||
+                                        (currentRoute ==
+                                          "/organization/:id/project/:project_id/properties/new" &&
+                                          "text-[blue]")
                                       }`}
                                     >
                                       <div className={`flex items-center `}>
