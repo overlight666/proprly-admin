@@ -30,8 +30,10 @@ import {
   registerProperty,
 } from "../../store/features/reducers";
 import { clearPropertyResponse } from "../../store/features/propertySlice";
+import ErrorHandler from "../../components/error";
 
 const AddProperty: FC = function () {
+  const [errors, setErrors] = useState<any>([]);
   const { projectTowers }: ProjectState = useSelector(
     (state: any) => state.project
   );
@@ -145,6 +147,7 @@ const AddProperty: FC = function () {
   };
 
   const submitProperty = () => {
+    setErrors([]);
     if (formData.name !== "" && formData.name !== undefined) {
       if (formData.lotNo !== "" && formData.lotNo !== undefined) {
         if (formData.unitNo !== "" && formData.unitNo !== undefined) {
@@ -166,34 +169,64 @@ const AddProperty: FC = function () {
                       ) {
                         dispatch(registerProperty(formData));
                       } else {
-                        console.log("error message");
+                        setErrors((oldArray) => [
+                          ...[...new Set(oldArray)],
+                          "Parking spaces is required!",
+                        ]);
                       }
                     } else {
-                      console.log("error message");
+                      setErrors((oldArray) => [
+                        ...[...new Set(oldArray)],
+                        "Internal area is required!",
+                      ]);
                     }
                   } else {
-                    console.log("error message");
+                    setErrors((oldArray) => [
+                      ...[...new Set(oldArray)],
+                      "External area is required!",
+                    ]);
                   }
                 } else {
-                  console.log("error message");
+                  setErrors((oldArray) => [
+                    ...[...new Set(oldArray)],
+                    "Floor is required!",
+                  ]);
                 }
               } else {
-                console.log("error message");
+                setErrors((oldArray) => [
+                  ...[...new Set(oldArray)],
+                  "Ensuite is required!",
+                ]);
               }
             } else {
-              console.log("error message");
+              setErrors((oldArray) => [
+                ...[...new Set(oldArray)],
+                "Bedroom is required!",
+              ]);
             }
           } else {
-            console.log("error message");
+            setErrors((oldArray) => [
+              ...[...new Set(oldArray)],
+              "Bathroom is required!",
+            ]);
           }
         } else {
-          console.log("error message");
+          setErrors((oldArray) => [
+            ...[...new Set(oldArray)],
+            "Unit is required!",
+          ]);
         }
       } else {
-        console.log("error message");
+        setErrors((oldArray) => [
+          ...[...new Set(oldArray)],
+          "Lot no is required!",
+        ]);
       }
     } else {
-      console.log("error message");
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Property name is required!",
+      ]);
     }
   };
   return (
@@ -226,6 +259,7 @@ const AddProperty: FC = function () {
           </h1>
         </div>
         <div className="flex w-full flex-col">
+          <ErrorHandler errors={errors} setErrors={setErrors} />
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard1(!showCard1)}
