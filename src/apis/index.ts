@@ -87,6 +87,18 @@ export const getAllOrganizations = async () => {
     });
 };
 
+export const getAllProperties = async (id: any) => {
+  return api
+    .get(`/project/${id}/properties`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const newProject = async (params: Project) => {
   return api
     .post(`/projects`, params)

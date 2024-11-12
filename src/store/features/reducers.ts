@@ -7,6 +7,7 @@ import {
   addTradeCode,
   getAllDefectCodebyProject,
   getAllOrganizations,
+  getAllProperties,
   getAllTradeCodebyProject,
   getCountries,
   getOneProject,
@@ -71,6 +72,19 @@ export const registerProperty: any = createAsyncThunk(
   async (data: Property) => {
     try {
       const response = await newProperty(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getProperties: any = createAsyncThunk(
+  "getProperties",
+  async (id: any) => {
+    try {
+      const response = await getAllProperties(id);
       // If you want to get something back
       return response.data;
     } catch (err) {

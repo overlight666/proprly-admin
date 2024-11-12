@@ -200,9 +200,10 @@ const ExampleSidebar: FC = function () {
                                       className={`ml-2 mt-5 text-[14px] ${
                                         currentRoute ==
                                           "/organization/:id/project/:project_id/properties" ||
-                                        (currentRoute ==
-                                          "/organization/:id/project/:project_id/properties/new" &&
-                                          "text-[blue]")
+                                        currentRoute ==
+                                          "/organization/:id/project/:project_id/properties/new"
+                                          ? "text-[blue]"
+                                          : ""
                                       }`}
                                     >
                                       <div className={`flex items-center `}>

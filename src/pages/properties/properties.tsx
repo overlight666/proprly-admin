@@ -5,7 +5,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Breadcrumb, Button, Label, Modal } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
@@ -14,6 +14,7 @@ import type {
   AppState,
   OrgState,
   ProjectState,
+  PropertyState,
   ReducerTypes,
 } from "../../types";
 import { ToastContainer } from "react-toastify";
@@ -21,8 +22,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { updatePropertyTab } from "../../store/features/appSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
 import { useNavigate } from "react-router";
+import { getProperties } from "../../store/features/reducers";
+import PropertyTable from "../../components/propertyTable";
+import PropertyHeader from "../../components/propertyHeader";
 
 const Properties: FC = function () {
+  const { propertyData }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
@@ -43,6 +50,10 @@ const Properties: FC = function () {
       );
     }
   };
+  useEffect(() => {
+    dispatch(getProperties(selectedProject?.id));
+  }, []);
+  console.log(propertyData);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -92,7 +103,7 @@ const Properties: FC = function () {
                     fill="#1E429F"
                   />
                 </svg>
-                Properties
+                Manage
               </a>
             </li>
             <li className="me-2">
@@ -118,12 +129,38 @@ const Properties: FC = function () {
                     fill="#1E429F"
                   />
                 </svg>
-                Common Areas
+                Defect Resolution
+              </a>
+            </li>
+            <li className="me-2">
+              <a
+                href="javascript:void(0)"
+                onClick={() => dispatch(updatePropertyTab(2))}
+                className={
+                  propertyTab === 2
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                }
+                aria-current="page"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.16667 17.5C3.70833 17.5 3.31597 17.3368 2.98958 17.0104C2.66319 16.684 2.5 16.2917 2.5 15.8333V4.16667C2.5 3.70833 2.66319 3.31597 2.98958 2.98958C3.31597 2.66319 3.70833 2.5 4.16667 2.5H15.8333C16.2917 2.5 16.684 2.66319 17.0104 2.98958C17.3368 3.31597 17.5 3.70833 17.5 4.16667V15.8333C17.5 16.2917 17.3368 16.684 17.0104 17.0104C16.684 17.3368 16.2917 17.5 15.8333 17.5H4.16667ZM4.16667 15.8333H15.8333V4.16667H4.16667V15.8333Z"
+                    fill="#1E429F"
+                  />
+                </svg>
+                Reports
               </a>
             </li>
           </ul>
         </div>
-        {propertyTab === 1 && (
+        {propertyTab === 1 && !propertyData && (
           <div className="col-span-full p-5">
             <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
               <img
@@ -134,37 +171,44 @@ const Properties: FC = function () {
             </div>
           </div>
         )}
-        <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
-          <span className="text-gray-600">
-            <b>Congratulations</b> on configuring your first project!! You can
-            now add properties and common areas to the project
-          </span>
-          <div className="mt-7 flex ">
-            <Button
-              onClick={() => {
-                setOpenModal(true);
-              }}
-              className="mx-1 w-[200px]"
-            >
-              <div className="flex items-center gap-x-2 text-xs">
-                <BsSliders2Vertical />
-                Add Properties
-              </div>
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch(updatePropertyTab(3));
-              }}
-              className=" mx-1 w-[200px]"
-              color="gray"
-            >
-              <div className="flex items-center gap-x-2 text-xs text-[blue]">
-                <BsSliders2Vertical />
-                Add Common Areas
-              </div>
-            </Button>
+        {!propertyData ? (
+          <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
+            <span className="text-gray-600">
+              <b>Congratulations</b> on configuring your first project!! You can
+              now add properties and common areas to the project
+            </span>
+            <div className="mt-7 flex ">
+              <Button
+                onClick={() => {
+                  setOpenModal(true);
+                }}
+                className="mx-1 w-[200px]"
+              >
+                <div className="flex items-center gap-x-2 text-xs">
+                  <BsSliders2Vertical />
+                  Add Properties
+                </div>
+              </Button>
+              <Button
+                onClick={() => {
+                  dispatch(updatePropertyTab(3));
+                }}
+                className=" mx-1 w-[200px]"
+                color="gray"
+              >
+                <div className="flex items-center gap-x-2 text-xs text-[blue]">
+                  <BsSliders2Vertical />
+                  Add Common Areas
+                </div>
+              </Button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex w-full flex-col  !bg-transparent">
+            <PropertyHeader />
+            <PropertyTable properties={propertyData} />
+          </div>
+        )}
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Add Property</Modal.Header>
