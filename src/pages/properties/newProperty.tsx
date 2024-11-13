@@ -34,6 +34,7 @@ import ErrorHandler from "../../components/error";
 
 const AddProperty: FC = function () {
   const [errors, setErrors] = useState<any>([]);
+  const [numFloors, setNumFloors] = useState<any>(0);
   const { projectTowers }: ProjectState = useSelector(
     (state: any) => state.project
   );
@@ -105,12 +106,6 @@ const AddProperty: FC = function () {
     { value: "under_construction", label: "Under Construction" },
   ];
 
-  const floorOptions: any = [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-  ];
-
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
@@ -121,6 +116,15 @@ const AddProperty: FC = function () {
     try {
       const { name, value } = event.target;
       if (name === "projectTowerId") {
+        const fo: any = [];
+        for (let i = 1; i <= parseInt(value.numFloors); i++) {
+          fo.push({
+            label: i,
+            value: i,
+          });
+        }
+
+        setNumFloors(fo);
         setFormData((prevFormData) => ({
           ...prevFormData,
           [name]: value.id,
@@ -148,86 +152,86 @@ const AddProperty: FC = function () {
 
   const submitProperty = () => {
     setErrors([]);
-    if (formData.name !== "" && formData.name !== undefined) {
-      if (formData.lotNo !== "" && formData.lotNo !== undefined) {
-        if (formData.unitNo !== "" && formData.unitNo !== undefined) {
-          if (formData.bathroom !== "" && formData.bathroom !== undefined) {
-            if (formData.bedroom !== "" && formData.bedroom !== undefined) {
-              if (formData.ensuite !== "" && formData.ensuite !== undefined) {
-                if (formData.floor !== undefined) {
+    // if (formData.name !== "" && formData.name !== undefined) {
+    if (formData.lotNo !== "" && formData.lotNo !== undefined) {
+      if (formData.unitNo !== "" && formData.unitNo !== undefined) {
+        if (formData.bathroom !== "" && formData.bathroom !== undefined) {
+          if (formData.bedroom !== "" && formData.bedroom !== undefined) {
+            if (formData.ensuite !== "" && formData.ensuite !== undefined) {
+              if (formData.floor !== undefined) {
+                if (
+                  formData.externalArea !== "" &&
+                  formData.externalArea !== undefined
+                ) {
                   if (
-                    formData.externalArea !== "" &&
-                    formData.externalArea !== undefined
+                    formData.internalArea !== "" &&
+                    formData.internalArea !== undefined
                   ) {
                     if (
-                      formData.internalArea !== "" &&
-                      formData.internalArea !== undefined
+                      formData.parkingSpaces !== "" &&
+                      formData.parkingSpaces !== undefined
                     ) {
-                      if (
-                        formData.parkingSpaces !== "" &&
-                        formData.parkingSpaces !== undefined
-                      ) {
-                        dispatch(registerProperty(formData));
-                      } else {
-                        setErrors((oldArray) => [
-                          ...[...new Set(oldArray)],
-                          "Parking spaces is required!",
-                        ]);
-                      }
+                      dispatch(registerProperty(formData));
                     } else {
                       setErrors((oldArray) => [
                         ...[...new Set(oldArray)],
-                        "Internal area is required!",
+                        "Parking spaces is required!",
                       ]);
                     }
                   } else {
                     setErrors((oldArray) => [
                       ...[...new Set(oldArray)],
-                      "External area is required!",
+                      "Internal area is required!",
                     ]);
                   }
                 } else {
                   setErrors((oldArray) => [
                     ...[...new Set(oldArray)],
-                    "Floor is required!",
+                    "External area is required!",
                   ]);
                 }
               } else {
                 setErrors((oldArray) => [
                   ...[...new Set(oldArray)],
-                  "Ensuite is required!",
+                  "Floor is required!",
                 ]);
               }
             } else {
               setErrors((oldArray) => [
                 ...[...new Set(oldArray)],
-                "Bedroom is required!",
+                "Ensuite is required!",
               ]);
             }
           } else {
             setErrors((oldArray) => [
               ...[...new Set(oldArray)],
-              "Bathroom is required!",
+              "Bedroom is required!",
             ]);
           }
         } else {
           setErrors((oldArray) => [
             ...[...new Set(oldArray)],
-            "Unit is required!",
+            "Bathroom is required!",
           ]);
         }
       } else {
         setErrors((oldArray) => [
           ...[...new Set(oldArray)],
-          "Lot no is required!",
+          "Unit is required!",
         ]);
       }
     } else {
       setErrors((oldArray) => [
         ...[...new Set(oldArray)],
-        "Property name is required!",
+        "Lot no is required!",
       ]);
     }
+    // } else {
+    //   setErrors((oldArray) => [
+    //     ...[...new Set(oldArray)],
+    //     "Property name is required!",
+    //   ]);
+    // }
   };
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -273,7 +277,7 @@ const AddProperty: FC = function () {
           </div>
           {showCard1 && (
             <>
-              <div className="grid w-[50%] grid-cols-1 gap-5">
+              {/* <div className="grid w-[50%] grid-cols-1 gap-5">
                 <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                   <Label htmlFor="name">
                     Property Name <span className="text-[red]">*</span>
@@ -287,7 +291,7 @@ const AddProperty: FC = function () {
                     required
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="grid w-[50%] grid-cols-2 gap-5">
                 <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                   <Label htmlFor="name">
@@ -360,7 +364,7 @@ const AddProperty: FC = function () {
                     // className="basic-single"
                     menuPosition="fixed"
                     classNamePrefix="select"
-                    options={floorOptions}
+                    options={numFloors}
                     isSearchable={true}
                     defaultValue={formData.floor}
                     onChange={(event) =>
@@ -493,9 +497,10 @@ const AddProperty: FC = function () {
                 <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                   <Label htmlFor="name">Split Level Property</Label>
                   <Select
+                    isDisabled={true}
                     menuPosition="fixed"
                     classNamePrefix="select"
-                    options={floorOptions}
+                    options={[]}
                     isSearchable={false}
                     id="split"
                     name="split"
