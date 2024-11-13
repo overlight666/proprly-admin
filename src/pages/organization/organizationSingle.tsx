@@ -158,7 +158,7 @@ const OrganizationSingle: FC = function () {
 
         {loadedProject ? (
           orgTab === 1 ? (
-            projectList.length > 0 ? (
+            projectList && projectList.length > 0 ? (
               <Dashboard />
             ) : (
               <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
