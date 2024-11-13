@@ -65,7 +65,7 @@ const OrganizationNewPage: FC = function () {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
   const [selectedBuilder, setSelectedBuilder] = useState("");
-  const [tempBuilders, setTempBuilder] = useState<any>();
+  const [tempBuilders, setTempBuilder] = useState<any>([]);
   const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
   const [options, setOptions] = useState<any>([]);
   const [timezoneOption, setTimezoneOptions] = useState<any>([]);
@@ -271,18 +271,24 @@ const OrganizationNewPage: FC = function () {
   };
 
   const addBuilderToList = () => {
-    const temp = {
-      fullName: name,
-      mobile,
-      password,
-      email,
-    };
-    setTempBuilder((oldArray) => [...oldArray, temp]);
-    setEmail("");
-    setName("");
-    setMobile("");
-    setPassword("");
-    setOpenModal(false);
+    try {
+      const temp = {
+        fullName: name,
+        mobile,
+        // password,
+        email,
+      };
+      tempBuilders && tempBuilders.length > 0
+        ? setTempBuilder((oldArray) => [...oldArray, temp])
+        : setTempBuilder([temp]);
+      setEmail("");
+      setName("");
+      setMobile("");
+      setPassword("");
+      setOpenModal(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const [openModal, setOpenModal] = useState(false);
 
@@ -697,7 +703,7 @@ const OrganizationNewPage: FC = function () {
                 required
               />
             </div>
-            <div className="grid grid-cols-1 gap-y-2">
+            {/* <div className="grid grid-cols-1 gap-y-2">
               <Label htmlFor="password">Password</Label>
               <TextInput
                 type="password"
@@ -708,7 +714,7 @@ const OrganizationNewPage: FC = function () {
                 placeholder="******"
                 required
               />
-            </div>
+            </div> */}
           </div>
         </Modal.Body>
         <Modal.Footer>

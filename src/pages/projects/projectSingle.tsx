@@ -225,7 +225,7 @@ const ProjectSingle: FC = function () {
                 Project Information
               </a>
             </li>
-            <li className="me-2">
+            {/* <li className="me-2">
               <a
                 href="javascript:void(0)"
                 onClick={() => dispatch(updateProjectTab(2))}
@@ -257,8 +257,8 @@ const ProjectSingle: FC = function () {
                 </svg>
                 Tower/Basement
               </a>
-            </li>
-            {userData.user?.userType === "admin" && (
+            </li> */}
+            {/* {userData.user?.userType === "admin" && (
               <li className="me-2">
                 <a
                   href="javascript:void(0)"
@@ -288,7 +288,7 @@ const ProjectSingle: FC = function () {
                   Configure
                 </a>
               </li>
-            )}
+            )} */}
             <li className="me-2">
               <a
                 href="javascript:void(0)"
@@ -413,7 +413,8 @@ const ProjectSingle: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        dispatch(updateProjectTab(3));
+                        // dispatch(updateProjectTab(3));
+                        toast.info("Project Updated");
                       }}
                       color="primary"
                     >

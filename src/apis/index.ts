@@ -199,7 +199,7 @@ export const userLogin = async (params: loginUserType, isAdmin: boolean) => {
 
 export const listOfBuilders = async () => {
   return api
-    .get(`/admin/signup-leads`)
+    .get(`/admin/users?roleKey=project_admin`)
     .then((response) => {
       return response.data;
     })
