@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { uploadImageFile } from "./reducers";
+import { uploadDocument, uploadImageFile } from "./reducers";
 import type { ImageState } from "../../types";
 
 // Define the initial state using that type
@@ -17,6 +17,7 @@ const initialValue = {
 
 const initialState: ImageState = {
   imageData: initialValue,
+  fileData: undefined,
   isIdle: true,
 };
 
@@ -27,6 +28,9 @@ export const imageSlice = createSlice({
   reducers: {
     clear: (state) => {
       state.imageData = initialValue;
+    },
+    clearFile: (state) => {
+      state.fileData = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -44,10 +48,23 @@ export const imageSlice = createSlice({
     builder.addCase(uploadImageFile.rejected, (state) => {
       state.isIdle = true;
     });
+    builder.addCase(uploadDocument.pending, (state) => {
+      state.fileData = undefined;
+    });
+    builder.addCase(uploadDocument.fulfilled, (state, action) => {
+      if (action.payload.code) {
+        state.fileData = initialValue;
+      } else {
+        state.fileData = action.payload[0];
+      }
+    });
+    builder.addCase(uploadDocument.rejected, (state) => {
+      state.fileData = undefined;
+    });
   },
 });
 
-export const { clear } = imageSlice.actions;
+export const { clear, clearFile } = imageSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

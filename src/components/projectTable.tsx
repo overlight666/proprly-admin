@@ -5,17 +5,17 @@
 
 import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
-import { useSelector } from "react-redux";
-import type { ProjectState } from "../types";
+// import { useSelector } from "react-redux";
+// import type { ProjectState } from "../types";
 import { DataTable } from "simple-datatables";
 import { useEffect } from "react";
-const ProjectTable = function () {
-  const { projectTowers, gettingTowers }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
-
+const ProjectTable = function ({ towers }: any) {
+  // const { projectTowers, gettingTowers }: ProjectState = useSelector(
+  //   (state: any) => state.project
+  // );
+  console.log(towers);
   useEffect(() => {
-    if (document.getElementById("tower-table") && projectTowers) {
+    if (document.getElementById("tower-table") && towers) {
       try {
         const datatable = new DataTable("#tower-table", {
           searchable: false,
@@ -46,11 +46,10 @@ const ProjectTable = function () {
         console.log(error);
       }
     }
-  }, [projectTowers]);
+  }, [towers]);
 
   return (
     <>
-      {/* <div className="relative overflow-x-auto"> */}
       <table
         id="tower-table"
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
@@ -67,10 +66,9 @@ const ProjectTable = function () {
           </tr>
         </thead>
         <tbody>
-          {(projectTowers &&
-            projectTowers.length &&
-            !gettingTowers &&
-            projectTowers.map((t, index) => {
+          {(towers &&
+            towers.length &&
+            towers.map((t, index) => {
               return (
                 <tr
                   key={index}
@@ -104,9 +102,7 @@ const ProjectTable = function () {
               <th colSpan={3}>
                 <div className="flex w-full items-center justify-center">
                   <span className="text-center text-gray-200">
-                    {!gettingTowers
-                      ? "No data to display"
-                      : "Fetching new towers"}
+                    No data to display
                   </span>
                 </div>
               </th>

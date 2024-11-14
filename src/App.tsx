@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { Routes, Route } from "react-router";
 // import DashboardPage from "./pages";
 import ForgotPasswordPage from "./pages/authentication/forgot-password";
@@ -39,8 +39,20 @@ import ViewSignupLead from "./pages/admin/view-leads";
 import Properties from "./pages/properties/properties";
 import AddProperty from "./pages/properties/newProperty";
 import ViewProperty from "./pages/properties/viewProperty";
+import { useDispatch } from "react-redux";
+import { getGlobalConfig, getOrganizations } from "./store/features/reducers";
 
 const App: FC = function () {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    try {
+      dispatch(getGlobalConfig());
+      dispatch(getOrganizations());
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <Routes>

@@ -111,6 +111,18 @@ export const newProject = async (params: Project) => {
     });
 };
 
+export const updateProject = async (params: Project, id: number) => {
+  return api
+    .patch(`/projects/${id}`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error.response;
+    });
+};
+
 export const newProperty = async (params: Property) => {
   return api
     .post(`/property`, params)
@@ -126,6 +138,18 @@ export const newProperty = async (params: Property) => {
 export const getProperty = async (id: any) => {
   return api
     .get(`/property/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getConfig = async () => {
+  return api
+    .get(`/global_config`)
     .then((response) => {
       return response.data;
     })

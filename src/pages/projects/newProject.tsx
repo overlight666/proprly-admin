@@ -20,22 +20,25 @@ import type {
   OrgState,
   ProjectState,
   ReducerTypes,
-  UserState,
+  ValueList,
+  // UserState,
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
 import { updateProjectTab } from "../../store/features/appSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
-import { clear } from "../../store/features/imageSlice";
+import { clear, clearFile } from "../../store/features/imageSlice";
 import {
   uploadImageFile,
   registerProject,
-  postTower,
+  // postTower,
   getTowersReducer,
+  uploadDocument,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import { clearTrigger } from "../../store/features/projectSlice";
+import Upload from "./uploadItems/upload";
 type projectType = {
   name: string;
   organizationId: number;
@@ -43,6 +46,7 @@ type projectType = {
   maintenanceServiceType: string;
   address: string;
   imageId: string;
+  numBasementLevels: string;
 };
 
 type towerType = {
@@ -56,11 +60,12 @@ const ProjectNewPage: FC = function () {
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
   const { projectResponse, towerResponse, projectTrigger }: ProjectState =
     useSelector((state: any) => state.project);
-  const { userData }: UserState = useSelector((state: any) => state.user);
+  const [uploadedFiles, setUploadedFiles] = useState<any>([]);
+  // const { userData }: UserState = useSelector((state: any) => state.user);
   const { id }: any = useParams();
   //   const navigate = useNavigate();
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
-  const { projectTab }: AppState = useSelector(
+  const { projectTab, config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
   //   const gotoPage = (page) => {
@@ -69,7 +74,7 @@ const ProjectNewPage: FC = function () {
 
   useEffect(() => {
     if (projectResponse && projectResponse.id && projectResponse.id > 0) {
-      dispatch(updateProjectTab(2));
+      navigate(`/organization/${id}/project/${projectResponse.id}`);
     }
   }, [projectResponse]);
 
@@ -85,13 +90,19 @@ const ProjectNewPage: FC = function () {
   }, [id, orgList]);
 
   const [errors, setErrors] = useState<any>([]);
+  const [towers, setTowers] = useState<any>([]);
   const [unitNo, setUnitNo] = useState<any>("");
   const [line1, setLine1] = useState<any>("");
   const [line2, setLine2] = useState<any>("");
   const [line3, setLine3] = useState<any>("");
   const myImage: ImageState = useSelector((state: any) => state.uploads);
+  const { fileData }: ImageState = useSelector(
+    (state: ReducerTypes) => state.uploads
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isValid, setIsValid] = useState(false);
+  const [isValid2, setIsValid2] = useState(false);
   //   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
   const [formData, setFormData] = useState<projectType>({
@@ -101,6 +112,7 @@ const ProjectNewPage: FC = function () {
     maintenanceServiceType: "",
     address: "",
     imageId: "",
+    numBasementLevels: "",
   });
 
   const [towerFormData, setTowerData] = useState<towerType>({
@@ -109,6 +121,13 @@ const ProjectNewPage: FC = function () {
     name: "",
     numFloors: "0",
   });
+
+  useEffect(() => {
+    if (fileData) {
+      setUploadedFiles((oldArray) => [fileData, ...oldArray]);
+      dispatch(clearFile());
+    }
+  }, [fileData]);
 
   useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
@@ -160,6 +179,13 @@ const ProjectNewPage: FC = function () {
     }
   };
 
+  const handleUpload2 = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      dispatch(uploadDocument(event.target.files[0]));
+    }
+  };
   useEffect(() => {
     if (projectTrigger) {
       if (projectResponse && projectResponse.errors) {
@@ -176,9 +202,13 @@ const ProjectNewPage: FC = function () {
 
   useEffect(() => {
     if (!searchAddress) {
+      let addressx = unitNo ? unitNo : "";
+      addressx = addressx ? `${addressx} ${line1 ? `, ${line1}` : ""}` : line1;
+      addressx = addressx ? `${addressx} ${line2 ? `, ${line2}` : ""}` : line2;
+      addressx = addressx ? `${addressx} ${line3 ? `, ${line3}` : ""}` : line3;
       setFormData((prevFormData) => ({
         ...prevFormData,
-        address: `${unitNo}, ${line1}, ${line2}, ${line3}`,
+        address: addressx,
       }));
     }
   }, [unitNo, line1, line2, line3]);
@@ -189,26 +219,58 @@ const ProjectNewPage: FC = function () {
       toast.error("Tower name is required");
       valid = false;
     }
-    if (!projectResponse) {
-      toast.error(
-        "There was an error in adding your tower!, create a project first!"
-      );
-      valid = false;
-    }
+    // if (!projectResponse) {
+    //   toast.error(
+    //     "There was an error in adding your tower!, create a project first!"
+    //   );
+    //   valid = false;
+    // }
     if (towerFormData.numFloors === "0") {
       toast.error("Please select floors");
       valid = false;
     }
-    const newTowerData = {
-      ...towerFormData,
-      projectId: projectResponse && projectResponse.id,
-    };
+    // const newTowerData = {
+    //   ...towerFormData,
+    //   projectId: projectResponse && projectResponse.id,
+    // };
     if (valid) {
-      dispatch(postTower(newTowerData));
+      setTowers((oldArray) => [
+        ...oldArray,
+        { name: towerFormData.name, numFloors: towerFormData.numFloors },
+      ]);
+      setTowerData({
+        levels: "0",
+        projectId: 0,
+        name: "",
+        numFloors: "0",
+      });
+      // dispatch(postTower(newTowerData));
       setOpenModal(false);
     }
   };
 
+  useEffect(() => {
+    if (
+      formData.name.trim() !== "" &&
+      formData.address.trim() !== "" &&
+      formData.maintenanceServiceType.trim() !== "" &&
+      formData.type.trim() !== "" &&
+      formData.imageId !== ""
+    ) {
+      setIsValid(true);
+    } else {
+      dispatch(updateProjectTab(1));
+      setIsValid(false);
+    }
+  });
+
+  useEffect(() => {
+    if (formData.numBasementLevels !== "" && towers) {
+      setIsValid2(true);
+    } else {
+      setIsValid2(false);
+    }
+  });
   const postProject = () => {
     let valid = true;
     setErrors([]);
@@ -246,9 +308,18 @@ const ProjectNewPage: FC = function () {
     }
 
     if (valid) {
-      dispatch(registerProject(formData));
+      const docs: any = [];
+      uploadedFiles &&
+        uploadedFiles.map((obj: any) => {
+          docs.push(obj.id);
+        });
+      dispatch(registerProject({ ...formData, towers, documents: docs }));
     }
   };
+
+  function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+  }
 
   const [openModal, setOpenModal] = useState(false);
   const [searchAddress, setSearchAddress] = useState(false);
@@ -282,7 +353,7 @@ const ProjectNewPage: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(1))}
+                // onClick={() => dispatch(updateProjectTab(1))}
                 className={
                   projectTab === 1
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
@@ -312,7 +383,7 @@ const ProjectNewPage: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(2))}
+                // onClick={() => dispatch(updateProjectTab(2))}
                 className={
                   projectTab === 2
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
@@ -434,8 +505,17 @@ const ProjectNewPage: FC = function () {
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
-                      <option selected>Select</option>
-                      <option value="apartment">Apartment</option>
+                      <option selected>Please Select</option>
+                      {config &&
+                        config.projectTypeList.map(
+                          (pt: ValueList, index: number) => {
+                            return (
+                              <option key={index} value={pt.key}>
+                                {capitalizeFirstLetter(pt.value)}
+                              </option>
+                            );
+                          }
+                        )}
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
@@ -449,9 +529,17 @@ const ProjectNewPage: FC = function () {
                       onChange={handleInputChange}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
-                      <option selected>Select</option>
-                      <option value="before_7_year">Before 7 Years</option>
-                      <option value="after_7_year">After 7 Years</option>
+                      <option selected>Please Select</option>
+                      {config &&
+                        config.projectMaintenanceServiceTypeList.map(
+                          (pt: ValueList, index: number) => {
+                            return (
+                              <option key={index} value={pt.key}>
+                                {capitalizeFirstLetter(pt.value)}
+                              </option>
+                            );
+                          }
+                        )}
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
@@ -603,6 +691,10 @@ const ProjectNewPage: FC = function () {
                             className="absolute right-0 top-1"
                             onClick={() => {
                               dispatch(clear());
+                              setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                imageId: "",
+                              }));
                             }}
                             color="white"
                           >
@@ -617,13 +709,20 @@ const ProjectNewPage: FC = function () {
                       )}
                     </div>
                   </div>
+                  <div className="flex w-full items-center justify-between border-b-[1px]">
+                    <h1 className="font-bold">Upload Documents</h1>
+                  </div>
+                  <Upload
+                    handleUpload={handleUpload2}
+                    uploadedFiles={uploadedFiles}
+                  />
                   <div className="flex">
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        postProject();
+                        dispatch(updateProjectTab(2));
                       }}
-                      disabled={!myImage.isIdle}
+                      disabled={!myImage.isIdle || !isValid}
                       color="primary"
                     >
                       Proceed to Tower/Basement
@@ -667,31 +766,35 @@ const ProjectNewPage: FC = function () {
               </form>
             </div>
             <div className="w-full">
-              <ProjectTable />
+              <ProjectTable towers={towers} />
             </div>
             <div className="mt-10 grid w-full grid-cols-2">
               <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
                 <div className="grid grid-cols-1 gap-y-2">
                   <Label htmlFor="organization">No of basement level</Label>
                   <select
-                    id="levels"
-                    name="levels"
-                    value={towerFormData.levels}
+                    id="numBasementLevels"
+                    name="numBasementLevels"
+                    value={formData.numBasementLevels}
                     onChange={handleInputChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
                     <option selected>Select</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
-                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </select>
                 </div>
                 <div className="grid grid-cols-1 gap-y-2">
                   <div className="flex">
                     <Button
                       className="mx-1"
+                      disabled={!isValid2}
                       onClick={() => {
-                        dispatch(updateProjectTab(3));
+                        // dispatch(updateProjectTab(3));
+                        postProject();
                       }}
                       color="primary"
                     >
@@ -743,6 +846,13 @@ const ProjectNewPage: FC = function () {
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
               </select>
             </div>
           </div>

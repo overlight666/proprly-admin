@@ -9,6 +9,7 @@ import {
   getAllOrganizations,
   getAllProperties,
   getAllTradeCodebyProject,
+  getConfig,
   getCountries,
   getOneProject,
   getprojects,
@@ -24,6 +25,7 @@ import {
   otpVerification,
   resendOTP,
   signupLead,
+  updateProject,
   uploadImage,
   userLogin,
 } from "../../apis";
@@ -146,6 +148,31 @@ export const uploadImageFile: any = createAsyncThunk(
   }
 );
 
+export const uploadDocument: any = createAsyncThunk(
+  "postDocument",
+  async (data: any) => {
+    try {
+      const response = await uploadImage(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const patchProject: any = createAsyncThunk(
+  "patchProject",
+  async (data: any) => {
+    try {
+      const response = await updateProject(data, data.id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const getTowersReducer: any = createAsyncThunk(
   "getTowers",
   async (id: any) => {
@@ -286,7 +313,18 @@ export const getSingleProperty: any = createAsyncThunk(
     }
   }
 );
-
+export const getGlobalConfig: any = createAsyncThunk(
+  "getGlobalConfig",
+  async () => {
+    try {
+      const response = await getConfig();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const getDefectCodeListByProject: any = createAsyncThunk(
   "getAllDefectCodeByProjectId",
   async (id) => {

@@ -5,6 +5,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import {
@@ -15,24 +16,31 @@ import {
   Spinner,
   TextInput,
 } from "flowbite-react";
-import { HiHome, HiPlus } from "react-icons/hi";
+import { HiHome, HiPlus, HiSearch } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppState,
+  ImageState,
+  Organization,
   OrgState,
+  Project,
   ProjectState,
   ReducerTypes,
   UserState,
+  ValueList,
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { updateProjectTab } from "../../store/features/appSlice";
+import { updateProjectTabMain } from "../../store/features/appSlice";
 import {
   postTower,
   // getTowersReducer,
   getSingleProject,
+  uploadImageFile,
+  uploadDocument,
+  patchProject,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import { clearTrigger, updateTowers } from "../../store/features/projectSlice";
@@ -40,6 +48,11 @@ import { setSelectedOrganization } from "../../store/features/organizationSlice"
 import { BsSliders2Vertical } from "react-icons/bs";
 import ConfigureAccordion from "./configure";
 import ConfigureAccordionUser from "./userItems/configure";
+import { FaAngleRight } from "react-icons/fa6";
+import { clear, clearFile } from "../../store/features/imageSlice";
+import { RiCloseCircleFill } from "react-icons/ri";
+import Upload from "./uploadItems/upload";
+import Dashboard from "./dashboard";
 
 type towerType = {
   levels?: string;
@@ -49,33 +62,45 @@ type towerType = {
 };
 
 const ProjectSingle: FC = function () {
+  const { id, project_id }: any = useParams();
   const { orgList, selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { userData }: UserState = useSelector((state: any) => state.user);
+  const [selectedOrg, setSelectedOrg] = useState<Organization>();
+  useEffect(() => {
+    const newList = orgList && orgList.find((org) => org.id == id);
+    setSelectedOrg(newList);
+  }, [id, orgList]);
 
+  const { userData }: UserState = useSelector((state: any) => state.user);
   const {
     projectResponse,
     towerResponse,
     projectTrigger,
     selectedProject,
     gettingTowers,
+    projectTowers,
   }: ProjectState = useSelector((state: any) => state.project);
-  const { id, project_id }: any = useParams();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const [searchAddress, setSearchAddress] = useState(false);
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
-  const { projectTab }: AppState = useSelector(
+  const { projectTabMain, config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
 
-  useEffect(() => {
-    if (projectResponse && projectResponse.id && projectResponse.id > 0) {
-      dispatch(updateProjectTab(2));
-    }
-  }, [projectResponse]);
-
+  const [uploadedFiles, setUploadedFiles] = useState<any>([]);
+  const [towers, setTowers] = useState<any>([]);
+  const [unitNo, setUnitNo] = useState<any>("");
+  const [line1, setLine1] = useState<any>("");
+  const [line2, setLine2] = useState<any>("");
+  const [line3, setLine3] = useState<any>("");
+  const [firstLoad, setFirstLoad] = useState(true);
+  const myImage: ImageState = useSelector((state: any) => state.uploads);
+  const { fileData }: ImageState = useSelector(
+    (state: ReducerTypes) => state.uploads
+  );
   useEffect(() => {
     if (
       (towerResponse && towerResponse.id && towerResponse.id > 0) ||
@@ -94,6 +119,12 @@ const ProjectSingle: FC = function () {
   }, [id, orgList]);
 
   useEffect(() => {
+    if (projectTowers) {
+      setTowers(projectTowers);
+    }
+  }, [projectTowers]);
+
+  useEffect(() => {
     if (!selectedProject) {
       dispatch(getSingleProject(project_id));
     }
@@ -105,8 +136,22 @@ const ProjectSingle: FC = function () {
     }
   }, [selectedProject]);
 
-  //   const navigate = useNavigate();
-  //   const [file, setFile] = useState<any>(undefined);
+  useEffect(() => {
+    if (fileData) {
+      setUploadedFiles((oldArray) => [fileData, ...oldArray]);
+      dispatch(clearFile());
+    }
+  }, [fileData]);
+
+  const [formData, setFormData] = useState<Project>({
+    name: "",
+    organizationId: id,
+    type: "",
+    maintenanceServiceType: "",
+    address: "",
+    imageId: "",
+    numBasementLevels: "",
+  });
 
   const [towerFormData, setTowerData] = useState<towerType>({
     levels: "0",
@@ -129,18 +174,47 @@ const ProjectSingle: FC = function () {
   };
 
   useEffect(() => {
+    if (!searchAddress) {
+      let addressx = unitNo ? unitNo : "";
+      addressx = addressx ? `${addressx} ${line1 ? `, ${line1}` : ""}` : line1;
+      addressx = addressx ? `${addressx} ${line2 ? `, ${line2}` : ""}` : line2;
+      addressx = addressx ? `${addressx} ${line3 ? `, ${line3}` : ""}` : line3;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        address: addressx,
+      }));
+    }
+  }, [unitNo, line1, line2, line3]);
+
+  useEffect(() => {
+    if (formData.address && firstLoad) {
+      const ad = formData.address.split(",");
+      setUnitNo(ad[0]?.trim());
+      setLine1(ad[1]?.trim());
+      setLine2(ad[2]?.trim());
+      setLine3(ad[3]?.trim());
+      setFirstLoad(false);
+    }
+  }, [formData]);
+
+  useEffect(() => {
     if (projectTrigger) {
       if (projectResponse && projectResponse.errors) {
         toast.error(projectResponse.errors[0].message);
         dispatch(clearTrigger());
       }
       if (projectResponse && projectResponse.id) {
-        dispatch(updateProjectTab(2));
+        dispatch(updateProjectTabMain(2));
         dispatch(clearTrigger());
       }
     }
   }, [projectTrigger]);
 
+  useEffect(() => {
+    if (selectedProject) {
+      setFormData(selectedProject);
+    }
+  }, [selectedProject]);
   const saveTower = () => {
     let valid = true;
     if (towerFormData.name === "") {
@@ -168,6 +242,93 @@ const ProjectSingle: FC = function () {
   };
 
   const [openModal, setOpenModal] = useState(false);
+
+  const handleInputChange = (event: any) => {
+    try {
+      const { name, value } = event.target;
+      if (name === "country") {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+          ["currency"]: "AUD",
+        }));
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      dispatch(uploadImageFile(event.target.files[0]));
+    }
+  };
+
+  const handleUpload2 = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      dispatch(uploadDocument(event.target.files[0]));
+    }
+  };
+
+  function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+  }
+
+  const updateProject = () => {
+    let valid = true;
+    setErrors([]);
+    if (formData.name === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Project name is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.address === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Address is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.maintenanceServiceType === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Service type is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.imageId === "") {
+      setErrors((oldArray) => [
+        ...[...new Set(oldArray)],
+        "Image is required!",
+      ]);
+      valid = false;
+    }
+    if (formData.type === "") {
+      setErrors((oldArray) => [...[...new Set(oldArray)], "Type is required!"]);
+      valid = false;
+    }
+
+    if (valid) {
+      const docs: any = [];
+      uploadedFiles &&
+        uploadedFiles.map((obj: any) => {
+          docs.push(obj.id);
+        });
+      dispatch(patchProject({ ...formData, towers, documents: docs }));
+    }
+  };
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -198,23 +359,72 @@ const ProjectSingle: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(1))}
+                onClick={() => dispatch(updateProjectTabMain(0))}
                 className={
-                  projectTab === 1
+                  projectTabMain === 0
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
                 <svg
                   className={
-                    projectTab === 1
+                    projectTabMain === 0
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                       : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                   }
                   width="14"
                   height="15"
                   viewBox="0 0 14 15"
-                  fill={projectTab === 1 ? `#1A56DB` : `#6B7280`}
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clipPath="url(#clip0_1195_9641)">
+                    <path
+                      d="M12.7039 2.25H1.29646C0.9027 2.25 0.583496 2.58579 0.583496 3V12C0.583496 12.4142 0.9027 12.75 1.29646 12.75H12.7039C13.0976 12.75 13.4168 12.4142 13.4168 12V3C13.4168 2.58579 13.0976 2.25 12.7039 2.25Z"
+                      fill={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
+                    />
+                    <path
+                      d="M9.13905 2.25V12.75M4.86127 2.25V12.75M1.29646 2.25H12.7039C13.0976 2.25 13.4168 2.58579 13.4168 3V12C13.4168 12.4142 13.0976 12.75 12.7039 12.75H1.29646C0.9027 12.75 0.583496 12.4142 0.583496 12V3C0.583496 2.58579 0.9027 2.25 1.29646 2.25Z"
+                      stroke={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1195_9641">
+                      <rect
+                        width="14"
+                        height="14"
+                        fill="white"
+                        transform="translate(0 0.5)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                Dashboard
+              </a>
+            </li>
+            <li className="me-2">
+              <a
+                href="javascript:void(0)"
+                onClick={() => dispatch(updateProjectTabMain(1))}
+                className={
+                  projectTabMain === 1
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                }
+              >
+                <svg
+                  className={
+                    projectTabMain === 1
+                      ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
+                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
+                  }
+                  width="14"
+                  height="15"
+                  viewBox="0 0 14 15"
+                  fill={projectTabMain === 1 ? `#1A56DB` : `#6B7280`}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -228,9 +438,9 @@ const ProjectSingle: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(2))}
+                onClick={() => dispatch(updateProjectTabMain(2))}
                 className={
-                  projectTab === 2
+                  projectTabMain === 2
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
@@ -238,14 +448,14 @@ const ProjectSingle: FC = function () {
               >
                 <svg
                   className={
-                    projectTab === 2
+                    projectTabMain === 2
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                       : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                   }
                   width="9"
                   height="19"
                   viewBox="0 0 9 19"
-                  fill={projectTab === 2 ? `#1A56DB` : `#6B7280`}
+                  fill={projectTabMain === 2 ? `#1A56DB` : `#6B7280`}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M7.01783 16.7832C6.82783 16.7832 6.70117 16.9099 6.70117 17.0999C6.70117 17.2899 6.82783 17.4165 7.01783 17.4165C7.20783 17.4165 7.33448 17.2899 7.33448 17.0999C7.33448 16.9099 7.20783 16.7832 7.01783 16.7832Z" />
@@ -258,27 +468,27 @@ const ProjectSingle: FC = function () {
                 Tower/Basement
               </a>
             </li>
-            {/* {userData.user?.userType === "admin" && (
+            {userData.user?.userType === "admin" && (
               <li className="me-2">
                 <a
                   href="javascript:void(0)"
-                  onClick={() => dispatch(updateProjectTab(3))}
+                  onClick={() => dispatch(updateProjectTabMain(3))}
                   className={
-                    projectTab === 3
+                    projectTabMain === 3
                       ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                       : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                   }
                 >
                   <svg
                     className={
-                      projectTab === 3
+                      projectTabMain === 3
                         ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                         : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                     }
                     width="14"
                     height="15"
                     viewBox="0 0 14 15"
-                    fill={projectTab === 3 ? `#1A56DB` : `#6B7280`}
+                    fill={projectTabMain === 3 ? `#1A56DB` : `#6B7280`}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path d="M3.53122 8.4968V1.2C3.53122 1.01435 3.45813 0.836301 3.32804 0.705025C3.19794 0.57375 3.02148 0.5 2.8375 0.5C2.65351 0.5 2.47706 0.57375 2.34696 0.705025C2.21686 0.836301 2.14377 1.01435 2.14377 1.2V8.4968C1.69092 8.64221 1.29566 8.92922 1.01517 9.31631C0.734678 9.70339 0.583496 10.1705 0.583496 10.65C0.583496 11.1295 0.734678 11.5966 1.01517 11.9837C1.29566 12.3708 1.69092 12.6578 2.14377 12.8032V13.8C2.14377 13.9857 2.21686 14.1637 2.34696 14.295C2.47706 14.4263 2.65351 14.5 2.8375 14.5C3.02148 14.5 3.19794 14.4263 3.32804 14.295C3.45813 14.1637 3.53122 13.9857 3.53122 13.8V12.8032C3.98407 12.6578 4.37933 12.3708 4.65982 11.9837C4.94032 11.5966 5.0915 11.1295 5.0915 10.65C5.0915 10.1705 4.94032 9.70339 4.65982 9.31631C4.37933 8.92922 3.98407 8.64221 3.53122 8.4968ZM2.8375 11.525C2.66599 11.525 2.49833 11.4737 2.35573 11.3775C2.21313 11.2814 2.10198 11.1447 2.03635 10.9848C1.97071 10.825 1.95354 10.649 1.987 10.4793C2.02046 10.3096 2.10305 10.1537 2.22432 10.0313C2.3456 9.90891 2.50011 9.82557 2.66832 9.79181C2.83653 9.75805 3.01089 9.77538 3.16934 9.84161C3.3278 9.90783 3.46323 10.02 3.55851 10.1639C3.6538 10.3078 3.70466 10.4769 3.70466 10.65C3.70429 10.882 3.61281 11.1043 3.45027 11.2683C3.28772 11.4323 3.06737 11.5246 2.8375 11.525Z" />
@@ -288,27 +498,27 @@ const ProjectSingle: FC = function () {
                   Configure
                 </a>
               </li>
-            )} */}
-            {/* <li className="me-2">
+            )}
+            <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTab(4))}
+                onClick={() => dispatch(updateProjectTabMain(4))}
                 className={
-                  projectTab === 4
+                  projectTabMain === 4
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
                 <svg
                   className={
-                    projectTab === 4
+                    projectTabMain === 4
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                       : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                   }
                   width="14"
                   height="15"
                   viewBox="0 0 14 15"
-                  fill={projectTab === 4 ? `#1A56DB` : `#6B7280`}
+                  fill={projectTabMain === 4 ? `#1A56DB` : `#6B7280`}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M5.593 13.9879C5.36294 13.7471 5.20174 13.444 5.12754 13.1126C5.05334 12.7813 5.06909 12.4348 5.173 12.1123C4.88127 11.9613 4.63565 11.7282 4.46376 11.4392C4.29187 11.1502 4.20053 10.8169 4.2 10.4767V9.74516C4.20001 9.4047 4.29096 9.07101 4.46262 8.78164C4.63427 8.49228 4.87981 8.25873 5.1716 8.1073C5.157 8.04432 5.14556 7.98059 5.1373 7.91637H3.5C2.57208 7.91753 1.68249 8.30326 1.02635 8.98893C0.370217 9.67461 0.0011115 10.6043 0 11.5739V13.7685C0 13.9625 0.0737498 14.1486 0.205025 14.2857C0.336301 14.4229 0.514348 14.5 0.7 14.5H6.0809L5.593 13.9879Z" />
@@ -318,10 +528,44 @@ const ProjectSingle: FC = function () {
                 </svg>
                 Users
               </a>
-            </li> */}
+            </li>
+            <li className="me-2">
+              <a
+                href="javascript:void(0)"
+                onClick={() => dispatch(updateProjectTabMain(5))}
+                className={
+                  projectTabMain === 5
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                }
+              >
+                <svg
+                  className={
+                    projectTabMain === 5
+                      ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
+                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
+                  }
+                  width="14"
+                  height="15"
+                  viewBox="0 0 14 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.2 13.1H1.4V2.6H3.5V3.3C3.1136 3.3 2.8 3.6136 2.8 4C2.8 4.3864 3.1136 4.7 3.5 4.7H5.4306L6.8306 3.3H4.9V1.9H7V3.1453C7.3864 2.7974 7.8764 2.6 8.4 2.6H11.9C11.9 1.8279 11.2721 1.2 10.5 1.2H8.2054C7.9625 0.7835 7.5159 0.5 7 0.5H4.9C4.3841 0.5 3.9375 0.7835 3.6946 1.2H1.4C0.6279 1.2 0 1.8279 0 2.6V13.1C0 13.8721 0.6279 14.5 1.4 14.5H4.2C4.3225 14.5 4.4317 14.4601 4.5318 14.4048C4.3274 14.0135 4.2 13.5739 4.2 13.1Z"
+                    fill={projectTabMain === 5 ? `#1A56DB` : `#6B7280`}
+                  />
+                  <path
+                    d="M12.6469 4H8.4C8.2145 4 8.036 4.0735 7.9051 4.2051L5.8051 6.3051C5.6735 6.436 5.6 6.6145 5.6 6.8V13.1C5.6 13.8721 6.2069 14.5 6.9531 14.5H12.6469C13.3931 14.5 14 13.8721 14 13.1V5.4C14 4.6279 13.3931 4 12.6469 4ZM8.4 5.6898V6.8H7.2898L8.4 5.6898ZM7 13.1V8.2H9.1C9.4864 8.2 9.8 7.8864 9.8 7.5V5.3937L12.5965 5.3818C12.5965 5.3818 12.6 5.3874 12.6 5.4L12.6469 13.1H7Z"
+                    fill={projectTabMain === 5 ? `#1A56DB` : `#6B7280`}
+                  />
+                </svg>
+                Reports
+              </a>
+            </li>
           </ul>
         </div>
-        {projectTab === 1 && (
+        {projectTabMain === 1 && !selectedProject && (
           <div className="col-span-full p-5">
             <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
               <img
@@ -332,26 +576,293 @@ const ProjectSingle: FC = function () {
             </div>
           </div>
         )}
+        {projectTabMain === 0 && <Dashboard />}
 
-        {projectTab === 1 ? (
-          <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
-            <span className="text-gray-600">
-              <b>Congratulations</b> on creating your first Project!! Please
-              configure the project before adding any properties
-            </span>
-            <Button
-              onClick={() => {
-                dispatch(updateProjectTab(3));
-              }}
-              className="mt-7 w-[200px]"
-            >
-              <div className="flex items-center gap-x-2 text-xs">
-                <BsSliders2Vertical />
-                Configure Project
+        {projectTabMain === 1 ? (
+          !selectedProject ? (
+            <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
+              <span className="text-gray-600">
+                <b>Congratulations</b> on creating your first Project!! Please
+                configure the project before adding any properties
+              </span>
+              <Button
+                onClick={() => {
+                  dispatch(updateProjectTabMain(3));
+                }}
+                className="mt-7 w-[200px]"
+              >
+                <div className="flex items-center gap-x-2 text-xs">
+                  <BsSliders2Vertical />
+                  Configure Project
+                </div>
+              </Button>
+            </div>
+          ) : (
+            <div className="flex w-full flex-col">
+              <div className="flex w-full items-center justify-between border-b-[1px]">
+                <h1 className="font-bold">Basic Information</h1>
               </div>
-            </Button>
-          </div>
-        ) : projectTab === 2 ? (
+              <div className="grid w-full grid-cols-2">
+                <form>
+                  <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
+                    <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                      <Label htmlFor="name">Project Name</Label>
+                      <TextInput
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Project name"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 gap-y-2">
+                      <Label htmlFor="organization">Project type</Label>
+                      <select
+                        id="type"
+                        name="type"
+                        value={formData.type}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                      >
+                        <option selected>Please Select</option>
+                        {config &&
+                          config.projectTypeList.map(
+                            (pt: ValueList, index: number) => {
+                              return (
+                                <option key={index} value={pt.key}>
+                                  {capitalizeFirstLetter(pt.value)}
+                                </option>
+                              );
+                            }
+                          )}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-1 gap-y-2">
+                      <Label htmlFor="maintenanceServiceType">
+                        Maintenance and Service type
+                      </Label>
+                      <select
+                        id="maintenanceServiceType"
+                        name="maintenanceServiceType"
+                        value={formData.maintenanceServiceType}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                      >
+                        <option selected>Please Select</option>
+                        {config &&
+                          config.projectMaintenanceServiceTypeList.map(
+                            (pt: ValueList, index: number) => {
+                              return (
+                                <option key={index} value={pt.key}>
+                                  {capitalizeFirstLetter(pt.value)}
+                                </option>
+                              );
+                            }
+                          )}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                      <Label htmlFor="address">Address</Label>
+                      <form className="hidden md:block">
+                        <Label htmlFor="search" className="sr-only">
+                          Search
+                        </Label>
+                        <TextInput
+                          icon={HiSearch}
+                          id="search"
+                          name="search"
+                          placeholder="Search"
+                          required
+                          size={32}
+                          type="search"
+                        />
+                      </form>
+                      <span
+                        onClick={() => setSearchAddress(!searchAddress)}
+                        className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400"
+                      >
+                        {searchAddress
+                          ? "ENTER AN ADDRESS MANUALLY"
+                          : "ENTER AN ADDRESS AUTOMATICALLY"}
+                        <FaAngleRight className="mx-1" />
+                      </span>
+                    </div>
+                    {!searchAddress && (
+                      <div>
+                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                          <Label htmlFor="name">House no/Unit no</Label>
+                          <TextInput
+                            id="house"
+                            name="house"
+                            value={unitNo}
+                            onChange={(event) => setUnitNo(event.target.value)}
+                            placeholder="Add house no or unit no"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                          <Label htmlFor="line1">Address line 1</Label>
+                          <TextInput
+                            id="line1"
+                            name="line1"
+                            value={line1}
+                            onChange={(event) => setLine1(event.target.value)}
+                            placeholder="Address line 1"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                          <Label htmlFor="line1">Address line 2</Label>
+                          <TextInput
+                            id="line2"
+                            name="line2"
+                            value={line2}
+                            onChange={(event) => setLine2(event.target.value)}
+                            placeholder="Address line 2"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                          <Label htmlFor="line3">Address line 3</Label>
+                          <TextInput
+                            id="line3"
+                            name="line3"
+                            value={line3}
+                            onChange={(event) => setLine3(event.target.value)}
+                            placeholder="Address line 3"
+                            required
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <div className="grid grid-cols-1 gap-y-2">
+                      <Label htmlFor="timezone">Upload Image</Label>
+
+                      <div className="relative flex w-full items-center justify-center">
+                        {myImage.imageData === undefined ||
+                        (myImage.imageData && myImage.imageData.id === 0) ? (
+                          <label
+                            htmlFor="dropzone-file"
+                            className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
+                          >
+                            <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                              <svg
+                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 20 16"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                />
+                              </svg>
+                              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                <span className="font-semibold">
+                                  Click to upload
+                                </span>{" "}
+                                or drag and drop
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                SVG, PNG, JPG or GIF (MAX. 800x400px)
+                              </p>
+                            </div>
+                            <input
+                              id="dropzone-file"
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={handleUpload}
+                            />
+                            {!myImage.isIdle && (
+                              <div
+                                role="status"
+                                className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  className="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+                                  viewBox="0 0 100 101"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                    fill="currentColor"
+                                  />
+                                  <path
+                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                    fill="currentFill"
+                                  />
+                                </svg>
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            )}
+                          </label>
+                        ) : (
+                          <>
+                            <img src={myImage.imageData.url} alt="file" />
+                            <Button
+                              className="absolute right-0 top-1"
+                              onClick={() => {
+                                dispatch(clear());
+                                setFormData((prevFormData) => ({
+                                  ...prevFormData,
+                                  imageId: "",
+                                }));
+                              }}
+                              color="white"
+                            >
+                              <div className="flex items-center gap-x-2 text-xs">
+                                <RiCloseCircleFill
+                                  color="red"
+                                  className="h-6 w-6"
+                                />
+                              </div>
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center justify-between border-b-[1px]">
+                      <h1 className="font-bold">Upload Documents</h1>
+                    </div>
+                    <Upload
+                      handleUpload={handleUpload2}
+                      uploadedFiles={uploadedFiles}
+                    />
+                    <div className="flex">
+                      <Button
+                        className="mx-1"
+                        onClick={() => {
+                          updateProject();
+                        }}
+                        disabled={!myImage.isIdle}
+                        color="primary"
+                      >
+                        submit
+                      </Button>
+                      <Button
+                        className="mx-1"
+                        onClick={() => {
+                          navigate(`/organization/${selectedOrg?.id}`);
+                        }}
+                        color="gray"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )
+        ) : projectTabMain === 2 ? (
           <div className="flex w-full flex-col">
             <div className="flex w-full items-center justify-between border-b-[1px]">
               <h1 className="font-bold">Tower/Basement Information</h1>
@@ -389,7 +900,7 @@ const ProjectSingle: FC = function () {
               </form>
             </div>
             <div className="w-full">
-              <ProjectTable />
+              <ProjectTable towers={towers} />
             </div>
             <div className="mt-10 grid w-full grid-cols-2">
               <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
@@ -398,14 +909,16 @@ const ProjectSingle: FC = function () {
                   <select
                     id="levels"
                     name="levels"
-                    value={towerFormData.levels}
+                    value={selectedProject?.numBasementLevels}
                     // onChange={handleInputChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
                     <option selected>Select</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
-                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </select>
                 </div>
                 <div className="grid grid-cols-1 gap-y-2">
@@ -413,7 +926,7 @@ const ProjectSingle: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        // dispatch(updateProjectTab(3));
+                        // dispatch(updateProjectTabMain(3));
                         toast.info("Project Updated");
                       }}
                       color="primary"
@@ -434,9 +947,9 @@ const ProjectSingle: FC = function () {
               </div>
             </div>
           </div>
-        ) : projectTab === 3 ? (
+        ) : projectTabMain === 3 ? (
           <ConfigureAccordion project_id={project_id} />
-        ) : projectTab === 4 ? (
+        ) : projectTabMain === 4 ? (
           <ConfigureAccordionUser />
         ) : (
           <></>

@@ -40,15 +40,102 @@ export interface UserState {
 export interface ImageState {
   imageData: ImageType;
   isIdle: boolean;
+  fileData: ImageType | undefined;
 }
 
 export interface AppState {
   isGrid: boolean;
   projectTab: number;
+  projectTabMain: number;
   orgTab: number;
   propertyTab: number;
   regions: Regions[];
   countries: Country[];
+  config: Config | undefined;
+}
+
+export interface Config {
+  roles: Roles[];
+  roleAccessLevel: AccessLevel;
+  roleAccessLevelList: ValueList[];
+  projectMaintenanceServiceType: MaintenanceServiceType;
+  projectMaintenanceServiceTypeList: ValueList[];
+  projectType: ProjectType;
+  projectTypeList: ValueList[];
+  propertyStatus: PropertyStatus;
+  propertyStatusList: ValueList[];
+  warrantyGroup: WarrantyGroup;
+  warrantyGroupList: WarrantyGroupList[];
+  signupLeadStatus: SignupLeadStatus;
+  signupLeadStatusList: ValueList[];
+  appointmentStatus: AppointmentStatus;
+  appointmentStatusList: ValueList[];
+}
+
+export interface AppointmentStatus {
+  booked: string;
+  rescheduled: string;
+  canceled: string;
+}
+
+export interface SignupLeadStatus {
+  pending: string;
+  accepted: string;
+  rejected: string;
+}
+
+export interface WarrantyGroupList {
+  key: string;
+  value: string;
+  imageUrl: string;
+}
+
+export interface WarrantyGroup {
+  appliances: string;
+  bathroom_fixtures: string;
+  air_conditioning: string;
+  utilities: string;
+  intercom: string;
+  builder_warranty: string;
+}
+
+export interface PropertyStatus {
+  pre_settlement: string;
+  handover: string;
+  post_handover: string;
+  under_construction: string;
+}
+
+export interface ProjectType {
+  apartment: string;
+  villa: string;
+  townhouse: string;
+  house: string;
+}
+
+export interface ValueList {
+  key: string;
+  value: string;
+}
+
+export interface MaintenanceServiceType {
+  before_7_year: string;
+  after_7_year: string;
+}
+
+export interface Roles {
+  id?: number;
+  roleName: string;
+  roleDescription: string;
+  roleKey: string;
+  roleAccessLevel: string;
+}
+
+export interface AccessLevel {
+  system: string;
+  organization: string;
+  project: string;
+  property: string;
 }
 
 export interface Country {
@@ -99,7 +186,7 @@ export interface Project {
   maintenanceServiceType: string;
   numBasementLevels?: any | null;
   address: string;
-  imageId: number | undefined;
+  imageId?: string | undefined;
   createdAt?: string;
   updatedAt?: string;
   projectTower?: TowerData[];
@@ -164,8 +251,8 @@ export interface DefectCode {
 export interface Property {
   id?: number;
   name: string | undefined;
-  projectId: number | undefined;
-  projectTowerId: number | undefined;
+  projectId?: number | undefined;
+  projectTowerId?: number | undefined;
   lotNo: any;
   floor: number | undefined;
   unitNo: any;

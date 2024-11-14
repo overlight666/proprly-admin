@@ -147,13 +147,15 @@ const OrganizationSingle: FC = function () {
               </li>
             </ul>
           </div>
-          <div className={`w-full mt-5 h-[200px] overflow-hidden`}>
-            <img
-              className="object-fill h-[200px] w-full"
-              src={`${selectedOrganization?.image.url}`}
-              alt=""
-            />
-          </div>
+          {!projectList && (
+            <div className={`w-full mt-5 h-[200px] overflow-hidden`}>
+              <img
+                className="object-fill h-[200px] w-full"
+                src={`${selectedOrganization?.image.url}`}
+                alt=""
+              />
+            </div>
+          )}
         </div>
 
         {loadedProject ? (

@@ -9,6 +9,7 @@ import {
   getSingleProject,
   getTowersReducer,
   getTradeCodeListByProject,
+  patchProject,
   postDefectCode,
   postTower,
   postTradeCode,
@@ -84,6 +85,17 @@ export const projectSlice = createSlice({
       state.projectTrigger = true;
     });
     builder.addCase(registerProject.rejected, (state) => {
+      state.isIdle = true;
+    });
+    builder.addCase(patchProject.pending, (state) => {
+      state.isIdle = false;
+    });
+    builder.addCase(patchProject.fulfilled, (state, action) => {
+      state.projectResponse = action.payload;
+      state.isIdle = true;
+      state.projectTrigger = true;
+    });
+    builder.addCase(patchProject.rejected, (state) => {
       state.isIdle = true;
     });
     //get projects
