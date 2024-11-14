@@ -12,6 +12,7 @@ import {
   getCountries,
   getOneProject,
   getprojects,
+  getProperty,
   getRegions,
   getTowers,
   listOfBuilders,
@@ -272,6 +273,20 @@ export const getAllCountries: any = createAsyncThunk(
     }
   }
 );
+
+export const getSingleProperty: any = createAsyncThunk(
+  "getSingleProperty",
+  async (id) => {
+    try {
+      const response = await getProperty(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const getDefectCodeListByProject: any = createAsyncThunk(
   "getAllDefectCodeByProjectId",
   async (id) => {

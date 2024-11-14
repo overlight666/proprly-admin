@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -7,9 +8,15 @@ import { useEffect } from "react";
 import { DataTable } from "simple-datatables";
 import { Button, Dropdown } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
+import { useNavigate, useParams } from "react-router";
+import { useDispatch } from "react-redux";
+import { selectProperty } from "../store/features/propertySlice";
 // import OrgTableData from "./datatable/orgtable";
 
 const PropertyTable = function ({ properties }) {
+  const { id, project_id }: any = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (document.getElementById("organization-property-table") && properties) {
       try {
@@ -149,7 +156,16 @@ const PropertyTable = function ({ properties }) {
                       </Button>
                     )}
                   >
-                    <Dropdown.Item>View</Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        dispatch(selectProperty(props));
+                        navigate(
+                          `/organization/${id}/project/${project_id}/properties/${props.id}`
+                        );
+                      }}
+                    >
+                      View
+                    </Dropdown.Item>
                   </Dropdown>
                 </td>
               </tr>

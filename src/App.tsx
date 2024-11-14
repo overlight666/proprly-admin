@@ -38,6 +38,7 @@ import SignupLeads from "./pages/admin/sign-up-leads";
 import ViewSignupLead from "./pages/admin/view-leads";
 import Properties from "./pages/properties/properties";
 import AddProperty from "./pages/properties/newProperty";
+import ViewProperty from "./pages/properties/viewProperty";
 
 const App: FC = function () {
   return (
@@ -105,6 +106,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <AddProperty />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/properties/:property_id"
+              element={
+                <PrivateRoutes>
+                  <ViewProperty />
                 </PrivateRoutes>
               }
             />

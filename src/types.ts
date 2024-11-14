@@ -145,6 +145,7 @@ export interface PropertyState {
   propertyData: Property | undefined;
   isIdle: boolean;
   propertyResponse: Project | undefined;
+  selectedProperty: Property | undefined;
 }
 
 export interface DefectCode {
@@ -161,6 +162,7 @@ export interface DefectCode {
 }
 
 export interface Property {
+  id?: number;
   name: string | undefined;
   projectId: number | undefined;
   projectTowerId: number | undefined;

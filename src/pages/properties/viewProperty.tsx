@@ -17,7 +17,7 @@ import type {
   PropertyState,
   TowerData,
 } from "../../types";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import Select from "react-select";
@@ -26,25 +26,26 @@ import Warranty from "./propertyItems/warranty";
 import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
+  getSingleProperty,
   getTowersReducer,
   registerProperty,
 } from "../../store/features/reducers";
-import { clearPropertyResponse } from "../../store/features/propertySlice";
 import ErrorHandler from "../../components/error";
 
-const AddProperty: FC = function () {
+const ViewProperty: FC = function () {
+  const { selectedProperty }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
   const [errors, setErrors] = useState<any>([]);
   const [numFloors, setNumFloors] = useState<any>(0);
+  const [selectedTower, setSelectedTower] = useState<any>(undefined);
+  const [selectedFloor, setSelectedFloor] = useState<any>(undefined);
   const { projectTowers }: ProjectState = useSelector(
     (state: any) => state.project
   );
 
-  const { propertyResponse }: PropertyState = useSelector(
-    (state: any) => state.property
-  );
-
   const [towerOptions, setTowerOptions] = useState<any>([]);
-  const { project_id }: any = useParams();
+  const { project_id, property_id }: any = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedOrganization }: OrgState = useSelector(
@@ -60,16 +61,13 @@ const AddProperty: FC = function () {
   }, []);
 
   useEffect(() => {
-    if (propertyResponse && propertyResponse.id) {
-      toast.info("New Property has been registered!");
-      dispatch(clearPropertyResponse());
-      setTimeout(() => {
-        navigate(
-          `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
-        );
-      }, 1000);
+    if (!selectedProperty) {
+      dispatch(getSingleProperty(property_id));
+    } else {
+      setFormData(selectedProperty);
     }
-  }, [propertyResponse]);
+  }, [selectedProperty]);
+
   useEffect(() => {
     if (projectTowers) {
       const n = projectTowers.map((t: TowerData) => {
@@ -83,6 +81,33 @@ const AddProperty: FC = function () {
     }
   }, []);
 
+  useEffect(() => {
+    if (towerOptions) {
+      setSelectedTower(
+        towerOptions.find((t) => t.value === formData.projectTowerId)
+      );
+    }
+  }, [towerOptions]);
+
+  useEffect(() => {
+    if (numFloors) {
+      setSelectedFloor(numFloors.find((t) => t.value == formData.floor));
+    }
+  }, [numFloors]);
+
+  useEffect(() => {
+    if (selectedTower) {
+      const fo: any = [];
+      for (let i = 1; i <= parseInt(selectedTower.numFloors); i++) {
+        fo.push({
+          label: i,
+          value: i,
+        });
+      }
+
+      setNumFloors(fo);
+    }
+  }, [selectedTower]);
   const [formData, setFormData] = useState<Property>({
     name: "",
     projectId: project_id,
@@ -258,10 +283,13 @@ const AddProperty: FC = function () {
             >
               Properties
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Add</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              {formData && `Unit ${formData.unitNo} Lot ${formData.lotNo}`}
+            </Breadcrumb.Item>
           </Breadcrumb>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            Create Property
+            Property{" "}
+            {formData && `Unit ${formData.unitNo} Lot ${formData.lotNo}`}
           </h1>
         </div>
         <div className="flex w-full flex-col">
@@ -318,7 +346,9 @@ const AddProperty: FC = function () {
                     classNamePrefix="select"
                     options={options}
                     isSearchable={true}
-                    defaultValue={formData.status}
+                    defaultValue={options.find(
+                      (s) => s.value === formData.status
+                    )}
                     onChange={(event) =>
                       handleInputChange({
                         target: {
@@ -334,54 +364,58 @@ const AddProperty: FC = function () {
                 </div>
               </div>
               <div className="grid w-[50%] grid-cols-2 gap-5">
-                <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                  <Label htmlFor="organization">
-                    Tower <span className="text-[red]">*</span>
-                  </Label>
-                  <Select
-                    // className="basic-single"
-                    menuPosition="fixed"
-                    classNamePrefix="select"
-                    options={towerOptions}
-                    isSearchable={true}
-                    defaultValue={formData.projectTowerId}
-                    onChange={(event) =>
-                      handleInputChange({
-                        target: {
-                          name: "projectTowerId",
-                          value: event,
-                        },
-                      })
-                    }
-                    id="projectTowerId"
-                    name="projectTowerId"
-                    // value={country}
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                  <Label htmlFor="organization">
-                    Floor <span className="text-[red]">*</span>
-                  </Label>
-                  <Select
-                    // className="basic-single"
-                    menuPosition="fixed"
-                    classNamePrefix="select"
-                    options={numFloors}
-                    isSearchable={true}
-                    defaultValue={formData.floor}
-                    onChange={(event) =>
-                      handleInputChange({
-                        target: {
-                          name: "floor",
-                          value: event,
-                        },
-                      })
-                    }
-                    id="floor"
-                    name="floor"
-                    // value={country}
-                  />
-                </div>
+                {selectedTower && (
+                  <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                    <Label htmlFor="organization">
+                      Tower <span className="text-[red]">*</span>
+                    </Label>
+
+                    <Select
+                      // className="basic-single"
+                      menuPosition="fixed"
+                      classNamePrefix="select"
+                      options={towerOptions}
+                      isSearchable={true}
+                      defaultValue={selectedTower}
+                      onChange={(event) =>
+                        handleInputChange({
+                          target: {
+                            name: "projectTowerId",
+                            value: event,
+                          },
+                        })
+                      }
+                      id="projectTowerId"
+                      name="projectTowerId"
+                    />
+                  </div>
+                )}
+                {selectedFloor && (
+                  <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                    <Label htmlFor="organization">
+                      Floor <span className="text-[red]">*</span>
+                    </Label>
+                    <Select
+                      // className="basic-single"
+                      menuPosition="fixed"
+                      classNamePrefix="select"
+                      options={numFloors}
+                      isSearchable={true}
+                      defaultValue={selectedFloor}
+                      onChange={(event) =>
+                        handleInputChange({
+                          target: {
+                            name: "floor",
+                            value: event,
+                          },
+                        })
+                      }
+                      id="floor"
+                      name="floor"
+                      // value={country}
+                    />
+                  </div>
+                )}
               </div>
             </>
           )}
@@ -588,7 +622,7 @@ const AddProperty: FC = function () {
             }}
             color="primary"
           >
-            Create Property
+            Update Property
           </Button>
           <Button
             className="mx-1"
@@ -605,4 +639,4 @@ const AddProperty: FC = function () {
   );
 };
 
-export default AddProperty;
+export default ViewProperty;

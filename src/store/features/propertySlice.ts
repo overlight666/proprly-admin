@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { PropertyState } from "../../types";
-import { getProperties, registerProperty } from "./reducers";
+import type { Property, PropertyState } from "../../types";
+import { getProperties, getSingleProperty, registerProperty } from "./reducers";
 
 // Define the initial state using that type
 
@@ -10,6 +11,7 @@ const initialState: PropertyState = {
   propertyData: undefined,
   isIdle: true,
   propertyResponse: undefined,
+  selectedProperty: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -19,6 +21,9 @@ export const propertySlice = createSlice({
   reducers: {
     clearPropertyResponse: (state) => {
       state.propertyResponse = undefined;
+    },
+    selectProperty: (state, action: PayloadAction<Property>) => {
+      state.selectedProperty = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -45,8 +50,22 @@ export const propertySlice = createSlice({
     builder.addCase(getProperties.rejected, (state) => {
       state.isIdle = true;
     });
+    builder.addCase(getSingleProperty.pending, (state) => {
+      state.isIdle = false;
+      state.selectedProperty = undefined;
+    });
+    builder.addCase(getSingleProperty.fulfilled, (state, action) => {
+      state.selectedProperty =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      state.isIdle = true;
+    });
+    builder.addCase(getSingleProperty.rejected, (state) => {
+      state.isIdle = true;
+    });
   },
 });
 
-export const { clearPropertyResponse } = propertySlice.actions;
+export const { clearPropertyResponse, selectProperty } = propertySlice.actions;
 export default propertySlice.reducer;

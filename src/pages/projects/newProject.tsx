@@ -309,7 +309,7 @@ const ProjectNewPage: FC = function () {
                 Project Information
               </a>
             </li>
-            {/* <li className="me-2">
+            <li className="me-2">
               <a
                 href="javascript:void(0)"
                 onClick={() => dispatch(updateProjectTab(2))}
@@ -341,7 +341,7 @@ const ProjectNewPage: FC = function () {
                 </svg>
                 Tower/Basement
               </a>
-            </li> */}
+            </li>
             {/* {userData.user?.userType === "admin" && (
               <li className="me-2">
                 <a
@@ -374,7 +374,7 @@ const ProjectNewPage: FC = function () {
               </li>
             )} */}
 
-            <li className="me-2">
+            {/* <li className="me-2">
               <a
                 href="javascript:void(0)"
                 // onClick={() => dispatch(updateProjectTab(4))}
@@ -403,7 +403,7 @@ const ProjectNewPage: FC = function () {
                 </svg>
                 {userData.user?.userType === "admin" ? `Attach User` : `Users`}
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
         {projectTab === 1 ? (

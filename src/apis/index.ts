@@ -123,6 +123,18 @@ export const newProperty = async (params: Property) => {
     });
 };
 
+export const getProperty = async (id: any) => {
+  return api
+    .get(`/property/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const newTower = async (params: Project) => {
   return api
     .post(`/project_towers`, params)
