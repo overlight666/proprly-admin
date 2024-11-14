@@ -26,7 +26,10 @@ import type {
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { updateProjectTab } from "../../store/features/appSlice";
+import {
+  updateProjectTab,
+  updateProjectTabMain,
+} from "../../store/features/appSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear, clearFile } from "../../store/features/imageSlice";
 import {
@@ -37,7 +40,11 @@ import {
   uploadDocument,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
-import { clearTrigger } from "../../store/features/projectSlice";
+import {
+  clearProject,
+  clearTrigger,
+  reloadProjectStatus,
+} from "../../store/features/projectSlice";
 import Upload from "./uploadItems/upload";
 type projectType = {
   name: string;
@@ -61,6 +68,7 @@ const ProjectNewPage: FC = function () {
   const { projectResponse, towerResponse, projectTrigger }: ProjectState =
     useSelector((state: any) => state.project);
   const [uploadedFiles, setUploadedFiles] = useState<any>([]);
+  const [sending, setSending] = useState<any>(false);
   // const { userData }: UserState = useSelector((state: any) => state.user);
   const { id }: any = useParams();
   //   const navigate = useNavigate();
@@ -74,6 +82,10 @@ const ProjectNewPage: FC = function () {
 
   useEffect(() => {
     if (projectResponse && projectResponse.id && projectResponse.id > 0) {
+      dispatch(reloadProjectStatus(true));
+      dispatch(clearProject());
+      dispatch(clear());
+      dispatch(updateProjectTabMain(0));
       navigate(`/organization/${id}/project/${projectResponse.id}`);
     }
   }, [projectResponse]);
@@ -308,6 +320,7 @@ const ProjectNewPage: FC = function () {
     }
 
     if (valid) {
+      setSending(true);
       const docs: any = [];
       uploadedFiles &&
         uploadedFiles.map((obj: any) => {
@@ -791,7 +804,7 @@ const ProjectNewPage: FC = function () {
                   <div className="flex">
                     <Button
                       className="mx-1"
-                      disabled={!isValid2}
+                      disabled={!isValid2 || sending}
                       onClick={() => {
                         // dispatch(updateProjectTab(3));
                         postProject();

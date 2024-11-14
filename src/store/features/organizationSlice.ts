@@ -57,6 +57,7 @@ export const organizationSlice = createSlice({
     builder.addCase(getOrganizations.pending, (state) => {
       state.loading = true;
       state.isIdle = false;
+      state.orgList = [];
     });
     builder.addCase(getOrganizations.fulfilled, (state, action) => {
       state.orgList = action.payload;
@@ -66,6 +67,7 @@ export const organizationSlice = createSlice({
     builder.addCase(getOrganizations.rejected, (state) => {
       state.loading = false;
       state.isIdle = true;
+      state.orgList = [];
     });
   },
 });

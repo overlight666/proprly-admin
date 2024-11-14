@@ -46,6 +46,7 @@ const initialState: ProjectState = {
   tradeCodeList: [],
   isTradeFired: false,
   isCodeFired: false,
+  reloadProject: true,
 };
 
 export const projectSlice = createSlice({
@@ -63,6 +64,9 @@ export const projectSlice = createSlice({
       state.projectResponse = undefined;
       state.towerResponse = {};
       state.towerData = [];
+    },
+    reloadProjectStatus: (state, action: PayloadAction<boolean>) => {
+      state.reloadProject = action.payload;
     },
     clearProjectList: (state) => {
       state.projectList = [];
@@ -213,6 +217,7 @@ export const {
   updateTowers,
   fireTrade,
   fireCode,
+  reloadProjectStatus,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -31,17 +31,17 @@ import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
 // import { FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrganizations } from "../store/features/reducers";
 import type { Organization, OrgState, ProjectState, UserState } from "../types";
 import { matchPath, useLocation, useParams } from "react-router-dom";
 import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
+import { getProjects } from "../store/features/reducers";
+import { reloadProjectStatus } from "../store/features/projectSlice";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
   const { orgList }: OrgState = useSelector((state: any) => state.organization);
-  const { projectList, loadedProject }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { projectList, loadedProject, reloadProject }: ProjectState =
+    useSelector((state: any) => state.project);
   const { userData }: UserState = useSelector((state: any) => state.user);
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
     useSidebarContext();
@@ -53,11 +53,19 @@ const ExampleSidebar: FC = function () {
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
   const { pathname } = useLocation();
 
+  useEffect(() => {
+    if (id && reloadProject) {
+      dispatch(getProjects(id));
+      dispatch(reloadProjectStatus(false));
+    }
+  }, [id]);
+
   const currentRoute = [
     "/organization",
     "/organization/new",
     "/signup-leads",
     "signup-leads/view",
+    "/organization/:id",
     "/organization/:id/project/:project_id",
     "/organization/:id/project/:project_id/properties",
     "/organization/:id/project/:project_id/properties/new",
@@ -143,7 +151,9 @@ const ExampleSidebar: FC = function () {
                     <>
                       <Sidebar.Item
                         href={`/organization/${selectedOrg.id}`}
-                        className="text-[14px]"
+                        className={`text-[14px] ${
+                          currentRoute == "/organization/:id" && "bg-gray-200"
+                        }`}
                       >
                         <div className="flex w-full items-center">
                           <div className="mr-3 flex h-6 items-center justify-center rounded bg-blue-100 p-2 shadow">

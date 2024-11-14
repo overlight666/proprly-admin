@@ -208,6 +208,7 @@ export interface ProjectListType {
 }
 
 export interface ProjectState {
+  reloadProject: boolean;
   projectData: Project;
   isIdle: boolean;
   projectResponse: Project | undefined;
