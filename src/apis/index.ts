@@ -57,6 +57,18 @@ export const newOrganization = async (params: organizationRegistration) => {
     });
 };
 
+export const uploadWarrantyFiles = async (params: any) => {
+  return api
+    .post(`/warranty`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const uploadImage = async (file: any) => {
   const formData = new FormData();
   formData.append("files", file);
@@ -68,6 +80,24 @@ export const uploadImage = async (file: any) => {
   })
     .then((response) => {
       return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const uploadWarranties = async (file: any, group: any) => {
+  const formData = new FormData();
+  formData.append("files", file);
+  return api({
+    method: "post",
+    url: "/upload",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then((response) => {
+      return { ...response.data[0], group };
     })
     .catch((error) => {
       // log request error if any
@@ -126,6 +156,18 @@ export const updateProject = async (params: Project, id: number) => {
 export const newProperty = async (params: Property) => {
   return api
     .post(`/property`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error.response;
+    });
+};
+
+export const updateProperty = async (params: Property) => {
+  return api
+    .patch(`/property/${params.id}`, params)
     .then((response) => {
       return response.data;
     })

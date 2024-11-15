@@ -5,12 +5,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Breadcrumb, Button, Label, TextInput } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import type {
+  ImageState,
   OrgState,
   ProjectState,
   Property,
@@ -27,12 +29,18 @@ import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
   getTowersReducer,
+  postWarranties,
+  postWarrantyFiles,
   registerProperty,
 } from "../../store/features/reducers";
 import { clearPropertyResponse } from "../../store/features/propertySlice";
 import ErrorHandler from "../../components/error";
+import { clearWarranty, resetWarranty } from "../../store/features/imageSlice";
 
 const AddProperty: FC = function () {
+  const [uploadedWarranties, setUploadedWarranties] = useState<any>({
+    groups: [],
+  });
   const [errors, setErrors] = useState<any>([]);
   const [numFloors, setNumFloors] = useState<any>(0);
   const { projectTowers }: ProjectState = useSelector(
@@ -42,6 +50,13 @@ const AddProperty: FC = function () {
   const { propertyResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
+
+  const {
+    warrantyData,
+    uploadDone,
+    warrantyResponse,
+    warrantyResponseStatus,
+  }: ImageState = useSelector((state: any) => state.uploads);
 
   const [towerOptions, setTowerOptions] = useState<any>([]);
   const { project_id }: any = useParams();
@@ -60,16 +75,75 @@ const AddProperty: FC = function () {
   }, []);
 
   useEffect(() => {
-    if (propertyResponse && propertyResponse.id) {
-      toast.info("New Property has been registered!");
-      dispatch(clearPropertyResponse());
-      setTimeout(() => {
-        navigate(
-          `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
+    if (warrantyData) {
+      const warrant =
+        uploadedWarranties &&
+        uploadedWarranties.groups &&
+        uploadedWarranties.groups.find(
+          (obj) => obj.group === warrantyData.group
         );
-      }, 1000);
+      if (!warrant) {
+        uploadedWarranties.groups.push({
+          group: warrantyData.group,
+          files: [warrantyData.id],
+          data: [warrantyData],
+        });
+      } else {
+        uploadedWarranties &&
+          uploadedWarranties.groups &&
+          uploadedWarranties.groups.map((obj) => {
+            if (obj.group === warrantyData.group) {
+              const arr1 = [...new Set(obj.data)];
+              const arr = [...new Set(obj.files)];
+              arr1.push(warrantyData);
+              arr.push(warrantyData.id);
+              obj.files = arr;
+              obj.data = arr1;
+            }
+          });
+      }
+      setUploadedWarranties(uploadedWarranties);
+      dispatch(clearWarranty());
+    }
+  }, [warrantyData]);
+
+  useEffect(() => {
+    if (propertyResponse && propertyResponse.id) {
+      dispatch(
+        postWarrantyFiles({
+          propertyId: propertyResponse.id,
+          ...uploadedWarranties,
+        })
+      );
+      dispatch(clearPropertyResponse());
     }
   }, [propertyResponse]);
+
+  useEffect(() => {
+    if (warrantyResponse) {
+      if (uploadDone) {
+        if (warrantyResponseStatus) {
+          toast.info("New Property has been registered!");
+          setTimeout(() => {
+            navigate(
+              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
+            );
+          }, 1000);
+        } else {
+          toast.warning(
+            "New Property has been registered but warranties is not fully uploaded"
+          );
+          setTimeout(() => {
+            navigate(
+              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
+            );
+          }, 1000);
+        }
+        dispatch(resetWarranty());
+      }
+    }
+  }, [warrantyResponse]);
+
   useEffect(() => {
     if (projectTowers) {
       const n = projectTowers.map((t: TowerData) => {
@@ -235,6 +309,22 @@ const AddProperty: FC = function () {
     //   ]);
     // }
   };
+
+  const handleUpload = async (
+    event: ChangeEvent<HTMLInputElement>,
+    group: string
+  ) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      const params = {
+        group: group,
+        file: event.target.files[0],
+      };
+      dispatch(postWarranties(params));
+    }
+  };
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -564,7 +654,12 @@ const AddProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard4 && <Warranty />}
+          {showCard4 && (
+            <Warranty
+              handleUpload={handleUpload}
+              uploadedWarranties={uploadedWarranties}
+            />
+          )}
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard5(!showCard5)}

@@ -41,6 +41,10 @@ export interface ImageState {
   imageData: ImageType;
   isIdle: boolean;
   fileData: ImageType | undefined;
+  warrantyData: any;
+  warrantyResponse: any;
+  warrantyResponseStatus: boolean;
+  uploadDone: boolean;
 }
 
 export interface AppState {
@@ -207,6 +211,15 @@ export interface ProjectListType {
   projectTower: TowerData[];
 }
 
+export interface UploadedWarranties {
+  propertyId: number;
+  groups: WarrantyGroup[];
+}
+
+export interface WarrantyGroup {
+  group: string;
+  files: number[];
+}
 export interface ProjectState {
   reloadProject: boolean;
   projectData: Project;

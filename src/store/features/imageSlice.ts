@@ -1,7 +1,12 @@
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { uploadDocument, uploadImageFile } from "./reducers";
+import {
+  postWarranties,
+  postWarrantyFiles,
+  uploadDocument,
+  uploadImageFile,
+} from "./reducers";
 import type { ImageState } from "../../types";
 
 // Define the initial state using that type
@@ -19,6 +24,10 @@ const initialState: ImageState = {
   imageData: initialValue,
   fileData: undefined,
   isIdle: true,
+  warrantyData: undefined,
+  warrantyResponse: undefined,
+  warrantyResponseStatus: false,
+  uploadDone: false,
 };
 
 export const imageSlice = createSlice({
@@ -31,6 +40,14 @@ export const imageSlice = createSlice({
     },
     clearFile: (state) => {
       state.fileData = undefined;
+    },
+    clearWarranty: (state) => {
+      state.warrantyData = undefined;
+    },
+    resetWarranty: (state) => {
+      state.warrantyResponse = undefined;
+      state.warrantyResponseStatus = false;
+      state.uploadDone = false;
     },
   },
   extraReducers: (builder) => {
@@ -61,10 +78,37 @@ export const imageSlice = createSlice({
     builder.addCase(uploadDocument.rejected, (state) => {
       state.fileData = undefined;
     });
+    builder.addCase(postWarranties.pending, (state) => {
+      state.warrantyData = undefined;
+    });
+    builder.addCase(postWarranties.fulfilled, (state, action) => {
+      if (action.payload.code) {
+        state.warrantyData = undefined;
+      } else {
+        state.warrantyData = action.payload;
+      }
+    });
+    builder.addCase(postWarranties.rejected, (state) => {
+      state.warrantyData = undefined;
+    });
+    builder.addCase(postWarrantyFiles.pending, (state) => {
+      state.warrantyResponse = undefined;
+      state.uploadDone = true;
+      state.warrantyResponseStatus = true;
+    });
+    builder.addCase(postWarrantyFiles.fulfilled, (state, action) => {
+      state.warrantyResponse = action.payload;
+    });
+    builder.addCase(postWarrantyFiles.rejected, (state) => {
+      state.warrantyResponse = undefined;
+      state.uploadDone = true;
+      state.warrantyResponseStatus = false;
+    });
   },
 });
 
-export const { clear, clearFile } = imageSlice.actions;
+export const { clear, clearFile, clearWarranty, resetWarranty } =
+  imageSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

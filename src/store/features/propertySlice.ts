@@ -3,7 +3,12 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { Property, PropertyState } from "../../types";
-import { getProperties, getSingleProperty, registerProperty } from "./reducers";
+import {
+  getProperties,
+  getSingleProperty,
+  patchProperty,
+  registerProperty,
+} from "./reducers";
 
 // Define the initial state using that type
 
@@ -62,6 +67,21 @@ export const propertySlice = createSlice({
       state.isIdle = true;
     });
     builder.addCase(getSingleProperty.rejected, (state) => {
+      state.isIdle = true;
+    });
+
+    builder.addCase(patchProperty.pending, (state) => {
+      state.isIdle = false;
+      state.selectedProperty = undefined;
+    });
+    builder.addCase(patchProperty.fulfilled, (state, action) => {
+      state.selectedProperty =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      state.isIdle = true;
+    });
+    builder.addCase(patchProperty.rejected, (state) => {
       state.isIdle = true;
     });
   },

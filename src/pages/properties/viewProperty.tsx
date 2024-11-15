@@ -28,7 +28,7 @@ import { useNavigate, useParams } from "react-router";
 import {
   getSingleProperty,
   getTowersReducer,
-  registerProperty,
+  patchProperty,
 } from "../../store/features/reducers";
 import ErrorHandler from "../../components/error";
 
@@ -198,7 +198,7 @@ const ViewProperty: FC = function () {
                       formData.parkingSpaces !== "" &&
                       formData.parkingSpaces !== undefined
                     ) {
-                      dispatch(registerProperty(formData));
+                      dispatch(patchProperty({ ...formData, id: property_id }));
                     } else {
                       setErrors((oldArray) => [
                         ...[...new Set(oldArray)],

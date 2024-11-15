@@ -26,7 +26,10 @@ import {
   resendOTP,
   signupLead,
   updateProject,
+  updateProperty,
   uploadImage,
+  uploadWarranties,
+  uploadWarrantyFiles,
   userLogin,
 } from "../../apis";
 import type { Project, Property } from "../../types";
@@ -161,11 +164,50 @@ export const uploadDocument: any = createAsyncThunk(
   }
 );
 
+export const postWarranties: any = createAsyncThunk(
+  "postWarranties",
+  async (data: any) => {
+    try {
+      const response = await uploadWarranties(data.file, data.group);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const postWarrantyFiles: any = createAsyncThunk(
+  "postWarrantyFiles",
+  async (data: any) => {
+    try {
+      const response = await uploadWarrantyFiles(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const patchProject: any = createAsyncThunk(
   "patchProject",
   async (data: any) => {
     try {
       const response = await updateProject(data, data.id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const patchProperty: any = createAsyncThunk(
+  "patchProperty",
+  async (data: any) => {
+    try {
+      const response = await updateProperty(data);
       // If you want to get something back
       return response;
     } catch (err) {

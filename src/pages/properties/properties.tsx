@@ -25,6 +25,8 @@ import { useNavigate } from "react-router";
 import { getProperties } from "../../store/features/reducers";
 import PropertyTable from "../../components/propertyTable";
 import PropertyHeader from "../../components/propertyHeader";
+import DefectHeader from "../../components/defectHeader";
+import DefectResolution from "./defectResolution/defectResolution";
 
 const Properties: FC = function () {
   const { propertyData }: PropertyState = useSelector(
@@ -53,7 +55,7 @@ const Properties: FC = function () {
   useEffect(() => {
     dispatch(getProperties(selectedProject?.id));
   }, []);
-  console.log(propertyData);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -217,10 +219,20 @@ const Properties: FC = function () {
             </div>
           </div>
         ) : (
-          <div className="flex w-full flex-col  !bg-transparent">
-            <PropertyHeader />
-            <PropertyTable properties={propertyData} />
-          </div>
+          <>
+            {propertyTab === 1 && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <PropertyHeader />
+                <PropertyTable properties={propertyData} />
+              </div>
+            )}
+            {propertyTab === 2 && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <DefectHeader />
+                <DefectResolution />
+              </div>
+            )}
+          </>
         )}
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
