@@ -23,9 +23,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import Select from "react-select";
-import Owner from "./propertyItems/owner";
+// import Owner from "./propertyItems/owner";
 import Warranty from "./propertyItems/warranty";
-import Reports from "./propertyItems/reports";
+// import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
   getTowersReducer,
@@ -184,9 +184,9 @@ const AddProperty: FC = function () {
 
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
-  const [showCard3, setShowCard3] = useState(true);
+  // const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
-  const [showCard5, setShowCard5] = useState(true);
+  // const [showCard5, setShowCard5] = useState(true);
 
   const handleInputChange = (event: any) => {
     try {
@@ -631,7 +631,7 @@ const AddProperty: FC = function () {
               </div>
             </>
           )}
-          <div
+          {/* <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard3(!showCard3)}
           >
@@ -642,7 +642,7 @@ const AddProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <Owner />}
+          {showCard3 && <Owner />} */}
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
@@ -660,7 +660,7 @@ const AddProperty: FC = function () {
               uploadedWarranties={uploadedWarranties}
             />
           )}
-          <div
+          {/* <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard5(!showCard5)}
           >
@@ -671,7 +671,7 @@ const AddProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard5 && <Reports />}
+          {showCard5 && <Reports />} */}
         </div>
       </div>
       <div className="m-3 grid grid-cols-1 gap-y-2">

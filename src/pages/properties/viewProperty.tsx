@@ -23,7 +23,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import Select from "react-select";
 import Owner from "./propertyItems/owner";
 import Warranty from "./propertyItems/warranty";
-import Reports from "./propertyItems/reports";
+// import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
   attachPropertyUserReducer,
@@ -184,7 +184,7 @@ const ViewProperty: FC = function () {
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
-  const [showCard5, setShowCard5] = useState(true);
+  // const [showCard5, setShowCard5] = useState(true);
 
   const handleInputChange = (event: any) => {
     try {
@@ -654,7 +654,7 @@ const ViewProperty: FC = function () {
             )}
           </div>
           {showCard4 && <Warranty />}
-          <div
+          {/* <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard5(!showCard5)}
           >
@@ -665,7 +665,7 @@ const ViewProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard5 && <Reports />}
+          {showCard5 && <Reports />} */}
         </div>
       </div>
       <div className="m-3 grid grid-cols-1 gap-y-2">
