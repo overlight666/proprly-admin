@@ -98,7 +98,7 @@ const OrganizationNewPage: FC = function () {
   }, []);
 
   useEffect(() => {
-    if (regions.length > 0) {
+    if (regions && regions.length > 0) {
       const noptions = regions.map((c) => {
         return {
           value: c.regionName.toLowerCase(),
@@ -607,7 +607,7 @@ const OrganizationNewPage: FC = function () {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedBuilderList.length ? (
+                    {selectedBuilderList && selectedBuilderList.length ? (
                       selectedBuilderList.map((obj: any, index: any) => {
                         return (
                           <tr

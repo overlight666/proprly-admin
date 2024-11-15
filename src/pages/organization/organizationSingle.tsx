@@ -22,7 +22,6 @@ import {
 } from "../../store/features/projectSlice";
 import { clear } from "../../store/features/imageSlice";
 import Dashboard from "./dashboard";
-import { getProjects } from "../../store/features/reducers";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
 
 const OrganizationSingle: FC = function () {
@@ -55,7 +54,6 @@ const OrganizationSingle: FC = function () {
 
   useEffect(() => {
     dispatch(clearProjectList());
-    dispatch(getProjects(id));
   }, []);
 
   return (
