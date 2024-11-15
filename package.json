@@ -27,9 +27,11 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@uidotdev/usehooks": "^2.4.1",
+    "@zach.codes/react-calendar": "^0.3.3",
     "apexcharts": "^3.41.0",
     "axios": "^1.7.7",
     "classnames": "^2.3.2",
+    "date-fns": "^4.1.0",
     "flowbite": "^1.8.1",
     "flowbite-react": "^0.5.0",
     "http-proxy-middleware": "^3.0.2",

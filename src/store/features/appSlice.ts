@@ -12,6 +12,7 @@ const initialState: AppState = {
   projectTabMain: 0,
   propertyTab: 1,
   orgTab: 1,
+  appointmentTab: 1,
   regions: [],
   countries: [],
   config: undefined,
@@ -27,6 +28,9 @@ export const appSlice = createSlice({
     },
     updateProjectTab: (state, action) => {
       state.projectTab = action.payload;
+    },
+    updateAppointmentTab: (state, action) => {
+      state.appointmentTab = action.payload;
     },
     updateProjectTabMain: (state, action) => {
       state.projectTabMain = action.payload;
@@ -84,6 +88,7 @@ export const {
   updateOrgTab,
   updatePropertyTab,
   updateProjectTabMain,
+  updateAppointmentTab,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

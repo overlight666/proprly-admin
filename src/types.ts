@@ -56,6 +56,7 @@ export interface AppState {
   regions: Regions[];
   countries: Country[];
   config: Config | undefined;
+  appointmentTab: number;
 }
 
 export interface Config {

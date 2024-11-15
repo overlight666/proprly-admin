@@ -41,6 +41,7 @@ import AddProperty from "./pages/properties/newProperty";
 import ViewProperty from "./pages/properties/viewProperty";
 import { useDispatch } from "react-redux";
 import { getGlobalConfig, getOrganizations } from "./store/features/reducers";
+import Appointments from "./pages/appointments/appointments";
 
 const App: FC = function () {
   const dispatch = useDispatch();
@@ -126,6 +127,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ViewProperty />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/appointments"
+              element={
+                <PrivateRoutes>
+                  <Appointments />
                 </PrivateRoutes>
               }
             />

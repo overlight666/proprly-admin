@@ -69,6 +69,7 @@ const ExampleSidebar: FC = function () {
     "/organization/:id/project/:project_id",
     "/organization/:id/project/:project_id/properties",
     "/organization/:id/project/:project_id/properties/new",
+    "/organization/:id/project/:project_id/appointments",
   ].find((pattern) => {
     return matchPath(pattern, pathname);
   });
@@ -321,8 +322,14 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrg.id}/project/${obj.id}`}
-                                      className={`ml-2 text-[14px]`}
+                                      href={`/organization/${selectedOrg.id}/project/${obj.id}/appointments`}
+                                      className={`ml-2 text-[14px] ${
+                                        currentRoute ==
+                                          "/organization/:id/project/:project_id/appointments" &&
+                                        project_id == obj.id
+                                          ? "bg-gray-200"
+                                          : ""
+                                      }`}
                                     >
                                       <div className={`flex items-center `}>
                                         <div
