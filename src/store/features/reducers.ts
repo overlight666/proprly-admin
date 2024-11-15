@@ -5,6 +5,7 @@ import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
   addDefectCode,
   addTradeCode,
+  attachPropertyUser,
   getAllDefectCodebyProject,
   getAllOrganizations,
   getAllProperties,
@@ -215,6 +216,20 @@ export const patchProperty: any = createAsyncThunk(
     }
   }
 );
+
+export const attachPropertyUserReducer: any = createAsyncThunk(
+  "attachPropertyUserReducer",
+  async (data: any) => {
+    try {
+      const response = await attachPropertyUser(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const getTowersReducer: any = createAsyncThunk(
   "getTowers",
   async (id: any) => {

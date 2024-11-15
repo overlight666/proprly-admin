@@ -17,7 +17,7 @@ import type {
   PropertyState,
   TowerData,
 } from "../../types";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import Select from "react-select";
@@ -26,14 +26,22 @@ import Warranty from "./propertyItems/warranty";
 import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
+  attachPropertyUserReducer,
   getSingleProperty,
   getTowersReducer,
   patchProperty,
 } from "../../store/features/reducers";
 import ErrorHandler from "../../components/error";
+import {
+  clearAttachedUsers,
+  selectProperty,
+} from "../../store/features/propertySlice";
 
 const ViewProperty: FC = function () {
-  const { selectedProperty }: PropertyState = useSelector(
+  const { project_id, property_id }: any = useParams();
+  const [ownerList, setOwnerList] = useState<any>([]);
+  const [attachedOwner, setAttachedOwner] = useState<any>([]);
+  const { selectedProperty, attachedUser }: PropertyState = useSelector(
     (state: any) => state.property
   );
   const [errors, setErrors] = useState<any>([]);
@@ -44,8 +52,44 @@ const ViewProperty: FC = function () {
     (state: any) => state.project
   );
 
+  const addOwner = (name, mobile, email) => {
+    if (name.trim() !== "" && mobile.trim() !== "" && email.trim() !== "") {
+      const params = {
+        fullName: name,
+        mobile,
+        email,
+        roleId: 6,
+      };
+      setOwnerList((oldArray) => [params, ...oldArray]);
+    } else {
+      toast.error("all fields are required!");
+    }
+  };
+  const attachOwner = (value) => {
+    try {
+      if (value && value !== "Please select") {
+        const user = {
+          id: property_id,
+          password: "admin",
+          ...JSON.parse(value),
+        };
+        dispatch(attachPropertyUserReducer(user));
+        // setAttachedOwner((oldArray) => [JSON.parse(value), ...oldArray]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (attachedUser && attachedUser.id) {
+      setAttachedOwner(attachedUser?.user);
+      dispatch(selectProperty(attachedUser));
+      dispatch(clearAttachedUsers());
+    }
+  }, [attachedUser]);
   const [towerOptions, setTowerOptions] = useState<any>([]);
-  const { project_id, property_id }: any = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedOrganization }: OrgState = useSelector(
@@ -65,6 +109,9 @@ const ViewProperty: FC = function () {
       dispatch(getSingleProperty(property_id));
     } else {
       setFormData(selectedProperty);
+      if (selectedProperty.user) {
+        setAttachedOwner(selectedProperty.user);
+      }
     }
   }, [selectedProperty]);
 
@@ -260,6 +307,7 @@ const ViewProperty: FC = function () {
     //   ]);
     // }
   };
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -586,7 +634,14 @@ const ViewProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <Owner />}
+          {showCard3 && (
+            <Owner
+              addOwner={addOwner}
+              ownerList={ownerList}
+              attachedOwner={attachedOwner}
+              attachOwner={attachOwner}
+            />
+          )}
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}

@@ -4,6 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { Property, PropertyState } from "../../types";
 import {
+  attachPropertyUserReducer,
   getProperties,
   getSingleProperty,
   patchProperty,
@@ -17,6 +18,7 @@ const initialState: PropertyState = {
   isIdle: true,
   propertyResponse: undefined,
   selectedProperty: undefined,
+  attachedUser: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -24,6 +26,9 @@ export const propertySlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    clearAttachedUsers: (state) => {
+      state.attachedUser = undefined;
+    },
     clearPropertyResponse: (state) => {
       state.propertyResponse = undefined;
     },
@@ -84,8 +89,24 @@ export const propertySlice = createSlice({
     builder.addCase(patchProperty.rejected, (state) => {
       state.isIdle = true;
     });
+
+    builder.addCase(attachPropertyUserReducer.pending, (state) => {
+      state.isIdle = false;
+      state.attachedUser = undefined;
+    });
+    builder.addCase(attachPropertyUserReducer.fulfilled, (state, action) => {
+      state.attachedUser =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      state.isIdle = true;
+    });
+    builder.addCase(attachPropertyUserReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
   },
 });
 
-export const { clearPropertyResponse, selectProperty } = propertySlice.actions;
+export const { clearPropertyResponse, selectProperty, clearAttachedUsers } =
+  propertySlice.actions;
 export default propertySlice.reducer;

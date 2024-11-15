@@ -248,6 +248,7 @@ export interface PropertyState {
   isIdle: boolean;
   propertyResponse: Project | undefined;
   selectedProperty: Property | undefined;
+  attachedUser: any;
 }
 
 export interface DefectCode {
@@ -281,6 +282,7 @@ export interface Property {
   internalArea: any;
   externalArea: any;
   status: string;
+  user?: userData[];
 }
 
 export interface TradeCode {

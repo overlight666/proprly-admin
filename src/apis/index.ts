@@ -177,6 +177,18 @@ export const updateProperty = async (params: Property) => {
     });
 };
 
+export const attachPropertyUser = async (params: Property) => {
+  return api
+    .post(`/property/${params.id}/user`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error.response;
+    });
+};
+
 export const getProperty = async (id: any) => {
   return api
     .get(`/property/${id}`)
