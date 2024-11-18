@@ -135,8 +135,8 @@ const ProjectFullTable = function () {
                       : "After 7 Years"}
                   </td>
                   <td className="px-6 py-4">{p.projectTower.length}</td>
-                  <td className="px-6 py-4"></td>
-                  <td className="px-6 py-4"></td>
+                  <td className="px-6 py-4">{p.numBasementLevels}</td>
+                  <td className="px-6 py-4">0</td>
                 </tr>
               );
             })}

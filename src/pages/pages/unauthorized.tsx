@@ -1,11 +1,13 @@
-import { Button } from "flowbite-react";
+// import { Button } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 import type { FC } from "react";
-import { HiChevronLeft } from "react-icons/hi";
+// import { HiChevronLeft } from "react-icons/hi";
 
 const Unauthorized: FC = function () {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-16">
-      <img alt="" src="/images/illustrations/404.svg" className="lg:max-w-md" />
+      <Spinner aria-label="Alternate spinner button example" size="lg" />
+      {/* <img alt="" src="/images/illustrations/404.svg" className="lg:max-w-md" />
       <h1 className="mb-6 text-2xl font-bold dark:text-white md:text-5xl">
         You are Unauthorized to view this page
       </h1>
@@ -17,7 +19,7 @@ const Unauthorized: FC = function () {
         <div className="mr-1 flex items-center gap-x-2">
           <HiChevronLeft className="text-xl" /> Go back home
         </div>
-      </Button>
+      </Button> */}
     </div>
   );
 };
