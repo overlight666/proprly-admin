@@ -373,34 +373,22 @@ const ProjectSingle: FC = function () {
                       : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                   }
                   width="14"
-                  height="15"
-                  viewBox="0 0 14 15"
+                  height="13"
+                  viewBox="0 0 14 13"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clipPath="url(#clip0_1195_9641)">
-                    <path
-                      d="M12.7039 2.25H1.29646C0.9027 2.25 0.583496 2.58579 0.583496 3V12C0.583496 12.4142 0.9027 12.75 1.29646 12.75H12.7039C13.0976 12.75 13.4168 12.4142 13.4168 12V3C13.4168 2.58579 13.0976 2.25 12.7039 2.25Z"
-                      fill={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
-                    />
-                    <path
-                      d="M9.13905 2.25V12.75M4.86127 2.25V12.75M1.29646 2.25H12.7039C13.0976 2.25 13.4168 2.58579 13.4168 3V12C13.4168 12.4142 13.0976 12.75 12.7039 12.75H1.29646C0.9027 12.75 0.583496 12.4142 0.583496 12V3C0.583496 2.58579 0.9027 2.25 1.29646 2.25Z"
-                      stroke={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1195_9641">
-                      <rect
-                        width="14"
-                        height="14"
-                        fill="white"
-                        transform="translate(0 0.5)"
-                      />
-                    </clipPath>
-                  </defs>
+                  <path
+                    d="M12.7034 1.25H1.29597C0.902212 1.25 0.583008 1.58579 0.583008 2V11C0.583008 11.4142 0.902212 11.75 1.29597 11.75H12.7034C13.0971 11.75 13.4163 11.4142 13.4163 11V2C13.4163 1.58579 13.0971 1.25 12.7034 1.25Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M9.13856 1.25V11.75M4.86079 1.25V11.75M1.29597 1.25H12.7034C13.0971 1.25 13.4163 1.58579 13.4163 2V11C13.4163 11.4142 13.0971 11.75 12.7034 11.75H1.29597C0.902212 11.75 0.583008 11.4142 0.583008 11V2C0.583008 1.58579 0.902212 1.25 1.29597 1.25Z"
+                    stroke={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
                 Dashboard
               </a>
