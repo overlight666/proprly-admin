@@ -833,7 +833,7 @@ const ProjectSingle: FC = function () {
                         disabled={!myImage.isIdle}
                         color="primary"
                       >
-                        submit
+                        Update Project
                       </Button>
                       <Button
                         className="mx-1"
