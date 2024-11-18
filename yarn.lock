@@ -1615,6 +1615,21 @@ damerau-levenshtein@^1.0.8:
   resolved "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
+datatables.net-dt@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-2.1.8.tgz#ef4ada436411bff6c68ee02213222d8caefa7af9"
+  integrity sha512-/ScKmyKIpKXzjOJrnJLOWMf2jOQfrYjayNMhUyeMzf3jKhNevHNvImU9MQ/Bab9yheKLjHLL24IgnshAvRFrng==
+  dependencies:
+    datatables.net "2.1.8"
+    jquery ">=1.7"
+
+datatables.net@2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-2.1.8.tgz#9b020f18e927cc924d72411f62dc595cc688669b"
+  integrity sha512-47ULt+U4bcjbuGTpTlT6SnCuSFVRBxxdWa6X3NfvTObBJ2BZU0o+JUIl05wQ6cABNIavjbAV51gpgvFsMHL9zA==
+  dependencies:
+    jquery ">=1.7"
+
 date-fns@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
@@ -2780,6 +2795,11 @@ jiti@^1.18.2:
   version "1.19.1"
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.19.1.tgz"
   integrity sha512-oVhqoRDaBXf7sjkll95LHVS6Myyyb1zaunVwk4Z0+WPSW4gjS0pl01zYKHScTuyEhQsFxV5L4DR5r+YqSyqyyg==
+
+jquery@>=1.7:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

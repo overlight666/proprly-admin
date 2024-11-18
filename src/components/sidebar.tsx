@@ -173,7 +173,7 @@ const ExampleSidebar: FC = function () {
                           </div>
                         </div>
                       </Sidebar.Item>
-                      {projectList.length > 0 ? (
+                      {projectList && projectList.length > 0 ? (
                         projectList.map((obj) => {
                           return (
                             <>
