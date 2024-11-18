@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
 
-import { Button, Label, Modal, Radio } from "flowbite-react";
+import { Button, Label, Modal } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -110,7 +110,7 @@ const PropertyHeader = function () {
           </Modal.Footer>
         </Modal>
       </div>
-      <fieldset className="my-5 flex flex-row items-center gap-4">
+      {/* <fieldset className="my-5 flex flex-row items-center gap-4">
         <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
@@ -137,7 +137,7 @@ const PropertyHeader = function () {
           <Radio id="spain" name="countries" value="Spain" />
           <Label htmlFor="spain">Post-Pandover</Label>
         </div>
-      </fieldset>
+      </fieldset> */}
     </>
   );
 };

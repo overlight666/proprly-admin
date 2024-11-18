@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
+import { Button, Timeline, useTheme } from "flowbite-react";
 import { type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
-import { FaDownload } from "react-icons/fa";
+// import { FaDownload } from "react-icons/fa";
 import {
   HiArrowNarrowRight,
   HiCalendar,
@@ -286,7 +286,7 @@ const Dashboard: FC = function () {
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
           <div className="flex w-full items-center justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              Property Defects by Trade
+              Common Area Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
               <Button
@@ -314,7 +314,8 @@ const Dashboard: FC = function () {
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
-              Total property defects <span className="text-green-500">0</span>
+              Total common area defects{" "}
+              <span className="text-green-500">0</span>
             </span>
           </div>
         </div>
@@ -371,7 +372,7 @@ const Defects: FC = function () {
             </table>
           </div>
         </div>
-        <fieldset className="my-5 flex flex-row items-center gap-4">
+        {/* <fieldset className="my-5 flex flex-row items-center gap-4">
           <span className="text-[14px]">Show only:</span>
           <div className="flex items-center gap-2">
             <Radio
@@ -398,7 +399,7 @@ const Defects: FC = function () {
               </div>
             </Button>
           </div>
-        </fieldset>
+        </fieldset> */}
       </div>
       <ul className="space-y-6">
         <li className="w-full items-center sm:flex">
