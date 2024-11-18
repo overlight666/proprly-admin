@@ -21,7 +21,7 @@ const ProjectHeader = function () {
 
   return (
     <>
-      <div className="mb-10 mt-5 grid w-full grid-cols-9 gap-2">
+      <div className="mb-10 ml-[16px] mt-5 grid w-full grid-cols-9 gap-2">
         <div className="relative col-span-3 w-full">
           <input
             type="search"
