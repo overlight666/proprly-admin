@@ -166,7 +166,7 @@ const Dashboard: FC = function () {
                 />
               </svg>
 
-              <span className="text-gray-500">Lorem Ipsum</span>
+              <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
                 0
               </span>
