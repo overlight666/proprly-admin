@@ -54,7 +54,7 @@ const ExampleSidebar: FC = function () {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (id && reloadProject) {
+    if (id) {
       dispatch(getProjects(id));
       dispatch(reloadProjectStatus(false));
     }
