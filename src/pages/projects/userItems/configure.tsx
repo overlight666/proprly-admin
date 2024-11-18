@@ -35,9 +35,7 @@ export default function ConfigureAccordionUser() {
       </Accordion>
       <div className="my-5 flex flex-row gap-5">
         <Button className="w-[200px]">
-          <div className="flex items-center gap-x-2 text-xs">
-            Configure Project
-          </div>
+          <div className="flex items-center gap-x-2 text-xs">Submit</div>
         </Button>
         <Button className="w-[100px]" color="gray">
           <div className="flex items-center gap-x-2 text-xs">Cancel</div>

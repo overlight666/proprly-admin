@@ -66,14 +66,14 @@ export default function Strata() {
         <a href="javascript:void(0)">ADD NEW STRATA</a>
         <BsChevronRight />
       </div>
-      <div className="my-5 flex flex-row gap-5">
+      {/* <div className="my-5 flex flex-row gap-5">
         <Button className="w-[100px]">
           <div className="flex items-center gap-x-2 text-xs">Submit</div>
         </Button>
         <Button className="w-[100px]" color="gray">
           <div className="flex items-center gap-x-2 text-xs">Cancel</div>
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
