@@ -115,7 +115,7 @@ const RegistrationStep2 = function (props: UserRegistration) {
         </div>
         <p className="mb-6 text-center text-sm text-gray-500 dark:text-gray-300">
           Already registered?&nbsp;
-          <a href="#" className="text-primary-600 dark:text-primary-300">
+          <a href="/" className="text-primary-600 dark:text-primary-300">
             Click here to login
           </a>
         </p>

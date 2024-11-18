@@ -46,7 +46,7 @@ const RegistrationStep3 = function (props: UserRegistration) {
       </div>
       <p className="my-6 text-center text-sm text-gray-500 dark:text-gray-300">
         <a
-          href="#"
+          href="/"
           className="text-primary-600 dark:text-primary-300"
           onClick={() => resendOTP()}
         >
