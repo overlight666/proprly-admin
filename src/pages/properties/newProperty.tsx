@@ -36,6 +36,7 @@ import {
 import { clearPropertyResponse } from "../../store/features/propertySlice";
 import ErrorHandler from "../../components/error";
 import { clearWarranty, resetWarranty } from "../../store/features/imageSlice";
+import Owner from "./propertyItems/owner";
 
 const AddProperty: FC = function () {
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
@@ -184,7 +185,7 @@ const AddProperty: FC = function () {
 
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
-  // const [showCard3, setShowCard3] = useState(true);
+  const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
   // const [showCard5, setShowCard5] = useState(true);
 
@@ -631,7 +632,7 @@ const AddProperty: FC = function () {
               </div>
             </>
           )}
-          {/* <div
+          <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard3(!showCard3)}
           >
@@ -642,7 +643,7 @@ const AddProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <Owner />} */}
+          {showCard3 && <Owner />}
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
