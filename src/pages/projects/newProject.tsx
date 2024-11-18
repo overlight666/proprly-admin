@@ -523,7 +523,11 @@ const ProjectNewPage: FC = function () {
                         config.projectTypeList.map(
                           (pt: ValueList, index: number) => {
                             return (
-                              <option key={index} value={pt.key}>
+                              <option
+                                key={index}
+                                value={pt.key}
+                                disabled={pt.value !== "apartment"}
+                              >
                                 {capitalizeFirstLetter(pt.value)}
                               </option>
                             );

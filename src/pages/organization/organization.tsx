@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import OrgTable from "../../components/orgTable";
 
 const OrganizationPage: FC = function () {
-  const { orgList }: OrgState = useSelector(
+  const { orgList, isIdle }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
 
@@ -40,7 +40,16 @@ const OrganizationPage: FC = function () {
           <OrganizationHeader canAddOrg={true} canTransformTable={true} />
         </div>
 
-        {(orgList && orgList.length === 0 && (
+        {!isIdle && (
+          <div className="flex min-h-[400px] w-full items-center justify-center">
+            <Spinner
+              aria-label="Alternate spinner button example"
+              color="blue"
+              size="xl"
+            />
+          </div>
+        )}
+        {(orgList && orgList.length === 0 && isIdle && (
           <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
             <span className="text-gray-600">
               Please start by creating a new organization!
@@ -57,7 +66,7 @@ const OrganizationPage: FC = function () {
             </Button>
           </div>
         )) ||
-          (isGrid ? (
+          (isGrid && isIdle ? (
             <div className="grid grid-cols-3 gap-3  p-5 max-sm:grid-cols-1">
               {orgList &&
                 orgList.map((org: Organization, index) => {
@@ -203,7 +212,7 @@ const OrganizationPage: FC = function () {
                 })}
             </div>
           ) : (
-            <OrgTable />
+            isIdle && <OrgTable />
           ))}
       </div>
     </NavbarSidebarLayout>
