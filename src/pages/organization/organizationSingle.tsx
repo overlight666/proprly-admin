@@ -23,6 +23,7 @@ import {
 import { clear } from "../../store/features/imageSlice";
 import Dashboard from "./dashboard";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
+import ProjectHeader from "../../components/projectHeader";
 
 const OrganizationSingle: FC = function () {
   const { orgList, selectedOrganization }: OrgState = useSelector(
@@ -184,7 +185,7 @@ const OrganizationSingle: FC = function () {
             )
           ) : (
             <div className="flex w-full flex-col">
-              <div className="w-full border-b-2 py-5">
+              {/* <div className="w-full border-b-2 py-5">
                 <div className="flex">
                   <div className="flex mx-5 w-[80%]">
                     <div className="relative col-span-3 w-[40%]">
@@ -251,9 +252,10 @@ const OrganizationSingle: FC = function () {
                     </div>
                   </Button>
                 </div>
-              </div>
+              </div> */}
+              <ProjectHeader />
               <div className="p-5">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <div className="flex items-center me-4">
                     <span>Show only:</span>
                   </div>
@@ -303,7 +305,7 @@ const OrganizationSingle: FC = function () {
                       Common Areas
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <ProjectFullTable />
               </div>
             </div>

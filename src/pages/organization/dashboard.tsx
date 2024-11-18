@@ -9,7 +9,6 @@ import {
   HiCalendar,
   HiDotsHorizontal,
 } from "react-icons/hi";
-import { TbFileExport } from "react-icons/tb";
 
 const Dashboard: FC = function () {
   return (
@@ -251,7 +250,7 @@ const Dashboard: FC = function () {
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
           <div className="flex w-full items-center justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              Common Areas
+              Property Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
               <Button
@@ -279,15 +278,15 @@ const Dashboard: FC = function () {
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
-              Total common area value{" "}
-              <span className="text-green-500">0 Sq.Ft.</span>
+              Total property defects <span className="text-green-500">0</span>
             </span>
           </div>
         </div>
+
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
           <div className="flex w-full items-center justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              Properties
+              Property Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
               <Button
@@ -301,17 +300,6 @@ const Dashboard: FC = function () {
                 </div>
               </Button>
               &nbsp;&nbsp;
-              <Button
-                // onClick={() => gotoPage("/organization/new")}
-                className="mx-1"
-                color="gray"
-              >
-                <div className="flex items-center gap-x-2 text-xs">
-                  <TbFileExport />
-                  Export CSV
-                </div>
-              </Button>
-              &nbsp;&nbsp;
               <a
                 href="#"
                 className="inline-flex cursor-pointer items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -320,111 +308,14 @@ const Dashboard: FC = function () {
               </a>
             </div>
           </div>
-          <div className="my-6 flex w-full flex-col">
-            <div className="my-2 flex flex-row">
-              <ProjectChart />
-              <div className="ml-5 flex flex-col">
-                <span className="text-gray-500">Under Construction</span>
-                <span className="text-3xl font-bold leading-none text-gray-900 dark:text-white">
-                  0
-                </span>
-                <div className="flex items-center">
-                  <svg
-                    width="8"
-                    height="11"
-                    viewBox="0 0 8 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.19488 1.07086L4.19524 1.0712L7.19063 3.92456C7.23191 3.96638 7.25042 4.01682 7.24999 4.06422C7.24955 4.11249 7.22939 4.16382 7.18551 4.20563C7.14083 4.24818 7.07554 4.27626 7.00253 4.27686C6.93073 4.27745 6.86568 4.25136 6.82007 4.2105L5.10468 2.57645L4.25981 1.77165V2.93848V9.78571C4.25981 9.83449 4.2397 9.88649 4.19532 9.92876C4.15012 9.97181 4.08385 10 4.00996 10C3.93607 10 3.8698 9.97181 3.82461 9.92876C3.78023 9.88649 3.76011 9.83449 3.76011 9.78571V2.93848V1.77235L2.91541 2.5763L1.1945 4.21418L1.19445 4.21412L1.1881 4.22037C1.16619 4.24199 1.13865 4.2605 1.10645 4.27368C1.07422 4.28687 1.03872 4.29411 1.00223 4.29442C0.965733 4.29472 0.930049 4.28806 0.897472 4.27536C0.864927 4.26268 0.836922 4.24455 0.814492 4.22318C0.792114 4.20186 0.775814 4.17787 0.765257 4.15329C0.754729 4.12878 0.74978 4.10343 0.750008 4.07849C0.750235 4.05354 0.755648 4.0282 0.766676 4.00375C0.777737 3.97922 0.794564 3.95537 0.817455 3.93431L0.817506 3.93436L0.823786 3.92838L3.82319 1.0712L3.82355 1.07086C3.84531 1.05009 3.87255 1.03242 3.90426 1.02007L3.90426 1.02007L3.90596 1.01941C3.97167 0.993532 4.04676 0.993532 4.11247 1.01941L4.11247 1.01941L4.11416 1.02007C4.14588 1.03242 4.17312 1.05009 4.19488 1.07086Z"
-                      fill="#0E9F6E"
-                      stroke="#0E9F6E"
-                    />
-                  </svg>
-                  <span className="mr-1 text-green-500">0%</span>
-                  <span>vs last month </span>
-                </div>
-              </div>
-            </div>
-            <div className="my-2 flex flex-row">
-              <ProjectChart />
-              <div className="ml-5 flex flex-col">
-                <span className="text-gray-500">Under Construction</span>
-                <span className="text-3xl font-bold leading-none text-gray-900 dark:text-white">
-                  0
-                </span>
-                <div className="flex items-center">
-                  <svg
-                    width="8"
-                    height="11"
-                    viewBox="0 0 8 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.19488 1.07086L4.19524 1.0712L7.19063 3.92456C7.23191 3.96638 7.25042 4.01682 7.24999 4.06422C7.24955 4.11249 7.22939 4.16382 7.18551 4.20563C7.14083 4.24818 7.07554 4.27626 7.00253 4.27686C6.93073 4.27745 6.86568 4.25136 6.82007 4.2105L5.10468 2.57645L4.25981 1.77165V2.93848V9.78571C4.25981 9.83449 4.2397 9.88649 4.19532 9.92876C4.15012 9.97181 4.08385 10 4.00996 10C3.93607 10 3.8698 9.97181 3.82461 9.92876C3.78023 9.88649 3.76011 9.83449 3.76011 9.78571V2.93848V1.77235L2.91541 2.5763L1.1945 4.21418L1.19445 4.21412L1.1881 4.22037C1.16619 4.24199 1.13865 4.2605 1.10645 4.27368C1.07422 4.28687 1.03872 4.29411 1.00223 4.29442C0.965733 4.29472 0.930049 4.28806 0.897472 4.27536C0.864927 4.26268 0.836922 4.24455 0.814492 4.22318C0.792114 4.20186 0.775814 4.17787 0.765257 4.15329C0.754729 4.12878 0.74978 4.10343 0.750008 4.07849C0.750235 4.05354 0.755648 4.0282 0.766676 4.00375C0.777737 3.97922 0.794564 3.95537 0.817455 3.93431L0.817506 3.93436L0.823786 3.92838L3.82319 1.0712L3.82355 1.07086C3.84531 1.05009 3.87255 1.03242 3.90426 1.02007L3.90426 1.02007L3.90596 1.01941C3.97167 0.993532 4.04676 0.993532 4.11247 1.01941L4.11247 1.01941L4.11416 1.02007C4.14588 1.03242 4.17312 1.05009 4.19488 1.07086Z"
-                      fill="#0E9F6E"
-                      stroke="#0E9F6E"
-                    />
-                  </svg>
-                  <span className="mr-1 text-green-500">0%</span>
-                  <span>vs last month </span>
-                </div>
-              </div>
-            </div>
-            <div className="my-2 flex flex-row">
-              <ProjectChart />
-              <div className="ml-5 flex flex-col">
-                <span className="text-gray-500">Under Construction</span>
-                <span className="text-3xl font-bold leading-none text-gray-900 dark:text-white">
-                  0
-                </span>
-                <div className="flex items-center">
-                  <svg
-                    width="8"
-                    height="11"
-                    viewBox="0 0 8 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.19488 1.07086L4.19524 1.0712L7.19063 3.92456C7.23191 3.96638 7.25042 4.01682 7.24999 4.06422C7.24955 4.11249 7.22939 4.16382 7.18551 4.20563C7.14083 4.24818 7.07554 4.27626 7.00253 4.27686C6.93073 4.27745 6.86568 4.25136 6.82007 4.2105L5.10468 2.57645L4.25981 1.77165V2.93848V9.78571C4.25981 9.83449 4.2397 9.88649 4.19532 9.92876C4.15012 9.97181 4.08385 10 4.00996 10C3.93607 10 3.8698 9.97181 3.82461 9.92876C3.78023 9.88649 3.76011 9.83449 3.76011 9.78571V2.93848V1.77235L2.91541 2.5763L1.1945 4.21418L1.19445 4.21412L1.1881 4.22037C1.16619 4.24199 1.13865 4.2605 1.10645 4.27368C1.07422 4.28687 1.03872 4.29411 1.00223 4.29442C0.965733 4.29472 0.930049 4.28806 0.897472 4.27536C0.864927 4.26268 0.836922 4.24455 0.814492 4.22318C0.792114 4.20186 0.775814 4.17787 0.765257 4.15329C0.754729 4.12878 0.74978 4.10343 0.750008 4.07849C0.750235 4.05354 0.755648 4.0282 0.766676 4.00375C0.777737 3.97922 0.794564 3.95537 0.817455 3.93431L0.817506 3.93436L0.823786 3.92838L3.82319 1.0712L3.82355 1.07086C3.84531 1.05009 3.87255 1.03242 3.90426 1.02007L3.90426 1.02007L3.90596 1.01941C3.97167 0.993532 4.04676 0.993532 4.11247 1.01941L4.11247 1.01941L4.11416 1.02007C4.14588 1.03242 4.17312 1.05009 4.19488 1.07086Z"
-                      fill="#0E9F6E"
-                      stroke="#0E9F6E"
-                    />
-                  </svg>
-                  <span className="mr-1 text-green-500">0%</span>
-                  <span>vs last month </span>
-                </div>
-              </div>
-            </div>
-            <div className="my-2 flex flex-row">
-              <ProjectChart />
-              <div className="ml-5 flex flex-col">
-                <span className="text-gray-500">Under Construction</span>
-                <span className="text-3xl font-bold leading-none text-gray-900 dark:text-white">
-                  0
-                </span>
-                <div className="flex items-center">
-                  <svg
-                    width="8"
-                    height="11"
-                    viewBox="0 0 8 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M4.19488 1.07086L4.19524 1.0712L7.19063 3.92456C7.23191 3.96638 7.25042 4.01682 7.24999 4.06422C7.24955 4.11249 7.22939 4.16382 7.18551 4.20563C7.14083 4.24818 7.07554 4.27626 7.00253 4.27686C6.93073 4.27745 6.86568 4.25136 6.82007 4.2105L5.10468 2.57645L4.25981 1.77165V2.93848V9.78571C4.25981 9.83449 4.2397 9.88649 4.19532 9.92876C4.15012 9.97181 4.08385 10 4.00996 10C3.93607 10 3.8698 9.97181 3.82461 9.92876C3.78023 9.88649 3.76011 9.83449 3.76011 9.78571V2.93848V1.77235L2.91541 2.5763L1.1945 4.21418L1.19445 4.21412L1.1881 4.22037C1.16619 4.24199 1.13865 4.2605 1.10645 4.27368C1.07422 4.28687 1.03872 4.29411 1.00223 4.29442C0.965733 4.29472 0.930049 4.28806 0.897472 4.27536C0.864927 4.26268 0.836922 4.24455 0.814492 4.22318C0.792114 4.20186 0.775814 4.17787 0.765257 4.15329C0.754729 4.12878 0.74978 4.10343 0.750008 4.07849C0.750235 4.05354 0.755648 4.0282 0.766676 4.00375C0.777737 3.97922 0.794564 3.95537 0.817455 3.93431L0.817506 3.93436L0.823786 3.92838L3.82319 1.0712L3.82355 1.07086C3.84531 1.05009 3.87255 1.03242 3.90426 1.02007L3.90426 1.02007L3.90596 1.01941C3.97167 0.993532 4.04676 0.993532 4.11247 1.01941L4.11247 1.01941L4.11416 1.02007C4.14588 1.03242 4.17312 1.05009 4.19488 1.07086Z"
-                      fill="#0E9F6E"
-                      stroke="#0E9F6E"
-                    />
-                  </svg>
-                  <span className="mr-1 text-green-500">0%</span>
-                  <span>vs last month </span>
-                </div>
-              </div>
-            </div>
+
+          <div className="my-6">
+            <AcquisitionChart />
+          </div>
+          <div className="flex w-[80%] items-center justify-center border-t pt-5">
+            <span className="text-gray-500">
+              Total property defects <span className="text-green-500">0</span>
+            </span>
           </div>
         </div>
       </div>
@@ -633,75 +524,6 @@ const AcquisitionChart: FC = function () {
   const series = [30, 24, 18, 12, 9, 7];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
-};
-
-const ProjectChart: FC = function () {
-  const { mode } = useTheme();
-  const isDarkTheme = mode === "dark";
-
-  const fillGradientShade = isDarkTheme ? "dark" : "light";
-  const fillGradientShadeIntensity = isDarkTheme ? 0.45 : 1;
-
-  const options: ApexCharts.ApexOptions = {
-    labels: [
-      "01 Feb",
-      "02 Feb",
-      "03 Feb",
-      "04 Feb",
-      "05 Feb",
-      "06 Feb",
-      "07 Feb",
-    ],
-    chart: {
-      fontFamily: "Inter, sans-serif",
-      sparkline: {
-        enabled: true,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shade: fillGradientShade,
-        shadeIntensity: fillGradientShadeIntensity,
-      },
-    },
-    plotOptions: {
-      area: {
-        fillTo: "end",
-      },
-    },
-    theme: {
-      monochrome: {
-        enabled: true,
-        color: "#1A56DB",
-      },
-    },
-    tooltip: {
-      style: {
-        fontSize: "14px",
-        fontFamily: "Inter, sans-serif",
-      },
-    },
-  };
-  const series = [
-    {
-      name: "Visitors",
-      data: [500, 590, 600, 520, 610, 550, 600],
-    },
-  ];
-
-  return (
-    <Chart
-      width={100}
-      height={50}
-      options={options}
-      series={series}
-      type="area"
-    />
-  );
 };
 
 export default Dashboard;

@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import { getProjects } from "../store/features/reducers";
 import type { ProjectListType, ProjectState } from "../types";
 import { DataTable } from "simple-datatables";
+import { BsThreeDots } from "react-icons/bs";
+import { Button } from "flowbite-react";
 
 const ProjectFullTable = function () {
   const { id }: any = useParams();
@@ -93,9 +95,9 @@ const ProjectFullTable = function () {
             <th scope="col" className="px-6 py-3">
               Basement Levels
             </th>
-            {/* <th scope="col" className="px-6 py-3">
-              Reports
-            </th> */}
+            <th scope="col" className="px-6 py-3">
+              {/* Reports */}
+            </th>
           </tr>
         </thead>
 
@@ -136,7 +138,20 @@ const ProjectFullTable = function () {
                   </td>
                   <td className="px-6 py-4">{p.projectTower.length}</td>
                   <td className="px-6 py-4">{p.numBasementLevels}</td>
-                  {/* <td className="px-6 py-4">0</td> */}
+                  <td className="px-6 py-4">
+                    <Button
+                      // onClick={() => {
+                      //   dispatch(updateProjectTab(1));
+                      //   gotoPage(`/organization/${id}/new`);
+                      // }}
+                      color="gray"
+                      className="w-[50px]"
+                    >
+                      <div className="flex items-center gap-x-2 text-xs">
+                        <BsThreeDots />
+                      </div>
+                    </Button>
+                  </td>
                 </tr>
               );
             })}
