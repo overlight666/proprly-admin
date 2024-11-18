@@ -93,9 +93,9 @@ const ProjectFullTable = function () {
             <th scope="col" className="px-6 py-3">
               Basement Levels
             </th>
-            <th scope="col" className="px-6 py-3">
+            {/* <th scope="col" className="px-6 py-3">
               Reports
-            </th>
+            </th> */}
           </tr>
         </thead>
 
@@ -136,7 +136,7 @@ const ProjectFullTable = function () {
                   </td>
                   <td className="px-6 py-4">{p.projectTower.length}</td>
                   <td className="px-6 py-4">{p.numBasementLevels}</td>
-                  <td className="px-6 py-4">0</td>
+                  {/* <td className="px-6 py-4">0</td> */}
                 </tr>
               );
             })}
