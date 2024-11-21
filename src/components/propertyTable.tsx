@@ -5,52 +5,40 @@
 
 import type { Property } from "../types";
 import { useEffect } from "react";
-import { DataTable } from "simple-datatables";
 import { Button, Dropdown } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { selectProperty } from "../store/features/propertySlice";
 // import OrgTableData from "./datatable/orgtable";
+import DataTable from "datatables.net-dt";
+import "datatables.net-dt/css/dataTables.dataTables.min.css";
+import "../extension.css";
 
 const PropertyTable = function ({ properties }) {
   const { id, project_id }: any = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (document.getElementById("organization-property-table") && properties) {
-      try {
-        const datatable = new DataTable("#organization-property-table", {
-          searchable: false,
-          fixedHeight: false,
+    try {
+      if (!DataTable.isDataTable("#organization-property-table")) {
+        new DataTable("#organization-property-table", {
           paging: true,
-          perPage: 5,
-          perPageSelect: [5, 10, 15, 20, 25],
-          sortable: false,
-          firstLast: true,
-          nextPrev: true,
-          classes: {
-            selector:
-              "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg",
-            active: "[&>button]:text-white [&>button]:bg-blue-600",
-            paginationListItemLink:
-              "flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
-            pagination: "datatable-pagination-test",
-            paginationList:
-              "inline-flex h-8 -space-x-px text-sm rtl:space-x-reverse",
-            bottom:
-              "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            top: "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            table: "p-20 !w-full",
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+              },
+            },
+            bottomEnd: "paging",
           },
         });
-        datatable.update();
-        // OrgTableData(orgList);
-        // console.log(orgList);
-        // dataTable.insert(newData);
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [properties]);
 

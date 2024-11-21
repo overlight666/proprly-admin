@@ -75,6 +75,9 @@ export const projectSlice = createSlice({
     clearTrigger: (state) => {
       state.projectTrigger = false;
     },
+    clearSelectedProject: (state) => {
+      state.selectedProject = undefined;
+    },
     updateTowers: (state, action: PayloadAction<TowerData[]>) => {
       state.projectTowers = action.payload;
     },
@@ -218,6 +221,7 @@ export const {
   fireTrade,
   fireCode,
   reloadProjectStatus,
+  clearSelectedProject,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -39,7 +39,9 @@ import { reloadProjectStatus } from "../store/features/projectSlice";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
-  const { orgList }: OrgState = useSelector((state: any) => state.organization);
+  const { orgList, selectedOrganization }: OrgState = useSelector(
+    (state: any) => state.organization
+  );
   const { projectList, loadedProject, reloadProject }: ProjectState =
     useSelector((state: any) => state.project);
   const { userData }: UserState = useSelector((state: any) => state.user);
@@ -50,15 +52,13 @@ const ExampleSidebar: FC = function () {
   const [currentPage, setCurrentPage] = useState("");
   const [isEcommerceOpen, setEcommerceOpen] = useState(true);
   const [isUsersOpen, setUsersOpen] = useState(true);
-  const [selectedOrg, setSelectedOrg] = useState<Organization>();
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getProjects(id));
-      dispatch(reloadProjectStatus(false));
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(reloadProjectStatus(false));
+  //   }
+  // }, [id]);
 
   const currentRoute = [
     "/organization",
@@ -73,11 +73,6 @@ const ExampleSidebar: FC = function () {
   ].find((pattern) => {
     return matchPath(pattern, pathname);
   });
-
-  useEffect(() => {
-    const newList = orgList && orgList.find((org) => org.id == id);
-    setSelectedOrg(newList);
-  }, [id, orgList]);
 
   useEffect(() => {
     const newPage = window.location.pathname;
@@ -148,10 +143,10 @@ const ExampleSidebar: FC = function () {
                     )}
                   </>
                 ) : (
-                  selectedOrg && (
+                  selectedOrganization && (
                     <>
                       <Sidebar.Item
-                        href={`/organization/${selectedOrg.id}`}
+                        href={`/organization/${selectedOrganization.id}`}
                         className={`text-[14px] ${
                           currentRoute == "/organization/:id" && "bg-gray-200"
                         }`}
@@ -161,11 +156,11 @@ const ExampleSidebar: FC = function () {
                             {" "}
                             <span className="text-blue-600">
                               {" "}
-                              {selectedOrg.name.charAt(0)}
+                              {selectedOrganization.name.charAt(0)}
                             </span>
                           </div>
                           <div className="flex w-full items-center justify-between">
-                            {selectedOrg.name}
+                            {selectedOrganization.name}
                             <HiDotsVertical
                               color="primary"
                               className="text-primary-700"
@@ -178,7 +173,7 @@ const ExampleSidebar: FC = function () {
                           return (
                             <>
                               <Sidebar.Item
-                                href={`/organization/${selectedOrg.id}/project/${obj.id}`}
+                                href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                 className={`ml-2 text-[14px] ${
                                   currentRoute ==
                                     "/organization/:id/project/:project_id" &&
@@ -215,7 +210,7 @@ const ExampleSidebar: FC = function () {
                                 <Sidebar.Items style={{ marginLeft: 5 }}>
                                   <Sidebar.ItemGroup>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrg.id}/project/${obj.id}/properties`}
+                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}/properties`}
                                       className={`ml-2 text-[14px] ${
                                         (currentRoute ==
                                           "/organization/:id/project/:project_id/properties" ||
@@ -247,7 +242,7 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrg.id}/project/${obj.id}`}
+                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                       className={`ml-2 text-[14px]`}
                                     >
                                       <div className={`flex items-center `}>
@@ -271,7 +266,7 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrg.id}/project/${obj.id}`}
+                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                       className={`ml-2 text-[14px]`}
                                     >
                                       <div className={`flex items-center `}>
@@ -322,7 +317,7 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrg.id}/project/${obj.id}/appointments`}
+                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}/appointments`}
                                       className={`ml-2 text-[14px] ${
                                         currentRoute ==
                                           "/organization/:id/project/:project_id/appointments" &&

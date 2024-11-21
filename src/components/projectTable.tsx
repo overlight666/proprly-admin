@@ -7,7 +7,9 @@ import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 // import { useSelector } from "react-redux";
 // import type { ProjectState } from "../types";
-import { DataTable } from "simple-datatables";
+import DataTable from "datatables.net-dt";
+import "datatables.net-dt/css/dataTables.dataTables.min.css";
+import "../extension.css";
 import { useEffect } from "react";
 const ProjectTable = function ({ towers }: any) {
   // const { projectTowers, gettingTowers }: ProjectState = useSelector(
@@ -15,36 +17,25 @@ const ProjectTable = function ({ towers }: any) {
   // );
   console.log(towers);
   useEffect(() => {
-    if (document.getElementById("tower-table") && towers) {
-      try {
-        const datatable = new DataTable("#tower-table", {
-          searchable: false,
-          fixedHeight: false,
-          paging: false,
-          perPage: 5,
-          perPageSelect: [5, 10, 15, 20, 25],
-          sortable: false,
-          firstLast: true,
-          nextPrev: true,
-          classes: {
-            selector:
-              "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg",
-            active: "[&>button]:text-white [&>button]:bg-blue-600",
-            paginationListItemLink:
-              "flex h-8 items-center justify-center border border-gray-300 bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
-            pagination: "datatable-pagination-test",
-            paginationList:
-              "inline-flex h-8 -space-x-px text-sm rtl:space-x-reverse",
-            bottom:
-              "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            top: "flex-column flex flex-wrap items-center justify-between pt-4 md:flex-row",
-            table: "p-20",
+    try {
+      if (!DataTable.isDataTable("#tower-table")) {
+        new DataTable("#tower-table", {
+          paging: true,
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+              },
+            },
+            bottomEnd: "paging",
           },
         });
-        datatable.update();
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [towers]);
 
