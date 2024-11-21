@@ -15,10 +15,13 @@ const ProjectTable = function ({ towers }: any) {
   // const { projectTowers, gettingTowers }: ProjectState = useSelector(
   //   (state: any) => state.project
   // );
-  console.log(towers);
   useEffect(() => {
     try {
-      if (!DataTable.isDataTable("#tower-table")) {
+      if (
+        towers &&
+        towers.length > 0 &&
+        !DataTable.isDataTable("#tower-table")
+      ) {
         new DataTable("#tower-table", {
           paging: true,
           searching: false,
@@ -37,7 +40,7 @@ const ProjectTable = function ({ towers }: any) {
     } catch (error) {
       console.log(error);
     }
-  }, [towers]);
+  }, []);
 
   return (
     <>
