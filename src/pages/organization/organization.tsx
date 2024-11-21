@@ -3,12 +3,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Button, Spinner } from "flowbite-react";
+import { Button, Dropdown, Spinner } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 
 import { useNavigate } from "react-router-dom";
 import OrganizationHeader from "../../components/organizationHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type {
   AppState,
   Organization,
@@ -17,8 +17,10 @@ import type {
 } from "../../types";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import OrgTable from "../../components/orgTable";
+import { setSelectedOrganization } from "../../store/features/organizationSlice";
 
 const OrganizationPage: FC = function () {
+  const dispatch = useDispatch();
   const { orgList, isIdle }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
@@ -84,9 +86,27 @@ const OrganizationPage: FC = function () {
                             {org.name}
                           </span>
                         </a>
-                        <Button color="white">
-                          <PiDotsThreeVerticalBold />
-                        </Button>
+                        <Dropdown
+                          label=""
+                          dismissOnClick={false}
+                          renderTrigger={() => (
+                            <Button color="gray" className="w-[50px]">
+                              <div className="flex items-center gap-x-2 text-xs">
+                                <PiDotsThreeVerticalBold />
+                              </div>
+                            </Button>
+                          )}
+                        >
+                          <Dropdown.Item
+                            className="focus:rounded-lg"
+                            onClick={() => {
+                              dispatch(setSelectedOrganization(org));
+                              navigate(`/organization/${org.id}/edit`);
+                            }}
+                          >
+                            Edit
+                          </Dropdown.Item>
+                        </Dropdown>
                       </div>
                       <div className="m-2 overflow-hidden rounded">
                         <a
