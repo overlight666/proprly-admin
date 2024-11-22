@@ -52,6 +52,7 @@ export const leadSlice = createSlice({
     });
     builder.addCase(getAllBuilders.pending, (state) => {
       state.loadingBuilders = true;
+      state.builderList = undefined;
     });
     builder.addCase(getAllBuilders.fulfilled, (state, action) => {
       state.builderList = action.payload;

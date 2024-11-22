@@ -80,7 +80,7 @@ const OrganizationNewPage: FC = function () {
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   const [file, setFile] = useState<any>(undefined);
+
   const [formData, setFormData] = useState<organization>({
     name: "",
     timezone: "",
@@ -163,7 +163,6 @@ const OrganizationNewPage: FC = function () {
         ...oldArray,
         JSON.parse(selectedBuilder),
       ]);
-      console.log(selectedBuilderList);
     }
   };
 
