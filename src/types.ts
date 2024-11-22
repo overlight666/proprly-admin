@@ -319,6 +319,7 @@ export interface Organization {
   createdAt: string;
   updatedAt: string;
   image: ImageType;
+  region?: Regions;
 }
 
 export interface Timezone {

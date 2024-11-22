@@ -22,9 +22,12 @@ import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppState,
+  Country,
   ImageState,
+  ImageType,
   LeadState,
   OrgState,
+  Regions,
   Timezone,
   UserState,
 } from "../../types";
@@ -51,6 +54,8 @@ type organization = {
   imageId: number;
   regionId: number;
   timezoneId: number;
+  region?: Regions;
+  image?: ImageType;
 };
 const OrganizationEdit: FC = function () {
   const { builderList, loadingBuilders }: LeadState = useSelector(
@@ -71,7 +76,7 @@ const OrganizationEdit: FC = function () {
   const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
   const [options, setOptions] = useState<any>([]);
   const [timezoneOption, setTimezoneOptions] = useState<any>([]);
-
+  const [selectedCountry, setSelectedCountry] = useState<Country>();
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
@@ -101,10 +106,15 @@ const OrganizationEdit: FC = function () {
         timezone: selectedOrganization.timezone.name,
         currency: selectedOrganization.currency,
         dateFormat: selectedOrganization.dateFormat,
-        country: "",
-        imageId: 0,
-        regionId: 0,
+        country: selectedOrganization.region
+          ? selectedOrganization.region?.regionName
+          : "",
+        imageId: selectedOrganization.image.id,
+        regionId: selectedOrganization.region
+          ? selectedOrganization.region.id
+          : 0,
         timezoneId: selectedOrganization.timezone.id,
+        image: selectedOrganization.image,
       });
     }
   }, [selectedOrganization]);
@@ -128,6 +138,27 @@ const OrganizationEdit: FC = function () {
   }, [regions]);
 
   useEffect(() => {
+    if (options) {
+      setSelectedCountry(
+        options.find((options: Regions) => options.id === formData.regionId)
+      );
+    }
+  }, [options]);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      const tz = selectedCountry.timezone.map((t: Timezone) => {
+        return {
+          label: t.name,
+          value: t.name,
+          id: t.id,
+        };
+      });
+      setTimezoneOptions(tz);
+    }
+  }, [selectedCountry]);
+
+  useEffect(() => {
     if (!loadingBuilders && builderList) {
       setTempBuilder(builderList.data);
     }
@@ -143,9 +174,6 @@ const OrganizationEdit: FC = function () {
   }, [myImage.imageData.id, myImage.imageData]);
 
   useEffect(() => {
-    // if (!isIdle && loading) {
-    //   setIsTriggered(true);
-    // }
     if (orgData && orgData.name === "error") {
       toast.error(
         "We encountered some errors during the process, please contact admin"
@@ -179,7 +207,6 @@ const OrganizationEdit: FC = function () {
         ...oldArray,
         JSON.parse(selectedBuilder),
       ]);
-      console.log(selectedBuilderList);
     }
   };
 
@@ -261,13 +288,15 @@ const OrganizationEdit: FC = function () {
       const params = {
         id: builder.id,
       };
-      await registerToOrg(params);
+      // await registerToOrg(params);
+      console.log(params);
     });
     const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
     const newData = { ...formData, users: newBuilder };
     if (valid) {
-      setIsTriggered(true);
-      dispatch(registerOrg(newData));
+      console.log(newData);
+      // setIsTriggered(true);
+      // dispatch(registerOrg(newData));
     }
   };
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -320,12 +349,13 @@ const OrganizationEdit: FC = function () {
                 <span className="dark:text-white">Organizations</span>
               </div>
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/organization/new">
-              Add Organization
+            <Breadcrumb.Item href={`/organization/${selectedOrganization?.id}`}>
+              {selectedOrganization?.name}
             </Breadcrumb.Item>
+            <Breadcrumb.Item>Edit</Breadcrumb.Item>
           </Breadcrumb>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            New Organization
+            Edit Organization
           </h1>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
@@ -366,7 +396,7 @@ const OrganizationEdit: FC = function () {
                       classNamePrefix="select"
                       options={options}
                       isSearchable={true}
-                      defaultValue={options[13]}
+                      defaultValue={selectedCountry}
                       onChange={(event) =>
                         handleInputChange({
                           target: {
@@ -377,18 +407,8 @@ const OrganizationEdit: FC = function () {
                       }
                       id="country"
                       name="country"
-                      // value={country}
+                      value={selectedCountry}
                     />
-                    {/* <select
-                      id="country"
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                    >
-                      <option selected>Select</option>
-                      <option value="AU">Australia</option>
-                    </select> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="currency">Currency</Label>
@@ -409,6 +429,9 @@ const OrganizationEdit: FC = function () {
                       classNamePrefix="select"
                       options={timezoneOption}
                       isSearchable={true}
+                      defaultValue={timezoneOption.find(
+                        (tz: Timezone) => tz.id === formData.timezoneId
+                      )}
                       onChange={(event: any) =>
                         handleInputChange({
                           target: {
@@ -419,7 +442,9 @@ const OrganizationEdit: FC = function () {
                       }
                       id="timezone"
                       name="timezone"
-                      // value={country}
+                      value={timezoneOption.find(
+                        (tz: Timezone) => tz.id === formData.timezoneId
+                      )}
                     />
                     {/* <select
                       id="timezone"
@@ -436,8 +461,8 @@ const OrganizationEdit: FC = function () {
                     <Label htmlFor="timezone">Upload Image</Label>
 
                     <div className="relative flex w-full items-center justify-center">
-                      {myImage.imageData === undefined ||
-                      (myImage.imageData && myImage.imageData.id === 0) ? (
+                      {formData.image === undefined ||
+                      (formData.imageId && formData.imageId === 0) ? (
                         <label
                           htmlFor="dropzone-file"
                           className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
@@ -475,34 +500,13 @@ const OrganizationEdit: FC = function () {
                             accept="image/*"
                             onChange={handleUpload}
                           />
-                          {!myImage.isIdle && (
-                            <div
-                              role="status"
-                              className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                className="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
-                                viewBox="0 0 100 101"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                  fill="currentColor"
-                                />
-                                <path
-                                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                  fill="currentFill"
-                                />
-                              </svg>
-                              <span className="sr-only">Loading...</span>
-                            </div>
-                          )}
                         </label>
                       ) : (
                         <>
-                          <img src={myImage.imageData.url} alt="file" />
+                          <img
+                            src={formData.image && formData.image.url}
+                            alt="file"
+                          />
                           <Button
                             className="absolute right-0 top-1"
                             onClick={() => {

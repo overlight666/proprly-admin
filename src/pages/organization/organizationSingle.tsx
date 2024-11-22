@@ -46,17 +46,21 @@ const OrganizationSingle: FC = function () {
   };
 
   useEffect(() => {
-    const newList = orgList && orgList.find((org) => org.id == id);
-    dispatch(setSelectedOrganization(newList));
-  }, [id, orgList]);
-
-  useEffect(() => {
-    dispatch(updateOrgTab(1));
+    if (!selectedOrganization) {
+      const newList = orgList && orgList.find((org) => org.id == id);
+      dispatch(setSelectedOrganization(newList));
+    } else {
+      if (selectedOrganization && selectedOrganization.id != id) {
+        const newList = orgList && orgList.find((org) => org.id == id);
+        dispatch(setSelectedOrganization(newList));
+        dispatch(clearProjectList());
+        dispatch(getProjects(id));
+      }
+    }
   }, []);
 
   useEffect(() => {
-    dispatch(clearProjectList());
-    dispatch(getProjects(id));
+    dispatch(updateOrgTab(1));
   }, []);
 
   return (

@@ -66,6 +66,7 @@ const ExampleSidebar: FC = function () {
     "/signup-leads",
     "signup-leads/view",
     "/organization/:id",
+    "/organization/:id/edit",
     "/organization/:id/project/:project_id",
     "/organization/:id/project/:project_id/properties",
     "/organization/:id/project/:project_id/properties/new",
@@ -108,7 +109,8 @@ const ExampleSidebar: FC = function () {
                 {currentRoute === "/organization" ||
                 currentRoute === "/organization/new" ||
                 currentRoute === "/signup-leads" ||
-                currentRoute === "signup-leads/view" ? (
+                currentRoute === "signup-leads/view" ||
+                currentRoute === "/organization/:id/edit" ? (
                   <>
                     <Sidebar.Item
                       href="/organization"
