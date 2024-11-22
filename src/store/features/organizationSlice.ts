@@ -4,7 +4,13 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { getOrganizations, registerOrg } from "./reducers";
+import {
+  addOrgUser,
+  getOneOrg,
+  getOrganizations,
+  registerOrg,
+  updateOrg,
+} from "./reducers";
 import type { Organization, OrgState } from "../../types";
 
 // Define the initial state using that type
@@ -22,6 +28,7 @@ const initialState: OrgState = {
   isIdle: true,
   orgList: [],
   selectedOrganization: undefined,
+  isUpdated: false,
 };
 
 export const organizationSlice = createSlice({
@@ -38,6 +45,9 @@ export const organizationSlice = createSlice({
     ) => {
       state.selectedOrganization = action.payload;
     },
+    clearOrgUpdates: (state) => {
+      state.isUpdated = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerOrg.pending, (state) => {
@@ -45,11 +55,39 @@ export const organizationSlice = createSlice({
       state.isIdle = false;
     });
     builder.addCase(registerOrg.fulfilled, (state, action) => {
-      state.orgData = action.payload;
+      state.selectedOrganization = action.payload;
       state.loading = false;
       state.isIdle = true;
     });
     builder.addCase(registerOrg.rejected, (state) => {
+      state.loading = false;
+      state.isIdle = true;
+    });
+    //update organization
+    builder.addCase(updateOrg.pending, (state) => {
+      state.loading = true;
+      state.isIdle = false;
+    });
+    builder.addCase(updateOrg.fulfilled, (state) => {
+      state.isUpdated = true;
+      state.loading = false;
+      state.isIdle = true;
+    });
+    builder.addCase(updateOrg.rejected, (state) => {
+      state.loading = false;
+      state.isIdle = true;
+    });
+    //get one organization
+    builder.addCase(getOneOrg.pending, (state) => {
+      state.loading = true;
+      state.isIdle = false;
+    });
+    builder.addCase(getOneOrg.fulfilled, (state, action) => {
+      state.selectedOrganization = action.payload;
+      state.loading = false;
+      state.isIdle = true;
+    });
+    builder.addCase(getOneOrg.rejected, (state) => {
       state.loading = false;
       state.isIdle = true;
     });
@@ -69,10 +107,24 @@ export const organizationSlice = createSlice({
       state.isIdle = true;
       state.orgList = [];
     });
+    //add org user
+    builder.addCase(addOrgUser.pending, (state) => {
+      state.loading = true;
+      state.isIdle = false;
+    });
+    builder.addCase(addOrgUser.fulfilled, (state) => {
+      state.isUpdated = true;
+      state.loading = false;
+      state.isIdle = true;
+    });
+    builder.addCase(addOrgUser.rejected, (state) => {
+      state.loading = false;
+      state.isIdle = true;
+    });
   },
 });
 
-export const { registration, setSelectedOrganization } =
+export const { registration, setSelectedOrganization, clearOrgUpdates } =
   organizationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

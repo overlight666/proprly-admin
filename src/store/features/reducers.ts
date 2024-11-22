@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
   addDefectCode,
+  addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
   getAllDefectCodebyProject,
@@ -12,6 +13,7 @@ import {
   getAllTradeCodebyProject,
   getConfig,
   getCountries,
+  getOneOrganization,
   getOneProject,
   getprojects,
   getProperty,
@@ -26,6 +28,7 @@ import {
   otpVerification,
   resendOTP,
   signupLead,
+  updateOrganization,
   updateProject,
   updateProperty,
   uploadImage,
@@ -61,6 +64,19 @@ export const registerOrg: any = createAsyncThunk(
   }
 );
 
+export const updateOrg: any = createAsyncThunk(
+  "updateOrg",
+  async (data: organizationRegistration) => {
+    try {
+      const response = await updateOrganization(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const registerProject: any = createAsyncThunk(
   "postProject",
   async (data: Project) => {
@@ -79,6 +95,29 @@ export const registerProperty: any = createAsyncThunk(
   async (data: Property) => {
     try {
       const response = await newProperty(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getOneOrg: any = createAsyncThunk("getOneOrg", async (id: any) => {
+  try {
+    const response = await getOneOrganization(id);
+    // If you want to get something back
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+export const addOrgUser: any = createAsyncThunk(
+  "addOrgUser",
+  async (params: any) => {
+    try {
+      const response = await addOrganizationUser(params);
       // If you want to get something back
       return response.data;
     } catch (err) {

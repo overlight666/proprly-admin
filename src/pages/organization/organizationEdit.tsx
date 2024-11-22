@@ -33,9 +33,12 @@ import type {
   UserState,
 } from "../../types";
 import {
+  addOrgUser,
   getAllBuilders,
   getAllRegions,
+  getOneOrg,
   registerOrg,
+  updateOrg,
   uploadImageFile,
 } from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,12 +46,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
-import { registerToOrg } from "../../apis";
 import Select from "react-select";
 import { confirmAlert } from "react-confirm-alert";
 import { BsThreeDots } from "react-icons/bs";
+import { clearOrgUpdates } from "../../store/features/organizationSlice";
 
 type organization = {
+  id?: number;
   name: string;
   timezone: string;
   currency: string;
@@ -64,7 +68,7 @@ const OrganizationEdit: FC = function () {
   const { builderList, loadingBuilders }: LeadState = useSelector(
     (state: any) => state.lead
   );
-  const { selectedOrganization }: OrgState = useSelector(
+  const { selectedOrganization, isUpdated }: OrgState = useSelector(
     (state: any) => state.organization
   );
   const [showCard1, setShowCard1] = useState(true);
@@ -92,6 +96,7 @@ const OrganizationEdit: FC = function () {
   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
   const [formData, setFormData] = useState<organization>({
+    id: undefined,
     name: "",
     timezone: "",
     currency: "",
@@ -103,8 +108,17 @@ const OrganizationEdit: FC = function () {
   });
 
   useEffect(() => {
+    if (isUpdated) {
+      dispatch(getOneOrg(selectedOrganization && selectedOrganization.id));
+      dispatch(clearOrgUpdates());
+      toast.success("Organization is updated!");
+    }
+  }, [isUpdated]);
+
+  useEffect(() => {
     if (selectedOrganization) {
       setFormData({
+        id: selectedOrganization.id,
         name: selectedOrganization.name,
         timezone: selectedOrganization.timezone.name,
         currency: selectedOrganization.currency,
@@ -122,6 +136,7 @@ const OrganizationEdit: FC = function () {
       setSelectedBuilderList(selectedOrganization.user);
     }
   }, [selectedOrganization]);
+
   useEffect(() => {
     dispatch(getAllBuilders());
     dispatch(getAllRegions());
@@ -170,9 +185,14 @@ const OrganizationEdit: FC = function () {
 
   useEffect(() => {
     if (myImage.imageData !== undefined && myImage.imageData.id > 0) {
+      const imgdt: any = {
+        id: myImage.imageData.id,
+        url: myImage.imageData.url,
+      };
       setFormData((prevFormData) => ({
         ...prevFormData,
         imageId: myImage.imageData.id,
+        image: imgdt,
       }));
     }
   }, [myImage.imageData.id, myImage.imageData]);
@@ -206,11 +226,22 @@ const OrganizationEdit: FC = function () {
   }, [isIdle, isTriggered, orgData, loading]);
 
   const addSelectedBuilder = () => {
+    const params = JSON.parse(selectedBuilder);
+    params.roleId = 1;
     if (selectedBuilder) {
-      setSelectedBuilderList((oldArray) => [
-        ...oldArray,
-        JSON.parse(selectedBuilder),
-      ]);
+      const params = JSON.parse(selectedBuilder);
+      params.roleId = 1;
+      if (!selectedBuilderList.find((o) => o.id === params.id)) {
+        if (!selectedBuilderList.find((o) => o.email === params.email)) {
+          // setSelectedBuilderList((oldArray) => [...oldArray, params]);
+          params.req = "update";
+          dispatch(addOrgUser(params));
+        } else {
+          toast.warning("Builder email already exist");
+        }
+      } else {
+        toast.warning("Builder already exist");
+      }
     }
   };
 
@@ -287,20 +318,10 @@ const OrganizationEdit: FC = function () {
       ]);
       valid = false;
     }
-    const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
-    builderToAttach.map(async (builder: any) => {
-      const params = {
-        id: builder.id,
-      };
-      // await registerToOrg(params);
-      console.log(params);
-    });
-    const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
-    const newData = { ...formData, users: newBuilder };
+
     if (valid) {
-      console.log(newData);
       // setIsTriggered(true);
-      // dispatch(registerOrg(newData));
+      dispatch(updateOrg(formData));
     }
   };
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -308,33 +329,34 @@ const OrganizationEdit: FC = function () {
       return;
     } else {
       dispatch(uploadImageFile(event.target.files[0]));
-      //   setFile(event.target.files[0]);
-      //   const res = await uploadImage(event.target.files[0]);
-      //   if (res[0].id && res[0].id > 0) {
-      //     setFormData((prevFormData) => ({
-      //       ...prevFormData,
-      //       imageId: res[0].id,
-      //     }));
-      //   }
     }
   };
 
   const addBuilderToList = () => {
     try {
       const temp = {
+        id: selectedOrganization && selectedOrganization.id,
         fullName: name,
         mobile,
-        // password,
         email,
+        roleId: 1,
+        req: "new",
       };
-      tempBuilders && tempBuilders.length > 0
-        ? setTempBuilder((oldArray) => [...oldArray, temp])
-        : setTempBuilder([temp]);
-      setEmail("");
-      setName("");
-      setMobile("");
-      setPassword("");
-      setOpenModal(false);
+      if (!selectedBuilderList.find((o) => o.mobile === temp.mobile)) {
+        if (!selectedBuilderList.find((o) => o.email === temp.email)) {
+          // setSelectedBuilderList((oldArray) => [...oldArray, temp]);
+          dispatch(addOrgUser(temp));
+          setEmail("");
+          setName("");
+          setMobile("");
+          setPassword("");
+          setOpenModal(false);
+        } else {
+          toast.warning("Builder email already exist");
+        }
+      } else {
+        toast.warning("Builder mobile already used");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -450,16 +472,6 @@ const OrganizationEdit: FC = function () {
                         (tz: Timezone) => tz.id === formData.timezoneId
                       )}
                     />
-                    {/* <select
-                      id="timezone"
-                      name="timezone"
-                      value={formData.timezone}
-                      onChange={handleInputChange}
-                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                    >
-                      <option selected>Select</option>
-                      <option value="Australia/Sydney">Australia/Sydney</option>
-                    </select> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Upload Image</Label>
@@ -504,16 +516,48 @@ const OrganizationEdit: FC = function () {
                             accept="image/*"
                             onChange={handleUpload}
                           />
+                          {!myImage.isIdle && (
+                            <div
+                              role="status"
+                              className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                className="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+                                viewBox="0 0 100 101"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                  fill="currentColor"
+                                />
+                                <path
+                                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                  fill="currentFill"
+                                />
+                              </svg>
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          )}
                         </label>
                       ) : (
                         <>
                           <img
-                            src={formData.image && formData.image.url}
+                            src={
+                              (formData.image && formData.image.url) ||
+                              (myImage && myImage.imageData.url)
+                            }
                             alt="file"
                           />
                           <Button
                             className="absolute right-0 top-1"
                             onClick={() => {
+                              setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                imageId: 0,
+                                image: undefined,
+                              }));
                               dispatch(clear());
                             }}
                             color="white"
@@ -767,18 +811,6 @@ const OrganizationEdit: FC = function () {
                 required
               />
             </div>
-            {/* <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="password">Password</Label>
-              <TextInput
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="******"
-                required
-              />
-            </div> */}
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -57,6 +57,42 @@ export const newOrganization = async (params: organizationRegistration) => {
     });
 };
 
+export const updateOrganization = async (params: organizationRegistration) => {
+  return api
+    .put(`/admin/organizations/${params.id}`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const addOrganizationUser = async (params: any) => {
+  const newReq =
+    params.req === "new"
+      ? {
+          email: params.email,
+          fullName: params.fullName,
+          mobile: params.mobile,
+          roleId: params.roleId,
+        }
+      : {
+          id: params.id,
+          roleId: 1,
+        };
+  return api
+    .post(`/organizations/${params.id}/user`, newReq)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const uploadWarrantyFiles = async (params: any) => {
   return api
     .post(`/warranty`, params)
@@ -108,6 +144,18 @@ export const uploadWarranties = async (file: any, group: any) => {
 export const getAllOrganizations = async () => {
   return api
     .get(`/admin/organizations`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getOneOrganization = async (id: any) => {
+  return api
+    .get(`/admin/organizations/${id}`)
     .then((response) => {
       return response.data;
     })

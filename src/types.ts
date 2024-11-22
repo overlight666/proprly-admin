@@ -167,6 +167,7 @@ export interface OrgState {
   isIdle: boolean;
   orgList: Organization[];
   selectedOrganization: Organization | undefined;
+  isUpdated: boolean;
 }
 
 export interface TowerResponseState {

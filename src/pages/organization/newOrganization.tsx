@@ -550,20 +550,8 @@ const OrganizationNewPage: FC = function () {
                   <Select2
                     id="builder"
                     name="builder"
-                    // value={country}
                     onChange={(event) => setSelectedBuilder(event.target.value)}
-
-                    // className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
-                    {/* {(!loadingBuilders &&
-                      builderList &&
-                      builderList.data.map((obj: any) => {
-                        return (
-                          <option key={obj.id} value={JSON.stringify(obj)}>
-                            {obj.fullName}
-                          </option>
-                        );
-                      })) || <option selected>Select</option>} */}
                     <option selected>Select</option>
                     {tempBuilders &&
                       tempBuilders.length &&
