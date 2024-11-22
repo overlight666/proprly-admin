@@ -14,6 +14,7 @@ import {
   Modal,
   TextInput,
   Select as Select2,
+  Dropdown,
 } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
@@ -44,6 +45,8 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
 import { registerToOrg } from "../../apis";
 import Select from "react-select";
+import { confirmAlert } from "react-confirm-alert";
+import { BsThreeDots } from "react-icons/bs";
 
 type organization = {
   name: string;
@@ -116,6 +119,7 @@ const OrganizationEdit: FC = function () {
         timezoneId: selectedOrganization.timezone.id,
         image: selectedOrganization.image,
       });
+      setSelectedBuilderList(selectedOrganization.user);
     }
   }, [selectedOrganization]);
   useEffect(() => {
@@ -624,6 +628,7 @@ const OrganizationEdit: FC = function () {
                           </a>
                         </div>
                       </th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -644,6 +649,45 @@ const OrganizationEdit: FC = function () {
                               {obj.mobile ? obj.mobile : obj.mobileNumber}
                             </td>
                             <td className="px-6 py-4">{obj.email}</td>
+                            <td>
+                              <Dropdown
+                                label=""
+                                dismissOnClick={false}
+                                renderTrigger={() => (
+                                  <Button color="gray" className="w-[50px]">
+                                    <div className="flex items-center gap-x-2 text-xs">
+                                      <BsThreeDots />
+                                    </div>
+                                  </Button>
+                                )}
+                              >
+                                <Dropdown.Item
+                                  onClick={() => {
+                                    confirmAlert({
+                                      title: "Confirm to remove",
+                                      message: "Are you sure to do this.",
+                                      buttons: [
+                                        {
+                                          label: "Yes",
+                                          onClick: () => {
+                                            const newList =
+                                              selectedBuilderList.filter(
+                                                (o) => o.email !== obj.email
+                                              );
+                                            setSelectedBuilderList(newList);
+                                          },
+                                        },
+                                        {
+                                          label: "No",
+                                        },
+                                      ],
+                                    });
+                                  }}
+                                >
+                                  Remove
+                                </Dropdown.Item>
+                              </Dropdown>
+                            </td>
                           </tr>
                         );
                       })

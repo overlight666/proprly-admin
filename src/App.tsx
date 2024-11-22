@@ -40,7 +40,7 @@ import Properties from "./pages/properties/properties";
 import AddProperty from "./pages/properties/newProperty";
 import ViewProperty from "./pages/properties/viewProperty";
 import { useDispatch } from "react-redux";
-import { getGlobalConfig, getOrganizations } from "./store/features/reducers";
+import { getGlobalConfig } from "./store/features/reducers";
 import Appointments from "./pages/appointments/appointments";
 import OrganizationEdit from "./pages/organization/organizationEdit";
 
@@ -49,7 +49,6 @@ const App: FC = function () {
   useEffect(() => {
     try {
       dispatch(getGlobalConfig());
-      dispatch(getOrganizations());
     } catch (error) {
       console.log(error);
     }

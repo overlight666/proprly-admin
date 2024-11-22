@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Button, Dropdown, Spinner } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
@@ -18,6 +18,7 @@ import type {
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import OrgTable from "../../components/orgTable";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
+import { getOrganizations } from "../../store/features/reducers";
 
 const OrganizationPage: FC = function () {
   const dispatch = useDispatch();
@@ -32,6 +33,11 @@ const OrganizationPage: FC = function () {
   const gotoPage = (page) => {
     navigate(`${page}`);
   };
+
+  useEffect(() => {
+    dispatch(getOrganizations());
+  }, []);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="overflow-x-auto bg-[#ffffff] ">
@@ -117,16 +123,16 @@ const OrganizationPage: FC = function () {
                           <img
                             src={org.image.url}
                             alt=""
-                            className="max-h-[200px] min-h-[200px]"
+                            // className="max-h-[200px] min-h-[200px]"
                           />
                         </a>
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex text-[13px]">
+                        <div className="flex text-[14px]">
                           <span className="mr-2">Country:</span>
                           <span className="text-gray-600">Australia</span>
                         </div>
-                        <div className="flex text-[13px]">
+                        <div className="flex text-[14px]">
                           <span className="mr-2">Timezone:</span>
                           <span className="text-gray-600">
                             {org.timezone.name}

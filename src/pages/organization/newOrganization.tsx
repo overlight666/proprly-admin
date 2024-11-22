@@ -14,6 +14,7 @@ import {
   Modal,
   TextInput,
   Select as Select2,
+  Dropdown,
 } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
@@ -41,6 +42,9 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
 import { registerToOrg } from "../../apis";
 import Select from "react-select";
+import { BsThreeDots } from "react-icons/bs";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 type organization = {
   name: string;
@@ -158,11 +162,20 @@ const OrganizationNewPage: FC = function () {
   }, [isIdle, isTriggered, orgData, loading]);
 
   const addSelectedBuilder = () => {
+    const params = JSON.parse(selectedBuilder);
+    params.roleId = 1;
     if (selectedBuilder) {
-      setSelectedBuilderList((oldArray) => [
-        ...oldArray,
-        JSON.parse(selectedBuilder),
-      ]);
+      const params = JSON.parse(selectedBuilder);
+      params.roleId = 1;
+      if (!selectedBuilderList.find((o) => o.id === params.id)) {
+        if (!selectedBuilderList.find((o) => o.email === params.email)) {
+          setSelectedBuilderList((oldArray) => [...oldArray, params]);
+        } else {
+          toast.warning("Builder email already exist");
+        }
+      } else {
+        toast.warning("Builder already exist");
+      }
     }
   };
 
@@ -239,15 +252,15 @@ const OrganizationNewPage: FC = function () {
       ]);
       valid = false;
     }
-    const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
-    builderToAttach.map(async (builder: any) => {
-      const params = {
-        id: builder.id,
-      };
-      await registerToOrg(params);
-    });
-    const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
-    const newData = { ...formData, users: newBuilder };
+    // const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
+    // builderToAttach.map(async (builder: any) => {
+    //   const params = {
+    //     id: builder.id,
+    //   };
+    //   await registerToOrg(params);
+    // });
+    // const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
+    const newData = { ...formData, users: selectedBuilderList };
     if (valid) {
       setIsTriggered(true);
       dispatch(registerOrg(newData));
@@ -274,12 +287,19 @@ const OrganizationNewPage: FC = function () {
       const temp = {
         fullName: name,
         mobile,
-        // password,
+        password: "test",
         email,
+        roleId: 1,
       };
-      tempBuilders && tempBuilders.length > 0
-        ? setTempBuilder((oldArray) => [...oldArray, temp])
-        : setTempBuilder([temp]);
+      // tempBuilders && tempBuilders.length > 0
+      //   ? setTempBuilder((oldArray) => [...oldArray, temp])
+      //   : setT
+      if (!selectedBuilderList.find((o) => o.email === temp.email)) {
+        setSelectedBuilderList((oldArray) => [...oldArray, temp]);
+      } else {
+        toast.warning("Builder email already exist");
+      }
+
       setEmail("");
       setName("");
       setMobile("");
@@ -603,6 +623,7 @@ const OrganizationNewPage: FC = function () {
                           </a>
                         </div>
                       </th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -623,6 +644,45 @@ const OrganizationNewPage: FC = function () {
                               {obj.mobile ? obj.mobile : obj.mobileNumber}
                             </td>
                             <td className="px-6 py-4">{obj.email}</td>
+                            <td>
+                              <Dropdown
+                                label=""
+                                dismissOnClick={false}
+                                renderTrigger={() => (
+                                  <Button color="gray" className="w-[50px]">
+                                    <div className="flex items-center gap-x-2 text-xs">
+                                      <BsThreeDots />
+                                    </div>
+                                  </Button>
+                                )}
+                              >
+                                <Dropdown.Item
+                                  onClick={() => {
+                                    confirmAlert({
+                                      title: "Confirm to remove",
+                                      message: "Are you sure to do this.",
+                                      buttons: [
+                                        {
+                                          label: "Yes",
+                                          onClick: () => {
+                                            const newList =
+                                              selectedBuilderList.filter(
+                                                (o) => o.email !== obj.email
+                                              );
+                                            setSelectedBuilderList(newList);
+                                          },
+                                        },
+                                        {
+                                          label: "No",
+                                        },
+                                      ],
+                                    });
+                                  }}
+                                >
+                                  Remove
+                                </Dropdown.Item>
+                              </Dropdown>
+                            </td>
                           </tr>
                         );
                       })

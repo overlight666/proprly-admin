@@ -320,6 +320,7 @@ export interface Organization {
   updatedAt: string;
   image: ImageType;
   region?: Regions;
+  user?: userData[];
 }
 
 export interface Timezone {
