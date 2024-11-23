@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Timeline, useTheme } from "flowbite-react";
+import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
 import { type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
@@ -372,7 +372,7 @@ const Defects: FC = function () {
             </table>
           </div>
         </div>
-        {/* <fieldset className="my-5 flex flex-row items-center gap-4">
+        <fieldset className="my-5 flex flex-row items-center gap-4">
           <span className="text-[14px]">Show only:</span>
           <div className="flex items-center gap-2">
             <Radio
@@ -388,24 +388,16 @@ const Defects: FC = function () {
             <Label htmlFor="germany">Properties</Label>
           </div>
           <div className="flex items-center gap-2">
-            <Radio id="spain" name="countries" value="Spain" />
-            <Label htmlFor="spain">Common Areas</Label>
+            <Radio id="germany" name="countries" value="Germany" />
+            <Label htmlFor="germany">Common Areas</Label>
           </div>
-          <div className="flex items-center gap-2">
-            <Button color="gray">
-              <div className="flex items-center text-xs">
-                <FaDownload className="mr-2" />
-                Export
-              </div>
-            </Button>
-          </div>
-        </fieldset> */}
+        </fieldset>
       </div>
       <ul className="space-y-6">
         <li className="w-full items-center sm:flex">
           <div className="mb-3 flex items-center sm:mb-0">
             <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
-              Logged
+              Pending
             </span>
           </div>
           <div className="flex w-full flex-col">
@@ -415,7 +407,7 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35%
+                35
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -424,15 +416,162 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35%
+                35
+              </div>
+            </div>
+          </div>
+        </li>
+        <li className="w-full items-center sm:flex">
+          <div className="mb-3 flex items-center sm:mb-0">
+            <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
+              In Progress
+            </span>
+          </div>
+          <div className="flex w-full flex-col">
+            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "50%" }}
+              >
+                {" "}
+                50
+              </div>
+            </div>
+            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "80%" }}
+              >
+                {" "}
+                80
+              </div>
+            </div>
+          </div>
+        </li>
+        <li className="w-full items-center sm:flex">
+          <div className="mb-3 flex items-center sm:mb-0">
+            <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
+              Resolved
+            </span>
+          </div>
+          <div className="flex w-full flex-col">
+            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "85.5%" }}
+              >
+                {" "}
+                85.5
+              </div>
+            </div>
+            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "40%" }}
+              >
+                {" "}
+                40
+              </div>
+            </div>
+          </div>
+        </li>
+        <li className="w-full items-center sm:flex">
+          <div className="mb-3 flex items-center sm:mb-0">
+            <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
+              Dispute
+            </span>
+          </div>
+          <div className="flex w-full flex-col">
+            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "10%" }}
+              >
+                {" "}
+                10
+              </div>
+            </div>
+            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+              <div
+                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                style={{ width: "15%" }}
+              >
+                {" "}
+                15
               </div>
             </div>
           </div>
         </li>
       </ul>
+      <div className="flex w-full">
+        <div className="mx-5 ml-11 w-32"></div>
+        <div className="my-2 flex h-5 w-full">
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute left-0">0</span>
+            <span className="absolute right-0">10</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">20</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">30</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">40</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">50</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">60</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">70</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">80</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">90</span>
+          </div>
+          <div
+            className="relative h-5 rounded-md p-1 text-center text-xs font-bold leading-none"
+            style={{ width: "10%" }}
+          >
+            <span className="absolute right-0">100</span>
+          </div>
+        </div>
+      </div>
       <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
         {/* <Datepicker /> */}
-        <div className="shrink-0">
+        {/* <div className="shrink-0">
           <a
             href="#"
             className="inline-flex items-center rounded-lg p-2 text-xs font-medium uppercase text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700 sm:text-sm"
@@ -453,7 +592,7 @@ const Defects: FC = function () {
               />
             </svg>
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { AddDefectCodeModal } from "../modals/addDefectCodeModal";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { DefectCode, ProjectState } from "../../../types";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
@@ -16,32 +16,38 @@ export default function DefectCodeManagement({ project_id }: any) {
   const { defectCodeList }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     try {
-      if (!DataTable.isDataTable("#defect-code-table")) {
-        new DataTable("#defect-code-table", {
-          paging: true,
-          searching: false,
-          layout: {
-            topStart: null,
-            topEnd: null,
-            bottomStart: {
-              pageLength: {
-                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+      if (document.getElementById("defect-code-table")) {
+        if (defectCodeList && defectCodeList.length > 0) {
+          if (!DataTable.isDataTable("#defect-code-table")) {
+            // setTimeout(() => {
+            new DataTable("#defect-code-table", {
+              paging: true,
+              searching: false,
+              layout: {
+                topStart: null,
+                topEnd: null,
+                bottomStart: {
+                  pageLength: {
+                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+                  },
+                },
+                bottomEnd: "paging",
               },
-            },
-            bottomEnd: "paging",
-          },
-        });
+            });
+            // }, 1000);
+          }
+        }
       }
     } catch (error) {
       console.log(error);
     }
-  });
+  }, [defectCodeList]);
 
+  console.log(defectCodeList);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-center justify-between">
@@ -88,7 +94,6 @@ export default function DefectCodeManagement({ project_id }: any) {
       </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
         <table
-          ref={ref}
           id="defect-code-table"
           className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         >
@@ -107,7 +112,7 @@ export default function DefectCodeManagement({ project_id }: any) {
             </tr>
           </thead>
           <tbody>
-            {(defectCodeList &&
+            {defectCodeList &&
               defectCodeList.length > 0 &&
               defectCodeList.map((obj: DefectCode, index: any) => {
                 return (
@@ -115,12 +120,9 @@ export default function DefectCodeManagement({ project_id }: any) {
                     key={index}
                     className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <th
-                      scope="row"
-                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                    >
+                    <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {obj.id}
-                    </th>
+                    </td>
                     <td className="px-6 py-4">{obj.defectName}</td>
                     <td className="px-6 py-4">{obj.defectCode}</td>
                     <td className="px-6 py-4">
@@ -132,15 +134,7 @@ export default function DefectCodeManagement({ project_id }: any) {
                     </td>
                   </tr>
                 );
-              })) || (
-              <tr>
-                <td colSpan={4}>
-                  <div className="flex w-full items-center justify-center">
-                    <span className="text-gray-300">No data to available</span>
-                  </div>
-                </td>
-              </tr>
-            )}
+              })}
           </tbody>
         </table>
       </div>

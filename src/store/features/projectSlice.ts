@@ -81,6 +81,10 @@ export const projectSlice = createSlice({
     updateTowers: (state, action: PayloadAction<TowerData[]>) => {
       state.projectTowers = action.payload;
     },
+    clearTradeList: (state) => {
+      state.tradeCodeList = [];
+      state.defectCodeList = [];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerProject.pending, (state) => {
@@ -148,11 +152,15 @@ export const projectSlice = createSlice({
     builder.addCase(getSingleProject.pending, (state) => {
       state.gettingTowers = true;
       state.hasProjectSelected = false;
+      state.isIdle = false;
     });
     builder.addCase(getSingleProject.fulfilled, (state, action) => {
       state.selectedProject = action.payload;
       state.hasProjectSelected = true;
       state.gettingTowers = false;
+      // state.defectCodeList = [];
+      // state.tradeCodeList = [];
+      state.isIdle = true;
     });
     builder.addCase(getSingleProject.rejected, (state) => {
       state.hasProjectSelected = false;
@@ -186,20 +194,22 @@ export const projectSlice = createSlice({
     });
     // get All Defect Code
     builder.addCase(getDefectCodeListByProject.pending, (state) => {
-      state.defectCodeList = undefined;
+      // state.defectCodeList = [];
+      state.isIdle = false;
     });
     builder.addCase(getDefectCodeListByProject.fulfilled, (state, action) => {
       state.defectCodeList =
         action.payload && action.payload.data
           ? action.payload.data
           : action.payload;
+      state.isIdle = true;
     });
     builder.addCase(getDefectCodeListByProject.rejected, (state) => {
-      state.defectCodeList = undefined;
+      state.isIdle = true;
     });
     // get All Trade Code
     builder.addCase(getTradeCodeListByProject.pending, (state) => {
-      state.tradeCodeList = undefined;
+      state.tradeCodeList = [];
     });
     builder.addCase(getTradeCodeListByProject.fulfilled, (state, action) => {
       state.tradeCodeList =
@@ -208,7 +218,7 @@ export const projectSlice = createSlice({
           : action.payload;
     });
     builder.addCase(getTradeCodeListByProject.rejected, (state) => {
-      state.tradeCodeList = undefined;
+      state.isIdle = true;
     });
   },
 });
@@ -222,6 +232,7 @@ export const {
   fireCode,
   reloadProjectStatus,
   clearSelectedProject,
+  clearTradeList,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -2,7 +2,7 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { Organization, OrgState, ReducerTypes } from "../types";
 import { useEffect } from "react";
 // import { DataTable } from "simple-datatables";
@@ -10,8 +10,13 @@ import DataTable from "datatables.net-dt";
 // import OrgTableData from "./datatable/orgtable";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
-import { Badge } from "flowbite-react";
+import { Badge, Button, Dropdown } from "flowbite-react";
+import { BsThreeDots } from "react-icons/bs";
+import { useNavigate } from "react-router";
+import { setSelectedOrganization } from "../store/features/organizationSlice";
 const OrgTable = function () {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { orgList }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
@@ -75,6 +80,7 @@ const OrgTable = function () {
               <th scope="col" className="px-6 py-3">
                 Defects In-progress
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -217,6 +223,35 @@ const OrgTable = function () {
                           </div>
                         </Badge>
                       </div>
+                    </td>
+                    <td>
+                      <Dropdown
+                        label=""
+                        dismissOnClick={false}
+                        renderTrigger={() => (
+                          <Button color="gray" className="w-[50px]">
+                            <div className="flex items-center gap-x-2 text-xs">
+                              <BsThreeDots />
+                            </div>
+                          </Button>
+                        )}
+                      >
+                        <Dropdown.Item
+                          onClick={() => {
+                            navigate(`/organization/${org.id}`);
+                          }}
+                        >
+                          View
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => {
+                            dispatch(setSelectedOrganization(org));
+                            navigate(`/organization/${org.id}/edit`);
+                          }}
+                        >
+                          Edit
+                        </Dropdown.Item>
+                      </Dropdown>
                     </td>
                   </tr>
                 );

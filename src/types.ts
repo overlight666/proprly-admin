@@ -197,6 +197,7 @@ export interface Project {
   updatedAt?: string;
   projectTower?: TowerData[];
   errors?: any;
+  image?: ImageType;
 }
 
 export interface ProjectListType {

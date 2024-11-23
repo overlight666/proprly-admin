@@ -566,6 +566,7 @@ const ProjectNewPage: FC = function () {
                         Search
                       </Label>
                       <TextInput
+                        disabled={!searchAddress}
                         icon={HiSearch}
                         id="search"
                         name="search"

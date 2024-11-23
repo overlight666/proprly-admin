@@ -33,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/features/userSlice";
 import type { UserState } from "../types";
+import userImage from "../../public/images/users/neil-sims.png";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -474,12 +475,7 @@ const UserDropdown: FC = function () {
       label={
         <span>
           <span className="sr-only">User menu</span>
-          <Avatar
-            alt=""
-            img="../images/users/neil-sims.png"
-            rounded
-            size="sm"
-          />
+          <Avatar alt="" img={userImage} rounded size="sm" />
         </span>
       }
     >

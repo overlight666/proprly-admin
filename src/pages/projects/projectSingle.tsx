@@ -40,6 +40,8 @@ import {
   uploadImageFile,
   uploadDocument,
   patchProject,
+  getDefectCodeListByProject,
+  getTradeCodeListByProject,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
@@ -130,6 +132,11 @@ const ProjectSingle: FC = function () {
       dispatch(clearSelectedProject());
       dispatch(getSingleProject(project_id));
     }
+  }, []);
+
+  useEffect(() => {
+    dispatch(getDefectCodeListByProject(project_id));
+    dispatch(getTradeCodeListByProject(project_id));
   }, []);
 
   useEffect(() => {
@@ -322,12 +329,12 @@ const ProjectSingle: FC = function () {
     }
 
     if (valid) {
-      const docs: any = [];
-      uploadedFiles &&
-        uploadedFiles.map((obj: any) => {
-          docs.push(obj.id);
-        });
-      dispatch(patchProject({ ...formData, towers, documents: docs }));
+      // const docs: any = [];
+      // uploadedFiles &&
+      //   uploadedFiles.map((obj: any) => {
+      //     docs.push(obj.id);
+      //   });
+      dispatch(patchProject({ ...formData, towers }));
     }
   };
 
@@ -680,6 +687,7 @@ const ProjectSingle: FC = function () {
                           Search
                         </Label>
                         <TextInput
+                          disabled={!searchAddress}
                           icon={HiSearch}
                           id="search"
                           name="search"
@@ -752,7 +760,9 @@ const ProjectSingle: FC = function () {
 
                       <div className="relative flex w-full items-center justify-center">
                         {myImage.imageData === undefined ||
-                        (myImage.imageData && myImage.imageData.id === 0) ? (
+                        (myImage.imageData &&
+                          myImage.imageData.id === 0 &&
+                          !formData.image) ? (
                           <label
                             htmlFor="dropzone-file"
                             className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
@@ -817,7 +827,10 @@ const ProjectSingle: FC = function () {
                           </label>
                         ) : (
                           <>
-                            <img src={myImage.imageData.url} alt="file" />
+                            <img
+                              src={myImage.imageData.url || formData.image?.url}
+                              alt="file"
+                            />
                             <Button
                               className="absolute right-0 top-1"
                               onClick={() => {
@@ -825,6 +838,7 @@ const ProjectSingle: FC = function () {
                                 setFormData((prevFormData) => ({
                                   ...prevFormData,
                                   imageId: "",
+                                  image: undefined,
                                 }));
                               }}
                               color="white"

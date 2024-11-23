@@ -131,7 +131,7 @@ const ExampleSidebar: FC = function () {
                     ) && (
                       <Sidebar.Item
                         href="/signup-leads"
-                        // icon={HiChartPie}
+                        key={"signup-leads"}
                         className={
                           "/signup-leads" === currentPage
                             ? "bg-gray-100 dark:bg-gray-700"
@@ -171,10 +171,11 @@ const ExampleSidebar: FC = function () {
                         </div>
                       </Sidebar.Item>
                       {projectList && projectList.length > 0 ? (
-                        projectList.map((obj) => {
+                        projectList.map((obj, index) => {
                           return (
                             <>
                               <Sidebar.Item
+                                key={index}
                                 href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                 className={`ml-2 text-[14px] ${
                                   currentRoute ==

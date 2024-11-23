@@ -5,45 +5,38 @@ import { BsSliders2Vertical, BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { AddTradeCodeModal } from "../modals/addTradeCodeModal";
 import type { ProjectState, TradeCode } from "../../../types";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
-import { getTradeCodeListByProject } from "../../../store/features/reducers";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../../../extension.css";
 
 export default function TradeMapping({ project_id }: any) {
-  const { tradeCodeList, tradeCodeResponse, defectCodeList }: ProjectState =
-    useSelector((state: any) => state.project);
-  const dispatch = useDispatch();
-  const ref = useRef<any>(null);
-  useEffect(() => {
-    dispatch(getTradeCodeListByProject(project_id));
-  }, []);
-
-  useEffect(() => {
-    if (tradeCodeResponse !== undefined) {
-      dispatch(getTradeCodeListByProject(project_id));
-    }
-  }, []);
+  const { tradeCodeList, defectCodeList }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
 
   useEffect(() => {
     try {
-      if (!DataTable.isDataTable("#trade-code-table")) {
-        new DataTable("#trade-code-table", {
-          paging: true,
-          searching: false,
-          layout: {
-            topStart: null,
-            topEnd: null,
-            bottomStart: {
-              pageLength: {
-                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+      if (document.getElementById("trade-code-table")) {
+        if (tradeCodeList && tradeCodeList.length > 0) {
+          if (!DataTable.isDataTable("#trade-code-table")) {
+            new DataTable("#trade-code-table", {
+              paging: true,
+              searching: false,
+              layout: {
+                topStart: null,
+                topEnd: null,
+                bottomStart: {
+                  pageLength: {
+                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+                  },
+                },
+                bottomEnd: "paging",
               },
-            },
-            bottomEnd: "paging",
-          },
-        });
+            });
+          }
+        }
       }
     } catch (error) {
       console.log(error);
@@ -107,7 +100,6 @@ export default function TradeMapping({ project_id }: any) {
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
         {tradeCodeList && tradeCodeList.length > 0 ? (
           <table
-            ref={ref}
             id="trade-code-table"
             className="h-[500px] w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
           >

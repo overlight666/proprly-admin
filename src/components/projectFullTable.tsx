@@ -5,16 +5,17 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProjects } from "../store/features/reducers";
 import type { ProjectListType, ProjectState } from "../types";
 import { BsThreeDots } from "react-icons/bs";
-import { Button } from "flowbite-react";
+import { Button, Dropdown } from "flowbite-react";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
 
 const ProjectFullTable = function () {
+  const navigate = useNavigate();
   const { id }: any = useParams();
   const dispatch = useDispatch();
   const { projectList }: ProjectState = useSelector(
@@ -119,29 +120,44 @@ const ProjectFullTable = function () {
                     scope="row"
                     className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                   >
-                    {p.name}
+                    <a href={`/organization/${id}/project/${p.id}`}>{p.name}</a>
                   </th>
-                  <td className="px-6 py-4">{p.type.toUpperCase()}</td>
-                  <td className="px-6 py-4">
+                  <td>{p.type.toUpperCase()}</td>
+                  <td>
                     {p.maintenanceServiceType === "before_7_year"
                       ? "Before 7 Years"
                       : "After 7 Years"}
                   </td>
-                  <td className="px-6 py-4">{p.projectTower.length}</td>
-                  <td className="px-6 py-4">{p.numBasementLevels}</td>
+                  <td>
+                    <div className="flex justify-center">
+                      {p.projectTower.length}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex justify-center">
+                      {p.numBasementLevels}
+                    </div>
+                  </td>
                   <td className="px-6 py-4">
-                    <Button
-                      // onClick={() => {
-                      //   dispatch(updateProjectTab(1));
-                      //   gotoPage(`/organization/${id}/new`);
-                      // }}
-                      color="gray"
-                      className="w-[50px]"
+                    <Dropdown
+                      label=""
+                      dismissOnClick={false}
+                      renderTrigger={() => (
+                        <Button color="gray" className="w-[50px]">
+                          <div className="flex items-center gap-x-2 text-xs">
+                            <BsThreeDots />
+                          </div>
+                        </Button>
+                      )}
                     >
-                      <div className="flex items-center gap-x-2 text-xs">
-                        <BsThreeDots />
-                      </div>
-                    </Button>
+                      <Dropdown.Item
+                        onClick={() => {
+                          navigate(`/organization/${id}/project/${p.id}`);
+                        }}
+                      >
+                        View
+                      </Dropdown.Item>
+                    </Dropdown>
                   </td>
                 </tr>
               );

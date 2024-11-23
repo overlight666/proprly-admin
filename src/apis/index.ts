@@ -191,7 +191,7 @@ export const newProject = async (params: Project) => {
 
 export const updateProject = async (params: Project, id: number) => {
   return api
-    .patch(`/projects/${id}`, params)
+    .put(`/projects/${id}`, params)
     .then((response) => {
       return response.data;
     })
