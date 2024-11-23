@@ -119,12 +119,10 @@ const OrganizationPage: FC = function () {
                           href="javascript:void(0)"
                           onClick={() => gotoPage(`/organization/${org.id}`)}
                         >
-                          {" "}
-                          <img
-                            src={org.image.url}
-                            alt=""
-                            // className="max-h-[200px] min-h-[200px]"
-                          />
+                          <div className="flex max-h-[250px] min-h-[250px] items-center justify-center">
+                            {" "}
+                            <img src={org.image.url} alt="" />
+                          </div>
                         </a>
                       </div>
                       <div className="flex flex-col">
