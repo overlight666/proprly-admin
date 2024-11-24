@@ -670,36 +670,70 @@ export const DefectSubmissionModal = function (props: any) {
                   </div>
                 </div>
                 <div className="col-span-3">
-                  {defect && defect.approvalNeededBy && (
-                    <div className="flex gap-3">
-                      <Button
-                        color="primary"
-                        onClick={() => {
-                          setOpen(false);
-                          setDefectId(defect.id);
-                          setFeedbackOpen(true);
-                          setFeedback("accept");
-                          setFeedbackTitle("Accept Defect");
-                        }}
-                      >
-                        <div className="flex items-center gap-x-2">
-                          Accept Defect
-                        </div>
-                      </Button>
-                      <Button
-                        color="gray"
-                        onClick={() => {
-                          setOpen(false);
-                          setDefectId(defect.id);
-                          setFeedbackOpen(true);
-                          setFeedback("reject");
-                          setFeedbackTitle("Reject Defect");
-                        }}
-                      >
-                        Reject Defect
-                      </Button>
-                    </div>
-                  )}
+                  {defect &&
+                    defect.subStatus &&
+                    defect.subStatus == "Pending Admin Approval" && (
+                      <div className="flex gap-3">
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("accept");
+                            setFeedbackTitle("Accept Defect");
+                          }}
+                        >
+                          <div className="flex items-center gap-x-2">
+                            Accept Defect
+                          </div>
+                        </Button>
+                        <Button
+                          color="gray"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("reject");
+                            setFeedbackTitle("Reject Defect");
+                          }}
+                        >
+                          Reject Defect
+                        </Button>
+                      </div>
+                    )}
+                  {defect &&
+                    defect.subStatus &&
+                    defect.subStatus == "Defect Rejected by Admin" && (
+                      <div className="flex gap-3">
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("accept");
+                            setFeedbackTitle("Accept Defect");
+                          }}
+                        >
+                          <div className="flex items-center gap-x-2">
+                            Re-open Defect
+                          </div>
+                        </Button>
+                        <Button
+                          color="gray"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("reject");
+                            setFeedbackTitle("Reject Defect");
+                          }}
+                        >
+                          Close Defect
+                        </Button>
+                      </div>
+                    )}
                 </div>
               </div>
             </div>
