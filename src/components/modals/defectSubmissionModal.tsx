@@ -698,7 +698,7 @@ export const DefectSubmissionModal = function (props: any) {
                             setFeedbackTitle("Reject Defect");
                           }}
                         >
-                          Reject & Close Defect
+                          Reject Defect
                         </Button>
                       </div>
                     )}
