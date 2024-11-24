@@ -2,7 +2,12 @@
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { AppState } from "../../types";
-import { getAllCountries, getAllRegions, getGlobalConfig } from "./reducers";
+import {
+  getAllCountries,
+  getAllRegions,
+  getGlobalConfig,
+  listUserByRoleReducer,
+} from "./reducers";
 
 // Define the initial state using that type
 
@@ -16,6 +21,7 @@ const initialState: AppState = {
   regions: [],
   countries: [],
   config: undefined,
+  projectUsers: [],
 };
 
 export const appSlice = createSlice({
@@ -78,6 +84,19 @@ export const appSlice = createSlice({
     });
     builder.addCase(getGlobalConfig.rejected, (state) => {
       state.config = undefined;
+    });
+
+    builder.addCase(listUserByRoleReducer.pending, (state) => {
+      state.projectUsers = [];
+    });
+    builder.addCase(listUserByRoleReducer.fulfilled, (state, action) => {
+      state.projectUsers =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(listUserByRoleReducer.rejected, (state) => {
+      state.projectUsers = [];
     });
   },
 });

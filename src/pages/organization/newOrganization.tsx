@@ -750,18 +750,6 @@ const OrganizationNewPage: FC = function () {
                 required
               />
             </div>
-            {/* <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="password">Password</Label>
-              <TextInput
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="******"
-                required
-              />
-            </div> */}
           </div>
         </Modal.Body>
         <Modal.Footer>

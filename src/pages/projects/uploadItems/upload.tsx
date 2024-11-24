@@ -81,7 +81,8 @@ export default function Upload({
                           onClick={() => {
                             confirmAlert({
                               title: "Confirm to remove",
-                              message: "Are you sure to do this.",
+                              message:
+                                "Are you sure you want to delete the attached file?",
                               buttons: [
                                 {
                                   label: "Yes",

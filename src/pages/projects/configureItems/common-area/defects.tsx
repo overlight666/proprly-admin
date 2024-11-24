@@ -25,13 +25,13 @@ export default function CADefectsItems({ openModal, setOpenModal }: any) {
               return (
                 <div
                   key={index}
-                  className="flex flex-row items-center justify-between"
+                  className="flex flex-row items-center justify-between  py-2"
                 >
                   <div className="flex flex-row items-center">
                     <Button color="white" className="w-[50px]">
                       <BsList />
                     </Button>
-                    <span>{defect.defectName}</span>
+                    <span>{`${defect.defectCode} - ${defect.defectName}`}</span>
                   </div>
                   <BsX />
                 </div>

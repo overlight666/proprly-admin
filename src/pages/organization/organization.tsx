@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -22,6 +23,7 @@ import { getOrganizations } from "../../store/features/reducers";
 
 const OrganizationPage: FC = function () {
   const dispatch = useDispatch();
+  let didInit = false;
   const { orgList, isIdle }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
@@ -35,7 +37,10 @@ const OrganizationPage: FC = function () {
   };
 
   useEffect(() => {
-    dispatch(getOrganizations());
+    if (!didInit) {
+      didInit = true;
+      dispatch(getOrganizations());
+    }
   }, []);
 
   return (

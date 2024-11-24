@@ -4,6 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
+  createProjectAdminReducer,
   getAllChecklistReducer,
   getAllCommonAreaReducer,
   getChecklistElementReducer,
@@ -64,6 +65,7 @@ const initialState: ProjectState = {
   allCommonArea: [],
   selectedCommonArea: undefined,
   selectedCommonAreaElement: undefined,
+  responseStatus: "",
 };
 
 export const projectSlice = createSlice({
@@ -113,6 +115,9 @@ export const projectSlice = createSlice({
     clearTradeList: (state) => {
       state.tradeCodeList = [];
       state.defectCodeList = [];
+    },
+    setResponseStatus: (state, action: PayloadAction<string>) => {
+      state.responseStatus = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -301,6 +306,16 @@ export const projectSlice = createSlice({
     builder.addCase(getAllCommonAreaReducer.rejected, (state) => {
       state.isIdle = true;
     });
+    // create project admin
+    builder.addCase(createProjectAdminReducer.pending, (state) => {
+      state.responseStatus = "Adding Admin";
+    });
+    builder.addCase(createProjectAdminReducer.fulfilled, (state) => {
+      state.responseStatus = "Admin Added";
+    });
+    builder.addCase(createProjectAdminReducer.rejected, (state) => {
+      state.responseStatus = "Adding Admin Failed";
+    });
   },
 });
 
@@ -318,6 +333,7 @@ export const {
   selectElement,
   selectCommonAreaElement,
   selectCommonArea,
+  setResponseStatus,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

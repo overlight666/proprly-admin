@@ -112,6 +112,9 @@ const OrganizationEdit: FC = function () {
       dispatch(getOneOrg(selectedOrganization && selectedOrganization.id));
       dispatch(clearOrgUpdates());
       toast.success("Organization is updated!");
+      setTimeout(() => {
+        navigate(`/organization`);
+      }, 5000);
     }
   }, [isUpdated]);
 
@@ -209,7 +212,7 @@ const OrganizationEdit: FC = function () {
     } else {
       if (isTriggered && isIdle && !loading) {
         if (orgData.id !== undefined && orgData?.id > 0) {
-          toast.success("Organization registerd successfully!");
+          toast.success("Organization registered successfully!");
           setFormData((prevFormData) => ({
             ...prevFormData,
             country: "",
@@ -767,7 +770,13 @@ const OrganizationEdit: FC = function () {
             >
               Update
             </Button>
-            <Button color="white" className="border-[1px]">
+            <Button
+              color="white"
+              className="border-[1px]"
+              onClick={() => {
+                navigate(`/organization`);
+              }}
+            >
               Cancel
             </Button>
           </div>

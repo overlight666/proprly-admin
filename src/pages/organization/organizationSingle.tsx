@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable tailwindcss/classnames-order */
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -36,7 +37,7 @@ const OrganizationSingle: FC = function () {
   const { projectList, loadedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  let didInit = false;
   const { id }: any = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,16 +47,19 @@ const OrganizationSingle: FC = function () {
   };
 
   useEffect(() => {
-    if (!selectedOrganization) {
-      const newList = orgList && orgList.find((org) => org.id == id);
-      dispatch(setSelectedOrganization(newList));
-    } else {
-      if (selectedOrganization && selectedOrganization.id != id) {
+    if (!didInit) {
+      if (!selectedOrganization) {
         const newList = orgList && orgList.find((org) => org.id == id);
         dispatch(setSelectedOrganization(newList));
-        dispatch(clearProjectList());
-        dispatch(getProjects(id));
+      } else {
+        if (selectedOrganization && selectedOrganization.id != id) {
+          const newList = orgList && orgList.find((org) => org.id == id);
+          dispatch(setSelectedOrganization(newList));
+          dispatch(clearProjectList());
+          dispatch(getProjects(id));
+        }
       }
+      didInit = true;
     }
   }, []);
 

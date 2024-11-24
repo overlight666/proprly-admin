@@ -7,6 +7,7 @@ import {
   addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
+  createProjectAdmin,
   getAllChecklist,
   getAllCommonArea,
   getAllDefectCodebyProject,
@@ -25,6 +26,7 @@ import {
   getTowers,
   listOfBuilders,
   listOfLeads,
+  listUserByRole,
   newOrganization,
   newProject,
   newProperty,
@@ -506,6 +508,32 @@ export const getAllCommonAreaReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getAllCommonArea(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const listUserByRoleReducer: any = createAsyncThunk(
+  "listUserByRole",
+  async (role: any) => {
+    try {
+      const response = await listUserByRole(role);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const createProjectAdminReducer: any = createAsyncThunk(
+  "createProjectAdmin",
+  async (data: any) => {
+    try {
+      const response = await createProjectAdmin(data);
       // If you want to get something back
       return response;
     } catch (err) {

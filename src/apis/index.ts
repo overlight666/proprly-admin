@@ -498,3 +498,26 @@ export const getAllCommonArea = async (id: any) => {
       return error;
     });
 };
+
+export const listUserByRole = async (role) => {
+  return api
+    .get(`/users?roleKey=${role}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const createProjectAdmin = async (params: any) => {
+  return api
+    .post(`/project/${params.projectId}/user`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

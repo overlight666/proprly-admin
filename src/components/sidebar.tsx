@@ -34,8 +34,6 @@ import { useDispatch, useSelector } from "react-redux";
 import type { Organization, OrgState, ProjectState, UserState } from "../types";
 import { matchPath, useLocation, useParams } from "react-router-dom";
 import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
-import { getProjects } from "../store/features/reducers";
-import { reloadProjectStatus } from "../store/features/projectSlice";
 import {
   updateProjectTab,
   updateProjectTabMain,

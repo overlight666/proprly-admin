@@ -57,6 +57,21 @@ export interface AppState {
   countries: Country[];
   config: Config | undefined;
   appointmentTab: number;
+  projectUsers: userInterface[];
+}
+
+export interface userInterface {
+  id: number;
+  fullName: string;
+  email: string;
+  mobileNumber: string;
+  organizationName: string;
+  organizationCountryCode: string;
+  isEmailVerified: boolean;
+  isMobileVerified: boolean;
+  status?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Config {
@@ -199,6 +214,7 @@ export interface Project {
   errors?: any;
   image?: ImageType;
   documents?: DocumentFile[];
+  user?: Lead[];
 }
 
 export interface DocumentFile {
@@ -263,6 +279,7 @@ export interface ProjectState {
   allCommonArea: FullCommonArea[];
   selectedCommonArea: FullCommonArea | undefined;
   selectedCommonAreaElement: FullElements | undefined;
+  responseStatus: string;
 }
 
 export interface FullCommonArea {

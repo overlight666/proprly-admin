@@ -21,10 +21,14 @@ const ProjectFullTable = function () {
   const { projectList }: ProjectState = useSelector(
     (state: any) => state.project
   );
+  let didInit = false;
 
   useEffect(() => {
-    if (!projectList) {
-      dispatch(getProjects(id));
+    if (!didInit) {
+      if (!projectList) {
+        dispatch(getProjects(id));
+        didInit = true;
+      }
     }
   }, []);
 

@@ -102,15 +102,14 @@ const ProjectSingle: FC = function () {
   const [line3, setLine3] = useState<any>("");
   const [firstLoad, setFirstLoad] = useState(true);
   const myImage: ImageState = useSelector((state: any) => state.uploads);
+  let didInit = false;
+  let didLoad = false;
   const { fileData }: ImageState = useSelector(
     (state: ReducerTypes) => state.uploads
   );
 
   useEffect(() => {
-    if (
-      (towerResponse && towerResponse.id && towerResponse.id > 0) ||
-      project_id
-    ) {
+    if (towerResponse && towerResponse.id && towerResponse.id > 0) {
       // dispatch(getTowersReducer(project_id));
       dispatch(getSingleProject(project_id));
     }
@@ -130,22 +129,28 @@ const ProjectSingle: FC = function () {
   }, [projectTowers]);
 
   useEffect(() => {
-    if (isIdle) {
-      if (!selectedProject) {
-        dispatch(getSingleProject(project_id));
-      }
-      if (selectedProject) {
-        dispatch(clearSelectedProject());
-        dispatch(getSingleProject(project_id));
+    if (!didInit) {
+      if (isIdle) {
+        if (!selectedProject) {
+          dispatch(getSingleProject(project_id));
+        }
+        if (selectedProject) {
+          dispatch(clearSelectedProject());
+          dispatch(getSingleProject(project_id));
+        }
+        didInit = true;
       }
     }
   }, []);
 
   useEffect(() => {
-    dispatch(getDefectCodeListByProject(project_id));
-    dispatch(getTradeCodeListByProject(project_id));
-    dispatch(getAllChecklistReducer(project_id));
-    dispatch(getAllCommonAreaReducer(project_id));
+    if (!didLoad) {
+      dispatch(getDefectCodeListByProject(project_id));
+      dispatch(getTradeCodeListByProject(project_id));
+      dispatch(getAllChecklistReducer(project_id));
+      dispatch(getAllCommonAreaReducer(project_id));
+      didLoad = true;
+    }
   }, []);
 
   useEffect(() => {

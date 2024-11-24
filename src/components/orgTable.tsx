@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable prettier/prettier */
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -110,7 +112,14 @@ const OrgTable = function () {
                       scope="row"
                       className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      {org.name}
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => {
+                          navigate(`/organization/${org.id}`);
+                        }}
+                      >
+                        {org.name}
+                      </span>
                     </th>
                     <td className="px-6 py-4">
                       <div className="flex">

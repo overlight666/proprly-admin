@@ -478,7 +478,7 @@ const Defects: FC = function () {
         <li className="w-full items-center sm:flex">
           <div className="mb-3 flex items-center sm:mb-0">
             <span className="mx-5 ml-3 w-32 text-base font-medium text-gray-600 dark:text-white sm:flex-none">
-              Dispute
+              Disputed
             </span>
           </div>
           <div className="flex w-full flex-col">
