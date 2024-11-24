@@ -481,6 +481,7 @@ export interface DefectSumissionType {
   user?: userData;
   userRole?: UserRoleType;
   stage: string;
+  approvalNeededBy: string;
 }
 
 export interface UserRoleType {

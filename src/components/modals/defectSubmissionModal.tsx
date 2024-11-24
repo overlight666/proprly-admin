@@ -670,38 +670,36 @@ export const DefectSubmissionModal = function (props: any) {
                   </div>
                 </div>
                 <div className="col-span-3">
-                  {defect?.activityLogs &&
-                    defect?.activityLogs[defect?.activityLogs.length - 1]
-                      ?.userRole.roleName == "Owner" && (
-                      <div className="flex gap-3">
-                        <Button
-                          color="primary"
-                          onClick={() => {
-                            setOpen(false);
-                            setDefectId(defect.id);
-                            setFeedbackOpen(true);
-                            setFeedback("accept");
-                            setFeedbackTitle("Accept Defect");
-                          }}
-                        >
-                          <div className="flex items-center gap-x-2">
-                            Accept Defect
-                          </div>
-                        </Button>
-                        <Button
-                          color="gray"
-                          onClick={() => {
-                            setOpen(false);
-                            setDefectId(defect.id);
-                            setFeedbackOpen(true);
-                            setFeedback("reject");
-                            setFeedbackTitle("Reject Defect");
-                          }}
-                        >
-                          Reject Defect
-                        </Button>
-                      </div>
-                    )}
+                  {defect && defect.approvalNeededBy && (
+                    <div className="flex gap-3">
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          setOpen(false);
+                          setDefectId(defect.id);
+                          setFeedbackOpen(true);
+                          setFeedback("accept");
+                          setFeedbackTitle("Accept Defect");
+                        }}
+                      >
+                        <div className="flex items-center gap-x-2">
+                          Accept Defect
+                        </div>
+                      </Button>
+                      <Button
+                        color="gray"
+                        onClick={() => {
+                          setOpen(false);
+                          setDefectId(defect.id);
+                          setFeedbackOpen(true);
+                          setFeedback("reject");
+                          setFeedbackTitle("Reject Defect");
+                        }}
+                      >
+                        Reject Defect
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
