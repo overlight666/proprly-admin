@@ -3,11 +3,14 @@
 import { Modal, Button, Label } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { clearAppointmentResponse } from "../../store/features/propertySlice";
+import { useDispatch } from "react-redux";
 
 export const BookAppointmentModal = function (props: any) {
   const { isOpen, setOpen } = props;
   const { id, project_id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [uploadType, setUploadType] = useState<any>("");
   return (
     <>
@@ -37,6 +40,7 @@ export const BookAppointmentModal = function (props: any) {
             <Button
               color="primary"
               onClick={() => {
+                dispatch(clearAppointmentResponse());
                 navigate(
                   `/organization/${id}/project/${project_id}/appointments/new`
                 );

@@ -48,6 +48,9 @@ export const propertySlice = createSlice({
     selectProperty: (state, action: PayloadAction<Property | undefined>) => {
       state.selectedProperty = action.payload;
     },
+    clearAppointmentResponse: (state) => {
+      state.appointmentResponse = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerProperty.pending, (state) => {
@@ -194,5 +197,6 @@ export const {
   selectProperty,
   clearAttachedUsers,
   clearSubmittion,
+  clearAppointmentResponse,
 } = propertySlice.actions;
 export default propertySlice.reducer;

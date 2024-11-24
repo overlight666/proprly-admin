@@ -49,6 +49,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
     } else if (
       defectSubStatus == "Defect Logged" ||
+      defectSubStatus == "Pending Admin Feedback" ||
+      defectSubStatus == "Pending Admin Approval" ||
       defectSubStatus == "Pending Admin feedback"
     ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
@@ -108,6 +110,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       );
     } else if (
       defectSubStatus == "Defect Logged" ||
+      defectSubStatus == "Pending Admin Feedback" ||
+      defectSubStatus == "Pending Admin Approval" ||
       defectSubStatus == "Pending Admin feedback"
     ) {
       return (

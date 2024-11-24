@@ -69,7 +69,9 @@ export const DefectSubmissionModal = function (props: any) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
     } else if (
       defectSubStatus == "Defect Logged" ||
-      defectSubStatus == "Pending Admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Approval" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
     } else if (
@@ -128,7 +130,9 @@ export const DefectSubmissionModal = function (props: any) {
       );
     } else if (
       defectSubStatus == "Defect Logged" ||
-      defectSubStatus == "Pending Admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Approval" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return (
         <svg
