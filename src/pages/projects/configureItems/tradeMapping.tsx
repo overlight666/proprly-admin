@@ -15,33 +15,34 @@ export default function TradeMapping({ project_id }: any) {
   const { tradeCodeList, defectCodeList }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  let didInit = false;
   useEffect(() => {
     try {
-      if (document.getElementById("trade-code-table")) {
-        if (tradeCodeList && tradeCodeList.length > 0) {
-          if (!DataTable.isDataTable("#trade-code-table")) {
-            new DataTable("#trade-code-table", {
-              paging: true,
-              searching: false,
-              layout: {
-                topStart: null,
-                topEnd: null,
-                bottomStart: {
-                  pageLength: {
-                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-                  },
-                },
-                bottomEnd: "paging",
+      // if (document.getElementById("trade-code-table") && !didInit) {
+      // if (tradeCodeList && tradeCodeList.length > 0) {
+      if (!DataTable.isDataTable("#trade-code-table") && !didInit) {
+        new DataTable("#trade-code-table", {
+          paging: true,
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
               },
-            });
-          }
-        }
+            },
+            bottomEnd: "paging",
+          },
+        });
+        didInit = true;
       }
+      // }
+      // }
     } catch (error) {
       console.log(error);
     }
-  }, [tradeCodeList]);
+  }, []);
 
   const [isOpen, setOpen] = useState(false);
 
@@ -98,69 +99,61 @@ export default function TradeMapping({ project_id }: any) {
         </Button>
       </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
-        {tradeCodeList && tradeCodeList.length > 0 ? (
-          <table
-            id="trade-code-table"
-            className="h-[500px] w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
-          >
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  SR No
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  TRADE NAME
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  TRADE CODE
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  DEFECT CODE
-                </th>
-                <th scope="col" className="px-6 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {tradeCodeList && tradeCodeList.length ? (
-                tradeCodeList.map((t: TradeCode, index: any) => {
-                  return (
-                    <tr
-                      key={index}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+        <table
+          id="trade-code-table"
+          className="h-[500px] w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
+        >
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                SR No
+              </th>
+              <th scope="col" className="px-6 py-3">
+                TRADE NAME
+              </th>
+              <th scope="col" className="px-6 py-3">
+                TRADE CODE
+              </th>
+              <th scope="col" className="px-6 py-3">
+                DEFECT CODE
+              </th>
+              <th scope="col" className="px-6 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {tradeCodeList &&
+              tradeCodeList.length &&
+              tradeCodeList.map((t: TradeCode, index: any) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                     >
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        {t.id}
-                      </th>
-                      <td className="px-6 py-4">{t.tradeName}</td>
-                      <td className="px-6 py-4">{t.tradeCode}</td>
-                      <td className="px-6 py-4">
-                        {t.defectCode && t.defectCode.length
-                          ? t.defectCode
-                              .map((o: any) => o.defectCode)
-                              .join(", ")
-                          : ""}
-                      </td>
-                      <td className="px-6 py-4">
-                        <Button color="gray" className="w-[50px]">
-                          <div className="flex items-center gap-x-2 text-xs">
-                            <BsThreeDots />
-                          </div>
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <></>
-              )}
-            </tbody>
-          </table>
-        ) : (
-          <></>
-        )}
+                      {t.id}
+                    </th>
+                    <td className="px-6 py-4">{t.tradeName}</td>
+                    <td className="px-6 py-4">{t.tradeCode}</td>
+                    <td className="px-6 py-4">
+                      {t.defectCode && t.defectCode.length
+                        ? t.defectCode.map((o: any) => o.defectCode).join(", ")
+                        : ""}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Button color="gray" className="w-[50px]">
+                        <div className="flex items-center gap-x-2 text-xs">
+                          <BsThreeDots />
+                        </div>
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
       <AddTradeCodeModal
         setOpen={setOpen}

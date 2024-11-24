@@ -17,29 +17,31 @@ export default function DefectCodeManagement({ project_id }: any) {
     (state: any) => state.project
   );
   const [isOpen, setOpen] = useState(false);
+  let didInit = false;
 
   useEffect(() => {
     try {
-      if (document.getElementById("defect-code-table")) {
-        if (defectCodeList && defectCodeList.length > 0) {
-          if (!DataTable.isDataTable("#defect-code-table")) {
-            new DataTable("#defect-code-table", {
-              paging: true,
-              searching: false,
-              layout: {
-                topStart: null,
-                topEnd: null,
-                bottomStart: {
-                  pageLength: {
-                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-                  },
-                },
-                bottomEnd: "paging",
+      // if (document.getElementById("defect-code-table") && !didInit) {
+      // if (defectCodeList && defectCodeList.length > 0) {
+      if (!DataTable.isDataTable("#defect-code-table") && !didInit) {
+        new DataTable("#defect-code-table", {
+          paging: true,
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
               },
-            });
-          }
-        }
+            },
+            bottomEnd: "paging",
+          },
+        });
+        didInit = true;
       }
+      // }
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -90,54 +92,50 @@ export default function DefectCodeManagement({ project_id }: any) {
         </Button>
       </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
-        {defectCodeList && defectCodeList.length ? (
-          <table
-            id="defect-code-table"
-            className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
-          >
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  SR No
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  DEFECT NAME
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  DEFECT CODE
-                </th>
-                <th scope="col" className="px-6 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {defectCodeList &&
-                defectCodeList.length > 0 &&
-                defectCodeList.map((obj: DefectCode, index: any) => {
-                  return (
-                    <tr
-                      key={index}
-                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
-                        {obj.id}
-                      </td>
-                      <td className="px-6 py-4">{obj.defectName}</td>
-                      <td className="px-6 py-4">{obj.defectCode}</td>
-                      <td className="px-6 py-4">
-                        <Button color="gray" className="w-[50px]">
-                          <div className="flex items-center gap-x-2 text-xs">
-                            <BsThreeDots />
-                          </div>
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        ) : (
-          <></>
-        )}
+        <table
+          id="defect-code-table"
+          className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
+        >
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                SR No
+              </th>
+              <th scope="col" className="px-6 py-3">
+                DEFECT NAME
+              </th>
+              <th scope="col" className="px-6 py-3">
+                DEFECT CODE
+              </th>
+              <th scope="col" className="px-6 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {defectCodeList &&
+              defectCodeList.length > 0 &&
+              defectCodeList.map((obj: DefectCode, index: any) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
+                      {obj.id}
+                    </td>
+                    <td className="px-6 py-4">{obj.defectName}</td>
+                    <td className="px-6 py-4">{obj.defectCode}</td>
+                    <td className="px-6 py-4">
+                      <Button color="gray" className="w-[50px]">
+                        <div className="flex items-center gap-x-2 text-xs">
+                          <BsThreeDots />
+                        </div>
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
       </div>
       <AddDefectCodeModal
         setOpen={setOpen}
