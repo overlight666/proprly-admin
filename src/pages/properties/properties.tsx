@@ -34,7 +34,7 @@ import { FaChevronLeft } from "react-icons/fa";
 
 const Properties: FC = function () {
   const { project_id }: any = useParams();
-  let didInit = false;
+  // const didInit = false;
   const { propertyData, isIdle }: PropertyState = useSelector(
     (state: any) => state.property
   );
@@ -59,11 +59,11 @@ const Properties: FC = function () {
     }
   };
   useEffect(() => {
-    if (!didInit) {
-      dispatch(getProperties(project_id));
-      dispatch(updatePropertyTab(1));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(getProperties(project_id));
+    dispatch(updatePropertyTab(1));
+    // didInit = true;
+    // }
   }, []);
 
   return (
