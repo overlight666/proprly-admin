@@ -96,7 +96,7 @@ export const DefectFeedbackModal = function (props: any) {
   };
 
   useEffect(() => {
-    if (feedbackResponse && feedbackResponse.id) {
+    if (feedbackResponse) {
       if (feedback == "accept") {
         toast.info("Defect submission accepted!");
       } else {
