@@ -710,10 +710,10 @@ export const DefectSubmissionModal = function (props: any) {
                           color="primary"
                           onClick={() => {
                             setOpen(false);
-                            setDefectId(defect.id);
-                            setFeedbackOpen(true);
-                            setFeedback("accept");
-                            setFeedbackTitle("Accept Defect");
+                            // setDefectId(defect.id);
+                            // setFeedbackOpen(true);
+                            // setFeedback("accept");
+                            // setFeedbackTitle("Accept Defect");
                           }}
                         >
                           <div className="flex items-center gap-x-2">
@@ -724,10 +724,10 @@ export const DefectSubmissionModal = function (props: any) {
                           color="gray"
                           onClick={() => {
                             setOpen(false);
-                            setDefectId(defect.id);
-                            setFeedbackOpen(true);
-                            setFeedback("reject");
-                            setFeedbackTitle("Reject Defect");
+                            // setDefectId(defect.id);
+                            // setFeedbackOpen(true);
+                            // setFeedback("reject");
+                            // setFeedbackTitle("Reject Defect");
                           }}
                         >
                           Close Defect
