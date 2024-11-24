@@ -639,3 +639,15 @@ export const submitFeedback = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const bookAppointmentApi = async (params: any) => {
+  return api
+    .post(`/appointment`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      localStorage.removeItem("token");
+      return error && error.response && error.response.data;
+    });
+};

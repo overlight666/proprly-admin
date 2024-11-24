@@ -318,6 +318,7 @@ export interface ProjectState {
   commonAreaIdle: boolean;
   commonAreaResponse: commonAreaResponseType | undefined;
   commonAreaItem: commonAreaItemType | undefined;
+  commonAreaArray: commonAreaItemType[] | undefined;
   commonAreaConfig: commonAreaItemType | undefined;
   reloadAreaTable: boolean;
 }
@@ -448,6 +449,7 @@ export interface PropertyState {
   loadingDefect: boolean;
   defect: DefectSumissionType | undefined;
   feedbackResponse: undefined | any;
+  appointmentResponse: undefined | any;
 }
 
 export interface DefectSumissionType {

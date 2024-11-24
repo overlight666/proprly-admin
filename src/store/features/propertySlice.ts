@@ -6,6 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { Property, PropertyState } from "../../types";
 import {
   attachPropertyUserReducer,
+  bookAppointmentReducer,
   getAllDefectResolutionReducer,
   getDefectResolutionByIdReducer,
   getProperties,
@@ -27,6 +28,7 @@ const initialState: PropertyState = {
   loadingDefect: false,
   defect: undefined,
   feedbackResponse: undefined,
+  appointmentResponse: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -167,6 +169,22 @@ export const propertySlice = createSlice({
     builder.addCase(submitFeedbackReducer.rejected, (state) => {
       // state.loadingDefect = false;
       state.feedbackResponse = undefined;
+    });
+    // book appointment
+    builder.addCase(bookAppointmentReducer.pending, (state) => {
+      // state.loadingDefect = true;
+      state.appointmentResponse = undefined;
+    });
+    builder.addCase(bookAppointmentReducer.fulfilled, (state, action) => {
+      state.appointmentResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      // state.loadingDefect = false;
+    });
+    builder.addCase(bookAppointmentReducer.rejected, (state) => {
+      // state.loadingDefect = false;
+      state.appointmentResponse = undefined;
     });
   },
 });

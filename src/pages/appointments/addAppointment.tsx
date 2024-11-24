@@ -6,33 +6,184 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 import { Breadcrumb, Button, Label, Radio } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 
 import { FaAngleDown, FaAngleUp, FaChevronLeft } from "react-icons/fa6";
-
-import { ToastContainer } from "react-toastify";
+import { Datepicker } from "flowbite-react";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
-import type { OrgState, ProjectState } from "../../types";
-import { useNavigate } from "react-router";
-import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import type { commonAreaItemType, userData } from "../../types";
+import {
+  type AppState,
+  type OrgState,
+  type ProjectState,
+  type Property,
+  type PropertyState,
+  type ReducerTypes,
+} from "../../types";
+import { useNavigate, useParams } from "react-router";
+import AsyncSelect from "react-select/async";
+import {
+  bookAppointmentReducer,
+  getCommonAreaByProjectArrayReducer,
+  getProperties,
+  listUserByRoleReducer,
+} from "../../store/features/reducers";
+import moment from "moment";
+
+export interface AppointmentType {
+  propertyId?: number;
+  commonAreaId?: number;
+  type: string;
+  appointmentDate: string;
+  appointmentTimeslot: string;
+  description: string;
+  userId?: number;
+  tradeCodeId?: number;
+}
 
 const AddAppointment: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { selectedProject }: ProjectState = useSelector(
+  const { selectedProject, commonAreaArray }: ProjectState = useSelector(
     (state: any) => state.project
   );
+  const { propertyData, appointmentResponse }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
+
+  const { projectAuditors }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+
+  const { project_id }: any = useParams();
   const [chooseValue, setChooseValue] = useState("property");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [errors, setErrors] = useState<any>([]);
+  const [selectedProperty, setSelectedProperty] = useState<
+    Property | undefined
+  >(undefined);
+  const [selectedCommonArea, setSelectedCommonArea] = useState<
+    commonAreaItemType | undefined
+  >(undefined);
+  const [selectedAuditor, setSelectedAuditor] = useState<userData | undefined>(
+    undefined
+  );
+  const [description, setDescription] = useState("");
+  const [appointmentType, setInspectionType] = useState("inspection");
+  const [timeSlotStart, setTimeSlotStart] = useState("08:00");
+  const [timeSlotEnd, setTimeSlotEnd] = useState("18:00");
+  const [inspectionStatus, setInspectionStatus] = useState("");
+  const [appointmentDate, setAppointmentDate] = useState(
+    `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
+      "YYYY"
+    )} `
+  );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
+
+  let didInit = false;
+
+  useEffect(() => {
+    if (!didInit) {
+      dispatch(getProperties(project_id));
+      dispatch(listUserByRoleReducer("project_auditor"));
+      didInit = true;
+    }
+  }, []);
+
+  const chooseHandler = (e) => {
+    setChooseValue(e);
+    if (e === "property") {
+      dispatch(getProperties(project_id));
+    } else {
+      dispatch(getCommonAreaByProjectArrayReducer(project_id));
+    }
+  };
+
+  const optionItem = (): any => {
+    return propertyData?.map((p) => {
+      return {
+        ...p,
+        label: p.unitNo,
+        value: p.id,
+      };
+    });
+  };
+
+  const optionItem2 = (): any => {
+    return commonAreaArray?.map((p) => {
+      return {
+        ...p,
+        label: p.lotNo,
+        value: p.id,
+      };
+    });
+  };
+
+  const auditorItems = (): any => {
+    return projectAuditors?.map((p) => {
+      return {
+        ...p,
+        label: p.fullName,
+        value: p.id,
+      };
+    });
+  };
+
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: any[]) => void
+  ) => {
+    callback(optionItem());
+  };
+
+  const loadOptions2 = (
+    inputValue: string,
+    callback: (options: any[]) => void
+  ) => {
+    callback(optionItem2());
+  };
+
+  const loadAuditors = (
+    inputValue: string,
+    callback: (options: any[]) => void
+  ) => {
+    callback(auditorItems());
+  };
+
+  const bookAppointment = () => {
+    const params: AppointmentType = {
+      type: appointmentType,
+      appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
+      appointmentTimeslot: `${timeSlotStart}_${timeSlotEnd}`,
+      description: description,
+    };
+    if (chooseValue == "property") {
+      params.propertyId = selectedProperty?.id;
+      params.userId = selectedAuditor?.id;
+    }
+    if (chooseValue == "common-area") {
+      params.commonAreaId = selectedCommonArea?.id;
+    }
+    dispatch(bookAppointmentReducer(params));
+  };
+
+  useEffect(() => {
+    console.log(appointmentResponse);
+    if (appointmentResponse && appointmentResponse.error) {
+      toast.warning(appointmentResponse.error);
+    } else if (appointmentResponse && !appointmentResponse.error) {
+      toast.info("Appointment successfully added");
+    }
+  }, [appointmentResponse]);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -103,7 +254,10 @@ const AddAppointment: FC = function () {
                       name="choose"
                       value="property"
                       checked={chooseValue == "property"}
-                      onChange={(e) => setChooseValue(e.target.value)}
+                      onChange={(e) => {
+                        setInspectionStatus("");
+                        chooseHandler(e.target.value);
+                      }}
                     />
                     <Label htmlFor="choose">Property</Label>
                   </div>
@@ -113,7 +267,10 @@ const AddAppointment: FC = function () {
                       name="choose"
                       value="common-area"
                       checked={chooseValue == "common-area"}
-                      onChange={(e) => setChooseValue(e.target.value)}
+                      onChange={(e) => {
+                        setInspectionStatus("");
+                        chooseHandler(e.target.value);
+                      }}
                     />
                     <Label htmlFor="choose">Common Area</Label>
                   </div>
@@ -124,17 +281,28 @@ const AddAppointment: FC = function () {
                       {chooseValue === "property" ? "Unit No." : "CA Lot No."}
                       <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
-                    />
+                    {chooseValue === "property" && propertyData && (
+                      <AsyncSelect
+                        cacheOptions
+                        loadOptions={loadOptions}
+                        defaultOptions
+                        onChange={(e) => {
+                          setInspectionStatus(e.status);
+                          setSelectedProperty(e);
+                        }}
+                      />
+                    )}
+                    {chooseValue === "common-area" && commonAreaArray && (
+                      <AsyncSelect
+                        cacheOptions
+                        loadOptions={loadOptions2}
+                        defaultOptions
+                        onChange={(e) => {
+                          setInspectionStatus(e.status);
+                          setSelectedCommonArea(e);
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
@@ -143,48 +311,56 @@ const AddAppointment: FC = function () {
                         : "CA Status"}
                       <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
-                    />
+                    <select
+                      id="uploadType"
+                      name="uploadType"
+                      value={inspectionStatus}
+                      disabled
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    >
+                      <option value="" selected>
+                        Status
+                      </option>
+                      <option value="pre_settlement">Pre-Settlement</option>
+                      <option value="handover">Handover</option>
+                      <option value="post_handover">Post-Handover</option>
+                    </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
                       Appointment Type <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
-                    />
+                    <select
+                      id="appointmentType"
+                      name="appointmentType"
+                      value={appointmentType}
+                      onChange={(e) => setInspectionType(e.target.value)}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    >
+                      <option value="inspection">Inspection Appointment</option>
+                      <option value="defect">Defect Appointment</option>
+                    </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
                       Appointment Date <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
+                    <Datepicker
+                      value={appointmentDate}
+                      onSelectedDateChanged={(e) =>
+                        setAppointmentDate(
+                          `${moment(e).format("MMMM")} ${moment(e).format(
+                            "DD"
+                          )}, ${moment(e).format("YYYY")} `
+                        )
+                      }
+                      minDate={
+                        new Date(
+                          moment().year(),
+                          moment().month(),
+                          moment().date()
+                        )
+                      }
                     />
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
@@ -192,17 +368,89 @@ const AddAppointment: FC = function () {
                       Appointment Time Slot{" "}
                       <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
-                    />
+                    <div className="flex gap-2">
+                      <div className="w-[50%]">
+                        <label
+                          htmlFor="start-time"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Start time:
+                        </label>
+                        <div className="relative">
+                          <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
+                            <svg
+                              className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <input
+                            value={timeSlotStart}
+                            onChange={(e) => setTimeSlotStart(e.target.value)}
+                            type="time"
+                            id="start-time"
+                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            min="09:00"
+                            max="18:00"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="w-[50%]">
+                        <label
+                          htmlFor="end-time"
+                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          End time:
+                        </label>
+                        <div className="relative">
+                          <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
+                            <svg
+                              className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <input
+                            value={timeSlotEnd}
+                            onChange={(e) => setTimeSlotEnd(e.target.value)}
+                            type="time"
+                            id="end-time"
+                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            min="09:00"
+                            max="18:00"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="flex ">
+                      <input
+                        type="time"
+                        id="time"
+                        className="block w-full flex-1 rounded-md rounded-s-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        min="09:00"
+                        max="18:00"
+                        value={timeSlot}
+                        onChange={(e) => setTimeSlot(e.target.value)}
+                      />
+                    </div> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
@@ -210,6 +458,8 @@ const AddAppointment: FC = function () {
                       <span className="text-[red]">*</span>
                     </Label>
                     <textarea
+                      onChange={(e) => setDescription(e.target.value)}
+                      value={description}
                       id="compose-mail"
                       rows={4}
                       className="block w-full rounded-md border-0 bg-gray-100 p-3 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
@@ -221,16 +471,11 @@ const AddAppointment: FC = function () {
                       Auditor
                       <span className="text-[red]">*</span>
                     </Label>
-                    <Select
-                      // className="basic-single"
-                      // menuPosition="fixed"
-                      classNamePrefix="select"
-                      options={[]}
-                      // isSearchable={true}
-                      defaultValue={[]}
-                      id="status"
-                      name="status"
-                      // value={country}
+                    <AsyncSelect
+                      cacheOptions
+                      loadOptions={loadAuditors}
+                      defaultOptions
+                      onChange={(e) => setSelectedAuditor(e)}
                     />
                   </div>
                 </div>
@@ -296,21 +541,41 @@ const AddAppointment: FC = function () {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      ></th>
-                      <td className="px-6 py-4"></td>
-                      <td className="px-6 py-4"></td>
-                    </tr>
+                    {selectedProperty &&
+                      selectedProperty.user &&
+                      selectedProperty.user.map((u, index) => {
+                        return (
+                          <tr
+                            key={index}
+                            className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <th
+                              scope="row"
+                              className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                            >
+                              {u.fullName}
+                            </th>
+                            <td className="px-6 py-4">{u.mobile}</td>
+                            <td className="px-6 py-4">{u.email}</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
           <div className="my-10 flex">
-            <Button className="mx-1" color="primary">
+            <Button
+              className="mx-1"
+              color="primary"
+              onClick={() => bookAppointment()}
+              disabled={
+                !selectedProperty ||
+                !description ||
+                (chooseValue == "property" && !selectedAuditor)
+              }
+            >
               Book Appointment
             </Button>
             <Button

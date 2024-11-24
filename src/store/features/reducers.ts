@@ -9,6 +9,7 @@ import {
   addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
+  bookAppointmentApi,
   createCommonArea,
   createProjectUser,
   getAllChecklist,
@@ -576,6 +577,20 @@ export const getCommonAreaByProjectReducer: any = createAsyncThunk(
     }
   }
 );
+
+export const getCommonAreaByProjectArrayReducer: any = createAsyncThunk(
+  "getCommonAreaByProjectArrayReducer",
+  async (id: any) => {
+    try {
+      const response = await getCommonAreaByProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const listUserByRoleReducer: any = createAsyncThunk(
   "listUserByRole",
   async (role: any) => {
@@ -659,6 +674,19 @@ export const submitFeedbackReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await submitFeedback(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const bookAppointmentReducer: any = createAsyncThunk(
+  "bookAppointmentReducer",
+  async (data: any) => {
+    try {
+      const response = await bookAppointmentApi(data);
       // If you want to get something back
       return response;
     } catch (err) {

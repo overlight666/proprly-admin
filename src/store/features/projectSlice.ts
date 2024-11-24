@@ -12,6 +12,7 @@ import {
   getAllCommonAreaReducer,
   getChecklistElementReducer,
   getChecklistZonesReducer,
+  getCommonAreaByProjectArrayReducer,
   getCommonAreaByProjectReducer,
   getCommonAreaReducer,
   getDefectCodeListByProject,
@@ -79,6 +80,7 @@ const initialState: ProjectState = {
   commonAreaIdle: true,
   commonAreaResponse: undefined,
   commonAreaItem: undefined,
+  commonAreaArray: undefined,
   commonAreaConfig: undefined,
   reloadAreaTable: false,
 };
@@ -363,6 +365,25 @@ export const projectSlice = createSlice({
     );
     builder.addCase(getCommonAreaByProjectReducer.rejected, (state) => {
       state.commonAreaItem = undefined;
+      state.commonAreaIdle = true;
+    });
+    //get common area by project
+    builder.addCase(getCommonAreaByProjectArrayReducer.pending, (state) => {
+      state.commonAreaArray = undefined;
+      state.commonAreaIdle = false;
+    });
+    builder.addCase(
+      getCommonAreaByProjectArrayReducer.fulfilled,
+      (state, action) => {
+        state.commonAreaArray =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+        state.commonAreaIdle = true;
+      }
+    );
+    builder.addCase(getCommonAreaByProjectArrayReducer.rejected, (state) => {
+      state.commonAreaArray = undefined;
       state.commonAreaIdle = true;
     });
     // create project admin
