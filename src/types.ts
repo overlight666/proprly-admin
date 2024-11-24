@@ -260,6 +260,23 @@ export interface ProjectState {
   selectedZone: FullChecklist | undefined;
   allChecklist: FullChecklist[];
   selectedElement: FullElements | undefined;
+  allCommonArea: FullCommonArea[];
+  selectedCommonArea: FullCommonArea | undefined;
+  selectedCommonAreaElement: FullElements | undefined;
+}
+
+export interface FullCommonArea {
+  id: number;
+  name: string;
+  sequence: number;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId: any;
+  organizationId: any;
+  projectId: any;
+  createdAt: string;
+  updatedAt: string;
+  elements: FullElements[];
 }
 
 export interface FullChecklist {

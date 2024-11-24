@@ -1,85 +1,79 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Label, Modal, TextInput, ToggleSwitch } from "flowbite-react";
+import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { BsList, BsThreeDotsVertical } from "react-icons/bs";
-import type { FullElements, ProjectState } from "../../../../types";
+import type { FullCommonArea, ProjectState } from "../../../../types";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { selectElement } from "../../../../store/features/projectSlice";
+import { selectCommonArea } from "../../../../store/features/projectSlice";
+// import { getChecklistElementReducer } from "../../../../store/features/reducers";
 
-export default function ElementItems({ openModal, setOpenModal }: any) {
-  const { selectedZone, selectedElement }: ProjectState = useSelector(
+export default function CommonAreaItems({ openModal, setOpenModal }: any) {
+  const { allCommonArea, selectedCommonArea }: ProjectState = useSelector(
     (state: any) => state.project
   );
   const dispatch = useDispatch();
-  const [switch1, setSwitch1] = useState(false);
-
-  const [element, setElement] = useState("");
-  const addElement = () => {
-    if (element.trim() !== "") {
-      toast.warning("Create element is still in construction");
+  const [zone, setZone] = useState("");
+  const addZone = () => {
+    if (zone.trim() !== "") {
+      toast.warning("Create common area is still in construction");
     }
   };
 
   return (
     <>
       <div className="relative p-1 px-3 pb-20 shadow-md">
-        {(selectedZone?.elements &&
-          selectedZone?.elements.length > 0 &&
-          selectedZone?.elements.map((element: FullElements, index: any) => {
+        {(allCommonArea &&
+          allCommonArea.length > 0 &&
+          allCommonArea.map((ca: FullCommonArea, index: any) => {
             return (
               <div
                 key={index}
                 className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
-                  selectedElement &&
-                  selectedElement.id == element.id &&
+                  selectedCommonArea &&
+                  selectedCommonArea.id == ca.id &&
                   `bg-gray-100`
                 }`}
                 onClick={() => {
-                  dispatch(selectElement(element));
+                  dispatch(selectCommonArea(ca));
                 }}
               >
                 <div className="flex flex-row items-center">
                   <Button color="white" className="w-[50px]">
                     <BsList />
                   </Button>
-                  <span>{element.name}</span>
+                  <span>{ca.name}</span>
                 </div>
                 <BsThreeDotsVertical />
               </div>
             );
-          })) || <span>Select a zone</span>}
+          })) || <span>loading data</span>}
 
         <Button className="absolute bottom-1 my-5 ml-3 w-[150px]">
           <div className="flex items-center gap-x-2 text-xs">Save Changes</div>
         </Button>
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Checklist Element</Modal.Header>
+        <Modal.Header>Common Area</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <div className="mb-4 grid grid-cols-1 gap-y-2">
-              <Label htmlFor="taskName">Element</Label>
+              <Label htmlFor="taskName">Common Area</Label>
               <TextInput
-                value={element}
-                id="element"
-                name="element"
-                placeholder="Enter element name"
-                onChange={(e) => setElement(e.target.value)}
+                value={zone}
+                id="zone"
+                name="zone"
+                placeholder="Enter zone name"
+                onChange={(e) => setZone(e.target.value)}
               />
-            </div>
-            <div className="flex items-center gap-2">
-              {" "}
-              <span>Has sub elements?</span>
-              <ToggleSwitch checked={switch1} label="" onChange={setSwitch1} />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => addElement()}>Add</Button>
+          <Button onClick={() => addZone()}>Add</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Cancel
           </Button>

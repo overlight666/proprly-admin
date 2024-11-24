@@ -8,12 +8,11 @@ import type { FullElements, ProjectState } from "../../../../types";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { selectElement } from "../../../../store/features/projectSlice";
+import { selectCommonAreaElement } from "../../../../store/features/projectSlice";
 
-export default function ElementItems({ openModal, setOpenModal }: any) {
-  const { selectedZone, selectedElement }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+export default function CAElementItems({ openModal, setOpenModal }: any) {
+  const { selectedCommonArea, selectedCommonAreaElement }: ProjectState =
+    useSelector((state: any) => state.project);
   const dispatch = useDispatch();
   const [switch1, setSwitch1] = useState(false);
 
@@ -27,38 +26,40 @@ export default function ElementItems({ openModal, setOpenModal }: any) {
   return (
     <>
       <div className="relative p-1 px-3 pb-20 shadow-md">
-        {(selectedZone?.elements &&
-          selectedZone?.elements.length > 0 &&
-          selectedZone?.elements.map((element: FullElements, index: any) => {
-            return (
-              <div
-                key={index}
-                className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
-                  selectedElement &&
-                  selectedElement.id == element.id &&
-                  `bg-gray-100`
-                }`}
-                onClick={() => {
-                  dispatch(selectElement(element));
-                }}
-              >
-                <div className="flex flex-row items-center">
-                  <Button color="white" className="w-[50px]">
-                    <BsList />
-                  </Button>
-                  <span>{element.name}</span>
+        {(selectedCommonArea?.elements &&
+          selectedCommonArea?.elements.length > 0 &&
+          selectedCommonArea?.elements.map(
+            (element: FullElements, index: any) => {
+              return (
+                <div
+                  key={index}
+                  className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
+                    selectedCommonAreaElement &&
+                    selectedCommonAreaElement.id == element.id &&
+                    `bg-gray-100`
+                  }`}
+                  onClick={() => {
+                    dispatch(selectCommonAreaElement(element));
+                  }}
+                >
+                  <div className="flex flex-row items-center">
+                    <Button color="white" className="w-[50px]">
+                      <BsList />
+                    </Button>
+                    <span>{element.name}</span>
+                  </div>
+                  <BsThreeDotsVertical />
                 </div>
-                <BsThreeDotsVertical />
-              </div>
-            );
-          })) || <span>Select a zone</span>}
+              );
+            }
+          )) || <span>Select a common area</span>}
 
         <Button className="absolute bottom-1 my-5 ml-3 w-[150px]">
           <div className="flex items-center gap-x-2 text-xs">Save Changes</div>
         </Button>
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Checklist Element</Modal.Header>
+        <Modal.Header>Common Area Element</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
             <div className="mb-4 grid grid-cols-1 gap-y-2">

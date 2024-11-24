@@ -486,3 +486,15 @@ export const getAllChecklist = async (id: any) => {
       return error;
     });
 };
+
+export const getAllCommonArea = async (id: any) => {
+  return api
+    .get(`common_area/${id}/checklist`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

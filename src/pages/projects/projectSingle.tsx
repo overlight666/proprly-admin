@@ -43,6 +43,7 @@ import {
   getDefectCodeListByProject,
   getTradeCodeListByProject,
   getAllChecklistReducer,
+  getAllCommonAreaReducer,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
@@ -144,6 +145,7 @@ const ProjectSingle: FC = function () {
     dispatch(getDefectCodeListByProject(project_id));
     dispatch(getTradeCodeListByProject(project_id));
     dispatch(getAllChecklistReducer(project_id));
+    dispatch(getAllCommonAreaReducer(project_id));
   }, []);
 
   useEffect(() => {

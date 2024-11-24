@@ -8,6 +8,7 @@ import {
   addTradeCode,
   attachPropertyUser,
   getAllChecklist,
+  getAllCommonArea,
   getAllDefectCodebyProject,
   getAllOrganizations,
   getAllProperties,
@@ -492,6 +493,19 @@ export const getAllChecklistReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getAllChecklist(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllCommonAreaReducer: any = createAsyncThunk(
+  "getAllCommonArea",
+  async (id: any) => {
+    try {
+      const response = await getAllCommonArea(id);
       // If you want to get something back
       return response;
     } catch (err) {

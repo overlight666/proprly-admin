@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
   getAllChecklistReducer,
+  getAllCommonAreaReducer,
   getChecklistElementReducer,
   getChecklistZonesReducer,
   getDefectCodeListByProject,
@@ -60,6 +61,9 @@ const initialState: ProjectState = {
   selectedZone: undefined,
   selectedElement: undefined,
   allChecklist: [],
+  allCommonArea: [],
+  selectedCommonArea: undefined,
+  selectedCommonAreaElement: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -86,6 +90,12 @@ export const projectSlice = createSlice({
     },
     selectElement: (state, action: PayloadAction<FullElements>) => {
       state.selectedElement = action.payload;
+    },
+    selectCommonArea: (state, action: PayloadAction<FullChecklist>) => {
+      state.selectedCommonArea = action.payload;
+    },
+    selectCommonAreaElement: (state, action: PayloadAction<FullElements>) => {
+      state.selectedCommonAreaElement = action.payload;
     },
     clearProjectList: (state) => {
       state.projectList = [];
@@ -278,6 +288,19 @@ export const projectSlice = createSlice({
     builder.addCase(getAllChecklistReducer.rejected, (state) => {
       state.isIdle = true;
     });
+    // get all common area
+    builder.addCase(getAllCommonAreaReducer.pending, (state) => {
+      state.allCommonArea = [];
+    });
+    builder.addCase(getAllCommonAreaReducer.fulfilled, (state, action) => {
+      state.allCommonArea =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getAllCommonAreaReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
   },
 });
 
@@ -293,6 +316,8 @@ export const {
   clearTradeList,
   selectZone,
   selectElement,
+  selectCommonAreaElement,
+  selectCommonArea,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
