@@ -289,9 +289,9 @@ const ExampleSidebar: FC = function () {
                                           ? "bg-gray-200"
                                           : ""
                                       }`}
-                                      onClick={() => {
-                                        dispatch(clearPropertyData());
-                                      }}
+                                      // onClick={() => {
+                                      //   dispatch(clearPropertyData());
+                                      // }}
                                     >
                                       <div className={`flex items-center `}>
                                         <div
