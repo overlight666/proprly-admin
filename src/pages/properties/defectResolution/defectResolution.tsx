@@ -36,6 +36,7 @@ const DefectResolution = function () {
   const [defectId, setDefectId] = useState<any>();
   // let isInit = false;
   let defectInit = false;
+
   useEffect(() => {
     // if (!isInit) {
     dispatch(
@@ -45,7 +46,7 @@ const DefectResolution = function () {
     );
     // isInit = true;
     // }
-  }, [isOpen]);
+  }, []);
 
   useEffect(() => {
     if (defectSubmissions && defectSubmissions.length) {
