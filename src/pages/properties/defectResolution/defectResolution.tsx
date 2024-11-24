@@ -10,9 +10,10 @@ import { useParams } from "react-router";
 import { DefectSubmissionModal } from "../../../components/modals/defectSubmissionModal";
 import { DefectItem } from "./defectItems";
 import { DefectFeedbackModal } from "../../../components/modals/defectFeedback";
+import { clearSubmittion } from "../../../store/features/propertySlice";
 
 const DefectResolution = function () {
-  const { defectSubmissions }: PropertyState = useSelector(
+  const { defectSubmissions, feedbackResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
   const [pendingDefects, setPendingDefects] = useState<
@@ -47,6 +48,17 @@ const DefectResolution = function () {
     // isInit = true;
     // }
   }, []);
+
+  useEffect(() => {
+    if (feedbackResponse) {
+      dispatch(
+        getAllDefectResolutionReducer({
+          projectId: project_id,
+        })
+      );
+      dispatch(clearSubmittion());
+    }
+  }, [feedbackResponse]);
 
   useEffect(() => {
     if (defectSubmissions && defectSubmissions.length) {
