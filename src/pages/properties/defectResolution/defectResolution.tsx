@@ -34,17 +34,17 @@ const DefectResolution = function () {
   const [feedbackTitle, setFeedbackTitle] = useState("");
   const [feedback, setFeedback] = useState("");
   const [defectId, setDefectId] = useState<any>();
-  let isInit = false;
+  // let isInit = false;
   let defectInit = false;
   useEffect(() => {
-    if (!isInit) {
-      dispatch(
-        getAllDefectResolutionReducer({
-          projectId: project_id,
-        })
-      );
-      isInit = true;
-    }
+    // if (!isInit) {
+    dispatch(
+      getAllDefectResolutionReducer({
+        projectId: project_id,
+      })
+    );
+    // isInit = true;
+    // }
   }, [isOpen]);
 
   useEffect(() => {
