@@ -69,26 +69,26 @@ export const DefectSubmissionModal = function (props: any) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
     } else if (
       defectSubStatus == "Defect Logged" ||
-      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Feedback" ||
       defectSubStatus == "Pending Admin Approval" ||
-      defectSubStatus == "Pending Admin Feedback"
+      defectSubStatus == "Pending Admin feedback"
     ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
     } else if (
       defectSubStatus == "Defect Resolved" ||
       defectSubStatus == "Resolution Accepted by Auditor" ||
       defectSubStatus == "Resolution Accepted By Owner" ||
-      defectSubStatus == "Defect Closed" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Closed"
     ) {
       return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
     } else if (
       defectSubStatus == "Defect Resolution Disputed by Owner" ||
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
-      defectSubStatus == "Not a Defect"
+      defectSubStatus == "Not a Defect" ||
+      defectSubStatus == "Defect Rejected by Admin"
     ) {
-      return hasBg ? "text-cyan-800 bg-cyan-100" : "text-cyan-400";
+      return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
   };
 
@@ -161,8 +161,7 @@ export const DefectSubmissionModal = function (props: any) {
       defectSubStatus == "Defect Resolved" ||
       defectSubStatus == "Resolution Accepted by Auditor" ||
       defectSubStatus == "Resolution Accepted By Owner" ||
-      defectSubStatus == "Defect Closed" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Closed"
     ) {
       return (
         <svg
@@ -187,7 +186,8 @@ export const DefectSubmissionModal = function (props: any) {
       defectSubStatus == "Defect Resolution Disputed by Owner" ||
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
-      defectSubStatus == "Not a Defect"
+      defectSubStatus == "Not a Defect" ||
+      defectSubStatus == "Defect Rejected by Admin"
     ) {
       return (
         <svg

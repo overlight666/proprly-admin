@@ -58,15 +58,15 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Defect Resolved" ||
       defectSubStatus == "Resolution Accepted by Auditor" ||
       defectSubStatus == "Resolution Accepted By Owner" ||
-      defectSubStatus == "Defect Closed" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Closed"
     ) {
       return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
     } else if (
       defectSubStatus == "Defect Resolution Disputed by Owner" ||
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
-      defectSubStatus == "Not a Defect"
+      defectSubStatus == "Not a Defect" ||
+      defectSubStatus == "Defect Rejected by Admin"
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
@@ -141,8 +141,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Defect Resolved" ||
       defectSubStatus == "Resolution Accepted by Auditor" ||
       defectSubStatus == "Resolution Accepted By Owner" ||
-      defectSubStatus == "Defect Closed" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Closed"
     ) {
       return (
         <svg
@@ -167,7 +166,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Defect Resolution Disputed by Owner" ||
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
-      defectSubStatus == "Not a Defect"
+      defectSubStatus == "Not a Defect" ||
+      defectSubStatus == "Defect Rejected by Admin"
     ) {
       return (
         <svg
