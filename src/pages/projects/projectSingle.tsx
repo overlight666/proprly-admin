@@ -92,6 +92,7 @@ const ProjectSingle: FC = function () {
     (state: ReducerTypes) => state.application
   );
 
+  const [isUpdate, setIsUpdate] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<any>([]);
   const [towers, setTowers] = useState<any>([]);
   const [unitNo, setUnitNo] = useState<any>("");
@@ -103,6 +104,7 @@ const ProjectSingle: FC = function () {
   const { fileData }: ImageState = useSelector(
     (state: ReducerTypes) => state.uploads
   );
+
   useEffect(() => {
     if (
       (towerResponse && towerResponse.id && towerResponse.id > 0) ||
@@ -174,6 +176,15 @@ const ProjectSingle: FC = function () {
     numFloors: "0",
   });
 
+  useEffect(() => {
+    if (myImage.imageData) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        imageId: myImage.imageData && myImage.imageData.id.toString(),
+      }));
+    }
+  }, [myImage.imageData]);
+
   const handleInputChangeTower = (event: any) => {
     try {
       const { name, value } = event.target;
@@ -218,7 +229,10 @@ const ProjectSingle: FC = function () {
         dispatch(clearTrigger());
       }
       if (projectResponse && projectResponse.id) {
-        dispatch(updateProjectTabMain(2));
+        if (!isUpdate) {
+          dispatch(updateProjectTabMain(2));
+        }
+        setIsUpdate(false);
         dispatch(clearTrigger());
       }
     }
@@ -228,7 +242,11 @@ const ProjectSingle: FC = function () {
     if (selectedProject) {
       setFormData(selectedProject);
     }
+    if (selectedProject?.documents) {
+      setUploadedFiles(selectedProject?.documents);
+    }
   }, [selectedProject]);
+
   const saveTower = () => {
     let valid = true;
     if (towerFormData.name === "") {
@@ -334,12 +352,13 @@ const ProjectSingle: FC = function () {
     }
 
     if (valid) {
-      // const docs: any = [];
-      // uploadedFiles &&
-      //   uploadedFiles.map((obj: any) => {
-      //     docs.push(obj.id);
-      //   });
-      dispatch(patchProject({ ...formData, towers }));
+      const docs: any = [];
+      uploadedFiles &&
+        uploadedFiles.map((obj: any) => {
+          docs.push(obj.id);
+        });
+      setIsUpdate(true);
+      dispatch(patchProject({ ...formData, towers, documents: docs }));
     }
   };
 
@@ -865,6 +884,7 @@ const ProjectSingle: FC = function () {
                     <Upload
                       handleUpload={handleUpload2}
                       uploadedFiles={uploadedFiles}
+                      setUploadedFiles={setUploadedFiles}
                     />
                     <div className="flex">
                       <Button

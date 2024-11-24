@@ -1,11 +1,19 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FileInput } from "flowbite-react";
 import type { ImageType } from "../../../types";
+import { confirmAlert } from "react-confirm-alert";
 
-export default function Upload({ handleUpload, uploadedFiles }: any) {
-  const getFileSizeFromUrl = () => {
-    return `${Math.floor(Math.random() * 100)}mb`;
+export default function Upload({
+  handleUpload,
+  uploadedFiles,
+  setUploadedFiles,
+}: any) {
+  const getFileSizeFromUrl = (size) => {
+    return size
+      ? `${(size / 1000000).toPrecision(3)}mb`
+      : `${Math.floor(Math.random() * 100)}mb`;
   };
   return (
     <div className="mt-5 flex w-full flex-col">
@@ -66,10 +74,30 @@ export default function Upload({ handleUpload, uploadedFiles }: any) {
                     <span>{files.name}</span>
                     <div className="flex items-center gap-4">
                       <span className="text-gray-400">
-                        {getFileSizeFromUrl()}
+                        {getFileSizeFromUrl(files.size)}
                       </span>
                       <div className="flex items-center gap-1">
                         <svg
+                          onClick={() => {
+                            confirmAlert({
+                              title: "Confirm to remove",
+                              message: "Are you sure to do this.",
+                              buttons: [
+                                {
+                                  label: "Yes",
+                                  onClick: () => {
+                                    const newFiles = uploadedFiles.filter(
+                                      (f) => f.id !== files.id
+                                    );
+                                    setUploadedFiles(newFiles);
+                                  },
+                                },
+                                {
+                                  label: "No",
+                                },
+                              ],
+                            });
+                          }}
                           className="cursor-pointer"
                           width="20"
                           height="20"

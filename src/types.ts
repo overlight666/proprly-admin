@@ -198,6 +198,18 @@ export interface Project {
   projectTower?: TowerData[];
   errors?: any;
   image?: ImageType;
+  documents?: DocumentFile[];
+}
+
+export interface DocumentFile {
+  id: number;
+  name: string;
+  key: string;
+  mimeType: string;
+  size: string;
+  createdAt: string;
+  updatedAt: string;
+  url: string;
 }
 
 export interface ProjectListType {
@@ -379,6 +391,7 @@ export interface ImageType {
   createdAt: string;
   updatedAt: string;
   url: string;
+  size?: any;
 }
 
 export interface Organization {
