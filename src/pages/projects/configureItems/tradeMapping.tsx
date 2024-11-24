@@ -15,16 +15,15 @@ export default function TradeMapping({ project_id }: any) {
   const { tradeCodeList, defectCodeList }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  let didInit = false;
+  // let didInit = false;
   useEffect(() => {
     try {
       if (
         document.readyState === "complete" &&
-        document.getElementById("trade-code-table") &&
-        !didInit
+        document.getElementById("trade-code-table")
       ) {
         // if (tradeCodeList && tradeCodeList.length > 0) {
-        if (!DataTable.isDataTable("#trade-code-table") && !didInit) {
+        if (!DataTable.isDataTable("#trade-code-table")) {
           setTimeout(() => {
             new DataTable("#trade-code-table", {
               paging: true,
@@ -41,8 +40,6 @@ export default function TradeMapping({ project_id }: any) {
               },
             });
           }, 1000);
-
-          didInit = true;
         }
         // }
       }

@@ -89,14 +89,14 @@ const AddAppointment: FC = function () {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
 
-  let didInit = false;
+  // let didInit = false;
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(getProperties(project_id));
-      dispatch(listUserByRoleReducer("project_auditor"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(getProperties(project_id));
+    dispatch(listUserByRoleReducer("project_auditor"));
+    //   didInit = true;
+    // }
   }, []);
 
   const chooseHandler = (e) => {

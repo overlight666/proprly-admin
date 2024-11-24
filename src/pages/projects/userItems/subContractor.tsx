@@ -29,7 +29,7 @@ import {
 
 export default function SubContractor() {
   const { project_id }: any = useParams();
-  let didInit = false;
+  // let didInit = false;
   const { projectSubContractor }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -55,10 +55,10 @@ export default function SubContractor() {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("project_sub_contractor"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("project_sub_contractor"));
+    //   didInit = true;
+    // }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {

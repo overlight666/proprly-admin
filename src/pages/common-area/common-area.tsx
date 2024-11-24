@@ -30,7 +30,7 @@ import { MdBugReport } from "react-icons/md";
 
 const CommonArea: FC = function () {
   const { project_id, common_area_id }: any = useParams();
-  let didInit = false;
+  // let didInit = false;
   const { propertyData, isIdle }: PropertyState = useSelector(
     (state: any) => state.property
   );
@@ -62,11 +62,11 @@ const CommonArea: FC = function () {
   };
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(getProperties(project_id));
-      dispatch(updateCommonAreaTab(1));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(getProperties(project_id));
+    dispatch(updateCommonAreaTab(1));
+    //   didInit = true;
+    // }
   }, []);
 
   useEffect(() => {

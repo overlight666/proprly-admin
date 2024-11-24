@@ -23,16 +23,16 @@ const CommonAreaTable = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let isInit = false;
+  // let isInit = false;
   //   const isInitTable = false;
 
   const table = useRef(null);
 
   useEffect(() => {
-    if (!isInit) {
-      dispatch(getCommonAreaByProjectReducer(project_id));
-      isInit = true;
-    }
+    // if (!isInit) {
+    dispatch(getCommonAreaByProjectReducer(project_id));
+    //   isInit = true;
+    // }
   }, []);
 
   const getStatus = (value) => {

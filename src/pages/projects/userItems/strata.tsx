@@ -29,7 +29,7 @@ import {
 
 export default function Strata() {
   const { project_id }: any = useParams();
-  let didInit = false;
+  // let didInit = false;
   const { projectStrata }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -55,10 +55,10 @@ export default function Strata() {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("project_strata"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("project_strata"));
+    //   didInit = true;
+    // }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {

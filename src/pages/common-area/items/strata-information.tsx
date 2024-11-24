@@ -9,16 +9,16 @@ import { listUserByRoleReducer } from "../../../store/features/reducers";
 import type { AppState, ReducerTypes } from "../../../types";
 
 export default function StrataInformation() {
-  let didInit = false;
+  // let didInit = false;
   const dispatch = useDispatch();
   const { projectStrata }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("project_strata"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("project_strata"));
+    //   didInit = true;
+    // }
   }, []);
 
   return (

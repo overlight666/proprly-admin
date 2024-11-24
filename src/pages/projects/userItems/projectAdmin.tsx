@@ -29,7 +29,7 @@ import {
 
 export default function ProjectAdmin() {
   const { project_id }: any = useParams();
-  let didInit = false;
+  // let didInit = false;
   const { projectUsers }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -64,10 +64,10 @@ export default function ProjectAdmin() {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("project_admin"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("project_admin"));
+    //   didInit = true;
+    // }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {

@@ -114,8 +114,8 @@ const ProjectSingle: FC = function () {
   const [line3, setLine3] = useState<any>("");
   const [firstLoad, setFirstLoad] = useState(true);
   const myImage: ImageState = useSelector((state: any) => state.uploads);
-  let didInit = false;
-  let didLoad = false;
+  // let didInit = false;
+  // let didLoad = false;
   const { fileData }: ImageState = useSelector(
     (state: ReducerTypes) => state.uploads
   );
@@ -151,31 +151,31 @@ const ProjectSingle: FC = function () {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (!didInit) {
-      if (isIdle) {
-        if (!selectedProject) {
-          dispatch(getSingleProject(project_id));
-        }
-        if (selectedProject) {
-          dispatch(clearSelectedProject());
-          dispatch(getSingleProject(project_id));
-        }
-        didInit = true;
+    // if (!didInit) {
+    if (isIdle) {
+      if (!selectedProject) {
+        dispatch(getSingleProject(project_id));
       }
+      if (selectedProject) {
+        dispatch(clearSelectedProject());
+        dispatch(getSingleProject(project_id));
+      }
+      //   didInit = true;
+      // }
     }
   }, []);
   useEffect(() => {
-    if (!didLoad) {
-      dispatch(selectCommonArea(undefined));
-      dispatch(selectCommonAreaElement(undefined));
-      dispatch(selectZone(undefined));
-      dispatch(selectElement(undefined));
-      dispatch(getDefectCodeListByProject(project_id));
-      dispatch(getTradeCodeListByProject(project_id));
-      dispatch(getAllChecklistReducer(project_id));
-      dispatch(getAllCommonAreaReducer(project_id));
-      didLoad = true;
-    }
+    // if (!didLoad) {
+    dispatch(selectCommonArea(undefined));
+    dispatch(selectCommonAreaElement(undefined));
+    dispatch(selectZone(undefined));
+    dispatch(selectElement(undefined));
+    dispatch(getDefectCodeListByProject(project_id));
+    dispatch(getTradeCodeListByProject(project_id));
+    dispatch(getAllChecklistReducer(project_id));
+    dispatch(getAllCommonAreaReducer(project_id));
+    //   didLoad = true;
+    // }
   }, []);
 
   useEffect(() => {

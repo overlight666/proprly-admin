@@ -16,14 +16,14 @@ const SignupLeads: FC = function () {
   // const { leadList }: LeadState = useSelector(
   //   (state: ReducerTypes) => state.lead
   // );
-  let isInit = false;
+  // let isInit = false;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isInit) {
-      dispatch(getAllLeads());
-      isInit = true;
-    }
+    // if (!isInit) {
+    dispatch(getAllLeads());
+    //   isInit = true;
+    // }
   }, []);
 
   return (

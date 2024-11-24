@@ -11,29 +11,29 @@ const PropertyReportTable = function () {
   // const { projectTowers, gettingTowers }: ProjectState = useSelector(
   //   (state: any) => state.project
   // );
-  let isInit = false;
+  // let isInit = false;
   useEffect(() => {
     try {
-      if (!isInit) {
-        if (!DataTable.isDataTable("#property-report-table")) {
-          new DataTable("#property-report-table", {
-            paging: true,
-            searching: false,
-            layout: {
-              topStart: null,
-              topEnd: null,
-              bottomStart: {
-                pageLength: {
-                  text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-                },
+      // if (!isInit) {
+      if (!DataTable.isDataTable("#property-report-table")) {
+        new DataTable("#property-report-table", {
+          paging: true,
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
               },
-              bottomEnd: "paging",
             },
-          });
-        }
-
-        isInit = true;
+            bottomEnd: "paging",
+          },
+        });
       }
+
+      //   isInit = true;
+      // }
     } catch (error) {
       console.log(error);
     }

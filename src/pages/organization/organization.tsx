@@ -23,7 +23,7 @@ import { getOrganizations } from "../../store/features/reducers";
 
 const OrganizationPage: FC = function () {
   const dispatch = useDispatch();
-  let didInit = false;
+  // let didInit = false;
   const { orgList, isIdle }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
@@ -37,10 +37,10 @@ const OrganizationPage: FC = function () {
   };
 
   useEffect(() => {
-    if (!didInit) {
-      didInit = true;
-      dispatch(getOrganizations());
-    }
+    // if (!didInit) {
+    //   didInit = true;
+    dispatch(getOrganizations());
+    // }
   }, []);
 
   return (

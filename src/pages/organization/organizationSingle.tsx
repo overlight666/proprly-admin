@@ -40,7 +40,7 @@ const OrganizationSingle: FC = function () {
   const { projectList, loadedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  let didInit = false;
+  // let didInit = false;
   const { id }: any = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,21 +50,21 @@ const OrganizationSingle: FC = function () {
   };
 
   useEffect(() => {
-    if (!didInit) {
-      if (!selectedOrganization) {
+    // if (!didInit) {
+    if (!selectedOrganization) {
+      const newList = orgList && orgList.find((org) => org.id == id);
+      dispatch(setSelectedOrganization(newList));
+    } else {
+      if (selectedOrganization && selectedOrganization.id != id) {
         const newList = orgList && orgList.find((org) => org.id == id);
         dispatch(setSelectedOrganization(newList));
-      } else {
-        if (selectedOrganization && selectedOrganization.id != id) {
-          const newList = orgList && orgList.find((org) => org.id == id);
-          dispatch(setSelectedOrganization(newList));
-          dispatch(clearProjectList());
-        }
+        dispatch(clearProjectList());
       }
-      dispatch(getProjects(id));
-      dispatch(updateOrgTab(1));
-      didInit = true;
     }
+    dispatch(getProjects(id));
+    dispatch(updateOrgTab(1));
+    //   didInit = true;
+    // }
   }, []);
 
   return (

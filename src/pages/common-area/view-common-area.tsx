@@ -106,7 +106,7 @@ const CommonAreaViewPage: FC = function () {
   const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
   const [isConfigured, setIsConfigured] = useState(false);
-  let isInit = false;
+  // let isInit = false;
   let isWarrantyInit = false;
   const createCommonArea = () => {
     const params = {
@@ -125,11 +125,11 @@ const CommonAreaViewPage: FC = function () {
   }, [commonAreaItem]);
 
   useEffect(() => {
-    if (!isInit) {
-      dispatch(getCommonAreaByProjectReducer(project_id));
-      //   dispatch(getCommonAreaReducer(common_area_id));
-      isInit = true;
-    }
+    // if (!isInit) {
+    dispatch(getCommonAreaByProjectReducer(project_id));
+    //   dispatch(getCommonAreaReducer(common_area_id));
+    //   isInit = true;
+    // }
   }, []);
 
   useEffect(() => {

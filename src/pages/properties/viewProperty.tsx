@@ -124,7 +124,7 @@ const ViewProperty: FC = function () {
     (state: any) => state.project
   );
 
-  let isInit = false;
+  // let isInit = false;
   let towerInit = false;
   let isWarrantyInit = false;
   useEffect(() => {
@@ -135,10 +135,10 @@ const ViewProperty: FC = function () {
   }, []);
 
   useEffect(() => {
-    if (!isInit) {
-      dispatch(getSingleProperty(property_id));
-      isInit = true;
-    }
+    // if (!isInit) {
+    dispatch(getSingleProperty(property_id));
+    //   isInit = true;
+    // }
   }, []);
 
   useEffect(() => {

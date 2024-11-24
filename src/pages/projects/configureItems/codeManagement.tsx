@@ -17,17 +17,16 @@ export default function DefectCodeManagement({ project_id }: any) {
     (state: any) => state.project
   );
   const [isOpen, setOpen] = useState(false);
-  let didInit = false;
+  // let didInit = false;
 
   useEffect(() => {
     try {
       if (
         document.readyState === "complete" &&
-        document.getElementById("defect-code-table") &&
-        !didInit
+        document.getElementById("defect-code-table")
       ) {
         // if (defectCodeList && defectCodeList.length > 0) {
-        if (!DataTable.isDataTable("#defect-code-table") && !didInit) {
+        if (!DataTable.isDataTable("#defect-code-table")) {
           setTimeout(() => {
             new DataTable("#defect-code-table", {
               paging: true,
@@ -44,8 +43,6 @@ export default function DefectCodeManagement({ project_id }: any) {
               },
             });
           }, 1000);
-
-          didInit = true;
         }
         // }
       }

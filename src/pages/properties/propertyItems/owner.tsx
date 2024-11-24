@@ -16,14 +16,14 @@ export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
   const { propertyOwnerList }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  let didInit = false;
+  // let didInit = false;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("property_owner"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("property_owner"));
+    //   didInit = true;
+    // }
   }, []);
 
   return (

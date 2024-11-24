@@ -28,7 +28,7 @@ import type {
 import AddUserModal from "../../../components/addUserModal";
 
 export default function Auditor() {
-  let didInit = false;
+  // let didInit = false;
   const { project_id }: any = useParams();
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
@@ -51,10 +51,10 @@ export default function Auditor() {
   }, [responseStatus]);
 
   useEffect(() => {
-    if (!didInit) {
-      dispatch(listUserByRoleReducer("project_auditor"));
-      didInit = true;
-    }
+    // if (!didInit) {
+    dispatch(listUserByRoleReducer("project_auditor"));
+    //   didInit = true;
+    // }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {
