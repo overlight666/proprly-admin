@@ -97,14 +97,20 @@ export const DefectFeedbackModal = function (props: any) {
 
   useEffect(() => {
     if (feedbackResponse) {
-      if (feedback == "accept") {
-        toast.info("Defect submission accepted!");
+      if (feedbackResponse && feedbackResponse.error) {
+        toast.error(feedbackResponse.error);
       } else {
-        toast.info("Defect submission rejected!");
+        if (feedback == "accept") {
+          toast.info("Defect submission accepted!");
+        } else {
+          toast.info("Defect submission rejected!");
+        }
       }
+
       dispatch(clearSubmittion());
     }
   }, [feedbackResponse]);
+  console.log(feedbackResponse);
   return (
     <>
       <Modal
