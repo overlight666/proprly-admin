@@ -243,8 +243,78 @@ export interface ProjectState {
   tradeCodeResponse: TradeCode | undefined;
   isTradeFired?: boolean;
   isCodeFired?: boolean;
+  checklistZones: ZoneChecklist[];
+  checklistElements: ElementChecklist[];
+  selectedZone: FullChecklist | undefined;
+  allChecklist: FullChecklist[];
+  selectedElement: FullElements | undefined;
 }
 
+export interface FullChecklist {
+  id: number;
+  name: string;
+  sequence: number;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId: any;
+  organizationId: any;
+  projectId: any;
+  createdAt: string;
+  updatedAt: string;
+  elements: FullElements[];
+}
+
+export interface FullElements {
+  id: number;
+  name: string;
+  sequence: number;
+  parentId: any;
+  checklistZoneId: number;
+  commonAreaCategoryId: any;
+  createdAt: string;
+  updatedAt: string;
+  subElements: FullElements;
+  defectCode: FullDefectCode[];
+}
+
+export interface FullDefectCode {
+  id: number;
+  defectName: string;
+  defectCode: string;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId: any;
+  organizationId: any;
+  projectId: any;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ZoneChecklist {
+  name: string;
+  code: string;
+  order: number;
+  stage: string;
+  id: number;
+  regionId: number;
+}
+
+export interface ElementChecklist {
+  name: string;
+  order: number;
+  checklistZoneId: number;
+  checklistSubElements: any;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  defectCodes: DefectCodeItem[];
+}
+
+export interface DefectCodeItem {
+  name: string;
+  code: string;
+  id: number;
+}
 export interface PropertyState {
   propertyData: Property | undefined;
   isIdle: boolean;
@@ -298,7 +368,7 @@ export interface TradeCode {
   projectId: string | null | number;
   createdAt: string;
   updatedAt: string;
-  defectcode: DefectCode[];
+  defectCode: DefectCode[];
 }
 
 export interface ImageType {

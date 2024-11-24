@@ -36,6 +36,10 @@ import { matchPath, useLocation, useParams } from "react-router-dom";
 import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
 import { getProjects } from "../store/features/reducers";
 import { reloadProjectStatus } from "../store/features/projectSlice";
+import {
+  updateProjectTab,
+  updateProjectTabMain,
+} from "../store/features/appSlice";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
@@ -175,6 +179,10 @@ const ExampleSidebar: FC = function () {
                           return (
                             <>
                               <Sidebar.Item
+                                onClick={() => {
+                                  dispatch(updateProjectTabMain(0));
+                                  dispatch(updateProjectTab(1));
+                                }}
                                 key={index}
                                 href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                 className={`ml-2 text-[14px] ${

@@ -1,199 +1,58 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiPlus } from "react-icons/hi";
-import { Button, Label, Select } from "flowbite-react";
-import { BsList, BsThreeDotsVertical, BsX } from "react-icons/bs";
+import { Button } from "flowbite-react";
+import ZoneItems from "./checklists/zones";
+import { useState } from "react";
+import ElementItems from "./checklists/elements";
+import DefectsItems from "./checklists/defects";
 
 export default function PropertyChecklist() {
+  const [openZoneModal, setOpenZoneModal] = useState(false);
+  const [openElementModal, setOpenElementModal] = useState(false);
+  const [openDefectModal, setOpenDefectModal] = useState(false);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-col">
-        <div className="w-[40%]">
-          <div className="mb-2 block">
-            <Label htmlFor="countries" value="Select tower" />
-          </div>
-          <Select id="countries" required>
-            <option>Tower 1</option>
-            <option>Tower 2</option>
-            <option>Tower 3</option>
-            <option>Tower 4</option>
-          </Select>
-        </div>
         <div className="mt-5 grid grid-cols-3 gap-2">
           <div className="flex flex-row items-center justify-between">
             <span>Zones</span>
-            <Button className="w-[50px]">
+            <Button className="w-[50px]" onClick={() => setOpenZoneModal(true)}>
               <HiPlus />
             </Button>
           </div>
           <div className="flex flex-row items-center justify-between">
             <span>Elements</span>
-            <Button className="w-[50px]">
+            <Button
+              className="w-[50px]"
+              onClick={() => setOpenElementModal(true)}
+            >
               <HiPlus />
             </Button>
           </div>
           <div className="flex flex-row items-center justify-between">
             <span>Defects</span>
-            <Button className="w-[50px]">
+            <Button
+              className="w-[50px]"
+              onClick={() => setOpenDefectModal(true)}
+            >
               <HiPlus />
             </Button>
           </div>
         </div>
         <div className="mt-2 grid grid-cols-3 gap-2">
-          <div className="p-1 px-3 shadow-md">
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Element</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Living</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Kitchen</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Laundry</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Hallway</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <Button className="my-5 ml-3 w-[150px]">
-              <div className="flex items-center gap-x-2 text-xs">
-                Save Changes
-              </div>
-            </Button>
-          </div>
-          <div className="p-1 px-3 shadow-md">
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Walls</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Ceiling</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Painting</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Flooring</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>Fixout Carpentry</span>
-              </div>
-              <BsThreeDotsVertical />
-            </div>
-            <Button className="my-5 ml-3 w-[150px]">
-              <div className="flex items-center gap-x-2 text-xs">
-                Save Changes
-              </div>
-            </Button>
-          </div>
-          <div className="p-1 px-3 shadow-md">
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>G2-Gyprock Poor Finish/Sanding</span>
-              </div>
-              <BsX />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>G4-Gyprock Cracks</span>
-              </div>
-              <BsX />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>R3-Render Drummy</span>
-              </div>
-              <BsX />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>MTWL-Water Leak</span>
-              </div>
-              <BsX />
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Button color="white" className="w-[50px]">
-                  <BsList />
-                </Button>
-                <span>ND-No Deffect</span>
-              </div>
-              <BsX />
-            </div>
-            <Button className="my-5 ml-3 w-[150px]">
-              <div className="flex items-center gap-x-2 text-xs">
-                Save Changes
-              </div>
-            </Button>
-          </div>
+          <ZoneItems
+            openModal={openZoneModal}
+            setOpenModal={setOpenZoneModal}
+          />
+          <ElementItems
+            openModal={openElementModal}
+            setOpenModal={setOpenElementModal}
+          />
+          <DefectsItems
+            openModal={openDefectModal}
+            setOpenModal={setOpenDefectModal}
+          />
         </div>
       </div>
     </div>

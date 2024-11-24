@@ -42,6 +42,7 @@ import {
   patchProject,
   getDefectCodeListByProject,
   getTradeCodeListByProject,
+  getAllChecklistReducer,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
@@ -80,6 +81,7 @@ const ProjectSingle: FC = function () {
     selectedProject,
     gettingTowers,
     projectTowers,
+    isIdle,
   }: ProjectState = useSelector((state: any) => state.project);
 
   const navigate = useNavigate();
@@ -125,18 +127,21 @@ const ProjectSingle: FC = function () {
   }, [projectTowers]);
 
   useEffect(() => {
-    if (!selectedProject) {
-      dispatch(getSingleProject(project_id));
-    }
-    if (selectedProject) {
-      dispatch(clearSelectedProject());
-      dispatch(getSingleProject(project_id));
+    if (isIdle) {
+      if (!selectedProject) {
+        dispatch(getSingleProject(project_id));
+      }
+      if (selectedProject) {
+        dispatch(clearSelectedProject());
+        dispatch(getSingleProject(project_id));
+      }
     }
   }, []);
 
   useEffect(() => {
     dispatch(getDefectCodeListByProject(project_id));
     dispatch(getTradeCodeListByProject(project_id));
+    dispatch(getAllChecklistReducer(project_id));
   }, []);
 
   useEffect(() => {

@@ -7,10 +7,13 @@ import {
   addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
+  getAllChecklist,
   getAllDefectCodebyProject,
   getAllOrganizations,
   getAllProperties,
   getAllTradeCodebyProject,
+  getChecklistElement,
+  getChecklistZones,
   getConfig,
   getCountries,
   getOneOrganization,
@@ -451,6 +454,44 @@ export const postTradeCode: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await addTradeCode(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+export const getChecklistZonesReducer: any = createAsyncThunk(
+  "getChecklistZones",
+  async () => {
+    try {
+      const response = await getChecklistZones();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getChecklistElementReducer: any = createAsyncThunk(
+  "getChecklistElement",
+  async (id: any) => {
+    try {
+      const response = await getChecklistElement(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllChecklistReducer: any = createAsyncThunk(
+  "getAllChecklist",
+  async (id: any) => {
+    try {
+      const response = await getAllChecklist(id);
       // If you want to get something back
       return response;
     } catch (err) {

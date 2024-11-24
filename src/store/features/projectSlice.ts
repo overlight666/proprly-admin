@@ -4,6 +4,9 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
+  getAllChecklistReducer,
+  getChecklistElementReducer,
+  getChecklistZonesReducer,
   getDefectCodeListByProject,
   getProjects,
   getSingleProject,
@@ -15,7 +18,12 @@ import {
   postTradeCode,
   registerProject,
 } from "./reducers";
-import type { ProjectState, TowerData } from "../../types";
+import type {
+  FullChecklist,
+  FullElements,
+  ProjectState,
+  TowerData,
+} from "../../types";
 
 // Define the initial state using that type
 const initialValue = {
@@ -47,6 +55,11 @@ const initialState: ProjectState = {
   isTradeFired: false,
   isCodeFired: false,
   reloadProject: true,
+  checklistZones: [],
+  checklistElements: [],
+  selectedZone: undefined,
+  selectedElement: undefined,
+  allChecklist: [],
 };
 
 export const projectSlice = createSlice({
@@ -67,6 +80,12 @@ export const projectSlice = createSlice({
     },
     reloadProjectStatus: (state, action: PayloadAction<boolean>) => {
       state.reloadProject = action.payload;
+    },
+    selectZone: (state, action: PayloadAction<FullChecklist>) => {
+      state.selectedZone = action.payload;
+    },
+    selectElement: (state, action: PayloadAction<FullElements>) => {
+      state.selectedElement = action.payload;
     },
     clearProjectList: (state) => {
       state.projectList = [];
@@ -220,6 +239,45 @@ export const projectSlice = createSlice({
     builder.addCase(getTradeCodeListByProject.rejected, (state) => {
       state.isIdle = true;
     });
+    // get checklist zone
+    builder.addCase(getChecklistZonesReducer.pending, (state) => {
+      state.checklistZones = [];
+    });
+    builder.addCase(getChecklistZonesReducer.fulfilled, (state, action) => {
+      state.checklistZones =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getChecklistZonesReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
+    // get checklist element
+    builder.addCase(getChecklistElementReducer.pending, (state) => {
+      state.checklistElements = [];
+    });
+    builder.addCase(getChecklistElementReducer.fulfilled, (state, action) => {
+      state.checklistElements =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getChecklistElementReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
+    // get all checklist element
+    builder.addCase(getAllChecklistReducer.pending, (state) => {
+      state.allChecklist = [];
+    });
+    builder.addCase(getAllChecklistReducer.fulfilled, (state, action) => {
+      state.allChecklist =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getAllChecklistReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
   },
 });
 
@@ -233,6 +291,8 @@ export const {
   reloadProjectStatus,
   clearSelectedProject,
   clearTradeList,
+  selectZone,
+  selectElement,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

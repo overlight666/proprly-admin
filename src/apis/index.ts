@@ -450,3 +450,39 @@ export const getCountries = async () => {
       return error;
     });
 };
+
+export const getChecklistZones = async () => {
+  return api
+    .get(`/admin/checklist/zones`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getChecklistElement = async (id: any) => {
+  return api
+    .get(`/admin/checklist/elements?checklistZoneId=${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
+export const getAllChecklist = async (id: any) => {
+  return api
+    .get(`property/${id}/checklist`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

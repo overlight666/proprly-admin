@@ -137,8 +137,8 @@ export default function TradeMapping({ project_id }: any) {
                       <td className="px-6 py-4">{t.tradeName}</td>
                       <td className="px-6 py-4">{t.tradeCode}</td>
                       <td className="px-6 py-4">
-                        {t.defectcode && t.defectcode.length
-                          ? t.defectcode
+                        {t.defectCode && t.defectCode.length
+                          ? t.defectCode
                               .map((o: any) => o.defectCode)
                               .join(", ")
                           : ""}
