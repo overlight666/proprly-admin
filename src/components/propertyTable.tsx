@@ -111,7 +111,7 @@ const PropertyTable = function ({ properties }) {
                   scope="row"
                   className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                 >
-                  {props.lotNo}
+                  {props.lotNo ? props.lotNo : ""}
                 </th>
                 <th className="px-6 py-4">{props.unitNo}</th>
                 <th className="px-6 py-4">
