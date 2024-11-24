@@ -224,7 +224,7 @@ const Properties: FC = function () {
           <></>
         ) : (
           <>
-            {propertyTab === 1 && propertyData && (
+            {propertyTab === 1 && (
               <div className="flex w-full flex-col  !bg-transparent">
                 <PropertyHeader />
                 <PropertyTable properties={propertyData} />
