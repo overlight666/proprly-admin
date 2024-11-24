@@ -263,7 +263,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
           {getStatus(def.stage)}
         </span>
         <span className="w-[30%] text-[14px] font-semibold ">
-          {def.userRole?.roleName}
+          {def.userRole && def.userRole?.roleName ? def.userRole?.roleName : ""}
         </span>
         <span className="w-[30%] text-[14px] font-semibold ">
           {moment(def.createdAt).format("DD MMM YY")}
