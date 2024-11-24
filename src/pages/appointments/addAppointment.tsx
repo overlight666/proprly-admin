@@ -571,7 +571,8 @@ const AddAppointment: FC = function () {
               color="primary"
               onClick={() => bookAppointment()}
               disabled={
-                !selectedProperty ||
+                (chooseValue == "property" && !selectedProperty) ||
+                (chooseValue != "property" && !selectedCommonArea) ||
                 !description ||
                 (chooseValue == "property" && !selectedAuditor)
               }
