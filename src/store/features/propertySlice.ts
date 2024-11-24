@@ -45,6 +45,9 @@ export const propertySlice = createSlice({
     clearPropertyResponse: (state) => {
       state.propertyResponse = undefined;
     },
+    clearPropertyData: (state) => {
+      state.propertyData = undefined;
+    },
     selectProperty: (state, action: PayloadAction<Property | undefined>) => {
       state.selectedProperty = action.payload;
     },
@@ -198,5 +201,6 @@ export const {
   clearAttachedUsers,
   clearSubmittion,
   clearAppointmentResponse,
+  clearPropertyData,
 } = propertySlice.actions;
 export default propertySlice.reducer;
