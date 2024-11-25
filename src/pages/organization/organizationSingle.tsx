@@ -56,15 +56,12 @@ const OrganizationSingle: FC = function () {
           const newList = orgList && orgList.find((org) => org.id == id);
           dispatch(setSelectedOrganization(newList));
           dispatch(clearProjectList());
-          dispatch(getProjects(id));
         }
       }
+      dispatch(getProjects(id));
+      dispatch(updateOrgTab(1));
       didInit = true;
     }
-  }, []);
-
-  useEffect(() => {
-    dispatch(updateOrgTab(1));
   }, []);
 
   return (
