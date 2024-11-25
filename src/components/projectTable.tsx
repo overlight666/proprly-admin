@@ -15,28 +15,28 @@ const ProjectTable = function ({ towers }: any) {
   // const { projectTowers, gettingTowers }: ProjectState = useSelector(
   //   (state: any) => state.project
   // );
+  const isInit = false;
   useEffect(() => {
     try {
-      if (
-        towers &&
-        towers.length > 0 &&
-        !DataTable.isDataTable("#tower-table")
-      ) {
-        new DataTable("#tower-table", {
-          paging: true,
-          searching: false,
-          layout: {
-            topStart: null,
-            topEnd: null,
-            bottomStart: {
-              pageLength: {
-                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-              },
-            },
-            bottomEnd: "paging",
-          },
-        });
-      }
+      // if (!isInit) {
+      //   if (!DataTable.isDataTable("#tower-table2")) {
+      //     new DataTable("#tower-table2", {
+      //       paging: true,
+      //       searching: false,
+      //       layout: {
+      //         topStart: null,
+      //         topEnd: null,
+      //         bottomStart: {
+      //           pageLength: {
+      //             text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+      //           },
+      //         },
+      //         bottomEnd: "paging",
+      //       },
+      //     });
+      //   }
+      //   isInit = true;
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +45,7 @@ const ProjectTable = function ({ towers }: any) {
   return (
     <>
       <table
-        id="tower-table"
+        id="tower-table2"
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
       >
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -60,7 +60,7 @@ const ProjectTable = function ({ towers }: any) {
           </tr>
         </thead>
         <tbody>
-          {(towers &&
+          {towers &&
             towers.length &&
             towers.map((t, index) => {
               return (
@@ -91,17 +91,7 @@ const ProjectTable = function ({ towers }: any) {
                   </td>
                 </tr>
               );
-            })) || (
-            <tr>
-              <th colSpan={3}>
-                <div className="flex w-full items-center justify-center">
-                  <span className="text-center text-gray-200">
-                    No data to display
-                  </span>
-                </div>
-              </th>
-            </tr>
-          )}
+            })}
         </tbody>
       </table>
       {/* </div> */}

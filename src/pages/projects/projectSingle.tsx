@@ -186,7 +186,7 @@ const ProjectSingle: FC = function () {
     maintenanceServiceType: "",
     address: "",
     imageId: "",
-    numBasementLevels: "",
+    numBasementLevels: selectedProject?.numBasementLevels || "",
   });
 
   const [towerFormData, setTowerData] = useState<towerType>({
@@ -304,12 +304,19 @@ const ProjectSingle: FC = function () {
           [name]: value,
           ["currency"]: "AUD",
         }));
+      } else if (name === "levels") {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+          ["numBasementLevels"]: value,
+        }));
       } else {
         setFormData((prevFormData) => ({
           ...prevFormData,
           [name]: value,
         }));
       }
+      console.log(name, value);
     } catch (error) {
       console.log(error);
     }
@@ -1032,8 +1039,8 @@ const ProjectSingle: FC = function () {
                   <select
                     id="levels"
                     name="levels"
-                    value={selectedProject?.numBasementLevels}
-                    // onChange={handleInputChange}
+                    value={formData.numBasementLevels}
+                    onChange={handleInputChange}
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   >
                     <option selected>Select</option>
@@ -1050,7 +1057,8 @@ const ProjectSingle: FC = function () {
                       className="mx-1"
                       onClick={() => {
                         // dispatch(updateProjectTabMain(3));
-                        toast.info("Project Updated");
+                        // toast.info("Project Updated");
+                        updateProject();
                       }}
                       color="primary"
                     >
