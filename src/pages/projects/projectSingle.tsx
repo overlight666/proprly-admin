@@ -44,11 +44,13 @@ import {
   getTradeCodeListByProject,
   getAllChecklistReducer,
   getAllCommonAreaReducer,
+  getProjects,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
   clearSelectedProject,
   clearTrigger,
+  setResponseStatus,
   updateTowers,
 } from "../../store/features/projectSlice";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
@@ -83,6 +85,7 @@ const ProjectSingle: FC = function () {
     gettingTowers,
     projectTowers,
     isIdle,
+    responseStatus,
   }: ProjectState = useSelector((state: any) => state.project);
 
   const navigate = useNavigate();
@@ -127,6 +130,14 @@ const ProjectSingle: FC = function () {
       setTowers(projectTowers);
     }
   }, [projectTowers]);
+
+  useEffect(() => {
+    if (responseStatus === "project_update") {
+      dispatch(getProjects(id));
+      dispatch(setResponseStatus(""));
+      toast.info("Project updated");
+    }
+  }, [responseStatus]);
 
   useEffect(() => {
     if (!didInit) {

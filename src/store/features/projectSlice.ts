@@ -143,6 +143,7 @@ export const projectSlice = createSlice({
       state.projectResponse = action.payload;
       state.isIdle = true;
       state.projectTrigger = true;
+      state.responseStatus = "project_update";
     });
     builder.addCase(patchProject.rejected, (state) => {
       state.isIdle = true;
