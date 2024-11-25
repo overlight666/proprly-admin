@@ -30,6 +30,7 @@ import DefectResolution from "./defectResolution/defectResolution";
 import { MdBugReport } from "react-icons/md";
 
 const Properties: FC = function () {
+  let didInit = false;
   const { propertyData }: PropertyState = useSelector(
     (state: any) => state.property
   );
@@ -54,7 +55,10 @@ const Properties: FC = function () {
     }
   };
   useEffect(() => {
-    dispatch(getProperties(selectedProject?.id));
+    if (!didInit) {
+      dispatch(getProperties(selectedProject?.id));
+      didInit = true;
+    }
   }, []);
 
   return (

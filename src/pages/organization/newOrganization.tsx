@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -345,18 +347,15 @@ const OrganizationNewPage: FC = function () {
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
         <div className="flex w-full flex-col">
-          <div className="flex w-full items-center justify-between border-b-[1px]">
+          <div
+            className="flex w-full items-center justify-between border-b-[1px]"
+            onClick={() => setShowCard1(!showCard1)}
+          >
             <h1 className="font-bold">Organizational Information</h1>
             {showCard1 ? (
-              <FaAngleUp
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard1(!showCard1)}
-              />
+              <FaAngleUp className="h-[50px] cursor-pointer" />
             ) : (
-              <FaAngleDown
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard1(!showCard1)}
-              />
+              <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
           {showCard1 && (
@@ -540,18 +539,15 @@ const OrganizationNewPage: FC = function () {
               </form>
             </div>
           )}
-          <div className="flex w-full items-center justify-between border-b-[1px]">
+          <div
+            className="flex w-full items-center justify-between border-b-[1px]"
+            onClick={() => setShowCard2(!showCard2)}
+          >
             <h1 className="font-bold">Builder Information</h1>
             {showCard2 ? (
-              <FaAngleUp
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard2(!showCard2)}
-              />
+              <FaAngleUp className="h-[50px] cursor-pointer" />
             ) : (
-              <FaAngleDown
-                className="h-[50px] cursor-pointer"
-                onClick={() => setShowCard2(!showCard2)}
-              />
+              <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
           {showCard2 && (
