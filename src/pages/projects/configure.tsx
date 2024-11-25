@@ -4,8 +4,11 @@ import DefectCodeManagement from "./configureItems/codeManagement";
 import TradeMapping from "./configureItems/tradeMapping";
 import PropertyChecklist from "./configureItems/propertyChecklist";
 import CommonArea from "./configureItems/commonArea";
+import { updateProjectTabMain } from "../../store/features/appSlice";
+import { useDispatch } from "react-redux";
 
 export default function ConfigureAccordion({ project_id }: any) {
+  const dispatch = useDispatch();
   return (
     <div>
       <Accordion>
@@ -35,12 +38,23 @@ export default function ConfigureAccordion({ project_id }: any) {
         </Accordion.Panel>
       </Accordion>
       <div className="my-5 flex flex-row gap-5">
-        <Button className="w-[200px]">
+        <Button
+          className="w-[200px]"
+          onClick={() => {
+            dispatch(updateProjectTabMain(0));
+          }}
+        >
           <div className="flex items-center gap-x-2 text-xs">
             Configure Project
           </div>
         </Button>
-        <Button className="w-[100px]" color="gray">
+        <Button
+          className="w-[100px]"
+          color="gray"
+          onClick={() => {
+            dispatch(updateProjectTabMain(0));
+          }}
+        >
           <div className="flex items-center gap-x-2 text-xs">Cancel</div>
         </Button>
       </div>

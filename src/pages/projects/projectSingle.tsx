@@ -57,7 +57,7 @@ import { setSelectedOrganization } from "../../store/features/organizationSlice"
 import { BsSliders2Vertical } from "react-icons/bs";
 import ConfigureAccordion from "./configure";
 import ConfigureAccordionUser from "./userItems/configure";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleDown, FaAngleRight, FaAngleUp } from "react-icons/fa6";
 import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
@@ -95,7 +95,8 @@ const ProjectSingle: FC = function () {
   const { projectTabMain, config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-
+  const [showCard1, setShowCard1] = useState(true);
+  const [showCard2, setShowCard2] = useState(true);
   const [isUpdate, setIsUpdate] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<any>([]);
   const [towers, setTowers] = useState<any>([]);
@@ -659,275 +660,319 @@ const ProjectSingle: FC = function () {
             </div>
           ) : (
             <div className="flex w-full flex-col">
-              <div className="flex w-full items-center justify-between border-b-[1px]">
+              <div
+                className="flex w-full items-center justify-between border-b-[1px]"
+                onClick={() => setShowCard1(!showCard1)}
+              >
                 <h1 className="font-bold">Basic Information</h1>
+                {showCard1 ? (
+                  <FaAngleUp className="h-[50px] cursor-pointer" />
+                ) : (
+                  <FaAngleDown className="h-[50px] cursor-pointer" />
+                )}
               </div>
               <div className="grid w-full grid-cols-2">
                 <form>
                   <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
-                    <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                      <Label htmlFor="name">Project Name</Label>
-                      <TextInput
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Project name"
-                        required
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 gap-y-2">
-                      <Label htmlFor="organization">Project type</Label>
-                      <select
-                        id="type"
-                        name="type"
-                        value={formData.type}
-                        onChange={handleInputChange}
-                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      >
-                        <option selected>Please Select</option>
-                        {config &&
-                          config.projectTypeList.map(
-                            (pt: ValueList, index: number) => {
-                              return (
-                                <option key={index} value={pt.key}>
-                                  {capitalizeFirstLetter(pt.value)}
-                                </option>
-                              );
-                            }
-                          )}
-                      </select>
-                    </div>
-                    <div className="grid grid-cols-1 gap-y-2">
-                      <Label htmlFor="maintenanceServiceType">
-                        Maintenance and Service type
-                      </Label>
-                      <select
-                        id="maintenanceServiceType"
-                        name="maintenanceServiceType"
-                        value={formData.maintenanceServiceType}
-                        onChange={handleInputChange}
-                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      >
-                        <option selected>Please Select</option>
-                        {config &&
-                          config.projectMaintenanceServiceTypeList.map(
-                            (pt: ValueList, index: number) => {
-                              return (
-                                <option key={index} value={pt.key}>
-                                  {capitalizeFirstLetter(pt.value)}
-                                </option>
-                              );
-                            }
-                          )}
-                      </select>
-                    </div>
-                    <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                      <Label htmlFor="address">Address</Label>
-                      <form className="hidden md:block">
-                        <Label htmlFor="search" className="sr-only">
-                          Search
-                        </Label>
+                    {showCard1 && (
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="name">Project Name</Label>
                         <TextInput
-                          disabled={!searchAddress}
-                          icon={HiSearch}
-                          id="search"
-                          name="search"
-                          placeholder="Search"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Project name"
                           required
-                          size={32}
-                          type="search"
                         />
-                      </form>
-                      <span
-                        onClick={() => setSearchAddress(!searchAddress)}
-                        className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400"
-                      >
-                        {searchAddress
-                          ? "ENTER AN ADDRESS MANUALLY"
-                          : "ENTER AN ADDRESS AUTOMATICALLY"}
-                        <FaAngleRight className="mx-1" />
-                      </span>
-                    </div>
-                    {!searchAddress && (
-                      <div>
-                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                          <Label htmlFor="name">House no/Unit no</Label>
+                      </div>
+                    )}
+                    {showCard1 && (
+                      <div className="grid grid-cols-1 gap-y-2">
+                        <Label htmlFor="organization">Project type</Label>
+                        <select
+                          id="type"
+                          name="type"
+                          value={formData.type}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                          <option selected>Please Select</option>
+                          {config &&
+                            config.projectTypeList.map(
+                              (pt: ValueList, index: number) => {
+                                return (
+                                  <option key={index} value={pt.key}>
+                                    {capitalizeFirstLetter(pt.value)}
+                                  </option>
+                                );
+                              }
+                            )}
+                        </select>
+                      </div>
+                    )}
+                    {showCard1 && (
+                      <div className="grid grid-cols-1 gap-y-2">
+                        <Label htmlFor="maintenanceServiceType">
+                          Maintenance and Service type
+                        </Label>
+                        <select
+                          id="maintenanceServiceType"
+                          name="maintenanceServiceType"
+                          value={formData.maintenanceServiceType}
+                          onChange={handleInputChange}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                          <option selected>Please Select</option>
+                          {config &&
+                            config.projectMaintenanceServiceTypeList.map(
+                              (pt: ValueList, index: number) => {
+                                return (
+                                  <option key={index} value={pt.key}>
+                                    {capitalizeFirstLetter(pt.value)}
+                                  </option>
+                                );
+                              }
+                            )}
+                        </select>
+                      </div>
+                    )}
+                    {showCard1 && (
+                      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                        <Label htmlFor="address">Address</Label>
+                        <form className="hidden md:block">
+                          <Label htmlFor="search" className="sr-only">
+                            Search
+                          </Label>
                           <TextInput
-                            id="house"
-                            name="house"
-                            value={unitNo}
-                            onChange={(event) => setUnitNo(event.target.value)}
-                            placeholder="Add house no or unit no"
+                            disabled={!searchAddress}
+                            icon={HiSearch}
+                            id="search"
+                            name="search"
+                            placeholder="Search"
                             required
+                            size={32}
+                            type="search"
                           />
-                        </div>
-                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                          <Label htmlFor="line1">Address line 1</Label>
-                          <TextInput
-                            id="line1"
-                            name="line1"
-                            value={line1}
-                            onChange={(event) => setLine1(event.target.value)}
-                            placeholder="Address line 1"
-                            required
-                          />
-                        </div>
-                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                          <Label htmlFor="line1">Address line 2</Label>
-                          <TextInput
-                            id="line2"
-                            name="line2"
-                            value={line2}
-                            onChange={(event) => setLine2(event.target.value)}
-                            placeholder="Address line 2"
-                            required
-                          />
-                        </div>
-                        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                          <Label htmlFor="line3">Address line 3</Label>
-                          <TextInput
-                            id="line3"
-                            name="line3"
-                            value={line3}
-                            onChange={(event) => setLine3(event.target.value)}
-                            placeholder="Address line 3"
-                            required
-                          />
+                        </form>
+                        <span
+                          onClick={() => setSearchAddress(!searchAddress)}
+                          className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400"
+                        >
+                          {searchAddress
+                            ? "ENTER AN ADDRESS MANUALLY"
+                            : "ENTER AN ADDRESS AUTOMATICALLY"}
+                          <FaAngleRight className="mx-1" />
+                        </span>
+                      </div>
+                    )}
+                    {showCard1 && (
+                      <>
+                        {!searchAddress && (
+                          <div>
+                            <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                              <Label htmlFor="name">House no/Unit no</Label>
+                              <TextInput
+                                id="house"
+                                name="house"
+                                value={unitNo}
+                                onChange={(event) =>
+                                  setUnitNo(event.target.value)
+                                }
+                                placeholder="Add house no or unit no"
+                                required
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                              <Label htmlFor="line1">Address line 1</Label>
+                              <TextInput
+                                id="line1"
+                                name="line1"
+                                value={line1}
+                                onChange={(event) =>
+                                  setLine1(event.target.value)
+                                }
+                                placeholder="Address line 1"
+                                required
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                              <Label htmlFor="line1">Address line 2</Label>
+                              <TextInput
+                                id="line2"
+                                name="line2"
+                                value={line2}
+                                onChange={(event) =>
+                                  setLine2(event.target.value)
+                                }
+                                placeholder="Address line 2"
+                                required
+                              />
+                            </div>
+                            <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                              <Label htmlFor="line3">Address line 3</Label>
+                              <TextInput
+                                id="line3"
+                                name="line3"
+                                value={line3}
+                                onChange={(event) =>
+                                  setLine3(event.target.value)
+                                }
+                                placeholder="Address line 3"
+                                required
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {showCard1 && (
+                      <div className="grid w-[80%] grid-cols-1 gap-y-2">
+                        <Label htmlFor="timezone">Upload Image</Label>
+
+                        <div className="relative flex items-center justify-center">
+                          {myImage.imageData === undefined ||
+                          (myImage.imageData &&
+                            myImage.imageData.id === 0 &&
+                            !formData.image) ? (
+                            <label
+                              htmlFor="dropzone-file"
+                              className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
+                            >
+                              <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                <svg
+                                  className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 20 16"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                  />
+                                </svg>
+                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                  <span className="font-semibold">
+                                    Click to upload
+                                  </span>{" "}
+                                  or drag and drop
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                </p>
+                              </div>
+                              <input
+                                id="dropzone-file"
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleUpload}
+                              />
+                              {!myImage.isIdle && (
+                                <div
+                                  role="status"
+                                  className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    className="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+                                    viewBox="0 0 100 101"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                      fill="currentColor"
+                                    />
+                                    <path
+                                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                      fill="currentFill"
+                                    />
+                                  </svg>
+                                  <span className="sr-only">Loading...</span>
+                                </div>
+                              )}
+                            </label>
+                          ) : (
+                            <>
+                              <img
+                                src={
+                                  myImage.imageData.url || formData.image?.url
+                                }
+                                alt="file"
+                                className="object-fill"
+                              />
+                              <Button
+                                className="absolute right-0 top-1"
+                                onClick={() => {
+                                  dispatch(clear());
+                                  setFormData((prevFormData) => ({
+                                    ...prevFormData,
+                                    imageId: "",
+                                    image: undefined,
+                                  }));
+                                }}
+                                color="white"
+                              >
+                                <div className="flex items-center gap-x-2 text-xs">
+                                  <RiCloseCircleFill
+                                    color="red"
+                                    className="h-6 w-6"
+                                  />
+                                </div>
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                     )}
-                    <div className="grid w-[80%] grid-cols-1 gap-y-2">
-                      <Label htmlFor="timezone">Upload Image</Label>
-
-                      <div className="relative flex items-center justify-center">
-                        {myImage.imageData === undefined ||
-                        (myImage.imageData &&
-                          myImage.imageData.id === 0 &&
-                          !formData.image) ? (
-                          <label
-                            htmlFor="dropzone-file"
-                            className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
-                          >
-                            <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                              <svg
-                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 20 16"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                />
-                              </svg>
-                              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span className="font-semibold">
-                                  Click to upload
-                                </span>{" "}
-                                or drag and drop
-                              </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                SVG, PNG, JPG or GIF (MAX. 800x400px)
-                              </p>
-                            </div>
-                            <input
-                              id="dropzone-file"
-                              type="file"
-                              className="hidden"
-                              accept="image/*"
-                              onChange={handleUpload}
-                            />
-                            {!myImage.isIdle && (
-                              <div
-                                role="status"
-                                className="absolute left-1/2 top-2/4 -translate-x-1/2 -translate-y-1/2"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  className="h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
-                                  viewBox="0 0 100 101"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                    fill="currentColor"
-                                  />
-                                  <path
-                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                    fill="currentFill"
-                                  />
-                                </svg>
-                                <span className="sr-only">Loading...</span>
-                              </div>
-                            )}
-                          </label>
-                        ) : (
-                          <>
-                            <img
-                              src={myImage.imageData.url || formData.image?.url}
-                              alt="file"
-                              className="object-fill"
-                            />
-                            <Button
-                              className="absolute right-0 top-1"
-                              onClick={() => {
-                                dispatch(clear());
-                                setFormData((prevFormData) => ({
-                                  ...prevFormData,
-                                  imageId: "",
-                                  image: undefined,
-                                }));
-                              }}
-                              color="white"
-                            >
-                              <div className="flex items-center gap-x-2 text-xs">
-                                <RiCloseCircleFill
-                                  color="red"
-                                  className="h-6 w-6"
-                                />
-                              </div>
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex w-full items-center justify-between border-b-[1px]">
-                      <h1 className="font-bold">Upload Documents</h1>
-                    </div>
-                    <Upload
-                      handleUpload={handleUpload2}
-                      uploadedFiles={uploadedFiles}
-                      setUploadedFiles={setUploadedFiles}
-                    />
-                    <div className="flex">
-                      <Button
-                        className="mx-1"
-                        onClick={() => {
-                          updateProject();
-                        }}
-                        disabled={!myImage.isIdle}
-                        color="primary"
-                      >
-                        Update Project
-                      </Button>
-                      <Button
-                        className="mx-1"
-                        onClick={() => {
-                          navigate(`/organization/${selectedOrganization?.id}`);
-                        }}
-                        color="gray"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
                   </div>
                 </form>
+              </div>
+              <div
+                className="flex !w-full items-center justify-between border-b-[1px]"
+                onClick={() => setShowCard2(!showCard2)}
+              >
+                <h1 className="font-bold">Upload Documents</h1>
+                {showCard2 ? (
+                  <FaAngleUp className="h-[50px] cursor-pointer" />
+                ) : (
+                  <FaAngleDown className="h-[50px] cursor-pointer" />
+                )}
+              </div>
+              {showCard2 && (
+                <div className="grid w-full grid-cols-2">
+                  <Upload
+                    handleUpload={handleUpload2}
+                    uploadedFiles={uploadedFiles}
+                    setUploadedFiles={setUploadedFiles}
+                  />
+                </div>
+              )}
+              <div className="my-10 flex">
+                <Button
+                  className="mx-1"
+                  onClick={() => {
+                    updateProject();
+                  }}
+                  disabled={!myImage.isIdle}
+                  color="primary"
+                >
+                  Update Project
+                </Button>
+                <Button
+                  className="mx-1"
+                  onClick={() => {
+                    navigate(`/organization/${selectedOrganization?.id}`);
+                  }}
+                  color="gray"
+                >
+                  Cancel
+                </Button>
               </div>
             </div>
           )
