@@ -38,6 +38,7 @@ import {
   // postTower,
   getTowersReducer,
   uploadDocument,
+  getProjects,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
@@ -210,6 +211,7 @@ const ProjectNewPage: FC = function () {
         dispatch(updateProjectTab(2));
         dispatch(clearTrigger());
         navigate(`/organization/${id}/project/${projectResponse.id}`);
+        dispatch(getProjects(id));
       }
     }
   }, [projectTrigger]);

@@ -405,7 +405,7 @@ const AddProperty: FC = function () {
                   </Label>
                   <Select
                     // className="basic-single"
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={options}
                     isSearchable={true}
@@ -431,7 +431,7 @@ const AddProperty: FC = function () {
                   </Label>
                   <Select
                     // className="basic-single"
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={towerOptions}
                     isSearchable={true}
