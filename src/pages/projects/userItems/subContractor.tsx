@@ -8,13 +8,16 @@ import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectUserReducer,
+  getSingleProject,
   listUserByRoleReducer,
 } from "../../../store/features/reducers";
 import type {
   AppState,
   Lead,
+  projectRole,
   ProjectState,
   ReducerTypes,
+  userInterface,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -30,8 +33,12 @@ export default function SubContractor() {
   const { projectSubContractor }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus, userType }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    selectedProject,
+    responseStatus,
+    userType,
+    userResponse,
+  }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,6 +48,9 @@ export default function SubContractor() {
     if (responseStatus === "User Added" && userType === "sub_contractor") {
       toast.info("New sub contructor user is attached");
       dispatch(setResponseStatus(""));
+      if (userResponse && userResponse.user) {
+        dispatch(getSingleProject(project_id));
+      }
     }
   }, [responseStatus]);
 
@@ -67,6 +77,19 @@ export default function SubContractor() {
       toast.warn("All fields are required");
     }
   };
+
+  const projectUser =
+    selectedProject &&
+    selectedProject.user &&
+    selectedProject.user.length &&
+    selectedProject.user.filter(
+      (u: userInterface) =>
+        u.project_role &&
+        u.project_role.find(
+          (role: projectRole) => role.roleKey === "project_sub_contractor"
+        )
+    );
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -109,10 +132,9 @@ export default function SubContractor() {
             </tr>
           </thead>
           <tbody>
-            {(selectedProject &&
-              selectedProject.user &&
-              selectedProject.user.length > 0 &&
-              selectedProject.user.map((user: Lead, index: number) => {
+            {(projectUser &&
+              projectUser.length > 0 &&
+              projectUser.map((user: userInterface, index: number) => {
                 return (
                   <tr
                     key={index}
@@ -124,7 +146,7 @@ export default function SubContractor() {
                     >
                       {user.fullName}
                     </th>
-                    <td className="px-6 py-4">{user.mobileNumber}</td>
+                    <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">

@@ -68,6 +68,7 @@ export interface userInterface {
   fullName: string;
   email: string;
   mobileNumber: string;
+  mobile?: string;
   organizationName: string;
   organizationCountryCode: string;
   isEmailVerified: boolean;
@@ -75,8 +76,20 @@ export interface userInterface {
   status?: string;
   createdAt: string;
   updatedAt: string;
+  project_role?: projectRole[];
 }
 
+export interface projectRole {
+  id: number;
+  roleName: string;
+  roleDescription: string;
+  roleKey: string;
+  roleAccessLevel: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
+  isAdmin: boolean;
+}
 export interface Config {
   roles: Roles[];
   roleAccessLevel: AccessLevel;
@@ -217,7 +230,7 @@ export interface Project {
   errors?: any;
   image?: ImageType;
   documents?: DocumentFile[];
-  user?: Lead[];
+  user?: userInterface[];
 }
 
 export interface DocumentFile {
@@ -284,6 +297,7 @@ export interface ProjectState {
   selectedCommonAreaElement: FullElements | undefined;
   responseStatus: string;
   userType: string;
+  userResponse: Project | undefined;
 }
 
 export interface FullCommonArea {

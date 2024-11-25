@@ -23,6 +23,7 @@ import {
 import type {
   FullChecklist,
   FullElements,
+  Project,
   ProjectState,
   TowerData,
 } from "../../types";
@@ -67,6 +68,7 @@ const initialState: ProjectState = {
   selectedCommonAreaElement: undefined,
   responseStatus: "",
   userType: "",
+  userResponse: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -109,6 +111,9 @@ export const projectSlice = createSlice({
     },
     clearSelectedProject: (state) => {
       state.selectedProject = undefined;
+    },
+    updateSelectedProject: (state, action: PayloadAction<Project>) => {
+      state.selectedProject = action.payload;
     },
     updateTowers: (state, action: PayloadAction<TowerData[]>) => {
       state.projectTowers = action.payload;
@@ -315,8 +320,12 @@ export const projectSlice = createSlice({
     builder.addCase(createProjectUserReducer.pending, (state) => {
       state.responseStatus = "Adding User";
     });
-    builder.addCase(createProjectUserReducer.fulfilled, (state) => {
+    builder.addCase(createProjectUserReducer.fulfilled, (state, action) => {
       state.responseStatus = "User Added";
+      state.userResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
     });
     builder.addCase(createProjectUserReducer.rejected, (state) => {
       state.responseStatus = "Adding User Failed";
@@ -340,6 +349,7 @@ export const {
   selectCommonArea,
   setResponseStatus,
   setUserType,
+  updateSelectedProject,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

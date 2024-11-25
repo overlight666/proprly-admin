@@ -15,12 +15,15 @@ import {
 import {
   listUserByRoleReducer,
   createProjectUserReducer,
+  getSingleProject,
 } from "../../../store/features/reducers";
 import type {
   AppState,
   ReducerTypes,
   ProjectState,
   Lead,
+  userInterface,
+  projectRole,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 
@@ -30,8 +33,12 @@ export default function Auditor() {
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus, userType }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    selectedProject,
+    responseStatus,
+    userType,
+    userResponse,
+  }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,6 +48,9 @@ export default function Auditor() {
     if (responseStatus === "Admin Added" && userType === "auditor") {
       toast.info("New auditor user is attached");
       dispatch(setResponseStatus(""));
+      if (userResponse && userResponse.user) {
+        dispatch(getSingleProject(project_id));
+      }
     }
   }, [responseStatus]);
 
@@ -67,6 +77,27 @@ export default function Auditor() {
       toast.warn("All fields are required");
     }
   };
+
+  const projectUser =
+    selectedProject &&
+    selectedProject.user &&
+    selectedProject.user.length &&
+    selectedProject.user.filter(
+      (u: userInterface) =>
+        u.project_role &&
+        u.project_role.find(
+          (role: projectRole) => role.roleKey === "project_auditor"
+        )
+    );
+
+  selectedProject?.user &&
+    selectedProject?.user.map((u: userInterface) => {
+      u.project_role &&
+        u.project_role.find(
+          (role: projectRole) => role.roleKey === "project_auditor"
+        );
+    });
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -109,10 +140,9 @@ export default function Auditor() {
             </tr>
           </thead>
           <tbody>
-            {(selectedProject &&
-              selectedProject.user &&
-              selectedProject.user.length > 0 &&
-              selectedProject.user.map((user: Lead, index: number) => {
+            {(projectUser &&
+              projectUser.length > 0 &&
+              projectUser.map((user: userInterface, index: number) => {
                 return (
                   <tr
                     key={index}
@@ -124,7 +154,7 @@ export default function Auditor() {
                     >
                       {user.fullName}
                     </th>
-                    <td className="px-6 py-4">{user.mobileNumber}</td>
+                    <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">
@@ -149,7 +179,9 @@ export default function Auditor() {
         </table>
       </div>
       <div className="mt-1 flex items-center text-[14px] text-[blue]">
-        <a href="javascript:void(0)">ADD NEW AUDITOR</a>
+        <a href="javascript:void(0)" onClick={() => setOpenModal(true)}>
+          ADD NEW AUDITOR
+        </a>
         <BsChevronRight />
       </div>
       {/* <div className="my-5 flex flex-row gap-5">

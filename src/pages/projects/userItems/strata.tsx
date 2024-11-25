@@ -8,13 +8,15 @@ import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectUserReducer,
+  getSingleProject,
   listUserByRoleReducer,
 } from "../../../store/features/reducers";
 import type {
   AppState,
-  Lead,
+  projectRole,
   ProjectState,
   ReducerTypes,
+  userInterface,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -30,8 +32,12 @@ export default function Strata() {
   const { projectStrata }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus, userType }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    selectedProject,
+    responseStatus,
+    userType,
+    userResponse,
+  }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,6 +47,9 @@ export default function Strata() {
     if (responseStatus === "User Added" && userType === "strata") {
       toast.info("New strata user is attached");
       dispatch(setResponseStatus(""));
+      if (userResponse && userResponse.user) {
+        dispatch(getSingleProject(project_id));
+      }
     }
   }, [responseStatus]);
 
@@ -67,6 +76,19 @@ export default function Strata() {
       toast.warn("All fields are required");
     }
   };
+
+  const projectUser =
+    selectedProject &&
+    selectedProject.user &&
+    selectedProject.user.length &&
+    selectedProject.user.filter(
+      (u: userInterface) =>
+        u.project_role &&
+        u.project_role.find(
+          (role: projectRole) => role.roleKey === "project_strata"
+        )
+    );
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -77,7 +99,7 @@ export default function Strata() {
           <Select id="project_admins" required>
             {(projectStrata &&
               projectStrata.length > 0 &&
-              projectStrata.map((user: Lead, index: number) => {
+              projectStrata.map((user: userInterface, index: number) => {
                 return <option key={index}>{user.fullName}</option>;
               })) || <option selected>No user available</option>}
           </Select>
@@ -109,10 +131,9 @@ export default function Strata() {
             </tr>
           </thead>
           <tbody>
-            {(selectedProject &&
-              selectedProject.user &&
-              selectedProject.user.length > 0 &&
-              selectedProject.user.map((user: Lead, index: number) => {
+            {(projectUser &&
+              projectUser.length > 0 &&
+              projectUser.map((user: userInterface, index: number) => {
                 return (
                   <tr
                     key={index}
@@ -124,7 +145,7 @@ export default function Strata() {
                     >
                       {user.fullName}
                     </th>
-                    <td className="px-6 py-4">{user.mobileNumber}</td>
+                    <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">

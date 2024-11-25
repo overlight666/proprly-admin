@@ -8,13 +8,16 @@ import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectUserReducer,
+  getSingleProject,
   listUserByRoleReducer,
 } from "../../../store/features/reducers";
 import type {
   AppState,
   Lead,
+  projectRole,
   ProjectState,
   ReducerTypes,
+  userInterface,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -30,8 +33,24 @@ export default function ProjectAdmin() {
   const { projectUsers }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus, userType }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    selectedProject,
+    responseStatus,
+    userType,
+    userResponse,
+  }: ProjectState = useSelector((state: any) => state.project);
+
+  const projectAdminUser =
+    selectedProject &&
+    selectedProject.user &&
+    selectedProject.user.length &&
+    selectedProject.user.filter(
+      (u: userInterface) =>
+        u.project_role &&
+        u.project_role.find(
+          (role: projectRole) => role.roleKey === "project_admin"
+        )
+    );
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,6 +60,9 @@ export default function ProjectAdmin() {
     if (responseStatus === "User Added" && userType === "admin") {
       toast.info("New admin user is attached");
       dispatch(setResponseStatus(""));
+      if (userResponse && userResponse.user) {
+        dispatch(getSingleProject(project_id));
+      }
     }
   }, [responseStatus]);
 
@@ -109,10 +131,9 @@ export default function ProjectAdmin() {
             </tr>
           </thead>
           <tbody>
-            {(selectedProject &&
-              selectedProject.user &&
-              selectedProject.user.length > 0 &&
-              selectedProject.user.map((user: Lead, index: number) => {
+            {(projectAdminUser &&
+              projectAdminUser.length > 0 &&
+              projectAdminUser.map((user: userInterface, index: number) => {
                 return (
                   <tr
                     key={index}
@@ -124,7 +145,7 @@ export default function ProjectAdmin() {
                     >
                       {user.fullName}
                     </th>
-                    <td className="px-6 py-4">{user.mobileNumber}</td>
+                    <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">
