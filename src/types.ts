@@ -58,6 +58,9 @@ export interface AppState {
   config: Config | undefined;
   appointmentTab: number;
   projectUsers: userInterface[];
+  projectAuditors: userInterface[];
+  projectSubContractor: userInterface[];
+  projectStrata: userInterface[];
 }
 
 export interface userInterface {
@@ -280,6 +283,7 @@ export interface ProjectState {
   selectedCommonArea: FullCommonArea | undefined;
   selectedCommonAreaElement: FullElements | undefined;
   responseStatus: string;
+  userType: string;
 }
 
 export interface FullCommonArea {

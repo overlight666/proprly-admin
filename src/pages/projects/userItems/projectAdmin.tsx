@@ -7,7 +7,7 @@ import { BsChevronRight, BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createProjectAdminReducer,
+  createProjectUserReducer,
   listUserByRoleReducer,
 } from "../../../store/features/reducers";
 import type {
@@ -19,30 +19,36 @@ import type {
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
-import { setResponseStatus } from "../../../store/features/projectSlice";
+import {
+  setResponseStatus,
+  setUserType,
+} from "../../../store/features/projectSlice";
 
 export default function ProjectAdmin() {
   const { project_id }: any = useParams();
+  let didInit = false;
   const { projectUsers }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { selectedProject, responseStatus, userType }: ProjectState =
+    useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (responseStatus === "Admin Added") {
+    if (responseStatus === "User Added" && userType === "admin") {
       toast.info("New admin user is attached");
       dispatch(setResponseStatus(""));
     }
   }, [responseStatus]);
 
   useEffect(() => {
-    dispatch(listUserByRoleReducer("project_admin"));
+    if (!didInit) {
+      dispatch(listUserByRoleReducer("project_admin"));
+      didInit = true;
+    }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {
@@ -51,10 +57,11 @@ export default function ProjectAdmin() {
         fullName: name,
         email: email,
         mobile: mobile,
-        roleId: 4,
+        roleId: 2,
         projectId: project_id,
       };
-      dispatch(createProjectAdminReducer(params));
+      dispatch(createProjectUserReducer(params));
+      dispatch(setUserType("admin"));
       setOpenModal(false);
     } else {
       toast.warn("All fields are required");

@@ -8,10 +8,13 @@ import { HiPlus } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { setResponseStatus } from "../../../store/features/projectSlice";
+import {
+  setResponseStatus,
+  setUserType,
+} from "../../../store/features/projectSlice";
 import {
   listUserByRoleReducer,
-  createProjectAdminReducer,
+  createProjectUserReducer,
 } from "../../../store/features/reducers";
 import type {
   AppState,
@@ -22,27 +25,30 @@ import type {
 import AddUserModal from "../../../components/addUserModal";
 
 export default function Auditor() {
+  let didInit = false;
   const { project_id }: any = useParams();
-  const { projectUsers }: AppState = useSelector(
+  const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject, responseStatus }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { selectedProject, responseStatus, userType }: ProjectState =
+    useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (responseStatus === "Admin Added") {
-      toast.info("New admin user is attached");
+    if (responseStatus === "Admin Added" && userType === "auditor") {
+      toast.info("New auditor user is attached");
       dispatch(setResponseStatus(""));
     }
   }, [responseStatus]);
 
   useEffect(() => {
-    dispatch(listUserByRoleReducer("project_auditor"));
+    if (!didInit) {
+      dispatch(listUserByRoleReducer("project_auditor"));
+      didInit = true;
+    }
   }, []);
 
   const addUserHandler = (name, email, mobile) => {
@@ -54,7 +60,8 @@ export default function Auditor() {
         roleId: 4,
         projectId: project_id,
       };
-      dispatch(createProjectAdminReducer(params));
+      dispatch(createProjectUserReducer(params));
+      dispatch(setUserType("auditor"));
       setOpenModal(false);
     } else {
       toast.warn("All fields are required");
@@ -68,9 +75,9 @@ export default function Auditor() {
             <Label htmlFor="project_admins" value="Auditor List" />
           </div>
           <Select id="project_admins" required>
-            {(projectUsers &&
-              projectUsers.length > 0 &&
-              projectUsers.map((user: Lead, index: number) => {
+            {(projectAuditors &&
+              projectAuditors.length > 0 &&
+              projectAuditors.map((user: Lead, index: number) => {
                 return <option key={index}>{user.fullName}</option>;
               })) || <option selected>No user available</option>}
           </Select>

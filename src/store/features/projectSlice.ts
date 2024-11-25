@@ -4,7 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
-  createProjectAdminReducer,
+  createProjectUserReducer,
   getAllChecklistReducer,
   getAllCommonAreaReducer,
   getChecklistElementReducer,
@@ -66,6 +66,7 @@ const initialState: ProjectState = {
   selectedCommonArea: undefined,
   selectedCommonAreaElement: undefined,
   responseStatus: "",
+  userType: "",
 };
 
 export const projectSlice = createSlice({
@@ -118,6 +119,9 @@ export const projectSlice = createSlice({
     },
     setResponseStatus: (state, action: PayloadAction<string>) => {
       state.responseStatus = action.payload;
+    },
+    setUserType: (state, action: PayloadAction<string>) => {
+      state.userType = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -307,14 +311,14 @@ export const projectSlice = createSlice({
       state.isIdle = true;
     });
     // create project admin
-    builder.addCase(createProjectAdminReducer.pending, (state) => {
-      state.responseStatus = "Adding Admin";
+    builder.addCase(createProjectUserReducer.pending, (state) => {
+      state.responseStatus = "Adding User";
     });
-    builder.addCase(createProjectAdminReducer.fulfilled, (state) => {
-      state.responseStatus = "Admin Added";
+    builder.addCase(createProjectUserReducer.fulfilled, (state) => {
+      state.responseStatus = "User Added";
     });
-    builder.addCase(createProjectAdminReducer.rejected, (state) => {
-      state.responseStatus = "Adding Admin Failed";
+    builder.addCase(createProjectUserReducer.rejected, (state) => {
+      state.responseStatus = "Adding User Failed";
     });
   },
 });
@@ -334,6 +338,7 @@ export const {
   selectCommonAreaElement,
   selectCommonArea,
   setResponseStatus,
+  setUserType,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -7,7 +7,7 @@ import {
   addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
-  createProjectAdmin,
+  createProjectUser,
   getAllChecklist,
   getAllCommonArea,
   getAllDefectCodebyProject,
@@ -529,11 +529,11 @@ export const listUserByRoleReducer: any = createAsyncThunk(
   }
 );
 
-export const createProjectAdminReducer: any = createAsyncThunk(
-  "createProjectAdmin",
+export const createProjectUserReducer: any = createAsyncThunk(
+  "createProjectUser",
   async (data: any) => {
     try {
-      const response = await createProjectAdmin(data);
+      const response = await createProjectUser(data);
       // If you want to get something back
       return response;
     } catch (err) {

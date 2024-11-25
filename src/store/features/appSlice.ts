@@ -22,6 +22,9 @@ const initialState: AppState = {
   countries: [],
   config: undefined,
   projectUsers: [],
+  projectAuditors: [],
+  projectSubContractor: [],
+  projectStrata: [],
 };
 
 export const appSlice = createSlice({
@@ -90,10 +93,19 @@ export const appSlice = createSlice({
       state.projectUsers = [];
     });
     builder.addCase(listUserByRoleReducer.fulfilled, (state, action) => {
-      state.projectUsers =
+      const users =
         action.payload && action.payload.data
           ? action.payload.data
           : action.payload;
+      if (action.payload.role === "project_auditor") {
+        state.projectAuditors = users;
+      } else if (action.payload.role === "project_admin") {
+        state.projectUsers = users;
+      } else if (action.payload.role === "project_sub_contractor") {
+        state.projectSubContractor = users;
+      } else if (action.payload.role === "project_strata") {
+        state.projectStrata = users;
+      }
     });
     builder.addCase(listUserByRoleReducer.rejected, (state) => {
       state.projectUsers = [];
