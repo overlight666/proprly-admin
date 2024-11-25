@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Modal, Button, Spinner } from "flowbite-react";
+import { Modal, Button } from "flowbite-react";
 
 export const ConfirmModal = function (props: any) {
-  const { isOpen, setOpen, confirmHandler, isProcess, title } = props;
+  const { isOpen, setOpen, confirmHandler, title } = props;
 
   return (
     <>

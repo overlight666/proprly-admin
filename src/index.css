@@ -189,3 +189,11 @@ html {
   height: 100%;
   zoom: 94%;
 }
+
+table tr td.dt-type-numeric.dt-left {
+  text-align: left;
+}
+
+table tr th.dt-type-numeric.dt-left {
+  text-align: left;
+}

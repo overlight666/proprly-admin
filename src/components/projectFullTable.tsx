@@ -36,6 +36,7 @@ const ProjectFullTable = function () {
     try {
       if (!DataTable.isDataTable("#project-table-full")) {
         new DataTable("#project-table-full", {
+          columnDefs: [{ className: "dt-left", targets: "_all" }],
           paging: true,
           searching: false,
           layout: {
@@ -132,16 +133,8 @@ const ProjectFullTable = function () {
                       ? "Before 7 Years"
                       : "After 7 Years"}
                   </td>
-                  <td>
-                    <div className="flex justify-center">
-                      {p.projectTower.length}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex justify-center">
-                      {p.numBasementLevels}
-                    </div>
-                  </td>
+                  <td>{p.projectTower.length}</td>
+                  <td>{p.numBasementLevels}</td>
                   <td className="px-6 py-4">
                     <Dropdown
                       label=""
