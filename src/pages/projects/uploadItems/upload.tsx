@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FileInput } from "flowbite-react";
-import type { ImageType } from "../../../types";
-import { confirmAlert } from "react-confirm-alert";
+import type { ImageState, ImageType } from "../../../types";
+import { useEffect, useRef, useState } from "react";
+import { ConfirmModal } from "../../../components/modals/confirmModal";
+import { useDispatch, useSelector } from "react-redux";
+import { resetUpload } from "../../../store/features/imageSlice";
 
 export default function Upload({
   handleUpload,
@@ -15,11 +18,33 @@ export default function Upload({
       ? `${(size / 1000000).toPrecision(3)}mb`
       : `${Math.floor(Math.random() * 100)}mb`;
   };
+  const dispatch = useDispatch();
+  const { uploadDone }: ImageState = useSelector((state: any) => state.uploads);
+
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [selectedObj, setSelectedObj] = useState<any>(undefined);
+  const inputRef = useRef<any>(null);
+  const [isProcess, setIsProcess] = useState(false);
+
+  const handleConfirm = () => {
+    setIsProcess(true);
+    const newFiles = uploadedFiles.filter((f) => f.id !== selectedObj.id);
+    setUploadedFiles(newFiles);
+    setSelectedObj(false);
+  };
+  useEffect(() => {
+    if (uploadDone) {
+      inputRef.current.value = "";
+      dispatch(resetUpload());
+    }
+  }, [uploadDone]);
+
   return (
     <div className="mt-5 flex w-full flex-col">
       <div className="flex w-full flex-col items-start gap-2">
         <div className="w-[100%]">
           <FileInput
+            ref={inputRef}
             id="file-upload"
             accept="application/pdf"
             onChange={handleUpload}
@@ -79,25 +104,8 @@ export default function Upload({
                       <div className="flex items-center gap-1">
                         <svg
                           onClick={() => {
-                            confirmAlert({
-                              title: "Confirm to remove",
-                              message:
-                                "Are you sure you want to delete the attached file?",
-                              buttons: [
-                                {
-                                  label: "Yes",
-                                  onClick: () => {
-                                    const newFiles = uploadedFiles.filter(
-                                      (f) => f.id !== files.id
-                                    );
-                                    setUploadedFiles(newFiles);
-                                  },
-                                },
-                                {
-                                  label: "No",
-                                },
-                              ],
-                            });
+                            setOpenConfirm(true);
+                            setSelectedObj(files);
                           }}
                           className="cursor-pointer"
                           width="20"
@@ -170,6 +178,13 @@ export default function Upload({
             );
           })}
       </div>
+      <ConfirmModal
+        isOpen={openConfirm}
+        setOpen={setOpenConfirm}
+        confirmHandler={handleConfirm}
+        isProcess={isProcess}
+        title={"Are you sure you want to delete the attached file?"}
+      />
     </div>
   );
 }

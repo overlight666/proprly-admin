@@ -47,9 +47,9 @@ import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
 import Select from "react-select";
-import { confirmAlert } from "react-confirm-alert";
 import { BsThreeDots } from "react-icons/bs";
 import { clearOrgUpdates } from "../../store/features/organizationSlice";
+import { ConfirmModal } from "../../components/modals/confirmModal";
 
 type organization = {
   id?: number;
@@ -366,6 +366,19 @@ const OrganizationEdit: FC = function () {
   };
   const [openModal, setOpenModal] = useState(false);
 
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [selectedObj, setSelectedObj] = useState<any>(undefined);
+
+  const [isProcess, setIsProcess] = useState(false);
+
+  const handleConfirm = () => {
+    setIsProcess(true);
+    const newList = selectedBuilderList.filter(
+      (o) => o.email !== selectedObj.email
+    );
+    setSelectedBuilderList(newList);
+    setSelectedObj(false);
+  };
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -476,7 +489,7 @@ const OrganizationEdit: FC = function () {
                       )}
                     />
                   </div>
-                  <div className="grid grid-cols-1 gap-y-2">
+                  <div className="grid w-[80%] grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Upload Image</Label>
 
                     <div className="relative flex w-full items-center justify-center">
@@ -710,25 +723,8 @@ const OrganizationEdit: FC = function () {
                               >
                                 <Dropdown.Item
                                   onClick={() => {
-                                    confirmAlert({
-                                      title: "Confirm to remove",
-                                      message: "Are you sure to do this.",
-                                      buttons: [
-                                        {
-                                          label: "Yes",
-                                          onClick: () => {
-                                            const newList =
-                                              selectedBuilderList.filter(
-                                                (o) => o.email !== obj.email
-                                              );
-                                            setSelectedBuilderList(newList);
-                                          },
-                                        },
-                                        {
-                                          label: "No",
-                                        },
-                                      ],
-                                    });
+                                    setOpenConfirm(true);
+                                    setSelectedObj(obj);
                                   }}
                                 >
                                   Remove
@@ -829,6 +825,13 @@ const OrganizationEdit: FC = function () {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ConfirmModal
+        isOpen={openConfirm}
+        setOpen={setOpenConfirm}
+        confirmHandler={handleConfirm}
+        isProcess={isProcess}
+        title={"Are you sure you want to remove this builder?"}
+      />
     </NavbarSidebarLayout>
   );
 };

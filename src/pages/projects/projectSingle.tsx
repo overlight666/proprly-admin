@@ -797,10 +797,10 @@ const ProjectSingle: FC = function () {
                         </div>
                       </div>
                     )}
-                    <div className="grid grid-cols-1 gap-y-2">
+                    <div className="grid w-[80%] grid-cols-1 gap-y-2">
                       <Label htmlFor="timezone">Upload Image</Label>
 
-                      <div className="relative flex w-full items-center justify-center">
+                      <div className="relative flex items-center justify-center">
                         {myImage.imageData === undefined ||
                         (myImage.imageData &&
                           myImage.imageData.id === 0 &&
@@ -872,6 +872,7 @@ const ProjectSingle: FC = function () {
                             <img
                               src={myImage.imageData.url || formData.image?.url}
                               alt="file"
+                              className="object-fill"
                             />
                             <Button
                               className="absolute right-0 top-1"

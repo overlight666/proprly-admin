@@ -49,6 +49,9 @@ export const imageSlice = createSlice({
       state.warrantyResponseStatus = false;
       state.uploadDone = false;
     },
+    resetUpload: (state) => {
+      state.uploadDone = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(uploadImageFile.pending, (state) => {
@@ -61,6 +64,7 @@ export const imageSlice = createSlice({
         state.imageData = action.payload[0];
       }
       state.isIdle = true;
+      state.uploadDone = true;
     });
     builder.addCase(uploadImageFile.rejected, (state) => {
       state.isIdle = true;
@@ -74,6 +78,7 @@ export const imageSlice = createSlice({
       } else {
         state.fileData = action.payload[0];
       }
+      state.uploadDone = true;
     });
     builder.addCase(uploadDocument.rejected, (state) => {
       state.fileData = undefined;
@@ -87,6 +92,7 @@ export const imageSlice = createSlice({
       } else {
         state.warrantyData = action.payload;
       }
+      state.uploadDone = true;
     });
     builder.addCase(postWarranties.rejected, (state) => {
       state.warrantyData = undefined;
@@ -107,7 +113,7 @@ export const imageSlice = createSlice({
   },
 });
 
-export const { clear, clearFile, clearWarranty, resetWarranty } =
+export const { clear, clearFile, clearWarranty, resetWarranty, resetUpload } =
   imageSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -40,11 +40,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
-import { registerToOrg } from "../../apis";
 import Select from "react-select";
 import { BsThreeDots } from "react-icons/bs";
-import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { ConfirmModal } from "../../components/modals/confirmModal";
 
 type organization = {
   name: string;
@@ -310,6 +309,19 @@ const OrganizationNewPage: FC = function () {
     }
   };
   const [openModal, setOpenModal] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [selectedObj, setSelectedObj] = useState<any>(undefined);
+
+  const [isProcess, setIsProcess] = useState(false);
+
+  const handleConfirm = () => {
+    setIsProcess(true);
+    const newList = selectedBuilderList.filter(
+      (o) => o.email !== selectedObj.email
+    );
+    setSelectedBuilderList(newList);
+    setSelectedObj(false);
+  };
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -646,25 +658,8 @@ const OrganizationNewPage: FC = function () {
                               >
                                 <Dropdown.Item
                                   onClick={() => {
-                                    confirmAlert({
-                                      title: "Confirm to remove",
-                                      message: "Are you sure to do this.",
-                                      buttons: [
-                                        {
-                                          label: "Yes",
-                                          onClick: () => {
-                                            const newList =
-                                              selectedBuilderList.filter(
-                                                (o) => o.email !== obj.email
-                                              );
-                                            setSelectedBuilderList(newList);
-                                          },
-                                        },
-                                        {
-                                          label: "No",
-                                        },
-                                      ],
-                                    });
+                                    setOpenConfirm(true);
+                                    setSelectedObj(obj);
                                   }}
                                 >
                                   Remove
@@ -706,7 +701,13 @@ const OrganizationNewPage: FC = function () {
             >
               Submit
             </Button>
-            <Button color="white" className="border-[1px]">
+            <Button
+              color="white"
+              className="border-[1px]"
+              onClick={() => {
+                navigate(`/organization`);
+              }}
+            >
               Cancel
             </Button>
           </div>
@@ -759,6 +760,13 @@ const OrganizationNewPage: FC = function () {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ConfirmModal
+        isOpen={openConfirm}
+        setOpen={setOpenConfirm}
+        confirmHandler={handleConfirm}
+        isProcess={isProcess}
+        title={"Are you sure you want to remove this builder?"}
+      />
     </NavbarSidebarLayout>
   );
 };

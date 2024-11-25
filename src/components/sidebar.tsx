@@ -33,11 +33,17 @@ import isSmallScreen from "../helpers/is-small-screen";
 import { useDispatch, useSelector } from "react-redux";
 import type { Organization, OrgState, ProjectState, UserState } from "../types";
 import { matchPath, useLocation, useParams } from "react-router-dom";
-import { FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
+import {
+  FaCaretDown,
+  FaCaretLeft,
+  FaRegFolder,
+  FaRegFolderOpen,
+} from "react-icons/fa";
 import {
   updateProjectTab,
   updateProjectTabMain,
 } from "../store/features/appSlice";
+import { BsCaretDown, BsCaretLeft } from "react-icons/bs";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
@@ -56,6 +62,8 @@ const ExampleSidebar: FC = function () {
   const [isUsersOpen, setUsersOpen] = useState(true);
   const { pathname } = useLocation();
 
+  const truncateString = (string = "", maxLength = 12) =>
+    string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
   // useEffect(() => {
   //   if (id) {
   //     dispatch(reloadProjectStatus(false));
@@ -165,10 +173,17 @@ const ExampleSidebar: FC = function () {
                           </div>
                           <div className="flex w-full items-center justify-between">
                             {selectedOrganization.name}
-                            <HiDotsVertical
-                              color="primary"
-                              className="text-primary-700"
-                            />
+                            {id == selectedOrganization.id ? (
+                              <FaCaretDown
+                                color="primary"
+                                className="text-primary-700"
+                              />
+                            ) : (
+                              <FaCaretLeft
+                                color="primary"
+                                className="text-primary-700"
+                              />
+                            )}
                           </div>
                         </div>
                       </Sidebar.Item>
@@ -207,11 +222,18 @@ const ExampleSidebar: FC = function () {
                                   </div>
 
                                   <div className="ml-2 flex w-full items-center justify-between">
-                                    {obj.name}
-                                    <HiDotsVertical
-                                      color="primary"
-                                      className="text-primary-700"
-                                    />
+                                    {truncateString(obj.name)}
+                                    {project_id == obj.id ? (
+                                      <FaCaretDown
+                                        color="primary"
+                                        className="text-primary-700"
+                                      />
+                                    ) : (
+                                      <FaCaretLeft
+                                        color="primary"
+                                        className="text-primary-700"
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               </Sidebar.Item>
