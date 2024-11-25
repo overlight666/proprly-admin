@@ -135,6 +135,7 @@ const ProjectSingle: FC = function () {
   useEffect(() => {
     if (responseStatus === "project_update") {
       dispatch(getProjects(id));
+      dispatch(getSingleProject(project_id));
       dispatch(setResponseStatus(""));
       toast.info("Project updated");
     }
