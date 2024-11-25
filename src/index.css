@@ -190,10 +190,10 @@ html {
   zoom: 94%;
 }
 
-table tr td.dt-type-numeric.dt-left {
-  text-align: left;
+table tr td.dt-type-numeric {
+  text-align: left !important;
 }
 
-table tr th.dt-type-numeric.dt-left {
-  text-align: left;
+table tr th.dt-type-numeric {
+  text-align: left !important;
 }
