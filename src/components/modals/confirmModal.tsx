@@ -22,15 +22,15 @@ export const ConfirmModal = function (props: any) {
                 confirmHandler();
                 setOpen(false);
               }}
-              disabled={isProcess}
+              //   disabled={isProcess}
             >
-              {isProcess && (
+              {/* {isProcess && (
                 <Spinner
                   aria-label="Alternate spinner button example"
                   size="sm"
                   color="success"
                 />
-              )}
+              )} */}
               <div className="flex items-center gap-x-2">Yes, I’m sure</div>
             </Button>
             <Button color="gray" onClick={() => setOpen(false)}>
