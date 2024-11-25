@@ -7,40 +7,39 @@ import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 // import { useSelector } from "react-redux";
 // import type { ProjectState } from "../types";
-import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
-import { useEffect } from "react";
 const ProjectTable = function ({ towers }: any) {
   // const { projectTowers, gettingTowers }: ProjectState = useSelector(
   //   (state: any) => state.project
   // );
-  const isInit = false;
-  useEffect(() => {
-    try {
-      // if (!isInit) {
-      //   if (!DataTable.isDataTable("#tower-table2")) {
-      //     new DataTable("#tower-table2", {
-      //       paging: true,
-      //       searching: false,
-      //       layout: {
-      //         topStart: null,
-      //         topEnd: null,
-      //         bottomStart: {
-      //           pageLength: {
-      //             text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-      //           },
-      //         },
-      //         bottomEnd: "paging",
-      //       },
-      //     });
-      //   }
-      //   isInit = true;
-      // }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  // let isInit = false;
+  // useEffect(() => {
+  //   try {
+  //     if (!isInit) {
+  //       if (!DataTable.isDataTable("#tower-table2")) {
+  //         new DataTable("#tower-table2", {
+  //           paging: true,
+  //           searching: false,
+  //           layout: {
+  //             topStart: null,
+  //             topEnd: null,
+  //             bottomStart: {
+  //               pageLength: {
+  //                 text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+  //               },
+  //             },
+  //             bottomEnd: "paging",
+  //           },
+  //         });
+  //       }
+
+  //       isInit = true;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
   return (
     <>

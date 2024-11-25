@@ -158,8 +158,8 @@ const ProjectSingle: FC = function () {
 
   useEffect(() => {
     if (!didLoad) {
-      dispatch(getDefectCodeListByProject(project_id));
-      dispatch(getTradeCodeListByProject(project_id));
+      dispatch(getDefectCodeListByProject(id));
+      dispatch(getTradeCodeListByProject(id));
       dispatch(getAllChecklistReducer(project_id));
       dispatch(getAllCommonAreaReducer(project_id));
       didLoad = true;
