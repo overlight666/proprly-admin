@@ -974,7 +974,7 @@ const ProjectSingle: FC = function () {
             <div className="mt-10 grid w-full grid-cols-2">
               <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1">
                 <div className="grid grid-cols-1 gap-y-2">
-                  <Label htmlFor="organization">No of basement level</Label>
+                  <Label htmlFor="organization">Basement Levels</Label>
                   <select
                     id="levels"
                     name="levels"
@@ -1040,7 +1040,7 @@ const ProjectSingle: FC = function () {
               />
             </div>
             <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="floors">No of floors</Label>
+              <Label htmlFor="floors">Floors</Label>
               <select
                 id="numFloors"
                 name="numFloors"
