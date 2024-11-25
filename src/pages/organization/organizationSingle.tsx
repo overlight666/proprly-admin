@@ -79,9 +79,7 @@ const OrganizationSingle: FC = function () {
                   <span className="dark:text-white">Organizations</span>
                 </div>
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/organization/new">
-                {selectedOrganization?.name}
-              </Breadcrumb.Item>
+              <Breadcrumb.Item>{selectedOrganization?.name}</Breadcrumb.Item>
             </Breadcrumb>
             <h1 className="text-lg font-bold text-gray-900 dark:text-white sm:text-2xl">
               {selectedOrganization?.name}

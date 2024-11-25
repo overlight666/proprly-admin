@@ -36,6 +36,7 @@ import { matchPath, useLocation, useParams } from "react-router-dom";
 import {
   FaCaretDown,
   FaCaretLeft,
+  FaCaretRight,
   FaRegFolder,
   FaRegFolderOpen,
 } from "react-icons/fa";
@@ -173,7 +174,7 @@ const ExampleSidebar: FC = function () {
                           </div>
                           <div className="flex w-full items-center justify-between">
                             {selectedOrganization.name}
-                            {id == selectedOrganization.id ? (
+                            {/* {id == selectedOrganization.id ? (
                               <FaCaretDown
                                 color="primary"
                                 className="text-primary-700"
@@ -183,7 +184,7 @@ const ExampleSidebar: FC = function () {
                                 color="primary"
                                 className="text-primary-700"
                               />
-                            )}
+                            )} */}
                           </div>
                         </div>
                       </Sidebar.Item>
@@ -229,7 +230,7 @@ const ExampleSidebar: FC = function () {
                                         className="text-primary-700"
                                       />
                                     ) : (
-                                      <FaCaretLeft
+                                      <FaCaretRight
                                         color="primary"
                                         className="text-primary-700"
                                       />

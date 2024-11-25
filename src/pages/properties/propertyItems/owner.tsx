@@ -1,21 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Label, Modal, Select, TextInput } from "flowbite-react";
+import { Button, Label, Select } from "flowbite-react";
 import { useState } from "react";
 import { BsChevronRight, BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
+import AddUserModal from "../../../components/addUserModal";
 
 export default function Owner({
-  addOwner,
   ownerList,
   attachedOwner,
   attachOwner,
+  addOwner,
 }: any) {
   const [openModal, setOpenModal] = useState(false);
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
   const [selectedOwner, setSelectedOwner] = useState<any>();
+
   return (
     <div className="mt-5 flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -124,72 +123,12 @@ export default function Owner({
           <div className="flex items-center gap-x-2 text-xs">Cancel</div>
         </Button>
       </div> */}
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Add new Owner</Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <TextInput
-                id="name"
-                name="name"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Enter full name"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="mobile">Mobile number</Label>
-              <TextInput
-                id="mobile"
-                name="mobile"
-                value={mobile}
-                onChange={(event) => setMobile(event.target.value)}
-                placeholder="Enter mobile number"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="email">Email address</Label>
-              <TextInput
-                id="email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="Enter email address"
-                required
-              />
-            </div>
-            {/* <div className="grid grid-cols-1 gap-y-2">
-              <Label htmlFor="password">Password</Label>
-              <TextInput
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="******"
-                required
-              />
-            </div> */}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={() => {
-              addOwner(name, mobile, email);
-              setOpenModal(false);
-            }}
-          >
-            Submit
-          </Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddUserModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        addUserHandler={addOwner}
+        title={"Add new owner"}
+      />
     </div>
   );
 }

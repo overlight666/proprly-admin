@@ -49,6 +49,7 @@ export const propertySlice = createSlice({
     });
     builder.addCase(getProperties.pending, (state) => {
       state.isIdle = false;
+      state.propertyData = undefined;
     });
     builder.addCase(getProperties.fulfilled, (state, action) => {
       state.propertyData =
