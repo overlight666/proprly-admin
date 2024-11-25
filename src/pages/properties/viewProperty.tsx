@@ -52,7 +52,7 @@ const ViewProperty: FC = function () {
     (state: any) => state.project
   );
 
-  const addOwner = (name, mobile, email) => {
+  const addOwner = (name, email, mobile) => {
     if (name.trim() !== "" && mobile.trim() !== "" && email.trim() !== "") {
       const params = {
         fullName: name,
@@ -65,6 +65,7 @@ const ViewProperty: FC = function () {
       toast.error("all fields are required!");
     }
   };
+
   const attachOwner = (value) => {
     try {
       if (value && value !== "Please select") {
@@ -390,7 +391,7 @@ const ViewProperty: FC = function () {
                   </Label>
                   <Select
                     // className="basic-single"
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={options}
                     isSearchable={true}
@@ -420,7 +421,7 @@ const ViewProperty: FC = function () {
 
                     <Select
                       // className="basic-single"
-                      menuPosition="fixed"
+                      // menuPosition="fixed"
                       classNamePrefix="select"
                       options={towerOptions}
                       isSearchable={true}
@@ -445,7 +446,7 @@ const ViewProperty: FC = function () {
                     </Label>
                     <Select
                       // className="basic-single"
-                      menuPosition="fixed"
+                      // menuPosition="fixed"
                       classNamePrefix="select"
                       options={numFloors}
                       isSearchable={true}
@@ -471,7 +472,7 @@ const ViewProperty: FC = function () {
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard2(!showCard2)}
           >
-            <h1 className="font-bold">Propert Specification</h1>
+            <h1 className="font-bold">Property Specification</h1>
             {showCard2 ? (
               <FaAngleUp className="h-[50px] cursor-pointer" />
             ) : (
@@ -582,7 +583,7 @@ const ViewProperty: FC = function () {
                   <Label htmlFor="name">Split Level Property</Label>
                   <Select
                     isDisabled={true}
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={[]}
                     isSearchable={false}

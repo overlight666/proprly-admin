@@ -31,7 +31,7 @@ import type {
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { updateProjectTabMain } from "../../store/features/appSlice";
 import {
   postTower,
@@ -88,7 +88,6 @@ const ProjectSingle: FC = function () {
     responseStatus,
   }: ProjectState = useSelector((state: any) => state.project);
 
-  const navigate = useNavigate();
   const [searchAddress, setSearchAddress] = useState(false);
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
@@ -982,7 +981,7 @@ const ProjectSingle: FC = function () {
                 <Button
                   className="mx-1"
                   onClick={() => {
-                    navigate(`/organization/${selectedOrganization?.id}`);
+                    dispatch(updateProjectTabMain(0));
                   }}
                   color="gray"
                 >
@@ -1066,7 +1065,7 @@ const ProjectSingle: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        navigate(`/organization/${selectedOrganization?.id}`);
+                        dispatch(updateProjectTabMain(0));
                       }}
                       color="gray"
                     >

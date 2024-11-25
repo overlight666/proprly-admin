@@ -160,7 +160,7 @@ const AddProperty: FC = function () {
 
   const [formData, setFormData] = useState<Property>({
     name: "",
-    projectId: project_id,
+    projectId: parseInt(project_id),
     projectTowerId: undefined,
     lotNo: undefined,
     floor: undefined,
@@ -480,7 +480,7 @@ const AddProperty: FC = function () {
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard2(!showCard2)}
           >
-            <h1 className="font-bold">Propert Specification</h1>
+            <h1 className="font-bold">Property Specification</h1>
             {showCard2 ? (
               <FaAngleUp className="h-[50px] cursor-pointer" />
             ) : (

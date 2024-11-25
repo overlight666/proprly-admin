@@ -33,24 +33,20 @@ export default function Auditor() {
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const {
-    selectedProject,
-    responseStatus,
-    userType,
-    userResponse,
-  }: ProjectState = useSelector((state: any) => state.project);
-
+  const { selectedProject, responseStatus, userType }: ProjectState =
+    useSelector((state: any) => state.project);
+  const [selectedUser, setSelectedUser] = useState<Lead>();
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (responseStatus === "Admin Added" && userType === "auditor") {
+    if (responseStatus === "User Added" && userType === "auditor") {
       toast.info("New auditor user is attached");
       dispatch(setResponseStatus(""));
-      if (userResponse && userResponse.user) {
-        dispatch(getSingleProject(project_id));
-      }
+      // if (userResponse && userResponse.user) {
+      dispatch(getSingleProject(project_id));
+      // }
     }
   }, [responseStatus]);
 
@@ -98,6 +94,36 @@ export default function Auditor() {
         );
     });
 
+  const fillUserData = (e) => {
+    setSelectedUser(JSON.parse(e));
+  };
+
+  const attachUser = () => {
+    if (projectUser) {
+      if (
+        !projectUser.find((user: userInterface) => user.id === selectedUser?.id)
+      ) {
+        const params = {
+          id: selectedUser?.id,
+          roleId: 4,
+          projectId: project_id,
+        };
+        dispatch(createProjectUserReducer(params));
+        dispatch(setUserType("auditor"));
+      } else {
+        toast.warning("The selected user is already exist!");
+      }
+    } else {
+      const params = {
+        id: selectedUser?.id,
+        roleId: 4,
+        projectId: project_id,
+      };
+      dispatch(createProjectUserReducer(params));
+      dispatch(setUserType("auditor"));
+    }
+  };
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -105,15 +131,24 @@ export default function Auditor() {
           <div className="mb-2 block">
             <Label htmlFor="project_admins" value="Auditor List" />
           </div>
-          <Select id="project_admins" required>
+          <Select
+            id="project_admins"
+            onChange={(e) => fillUserData(e.target.value)}
+            required
+          >
+            <option selected>Please select</option>
             {(projectAuditors &&
               projectAuditors.length > 0 &&
               projectAuditors.map((user: Lead, index: number) => {
-                return <option key={index}>{user.fullName}</option>;
+                return (
+                  <option key={index} value={JSON.stringify(user)}>
+                    {user.fullName}
+                  </option>
+                );
               })) || <option selected>No user available</option>}
           </Select>
         </div>
-        <Button className="mx-2 mb-1 w-[200px]">
+        <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Attach Auditor

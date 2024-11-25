@@ -33,12 +33,9 @@ export default function ProjectAdmin() {
   const { projectUsers }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const {
-    selectedProject,
-    responseStatus,
-    userType,
-    userResponse,
-  }: ProjectState = useSelector((state: any) => state.project);
+  const [selectedUser, setSelectedUser] = useState<Lead>();
+  const { selectedProject, responseStatus, userType }: ProjectState =
+    useSelector((state: any) => state.project);
 
   const projectAdminUser =
     selectedProject &&
@@ -60,9 +57,9 @@ export default function ProjectAdmin() {
     if (responseStatus === "User Added" && userType === "admin") {
       toast.info("New admin user is attached");
       dispatch(setResponseStatus(""));
-      if (userResponse && userResponse.user) {
-        dispatch(getSingleProject(project_id));
-      }
+      // if (userResponse && userResponse.user) {
+      dispatch(getSingleProject(project_id));
+      // }
     }
   }, [responseStatus]);
 
@@ -89,6 +86,39 @@ export default function ProjectAdmin() {
       toast.warn("All fields are required");
     }
   };
+
+  const fillUserData = (e) => {
+    setSelectedUser(JSON.parse(e));
+  };
+
+  const attachUser = () => {
+    if (projectAdminUser) {
+      if (
+        !projectAdminUser.find(
+          (user: userInterface) => user.id === selectedUser?.id
+        )
+      ) {
+        const params = {
+          id: selectedUser?.id,
+          roleId: 2,
+          projectId: project_id,
+        };
+        dispatch(createProjectUserReducer(params));
+        dispatch(setUserType("admin"));
+      } else {
+        toast.warning("The selected user is already exist!");
+      }
+    } else {
+      const params = {
+        id: selectedUser?.id,
+        roleId: 2,
+        projectId: project_id,
+      };
+      dispatch(createProjectUserReducer(params));
+      dispatch(setUserType("admin"));
+    }
+  };
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -96,15 +126,24 @@ export default function ProjectAdmin() {
           <div className="mb-2 block">
             <Label htmlFor="project_admins" value="Project Admin List" />
           </div>
-          <Select id="project_admins" required>
+          <Select
+            id="project_admins"
+            onChange={(e) => fillUserData(e.target.value)}
+            required
+          >
+            <option selected>Please select</option>
             {(projectUsers &&
               projectUsers.length > 0 &&
               projectUsers.map((user: Lead, index: number) => {
-                return <option key={index}>{user.fullName}</option>;
+                return (
+                  <option key={index} value={JSON.stringify(user)}>
+                    {user.fullName}
+                  </option>
+                );
               })) || <option selected>No user available</option>}
           </Select>
         </div>
-        <Button className="mx-2 mb-1 w-[200px]">
+        <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Attach Project Admin

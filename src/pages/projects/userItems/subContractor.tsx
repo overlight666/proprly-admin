@@ -41,7 +41,7 @@ export default function SubContractor() {
   }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
-
+  const [selectedUser, setSelectedUser] = useState<Lead>();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -90,6 +90,35 @@ export default function SubContractor() {
         )
     );
 
+  const fillUserData = (e) => {
+    setSelectedUser(JSON.parse(e));
+  };
+
+  const attachUser = () => {
+    if (projectUser) {
+      if (
+        !projectUser.find((user: userInterface) => user.id === selectedUser?.id)
+      ) {
+        const params = {
+          id: selectedUser?.id,
+          roleId: 5,
+          projectId: project_id,
+        };
+        dispatch(createProjectUserReducer(params));
+        dispatch(setUserType("sub_contractor"));
+      } else {
+        toast.warning("The selected user is already exist!");
+      }
+    } else {
+      const params = {
+        id: selectedUser?.id,
+        roleId: 5,
+        projectId: project_id,
+      };
+      dispatch(createProjectUserReducer(params));
+      dispatch(setUserType("sub_contractor"));
+    }
+  };
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -97,15 +126,23 @@ export default function SubContractor() {
           <div className="mb-2 block">
             <Label htmlFor="project_admins" value="Project Admin List" />
           </div>
-          <Select id="project_admins" required>
+          <Select
+            id="project_admins"
+            onChange={(e) => fillUserData(e.target.value)}
+            required
+          >
             {(projectSubContractor &&
               projectSubContractor.length > 0 &&
               projectSubContractor.map((user: Lead, index: number) => {
-                return <option key={index}>{user.fullName}</option>;
+                return (
+                  <option key={index} value={JSON.stringify(user)}>
+                    {user.fullName}
+                  </option>
+                );
               })) || <option selected>No user available</option>}
           </Select>
         </div>
-        <Button className="mx-2 mb-1 w-[200px]">
+        <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Attach Sub Contructor

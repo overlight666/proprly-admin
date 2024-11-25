@@ -3,8 +3,12 @@ import ProjectAdmin from "./projectAdmin";
 import Auditor from "./auditor";
 import SubContractor from "./subContractor";
 import Strata from "./strata";
+import { updateProjectTabMain } from "../../../store/features/appSlice";
+import { useDispatch } from "react-redux";
 
 export default function ConfigureAccordionUser() {
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Accordion>
@@ -37,7 +41,13 @@ export default function ConfigureAccordionUser() {
         <Button className="w-[200px]">
           <div className="flex items-center gap-x-2 text-xs">Submit</div>
         </Button>
-        <Button className="w-[100px]" color="gray">
+        <Button
+          className="w-[100px]"
+          color="gray"
+          onClick={() => {
+            dispatch(updateProjectTabMain(0));
+          }}
+        >
           <div className="flex items-center gap-x-2 text-xs">Cancel</div>
         </Button>
       </div>
