@@ -75,7 +75,10 @@ export const DefectFeedbackModal = function (props: any) {
   }, [imageData]);
 
   const submitFeedbackHandler = () => {
-    if (comment.trim().length == 0 && feedback == "reject") {
+    if (
+      comment.trim().length == 0 &&
+      (feedback == "reject" || feedback == "close")
+    ) {
       toast.warning("Please input comment!");
     } else {
       const params: Feedback = {
