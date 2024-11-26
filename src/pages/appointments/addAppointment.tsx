@@ -32,6 +32,7 @@ import {
   bookAppointmentReducer,
   getCommonAreaByProjectArrayReducer,
   getProperties,
+  getTimeSlotByProjectReducer,
   listUserByRoleReducer,
 } from "../../store/features/reducers";
 import moment from "moment";
@@ -57,6 +58,7 @@ const AddAppointment: FC = function () {
   const { propertyData, appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
+  const { timeslot }: AppState = useSelector((state: any) => state.application);
 
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
@@ -78,8 +80,6 @@ const AddAppointment: FC = function () {
   );
   const [description, setDescription] = useState("");
   const [appointmentType, setInspectionType] = useState("inspection");
-  const [timeSlotStart, setTimeSlotStart] = useState("08:00");
-  const [timeSlotEnd, setTimeSlotEnd] = useState("18:00");
   const [inspectionStatus, setInspectionStatus] = useState("");
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
@@ -88,12 +88,16 @@ const AddAppointment: FC = function () {
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
-
+  const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
+    undefined
+  );
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   // let didInit = false;
 
   useEffect(() => {
     // if (!didInit) {
     dispatch(getProperties(project_id));
+    dispatch(getTimeSlotByProjectReducer(project_id));
     dispatch(listUserByRoleReducer("project_auditor"));
     //   didInit = true;
     // }
@@ -163,7 +167,7 @@ const AddAppointment: FC = function () {
     const params: AppointmentType = {
       type: appointmentType,
       appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
-      appointmentTimeslot: `${timeSlotStart}_${timeSlotEnd}`,
+      appointmentTimeslot: selectedTimeSlot,
       description: description,
     };
     if (chooseValue == "property") {
@@ -177,13 +181,22 @@ const AddAppointment: FC = function () {
   };
 
   useEffect(() => {
-    console.log(appointmentResponse);
     if (appointmentResponse && appointmentResponse.error) {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
       toast.info("Appointment successfully added");
     }
   }, [appointmentResponse]);
+
+  useEffect(() => {
+    if (timeslot) {
+      const currentDay = moment().format("dddd");
+      const slots = timeslot.find(
+        (m) => m.day.toLowerCase() == currentDay.toLowerCase()
+      );
+      setCurrentTimeSlots(slots);
+    }
+  }, [timeslot]);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -368,78 +381,26 @@ const AddAppointment: FC = function () {
                       Appointment Time Slot{" "}
                       <span className="text-[red]">*</span>
                     </Label>
-                    <div className="flex gap-2">
-                      <div className="w-[50%]">
-                        <label
-                          htmlFor="start-time"
-                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          Start time:
-                        </label>
-                        <div className="relative">
-                          <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
-                            <svg
-                              className="h-4 w-4 text-gray-500 dark:text-gray-400"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                          <input
-                            value={timeSlotStart}
-                            onChange={(e) => setTimeSlotStart(e.target.value)}
-                            type="time"
-                            id="start-time"
-                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                            min="09:00"
-                            max="18:00"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="w-[50%]">
-                        <label
-                          htmlFor="end-time"
-                          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                          End time:
-                        </label>
-                        <div className="relative">
-                          <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
-                            <svg
-                              className="h-4 w-4 text-gray-500 dark:text-gray-400"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                          <input
-                            value={timeSlotEnd}
-                            onChange={(e) => setTimeSlotEnd(e.target.value)}
-                            type="time"
-                            id="end-time"
-                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                            min="09:00"
-                            max="18:00"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <select
+                      id="timeslot"
+                      name="timeslot"
+                      value={selectedTimeSlot}
+                      onChange={(e) => setSelectedTimeSlot(e.target.value)}
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    >
+                      <option value="">Please Select</option>
+                      {currentTimeSlots &&
+                        currentTimeSlots.appointmentTimeSlotsListAmPm &&
+                        currentTimeSlots.appointmentTimeSlotsListAmPm.map(
+                          (time, index) => {
+                            return (
+                              <option key={index} value={time.key}>
+                                {time.value}
+                              </option>
+                            );
+                          }
+                        )}
+                    </select>
                     {/* <div className="flex ">
                       <input
                         type="time"

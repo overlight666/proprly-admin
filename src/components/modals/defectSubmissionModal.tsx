@@ -385,7 +385,15 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled
                             id="defectcode"
                             rows={4}
-                            value={`${defect?.defectCode.defectCode}, ${defect?.defectCode.defectName}`}
+                            value={`${
+                              defect &&
+                              defect.defectCode &&
+                              defect.defectCode.defectCode
+                            }, ${
+                              defect &&
+                              defect.defectCode &&
+                              defect.defectCode.defectName
+                            }`}
                             className="block w-full resize-none border-0 bg-gray-100 p-2 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
                             placeholder="defect code"
                           ></textarea>

@@ -19,12 +19,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import type { StylesConfig } from "react-select";
 import Select from "react-select";
+import type { AppState } from "../../types";
 import {
   type OrgState,
   type ProjectState,
   type PropertyState,
 } from "../../types";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { duration } from "moment";
+import { updateTimeSlotsReducer } from "../../store/features/reducers";
+import { clearTImeSlot } from "../../store/features/appSlice";
 
 export interface AppointmentType {
   propertyId?: number;
@@ -58,6 +62,7 @@ const colourStyles: StylesConfig<any, true> = {
 };
 
 const TimeSlots: FC = function () {
+  const { project_id }: any = useParams();
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
@@ -68,13 +73,9 @@ const TimeSlots: FC = function () {
     (state: any) => state.property
   );
 
-  const [timeSlotStart, setTimeSlotStart] = useState("09:00");
-  const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
-  const [slotSelected, setSlotSelected] = useState("1hour");
-  const [slots, setSlots] = useState<any>([]);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [errors, setErrors] = useState<any>([]);
+  const { timeslotResponse }: AppState = useSelector(
+    (state: any) => state.application
+  );
 
   const options: any = [
     { value: "monday", label: "Monday" },
@@ -83,6 +84,15 @@ const TimeSlots: FC = function () {
     { value: "thursday", label: "Thursday" },
     { value: "friday", label: "Friday" },
   ];
+
+  const [timeSlotStart, setTimeSlotStart] = useState("09:00");
+  const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
+  const [slotSelected, setSlotSelected] = useState("1hour");
+  const [daySelected, setDaySelected] = useState<any[]>(options);
+  const [slots, setSlots] = useState<any>([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [errors, setErrors] = useState<any>([]);
 
   useEffect(() => {
     if (slotSelected === "1hour") {
@@ -128,6 +138,34 @@ const TimeSlots: FC = function () {
       setSlots(newSlots);
     }
   }, [slotSelected]);
+
+  const updateTimeSlotConfig = () => {
+    if (daySelected.length == 0) {
+      toast.error("Please select at least 1 day");
+    } else {
+      const config = daySelected.map((o) => {
+        return {
+          day: o.label,
+          start_time: timeSlotStart,
+          end_time: timeSlotEnd,
+          duration:
+            slotSelected == "30mins" ? 30 : slotSelected == "1hour" ? 60 : 120,
+        };
+      });
+      const params = {
+        projectId: project_id,
+        configurations: config,
+      };
+      dispatch(updateTimeSlotsReducer(params));
+    }
+  };
+
+  useEffect(() => {
+    if (timeslotResponse) {
+      toast.success("Time slots has been updated");
+      dispatch(clearTImeSlot());
+    }
+  }, [timeslotResponse]);
 
   return (
     <div className="w-full flex-col gap-2">
@@ -212,8 +250,15 @@ const TimeSlots: FC = function () {
             <span className="text-[red]">*</span>
           </Label>
           <Select
+            onChange={(e: any) => setDaySelected(e)}
             closeMenuOnSelect={false}
-            defaultValue={[]}
+            defaultValue={[
+              options[0],
+              options[1],
+              options[2],
+              options[3],
+              options[4],
+            ]}
             isMulti
             options={options}
             styles={colourStyles}
@@ -257,7 +302,13 @@ const TimeSlots: FC = function () {
         </div>
       </div>
       <div className="my-10 flex">
-        <Button className="mx-1" color="primary">
+        <Button
+          className="mx-1"
+          color="primary"
+          onClick={() => {
+            updateTimeSlotConfig();
+          }}
+        >
           Submit
         </Button>
         <Button

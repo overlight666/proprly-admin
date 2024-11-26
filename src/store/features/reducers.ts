@@ -31,6 +31,7 @@ import {
   getprojects,
   getProperty,
   getRegions,
+  getTimeSlotByProject,
   getTowers,
   listOfBuilders,
   listOfLeads,
@@ -46,6 +47,7 @@ import {
   updateOrganization,
   updateProject,
   updateProperty,
+  updateTimeSlots,
   updateWarrantyFiles,
   uploadImage,
   uploadWarranties,
@@ -687,6 +689,32 @@ export const bookAppointmentReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await bookAppointmentApi(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getTimeSlotByProjectReducer: any = createAsyncThunk(
+  "getTimeSlotByProjectReducer",
+  async (id: any) => {
+    try {
+      const response = await getTimeSlotByProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const updateTimeSlotsReducer: any = createAsyncThunk(
+  "updateTimeSlots",
+  async (data: any) => {
+    try {
+      const response = await updateTimeSlots(data);
       // If you want to get something back
       return response;
     } catch (err) {

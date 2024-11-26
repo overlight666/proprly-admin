@@ -646,3 +646,25 @@ export const bookAppointmentApi = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getTimeSlotByProject = async (id: any) => {
+  return api
+    .get(`/project/${id}/appointment-config`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const updateTimeSlots = async (params: any) => {
+  return api
+    .post(`/project-appointment-config`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

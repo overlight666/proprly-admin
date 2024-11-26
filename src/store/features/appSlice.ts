@@ -6,7 +6,9 @@ import {
   getAllCountries,
   getAllRegions,
   getGlobalConfig,
+  getTimeSlotByProjectReducer,
   listUserByRoleReducer,
+  updateTimeSlotsReducer,
 } from "./reducers";
 
 // Define the initial state using that type
@@ -26,6 +28,8 @@ const initialState: AppState = {
   projectSubContractor: [],
   projectStrata: [],
   propertyOwnerList: [],
+  timeslot: [],
+  timeslotResponse: undefined,
 };
 
 export const appSlice = createSlice({
@@ -53,6 +57,9 @@ export const appSlice = createSlice({
     },
     clearConfig: (state) => {
       state.config = undefined;
+    },
+    clearTImeSlot: (state) => {
+      state.timeslotResponse = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -116,6 +123,26 @@ export const appSlice = createSlice({
     builder.addCase(listUserByRoleReducer.rejected, (state) => {
       state.projectUsers = [];
     });
+    // time slot
+    builder.addCase(getTimeSlotByProjectReducer.pending, (state) => {
+      state.timeslot = undefined;
+    });
+    builder.addCase(getTimeSlotByProjectReducer.fulfilled, (state, action) => {
+      state.timeslot = action.payload;
+    });
+    builder.addCase(getTimeSlotByProjectReducer.rejected, (state) => {
+      state.timeslot = undefined;
+    });
+    //update timeslots
+    builder.addCase(updateTimeSlotsReducer.pending, (state) => {
+      state.timeslotResponse = undefined;
+    });
+    builder.addCase(updateTimeSlotsReducer.fulfilled, (state, action) => {
+      state.timeslotResponse = action.payload;
+    });
+    builder.addCase(updateTimeSlotsReducer.rejected, (state) => {
+      state.timeslotResponse = undefined;
+    });
   },
 });
 
@@ -127,6 +154,7 @@ export const {
   updateProjectTabMain,
   updateAppointmentTab,
   clearConfig,
+  clearTImeSlot,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

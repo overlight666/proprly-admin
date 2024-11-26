@@ -70,6 +70,26 @@ export interface AppState {
   projectSubContractor: userInterface[];
   projectStrata: userInterface[];
   propertyOwnerList: userInterface[];
+  timeslot: Timeslot[] | undefined;
+  timeslotResponse: any | undefined;
+}
+
+export interface Timeslot {
+  id: number;
+  projectId: number;
+  startTime: string;
+  endTime: string;
+  duration: number;
+  day: string;
+  createdAt: string;
+  updatedAt: string;
+  appointmentTimeSlotsListAmPm: KeyValue[];
+  appointmentTimeSlotsList24Hr: KeyValue[];
+}
+
+export interface KeyValue {
+  key: string;
+  value: string;
 }
 
 export interface userInterface {

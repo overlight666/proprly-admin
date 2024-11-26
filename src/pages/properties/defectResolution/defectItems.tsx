@@ -244,20 +244,28 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
           Defect Code:{" "}
           <span className="font-semibold text-black">
             {(getLength(
-              `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+              `${def && def.defectCode && def.defectCode.defectCode}, ${
+                def && def.defectCode && def.defectCode.defectName
+              }`
             ) > 25 && (
               <div className="inline-block">
                 <Tooltip
-                  content={`${def.defectCode.defectCode}, ${def.defectCode.defectName}`}
+                  content={`${
+                    def && def.defectCode && def.defectCode.defectCode
+                  }, ${def && def.defectCode && def.defectCode.defectName}`}
                 >
                   {truncateString(
-                    `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+                    `${def && def.defectCode && def.defectCode.defectCode}, ${
+                      def && def.defectCode && def.defectCode.defectName
+                    }`
                   )}
                 </Tooltip>
               </div>
             )) ||
               truncateString(
-                `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+                `${def && def.defectCode && def.defectCode.defectCode}, ${
+                  def && def.defectCode && def.defectCode.defectName
+                }`
               )}
           </span>
         </span>
