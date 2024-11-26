@@ -61,6 +61,7 @@ export interface AppState {
   projectAuditors: userInterface[];
   projectSubContractor: userInterface[];
   projectStrata: userInterface[];
+  propertyOwnerList: userInterface[];
 }
 
 export interface userInterface {
@@ -213,6 +214,12 @@ export interface TowerData {
   organizationId?: number;
   createdAt?: string;
   updatedAt?: string;
+  floorList: FloorListData[];
+}
+
+export interface FloorListData {
+  key: number;
+  value: string;
 }
 
 export interface Project {

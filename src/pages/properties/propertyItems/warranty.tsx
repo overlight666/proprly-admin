@@ -1,10 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { FileInput, Label } from "flowbite-react";
+import { Label } from "flowbite-react";
 import UploadedItems from "../uploadedItems";
 
-export default function Warranty({ handleUpload, uploadedWarranties }: any) {
+export default function Warranty({
+  handleUpload,
+  uploadedWarranties,
+  setUploadedWarranties,
+}: any) {
   return (
     <div className="mt-5 flex w-full flex-col">
       <div className="flex w-full flex-col items-start gap-2">
@@ -12,12 +16,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Appliances" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "appliances")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="appliances"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&
@@ -30,12 +32,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Bathroom Fixtures" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "bathroom_fixtures")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="bathroom_fixtures"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&
@@ -49,12 +49,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Air Conditioning" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "air_conditioning")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="air_conditioning"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&
@@ -68,12 +66,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Utilities" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "utilities")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="utilities"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&
@@ -86,12 +82,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Intercom" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "intercom")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="intercom"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&
@@ -104,12 +98,10 @@ export default function Warranty({ handleUpload, uploadedWarranties }: any) {
           <div className="mb-2 block">
             <Label htmlFor="countries" value="Builder warranty" />
           </div>
-          <FileInput
-            id="file-upload"
-            onChange={(e) => handleUpload(e, "builder_warranty")}
-            accept="application/pdf"
-          />
           <UploadedItems
+            uploadType="builder_warranty"
+            setUploadedFiles={setUploadedWarranties}
+            handleUpload={handleUpload}
             uploadedFiles={
               uploadedWarranties &&
               uploadedWarranties.groups &&

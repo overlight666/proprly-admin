@@ -18,6 +18,7 @@ import type {
   Property,
   PropertyState,
   TowerData,
+  userInterface,
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -60,13 +61,13 @@ const AddProperty: FC = function () {
   }: ImageState = useSelector((state: any) => state.uploads);
 
   const [towerOptions, setTowerOptions] = useState<any>([]);
-  const { project_id }: any = useParams();
+  const { id, project_id }: any = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-
+  const [attachedOwner, setAttachedOwner] = useState<any>([]);
   const { selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
@@ -116,6 +117,7 @@ const AddProperty: FC = function () {
           ...uploadedWarranties,
         })
       );
+      navigate(`/organization/${id}/project/${project_id}/properties`);
       dispatch(clearPropertyResponse());
     }
   }, [propertyResponse]);
@@ -193,15 +195,16 @@ const AddProperty: FC = function () {
     try {
       const { name, value } = event.target;
       if (name === "projectTowerId") {
-        const fo: any = [];
-        for (let i = 1; i <= parseInt(value.numFloors); i++) {
-          fo.push({
-            label: i,
-            value: i,
-          });
-        }
-
-        setNumFloors(fo);
+        const selectedTower: any =
+          projectTowers.length &&
+          projectTowers.find((t: TowerData) => t.id === value.id);
+        const floors = selectedTower.floorList.map((f) => {
+          return {
+            value: f.key,
+            label: f.value,
+          };
+        });
+        setNumFloors(floors);
         setFormData((prevFormData) => ({
           ...prevFormData,
           [name]: value.id,
@@ -248,7 +251,9 @@ const AddProperty: FC = function () {
                       formData.parkingSpaces !== "" &&
                       formData.parkingSpaces !== undefined
                     ) {
-                      dispatch(registerProperty(formData));
+                      dispatch(
+                        registerProperty({ ...formData, users: attachedOwner })
+                      );
                     } else {
                       setErrors((oldArray) => [
                         ...[...new Set(oldArray)],
@@ -326,6 +331,41 @@ const AddProperty: FC = function () {
     }
   };
 
+  const attachOwner = () => {};
+
+  const addOwner = (name, email, mobile) => {
+    if (attachedOwner) {
+      if (
+        attachedOwner &&
+        !attachedOwner.find((owner: userInterface) => owner.email === email)
+      ) {
+        if (
+          attachedOwner &&
+          !attachedOwner.find((owner: userInterface) => owner.mobile === mobile)
+        ) {
+          const params = {
+            fullName: name,
+            email,
+            mobile,
+            roleId: 6,
+          };
+          setAttachedOwner((oldArray) => [params, ...oldArray]);
+        } else {
+          toast.warning("Mobile already used");
+        }
+      } else {
+        toast.warning("Email already exist");
+      }
+    } else {
+      const params = {
+        fullName: name,
+        email,
+        mobile,
+        roleId: 6,
+      };
+      setAttachedOwner((oldArray) => [params, ...oldArray]);
+    }
+  };
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -643,7 +683,13 @@ const AddProperty: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <Owner />}
+          {showCard3 && (
+            <Owner
+              addOwner={addOwner}
+              attachedOwner={attachedOwner}
+              attachOwner={attachOwner}
+            />
+          )}
           <div
             className="flex w-full cursor-pointer items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
@@ -657,6 +703,7 @@ const AddProperty: FC = function () {
           </div>
           {showCard4 && (
             <Warranty
+              setUploadedWarranties={setUploadedWarranties}
               handleUpload={handleUpload}
               uploadedWarranties={uploadedWarranties}
             />

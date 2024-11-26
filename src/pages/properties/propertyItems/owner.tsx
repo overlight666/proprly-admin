@@ -1,19 +1,30 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, Select } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsChevronRight, BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import AddUserModal from "../../../components/addUserModal";
+import { useDispatch, useSelector } from "react-redux";
+import { listUserByRoleReducer } from "../../../store/features/reducers";
+import type { AppState, ReducerTypes } from "../../../types";
 
-export default function Owner({
-  ownerList,
-  attachedOwner,
-  attachOwner,
-  addOwner,
-}: any) {
+export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedOwner, setSelectedOwner] = useState<any>();
+  const { propertyOwnerList }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+  let didInit = false;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!didInit) {
+      dispatch(listUserByRoleReducer("property_owner"));
+      didInit = true;
+    }
+  }, []);
 
   return (
     <div className="mt-5 flex w-full flex-col">
@@ -29,8 +40,8 @@ export default function Owner({
             required
           >
             <option selected>Please select</option>
-            {ownerList &&
-              ownerList.map((owner, index) => {
+            {propertyOwnerList &&
+              propertyOwnerList.map((owner, index) => {
                 return (
                   <option key={index} value={JSON.stringify(owner)}>
                     {owner.fullName}

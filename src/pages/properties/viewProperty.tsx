@@ -145,15 +145,16 @@ const ViewProperty: FC = function () {
 
   useEffect(() => {
     if (selectedTower) {
-      const fo: any = [];
-      for (let i = 1; i <= parseInt(selectedTower.numFloors); i++) {
-        fo.push({
-          label: i,
-          value: i,
-        });
-      }
-
-      setNumFloors(fo);
+      const selTower: any =
+        projectTowers.length &&
+        projectTowers.find((t: TowerData) => t.id === selectedTower.id);
+      const floors = selTower.floorList.map((f) => {
+        return {
+          value: f.key,
+          label: f.value,
+        };
+      });
+      setNumFloors(floors);
     }
   }, [selectedTower]);
   const [formData, setFormData] = useState<Property>({

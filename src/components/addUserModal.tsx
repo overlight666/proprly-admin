@@ -54,7 +54,12 @@ const AddUserModal = function ({
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => addUserHandler(name, email, mobile)}>
+          <Button
+            onClick={() => {
+              addUserHandler(name, email, mobile);
+              setOpenModal(false);
+            }}
+          >
             Submit
           </Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
