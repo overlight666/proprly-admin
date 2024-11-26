@@ -90,7 +90,8 @@ export const DefectSubmissionModal = function (props: any) {
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
       defectSubStatus == "Defect Rejected by Admin" ||
-      defectSubStatus.toLowerCase() == "pending admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
@@ -190,7 +191,8 @@ export const DefectSubmissionModal = function (props: any) {
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
       defectSubStatus == "Defect Rejected by Admin" ||
-      defectSubStatus.toLowerCase() == "pending admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return (
         <svg
@@ -736,8 +738,9 @@ export const DefectSubmissionModal = function (props: any) {
                   {defect &&
                     defect.subStatus &&
                     (defect.subStatus == "Defect Rejected by Admin" ||
-                      defect.subStatus.toLowerCase() ==
-                        "pending admin feedback") && (
+                      (defect.subStatus &&
+                        defect.subStatus.toLowerCase() ==
+                          "pending admin feedback")) && (
                       <div className="flex gap-3">
                         <Button
                           color="primary"

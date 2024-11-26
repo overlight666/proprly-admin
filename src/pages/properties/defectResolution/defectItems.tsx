@@ -66,7 +66,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
       defectSubStatus == "Defect Rejected by Admin" ||
-      defectSubStatus.toLowerCase() == "pending admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
@@ -166,7 +167,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
       defectSubStatus == "Defect Rejected by Admin" ||
-      defectSubStatus.toLowerCase() == "pending admin feedback"
+      defectSubStatus == "Pending Admin feedback" ||
+      defectSubStatus == "Pending Admin Feedback"
     ) {
       return (
         <svg
