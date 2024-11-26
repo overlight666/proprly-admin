@@ -49,9 +49,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
     } else if (
       defectSubStatus == "Defect Logged" ||
-      defectSubStatus == "Pending Admin Feedback" ||
-      defectSubStatus == "Pending Admin Approval" ||
-      defectSubStatus == "Pending Admin feedback"
+      defectSubStatus == "Pending Admin Approval"
     ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
     } else if (
@@ -66,7 +64,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Rejected by Admin" ||
+      defectSubStatus.toLowerCase() == "pending admin feedback"
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
@@ -110,9 +109,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       );
     } else if (
       defectSubStatus == "Defect Logged" ||
-      defectSubStatus == "Pending Admin Feedback" ||
-      defectSubStatus == "Pending Admin Approval" ||
-      defectSubStatus == "Pending Admin feedback"
+      defectSubStatus == "Pending Admin Approval"
     ) {
       return (
         <svg
@@ -167,7 +164,8 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       defectSubStatus == "Warranty Issue" ||
       defectSubStatus == "Owner Defect" ||
       defectSubStatus == "Not a Defect" ||
-      defectSubStatus == "Defect Rejected by Admin"
+      defectSubStatus == "Defect Rejected by Admin" ||
+      defectSubStatus.toLowerCase() == "pending admin feedback"
     ) {
       return (
         <svg
