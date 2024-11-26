@@ -25,6 +25,7 @@ const initialState: AppState = {
   projectAuditors: [],
   projectSubContractor: [],
   projectStrata: [],
+  propertyOwnerList: [],
 };
 
 export const appSlice = createSlice({
@@ -105,6 +106,8 @@ export const appSlice = createSlice({
         state.projectSubContractor = users;
       } else if (action.payload.role === "project_strata") {
         state.projectStrata = users;
+      } else if (action.payload.role === "property_owner") {
+        state.propertyOwnerList = users;
       }
     });
     builder.addCase(listUserByRoleReducer.rejected, (state) => {

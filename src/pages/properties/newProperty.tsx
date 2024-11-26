@@ -331,7 +331,32 @@ const AddProperty: FC = function () {
     }
   };
 
-  const attachOwner = () => {};
+  const attachOwner = (owner) => {
+    const parsedOwner: any = JSON.parse(owner);
+    if (attachedOwner) {
+      if (
+        attachedOwner &&
+        !attachedOwner.find(
+          (owner: userInterface) => owner.email === parsedOwner.email
+        )
+      ) {
+        if (
+          attachedOwner &&
+          !attachedOwner.find(
+            (owner: userInterface) => owner.mobile === parsedOwner.mobile
+          )
+        ) {
+          setAttachedOwner((oldArray) => [JSON.parse(owner), ...oldArray]);
+        } else {
+          toast.warning("Mobile already used");
+        }
+      } else {
+        toast.warning("Email already exist");
+      }
+    } else {
+      setAttachedOwner((oldArray) => [JSON.parse(owner), ...oldArray]);
+    }
+  };
 
   const addOwner = (name, email, mobile) => {
     if (attachedOwner) {
