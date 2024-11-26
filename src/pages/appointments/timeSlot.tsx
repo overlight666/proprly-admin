@@ -223,6 +223,20 @@ const TimeSlots: FC = function () {
           </div>
         </div>
       </div>
+      <div className="my-10 flex">
+        <Button className="mx-1" color="primary">
+          Submit
+        </Button>
+        <Button
+          className="mx-1"
+          onClick={() => {
+            navigate(-1);
+          }}
+          color="gray"
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 };
