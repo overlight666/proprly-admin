@@ -271,7 +271,11 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="lotno"
                             name="lotno"
-                            value={defect?.property.lotNo}
+                            value={
+                              defect && defect.property
+                                ? defect.property.lotNo
+                                : ""
+                            }
                             placeholder="Enter lotno"
                             required
                           />
@@ -282,7 +286,11 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="unitNo"
                             name="unitNo"
-                            value={defect?.property.unitNo}
+                            value={
+                              defect && defect.property
+                                ? defect.property.unitNo
+                                : ""
+                            }
                             placeholder="Enter unitNo"
                             required
                           />
@@ -293,7 +301,11 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="zone"
                             name="zone"
-                            value={defect?.checklistZone.name}
+                            value={
+                              defect && defect.checklistZone
+                                ? defect.checklistZone.name
+                                : ""
+                            }
                             placeholder="Enter Zone"
                             required
                           />
@@ -304,7 +316,11 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="element"
                             name="element"
-                            value={defect?.checklistElement.name}
+                            value={
+                              defect && defect.checklistElement
+                                ? defect.checklistElement.name
+                                : ""
+                            }
                             placeholder="Enter element"
                             required
                           />
