@@ -426,8 +426,22 @@ export interface Property {
   externalArea: any;
   status: string;
   user?: userData[];
+  project?: Project;
+  projectTower?: TowerData;
+  warranty?: WarrantyInterface;
+  warrantyStatus?: string;
 }
 
+export interface WarrantyInterface {
+  id: number;
+  group: string;
+  organizationId: number;
+  projectId: number;
+  propertyId: number;
+  createdAt: string;
+  updatedAt: string;
+  files: ImageType[];
+}
 export interface TradeCode {
   id: number;
   tradeName: string;

@@ -115,8 +115,15 @@ const PropertyTable = function ({ properties }) {
                 </th>
                 <th className="px-6 py-4">{props.unitNo}</th>
                 <th className="px-6 py-4"></th>
-                <th className="px-6 py-4">{props.tower}</th>
-                <th className="px-6 py-4">{props.floor}</th>
+                <th className="px-6 py-4">
+                  {props.projectTower && props.projectTower.name}
+                </th>
+                <th className="px-6 py-4">
+                  {props.projectTower &&
+                    props.projectTower.floorList.find(
+                      (f) => f.key == props.floor
+                    )?.value}
+                </th>
                 <th className="px-6 py-4">
                   <div
                     className={`flex w-auto items-center justify-center rounded-md border border-transparent  px-2.5 py-0.5 text-sm  shadow-sm transition-all ${
@@ -128,7 +135,7 @@ const PropertyTable = function ({ properties }) {
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    Pending
+                    {props.warrantyStatus.toUpperCase()}
                   </div>
                 </th>
 
