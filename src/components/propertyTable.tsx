@@ -127,15 +127,15 @@ const PropertyTable = function ({ properties }) {
                 <th className="px-6 py-4">
                   <div
                     className={`flex w-auto items-center justify-center rounded-md border border-transparent  px-2.5 py-0.5 text-sm  shadow-sm transition-all ${
-                      props.status === "pending" ||
-                      props.status === "under_construction"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : props.status === "rejected"
+                      props.warrantyStatus == "pending" ||
+                      props.warrantyStatus == "under_construction"
+                        ? "bg-red-100 text-red-800"
+                        : props.warrantyStatus == "rejected"
                         ? "bg-red-100 text-red-800"
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {props.warrantyStatus.toUpperCase()}
+                    {props.warrantyStatus && props.warrantyStatus.toUpperCase()}
                   </div>
                 </th>
 

@@ -73,7 +73,7 @@ const ViewProperty: FC = function () {
           roleId: 6,
           id: property_id,
           password: "admin",
-          ...JSON.parse(value),
+          // ...JSON.parse(value),
         };
         dispatch(attachPropertyUserReducer(user));
         // setAttachedOwner((oldArray) => [JSON.parse(value), ...oldArray]);
@@ -396,7 +396,7 @@ const ViewProperty: FC = function () {
                     // menuPosition="fixed"
                     classNamePrefix="select"
                     options={options}
-                    isSearchable={true}
+                    // isSearchable={true}
                     defaultValue={options.find(
                       (s) => s.value === formData.status
                     )}
@@ -426,7 +426,7 @@ const ViewProperty: FC = function () {
                       // menuPosition="fixed"
                       classNamePrefix="select"
                       options={towerOptions}
-                      isSearchable={true}
+                      // isSearchable={true}
                       defaultValue={selectedTower}
                       onChange={(event) =>
                         handleInputChange({
@@ -451,7 +451,7 @@ const ViewProperty: FC = function () {
                       // menuPosition="fixed"
                       classNamePrefix="select"
                       options={numFloors}
-                      isSearchable={true}
+                      // isSearchable={true}
                       defaultValue={selectedFloor}
                       onChange={(event) =>
                         handleInputChange({
@@ -588,7 +588,7 @@ const ViewProperty: FC = function () {
                     // menuPosition="fixed"
                     classNamePrefix="select"
                     options={[]}
-                    isSearchable={false}
+                    // isSearchable={false}
                     id="split"
                     name="split"
                   />

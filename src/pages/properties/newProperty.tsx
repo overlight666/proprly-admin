@@ -473,7 +473,7 @@ const AddProperty: FC = function () {
                     // menuPosition="fixed"
                     classNamePrefix="select"
                     options={options}
-                    isSearchable={true}
+                    // isSearchable={true}
                     defaultValue={formData.status}
                     onChange={(event) =>
                       handleInputChange({
@@ -499,7 +499,7 @@ const AddProperty: FC = function () {
                     // menuPosition="fixed"
                     classNamePrefix="select"
                     options={towerOptions}
-                    isSearchable={true}
+                    // isSearchable={true}
                     defaultValue={formData.projectTowerId}
                     onChange={(event) =>
                       handleInputChange({
@@ -520,10 +520,10 @@ const AddProperty: FC = function () {
                   </Label>
                   <Select
                     // className="basic-single"
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={numFloors}
-                    isSearchable={true}
+                    // isSearchable={true}
                     defaultValue={formData.floor}
                     onChange={(event) =>
                       handleInputChange({
@@ -656,10 +656,10 @@ const AddProperty: FC = function () {
                   <Label htmlFor="name">Split Level Property</Label>
                   <Select
                     isDisabled={true}
-                    menuPosition="fixed"
+                    // menuPosition="fixed"
                     classNamePrefix="select"
                     options={[]}
-                    isSearchable={false}
+                    // isSearchable={false}
                     id="split"
                     name="split"
                   />

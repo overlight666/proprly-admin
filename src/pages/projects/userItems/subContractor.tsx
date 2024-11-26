@@ -124,7 +124,7 @@ export default function SubContractor() {
       <div className="flex w-full flex-row items-end gap-2">
         <div className="w-[40%]">
           <div className="mb-2 block">
-            <Label htmlFor="project_admins" value="Project Admin List" />
+            <Label htmlFor="project_admins" value="Sub-Contractor List" />
           </div>
           <Select
             id="project_admins"
