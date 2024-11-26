@@ -70,7 +70,8 @@ const TimeSlots: FC = function () {
 
   const [timeSlotStart, setTimeSlotStart] = useState("09:00");
   const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
-  const [slotSelected, setSlotSelected] = useState("");
+  const [slotSelected, setSlotSelected] = useState("1hour");
+  const [slots, setSlots] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errors, setErrors] = useState<any>([]);
@@ -82,6 +83,51 @@ const TimeSlots: FC = function () {
     { value: "thursday", label: "Thursday" },
     { value: "friday", label: "Friday" },
   ];
+
+  useEffect(() => {
+    if (slotSelected === "1hour") {
+      const newSlots = [
+        "9:00AM - 10:00AM",
+        "10:00AM - 11:00AM",
+        "11:00AM - 12:00PM",
+        "12:00PM - 1:00PM",
+        "1:00PM - 2:00PM",
+        "3:00PM - 4:00PM",
+        "4:00PM - 5:00PM",
+      ];
+      setSlots(newSlots);
+    }
+    if (slotSelected === "2hours") {
+      const newSlots = [
+        "9:00AM - 11:00AM",
+        "11:00AM - 1:00PM",
+        "1:00PM - 3:00PM",
+        "3:00PM - 5:00PM",
+      ];
+      setSlots(newSlots);
+    }
+    if (slotSelected === "30mins") {
+      const newSlots = [
+        "9:00AM - 9:30AM",
+        "9:30AM - 10:00AM",
+        "10:00AM - 10:30AM",
+        "10:30AM - 11:00AM",
+        "11:00AM - 11:30PM",
+        "11:30AM - 12:00PM",
+        "12:00PM - 12:30PM",
+        "12:30PM - 1:00PM",
+        "1:00PM - 1:30PM",
+        "1:30PM - 2:00PM",
+        "2:00PM - 2:30PM",
+        "2:30PM - 3:00PM",
+        "3:00PM - 3:30PM",
+        "3:30PM - 4:00PM",
+        "4:00PM - 4:30PM",
+        "4:30PM - 5:00PM",
+      ];
+      setSlots(newSlots);
+    }
+  }, [slotSelected]);
 
   return (
     <div className="w-full flex-col gap-2">
@@ -188,7 +234,7 @@ const TimeSlots: FC = function () {
             <option value="" selected>
               Please Select
             </option>
-            <option value="30mins">3 Mins</option>
+            <option value="30mins">30 Mins</option>
             <option value="1hour">1 Hour</option>
             <option value="2hours">2 Hours</option>
           </select>
@@ -197,30 +243,17 @@ const TimeSlots: FC = function () {
       <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
         <Label htmlFor="timeslot">Available Time</Label>
         <div className="flex flex-wrap gap-4">
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">9:00AM - 10:00AM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">10:00AM - 11:00AM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">11:00AM - 12:00PM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">12:00PM - 1:00PM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">1:00PM - 2:00PM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">2:00PM - 3:00PM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">3:00PM - 4:00PM</span>
-          </div>
-          <div className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400">
-            <span className="text-[14px]">4:00PM - 5:00PM</span>
-          </div>
+          {slots &&
+            slots.map((sl, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
+                >
+                  <span className="text-[14px]">{sl}</span>
+                </div>
+              );
+            })}
         </div>
       </div>
       <div className="my-10 flex">
