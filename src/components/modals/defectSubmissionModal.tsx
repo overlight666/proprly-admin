@@ -400,7 +400,7 @@ export const DefectSubmissionModal = function (props: any) {
                                         setShowImage(true);
                                       }}
                                       src={img.url}
-                                      className="h-40 w-40 object-scale-down object-center"
+                                      className="h-40 w-40 cursor-pointer object-scale-down object-center"
                                     />
                                   </div>
                                 );
