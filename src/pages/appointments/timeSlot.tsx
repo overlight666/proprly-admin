@@ -69,7 +69,7 @@ const TimeSlots: FC = function () {
   );
 
   const [timeSlotStart, setTimeSlotStart] = useState("09:00");
-  const [timeSlotEnd, setTimeSlotEnd] = useState("18:00");
+  const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
   const [slotSelected, setSlotSelected] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -188,9 +188,9 @@ const TimeSlots: FC = function () {
             <option value="" selected>
               Please Select
             </option>
+            <option value="30mins">3 Mins</option>
             <option value="1hour">1 Hour</option>
             <option value="2hours">2 Hours</option>
-            <option value="3hours">3 Hours</option>
           </select>
         </div>
       </div>
