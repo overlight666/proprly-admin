@@ -22,7 +22,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { updateAppointmentTab } from "../../store/features/appSlice";
 
 import { getProperties } from "../../store/features/reducers";
-import DefectHeader from "../../components/defectHeader";
 
 import { format, subHours, startOfMonth } from "date-fns";
 import {
@@ -36,6 +35,7 @@ import type { EventType } from "react-hook-form";
 import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
 import AppointmentHeader from "../../components/appointmentHeader";
 import { BookAppointmentModal } from "../../components/modals/bookAppointmentModal";
+import TimeSlots from "./timeSlot";
 
 const Appointments: FC = function () {
   const [currentMonth, setCurrentMonth] = useState<Date>(
@@ -84,7 +84,9 @@ const Appointments: FC = function () {
             </Breadcrumb.Item>
           </Breadcrumb>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            {selectedProject?.name}
+            {appointmentTab === 2
+              ? "Manage Time-Slots for Appointments"
+              : "Manage"}
           </h1>
         </div>
 
@@ -145,10 +147,12 @@ const Appointments: FC = function () {
             </li>
           </ul>
         </div>
-        <AppointmentHeader setOpen={setOpen} />
+
         <>
           {appointmentTab === 1 && (
             <div className="flex w-full flex-col  !bg-transparent">
+              <AppointmentHeader setOpen={setOpen} />
+              <br />
               <MonthlyCalendar
                 currentMonth={currentMonth}
                 onCurrentMonthChange={(date) => setCurrentMonth(date)}
@@ -179,7 +183,7 @@ const Appointments: FC = function () {
           )}
           {appointmentTab === 2 && (
             <div className="flex w-full flex-col  !bg-transparent">
-              <DefectHeader />
+              <TimeSlots />
             </div>
           )}
         </>
