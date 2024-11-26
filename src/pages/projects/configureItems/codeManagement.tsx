@@ -21,27 +21,34 @@ export default function DefectCodeManagement({ project_id }: any) {
 
   useEffect(() => {
     try {
-      // if (document.getElementById("defect-code-table") && !didInit) {
-      // if (defectCodeList && defectCodeList.length > 0) {
-      if (!DataTable.isDataTable("#defect-code-table") && !didInit) {
-        new DataTable("#defect-code-table", {
-          paging: true,
-          searching: false,
-          layout: {
-            topStart: null,
-            topEnd: null,
-            bottomStart: {
-              pageLength: {
-                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+      if (
+        document.readyState === "complete" &&
+        document.getElementById("defect-code-table") &&
+        !didInit
+      ) {
+        // if (defectCodeList && defectCodeList.length > 0) {
+        if (!DataTable.isDataTable("#defect-code-table") && !didInit) {
+          setTimeout(() => {
+            new DataTable("#defect-code-table", {
+              paging: true,
+              searching: false,
+              layout: {
+                topStart: null,
+                topEnd: null,
+                bottomStart: {
+                  pageLength: {
+                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+                  },
+                },
+                bottomEnd: "paging",
               },
-            },
-            bottomEnd: "paging",
-          },
-        });
-        didInit = true;
+            });
+          }, 1000);
+
+          didInit = true;
+        }
+        // }
       }
-      // }
-      // }
     } catch (error) {
       console.log(error);
     }

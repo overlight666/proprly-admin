@@ -18,27 +18,34 @@ export default function TradeMapping({ project_id }: any) {
   let didInit = false;
   useEffect(() => {
     try {
-      // if (document.getElementById("trade-code-table") && !didInit) {
-      // if (tradeCodeList && tradeCodeList.length > 0) {
-      if (!DataTable.isDataTable("#trade-code-table") && !didInit) {
-        new DataTable("#trade-code-table", {
-          paging: true,
-          searching: false,
-          layout: {
-            topStart: null,
-            topEnd: null,
-            bottomStart: {
-              pageLength: {
-                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+      if (
+        document.readyState === "complete" &&
+        document.getElementById("trade-code-table") &&
+        !didInit
+      ) {
+        // if (tradeCodeList && tradeCodeList.length > 0) {
+        if (!DataTable.isDataTable("#trade-code-table") && !didInit) {
+          setTimeout(() => {
+            new DataTable("#trade-code-table", {
+              paging: true,
+              searching: false,
+              layout: {
+                topStart: null,
+                topEnd: null,
+                bottomStart: {
+                  pageLength: {
+                    text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+                  },
+                },
+                bottomEnd: "paging",
               },
-            },
-            bottomEnd: "paging",
-          },
-        });
-        didInit = true;
+            });
+          }, 1000);
+
+          didInit = true;
+        }
+        // }
       }
-      // }
-      // }
     } catch (error) {
       console.log(error);
     }
