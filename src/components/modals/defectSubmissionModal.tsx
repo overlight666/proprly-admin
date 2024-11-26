@@ -308,7 +308,7 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="defectcode"
                             name="defectcode"
-                            value={defect?.defectCode.defectCode}
+                            value={`${defect?.defectCode.defectCode}, ${defect?.defectCode.defectName}`}
                             placeholder="Enter defectcode"
                             required
                           />
