@@ -38,7 +38,12 @@ export default function ConfigureAccordionUser() {
         </Accordion.Panel>
       </Accordion>
       <div className="my-5 flex flex-row gap-5">
-        <Button className="w-[200px]">
+        <Button
+          className="w-[200px]"
+          onClick={() => {
+            dispatch(updateProjectTabMain(0));
+          }}
+        >
           <div className="flex items-center gap-x-2 text-xs">Submit</div>
         </Button>
         <Button

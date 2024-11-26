@@ -230,6 +230,17 @@ const ProjectSingle: FC = function () {
   }, [unitNo, line1, line2, line3]);
 
   useEffect(() => {
+    if (selectedProject?.address) {
+      const ad = selectedProject.address.split(",");
+      setUnitNo(ad[0]?.trim());
+      setLine1(ad[1]?.trim());
+      setLine2(ad[2]?.trim());
+      setLine3(ad[3]?.trim());
+      setFirstLoad(false);
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
     if (formData.address && firstLoad) {
       const ad = formData.address.split(",");
       setUnitNo(ad[0]?.trim());

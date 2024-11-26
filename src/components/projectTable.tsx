@@ -59,7 +59,7 @@ const ProjectTable = function ({ towers }: any) {
           </tr>
         </thead>
         <tbody>
-          {towers &&
+          {(towers &&
             towers.length &&
             towers.map((t, index) => {
               return (
@@ -90,7 +90,15 @@ const ProjectTable = function ({ towers }: any) {
                   </td>
                 </tr>
               );
-            })}
+            })) || (
+            <tr>
+              <td colSpan={3}>
+                <div className="flex w-full items-center justify-center py-5">
+                  No data found
+                </div>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {/* </div> */}

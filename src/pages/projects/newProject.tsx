@@ -39,6 +39,7 @@ import {
   getTowersReducer,
   uploadDocument,
   getProjects,
+  getSingleProject,
 } from "../../store/features/reducers";
 import ProjectTable from "../../components/projectTable";
 import {
@@ -210,8 +211,12 @@ const ProjectNewPage: FC = function () {
       if (projectResponse && projectResponse.id) {
         dispatch(updateProjectTab(2));
         dispatch(clearTrigger());
-        navigate(`/organization/${id}/project/${projectResponse.id}`);
         dispatch(getProjects(id));
+        dispatch(getSingleProject(projectResponse.id));
+        toast.info(`Organization ${projectResponse.name} has been added`);
+        setTimeout(() => {
+          navigate(`/organization/${id}/project/${projectResponse.id}`);
+        }, 1000);
       }
     }
   }, [projectTrigger]);
