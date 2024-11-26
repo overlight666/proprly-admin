@@ -702,9 +702,9 @@ export const DefectSubmissionModal = function (props: any) {
                     )}
                   {defect &&
                     defect.subStatus &&
-                    defect.subStatus == "Defect Rejected by Admin" &&
-                    defect.subStatus.toLowerCase() ==
-                      "pending admin feedback" && (
+                    (defect.subStatus == "Defect Rejected by Admin" ||
+                      defect.subStatus.toLowerCase() ==
+                        "pending admin feedback") && (
                       <div className="flex gap-3">
                         <Button
                           color="primary"
