@@ -49,7 +49,8 @@
     "redux-persist": "^6.0.0",
     "simple-datatables": "^9.1.0",
     "sortablejs": "^1.15.0",
-    "svgmap": "^2.10.1"
+    "svgmap": "^2.10.1",
+    "yet-another-react-lightbox": "^3.21.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.17",

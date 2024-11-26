@@ -8,6 +8,7 @@
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { getDefectResolutionByIdReducer } from "../../../store/features/reducers";
+import { Tooltip } from "flowbite-react";
 import type { DefectSumissionType } from "../../../types";
 import defaultImg from "../../../../public/images/default.jpg";
 interface paramstype {
@@ -192,6 +193,12 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       );
     }
   };
+
+  const truncateString = (string = "", maxLength = 25) =>
+    string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
+
+  const getLength = (str) => str.length;
+
   return (
     <div
       className="my-2 flex w-full flex-col p-5 shadow-xl"
@@ -234,7 +241,22 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         <span className="text-[14px] text-gray-400">
           Defect Code:{" "}
           <span className="font-semibold text-black">
-            {`${def.defectCode.defectCode}, ${def.defectCode.defectName}`}
+            {(getLength(
+              `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+            ) > 25 && (
+              <div className="inline-block">
+                <Tooltip
+                  content={`${def.defectCode.defectCode}, ${def.defectCode.defectName}`}
+                >
+                  {truncateString(
+                    `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+                  )}
+                </Tooltip>
+              </div>
+            )) ||
+              truncateString(
+                `${def.defectCode.defectCode}, ${def.defectCode.defectName}`
+              )}
           </span>
         </span>
         <span className="text-[14px] text-gray-400">

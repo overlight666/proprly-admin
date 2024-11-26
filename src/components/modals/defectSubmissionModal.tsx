@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -19,6 +20,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useState } from "react";
 import moment from "moment";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 export const DefectSubmissionModal = function (props: any) {
   const {
@@ -33,6 +36,8 @@ export const DefectSubmissionModal = function (props: any) {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(false);
   const [showCard3, setShowCard3] = useState(false);
+  const [showImage, setShowImage] = useState(false);
+  const [modalImageUrl, setModalImageUrl] = useState("");
   const { config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -302,28 +307,7 @@ export const DefectSubmissionModal = function (props: any) {
                             required
                           />
                         </div>
-                        <div className="flex flex-col ">
-                          <Label htmlFor="defectcode">Defect Code</Label>
-                          <TextInput
-                            disabled={true}
-                            id="defectcode"
-                            name="defectcode"
-                            value={`${defect?.defectCode.defectCode}, ${defect?.defectCode.defectName}`}
-                            placeholder="Enter defectcode"
-                            required
-                          />
-                        </div>
-                        <div className="flex flex-col ">
-                          <Label htmlFor="comment">Comment</Label>
-                          <TextInput
-                            disabled={true}
-                            id="comment"
-                            name="comment"
-                            value={defect?.comment}
-                            placeholder="N/A"
-                            required
-                          />
-                        </div>
+
                         <div className="flex flex-col ">
                           <Label htmlFor="logged">Logged By</Label>
                           <TextInput
@@ -355,7 +339,51 @@ export const DefectSubmissionModal = function (props: any) {
                             required
                           />
                         </div>
+                        {/* <div className="flex flex-col ">
+                          <Label htmlFor="defectcode">Defect Code</Label>
+                          <TextInput
+                            disabled={true}
+                            id="defectcode"
+                            name="defectcode"
+                            value={`${defect?.defectCode.defectCode}, ${defect?.defectCode.defectName}`}
+                            placeholder="Enter defectcode"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="comment">Comment</Label>
+                          <TextInput
+                            disabled={true}
+                            id="comment"
+                            name="comment"
+                            value={defect?.comment}
+                            placeholder="N/A"
+                            required
+                          />
+                        </div> */}
+                        <div className="col-span-3 row-start-3 flex w-full flex-col">
+                          <Label htmlFor="defectcode">Defect Code</Label>
+                          <textarea
+                            disabled
+                            id="defectcode"
+                            rows={4}
+                            value={`${defect?.defectCode.defectCode}, ${defect?.defectCode.defectName}`}
+                            className="block w-full resize-none border-0 bg-gray-100 p-2 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                            placeholder="defect code"
+                          ></textarea>
+                        </div>
                         <div className="col-span-3 row-start-4 flex w-full flex-col">
+                          <Label htmlFor="defectcode">Comment</Label>
+                          <textarea
+                            disabled
+                            id="comment"
+                            rows={4}
+                            value={defect?.comment}
+                            className="block w-full resize-none border-0 bg-gray-100 p-2 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                            placeholder="comment"
+                          ></textarea>
+                        </div>
+                        <div className="col-span-3 row-start-5 flex w-full flex-col">
                           <Label htmlFor="date">Defect Evidence</Label>
                           <div className="flex w-full items-center gap-2 bg-gray-100 ">
                             {defect?.images &&
@@ -366,6 +394,11 @@ export const DefectSubmissionModal = function (props: any) {
                                     className="h-full min-w-[25%] max-w-[25%] p-3"
                                   >
                                     <img
+                                      onClick={() => {
+                                        // setOpen(false);
+                                        setModalImageUrl(img.url);
+                                        setShowImage(true);
+                                      }}
                                       src={img.url}
                                       className="h-40 w-40 object-scale-down object-center"
                                     />
@@ -740,6 +773,15 @@ export const DefectSubmissionModal = function (props: any) {
           )}
         </Modal.Body>
       </Modal>
+      <Lightbox
+        close={() => setShowImage(false)}
+        open={showImage}
+        slides={[
+          {
+            src: modalImageUrl,
+          },
+        ]}
+      />
     </>
   );
 };
