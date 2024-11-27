@@ -53,17 +53,10 @@ const PropertyReportTable = function ({ headerValue }: any) {
   useEffect(() => {
     setReports([]);
     if (propertyReports) {
-      if (headerValue === "general") {
-        propertyReports &&
-          propertyReports.map((o) => {
-            if (o.reports.length > 0) {
-              setReports((prevArray) => [...prevArray, ...o.reports]);
-            }
-          });
-      } else {
-        const rep = propertyReports.find((o) => o.key == headerValue);
-        setReports(rep && rep.reports ? rep.reports : []);
-      }
+      const rep =
+        propertyReports && propertyReports.find((o) => o.key == headerValue);
+      setReports(rep && rep.reports ? rep.reports : []);
+
       setTimeout(() => {
         setIsInit(true);
       }, 1000);
