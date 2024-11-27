@@ -668,3 +668,14 @@ export const updateTimeSlots = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getPropertyReports = async (id: any) => {
+  return api
+    .get(`project/${id}/property_reports`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

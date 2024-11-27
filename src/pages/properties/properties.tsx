@@ -49,6 +49,7 @@ const Properties: FC = function () {
   );
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
+  const [headerValue, setHeaderValue] = useState("general");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uploadProperty = () => {
@@ -238,8 +239,8 @@ const Properties: FC = function () {
             )}
             {propertyTab === 3 && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <PropertyReportHeader />
-                <PropertyReportTable />
+                <PropertyReportHeader setHeaderValue={setHeaderValue} />
+                <PropertyReportTable headerValue={headerValue} />
               </div>
             )}
           </>

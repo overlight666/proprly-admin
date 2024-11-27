@@ -10,6 +10,7 @@ import {
   getAllDefectResolutionReducer,
   getDefectResolutionByIdReducer,
   getProperties,
+  getPropertyReportsReducer,
   getSingleProperty,
   patchProperty,
   registerProperty,
@@ -29,6 +30,7 @@ const initialState: PropertyState = {
   defect: undefined,
   feedbackResponse: undefined,
   appointmentResponse: undefined,
+  propertyReports: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -191,6 +193,19 @@ export const propertySlice = createSlice({
     builder.addCase(bookAppointmentReducer.rejected, (state) => {
       // state.loadingDefect = false;
       state.appointmentResponse = undefined;
+    });
+    //property reports
+    builder.addCase(getPropertyReportsReducer.pending, (state) => {
+      state.propertyReports = undefined;
+    });
+    builder.addCase(getPropertyReportsReducer.fulfilled, (state, action) => {
+      state.propertyReports =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getPropertyReportsReducer.rejected, (state) => {
+      state.propertyReports = undefined;
     });
   },
 });

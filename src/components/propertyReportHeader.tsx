@@ -3,7 +3,7 @@
 
 import { Label, Radio } from "flowbite-react";
 
-const PropertyReportHeader = function () {
+const PropertyReportHeader = function ({ setHeaderValue }: any) {
   return (
     <>
       <div className="my-5 grid w-full grid-cols-9 gap-2 px-5">
@@ -27,30 +27,46 @@ const PropertyReportHeader = function () {
         <span className="text-[14px]">Inspection Type:</span>
         <div className="flex items-center gap-2">
           <Radio
-            id="united-state"
-            name="countries"
-            value="USA"
+            id="general"
+            name="propertyHeader"
+            value="general"
             defaultChecked
+            onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="united-state" className="text-[14px]">
+          <Label htmlFor="general" className="text-[14px]">
             General
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="germany" name="countries" value="Germany" />
-          <Label htmlFor="germany" className="text-[14px]">
+          <Radio
+            id="pre_settlement"
+            name="propertyHeader"
+            value="pre_settlement"
+            onChange={(e) => setHeaderValue(e.target.value)}
+          />
+          <Label htmlFor="pre_settlement" className="text-[14px]">
             Pre-Settlement
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain" className="text-[14px]">
+          <Radio
+            id="handover"
+            name="propertyHeader"
+            value="handover"
+            onChange={(e) => setHeaderValue(e.target.value)}
+          />
+          <Label htmlFor="handover" className="text-[14px]">
             Handover
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain" className="text-[14px]">
+          <Radio
+            id="post_handover"
+            name="propertyHeader"
+            value="post_handover"
+            onChange={(e) => setHeaderValue(e.target.value)}
+          />
+          <Label htmlFor="post_handover" className="text-[14px]">
             Post-Handover
           </Label>
         </div>

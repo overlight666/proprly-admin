@@ -470,6 +470,25 @@ export interface PropertyState {
   defect: DefectSumissionType | undefined;
   feedbackResponse: undefined | any;
   appointmentResponse: undefined | any;
+  propertyReports: PropertyReport[] | undefined;
+}
+
+export interface PropertyReport {
+  key: string;
+  value: string;
+  nextStatus: any[];
+  reports: Report[];
+}
+
+export interface Report {
+  propertyId: number;
+  propertyStatus: string;
+  inspectionId: number;
+  reportUrl: string;
+  reportStage: string;
+  lotNo: string;
+  unitNo: string;
+  owners: userData[];
 }
 
 export interface DefectSumissionType {

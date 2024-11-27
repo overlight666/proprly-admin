@@ -30,6 +30,7 @@ import {
   getOneProject,
   getprojects,
   getProperty,
+  getPropertyReports,
   getRegions,
   getTimeSlotByProject,
   getTowers,
@@ -715,6 +716,19 @@ export const updateTimeSlotsReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await updateTimeSlots(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getPropertyReportsReducer: any = createAsyncThunk(
+  "getPropertyReportsReducer",
+  async (id: any) => {
+    try {
+      const response = await getPropertyReports(id);
       // If you want to get something back
       return response;
     } catch (err) {

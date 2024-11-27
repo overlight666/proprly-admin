@@ -696,6 +696,11 @@ export const DefectSubmissionModal = function (props: any) {
                                           //     className="h-[50px] min-w-[25%] max-w-[25%] p-3"
                                           //   >
                                           <img
+                                            onClick={() => {
+                                              // setOpen(false);
+                                              setModalImageUrl(img.url);
+                                              setShowImage(true);
+                                            }}
                                             key={index}
                                             src={img.url}
                                             className="h-20 w-20 object-scale-down object-center"

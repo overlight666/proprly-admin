@@ -5,17 +5,27 @@
 // import type { ProjectState } from "../types";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "datatables.net-dt";
-const PropertyReportTable = function () {
-  // const { projectTowers, gettingTowers }: ProjectState = useSelector(
-  //   (state: any) => state.project
-  // );
-  // let isInit = false;
+import { useDispatch, useSelector } from "react-redux";
+import { getPropertyReportsReducer } from "../store/features/reducers";
+import { useParams } from "react-router";
+import type { Report } from "../types";
+import { type PropertyState } from "../types";
+import { Button } from "flowbite-react";
+import { BsThreeDots } from "react-icons/bs";
+const PropertyReportTable = function ({ headerValue }: any) {
+  const { project_id }: any = useParams();
+  const { propertyReports }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
+  const [reports, setReports] = useState<any[]>([]);
+  const [isInit, setIsInit] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     try {
-      // if (!isInit) {
-      if (!DataTable.isDataTable("#property-report-table")) {
+      if (!DataTable.isDataTable("#property-report-table") && isInit) {
         new DataTable("#property-report-table", {
           paging: true,
           searching: false,
@@ -31,36 +41,87 @@ const PropertyReportTable = function () {
           },
         });
       }
-
-      //   isInit = true;
-      // }
     } catch (error) {
       console.log(error);
     }
+  }, [isInit]);
+
+  useEffect(() => {
+    dispatch(getPropertyReportsReducer(project_id));
   }, []);
+
+  useEffect(() => {
+    setReports([]);
+    if (propertyReports) {
+      if (headerValue === "general") {
+        propertyReports &&
+          propertyReports.map((o) => {
+            if (o.reports.length > 0) {
+              setReports((prevArray) => [...prevArray, ...o.reports]);
+            }
+          });
+      } else {
+        const rep = propertyReports.find((o) => o.key == headerValue);
+        setReports(rep && rep.reports ? rep.reports : []);
+      }
+      setTimeout(() => {
+        setIsInit(true);
+      }, 1000);
+    }
+  }, [propertyReports, headerValue]);
 
   return (
     <>
-      <table
-        id="property-report-table"
-        className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
-      >
-        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="w-[40%] px-6 py-3">
-              LOT NO.
-            </th>
-            <th scope="col" className="w-[40%] px-6 py-3">
-              UNIT NO.
-            </th>
-            <th scope="col" className="w-[40%] px-6 py-3">
-              OWNER NAME
-            </th>
-            <th scope="col" className="px-6 py-3"></th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      {isInit && (
+        <table
+          id="property-report-table"
+          className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
+        >
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="w-[40%] px-6 py-3">
+                LOT NO.
+              </th>
+              <th scope="col" className="w-[40%] px-6 py-3">
+                UNIT NO.
+              </th>
+              <th scope="col" className="w-[40%] px-6 py-3">
+                OWNER NAME
+              </th>
+              <th scope="col" className="px-6 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {reports &&
+              reports.length > 0 &&
+              reports.map((r: Report, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                  >
+                    <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
+                      {r.lotNo}
+                    </td>
+                    <td className="px-6 py-4">{r.unitNo}</td>
+                    <td className="px-6 py-4">
+                      {r.owners &&
+                        r.owners.length > 0 &&
+                        r.owners.map((o) => o.fullName).join(", ")}
+                    </td>
+                    <td className="px-6 py-4">
+                      <Button color="gray" className="w-[50px]">
+                        <div className="flex items-center gap-x-2 text-xs">
+                          <BsThreeDots />
+                        </div>
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      )}
       {/* </div> */}
     </>
   );
