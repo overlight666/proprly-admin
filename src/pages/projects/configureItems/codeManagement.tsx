@@ -91,7 +91,11 @@ export default function DefectCodeManagement({ project_id }: any) {
             </div>
           </div>
         </form>
-        <Button className="mx-2 w-[200px]" onClick={() => setOpen(true)}>
+        <Button
+          className="mx-2 w-[200px]"
+          onClick={() => setOpen(true)}
+          disabled={true}
+        >
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Add New Defect Code

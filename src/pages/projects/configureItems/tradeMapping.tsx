@@ -98,7 +98,11 @@ export default function TradeMapping({ project_id }: any) {
             </div>
           </Button>
         </div>
-        <Button className="mx-2 w-[200px]" onClick={() => setOpen(true)}>
+        <Button
+          className="mx-2 w-[200px]"
+          onClick={() => setOpen(true)}
+          disabled={true}
+        >
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
             Add New Trade

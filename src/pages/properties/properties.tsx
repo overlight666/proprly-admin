@@ -189,7 +189,7 @@ const Properties: FC = function () {
             </li>
           </ul>
         </div>
-        {(propertyTab === 1 && !propertyData) ||
+        {/* {(propertyTab === 1 && !propertyData) ||
           (propertyData && propertyData.length === 0 && (
             <div className="col-span-full p-5">
               <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
@@ -200,40 +200,41 @@ const Properties: FC = function () {
                 />
               </div>
             </div>
-          ))}
-        {!propertyData || (propertyData && propertyData.length === 0) ? (
-          <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
-            <span className="text-gray-600">
-              <b>Congratulations</b> on configuring your first project!! You can
-              now add properties and common areas to the project
-            </span>
-            <div className="mt-7 flex ">
-              <Button
-                onClick={() => {
-                  setOpenModal(true);
-                }}
-                className="mx-1 w-[200px]"
-              >
-                <div className="flex items-center gap-x-2 text-xs">
-                  <BsSliders2Vertical />
-                  Add Properties
-                </div>
-              </Button>
-              <Button
-                onClick={() => {
-                  dispatch(updatePropertyTab(3));
-                }}
-                className=" mx-1 w-[200px]"
-                color="gray"
-              >
-                <div className="flex items-center gap-x-2 text-xs text-[blue]">
-                  <BsSliders2Vertical />
-                  Add Common Areas
-                </div>
-              </Button>
-            </div>
-          </div>
+          ))} */}
+        {!propertyData ? (
+          <></>
         ) : (
+          // <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
+          //   <span className="text-gray-600">
+          //     <b>Congratulations</b> on configuring your first project!! You can
+          //     now add properties and common areas to the project
+          //   </span>
+          //   <div className="mt-7 flex ">
+          //     <Button
+          //       onClick={() => {
+          //         setOpenModal(true);
+          //       }}
+          //       className="mx-1 w-[200px]"
+          //     >
+          //       <div className="flex items-center gap-x-2 text-xs">
+          //         <BsSliders2Vertical />
+          //         Add Properties
+          //       </div>
+          //     </Button>
+          //     <Button
+          //       onClick={() => {
+          //         dispatch(updatePropertyTab(3));
+          //       }}
+          //       className=" mx-1 w-[200px]"
+          //       color="gray"
+          //     >
+          //       <div className="flex items-center gap-x-2 text-xs text-[blue]">
+          //         <BsSliders2Vertical />
+          //         Add Common Areas
+          //       </div>
+          //     </Button>
+          //   </div>
+          // </div>
           <>
             {propertyTab === 1 && (
               <div className="flex w-full flex-col  !bg-transparent">
