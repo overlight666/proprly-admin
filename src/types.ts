@@ -387,7 +387,7 @@ export interface DefectCodeItem {
   id: number;
 }
 export interface PropertyState {
-  propertyData: Property | undefined;
+  propertyData: Property[] | undefined;
   isIdle: boolean;
   propertyResponse: Project | undefined;
   selectedProperty: Property | undefined;

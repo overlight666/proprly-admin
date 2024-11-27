@@ -189,6 +189,11 @@ const ViewProperty: FC = function () {
   const [showCard4, setShowCard4] = useState(true);
   // const [showCard5, setShowCard5] = useState(true);
 
+  useEffect(() => {
+    if (formData.user && formData.user.length > 0) {
+      setOwnerList((oldArray) => [formData.user, ...oldArray]);
+    }
+  }, [formData]);
   const handleInputChange = (event: any) => {
     try {
       const { name, value } = event.target;

@@ -26,7 +26,6 @@ export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
     }
   }, []);
 
-  console.log(propertyOwnerList);
   return (
     <div className="mt-5 flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">

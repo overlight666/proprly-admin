@@ -21,7 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePropertyTab } from "../../store/features/appSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getProperties } from "../../store/features/reducers";
 import PropertyTable from "../../components/propertyTable";
 import PropertyHeader from "../../components/propertyHeader";
@@ -30,6 +30,7 @@ import DefectResolution from "./defectResolution/defectResolution";
 import { MdBugReport } from "react-icons/md";
 
 const Properties: FC = function () {
+  const { project_id }: any = useParams();
   let didInit = false;
   const { propertyData }: PropertyState = useSelector(
     (state: any) => state.property
@@ -50,13 +51,13 @@ const Properties: FC = function () {
   const uploadProperty = () => {
     if (uploadType === "single") {
       navigate(
-        `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties/new`
+        `/organization/${selectedOrganization?.id}/project/${project_id}/properties/new`
       );
     }
   };
   useEffect(() => {
     if (!didInit) {
-      dispatch(getProperties(selectedProject?.id));
+      dispatch(getProperties(project_id));
       didInit = true;
     }
   }, []);
@@ -166,18 +167,19 @@ const Properties: FC = function () {
             </li>
           </ul>
         </div>
-        {propertyTab === 1 && !propertyData && (
-          <div className="col-span-full p-5">
-            <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
-              <img
-                className="h-[200px] w-full object-fill"
-                src={`${selectedOrganization?.image.url}`}
-                alt=""
-              />
+        {(propertyTab === 1 && !propertyData) ||
+          (propertyData && propertyData.length === 0 && (
+            <div className="col-span-full p-5">
+              <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
+                <img
+                  className="h-[200px] w-full object-fill"
+                  src={`${selectedOrganization?.image.url}`}
+                  alt=""
+                />
+              </div>
             </div>
-          </div>
-        )}
-        {!propertyData ? (
+          ))}
+        {!propertyData || (propertyData && propertyData.length === 0) ? (
           <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
             <span className="text-gray-600">
               <b>Congratulations</b> on configuring your first project!! You can
