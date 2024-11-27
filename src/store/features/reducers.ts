@@ -28,6 +28,7 @@ import {
   getDefectResolutionById,
   getOneOrganization,
   getOneProject,
+  getProjectAppointments,
   getprojects,
   getProperty,
   getPropertyReports,
@@ -729,6 +730,19 @@ export const getPropertyReportsReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getPropertyReports(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getProjectAppointmentsReducer: any = createAsyncThunk(
+  "getProjectAppointmentsReducer",
+  async (id: any) => {
+    try {
+      const response = await getProjectAppointments(id);
       // If you want to get something back
       return response;
     } catch (err) {

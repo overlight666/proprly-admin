@@ -341,6 +341,7 @@ export interface ProjectState {
   commonAreaArray: commonAreaItemType[] | undefined;
   commonAreaConfig: commonAreaItemType | undefined;
   reloadAreaTable: boolean;
+  projectAppointments: any[] | undefined;
 }
 
 export interface commonAreaItemType {

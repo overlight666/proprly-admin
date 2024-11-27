@@ -16,6 +16,7 @@ import {
   getCommonAreaByProjectReducer,
   getCommonAreaReducer,
   getDefectCodeListByProject,
+  getProjectAppointmentsReducer,
   getProjects,
   getSingleProject,
   getTowersReducer,
@@ -83,6 +84,7 @@ const initialState: ProjectState = {
   commonAreaArray: undefined,
   commonAreaConfig: undefined,
   reloadAreaTable: false,
+  projectAppointments: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -449,6 +451,22 @@ export const projectSlice = createSlice({
     });
     builder.addCase(addCommonAreaBasementReducer.rejected, (state) => {
       state.commonAreaIdle = true;
+    });
+    //get appointments
+    builder.addCase(getProjectAppointmentsReducer.pending, (state) => {
+      state.projectAppointments = undefined;
+    });
+    builder.addCase(
+      getProjectAppointmentsReducer.fulfilled,
+      (state, action) => {
+        state.projectAppointments =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getProjectAppointmentsReducer.rejected, (state) => {
+      state.projectAppointments = undefined;
     });
   },
 });

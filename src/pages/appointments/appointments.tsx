@@ -21,9 +21,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateAppointmentTab } from "../../store/features/appSlice";
 
-import { getProperties } from "../../store/features/reducers";
+import {
+  getProjectAppointmentsReducer,
+  getProperties,
+} from "../../store/features/reducers";
 
-import { format, subHours, startOfMonth } from "date-fns";
+import { format, startOfMonth } from "date-fns";
 import {
   MonthlyBody,
   MonthlyDay,
@@ -36,8 +39,11 @@ import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
 import AppointmentHeader from "../../components/appointmentHeader";
 import { BookAppointmentModal } from "../../components/modals/bookAppointmentModal";
 import TimeSlots from "./timeSlot";
+import { useParams } from "react-router";
+import moment from "moment";
 
 const Appointments: FC = function () {
+  const { project_id } = useParams();
   const [currentMonth, setCurrentMonth] = useState<Date>(
     startOfMonth(new Date())
   );
@@ -47,15 +53,36 @@ const Appointments: FC = function () {
   const { appointmentTab }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const { selectedProject }: ProjectState = useSelector(
+  const { selectedProject, projectAppointments }: ProjectState = useSelector(
     (state: any) => state.project
   );
   const [isOpen, setOpen] = useState(false);
+  const [events, setEvents] = useState<any[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProperties(selectedProject?.id));
+    dispatch(getProjectAppointmentsReducer(project_id));
   }, []);
+
+  useEffect(() => {
+    setEvents(
+      (projectAppointments &&
+        projectAppointments.length > 0 &&
+        projectAppointments.map((o) => {
+          console.log(
+            new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString())
+          );
+          return {
+            title: `${moment(o.startDate, "YYYY-MM-DD h:mm a").format(
+              "h:mm A"
+            )} ${o.type}`,
+            date: new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString()),
+          };
+        })) ||
+        []
+    );
+  }, [projectAppointments]);
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -158,13 +185,7 @@ const Appointments: FC = function () {
                 onCurrentMonthChange={(date) => setCurrentMonth(date)}
               >
                 <MonthlyNav />
-                <MonthlyBody
-                  events={[
-                    { title: "Call John", date: subHours(new Date(), 2) },
-                    { title: "Call John", date: subHours(new Date(), 1) },
-                    { title: "Meeting with Bob", date: new Date() },
-                  ]}
-                >
+                <MonthlyBody events={events}>
                   <MonthlyDay<EventType>
                     renderDay={(data) =>
                       data.map((item: any, index) => (
