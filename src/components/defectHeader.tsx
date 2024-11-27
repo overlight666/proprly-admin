@@ -47,7 +47,7 @@ const DefectHeader = function () {
           </Button>
         </div>
       </div>
-      <fieldset className="mb-10 flex flex-row items-center gap-4">
+      <fieldset className="mb-10 flex flex-row items-center gap-10">
         <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
@@ -56,23 +56,33 @@ const DefectHeader = function () {
             value="USA"
             defaultChecked
           />
-          <Label htmlFor="united-state">All</Label>
+          <Label htmlFor="united-state" className="text-[15px]">
+            All
+          </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio id="germany" name="countries" value="Germany" />
-          <Label htmlFor="germany">Owner Defects</Label>
+          <Label htmlFor="germany" className="text-[15px]">
+            Owner Defects
+          </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Auditor Defects</Label>
+          <Label htmlFor="spain" className="text-[15px]">
+            Auditor Defects
+          </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Strata Defects</Label>
+          <Label htmlFor="spain" className="text-[15px]">
+            Strata Defects
+          </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Tenant Defects</Label>
+          <Label htmlFor="spain" className="text-[15px]">
+            Tenant Defects
+          </Label>
         </div>
       </fieldset>
     </>
