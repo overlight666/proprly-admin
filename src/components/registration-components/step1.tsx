@@ -66,11 +66,11 @@ const RegistrationStep1 = function (props: UserRegistration) {
               onChange={handleInputChange}
               checked={agreed}
             />
-            <Label htmlFor="agreed">
+            <span>
               I agree to the{" "}
-              <span className="text-blue-900">Terms of Service</span> and{" "}
-              <span className="text-blue-900">Private Policy</span>
-            </Label>
+              <a className="cursor-pointer text-blue-900">Terms of Service</a>{" "}
+              and <a className="cursor-pointer text-blue-900">Private Policy</a>
+            </span>
           </div>
         </div>
         <div className="mb-1">
