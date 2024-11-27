@@ -533,3 +533,18 @@ export const createProjectUser = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getAllDefectResolution = async (params: any) => {
+  return api
+    .get(
+      `/admin/defect-submissions?projectId=${params.projectId}&status=${
+        params.status ? params.status : ""
+      }`
+    )
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

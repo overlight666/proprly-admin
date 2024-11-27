@@ -392,6 +392,68 @@ export interface PropertyState {
   propertyResponse: Project | undefined;
   selectedProperty: Property | undefined;
   attachedUser: any;
+  defectSubmissions: DefectSumissionType[] | undefined;
+}
+
+export interface DefectSumissionType {
+  id: number;
+  organizationId: number;
+  inspectionId: number;
+  propertyId: number;
+  checklistZoneId: number;
+  checklistElementId: number;
+  checklistSubElementId: number;
+  defectCodeId: number;
+  comment: string;
+  submittedUserId: number;
+  propertyStatus: string;
+  status: string;
+  subStatus: string;
+  subStatusCode: string;
+  submittedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  images: ImageType[];
+  defectCode: DefectCode;
+  checklistElement: ChecklistElementType;
+  checklistZone: CheckListZoneType;
+  checklistSubElement: CheckListSubElementType;
+  property: Property;
+}
+
+export interface CheckListSubElementType {
+  id: number;
+  name: string;
+  sequence: number;
+  parentId: number;
+  checklistZoneId: any;
+  commonAreaCategoryId: any;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CheckListZoneType {
+  id: number;
+  name: string;
+  sequence: number;
+  isDefault: boolean;
+  isActive: boolean;
+  regionId: any;
+  organizationId: any;
+  projectId: any;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChecklistElementType {
+  id: number;
+  name: string;
+  sequence: number;
+  parentId: any;
+  checklistZoneId: number;
+  commonAreaCategoryId: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DefectCode {

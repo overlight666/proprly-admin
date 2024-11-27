@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { Property, PropertyState } from "../../types";
 import {
   attachPropertyUserReducer,
+  getAllDefectResolutionReducer,
   getProperties,
   getSingleProperty,
   patchProperty,
@@ -19,6 +20,7 @@ const initialState: PropertyState = {
   propertyResponse: undefined,
   selectedProperty: undefined,
   attachedUser: undefined,
+  defectSubmissions: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -103,6 +105,23 @@ export const propertySlice = createSlice({
       state.isIdle = true;
     });
     builder.addCase(attachPropertyUserReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
+
+    builder.addCase(getAllDefectResolutionReducer.pending, (state) => {
+      state.isIdle = false;
+    });
+    builder.addCase(
+      getAllDefectResolutionReducer.fulfilled,
+      (state, action) => {
+        state.defectSubmissions =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+        state.isIdle = true;
+      }
+    );
+    builder.addCase(getAllDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
     });
   },

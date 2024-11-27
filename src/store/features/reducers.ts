@@ -11,6 +11,7 @@ import {
   getAllChecklist,
   getAllCommonArea,
   getAllDefectCodebyProject,
+  getAllDefectResolution,
   getAllOrganizations,
   getAllProperties,
   getAllTradeCodebyProject,
@@ -164,6 +165,19 @@ export const getSingleProject: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getOneProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllDefectResolutionReducer: any = createAsyncThunk(
+  "getAllDefectResolutionReducer",
+  async (params: any) => {
+    try {
+      const response = await getAllDefectResolution(params);
       // If you want to get something back
       return response;
     } catch (err) {
