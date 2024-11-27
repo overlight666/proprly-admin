@@ -548,3 +548,14 @@ export const getAllDefectResolution = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getDefectResolutionById = async (id: any) => {
+  return api
+    .get(`/admin/defect-submissions/${id}`)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

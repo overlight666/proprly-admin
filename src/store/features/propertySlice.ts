@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -6,6 +7,7 @@ import type { Property, PropertyState } from "../../types";
 import {
   attachPropertyUserReducer,
   getAllDefectResolutionReducer,
+  getDefectResolutionByIdReducer,
   getProperties,
   getSingleProperty,
   patchProperty,
@@ -21,6 +23,8 @@ const initialState: PropertyState = {
   selectedProperty: undefined,
   attachedUser: undefined,
   defectSubmissions: undefined,
+  loadingDefect: false,
+  defect: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -123,6 +127,25 @@ export const propertySlice = createSlice({
     );
     builder.addCase(getAllDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
+    });
+
+    builder.addCase(getDefectResolutionByIdReducer.pending, (state) => {
+      // state.loadingDefect = true;
+      state.defect = undefined;
+    });
+    builder.addCase(
+      getDefectResolutionByIdReducer.fulfilled,
+      (state, action) => {
+        state.defect =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+        // state.loadingDefect = false;
+      }
+    );
+    builder.addCase(getDefectResolutionByIdReducer.rejected, (state) => {
+      // state.loadingDefect = false;
+      state.defect = undefined;
     });
   },
 });

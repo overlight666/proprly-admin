@@ -393,6 +393,8 @@ export interface PropertyState {
   selectedProperty: Property | undefined;
   attachedUser: any;
   defectSubmissions: DefectSumissionType[] | undefined;
+  loadingDefect: boolean;
+  defect: DefectSumissionType | undefined;
 }
 
 export interface DefectSumissionType {
@@ -419,8 +421,19 @@ export interface DefectSumissionType {
   checklistZone: CheckListZoneType;
   checklistSubElement: CheckListSubElementType;
   property: Property;
+  activityLogs: ActivityLogsType[];
 }
 
+export interface ActivityLogsType {
+  comment: any;
+  createdAt: string;
+  defectSubStatus: string;
+  defectSubmissionId: number;
+  id: number;
+  images?: ImageType[];
+  loggedBy: string;
+  loggedUserId: number;
+}
 export interface CheckListSubElementType {
   id: number;
   name: string;

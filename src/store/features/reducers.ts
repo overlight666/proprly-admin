@@ -19,6 +19,7 @@ import {
   getChecklistZones,
   getConfig,
   getCountries,
+  getDefectResolutionById,
   getOneOrganization,
   getOneProject,
   getprojects,
@@ -178,6 +179,19 @@ export const getAllDefectResolutionReducer: any = createAsyncThunk(
   async (params: any) => {
     try {
       const response = await getAllDefectResolution(params);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getDefectResolutionByIdReducer: any = createAsyncThunk(
+  "getDefectResolutionById",
+  async (params: any) => {
+    try {
+      const response = await getDefectResolutionById(params);
       // If you want to get something back
       return response;
     } catch (err) {
