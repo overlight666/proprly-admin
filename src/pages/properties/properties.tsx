@@ -20,7 +20,7 @@ import type {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updatePropertyTab } from "../../store/features/appSlice";
-import { BsSliders2Vertical } from "react-icons/bs";
+// import { BsSliders2Vertical } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { getProperties } from "../../store/features/reducers";
 import PropertyTable from "../../components/propertyTable";

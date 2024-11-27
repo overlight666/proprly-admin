@@ -43,8 +43,8 @@ export const DefectSubmissionModal = function (props: any) {
               <span className="sr-only">Loading...</span>
             </div>
           )) || (
-            <>
-              <div className="flex flex-row justify-between">
+            <div className="flex !max-h-[600px] flex-col overflow-hidden">
+              <div className="relative flex w-full flex-row justify-between">
                 <div className="my-1 mr-2 flex items-center rounded-md border border-transparent bg-red-100 px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all">
                   <svg
                     width="10"
@@ -73,7 +73,7 @@ export const DefectSubmissionModal = function (props: any) {
                   <AiOutlineClose />
                 </a>
               </div>
-              <div className="relative grid !max-h-[600px] auto-rows-min grid-cols-3 gap-5 pb-10">
+              <div className="relative grid !max-h-[550px] auto-rows-min grid-cols-3 gap-5 overflow-auto pb-10">
                 <div className="col-span-2 flex flex-col">
                   <div className="col-span-2 col-start-1 row-start-1">
                     <div
@@ -439,7 +439,7 @@ export const DefectSubmissionModal = function (props: any) {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           )}
         </Modal.Body>
       </Modal>
