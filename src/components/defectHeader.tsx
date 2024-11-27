@@ -2,13 +2,13 @@
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
 
-import { Button } from "flowbite-react";
+import { Button, Label, Radio } from "flowbite-react";
 
 import { BsListTask } from "react-icons/bs";
 const DefectHeader = function () {
   return (
     <>
-      <div className="mb-10 mt-5 grid w-full grid-cols-9 gap-2">
+      <div className="my-5 grid w-full grid-cols-9 gap-2">
         <div className="relative col-span-3 w-full">
           <input
             type="search"
@@ -47,7 +47,7 @@ const DefectHeader = function () {
           </Button>
         </div>
       </div>
-      {/* <fieldset className="my-5 flex flex-row items-center gap-4">
+      <fieldset className="mb-10 flex flex-row items-center gap-4">
         <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
@@ -74,7 +74,7 @@ const DefectHeader = function () {
           <Radio id="spain" name="countries" value="Spain" />
           <Label htmlFor="spain">Tenant Defects</Label>
         </div>
-      </fieldset> */}
+      </fieldset>
     </>
   );
 };
