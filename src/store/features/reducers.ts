@@ -37,6 +37,7 @@ import {
   updateOrganization,
   updateProject,
   updateProperty,
+  updateWarrantyFiles,
   uploadImage,
   uploadWarranties,
   uploadWarrantyFiles,
@@ -228,6 +229,19 @@ export const postWarrantyFiles: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await uploadWarrantyFiles(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const putWarrantyFiles: any = createAsyncThunk(
+  "putWarrantyFiles",
+  async (data: any) => {
+    try {
+      const response = await updateWarrantyFiles(data);
       // If you want to get something back
       return response;
     } catch (err) {

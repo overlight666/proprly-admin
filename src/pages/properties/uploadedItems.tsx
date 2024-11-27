@@ -30,7 +30,7 @@ export default function UploadedItems({
   const handleConfirm = () => {
     setIsProcess(true);
     const newFiles = uploadedFiles.filter((f) => f.id !== selectedObj.id);
-    setUploadedFiles(newFiles);
+    setUploadedFiles(uploadType, newFiles);
     setSelectedObj(false);
   };
   useEffect(() => {

@@ -160,7 +160,7 @@ const PropertyTable = function ({ properties }) {
                   >
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(selectProperty(props));
+                        dispatch(selectProperty(undefined));
                         navigate(
                           `/organization/${id}/project/${project_id}/properties/${props.id}`
                         );

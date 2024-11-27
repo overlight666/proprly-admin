@@ -32,7 +32,7 @@ export const propertySlice = createSlice({
     clearPropertyResponse: (state) => {
       state.propertyResponse = undefined;
     },
-    selectProperty: (state, action: PayloadAction<Property>) => {
+    selectProperty: (state, action: PayloadAction<Property | undefined>) => {
       state.selectedProperty = action.payload;
     },
   },

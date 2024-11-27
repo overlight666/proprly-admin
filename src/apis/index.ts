@@ -105,6 +105,18 @@ export const uploadWarrantyFiles = async (params: any) => {
     });
 };
 
+export const updateWarrantyFiles = async (params: any) => {
+  return api
+    .put(`/warranty/${params.warrantyId}`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const uploadImage = async (file: any) => {
   const formData = new FormData();
   formData.append("files", file);

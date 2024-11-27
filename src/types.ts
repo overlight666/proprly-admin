@@ -428,7 +428,7 @@ export interface Property {
   user?: userData[];
   project?: Project;
   projectTower?: TowerData;
-  warranty?: WarrantyInterface;
+  warranty?: WarrantyInterface[];
   warrantyStatus?: string;
 }
 

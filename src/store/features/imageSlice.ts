@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   postWarranties,
   postWarrantyFiles,
+  putWarrantyFiles,
   uploadDocument,
   uploadImageFile,
 } from "./reducers";
@@ -99,16 +100,31 @@ export const imageSlice = createSlice({
     });
     builder.addCase(postWarrantyFiles.pending, (state) => {
       state.warrantyResponse = undefined;
-      state.uploadDone = true;
+      state.uploadDone = false;
       state.warrantyResponseStatus = true;
     });
     builder.addCase(postWarrantyFiles.fulfilled, (state, action) => {
       state.warrantyResponse = action.payload;
+      state.uploadDone = false;
     });
     builder.addCase(postWarrantyFiles.rejected, (state) => {
       state.warrantyResponse = undefined;
-      state.uploadDone = true;
+      state.uploadDone = false;
       state.warrantyResponseStatus = false;
+    });
+    builder.addCase(putWarrantyFiles.pending, (state) => {
+      // state.warrantyResponse = undefined;
+      state.uploadDone = false;
+      // state.warrantyResponseStatus = true;
+    });
+    builder.addCase(putWarrantyFiles.fulfilled, (state) => {
+      // state.warrantyResponse = action.payload;
+      state.uploadDone = true;
+    });
+    builder.addCase(putWarrantyFiles.rejected, (state) => {
+      // state.warrantyResponse = undefined;
+      state.uploadDone = false;
+      // state.warrantyResponseStatus = false;
     });
   },
 });
