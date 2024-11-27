@@ -215,7 +215,7 @@ export const newProperty = async (params: Property) => {
 
 export const updateProperty = async (params: Property) => {
   return api
-    .patch(`/property/${params.id}`, params)
+    .put(`/property/${params.id}`, params)
     .then((response) => {
       return response.data;
     })
@@ -225,9 +225,9 @@ export const updateProperty = async (params: Property) => {
     });
 };
 
-export const attachPropertyUser = async (params: Property) => {
+export const attachPropertyUser = async (params: any) => {
   return api
-    .post(`/property/${params.id}/user`, params)
+    .post(`/property/${params.propertyId}/user`, params)
     .then((response) => {
       return response.data;
     })

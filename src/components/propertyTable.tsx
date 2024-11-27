@@ -114,7 +114,14 @@ const PropertyTable = function ({ properties }) {
                   {props.lotNo}
                 </th>
                 <th className="px-6 py-4">{props.unitNo}</th>
-                <th className="px-6 py-4"></th>
+                <th className="px-6 py-4">
+                  {props.user &&
+                    props.user
+                      .map((u) => {
+                        return u.fullName;
+                      })
+                      .join(", ")}
+                </th>
                 <th className="px-6 py-4">
                   {props.projectTower && props.projectTower.name}
                 </th>

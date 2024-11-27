@@ -71,7 +71,8 @@ const ViewProperty: FC = function () {
       if (value && value !== "Please select") {
         const user = {
           roleId: 6,
-          id: property_id,
+          id: JSON.parse(value).id,
+          propertyId: property_id,
           password: "admin",
           // ...JSON.parse(value),
         };
