@@ -6,11 +6,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import moment from "moment";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getDefectResolutionByIdReducer } from "../../../store/features/reducers";
-
-export const DefectItem = function ({ def, setOpen }: any) {
+import type { DefectSumissionType } from "../../../types";
+interface paramstype {
+  def: DefectSumissionType;
+  setOpen: any;
+}
+export const DefectItem = function ({ def, setOpen }: paramstype) {
   const dispatch = useDispatch();
   const getStatus = (value) => {
     return value
@@ -20,7 +23,6 @@ export const DefectItem = function ({ def, setOpen }: any) {
         return letter.toUpperCase();
       });
   };
-
   return (
     <div
       className="my-2 flex w-full flex-col p-5 shadow"
@@ -68,7 +70,7 @@ export const DefectItem = function ({ def, setOpen }: any) {
       </div>
       <div className="mt-2 flex flex-col">
         <span className="text-[14px] font-semibold">
-          {def.property.project?.address}
+          {`Unit ${def.property.unitNo}, ${def.checklistZone.name} - ${def.checklistElement?.name}`}
         </span>
         <span className="text-[12px] text-gray-400">
           Defect Code:{" "}

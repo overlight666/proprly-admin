@@ -65,7 +65,6 @@ const DefectResolution = function () {
       }
     }
   }, [defectSubmissions]);
-
   return (
     <div className="flex flex-row gap-2">
       <div className="flex flex-col gap-2">
@@ -73,15 +72,9 @@ const DefectResolution = function () {
           Pending({pendingDefects.length})
         </span>
         {pendingDefects &&
+          pendingDefects.length > 0 &&
           pendingDefects.map((defects, index) => {
-            return (
-              <DefectItem
-                key={index}
-                def={defects}
-                isOpen={isOpen}
-                setOpen={setOpen}
-              />
-            );
+            return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
       <div className="flex flex-col gap-2">
@@ -90,14 +83,7 @@ const DefectResolution = function () {
         </span>
         {inprogressDefects &&
           inprogressDefects.map((defects, index) => {
-            return (
-              <DefectItem
-                key={index}
-                def={defects}
-                isOpen={isOpen}
-                setOpen={setOpen}
-              />
-            );
+            return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
       <div className="flex flex-col gap-2">
@@ -106,14 +92,7 @@ const DefectResolution = function () {
         </span>
         {disputedDefects &&
           disputedDefects.map((defects, index) => {
-            return (
-              <DefectItem
-                key={index}
-                def={defects}
-                isOpen={isOpen}
-                setOpen={setOpen}
-              />
-            );
+            return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
       <div className="flex flex-col gap-2">
@@ -122,14 +101,7 @@ const DefectResolution = function () {
         </span>
         {resolvedDefects &&
           resolvedDefects.map((defects, index) => {
-            return (
-              <DefectItem
-                key={index}
-                def={defects}
-                isOpen={isOpen}
-                setOpen={setOpen}
-              />
-            );
+            return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
 
