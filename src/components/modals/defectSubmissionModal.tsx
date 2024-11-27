@@ -74,314 +74,319 @@ export const DefectSubmissionModal = function (props: any) {
                 </a>
               </div>
               <div className="relative grid !max-h-[600px] auto-rows-min grid-cols-3 gap-5 pb-10">
-                <div className="col-span-2 col-start-1 row-start-1">
-                  <div
-                    className="flex w-full items-center justify-between border-b-[1px]"
-                    onClick={() => setShowCard1(!showCard1)}
-                  >
-                    <h1 className="font-bold">Defect Information</h1>
-                    {showCard1 ? (
-                      <FaAngleUp className="h-[50px] cursor-pointer" />
-                    ) : (
-                      <FaAngleDown className="h-[50px] cursor-pointer" />
-                    )}
-                  </div>
-                  {showCard1 && (
-                    <div className="grid auto-rows-min grid-cols-3 gap-4 pt-5">
-                      <div className="flex flex-col">
-                        <Label htmlFor="lotno">Lot No</Label>
-                        <TextInput
-                          disabled={true}
-                          id="lotno"
-                          name="lotno"
-                          value={defect?.property.lotNo}
-                          placeholder="Enter lotno"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <Label htmlFor="unitNo">Unit No</Label>
-                        <TextInput
-                          disabled={true}
-                          id="unitNo"
-                          name="unitNo"
-                          value={defect?.property.unitNo}
-                          placeholder="Enter unitNo"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <Label htmlFor="zone">Zone</Label>
-                        <TextInput
-                          disabled={true}
-                          id="zone"
-                          name="zone"
-                          value={defect?.checklistZone.name}
-                          placeholder="Enter Zone"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="element">Element</Label>
-                        <TextInput
-                          disabled={true}
-                          id="element"
-                          name="element"
-                          value={defect?.checklistElement.name}
-                          placeholder="Enter element"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="defectcode">Defect Code</Label>
-                        <TextInput
-                          disabled={true}
-                          id="defectcode"
-                          name="defectcode"
-                          value={defect?.defectCode.defectCode}
-                          placeholder="Enter defectcode"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="comment">Comment</Label>
-                        <TextInput
-                          disabled={true}
-                          id="comment"
-                          name="comment"
-                          value={defect?.comment}
-                          placeholder="Enter comment"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="logged">Logged By</Label>
-                        <TextInput
-                          disabled={true}
-                          id="logged"
-                          name="logged"
-                          value={getStatus(defect?.submittedBy)}
-                          placeholder="Enter logged"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="date">Date</Label>
-                        <TextInput
-                          disabled={true}
-                          id="date"
-                          name="date"
-                          value={moment(defect?.createdAt).format("DD-MM-YYYY")}
-                          placeholder="Enter date"
-                          required
-                        />
-                      </div>
-                      <div className="col-span-3 row-start-4 flex w-full flex-col">
-                        <span>Defect Evidence</span>
-                        <div className="flex w-full items-center gap-2 bg-gray-100">
-                          {defect?.images &&
-                            defect?.images.map((img, index) => {
-                              return (
-                                <div
-                                  key={index}
-                                  className="h-full min-w-[25%] max-w-[25%] p-3"
-                                >
-                                  <img
-                                    src={img.url}
-                                    className="object-cover object-center"
-                                  />
-                                </div>
-                              );
-                            })}
+                <div className="col-span-2 flex flex-col">
+                  <div className="col-span-2 col-start-1 row-start-1">
+                    <div
+                      className="flex w-full items-center justify-between border-b-[1px]"
+                      onClick={() => setShowCard1(!showCard1)}
+                    >
+                      <h1 className="font-bold">Defect Information</h1>
+                      {showCard1 ? (
+                        <FaAngleUp className="h-[50px] cursor-pointer" />
+                      ) : (
+                        <FaAngleDown className="h-[50px] cursor-pointer" />
+                      )}
+                    </div>
+                    {showCard1 && (
+                      <div className="grid auto-rows-min grid-cols-3 gap-4 pt-5">
+                        <div className="flex flex-col">
+                          <Label htmlFor="lotno">Lot No</Label>
+                          <TextInput
+                            disabled={true}
+                            id="lotno"
+                            name="lotno"
+                            value={defect?.property.lotNo}
+                            placeholder="Enter lotno"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <Label htmlFor="unitNo">Unit No</Label>
+                          <TextInput
+                            disabled={true}
+                            id="unitNo"
+                            name="unitNo"
+                            value={defect?.property.unitNo}
+                            placeholder="Enter unitNo"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <Label htmlFor="zone">Zone</Label>
+                          <TextInput
+                            disabled={true}
+                            id="zone"
+                            name="zone"
+                            value={defect?.checklistZone.name}
+                            placeholder="Enter Zone"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="element">Element</Label>
+                          <TextInput
+                            disabled={true}
+                            id="element"
+                            name="element"
+                            value={defect?.checklistElement.name}
+                            placeholder="Enter element"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="defectcode">Defect Code</Label>
+                          <TextInput
+                            disabled={true}
+                            id="defectcode"
+                            name="defectcode"
+                            value={defect?.defectCode.defectCode}
+                            placeholder="Enter defectcode"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="comment">Comment</Label>
+                          <TextInput
+                            disabled={true}
+                            id="comment"
+                            name="comment"
+                            value={defect?.comment}
+                            placeholder="Enter comment"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="logged">Logged By</Label>
+                          <TextInput
+                            disabled={true}
+                            id="logged"
+                            name="logged"
+                            value={getStatus(defect?.submittedBy)}
+                            placeholder="Enter logged"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="date">Date</Label>
+                          <TextInput
+                            disabled={true}
+                            id="date"
+                            name="date"
+                            value={moment(defect?.createdAt).format(
+                              "DD-MM-YYYY"
+                            )}
+                            placeholder="Enter date"
+                            required
+                          />
+                        </div>
+                        <div className="col-span-3 row-start-4 flex w-full flex-col">
+                          <span>Defect Evidence</span>
+                          <div className="flex w-full items-center gap-2 bg-gray-100">
+                            {defect?.images &&
+                              defect?.images.map((img, index) => {
+                                return (
+                                  <div
+                                    key={index}
+                                    className="h-full min-w-[25%] max-w-[25%] p-3"
+                                  >
+                                    <img
+                                      src={img.url}
+                                      className="object-cover object-center"
+                                    />
+                                  </div>
+                                );
+                              })}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                <div className="col-span-2 col-start-1 row-start-2">
-                  <div
-                    className="flex w-full items-center justify-between border-b-[1px]"
-                    onClick={() => setShowCard2(!showCard2)}
-                  >
-                    <h1 className="font-bold">Property Information</h1>
-                    {showCard2 ? (
-                      <FaAngleUp className="h-[50px] cursor-pointer" />
-                    ) : (
-                      <FaAngleDown className="h-[50px] cursor-pointer" />
                     )}
                   </div>
-                  {showCard2 && (
-                    <div className="grid auto-rows-min grid-cols-3 gap-4 pt-5">
-                      <div className="flex flex-col">
-                        <Label htmlFor="status">Property Status</Label>
-                        <TextInput
-                          disabled={true}
-                          id="status"
-                          name="status"
-                          value={getStatus(defect?.property.status)}
-                          placeholder="Enter status"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <Label htmlFor="tower">Tower</Label>
-                        <TextInput
-                          disabled={true}
-                          id="tower"
-                          name="tower"
-                          value={defect?.property.tower}
-                          placeholder="Enter tower"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <Label htmlFor="floor">Floor</Label>
-                        <TextInput
-                          disabled={true}
-                          id="floor"
-                          name="floor"
-                          value={defect?.property.floor}
-                          placeholder="Enter Zone"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="bedroom">Bedroom</Label>
-                        <TextInput
-                          disabled={true}
-                          id="bedroom"
-                          name="bedroom"
-                          value={defect?.property.bedroom}
-                          placeholder="Enter bedroom"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="bathroom">Bathroom</Label>
-                        <TextInput
-                          disabled={true}
-                          id="bathroom"
-                          name="bathroom"
-                          value={defect?.property.bathroom}
-                          placeholder="Enter bathroom"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="ensuite">Ensuite</Label>
-                        <TextInput
-                          disabled={true}
-                          id="ensuite"
-                          name="ensuite"
-                          value={defect?.property.ensuite}
-                          placeholder="Enter ensuite"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="study">Study Room</Label>
-                        <TextInput
-                          disabled={true}
-                          id="study"
-                          name="study"
-                          value={defect?.property.studyRoom}
-                          placeholder="Enter study"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="storage">Storage</Label>
-                        <TextInput
-                          disabled={true}
-                          id="storage"
-                          name="storage"
-                          value={defect?.property.storage}
-                          placeholder="Enter storage"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="parking">Parking Space</Label>
-                        <TextInput
-                          disabled={true}
-                          id="parking"
-                          name="parking"
-                          value={defect?.property.parkingSpaces}
-                          placeholder="Enter parking"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="internal">
-                          Internal Area (m<span className="align-super">2</span>
-                          )
-                        </Label>
-                        <TextInput
-                          disabled={true}
-                          id="internal"
-                          name="internal"
-                          value={defect?.property.internalArea}
-                          placeholder="Enter internal"
-                          required
-                        />
-                      </div>
-                      <div className="flex flex-col ">
-                        <Label htmlFor="external">
-                          External Area (m<span className="align-super">2</span>
-                          )
-                        </Label>
-                        <TextInput
-                          disabled={true}
-                          id="external"
-                          name="external"
-                          value={defect?.property.externalArea}
-                          placeholder="Enter external"
-                          required
-                        />
-                      </div>
+                  <div className="col-span-2 col-start-1 row-start-2">
+                    <div
+                      className="flex w-full items-center justify-between border-b-[1px]"
+                      onClick={() => setShowCard2(!showCard2)}
+                    >
+                      <h1 className="font-bold">Property Information</h1>
+                      {showCard2 ? (
+                        <FaAngleUp className="h-[50px] cursor-pointer" />
+                      ) : (
+                        <FaAngleDown className="h-[50px] cursor-pointer" />
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-2 col-start-1 row-start-3 pb-10">
-                  <div
-                    className="flex w-full items-center justify-between border-b-[1px]"
-                    onClick={() => setShowCard3(!showCard3)}
-                  >
-                    <h1 className="font-bold">Owner Information</h1>
-                    {showCard3 ? (
-                      <FaAngleUp className="h-[50px] cursor-pointer" />
-                    ) : (
-                      <FaAngleDown className="h-[50px] cursor-pointer" />
+                    {showCard2 && (
+                      <div className="grid auto-rows-min grid-cols-3 gap-4 pt-5">
+                        <div className="flex flex-col">
+                          <Label htmlFor="status">Property Status</Label>
+                          <TextInput
+                            disabled={true}
+                            id="status"
+                            name="status"
+                            value={getStatus(defect?.property.status)}
+                            placeholder="Enter status"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <Label htmlFor="tower">Tower</Label>
+                          <TextInput
+                            disabled={true}
+                            id="tower"
+                            name="tower"
+                            value={defect?.property.tower}
+                            placeholder="Enter tower"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <Label htmlFor="floor">Floor</Label>
+                          <TextInput
+                            disabled={true}
+                            id="floor"
+                            name="floor"
+                            value={defect?.property.floor}
+                            placeholder="Enter Zone"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="bedroom">Bedroom</Label>
+                          <TextInput
+                            disabled={true}
+                            id="bedroom"
+                            name="bedroom"
+                            value={defect?.property.bedroom}
+                            placeholder="Enter bedroom"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="bathroom">Bathroom</Label>
+                          <TextInput
+                            disabled={true}
+                            id="bathroom"
+                            name="bathroom"
+                            value={defect?.property.bathroom}
+                            placeholder="Enter bathroom"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="ensuite">Ensuite</Label>
+                          <TextInput
+                            disabled={true}
+                            id="ensuite"
+                            name="ensuite"
+                            value={defect?.property.ensuite}
+                            placeholder="Enter ensuite"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="study">Study Room</Label>
+                          <TextInput
+                            disabled={true}
+                            id="study"
+                            name="study"
+                            value={defect?.property.studyRoom}
+                            placeholder="Enter study"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="storage">Storage</Label>
+                          <TextInput
+                            disabled={true}
+                            id="storage"
+                            name="storage"
+                            value={defect?.property.storage}
+                            placeholder="Enter storage"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="parking">Parking Space</Label>
+                          <TextInput
+                            disabled={true}
+                            id="parking"
+                            name="parking"
+                            value={defect?.property.parkingSpaces}
+                            placeholder="Enter parking"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="internal">
+                            Internal Area (m
+                            <span className="align-super">2</span>)
+                          </Label>
+                          <TextInput
+                            disabled={true}
+                            id="internal"
+                            name="internal"
+                            value={defect?.property.internalArea}
+                            placeholder="Enter internal"
+                            required
+                          />
+                        </div>
+                        <div className="flex flex-col ">
+                          <Label htmlFor="external">
+                            External Area (m
+                            <span className="align-super">2</span>)
+                          </Label>
+                          <TextInput
+                            disabled={true}
+                            id="external"
+                            name="external"
+                            value={defect?.property.externalArea}
+                            placeholder="Enter external"
+                            required
+                          />
+                        </div>
+                      </div>
                     )}
                   </div>
-                  {showCard3 && (
-                    <Table>
-                      <Table.Head>
-                        <Table.HeadCell>FULLNAME</Table.HeadCell>
-                        <Table.HeadCell>PHONE</Table.HeadCell>
-                        <Table.HeadCell>EMAIL ADDRESS</Table.HeadCell>
-                      </Table.Head>
-                      <Table.Body>
-                        {defect?.property.user &&
-                          defect?.property.user.map((u: userData, index) => {
-                            return (
-                              <Table.Row key={index}>
-                                <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                                  {u.fullName}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                  {u.mobile}
-                                </Table.Cell>
-                                <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
-                                  {u.email}
-                                </Table.Cell>
-                              </Table.Row>
-                            );
-                          })}
-                      </Table.Body>
-                    </Table>
-                  )}
+                  <div className="col-span-2 col-start-1 row-start-3 pb-10">
+                    <div
+                      className="flex w-full items-center justify-between border-b-[1px]"
+                      onClick={() => setShowCard3(!showCard3)}
+                    >
+                      <h1 className="font-bold">Owner Information</h1>
+                      {showCard3 ? (
+                        <FaAngleUp className="h-[50px] cursor-pointer" />
+                      ) : (
+                        <FaAngleDown className="h-[50px] cursor-pointer" />
+                      )}
+                    </div>
+                    {showCard3 && (
+                      <Table>
+                        <Table.Head>
+                          <Table.HeadCell>FULLNAME</Table.HeadCell>
+                          <Table.HeadCell>PHONE</Table.HeadCell>
+                          <Table.HeadCell>EMAIL ADDRESS</Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body>
+                          {defect?.property.user &&
+                            defect?.property.user.map((u: userData, index) => {
+                              return (
+                                <Table.Row key={index}>
+                                  <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
+                                    {u.fullName}
+                                  </Table.Cell>
+                                  <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
+                                    {u.mobile}
+                                  </Table.Cell>
+                                  <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
+                                    {u.email}
+                                  </Table.Cell>
+                                </Table.Row>
+                              );
+                            })}
+                        </Table.Body>
+                      </Table>
+                    )}
+                  </div>
                 </div>
+
                 <div className="col-start-3 row-span-2 row-start-1">
                   <div className="bg-gray-100 p-4">
                     <span className="text-[14px] font-semibold">
