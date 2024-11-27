@@ -28,19 +28,21 @@ const PropertyReportTable = function ({ headerValue }: any) {
 
   useEffect(() => {
     const rp =
-      reports &&
-      reports.length > 0 &&
-      reports.map((r: Report) => {
-        return [
-          r.lotNo,
-          r.unitNo,
-          r.owners &&
-            r.owners.length > 0 &&
-            r.owners.map((o) => o.fullName).join(", "),
-        ];
-      });
+      (reports &&
+        reports.length > 0 &&
+        reports.map((r: Report) => {
+          return [
+            r.lotNo,
+            r.unitNo,
+            r.owners &&
+              r.owners.length > 0 &&
+              r.owners.map((o) => o.fullName).join(", "),
+            headerValue,
+          ];
+        })) ||
+      [];
     setTableData(rp);
-  }, [reports]);
+  }, [reports, headerValue]);
 
   useEffect(() => {
     dispatch(getPropertyReportsReducer(project_id));
@@ -72,7 +74,12 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 </Button>
               )}
             >
-              <Dropdown.Item>View</Dropdown.Item>
+              <Dropdown.Item>Export Report</Dropdown.Item>
+              <Dropdown.Item>
+                {row[3] === "general" || row[3] === "post_handover"
+                  ? "Report History"
+                  : "Trade Reports"}
+              </Dropdown.Item>
             </Dropdown>
           ),
         }}
