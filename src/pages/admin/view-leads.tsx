@@ -97,7 +97,6 @@ const ViewSignupLead: FC = function () {
     // if (!isIdle && loading) {
     //   setIsTriggered(true);
     // }
-    console.log(orgData);
     if (orgData && orgData.name === "error") {
       toast.error(
         "We encountered some errors during the process, please contact admin"

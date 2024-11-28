@@ -32,7 +32,7 @@ export const DefectSubmissionModal = function (props: any) {
     if (
       defectSubStatus == "Tradesman to be organised" ||
       defectSubStatus == "Materials & Tradesman to be organised" ||
-      defectSubStatus == "Materials to be organise" ||
+      defectSubStatus == "Materials to be organised" ||
       defectSubStatus == "Pending Auditor feedback" ||
       defectSubStatus == "Resolution Rejected by Auditor" ||
       defectSubStatus == "Defect Re-opened By Auditor" ||
@@ -221,7 +221,7 @@ export const DefectSubmissionModal = function (props: any) {
                           />
                         </div>
                         <div className="col-span-3 row-start-4 flex w-full flex-col">
-                          <span>Defect Evidence</span>
+                          <Label htmlFor="date">Defect Evidence</Label>
                           <div className="flex w-full items-center gap-2 bg-gray-100 ">
                             {defect?.images &&
                               defect?.images.map((img, index) => {
@@ -485,15 +485,16 @@ export const DefectSubmissionModal = function (props: any) {
                                     <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
                                       {activity.images.map((img, index) => {
                                         return (
-                                          <div
+                                          //   <div
+                                          //     key={index}
+                                          //     className="h-[50px] min-w-[25%] max-w-[25%] p-3"
+                                          //   >
+                                          <img
                                             key={index}
-                                            className="h-full min-w-[25%] max-w-[25%] p-3"
-                                          >
-                                            <img
-                                              src={img.url}
-                                              className="object-cover object-center"
-                                            />
-                                          </div>
+                                            src={img.url}
+                                            className="h-20 w-20 object-scale-down object-center"
+                                          />
+                                          //   </div>
                                         );
                                       })}
                                     </div>

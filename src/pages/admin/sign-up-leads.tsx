@@ -10,6 +10,7 @@ import LeadTable from "../../components/leadTable";
 import { useDispatch, useSelector } from "react-redux";
 import type { LeadState, ReducerTypes } from "../../types";
 import { getAllLeads } from "../../store/features/reducers";
+import { ToastContainer } from "react-toastify";
 
 const SignupLeads: FC = function () {
   // const { leadList }: LeadState = useSelector(
@@ -27,6 +28,7 @@ const SignupLeads: FC = function () {
 
   return (
     <NavbarSidebarLayout isFooter={false}>
+      <ToastContainer position="bottom-right" />
       <div className="overflow-x-auto bg-[#ffffff] ">
         <div className="col-span-full p-5">
           <h1 className="text-lg font-bold text-gray-900 dark:text-white sm:text-2xl">

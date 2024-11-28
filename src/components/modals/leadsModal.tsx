@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal, Button, Spinner } from "flowbite-react";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { registerToOrg } from "../../apis";
 import { useDispatch } from "react-redux";
 import { getAllLeads } from "../../store/features/reducers";
+import { toast } from "react-toastify";
 
 export const LeadConfirmModal = function (props: any) {
   const { isOpen, setOpen, status, lead_id } = props;
@@ -18,13 +18,17 @@ export const LeadConfirmModal = function (props: any) {
       };
       setIsProcess(true);
       const res = await registerToOrg(params);
-      if (res && res.data) {
-        dispatch(getAllLeads());
-        toast.info("Lead successfully converted!");
+      if (res && res.error) {
+        toast.error(res.error);
       } else {
-        toast.error(
-          "There was an error during the process, please contact admin"
-        );
+        if (res && res.data) {
+          dispatch(getAllLeads());
+          toast.info("Lead successfully converted!");
+        } else {
+          toast.error(
+            "There was an error during the process, please contact admin"
+          );
+        }
       }
     }
     setIsProcess(false);

@@ -29,7 +29,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
     if (
       defectSubStatus == "Tradesman to be organised" ||
       defectSubStatus == "Materials & Tradesman to be organised" ||
-      defectSubStatus == "Materials to be organise" ||
+      defectSubStatus == "Materials to be organised" ||
       defectSubStatus == "Pending Auditor feedback" ||
       defectSubStatus == "Resolution Rejected by Auditor" ||
       defectSubStatus == "Defect Re-opened By Auditor" ||
