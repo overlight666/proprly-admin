@@ -350,30 +350,30 @@ const Defects: FC = function () {
                   stroke="#0E9F6E"
                 />
               </svg>
-              <span className="ml-1 text-[14px] text-green-500">0%</span>
+              <span className="ml-1 text-[12px] text-green-500">0%</span>
             </div>
           </div>
           <div>
             <table className="w-full border-collapse rounded border border-gray-100">
               <tr>
                 <td className="border border-gray-100 p-1">
-                  <span className="text-[14px]">1 year</span>
+                  <span className="text-[12px]">1 year</span>
                 </td>
                 <td className="border border-gray-100 p-1">
-                  <span className="text-[14px]">30 days</span>
+                  <span className="text-[12px]">30 days</span>
                 </td>
                 <td className="border border-gray-100 p-1">
-                  <span className="text-[14px]">7 days</span>
+                  <span className="text-[12px]">7 days</span>
                 </td>
                 <td className="border border-gray-100 p-1">
-                  <span className="text-[14px]">24 hours</span>
+                  <span className="text-[12px]">24 hours</span>
                 </td>
               </tr>
             </table>
           </div>
         </div>
         <fieldset className="my-5 flex flex-row items-center gap-4">
-          <span className="text-[16px]">Show only:</span>
+          <span className="text-[14px]">Show only:</span>
           <div className="flex items-center gap-2">
             <Radio
               id="united-state"

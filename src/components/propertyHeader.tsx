@@ -111,7 +111,7 @@ const PropertyHeader = function () {
         </Modal>
       </div>
       {/* <fieldset className="my-5 flex flex-row items-center gap-4">
-        <span className="text-[16px]">Show only:</span>
+        <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
             id="united-state"

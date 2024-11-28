@@ -93,7 +93,7 @@ const OrganizationPage: FC = function () {
                           href="javascript:void(0)"
                           onClick={() => gotoPage(`/organization/${org.id}`)}
                         >
-                          <span className="text-[16px] font-bold">
+                          <span className="text-[14px] font-bold">
                             {org.name}
                           </span>
                         </a>
@@ -131,11 +131,11 @@ const OrganizationPage: FC = function () {
                         </a>
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex text-[16px]">
+                        <div className="flex text-[14px]">
                           <span className="mr-2">Country:</span>
                           <span className="text-gray-600">Australia</span>
                         </div>
-                        <div className="flex text-[16px]">
+                        <div className="flex text-[14px]">
                           <span className="mr-2">Timezone:</span>
                           <span className="text-gray-600">
                             {org.timezone.name}
@@ -143,7 +143,7 @@ const OrganizationPage: FC = function () {
                         </div>
                       </div>
                       <div className="mt-2 flex flex-col">
-                        <div className="flex flex-wrap justify-start text-[14px]">
+                        <div className="flex flex-wrap justify-start text-[12px]">
                           <div className="my-1 mr-2 flex items-center rounded-md border border-transparent bg-red-100 px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all">
                             <svg
                               width="10"
@@ -189,7 +189,7 @@ const OrganizationPage: FC = function () {
                             Projects: 0
                           </div>
                         </div>
-                        <div className="mt-2 flex flex-wrap justify-start text-[14px]">
+                        <div className="mt-2 flex flex-wrap justify-start text-[12px]">
                           <div className="my-1 mr-2  flex items-center rounded-md border border-transparent bg-blue-100 px-2.5 py-0.5 text-sm text-blue-800 shadow-sm transition-all">
                             <svg
                               width="10"

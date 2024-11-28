@@ -208,7 +208,7 @@ export default function ProjectAdmin() {
           </tbody>
         </table>
       </div>
-      <div className="mt-1 flex items-center text-[16px] text-[blue]">
+      <div className="mt-1 flex items-center text-[14px] text-[blue]">
         <a href="javascript:void(0)" onClick={() => setOpenModal(true)}>
           ADD NEW PROJECT ADMIN
         </a>

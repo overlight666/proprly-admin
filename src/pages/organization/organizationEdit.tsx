@@ -742,7 +742,7 @@ const OrganizationEdit: FC = function () {
                     )}
                   </tbody>
                 </table>
-                <div className="mt-5 flex items-center text-[16px] text-[blue]">
+                <div className="mt-5 flex items-center text-[14px] text-[blue]">
                   <a
                     href="javascript:void(0)"
                     onClick={() => setOpenModal(true)}

@@ -149,7 +149,7 @@ const ExampleSidebar: FC = function () {
                             : ""
                         }
                       >
-                        <div className="flex w-full items-center justify-between text-[16px]">
+                        <div className="flex w-full items-center justify-between text-[14px]">
                           Sign-Up Leads
                         </div>
                       </Sidebar.Item>
@@ -160,7 +160,7 @@ const ExampleSidebar: FC = function () {
                     <>
                       <Sidebar.Item
                         href={`/organization/${selectedOrganization.id}`}
-                        className={`text-[16px] ${
+                        className={`text-[14px] ${
                           currentRoute == "/organization/:id" && "bg-gray-200"
                         }`}
                       >
@@ -199,7 +199,7 @@ const ExampleSidebar: FC = function () {
                                 }}
                                 key={index}
                                 href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
-                                className={`ml-2 text-[16px] ${
+                                className={`ml-2 text-[14px] ${
                                   currentRoute ==
                                     "/organization/:id/project/:project_id" &&
                                   project_id == obj.id &&
@@ -243,7 +243,7 @@ const ExampleSidebar: FC = function () {
                                   <Sidebar.ItemGroup>
                                     <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}/properties`}
-                                      className={`ml-2 text-[16px] ${
+                                      className={`ml-2 text-[14px] ${
                                         (currentRoute ==
                                           "/organization/:id/project/:project_id/properties" ||
                                           currentRoute ==
@@ -275,7 +275,7 @@ const ExampleSidebar: FC = function () {
                                     </Sidebar.Item>
                                     <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
-                                      className={`ml-2 text-[16px]`}
+                                      className={`ml-2 text-[14px]`}
                                     >
                                       <div className={`flex items-center `}>
                                         <div
@@ -299,7 +299,7 @@ const ExampleSidebar: FC = function () {
                                     </Sidebar.Item>
                                     <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
-                                      className={`ml-2 text-[16px]`}
+                                      className={`ml-2 text-[14px]`}
                                     >
                                       <div className={`flex items-center `}>
                                         <div
@@ -350,7 +350,7 @@ const ExampleSidebar: FC = function () {
                                     </Sidebar.Item>
                                     <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}/appointments`}
-                                      className={`ml-2 text-[16px] ${
+                                      className={`ml-2 text-[14px] ${
                                         currentRoute ==
                                           "/organization/:id/project/:project_id/appointments" &&
                                         project_id == obj.id
@@ -416,7 +416,7 @@ const ExampleSidebar: FC = function () {
                             aria-label="Alternate spinner button example"
                             size="sm"
                           />
-                          <span className="pl-3 text-[14px]">
+                          <span className="pl-3 text-[12px]">
                             Loading Project...
                           </span>
                         </div>
@@ -434,7 +434,7 @@ const ExampleSidebar: FC = function () {
                       <>
                         <Sidebar.Item
                           href={`/organization/${org.id}`}
-                          className="ml-2 text-[16px]"
+                          className="ml-2 text-[14px]"
                         >
                           <div className="flex items-center">
                             <div className="mr-3 flex h-6 items-center justify-center rounded bg-blue-100 p-2 shadow">
