@@ -4,11 +4,13 @@ import { Modal, Button, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { registerToOrg } from "../../apis";
+import { useDispatch } from "react-redux";
+import { getAllLeads } from "../../store/features/reducers";
 
 export const LeadConfirmModal = function (props: any) {
   const { isOpen, setOpen, status, lead_id } = props;
   const [isProcess, setIsProcess] = useState(false);
-
+  const dispatch = useDispatch();
   const onSubmit = async () => {
     if (status === "convert") {
       const params = {
@@ -17,6 +19,7 @@ export const LeadConfirmModal = function (props: any) {
       setIsProcess(true);
       const res = await registerToOrg(params);
       if (res && res.data) {
+        dispatch(getAllLeads());
         toast.info("Lead successfully converted!");
       } else {
         toast.error(
