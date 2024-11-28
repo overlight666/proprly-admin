@@ -28,13 +28,40 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
   const textColoring = (defectSubStatus, hasBg) => {
     if (
       defectSubStatus == "Tradesman to be organised" ||
-      defectSubStatus == "Materials & Tradesman to be organised"
+      defectSubStatus == "Materials & Tradesman to be organised" ||
+      defectSubStatus == "Materials to be organise" ||
+      defectSubStatus == "Pending Auditor feedback" ||
+      defectSubStatus == "Resolution Rejected by Auditor" ||
+      defectSubStatus == "Defect Re-opened By Auditor" ||
+      defectSubStatus == "Pending Owner feedback" ||
+      defectSubStatus == "Defect Re-opened" ||
+      defectSubStatus == "Owner not at home" ||
+      defectSubStatus == "Defect Accepted by Admin"
     ) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
-    } else if (defectSubStatus == "Defect logged") {
+    } else if (
+      defectSubStatus == "Defect logged" ||
+      defectSubStatus == "Pending Admin feedback"
+    ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
+    } else if (
+      defectSubStatus == "Defect Resolved" ||
+      defectSubStatus == "Resolution Accepted by Auditor" ||
+      defectSubStatus == "Resolution Accepted By Owner" ||
+      defectSubStatus == "Defect Closed" ||
+      defectSubStatus == "Defect Rejected by Admin"
+    ) {
+      return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
+    } else if (
+      defectSubStatus == "Defect Resolution Disputed by Owner" ||
+      defectSubStatus == "Warranty Issue" ||
+      defectSubStatus == "Owner Defect" ||
+      defectSubStatus == "Not a Defect"
+    ) {
+      return hasBg ? "text-cyan-800 bg-cyan-100" : "text-cyan-400";
     }
   };
+
   return (
     <div
       className="my-2 flex w-full flex-col p-5 shadow"
