@@ -68,6 +68,10 @@ import {
 import { MdBugReport } from "react-icons/md";
 import { useUploadForm } from "../../apis/hooks";
 import CommonAreaConfigure from "./common-area-configure";
+import CommonAreaDefectHeader from "../../components/commonAreaDefectHeader";
+import CommonAreaHeader from "../../components/commonAreaHeader";
+import CommonAreaReportTable from "../../components/commonAreaReportTable";
+import CommonAreaDefectResolution from "./items/common-area-defect-resolution";
 
 const CommonAreaViewPage: FC = function () {
   const { project_id, common_area_id }: any = useParams();
@@ -82,6 +86,7 @@ const CommonAreaViewPage: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
+  const [headerValue, setHeaderValue] = useState("general");
   const {
     selectedProject,
     commonAreaIdle,
@@ -660,6 +665,18 @@ const CommonAreaViewPage: FC = function () {
           </>
         )}
         {commonAreaTab === 2 && <CommonAreaConfigure />}
+        {commonAreaTab === 3 && (
+          <div className="flex w-full flex-col  !bg-transparent">
+            <CommonAreaDefectHeader />
+            <CommonAreaDefectResolution />
+          </div>
+        )}
+        {commonAreaTab === 4 && (
+          <div className="flex w-full flex-col  !bg-transparent">
+            <CommonAreaHeader setHeaderValue={setHeaderValue} />
+            <CommonAreaReportTable headerValue={headerValue} />
+          </div>
+        )}
       </div>
     </NavbarSidebarLayout>
   );
