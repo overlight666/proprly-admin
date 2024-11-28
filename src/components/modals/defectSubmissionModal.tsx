@@ -27,7 +27,17 @@ export const DefectSubmissionModal = function (props: any) {
         return letter.toUpperCase();
       });
   };
-
+  const textColoring = (defectSubStatus, hasBg) => {
+    if (
+      defectSubStatus == "Tradesman to be organised" ||
+      defectSubStatus == "Materials & Tradesman to be organised"
+    ) {
+      return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
+    } else if (defectSubStatus == "Defect logged") {
+      return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
+    }
+  };
+  console.log(defect);
   return (
     <>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="7xl">
@@ -45,7 +55,11 @@ export const DefectSubmissionModal = function (props: any) {
           )) || (
             <div className="flex !max-h-[600px] flex-col overflow-hidden">
               <div className="relative flex w-full flex-row justify-between">
-                <div className="my-1 mr-2 flex items-center rounded-md border border-transparent bg-red-100 px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all">
+                <div
+                  className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(defect?.subStatus, true)}
+                    `}
+                >
                   <svg
                     width="10"
                     height="10"
@@ -400,7 +414,12 @@ export const DefectSubmissionModal = function (props: any) {
                               <span className="text-[14px] font-bold">
                                 {getStatus(activity.loggedBy)}
                               </span>
-                              <span className="text-[14px]">
+                              <span
+                                className={`text-[14px] ${textColoring(
+                                  activity.defectSubStatus,
+                                  false
+                                )}`}
+                              >
                                 {activity.defectSubStatus}
                               </span>
                               {activity.images && (

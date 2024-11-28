@@ -24,6 +24,17 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         return letter.toUpperCase();
       });
   };
+
+  const textColoring = (defectSubStatus, hasBg) => {
+    if (
+      defectSubStatus == "Tradesman to be organised" ||
+      defectSubStatus == "Materials & Tradesman to be organised"
+    ) {
+      return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
+    } else if (defectSubStatus == "Defect logged") {
+      return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
+    }
+  };
   return (
     <div
       className="my-2 flex w-full flex-col p-5 shadow"
@@ -47,7 +58,12 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         {/* </a> */}
       </div>
       <div className="flex flex-row">
-        <div className="my-1 mr-2 flex items-center rounded-md border border-transparent bg-red-100 px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all">
+        <div
+          className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all ${textColoring(
+            def.subStatus,
+            true
+          )}`}
+        >
           <svg
             width="10"
             height="10"
@@ -69,7 +85,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
               fill="#9B1C1C"
             />
           </svg>
-          <span className="text-[14px]">{def.subStatus}</span>
+          <span className={`text-[14px]`}>{def.subStatus}</span>
         </div>
       </div>
       <div className="mt-2 flex flex-col">

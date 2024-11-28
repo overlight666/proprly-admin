@@ -493,7 +493,6 @@ const ViewProperty: FC = function () {
       uploadedWarranties.groups &&
       uploadedWarranties.groups.map((obj) => {
         if (obj.group == group) {
-          console.log(data.map((o) => o.id));
           obj.files = data.map((o) => o.id);
           obj.data = data;
         }
