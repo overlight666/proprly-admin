@@ -66,7 +66,7 @@ const DefectResolution = function () {
     }
   }, [defectSubmissions]);
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 px-5">
       <div className="flex min-w-[25%] max-w-[25%] flex-col gap-0">
         <span className="text-[14px] font-bold">
           Pending({pendingDefects.length})

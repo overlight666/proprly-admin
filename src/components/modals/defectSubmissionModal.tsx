@@ -222,7 +222,7 @@ export const DefectSubmissionModal = function (props: any) {
                         </div>
                         <div className="col-span-3 row-start-4 flex w-full flex-col">
                           <span>Defect Evidence</span>
-                          <div className="flex w-full items-center gap-2 bg-gray-100">
+                          <div className="flex w-full items-center gap-2 bg-gray-100 ">
                             {defect?.images &&
                               defect?.images.map((img, index) => {
                                 return (
@@ -232,7 +232,7 @@ export const DefectSubmissionModal = function (props: any) {
                                   >
                                     <img
                                       src={img.url}
-                                      className="object-cover object-center"
+                                      className="h-40 w-40 object-scale-down object-center"
                                     />
                                   </div>
                                 );

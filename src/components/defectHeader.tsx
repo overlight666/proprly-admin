@@ -8,7 +8,7 @@ import { BsListTask } from "react-icons/bs";
 const DefectHeader = function () {
   return (
     <>
-      <div className="my-5 grid w-full grid-cols-9 gap-2">
+      <div className="my-5 grid w-full grid-cols-9 gap-2 px-5">
         <div className="relative col-span-3 w-full">
           <input
             type="search"
@@ -47,7 +47,7 @@ const DefectHeader = function () {
           </Button>
         </div>
       </div>
-      <fieldset className="mb-10 flex flex-row items-center gap-10">
+      <fieldset className="mb-10 flex flex-row items-center gap-10 px-5">
         <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
