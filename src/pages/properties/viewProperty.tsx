@@ -74,8 +74,11 @@ const ViewProperty: FC = function () {
         mobile,
         email,
         roleId: 6,
+        propertyId: property_id,
       };
+
       setOwnerList((oldArray) => [params, ...oldArray]);
+      setAttachedOwner((oldArray) => [params, ...oldArray]);
     } else {
       toast.error("all fields are required!");
     }
@@ -216,11 +219,11 @@ const ViewProperty: FC = function () {
   const [showCard4, setShowCard4] = useState(true);
   // const [showCard5, setShowCard5] = useState(true);
 
-  useEffect(() => {
-    if (formData.user && formData.user.length > 0) {
-      setOwnerList((oldArray) => [formData.user, ...oldArray]);
-    }
-  }, [formData]);
+  // useEffect(() => {
+  //   if (formData.user && formData.user.length > 0) {
+  //     setOwnerList((oldArray) => [formData.user, ...oldArray]);
+  //   }
+  // }, [formData]);
 
   useEffect(() => {
     if (warrantyData) {
@@ -396,6 +399,11 @@ const ViewProperty: FC = function () {
                         });
                       dispatch(clearWarranty());
                       dispatch(getSingleProperty(property_id));
+                      //for new create owners
+                      ownerList &&
+                        ownerList.map((users) => {
+                          dispatch(attachPropertyUserReducer(users));
+                        });
                       toast.info("Property has been updated!");
                       setTimeout(() => {
                         navigate(
