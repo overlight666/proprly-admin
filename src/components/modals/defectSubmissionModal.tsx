@@ -406,7 +406,7 @@ export const DefectSubmissionModal = function (props: any) {
                             rows={4}
                             value={defect?.comment}
                             className="block w-full resize-none border-0 bg-gray-100 p-2 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
-                            placeholder="comment"
+                            placeholder="n/a"
                           ></textarea>
                         </div>
                         <div className="col-span-3 row-start-5 flex w-full flex-col">
