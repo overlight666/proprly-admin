@@ -187,28 +187,36 @@ const Appointments: FC = function () {
                 <MonthlyNav />
                 <MonthlyBody events={events}>
                   <MonthlyDay<EventType>
-                    renderDay={(data) =>
-                      data.map((item: any, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
-                        >
-                          <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                          <span className="text-blue-600">
-                            <Tooltip content={item.title}>
-                              {truncateString(item.title)}
-                            </Tooltip>
-                          </span>
+                    renderDay={(data) => {
+                      return (
+                        <div className="flex flex-col gap-1">
+                          {data.map(
+                            (item: any, index) =>
+                              index <= 4 && (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                                >
+                                  <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                                  <span className="text-blue-600">
+                                    <Tooltip content={item.title}>
+                                      {truncateString(item.title)}
+                                    </Tooltip>
+                                  </span>
+                                </div>
+                              )
+                          )}
+                          {data && data.length > 4 && (
+                            <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
+                              <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                              <span className="text-blue-600">
+                                + {data.length - 4}
+                              </span>
+                            </div>
+                          )}
                         </div>
-                        // <DefaultMonthlyEventItem
-
-                        //   key={index}
-                        //   title={item.title}
-                        //   // Format the date here to be in the format you prefer
-                        //   date={format(item.date, "k:mm")}
-                        // />
-                      ))
-                    }
+                      );
+                    }}
                   />
                 </MonthlyBody>
               </MonthlyCalendar>
