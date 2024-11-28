@@ -8,7 +8,7 @@
 
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb } from "flowbite-react";
+import { Breadcrumb, Tooltip } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import type {
@@ -26,13 +26,13 @@ import {
   getProperties,
 } from "../../store/features/reducers";
 
-import { format, startOfMonth } from "date-fns";
+import { startOfMonth } from "date-fns";
 import {
   MonthlyBody,
   MonthlyDay,
   MonthlyCalendar,
   MonthlyNav,
-  DefaultMonthlyEventItem,
+  // DefaultMonthlyEventItem,
 } from "@zach.codes/react-calendar";
 import type { EventType } from "react-hook-form";
 import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
@@ -70,9 +70,6 @@ const Appointments: FC = function () {
       (projectAppointments &&
         projectAppointments.length > 0 &&
         projectAppointments.map((o) => {
-          console.log(
-            new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString())
-          );
           return {
             title: `${moment(o.startDate, "YYYY-MM-DD h:mm a").format(
               "h:mm A"
@@ -83,6 +80,9 @@ const Appointments: FC = function () {
         []
     );
   }, [projectAppointments]);
+
+  const truncateString = (string = "", maxLength = 20) =>
+    string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -189,12 +189,24 @@ const Appointments: FC = function () {
                   <MonthlyDay<EventType>
                     renderDay={(data) =>
                       data.map((item: any, index) => (
-                        <DefaultMonthlyEventItem
+                        <div
                           key={index}
-                          title={item.title}
-                          // Format the date here to be in the format you prefer
-                          date={format(item.date, "k:mm")}
-                        />
+                          className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                        >
+                          <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                          <span className="text-blue-600">
+                            <Tooltip content={item.title}>
+                              {truncateString(item.title)}
+                            </Tooltip>
+                          </span>
+                        </div>
+                        // <DefaultMonthlyEventItem
+
+                        //   key={index}
+                        //   title={item.title}
+                        //   // Format the date here to be in the format you prefer
+                        //   date={format(item.date, "k:mm")}
+                        // />
                       ))
                     }
                   />
