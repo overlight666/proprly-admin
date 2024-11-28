@@ -67,7 +67,7 @@ const DefectResolution = function () {
   }, [defectSubmissions]);
   return (
     <div className="flex flex-row gap-2">
-      <div className="flex flex-col gap-2">
+      <div className="flex min-w-[25%] max-w-[25%] flex-col gap-2">
         <span className="text-[16px] font-bold">
           Pending({pendingDefects.length})
         </span>
@@ -77,7 +77,7 @@ const DefectResolution = function () {
             return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex min-w-[25%] max-w-[25%] flex-col gap-2">
         <span className="text-[16px] font-bold">
           In Progress({inprogressDefects.length})
         </span>
@@ -86,7 +86,7 @@ const DefectResolution = function () {
             return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex min-w-[25%] max-w-[25%] flex-col gap-2">
         <span className="text-[16px] font-bold">
           Disputed({disputedDefects.length})
         </span>
@@ -95,7 +95,7 @@ const DefectResolution = function () {
             return <DefectItem key={index} def={defects} setOpen={setOpen} />;
           })}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex min-w-[25%] max-w-[25%] flex-col gap-2">
         <span className="text-[16px] font-bold">
           Resolved({resolvedDefects.length})
         </span>
