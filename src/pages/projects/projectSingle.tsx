@@ -137,6 +137,7 @@ const ProjectSingle: FC = function () {
       dispatch(getSingleProject(project_id));
       dispatch(setResponseStatus(""));
       toast.info("Project updated");
+      dispatch(updateProjectTabMain(0));
     }
   }, [responseStatus]);
 

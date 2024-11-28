@@ -29,6 +29,7 @@ import Warranty from "./propertyItems/warranty";
 // import Reports from "./propertyItems/reports";
 import { useNavigate, useParams } from "react-router";
 import {
+  attachPropertyUserReducer,
   getTowersReducer,
   postWarranties,
   postWarrantyFiles,
@@ -117,6 +118,21 @@ const AddProperty: FC = function () {
           ...uploadedWarranties,
         })
       );
+      const mutateUser =
+        existingOwners &&
+        existingOwners.map((owner) => {
+          return {
+            ...owner,
+            password: "admin",
+            propertyId: propertyResponse.id,
+            roleId: 6,
+          };
+        });
+      mutateUser &&
+        mutateUser.map((users) => {
+          dispatch(attachPropertyUserReducer(users));
+        });
+
       navigate(`/organization/${id}/project/${project_id}/properties`);
       dispatch(clearPropertyResponse());
     }
@@ -189,6 +205,7 @@ const AddProperty: FC = function () {
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
+  const [existingOwners, setExistingOwners] = useState<any>([]);
   // const [showCard5, setShowCard5] = useState(true);
 
   const handleInputChange = (event: any) => {
@@ -251,8 +268,13 @@ const AddProperty: FC = function () {
                       formData.parkingSpaces !== "" &&
                       formData.parkingSpaces !== undefined
                     ) {
+                      const oldOwner =
+                        attachedOwner && attachedOwner.filter((own) => own.id);
+                      const newOwner =
+                        attachedOwner && attachedOwner.filter((own) => !own.id);
+                      setExistingOwners(oldOwner);
                       dispatch(
-                        registerProperty({ ...formData, users: attachedOwner })
+                        registerProperty({ ...formData, users: newOwner })
                       );
                     } else {
                       setErrors((oldArray) => [

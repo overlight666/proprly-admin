@@ -46,7 +46,7 @@ import {
 import { clearWarranty } from "../../store/features/imageSlice";
 
 const ViewProperty: FC = function () {
-  const { project_id, property_id }: any = useParams();
+  const { id, project_id, property_id }: any = useParams();
   const { warrantyData }: ImageState = useSelector(
     (state: any) => state.uploads
   );
@@ -397,6 +397,11 @@ const ViewProperty: FC = function () {
                       dispatch(clearWarranty());
                       dispatch(getSingleProperty(property_id));
                       toast.info("Property has been updated!");
+                      setTimeout(() => {
+                        navigate(
+                          `/organization/${id}/project/${project_id}/properties`
+                        );
+                      }, 2000);
                     } else {
                       setErrors((oldArray) => [
                         ...[...new Set(oldArray)],
@@ -891,7 +896,7 @@ const ViewProperty: FC = function () {
           <Button
             className="mx-1"
             onClick={() => {
-              navigate(`/organization/${selectedOrganization?.id}`);
+              navigate(`/organization/${id}/project/${project_id}/properties`);
             }}
             color="gray"
           >
