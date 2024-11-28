@@ -9,6 +9,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { getDefectResolutionByIdReducer } from "../../../store/features/reducers";
 import type { DefectSumissionType } from "../../../types";
+import defaultImg from "../../../../public/images/default.jpg";
 interface paramstype {
   def: DefectSumissionType;
   setOpen: any;
@@ -35,7 +36,10 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         {/* <a href="javascript:void(0)"> */}
         <div className="flex max-h-[180px] min-h-[180px] items-center justify-center overflow-hidden">
           <img
-            src={def.images[Math.floor(Math.random() * def.images.length)]?.url}
+            src={
+              def.images[Math.floor(Math.random() * def.images.length)]?.url ||
+              defaultImg
+            }
             alt=""
             className="min-h-[180px] w-full object-fill"
           />
