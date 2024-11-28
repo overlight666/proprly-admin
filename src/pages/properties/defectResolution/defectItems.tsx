@@ -64,7 +64,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
 
   return (
     <div
-      className="my-2 flex w-full flex-col p-5 shadow"
+      className="my-2 flex w-full flex-col p-5 shadow-xl"
       onClick={() => {
         dispatch(getDefectResolutionByIdReducer(def.id));
         setOpen(true);

@@ -437,47 +437,82 @@ export const DefectSubmissionModal = function (props: any) {
                       {defect?.activityLogs &&
                         defect.activityLogs.map((activity, index) => {
                           return (
-                            <div key={index} className="flex flex-col p-5">
-                              <span className="text-[14px] font-bold">
-                                {getStatus(activity.loggedBy)}
-                              </span>
-                              <span
-                                className={`text-[14px] ${textColoring(
-                                  activity.defectSubStatus,
-                                  false
-                                )}`}
+                            <div
+                              key={index}
+                              className={`flex flex-col pr-5 ${
+                                index == 0 && "pt-5"
+                              }`}
+                            >
+                              <div
+                                className={`relative flex flex-col border-l-2 border-gray-200 ${
+                                  index > 0 ? "py-3" : "pb-3"
+                                } pl-5`}
                               >
-                                {activity.defectSubStatus}
-                              </span>
-                              {activity.images && (
-                                <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
-                                  {activity.images.map((img, index) => {
-                                    return (
-                                      <div
-                                        key={index}
-                                        className="h-full min-w-[25%] max-w-[25%] p-3"
-                                      >
-                                        <img
-                                          src={img.url}
-                                          className="object-cover object-center"
-                                        />
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              )}
+                                <svg
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 12 11"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className={`absolute left-[-8px] ${
+                                    index > 0 ? "top-4" : ""
+                                  }`}
+                                >
+                                  <path
+                                    d="M11.5 5.35953C11.5 7.88636 9.10776 10.053 6 10.053C2.89224 10.053 0.5 7.88636 0.5 5.35953C0.5 2.83271 2.89224 0.666046 6 0.666046C9.10776 0.666046 11.5 2.83271 11.5 5.35953Z"
+                                    fill="#E5E7EB"
+                                    stroke="white"
+                                  />
+                                </svg>
 
-                              {activity.comment && (
-                                <span className="text-[12px]">
-                                  <span className="font-semibold">Comment</span>
-                                  : {activity.comment}
+                                <span
+                                  className={`text-[14px] font-bold ${
+                                    index == 0 && "mt-[-4px]"
+                                  }`}
+                                >
+                                  {getStatus(activity.loggedBy)}
                                 </span>
-                              )}
-                              <span className="text-[12px]">
-                                {moment(activity.createdAt).format(
-                                  "MMM DD, YYYY h:mm a"
+                                <span
+                                  className={`text-[14px] ${textColoring(
+                                    activity.defectSubStatus,
+                                    false
+                                  )}`}
+                                >
+                                  {activity.defectSubStatus}
+                                </span>
+                                {activity.images &&
+                                  activity.images.length > 0 && (
+                                    <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
+                                      {activity.images.map((img, index) => {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className="h-full min-w-[25%] max-w-[25%] p-3"
+                                          >
+                                            <img
+                                              src={img.url}
+                                              className="object-cover object-center"
+                                            />
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+
+                                {activity.comment && (
+                                  <span className="text-[12px]">
+                                    <span className="font-semibold">
+                                      Comment
+                                    </span>
+                                    : {activity.comment}
+                                  </span>
                                 )}
-                              </span>
+                                <span className="text-[12px]">
+                                  {moment(activity.createdAt).format(
+                                    "MMM DD, YYYY h:mm a"
+                                  )}
+                                </span>
+                              </div>
                             </div>
                           );
                         })}

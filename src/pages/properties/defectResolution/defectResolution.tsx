@@ -71,11 +71,13 @@ const DefectResolution = function () {
         <span className="text-[14px] font-bold">
           Pending({pendingDefects.length})
         </span>
-        {pendingDefects &&
-          pendingDefects.length > 0 &&
-          pendingDefects.map((defects, index) => {
-            return <DefectItem key={index} def={defects} setOpen={setOpen} />;
-          })}
+        <div className="flex flex-col gap-2">
+          {pendingDefects &&
+            pendingDefects.length > 0 &&
+            pendingDefects.map((defects, index) => {
+              return <DefectItem key={index} def={defects} setOpen={setOpen} />;
+            })}
+        </div>
       </div>
       <div className="flex min-w-[25%] max-w-[25%] flex-col gap-2">
         <span className="text-[14px] font-bold">
