@@ -191,9 +191,9 @@ const AddAppointment: FC = function () {
   useEffect(() => {
     if (timeslot) {
       const currentDay = moment().format("dddd");
-      const slots = timeslot.find(
-        (m) => m.day.toLowerCase() == currentDay.toLowerCase()
-      );
+      const slots =
+        timeslot.length > 0 &&
+        timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
       setCurrentTimeSlots(slots);
     }
   }, [timeslot]);

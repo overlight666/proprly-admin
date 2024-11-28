@@ -192,7 +192,7 @@ const Appointments: FC = function () {
                         <div className="flex flex-col gap-1">
                           {data.map(
                             (item: any, index) =>
-                              index <= 4 && (
+                              index <= 2 && (
                                 <div
                                   key={index}
                                   className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
@@ -206,7 +206,7 @@ const Appointments: FC = function () {
                                 </div>
                               )
                           )}
-                          {data && data.length > 4 && (
+                          {data && data.length > 2 && (
                             <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
                               <div className="h-2 w-2 rounded-full bg-blue-600"></div>
                               <span className="text-blue-600">
