@@ -81,7 +81,7 @@ const Appointments: FC = function () {
     );
   }, [projectAppointments]);
 
-  const truncateString = (string = "", maxLength = 20) =>
+  const truncateString = (string = "", maxLength = 12) =>
     string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
 
   return (
