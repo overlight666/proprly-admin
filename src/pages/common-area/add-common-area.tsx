@@ -59,7 +59,9 @@ import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
 import StrataUploads from "./items/strata-uploads";
 import {
+  clearCommonAreaConfig,
   clearCommonAreaResponse,
+  reloadCommonAreaTable,
   updateCommonAreaTab,
 } from "../../store/features/projectSlice";
 import { useUploadForm } from "../../apis/hooks";
@@ -119,7 +121,10 @@ const CommonAreaNewPage: FC = function () {
       ) {
         toast.info("New Common Area has been registered!");
         dispatch(updateCommonAreaTab(2));
+        dispatch(clearCommonAreaConfig());
+        dispatch(reloadCommonAreaTable(true));
         setTimeout(() => {
+          dispatch(reloadCommonAreaTable(true));
           navigate(
             `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
           );

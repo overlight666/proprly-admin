@@ -95,6 +95,9 @@ export const projectSlice = createSlice({
     clearCommonAreaItem: (state) => {
       state.commonAreaItem = undefined;
     },
+    clearCommonAreaConfig: (state) => {
+      state.commonAreaConfig = undefined;
+    },
     fireTrade: (state) => {
       state.isTradeFired = false;
     },
@@ -492,6 +495,7 @@ export const {
   clearCommonAreaResponse,
   clearCommonAreaItem,
   reloadCommonAreaTable,
+  clearCommonAreaConfig,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
