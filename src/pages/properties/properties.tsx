@@ -116,7 +116,7 @@ const Properties: FC = function () {
                 onClick={() => dispatch(updatePropertyTab(1))}
                 className={
                   propertyTab === 1
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[12px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -143,7 +143,7 @@ const Properties: FC = function () {
                 onClick={() => dispatch(updatePropertyTab(2))}
                 className={
                   propertyTab === 2
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[12px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
                 aria-current="page"
@@ -158,7 +158,7 @@ const Properties: FC = function () {
                 onClick={() => dispatch(updatePropertyTab(3))}
                 className={
                   propertyTab === 3
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[12px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
                 aria-current="page"

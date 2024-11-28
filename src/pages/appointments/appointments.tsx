@@ -87,7 +87,7 @@ const Appointments: FC = function () {
                 onClick={() => dispatch(updateAppointmentTab(1))}
                 className={
                   appointmentTab === 1
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[12px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -113,7 +113,7 @@ const Appointments: FC = function () {
                 onClick={() => dispatch(updateAppointmentTab(2))}
                 className={
                   appointmentTab === 2
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[12px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
                 aria-current="page"
