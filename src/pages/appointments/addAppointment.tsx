@@ -185,6 +185,9 @@ const AddAppointment: FC = function () {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
       toast.info("Appointment successfully added");
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
     }
   }, [appointmentResponse]);
 
