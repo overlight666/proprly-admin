@@ -29,7 +29,7 @@ const RegistrationStep3 = function (props: UserRegistration) {
           length={6}
           //   onComplete={() => handleSubmit}
         />
-        <span className="text-[14px] text-gray-600">
+        <span className="text-[16px] text-gray-600">
           Enter a number between 0 and 9
         </span>
       </div>

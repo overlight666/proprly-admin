@@ -65,20 +65,20 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
               fill="#9B1C1C"
             />
           </svg>
-          <span className="text-[14px]">{def.subStatus}</span>
+          <span className="text-[16px]">{def.subStatus}</span>
         </div>
       </div>
       <div className="mt-2 flex flex-col">
         <span className="text-[16px] font-semibold">
           {`Unit ${def.property.unitNo}, ${def.checklistZone.name} - ${def.checklistElement?.name}`}
         </span>
-        <span className="text-[14px] text-gray-400">
+        <span className="text-[16px] text-gray-400">
           Defect Code:{" "}
           <span className="font-semibold text-black">
             {`${def.defectCode.defectCode}, ${def.defectCode.defectName}`}
           </span>
         </span>
-        <span className="text-[14px] text-gray-400">
+        <span className="text-[16px] text-gray-400">
           {/* {def.property.tower}: <span className="text-black">{org.towerA}</span> */}
         </span>
       </div>
@@ -86,16 +86,16 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       <hr />
       <br />
       <div className="grid grid-cols-3 grid-rows-2 gap-1">
-        <span className="text-[14px] text-gray-400">Type</span>
-        <span className="text-[14px] text-gray-400">Logged by</span>
-        <span className="text-[14px] text-gray-400">Date</span>
-        <span className="text-[14px] font-semibold">
+        <span className="text-[16px] text-gray-400">Type</span>
+        <span className="text-[16px] text-gray-400">Logged by</span>
+        <span className="text-[16px] text-gray-400">Date</span>
+        <span className="text-[16px] font-semibold">
           {getStatus(def.propertyStatus)}
         </span>
-        <span className="text-[14px] font-semibold">
+        <span className="text-[16px] font-semibold">
           {getStatus(def.submittedBy)}
         </span>
-        <span className="text-[14px] font-semibold">
+        <span className="text-[16px] font-semibold">
           {moment(def.createdAt).format("DD MMM YYYY")}
         </span>
       </div>

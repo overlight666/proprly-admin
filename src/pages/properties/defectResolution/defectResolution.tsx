@@ -68,7 +68,7 @@ const DefectResolution = function () {
   return (
     <div className="flex flex-row gap-2">
       <div className="flex flex-col gap-2">
-        <span className="text-[15px] font-bold">
+        <span className="text-[16px] font-bold">
           Pending({pendingDefects.length})
         </span>
         {pendingDefects &&
@@ -78,7 +78,7 @@ const DefectResolution = function () {
           })}
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-[15px] font-bold">
+        <span className="text-[16px] font-bold">
           In Progress({inprogressDefects.length})
         </span>
         {inprogressDefects &&
@@ -87,7 +87,7 @@ const DefectResolution = function () {
           })}
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-[15px] font-bold">
+        <span className="text-[16px] font-bold">
           Disputed({disputedDefects.length})
         </span>
         {disputedDefects &&
@@ -96,7 +96,7 @@ const DefectResolution = function () {
           })}
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-[15px] font-bold">
+        <span className="text-[16px] font-bold">
           Resolved({resolvedDefects.length})
         </span>
         {resolvedDefects &&

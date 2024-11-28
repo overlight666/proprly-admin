@@ -67,7 +67,7 @@ export const DefectSubmissionModal = function (props: any) {
                       fill="#9B1C1C"
                     />
                   </svg>
-                  <span className="text-[12px]">{defect?.subStatus}</span>
+                  <span className="text-[14px]">{defect?.subStatus}</span>
                 </div>
                 <a onClick={() => setOpen(!isOpen)}>
                   <AiOutlineClose />
@@ -389,7 +389,7 @@ export const DefectSubmissionModal = function (props: any) {
 
                 <div className="col-start-3 row-span-2 row-start-1">
                   <div className="bg-gray-100 p-4">
-                    <span className="text-[14px] font-semibold">
+                    <span className="text-[16px] font-semibold">
                       Activity Log
                     </span>
                     <div className="flex flex-col">
@@ -397,10 +397,10 @@ export const DefectSubmissionModal = function (props: any) {
                         defect.activityLogs.map((activity, index) => {
                           return (
                             <div key={index} className="flex flex-col p-5">
-                              <span className="text-[14px] font-bold">
+                              <span className="text-[16px] font-bold">
                                 {getStatus(activity.loggedBy)}
                               </span>
-                              <span className="text-[14px]">
+                              <span className="text-[16px]">
                                 {activity.defectSubStatus}
                               </span>
                               {activity.images && (
@@ -422,12 +422,12 @@ export const DefectSubmissionModal = function (props: any) {
                               )}
 
                               {activity.comment && (
-                                <span className="text-[12px]">
+                                <span className="text-[14px]">
                                   <span className="font-semibold">Comment</span>
                                   : {activity.comment}
                                 </span>
                               )}
-                              <span className="text-[12px]">
+                              <span className="text-[14px]">
                                 {moment(activity.createdAt).format(
                                   "MMM DD, YYYY h:mm a"
                                 )}

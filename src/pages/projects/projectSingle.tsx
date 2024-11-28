@@ -452,7 +452,7 @@ const ProjectSingle: FC = function () {
                 onClick={() => dispatch(updateProjectTabMain(0))}
                 className={
                   projectTabMain === 0
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -489,7 +489,7 @@ const ProjectSingle: FC = function () {
                 onClick={() => dispatch(updateProjectTabMain(1))}
                 className={
                   projectTabMain === 1
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -519,7 +519,7 @@ const ProjectSingle: FC = function () {
                 onClick={() => dispatch(updateProjectTabMain(2))}
                 className={
                   projectTabMain === 2
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
                 aria-current="page"
@@ -553,7 +553,7 @@ const ProjectSingle: FC = function () {
                   onClick={() => dispatch(updateProjectTabMain(3))}
                   className={
                     projectTabMain === 3
-                      ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                      ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                       : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                   }
                 >
@@ -583,7 +583,7 @@ const ProjectSingle: FC = function () {
                 onClick={() => dispatch(updateProjectTabMain(4))}
                 className={
                   projectTabMain === 4
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -613,7 +613,7 @@ const ProjectSingle: FC = function () {
                 onClick={() => dispatch(updateProjectTabMain(5))}
                 className={
                   projectTabMain === 5
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
+                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-[14px] text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
@@ -782,7 +782,7 @@ const ProjectSingle: FC = function () {
                         </form>
                         <span
                           onClick={() => setSearchAddress(!searchAddress)}
-                          className="flex cursor-pointer items-center text-[14px] font-bold text-blue-400"
+                          className="flex cursor-pointer items-center text-[16px] font-bold text-blue-400"
                         >
                           {searchAddress
                             ? "ENTER AN ADDRESS MANUALLY"
