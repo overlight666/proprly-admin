@@ -2,7 +2,7 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { Lead, LeadState, ReducerTypes } from "../types";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
+import { selectLead } from "../store/features/leadSlice";
 // import OrgTableData from "./datatable/orgtable";
 
 const LeadTable = function () {
@@ -20,6 +21,7 @@ const LeadTable = function () {
   const [lead_id, setLeadId] = useState<string | number | undefined>(undefined);
   const [status, setStatus] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { leadList }: LeadState = useSelector(
     (state: ReducerTypes) => state.lead
   );
@@ -162,7 +164,10 @@ const LeadTable = function () {
                         )}
                       >
                         <Dropdown.Item
-                          onClick={() => navigate("/signup-leads/view")}
+                          onClick={() => {
+                            dispatch(selectLead(lead));
+                            navigate("/signup-leads/view");
+                          }}
                         >
                           View
                         </Dropdown.Item>

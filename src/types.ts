@@ -8,6 +8,7 @@ export interface OtpState {
 }
 
 export interface LeadState {
+  selectedLead: Lead | undefined;
   leadData: leadRegistration;
   loading: boolean;
   isIdle: boolean;
@@ -24,6 +25,7 @@ export interface Lead {
   mobileNumber: string;
   organizationName: string;
   organizationCountryCode: string;
+  organizationTimezone?: string;
   isEmailVerified: boolean;
   isMobileVerified: boolean;
   status?: string;

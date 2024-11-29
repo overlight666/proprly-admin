@@ -20,7 +20,13 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
-import type { ImageState, LeadState, OrgState, UserState } from "../../types";
+import type {
+  AppState,
+  ImageState,
+  LeadState,
+  OrgState,
+  UserState,
+} from "../../types";
 import {
   getAllBuilders,
   registerOrg,
@@ -32,7 +38,8 @@ import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
 import { registerToOrg } from "../../apis";
-
+import { current } from "@reduxjs/toolkit";
+import { LeadConfirmModal } from "../../components/modals/leadsModal";
 type organization = {
   name: string;
   timezone: string;
@@ -42,10 +49,11 @@ type organization = {
   imageId: number;
 };
 const ViewSignupLead: FC = function () {
-  const { builderList, loadingBuilders }: LeadState = useSelector(
+  const { builderList, loadingBuilders, selectedLead }: LeadState = useSelector(
     (state: any) => state.lead
   );
-
+  const [isOpen, setOpen] = useState(false);
+  const [status, setStatus] = useState<string | undefined>(undefined);
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [name, setName] = useState("");
@@ -59,13 +67,15 @@ const ViewSignupLead: FC = function () {
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
-
+  const { countries }: AppState = useSelector(
+    (state: any) => state.application
+  );
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
-  const [formData, setFormData] = useState<organization>({
+  const [formData, setFormData] = useState<organization | any>({
     name: "",
     timezone: "",
     currency: "",
@@ -73,9 +83,46 @@ const ViewSignupLead: FC = function () {
     country: "",
     imageId: 0,
   });
+  const [options, setOptions] = useState<any>([]);
+  let builderInit = false;
+  let leadInit = false;
 
   useEffect(() => {
-    dispatch(getAllBuilders());
+    if (countries.length > 0) {
+      const noptions = countries.map((c) => {
+        return {
+          value: c.countryName.toLowerCase(),
+          code: c.countryCode,
+          label: c.countryName,
+          ...c,
+        };
+      });
+      setOptions(noptions);
+    }
+  }, [countries]);
+
+  useEffect(() => {
+    if (!leadInit) {
+      if (selectedLead) {
+        const newLead = {
+          name: selectedLead.organizationName,
+          timezone: selectedLead.organizationTimezone,
+          currency: "",
+          country: selectedLead.organizationCountryCode,
+          dateFormat: "dd-mm-yyyy",
+          imageId: 0,
+        };
+        setFormData(newLead);
+      }
+      leadInit = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!builderInit) {
+      dispatch(getAllBuilders());
+      builderInit = true;
+    }
   }, []);
 
   useEffect(() => {
@@ -299,10 +346,17 @@ const ViewSignupLead: FC = function () {
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
                       <option selected>Select</option>
-                      <option value="AU">Australia</option>
+                      {options &&
+                        options.map((o, index) => {
+                          return (
+                            <option key={index} value={o.code}>
+                              {o.label}
+                            </option>
+                          );
+                        })}
                     </select>
                   </div>
-                  <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                  {/* <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="currency">Currency</Label>
                     <TextInput
                       id="currency"
@@ -313,7 +367,7 @@ const ViewSignupLead: FC = function () {
                       readOnly
                       required
                     />
-                  </div>
+                  </div> */}
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Select Timezone</Label>
                     <select
@@ -478,36 +532,18 @@ const ViewSignupLead: FC = function () {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedBuilderList.length ? (
-                      selectedBuilderList.map((obj: any, index: any) => {
-                        return (
-                          <tr
-                            key={index}
-                            className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
-                          >
-                            <th
-                              scope="row"
-                              className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                            >
-                              {obj.fullName}
-                            </th>
-                            <td className="px-6 py-4">
-                              {obj.mobile ? obj.mobile : obj.mobileNumber}
-                            </td>
-                            <td className="px-6 py-4">{obj.email}</td>
-                          </tr>
-                        );
-                      })
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={3}
-                          style={{ textAlign: "center", padding: "10px" }}
-                        >
-                          <span>NO RECORD</span>
-                        </td>
-                      </tr>
-                    )}
+                    <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                      <th
+                        scope="row"
+                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                      >
+                        {selectedLead?.fullName}
+                      </th>
+                      <td className="px-6 py-4">
+                        {`+${selectedLead?.mobileNumber}`}
+                      </td>
+                      <td className="px-6 py-4">{selectedLead?.email}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -516,12 +552,20 @@ const ViewSignupLead: FC = function () {
           <div className="grid grid-cols-12 gap-5 pt-10">
             <Button
               color="primary"
-              onClick={() => handleSubmit()}
-              disabled={!myImage.isIdle || !isIdle}
+              onClick={() => {
+                setStatus("convert");
+                setOpen(true);
+              }}
             >
               Convert
             </Button>
-            <Button color="white" className="border-[1px]">
+            <Button
+              color="white"
+              className="border-[1px]"
+              onClick={() => {
+                navigate("/signup-leads");
+              }}
+            >
               Cancel
             </Button>
           </div>
@@ -586,6 +630,12 @@ const ViewSignupLead: FC = function () {
           </Button>
         </Modal.Footer>
       </Modal>
+      <LeadConfirmModal
+        setOpen={setOpen}
+        isOpen={isOpen}
+        status={status}
+        lead_id={selectedLead?.id}
+      />
     </NavbarSidebarLayout>
   );
 };

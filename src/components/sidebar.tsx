@@ -149,7 +149,7 @@ const ExampleSidebar: FC = function () {
                             : ""
                         }
                       >
-                        <div className="flex w-full items-center justify-between text-[14px]">
+                        <div className="flex w-full items-center justify-between">
                           Sign-Up Leads
                         </div>
                       </Sidebar.Item>

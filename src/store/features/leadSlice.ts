@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { getAllBuilders, getAllLeads, registerLead } from "./reducers";
-import type { LeadState } from "../../types";
+import type { Lead, LeadState } from "../../types";
 
 // Define a type for the slice state
 
@@ -18,6 +19,7 @@ const leadInitialValue = {
 };
 // Define the initial state using that type
 const initialState: LeadState = {
+  selectedLead: undefined,
   loading: false,
   leadData: leadInitialValue,
   isIdle: true,
@@ -32,8 +34,8 @@ export const leadSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    registration: (state) => {
-      console.log(state);
+    selectLead: (state, action: PayloadAction<Lead>) => {
+      state.selectedLead = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -77,7 +79,7 @@ export const leadSlice = createSlice({
   },
 });
 
-export const { registration } = leadSlice.actions;
+export const { selectLead } = leadSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value;
