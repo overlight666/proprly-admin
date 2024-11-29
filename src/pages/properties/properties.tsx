@@ -28,6 +28,8 @@ import PropertyHeader from "../../components/propertyHeader";
 import DefectHeader from "../../components/defectHeader";
 import DefectResolution from "./defectResolution/defectResolution";
 import { MdBugReport } from "react-icons/md";
+import PropertyReportHeader from "../../components/propertyReportHeader";
+import PropertyReportTable from "../../components/propertyReportTable";
 
 const Properties: FC = function () {
   const { project_id }: any = useParams();
@@ -246,6 +248,12 @@ const Properties: FC = function () {
               <div className="flex w-full flex-col  !bg-transparent">
                 <DefectHeader />
                 <DefectResolution />
+              </div>
+            )}
+            {propertyTab === 3 && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <PropertyReportHeader />
+                <PropertyReportTable />
               </div>
             )}
           </>
