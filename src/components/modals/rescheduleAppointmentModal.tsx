@@ -52,6 +52,7 @@ export const RescheduleAppointmentModal = function (props: any) {
     ).format("HH:mm")}`
   );
   const dispatch = useDispatch();
+
   const getStatus = (value) => {
     let val = "";
     try {
@@ -81,11 +82,7 @@ export const RescheduleAppointmentModal = function (props: any) {
       const currentDay = moment().format("dddd");
       const slots =
         timeslot.length > 0 &&
-        timeslot.find(
-          (m) =>
-            m.day.toLowerCase() == currentDay.toLowerCase() ||
-            m.day.toLowerCase() == "monday"
-        );
+        timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
       setCurrentTimeSlots(slots);
     }
   }, [timeslot]);
@@ -125,7 +122,7 @@ export const RescheduleAppointmentModal = function (props: any) {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
       if (isCancel) {
-        toast.info("Appointment successfully canceled");
+        toast.info("Appointment successfully cancelled");
         setIsCancel(false);
       } else {
         toast.info("Appointment successfully rescheduled");

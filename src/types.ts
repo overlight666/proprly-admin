@@ -72,6 +72,7 @@ export interface AppState {
   propertyOwnerList: userInterface[];
   timeslot: Timeslot[] | undefined;
   timeslotResponse: any | undefined;
+  isCalendarView: boolean;
 }
 
 export interface Timeslot {

@@ -30,6 +30,7 @@ const initialState: AppState = {
   propertyOwnerList: [],
   timeslot: [],
   timeslotResponse: undefined,
+  isCalendarView: true,
 };
 
 export const appSlice = createSlice({
@@ -39,6 +40,9 @@ export const appSlice = createSlice({
   reducers: {
     updateGrid: (state, action) => {
       state.isGrid = action.payload;
+    },
+    updateCalendarView: (state, action) => {
+      state.isCalendarView = action.payload;
     },
     updateProjectTab: (state, action) => {
       state.projectTab = action.payload;
@@ -155,6 +159,7 @@ export const {
   updateAppointmentTab,
   clearConfig,
   clearTImeSlot,
+  updateCalendarView,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

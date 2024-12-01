@@ -3,9 +3,16 @@
 
 import { Button, Datepicker } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppState, ReducerTypes } from "../types";
+import { updateCalendarView } from "../store/features/appSlice";
 
 const AppointmentHeader = function (props: any) {
   const { setOpen } = props;
+  const { isCalendarView }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -51,9 +58,14 @@ const AppointmentHeader = function (props: any) {
         </div>
         <div className="col-span-2 flex items-center">
           <Button
-            // onClick={() => gotoPage("/organization/new")}
+            onClick={() => {
+              dispatch(updateCalendarView(true));
+            }}
             color="gray"
-            className="mx-1 p-[5px]"
+            className={`mx-1 p-[5px] ${
+              (isCalendarView == true || isCalendarView == undefined) &&
+              "!bg-gray-100"
+            }`}
           >
             <div className="flex items-center gap-x-2 text-xs ">
               <svg
@@ -71,9 +83,15 @@ const AppointmentHeader = function (props: any) {
             </div>
           </Button>
           <Button
-            // onClick={() => gotoPage("/organization/new")}
+            onClick={() => {
+              dispatch(updateCalendarView(false));
+            }}
             color="gray"
-            className="mx-1  p-[6px]"
+            className={`mx-1 p-[5px] ${
+              isCalendarView == false &&
+              isCalendarView != undefined &&
+              "!bg-gray-100"
+            }`}
           >
             <div className="flex items-center gap-x-2 text-xs ">
               <svg

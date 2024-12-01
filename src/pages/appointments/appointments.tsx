@@ -25,6 +25,7 @@ import { updateAppointmentTab } from "../../store/features/appSlice";
 import {
   getProjectAppointmentsReducer,
   getProperties,
+  getTimeSlotByProjectReducer,
 } from "../../store/features/reducers";
 
 import { startOfMonth } from "date-fns";
@@ -53,7 +54,7 @@ const Appointments: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { appointmentTab }: AppState = useSelector(
+  const { appointmentTab, isCalendarView, timeslot }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
   const { selectedProject, projectAppointments }: ProjectState = useSelector(
@@ -64,15 +65,21 @@ const Appointments: FC = function () {
     (state: any) => state.property
   );
 
+  const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
+    undefined
+  );
+
   const [isOpen, setOpen] = useState(false);
   const [rescheduleModal, setRescheduleModal] = useState(false);
   const [appointmentData, setAppointmentData] = useState();
   const [events, setEvents] = useState<any[]>([]);
+  const [currentEvents, setCurrentEvents] = useState<any>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProperties(selectedProject?.id));
     dispatch(getProjectAppointmentsReducer(project_id));
+    dispatch(getTimeSlotByProjectReducer(project_id));
   }, []);
 
   useEffect(() => {
@@ -81,6 +88,16 @@ const Appointments: FC = function () {
       dispatch(setRefreshAppontments(false));
     }
   }, [appointmentRefresh]);
+
+  useEffect(() => {
+    if (timeslot) {
+      const currentDay = moment().format("dddd");
+      const slots =
+        timeslot.length > 0 &&
+        timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
+      setCurrentTimeSlots(slots);
+    }
+  }, [timeslot]);
 
   useEffect(() => {
     setEvents(
@@ -99,9 +116,30 @@ const Appointments: FC = function () {
     );
   }, [projectAppointments]);
 
+  useEffect(() => {
+    setCurrentEvents(
+      events &&
+        events.length &&
+        events.filter(
+          (e: any) =>
+            moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
+              "YYYY-MM-DD"
+            ) == moment().format("YYYY-MM-DD")
+        )
+    );
+  }, [events]);
+
   const truncateString = (string = "", maxLength = 12) =>
     string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
 
+  const getCount = (cardKey, myEvents) => {
+    return (
+      myEvents &&
+      myEvents.length &&
+      myEvents.filter((me) => me.appointmentTimeslot == cardKey).length
+    );
+  };
+  console.log(currentTimeSlots);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -194,77 +232,179 @@ const Appointments: FC = function () {
         </div>
 
         <>
-          {appointmentTab === 1 && (
-            <div className="flex w-full flex-col  !bg-transparent">
-              <AppointmentHeader setOpen={setOpen} />
-              <br />
-              <MonthlyCalendar
-                currentMonth={currentMonth}
-                onCurrentMonthChange={(date) => setCurrentMonth(date)}
-              >
-                <MonthlyNav />
-                <MonthlyBody events={events}>
-                  <MonthlyDay<EventType>
-                    renderDay={(data) => {
-                      return (
-                        <div className="flex flex-col gap-1">
-                          {data.map(
-                            (item: any, index) =>
-                              index <= 2 && (
-                                <div
-                                  key={index}
-                                  className="flex cursor-pointer items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
-                                  onClick={() => {
-                                    setAppointmentData(item);
+          {appointmentTab === 1 &&
+            (isCalendarView == true || isCalendarView == undefined) && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <AppointmentHeader setOpen={setOpen} />
+                <br />
+                <MonthlyCalendar
+                  currentMonth={currentMonth}
+                  onCurrentMonthChange={(date) => setCurrentMonth(date)}
+                >
+                  <MonthlyNav />
+                  <MonthlyBody events={events}>
+                    <MonthlyDay<EventType>
+                      renderDay={(data) => {
+                        return (
+                          <div className="flex flex-col gap-1">
+                            {data.map(
+                              (item: any, index) =>
+                                index <= 2 && (
+                                  <div
+                                    key={index}
+                                    className="flex cursor-pointer items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                                    onClick={() => {
+                                      setAppointmentData(item);
+                                      setRescheduleModal(true);
+                                    }}
+                                  >
+                                    <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                                    <span className="text-blue-600">
+                                      <Tooltip content={item.title}>
+                                        {truncateString(item.title)}
+                                      </Tooltip>
+                                    </span>
+                                  </div>
+                                )
+                            )}
+                            {data && data.length > 2 && (
+                              <Dropdown
+                                label=""
+                                dismissOnClick={false}
+                                renderTrigger={() => (
+                                  <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
+                                    <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                                    <span className="text-blue-600">
+                                      + {data.length - 3}
+                                    </span>
+                                  </div>
+                                )}
+                              >
+                                {data.map(
+                                  (item: any, index) =>
+                                    index > 2 && (
+                                      <Dropdown.Item
+                                        key={index}
+                                        onClick={() => {
+                                          setAppointmentData(item);
+                                          setRescheduleModal(true);
+                                        }}
+                                      >
+                                        {item.title}
+                                      </Dropdown.Item>
+                                    )
+                                )}
+                              </Dropdown>
+                            )}
+                          </div>
+                        );
+                      }}
+                    />
+                  </MonthlyBody>
+                </MonthlyCalendar>
+              </div>
+            )}
+
+          {appointmentTab === 1 &&
+            isCalendarView == false &&
+            isCalendarView != undefined && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <AppointmentHeader setOpen={setOpen} />
+                <br />
+                <div className="flex min-h-[500px] flex-col gap-2">
+                  {currentTimeSlots &&
+                    currentTimeSlots.appointmentTimeSlotsListAmPm &&
+                    currentTimeSlots.appointmentTimeSlotsListAmPm.length > 0 &&
+                    currentTimeSlots.appointmentTimeSlotsListAmPm.map(
+                      (t, index) => {
+                        return (
+                          getCount(t.key, currentEvents) > 0 && (
+                            <div className="flex flex-row" key={index}>
+                              {(index == 0 && (
+                                <div className="flex w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
+                                  <span className="text-[18px] font-medium">
+                                    {moment().format("DD MMM")}
+                                  </span>
+                                </div>
+                              )) || (
+                                <div className="w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700"></div>
+                              )}
+                              <div className="flex w-[15%] items-center justify-center gap-2">
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clipPath="url(#clip0_735_26955)">
+                                    <path
+                                      d="M5.99973 0.5C7.45797 0.501673 8.85602 1.0817 9.88716 2.11284C10.9182 3.14392 11.4983 4.54185 11.5 6C11.5 7.0878 11.1774 8.15116 10.5731 9.05563C9.96873 9.9601 9.10975 10.6651 8.10476 11.0813C7.09977 11.4976 5.9939 11.6065 4.92701 11.3943C3.86011 11.1821 2.8801 10.6583 2.11092 9.88908C1.34173 9.1199 0.817902 8.13989 0.605684 7.07299C0.393465 6.0061 0.502383 4.90023 0.918665 3.89524C1.33495 2.89025 2.0399 2.03126 2.94437 1.42692C3.84876 0.82262 4.91202 0.500055 5.99973 0.5ZM7.18725 8.74275L7.1873 8.7428C7.39358 8.94902 7.67332 9.06487 7.965 9.06487C8.25668 9.06487 8.53642 8.94902 8.7427 8.7428L8.3892 8.3892L8.74281 8.7427C8.94903 8.53642 9.06487 8.25668 9.06487 7.965C9.06487 7.67332 8.94903 7.39358 8.74281 7.1873L8.74275 7.18724L7.1 5.54449V3.6C7.1 3.30826 6.98411 3.02847 6.77782 2.82218C6.57153 2.61589 6.29174 2.5 6 2.5C5.70826 2.5 5.42847 2.61589 5.22218 2.82218C5.01589 3.02847 4.9 3.30826 4.9 3.6L4.9 6L4.90001 6.00256C4.9015 6.29295 5.01701 6.57114 5.22166 6.77717L5.22285 6.77835L7.18725 8.74275Z"
+                                      fill="#6B7280"
+                                      stroke="#6B7280"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_735_26955">
+                                      <rect
+                                        width="12"
+                                        height="12"
+                                        fill="white"
+                                      />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                                <span>{t.value}</span>
+                              </div>
+                              {getCount(t.key, currentEvents) > 0 && (
+                                <AppointmentCard
+                                  thisClick={(e) => {
+                                    setAppointmentData(e);
                                     setRescheduleModal(true);
                                   }}
-                                >
-                                  <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                                  <span className="text-blue-600">
-                                    <Tooltip content={item.title}>
-                                      {truncateString(item.title)}
-                                    </Tooltip>
-                                  </span>
-                                </div>
-                              )
-                          )}
-                          {data && data.length > 2 && (
-                            <Dropdown
-                              label=""
-                              dismissOnClick={false}
-                              renderTrigger={() => (
-                                <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
-                                  <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                                  <span className="text-blue-600">
-                                    + {data.length - 3}
-                                  </span>
-                                </div>
+                                  cardSlot={0}
+                                  cardKey={t.key}
+                                  myEvents={currentEvents}
+                                />
                               )}
-                            >
-                              {data.map(
-                                (item: any, index) =>
-                                  index > 2 && (
-                                    <Dropdown.Item
-                                      key={index}
-                                      onClick={() => {
-                                        setAppointmentData(item);
-                                        setRescheduleModal(true);
-                                      }}
+                              {getCount(t.key, currentEvents) > 1 && (
+                                <AppointmentCard
+                                  thisClick={(e) => {
+                                    setAppointmentData(e);
+                                    setRescheduleModal(true);
+                                  }}
+                                  cardSlot={1}
+                                  cardKey={t.key}
+                                  myEvents={currentEvents}
+                                />
+                              )}
+                              {getCount(t.key, currentEvents) > 1 && (
+                                <div className="flex w-[25%] items-center justify-center gap-2">
+                                  <div className="flex cursor-pointer flex-row items-center justify-center gap-3 font-medium text-blue-700">
+                                    <span>VIEW ALL APPOINTMENTS</span>
+                                    <svg
+                                      width="10"
+                                      height="10"
+                                      viewBox="0 0 10 10"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
                                     >
-                                      {item.title}
-                                    </Dropdown.Item>
-                                  )
+                                      <path
+                                        d="M3.34188 9.5C3.17742 9.49996 3.01666 9.44722 2.87993 9.34845C2.74319 9.24967 2.63663 9.1093 2.57369 8.94507C2.51076 8.78084 2.49429 8.60014 2.52637 8.42579C2.55844 8.25145 2.63762 8.0913 2.7539 7.96559L5.49255 5.00552L2.7539 2.04546C2.67446 1.96254 2.61111 1.86335 2.56752 1.75368C2.52393 1.64401 2.50099 1.52606 2.50003 1.40671C2.49907 1.28735 2.52011 1.16899 2.56193 1.05851C2.60375 0.948043 2.6655 0.84768 2.74359 0.76328C2.82167 0.67888 2.91453 0.612135 3.01674 0.566937C3.11895 0.52174 3.22846 0.498997 3.33889 0.500034C3.44931 0.501071 3.55844 0.525868 3.65991 0.572978C3.76138 0.620089 3.85314 0.688569 3.92986 0.774422L7.2565 4.37C7.41241 4.53857 7.5 4.76717 7.5 5.00552C7.5 5.24388 7.41241 5.47247 7.2565 5.64104L3.92986 9.23662C3.77393 9.40521 3.56243 9.49995 3.34188 9.5Z"
+                                        fill="#1C64F2"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
                               )}
-                            </Dropdown>
-                          )}
-                        </div>
-                      );
-                    }}
-                  />
-                </MonthlyBody>
-              </MonthlyCalendar>
-            </div>
-          )}
+                            </div>
+                          )
+                        );
+                      }
+                    )}
+                </div>
+              </div>
+            )}
           {appointmentTab === 2 && (
             <div className="flex w-full flex-col  !bg-transparent">
               <TimeSlots />
@@ -279,6 +419,66 @@ const Appointments: FC = function () {
         appointmentData={appointmentData}
       />
     </NavbarSidebarLayout>
+  );
+};
+
+const AppointmentCard = function ({
+  cardSlot,
+  cardKey,
+  myEvents,
+  thisClick,
+}: any) {
+  const thisEvent =
+    myEvents &&
+    myEvents.length &&
+    myEvents.filter((me) => me.appointmentTimeslot == cardKey)[cardSlot];
+
+  const getStatus = (value) => {
+    let val = "";
+    try {
+      val =
+        value &&
+        value
+          .replace("_", " ")
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+          });
+    } catch (error) {
+      val = "";
+    }
+    return val;
+  };
+
+  return (
+    <div
+      className="flex w-[25%] cursor-pointer flex-col rounded-md p-3 shadow-md"
+      onClick={() => {
+        thisClick(thisEvent);
+      }}
+    >
+      <span className="text-[16px] font-medium">
+        {thisEvent && thisEvent.type == "inspection"
+          ? "Inspection Appontment"
+          : "Defect Appontment"}
+      </span>
+      <span className="text-[14px]">{thisEvent && thisEvent.description}</span>
+      <hr className="my-2" />
+      <div className="flex flex-row justify-between pr-10">
+        <div className="flex flex-col gap-2">
+          <span className="text-[14px] text-gray-600">Unit/CA No.</span>
+          <span className="text-[14px] font-medium">
+            {thisEvent && thisEvent.property && thisEvent.property.unitNo}
+          </span>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-[14px] text-gray-600">Property Status</span>
+          <span className="text-[14px] font-medium">
+            {thisEvent && getStatus(thisEvent.propertyStatus)}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 };
 
