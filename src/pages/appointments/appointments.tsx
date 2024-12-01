@@ -8,13 +8,14 @@
 
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Tooltip } from "flowbite-react";
+import { Breadcrumb, Dropdown, Tooltip } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppState,
   OrgState,
   ProjectState,
+  PropertyState,
   ReducerTypes,
 } from "../../types";
 import { ToastContainer } from "react-toastify";
@@ -41,6 +42,8 @@ import { BookAppointmentModal } from "../../components/modals/bookAppointmentMod
 import TimeSlots from "./timeSlot";
 import { useParams } from "react-router";
 import moment from "moment";
+import { RescheduleAppointmentModal } from "../../components/modals/rescheduleAppointmentModal";
+import { setRefreshAppontments } from "../../store/features/propertySlice";
 
 const Appointments: FC = function () {
   const { project_id } = useParams();
@@ -56,7 +59,14 @@ const Appointments: FC = function () {
   const { selectedProject, projectAppointments }: ProjectState = useSelector(
     (state: any) => state.project
   );
+
+  const { appointmentRefresh }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
+
   const [isOpen, setOpen] = useState(false);
+  const [rescheduleModal, setRescheduleModal] = useState(false);
+  const [appointmentData, setAppointmentData] = useState();
   const [events, setEvents] = useState<any[]>([]);
   const dispatch = useDispatch();
 
@@ -64,6 +74,13 @@ const Appointments: FC = function () {
     dispatch(getProperties(selectedProject?.id));
     dispatch(getProjectAppointmentsReducer(project_id));
   }, []);
+
+  useEffect(() => {
+    if (appointmentRefresh) {
+      dispatch(getProjectAppointmentsReducer(project_id));
+      dispatch(setRefreshAppontments(false));
+    }
+  }, [appointmentRefresh]);
 
   useEffect(() => {
     setEvents(
@@ -75,6 +92,7 @@ const Appointments: FC = function () {
               "h:mm A"
             )} ${o.type}`,
             date: new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString()),
+            ...o,
           };
         })) ||
         []
@@ -195,7 +213,11 @@ const Appointments: FC = function () {
                               index <= 2 && (
                                 <div
                                   key={index}
-                                  className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                                  className="flex cursor-pointer items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                                  onClick={() => {
+                                    setAppointmentData(item);
+                                    setRescheduleModal(true);
+                                  }}
                                 >
                                   <div className="h-2 w-2 rounded-full bg-blue-600"></div>
                                   <span className="text-blue-600">
@@ -207,12 +229,33 @@ const Appointments: FC = function () {
                               )
                           )}
                           {data && data.length > 2 && (
-                            <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
-                              <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                              <span className="text-blue-600">
-                                + {data.length - 4}
-                              </span>
-                            </div>
+                            <Dropdown
+                              label=""
+                              dismissOnClick={false}
+                              renderTrigger={() => (
+                                <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
+                                  <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                                  <span className="text-blue-600">
+                                    + {data.length - 3}
+                                  </span>
+                                </div>
+                              )}
+                            >
+                              {data.map(
+                                (item: any, index) =>
+                                  index > 2 && (
+                                    <Dropdown.Item
+                                      key={index}
+                                      onClick={() => {
+                                        setAppointmentData(item);
+                                        setRescheduleModal(true);
+                                      }}
+                                    >
+                                      {item.title}
+                                    </Dropdown.Item>
+                                  )
+                              )}
+                            </Dropdown>
                           )}
                         </div>
                       );
@@ -230,6 +273,11 @@ const Appointments: FC = function () {
         </>
       </div>
       <BookAppointmentModal isOpen={isOpen} setOpen={setOpen} />
+      <RescheduleAppointmentModal
+        isOpen={rescheduleModal}
+        setOpen={setRescheduleModal}
+        appointmentData={appointmentData}
+      />
     </NavbarSidebarLayout>
   );
 };

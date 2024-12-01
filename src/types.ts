@@ -472,6 +472,7 @@ export interface PropertyState {
   feedbackResponse: undefined | any;
   appointmentResponse: undefined | any;
   propertyReports: PropertyReport[] | undefined;
+  appointmentRefresh: boolean;
 }
 
 export interface PropertyReport {

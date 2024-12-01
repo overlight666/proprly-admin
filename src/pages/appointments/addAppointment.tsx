@@ -36,6 +36,7 @@ import {
   listUserByRoleReducer,
 } from "../../store/features/reducers";
 import moment from "moment";
+import { clearAppointmentResponse } from "../../store/features/propertySlice";
 
 export interface AppointmentType {
   propertyId?: number;
@@ -185,6 +186,7 @@ const AddAppointment: FC = function () {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
       toast.info("Appointment successfully added");
+      dispatch(clearAppointmentResponse());
       setTimeout(() => {
         navigate(-1);
       }, 2000);
@@ -200,6 +202,7 @@ const AddAppointment: FC = function () {
       setCurrentTimeSlots(slots);
     }
   }, [timeslot]);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -404,17 +407,6 @@ const AddAppointment: FC = function () {
                           }
                         )}
                     </select>
-                    {/* <div className="flex ">
-                      <input
-                        type="time"
-                        id="time"
-                        className="block w-full flex-1 rounded-md rounded-s-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        min="09:00"
-                        max="18:00"
-                        value={timeSlot}
-                        onChange={(e) => setTimeSlot(e.target.value)}
-                      />
-                    </div> */}
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">

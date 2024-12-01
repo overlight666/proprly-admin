@@ -43,6 +43,7 @@ import {
   newProperty,
   newTower,
   otpVerification,
+  rescheduleAppointmentApi,
   resendOTP,
   signupLead,
   submitFeedback,
@@ -743,6 +744,19 @@ export const getProjectAppointmentsReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getProjectAppointments(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const rescheduleAppointmentReducer: any = createAsyncThunk(
+  "rescheduleAppointmentReducer",
+  async (data: any) => {
+    try {
+      const response = await rescheduleAppointmentApi(data);
       // If you want to get something back
       return response;
     } catch (err) {

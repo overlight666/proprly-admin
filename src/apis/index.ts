@@ -690,3 +690,14 @@ export const getProjectAppointments = async (id: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const rescheduleAppointmentApi = async (params: any) => {
+  return api
+    .put(`/appointment/${params.id}`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

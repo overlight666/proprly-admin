@@ -14,6 +14,7 @@ import {
   getSingleProperty,
   patchProperty,
   registerProperty,
+  rescheduleAppointmentReducer,
   submitFeedbackReducer,
 } from "./reducers";
 
@@ -31,6 +32,7 @@ const initialState: PropertyState = {
   feedbackResponse: undefined,
   appointmentResponse: undefined,
   propertyReports: undefined,
+  appointmentRefresh: false,
 };
 
 export const propertySlice = createSlice({
@@ -55,6 +57,9 @@ export const propertySlice = createSlice({
     },
     clearAppointmentResponse: (state) => {
       state.appointmentResponse = undefined;
+    },
+    setRefreshAppontments: (state, action: PayloadAction<boolean>) => {
+      state.appointmentRefresh = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -194,6 +199,22 @@ export const propertySlice = createSlice({
       // state.loadingDefect = false;
       state.appointmentResponse = undefined;
     });
+    // resched appointment
+    builder.addCase(rescheduleAppointmentReducer.pending, (state) => {
+      // state.loadingDefect = true;
+      state.appointmentResponse = undefined;
+    });
+    builder.addCase(rescheduleAppointmentReducer.fulfilled, (state, action) => {
+      state.appointmentResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      // state.loadingDefect = false;
+    });
+    builder.addCase(rescheduleAppointmentReducer.rejected, (state) => {
+      // state.loadingDefect = false;
+      state.appointmentResponse = undefined;
+    });
     //property reports
     builder.addCase(getPropertyReportsReducer.pending, (state) => {
       state.propertyReports = undefined;
@@ -217,5 +238,6 @@ export const {
   clearSubmittion,
   clearAppointmentResponse,
   clearPropertyData,
+  setRefreshAppontments,
 } = propertySlice.actions;
 export default propertySlice.reducer;
