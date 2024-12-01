@@ -45,6 +45,7 @@ import { useParams } from "react-router";
 import moment from "moment";
 import { RescheduleAppointmentModal } from "../../components/modals/rescheduleAppointmentModal";
 import { setRefreshAppontments } from "../../store/features/propertySlice";
+import { MdClose } from "react-icons/md";
 
 const Appointments: FC = function () {
   const { project_id } = useParams();
@@ -71,13 +72,18 @@ const Appointments: FC = function () {
 
   const [isOpen, setOpen] = useState(false);
   const [isViewAll, setViewAll] = useState(false);
+  const [viewAllKey, setViewAllKey] = useState();
+  const [viewAllValue, setViewAllValue] = useState();
+  const [viewAllData, setViewAllData] = useState([]);
   const [rescheduleModal, setRescheduleModal] = useState(false);
   const [appointmentData, setAppointmentData] = useState();
   const [events, setEvents] = useState<any[]>([]);
   const [currentEvents, setCurrentEvents] = useState<any>([]);
+  const [startKey, setStartKey] = useState<any>(undefined);
   const [currentDate, setCurrentDate] = useState(
     moment().format("MMMM DD, YYYY")
   );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -121,6 +127,7 @@ const Appointments: FC = function () {
   }, [projectAppointments, currentDate]);
 
   useEffect(() => {
+    setStartKey(undefined);
     setCurrentEvents(
       events &&
         events.length &&
@@ -133,6 +140,19 @@ const Appointments: FC = function () {
     );
   }, [events]);
 
+  useEffect(() => {
+    let hasKey = false;
+    currentTimeSlots &&
+      currentTimeSlots.appointmentTimeSlotsListAmPm &&
+      currentTimeSlots.appointmentTimeSlotsListAmPm.length > 0 &&
+      currentTimeSlots.appointmentTimeSlotsListAmPm.map((t) => {
+        if (getCount(t.key, currentEvents) > 0 && !hasKey) {
+          setStartKey(t.key);
+          hasKey = true;
+        }
+      });
+  }, [currentEvents]);
+
   const truncateString = (string = "", maxLength = 12) =>
     string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
 
@@ -144,6 +164,15 @@ const Appointments: FC = function () {
     );
   };
 
+  const getViewAllData = (cardKey, myEvents) => {
+    setViewAllData(
+      myEvents &&
+        myEvents.length &&
+        myEvents.filter((me) => me.appointmentTimeslot == cardKey)
+    );
+  };
+
+  console.log(startKey);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -315,7 +344,8 @@ const Appointments: FC = function () {
 
           {appointmentTab === 1 &&
             isCalendarView == false &&
-            isCalendarView != undefined && (
+            isCalendarView != undefined &&
+            !isViewAll && (
               <div className="flex w-full flex-col  !bg-transparent">
                 <AppointmentHeader
                   setOpen={setOpen}
@@ -332,7 +362,7 @@ const Appointments: FC = function () {
                         return (
                           getCount(t.key, currentEvents) > 0 && (
                             <div className="flex flex-row" key={index}>
-                              {(index == 0 && (
+                              {(startKey && startKey == t.key && (
                                 <div className="flex w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                                   <span className="text-[18px] font-medium">
                                     {moment(currentDate).format("DD MMM")}
@@ -392,7 +422,15 @@ const Appointments: FC = function () {
                               )}
                               {getCount(t.key, currentEvents) > 1 && (
                                 <div className="flex w-[25%] items-center justify-center gap-2">
-                                  <div className="flex cursor-pointer flex-row items-center justify-center gap-3 font-medium text-blue-700">
+                                  <div
+                                    className="flex cursor-pointer flex-row items-center justify-center gap-3 font-medium text-blue-700"
+                                    onClick={() => {
+                                      setViewAll(true);
+                                      setViewAllKey(t.key);
+                                      setViewAllValue(t.value);
+                                      getViewAllData(t.key, currentEvents);
+                                    }}
+                                  >
                                     <span>VIEW ALL APPOINTMENTS</span>
                                     <svg
                                       width="10"
@@ -414,6 +452,78 @@ const Appointments: FC = function () {
                         );
                       }
                     )}
+                </div>
+              </div>
+            )}
+
+          {appointmentTab === 1 &&
+            isCalendarView == false &&
+            isCalendarView != undefined &&
+            isViewAll && (
+              <div className="flex w-full flex-col  !bg-transparent">
+                <AppointmentHeader
+                  setOpen={setOpen}
+                  setCurrentDate={setCurrentDate}
+                  currentDate={currentDate}
+                />
+                <br />
+                <div className="relative flex min-h-[500px] flex-row gap-2">
+                  <div className="flex w-[25%] flex-row">
+                    <div className="flex h-[150px] w-[40%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
+                      <span className="text-[18px] font-medium">
+                        {moment(currentDate).format("DD MMM")}
+                      </span>
+                    </div>
+                    <div className="flex h-[150px] w-[60%] items-center justify-center gap-2">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip0_735_26955)">
+                          <path
+                            d="M5.99973 0.5C7.45797 0.501673 8.85602 1.0817 9.88716 2.11284C10.9182 3.14392 11.4983 4.54185 11.5 6C11.5 7.0878 11.1774 8.15116 10.5731 9.05563C9.96873 9.9601 9.10975 10.6651 8.10476 11.0813C7.09977 11.4976 5.9939 11.6065 4.92701 11.3943C3.86011 11.1821 2.8801 10.6583 2.11092 9.88908C1.34173 9.1199 0.817902 8.13989 0.605684 7.07299C0.393465 6.0061 0.502383 4.90023 0.918665 3.89524C1.33495 2.89025 2.0399 2.03126 2.94437 1.42692C3.84876 0.82262 4.91202 0.500055 5.99973 0.5ZM7.18725 8.74275L7.1873 8.7428C7.39358 8.94902 7.67332 9.06487 7.965 9.06487C8.25668 9.06487 8.53642 8.94902 8.7427 8.7428L8.3892 8.3892L8.74281 8.7427C8.94903 8.53642 9.06487 8.25668 9.06487 7.965C9.06487 7.67332 8.94903 7.39358 8.74281 7.1873L8.74275 7.18724L7.1 5.54449V3.6C7.1 3.30826 6.98411 3.02847 6.77782 2.82218C6.57153 2.61589 6.29174 2.5 6 2.5C5.70826 2.5 5.42847 2.61589 5.22218 2.82218C5.01589 3.02847 4.9 3.30826 4.9 3.6L4.9 6L4.90001 6.00256C4.9015 6.29295 5.01701 6.57114 5.22166 6.77717L5.22285 6.77835L7.18725 8.74275Z"
+                            fill="#6B7280"
+                            stroke="#6B7280"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_735_26955">
+                            <rect width="12" height="12" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span>{viewAllValue}</span>
+                    </div>
+                  </div>
+                  <div className="flex w-full gap-2">
+                    <div className="flex w-full flex-col">
+                      {viewAllData &&
+                        viewAllData.length > 0 &&
+                        viewAllData.map((v, index) => {
+                          return (
+                            <AppointmentCard
+                              key={index}
+                              thisClick={(e) => {
+                                setAppointmentData(e);
+                                setRescheduleModal(true);
+                              }}
+                              cardSlot={index}
+                              cardKey={viewAllKey}
+                              myEvents={currentEvents}
+                            />
+                          );
+                        })}
+                    </div>
+                  </div>
+                  <div
+                    className="absolute right-1 top-1 cursor-pointer"
+                    onClick={() => setViewAll(false)}
+                  >
+                    <MdClose size={30} />
+                  </div>
                 </div>
               </div>
             )}
@@ -464,7 +574,7 @@ const AppointmentCard = function ({
 
   return (
     <div
-      className="flex w-[25%] cursor-pointer flex-col rounded-md p-3 shadow-md"
+      className="flex h-[150px] w-[25%] cursor-pointer flex-col rounded-md p-3 shadow-md"
       onClick={() => {
         thisClick(thisEvent);
       }}
