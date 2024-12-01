@@ -34,7 +34,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
         button: {
           base: "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
           today:
-            "bg-cyan-700 text-white hover:bg-cyan-800 dark:bg-cyan-600 dark:hover:bg-cyan-700",
+            "bg-blue-600 text-white hover:bg-cyan-800 dark:bg-cyan-600 dark:hover:bg-blue-600",
           clear:
             "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
         },
@@ -51,7 +51,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
           base: "grid w-64 grid-cols-7",
           item: {
             base: "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
-            selected: "bg-cyan-700 text-white hover:bg-cyan-600",
+            selected: "bg-blue-600 text-white hover:bg-cyan-600",
             disabled: "text-gray-500",
           },
         },
@@ -61,7 +61,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
           base: "grid w-64 grid-cols-4",
           item: {
             base: "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
-            selected: "bg-cyan-700 text-white hover:bg-cyan-600",
+            selected: "bg-blue-600 text-white hover:bg-cyan-600",
             disabled: "text-gray-500",
           },
         },
@@ -71,7 +71,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
           base: "grid w-64 grid-cols-4",
           item: {
             base: "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
-            selected: "bg-cyan-700 text-white hover:bg-cyan-600",
+            selected: "bg-blue-600 text-white hover:bg-cyan-600",
             disabled: "text-gray-500",
           },
         },
@@ -81,7 +81,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
           base: "grid w-64 grid-cols-4",
           item: {
             base: "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
-            selected: "bg-cyan-700 text-white hover:bg-cyan-600",
+            selected: "bg-blue-600 text-white hover:bg-cyan-600",
             disabled: "text-gray-500",
           },
         },
@@ -91,9 +91,9 @@ const flowbiteTheme: CustomFlowbiteTheme = {
   badge: {
     root: {
       color: {
-        info: "bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800 group-hover:bg-blue-200 dark:group-hover:bg-blue-300",
+        info: "bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800 group-hover:bg-blue-200 dark:group-hover:bg-blue-600",
         primary:
-          "bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800 group-hover:bg-blue-200 dark:group-hover:bg-blue-300",
+          "bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800 group-hover:bg-blue-200 dark:group-hover:bg-blue-600",
       },
       size: {
         xl: "px-3 py-2 text-base rounded-md",
@@ -178,7 +178,7 @@ const flowbiteTheme: CustomFlowbiteTheme = {
   },
   progress: {
     color: {
-      dark: "bg-gray-600 dark:bg-gray-300",
+      dark: "bg-gray-600 dark:bg-blue-600",
       blue: "bg-blue-600",
       red: "bg-red-600 dark:bg-red-500",
       green: "bg-green-600 dark:bg-green-500",
