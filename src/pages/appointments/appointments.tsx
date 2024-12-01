@@ -70,6 +70,7 @@ const Appointments: FC = function () {
   );
 
   const [isOpen, setOpen] = useState(false);
+  const [isViewAll, setViewAll] = useState(false);
   const [rescheduleModal, setRescheduleModal] = useState(false);
   const [appointmentData, setAppointmentData] = useState();
   const [events, setEvents] = useState<any[]>([]);
@@ -334,7 +335,7 @@ const Appointments: FC = function () {
                               {(index == 0 && (
                                 <div className="flex w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                                   <span className="text-[18px] font-medium">
-                                    {moment().format("DD MMM")}
+                                    {moment(currentDate).format("DD MMM")}
                                   </span>
                                 </div>
                               )) || (
