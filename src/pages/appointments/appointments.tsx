@@ -172,7 +172,16 @@ const Appointments: FC = function () {
     );
   };
 
-  console.log(startKey);
+  const getItemContent = (item) => {
+    return `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
+      "h:mm A"
+    )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
+      "h:mm A"
+    )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
+      item.type == "inspection" ? "Inspection" : "Defect"
+    } appointment`;
+  };
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -297,7 +306,7 @@ const Appointments: FC = function () {
                                   >
                                     <div className="h-2 w-2 rounded-full bg-blue-600"></div>
                                     <span className="text-blue-600">
-                                      <Tooltip content={item.title}>
+                                      <Tooltip content={getItemContent(item)}>
                                         {truncateString(item.title)}
                                       </Tooltip>
                                     </span>
