@@ -2,7 +2,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Modal, Button, Label, TextInput, Datepicker } from "flowbite-react";
+import {
+  Modal,
+  Button,
+  Label,
+  TextInput,
+  Datepicker,
+  Textarea,
+} from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
@@ -247,12 +254,13 @@ export const RescheduleAppointmentModal = function (props: any) {
             </div>
             <div className="grid grid-cols-1 gap-y-2 ">
               <Label htmlFor="organization">Description</Label>
-              <textarea
-                rows={5}
-                disabled
+              <Textarea
+                id="comment"
+                placeholder="comment..."
+                rows={4}
                 value={appointmentData && appointmentData.description}
-                className="block w-full resize-none border-0 bg-gray-100 p-2 text-base text-gray-900 focus:ring-0 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
-              ></textarea>
+                disabled
+              />
             </div>
             <div className="grid grid-cols-1 gap-y-2 ">
               <Label htmlFor="organization">
