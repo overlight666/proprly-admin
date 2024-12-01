@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal, Button, Label, TextInput, Datepicker } from "flowbite-react";
@@ -10,16 +12,20 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import {
+  cancelAppointmentReducer,
   getTimeSlotByProjectReducer,
   rescheduleAppointmentReducer,
 } from "../../store/features/reducers";
 import type { AppState, PropertyState } from "../../types";
 import { toast } from "react-toastify";
+import { ConfirmModal } from "./confirmModal";
 
 export const RescheduleAppointmentModal = function (props: any) {
   const { isOpen, setOpen, appointmentData } = props;
   const { project_id } = useParams();
   const { timeslot }: AppState = useSelector((state: any) => state.application);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
   const { appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
@@ -118,12 +124,28 @@ export const RescheduleAppointmentModal = function (props: any) {
     if (appointmentResponse && appointmentResponse.error) {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
-      toast.info("Appointment successfully rescheduled");
+      if (isCancel) {
+        toast.info("Appointment successfully canceled");
+        setIsCancel(false);
+      } else {
+        toast.info("Appointment successfully rescheduled");
+      }
+
       dispatch(clearAppointmentResponse());
       dispatch(setRefreshAppontments(true));
       setOpen(false);
     }
   }, [appointmentResponse]);
+
+  const cancelAppointment = () => {
+    if (confirmModal) {
+      setIsCancel(true);
+      const params = {
+        id: appointmentData && appointmentData.id,
+      };
+      dispatch(cancelAppointmentReducer(params));
+    }
+  };
 
   return (
     <>
@@ -251,7 +273,12 @@ export const RescheduleAppointmentModal = function (props: any) {
                 placeholder="auditor"
               />
             </div>
-            <div className="flex cursor-pointer items-center gap-2 pb-5 text-red-600">
+            <div
+              className="flex cursor-pointer items-center gap-2 pb-5 text-red-600"
+              onClick={() => {
+                setConfirmModal(true);
+              }}
+            >
               <svg
                 width="10"
                 height="10"
@@ -294,6 +321,12 @@ export const RescheduleAppointmentModal = function (props: any) {
           </div>
         </Modal.Footer>
       </Modal>
+      <ConfirmModal
+        isOpen={confirmModal}
+        setOpen={setConfirmModal}
+        title="Are you sure to cancel this appointment?"
+        confirmHandler={() => cancelAppointment()}
+      />
     </>
   );
 };

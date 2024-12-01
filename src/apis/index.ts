@@ -701,3 +701,14 @@ export const rescheduleAppointmentApi = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const cancelAppointmentApi = async (params: any) => {
+  return api
+    .delete(`/appointment/${params.id}`)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

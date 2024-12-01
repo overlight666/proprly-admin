@@ -7,6 +7,7 @@ import type { Property, PropertyState } from "../../types";
 import {
   attachPropertyUserReducer,
   bookAppointmentReducer,
+  cancelAppointmentReducer,
   getAllDefectResolutionReducer,
   getDefectResolutionByIdReducer,
   getProperties,
@@ -212,6 +213,22 @@ export const propertySlice = createSlice({
       // state.loadingDefect = false;
     });
     builder.addCase(rescheduleAppointmentReducer.rejected, (state) => {
+      // state.loadingDefect = false;
+      state.appointmentResponse = undefined;
+    });
+    // cancel appointment
+    builder.addCase(cancelAppointmentReducer.pending, (state) => {
+      // state.loadingDefect = true;
+      state.appointmentResponse = undefined;
+    });
+    builder.addCase(cancelAppointmentReducer.fulfilled, (state, action) => {
+      state.appointmentResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      // state.loadingDefect = false;
+    });
+    builder.addCase(cancelAppointmentReducer.rejected, (state) => {
       // state.loadingDefect = false;
       state.appointmentResponse = undefined;
     });

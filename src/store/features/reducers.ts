@@ -10,6 +10,7 @@ import {
   addTradeCode,
   attachPropertyUser,
   bookAppointmentApi,
+  cancelAppointmentApi,
   createCommonArea,
   createProjectUser,
   getAllChecklist,
@@ -757,6 +758,19 @@ export const rescheduleAppointmentReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await rescheduleAppointmentApi(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const cancelAppointmentReducer: any = createAsyncThunk(
+  "cancelAppointmentReducer",
+  async (data: any) => {
+    try {
+      const response = await cancelAppointmentApi(data);
       // If you want to get something back
       return response;
     } catch (err) {
