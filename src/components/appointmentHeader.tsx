@@ -6,9 +6,13 @@ import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppState, ReducerTypes } from "../types";
 import { updateCalendarView } from "../store/features/appSlice";
+import moment from "moment";
 
-const AppointmentHeader = function (props: any) {
-  const { setOpen } = props;
+const AppointmentHeader = function ({
+  setOpen,
+  currentDate,
+  setCurrentDate,
+}: any) {
   const { isCalendarView }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -18,7 +22,16 @@ const AppointmentHeader = function (props: any) {
     <>
       <div className="mt-5 grid w-full grid-cols-7 gap-2">
         <div className="flex items-center">
-          <Datepicker />
+          <Datepicker
+            value={currentDate}
+            onSelectedDateChanged={(e) =>
+              setCurrentDate(
+                `${moment(e).format("MMMM")} ${moment(e).format(
+                  "DD"
+                )}, ${moment(e).format("YYYY")} `
+              )
+            }
+          />
         </div>
         <div className="col-span-2 flex items-center">
           <form className="mx-auto w-full">

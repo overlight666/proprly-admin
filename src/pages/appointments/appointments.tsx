@@ -74,6 +74,9 @@ const Appointments: FC = function () {
   const [appointmentData, setAppointmentData] = useState();
   const [events, setEvents] = useState<any[]>([]);
   const [currentEvents, setCurrentEvents] = useState<any>([]);
+  const [currentDate, setCurrentDate] = useState(
+    moment().format("MMMM DD, YYYY")
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -91,13 +94,13 @@ const Appointments: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment().format("dddd");
+      const currentDay = moment(currentDate).format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
       setCurrentTimeSlots(slots);
     }
-  }, [timeslot]);
+  }, [timeslot, currentDate]);
 
   useEffect(() => {
     setEvents(
@@ -114,7 +117,7 @@ const Appointments: FC = function () {
         })) ||
         []
     );
-  }, [projectAppointments]);
+  }, [projectAppointments, currentDate]);
 
   useEffect(() => {
     setCurrentEvents(
@@ -124,7 +127,7 @@ const Appointments: FC = function () {
           (e: any) =>
             moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
               "YYYY-MM-DD"
-            ) == moment().format("YYYY-MM-DD")
+            ) == moment(currentDate).format("YYYY-MM-DD")
         )
     );
   }, [events]);
@@ -139,7 +142,7 @@ const Appointments: FC = function () {
       myEvents.filter((me) => me.appointmentTimeslot == cardKey).length
     );
   };
-  console.log(currentTimeSlots);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -235,7 +238,11 @@ const Appointments: FC = function () {
           {appointmentTab === 1 &&
             (isCalendarView == true || isCalendarView == undefined) && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <AppointmentHeader setOpen={setOpen} />
+                <AppointmentHeader
+                  setOpen={setOpen}
+                  setCurrentDate={setCurrentDate}
+                  currentDate={currentDate}
+                />
                 <br />
                 <MonthlyCalendar
                   currentMonth={currentMonth}
@@ -309,7 +316,11 @@ const Appointments: FC = function () {
             isCalendarView == false &&
             isCalendarView != undefined && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <AppointmentHeader setOpen={setOpen} />
+                <AppointmentHeader
+                  setOpen={setOpen}
+                  setCurrentDate={setCurrentDate}
+                  currentDate={currentDate}
+                />
                 <br />
                 <div className="flex min-h-[500px] flex-col gap-2">
                   {currentTimeSlots &&
