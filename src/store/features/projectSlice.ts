@@ -9,6 +9,7 @@ import {
   getAllCommonAreaReducer,
   getChecklistElementReducer,
   getChecklistZonesReducer,
+  getCommonAreaByProjectReducer,
   getDefectCodeListByProject,
   getProjects,
   getSingleProject,
@@ -69,6 +70,7 @@ const initialState: ProjectState = {
   responseStatus: "",
   userType: "",
   userResponse: undefined,
+  listCommonAreas: [],
 };
 
 export const projectSlice = createSlice({
@@ -314,6 +316,24 @@ export const projectSlice = createSlice({
           : action.payload;
     });
     builder.addCase(getAllCommonAreaReducer.rejected, (state) => {
+      state.isIdle = true;
+    });
+    //get common area by project
+    builder.addCase(getCommonAreaByProjectReducer.pending, (state) => {
+      state.listCommonAreas = [];
+      state.isIdle = false;
+    });
+    builder.addCase(
+      getCommonAreaByProjectReducer.fulfilled,
+      (state, action) => {
+        state.listCommonAreas =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getCommonAreaByProjectReducer.rejected, (state) => {
+      state.listCommonAreas = [];
       state.isIdle = true;
     });
     // create project admin

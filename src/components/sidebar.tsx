@@ -300,7 +300,7 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
-                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
+                                      href={`/organization/${selectedOrganization.id}/project/${obj.id}/common-area`}
                                       className={`ml-2 text-[14px]`}
                                     >
                                       <div className={`flex items-center `}>

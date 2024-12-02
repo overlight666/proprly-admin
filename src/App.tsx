@@ -42,6 +42,7 @@ import AddProperty from "./pages/properties/newProperty";
 import ViewProperty from "./pages/properties/viewProperty";
 import Appointments from "./pages/appointments/appointments";
 import OrganizationEdit from "./pages/organization/organizationEdit";
+import CommonArea from "./pages/common-area/common-area";
 
 const App: FC = function () {
   return (
@@ -125,6 +126,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ViewProperty />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/common-area"
+              element={
+                <PrivateRoutes>
+                  <CommonArea />
                 </PrivateRoutes>
               }
             />

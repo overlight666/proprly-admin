@@ -17,6 +17,7 @@ import {
   getAllTradeCodebyProject,
   getChecklistElement,
   getChecklistZones,
+  getCommonAreaByProject,
   getConfig,
   getCountries,
   getDefectResolutionById,
@@ -558,6 +559,18 @@ export const getAllCommonAreaReducer: any = createAsyncThunk(
   }
 );
 
+export const getCommonAreaByProjectReducer: any = createAsyncThunk(
+  "getCommonAreaByProject",
+  async (id: any) => {
+    try {
+      const response = await getCommonAreaByProject(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const listUserByRoleReducer: any = createAsyncThunk(
   "listUserByRole",
   async (role: any) => {

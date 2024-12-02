@@ -559,3 +559,14 @@ export const getDefectResolutionById = async (id: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getCommonAreaByProject = async (id: any) => {
+  return api
+    .get(`/project/${id}/common_area`)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
