@@ -96,9 +96,13 @@ const CommonArea: FC = function () {
             <Breadcrumb.Item href={`/organization/${selectedOrganization?.id}`}>
               {selectedOrganization?.name}
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/organization/new">
+            <Breadcrumb.Item
+              href={`/organization/${selectedOrganization?.id}/project/${project_id}`}
+            >
               {selectedProject?.name}
             </Breadcrumb.Item>
+            <Breadcrumb.Item>Common Areas</Breadcrumb.Item>
+            <Breadcrumb.Item>Manage</Breadcrumb.Item>
           </Breadcrumb>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             {selectedProject?.name}

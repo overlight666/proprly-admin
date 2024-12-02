@@ -17,12 +17,15 @@ interface paramstype {
 export const DefectItem = function ({ def, setOpen }: paramstype) {
   const dispatch = useDispatch();
   const getStatus = (value) => {
-    return value
-      .replace("_", " ")
-      .toLowerCase()
-      .replace(/\b[a-z]/g, function (letter) {
-        return letter.toUpperCase();
-      });
+    return (
+      value &&
+      value
+        .replace("_", " ")
+        .toLowerCase()
+        .replace(/\b[a-z]/g, function (letter) {
+          return letter.toUpperCase();
+        })
+    );
   };
 
   const textColoring = (defectSubStatus, hasBg) => {
