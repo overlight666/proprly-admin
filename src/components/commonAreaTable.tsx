@@ -63,7 +63,7 @@ const CommonAreaTable = function () {
     }
   }, []);
 
-  return (
+  return listCommonAreas && listCommonAreas.length ? (
     <table
       id="common-area-table"
       className="!w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
@@ -84,7 +84,7 @@ const CommonAreaTable = function () {
         </tr>
       </thead>
       <tbody>
-        {(listCommonAreas &&
+        {listCommonAreas &&
           listCommonAreas.length &&
           listCommonAreas.map((ca, index) => {
             return (
@@ -109,17 +109,11 @@ const CommonAreaTable = function () {
                 </td>
               </tr>
             );
-          })) || (
-          <tr>
-            <td colSpan={4}>
-              <div className="flex w-full items-center justify-center py-5">
-                No data found
-              </div>
-            </td>
-          </tr>
-        )}
+          })}
       </tbody>
     </table>
+  ) : (
+    <></>
   );
 };
 
