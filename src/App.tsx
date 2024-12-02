@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import { Routes, Route } from "react-router";
 // import DashboardPage from "./pages";
 import ForgotPasswordPage from "./pages/authentication/forgot-password";
@@ -40,27 +40,10 @@ import ViewSignupLead from "./pages/admin/view-leads";
 import Properties from "./pages/properties/properties";
 import AddProperty from "./pages/properties/newProperty";
 import ViewProperty from "./pages/properties/viewProperty";
-import { useDispatch, useSelector } from "react-redux";
-import { getGlobalConfig } from "./store/features/reducers";
 import Appointments from "./pages/appointments/appointments";
 import OrganizationEdit from "./pages/organization/organizationEdit";
-import type { AppState, ReducerTypes } from "./types";
 
 const App: FC = function () {
-  const dispatch = useDispatch();
-  const { config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
-  );
-  useEffect(() => {
-    try {
-      if (!config) {
-        dispatch(getGlobalConfig());
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [config]);
-
   return (
     <AuthProvider>
       <Routes>

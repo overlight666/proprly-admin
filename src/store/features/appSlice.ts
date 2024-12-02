@@ -51,6 +51,9 @@ export const appSlice = createSlice({
     updatePropertyTab: (state, action) => {
       state.propertyTab = action.payload;
     },
+    clearConfig: (state) => {
+      state.config = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllRegions.pending, (state) => {
@@ -123,6 +126,7 @@ export const {
   updatePropertyTab,
   updateProjectTabMain,
   updateAppointmentTab,
+  clearConfig,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

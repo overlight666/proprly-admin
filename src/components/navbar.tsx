@@ -34,6 +34,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/features/userSlice";
 import type { UserState } from "../types";
 import userImage from "../../public/images/users/neil-sims.png";
+import { clearConfig } from "../store/features/appSlice";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -464,6 +465,7 @@ const UserDropdown: FC = function () {
     setToken("");
     setAuthenticated(false);
     dispatch(clearUser());
+    dispatch(clearConfig());
     localStorage.removeItem("token");
     navigate("/");
   };

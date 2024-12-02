@@ -31,7 +31,14 @@ import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
 // import { FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import type { Organization, OrgState, ProjectState, UserState } from "../types";
+import type {
+  AppState,
+  Organization,
+  OrgState,
+  ProjectState,
+  ReducerTypes,
+  UserState,
+} from "../types";
 import { matchPath, useLocation, useParams } from "react-router-dom";
 import {
   FaCaretDown,
@@ -45,12 +52,17 @@ import {
   updateProjectTabMain,
 } from "../store/features/appSlice";
 import { BsCaretDown, BsCaretLeft } from "react-icons/bs";
+import { getGlobalConfig } from "../store/features/reducers";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
   const { orgList, selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
+  const { config }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+  const token = localStorage.getItem("token");
   const { projectList, loadedProject, reloadProject }: ProjectState =
     useSelector((state: any) => state.project);
   const { userData }: UserState = useSelector((state: any) => state.user);
@@ -63,6 +75,7 @@ const ExampleSidebar: FC = function () {
   const [isUsersOpen, setUsersOpen] = useState(true);
   const { pathname } = useLocation();
 
+  let isConfgLoaded = false;
   const truncateString = (string = "", maxLength = 12) =>
     string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
   // useEffect(() => {
@@ -93,6 +106,19 @@ const ExampleSidebar: FC = function () {
     setEcommerceOpen(newPage.includes("/e-commerce/"));
     setUsersOpen(newPage.includes("/users/"));
   }, [setCurrentPage, setEcommerceOpen, setUsersOpen]);
+
+  useEffect(() => {
+    if (!isConfgLoaded) {
+      try {
+        if (!config && token) {
+          dispatch(getGlobalConfig());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      isConfgLoaded = true;
+    }
+  }, [config, token, dispatch]);
 
   return (
     <div
