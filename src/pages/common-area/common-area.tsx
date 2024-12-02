@@ -23,11 +23,7 @@ import { updatePropertyTab } from "../../store/features/appSlice";
 // import { BsSliders2Vertical } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { getProperties } from "../../store/features/reducers";
-import DefectHeader from "../../components/defectHeader";
 import { MdBugReport } from "react-icons/md";
-import PropertyReportHeader from "../../components/propertyReportHeader";
-import PropertyReportTable from "../../components/propertyReportTable";
-import DefectResolution from "../properties/defectResolution/defectResolution";
 import CommonAreaTable from "../../components/commonAreaTable";
 
 const CommonArea: FC = function () {
@@ -202,14 +198,14 @@ const CommonArea: FC = function () {
             )}
             {propertyTab === 2 && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <DefectHeader />
-                <DefectResolution />
+                {/* <DefectHeader />
+                <DefectResolution /> */}
               </div>
             )}
             {propertyTab === 3 && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <PropertyReportHeader />
-                <PropertyReportTable />
+                {/* <PropertyReportHeader />
+                <PropertyReportTable /> */}
               </div>
             )}
           </>
