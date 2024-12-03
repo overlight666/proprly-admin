@@ -45,6 +45,7 @@ import OrganizationEdit from "./pages/organization/organizationEdit";
 import CommonArea from "./pages/common-area/common-area";
 import CommonAreaNewPage from "./pages/common-area/add-common-area";
 import CommonAreaConfigure from "./pages/common-area/common-area-configure";
+import CommonAreaViewPage from "./pages/common-area/view-common-area";
 
 const App: FC = function () {
   return (
@@ -144,6 +145,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <CommonAreaConfigure />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/common-area/:common_area_id"
+              element={
+                <PrivateRoutes>
+                  <CommonAreaViewPage />
                 </PrivateRoutes>
               }
             />

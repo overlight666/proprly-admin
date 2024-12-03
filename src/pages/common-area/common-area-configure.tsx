@@ -39,11 +39,7 @@ const CommonAreaConfigure: FC = function () {
       isInit = true;
     }
   }, []);
-
-  useEffect(() => {
-    console.log(commonAreaItem);
-  }, [commonAreaItem]);
-
+  console.log(commonAreaItem);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />

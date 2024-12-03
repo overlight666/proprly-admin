@@ -6,7 +6,7 @@
 import { useEffect, useRef } from "react";
 import { Button, Dropdown } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 // import OrgTableData from "./datatable/orgtable";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
@@ -15,11 +15,11 @@ import { getCommonAreaByProjectReducer } from "../store/features/reducers";
 import type { ProjectState } from "../types";
 
 const CommonAreaTable = function () {
-  const { project_id }: any = useParams();
+  const { id, project_id }: any = useParams();
   const { listCommonAreas }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   let isInit = false;
   //   const isInitTable = false;
@@ -84,7 +84,15 @@ const CommonAreaTable = function () {
                       </Button>
                     )}
                   >
-                    <Dropdown.Item>View</Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate(
+                          `/organization/${id}/project/${project_id}/common-area/${ca.id}`
+                        );
+                      }}
+                    >
+                      View
+                    </Dropdown.Item>
                   </Dropdown>
                 </td>
               </tr>
