@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable tailwindcss/classnames-order */
 /* eslint-disable tailwindcss/no-custom-classname */
@@ -26,6 +28,7 @@ import Dashboard from "./dashboard";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
 import ProjectHeader from "../../components/projectHeader";
 import { getProjects } from "../../store/features/reducers";
+import { FaChevronLeft } from "react-icons/fa";
 
 const OrganizationSingle: FC = function () {
   const { orgList, selectedOrganization }: OrgState = useSelector(
@@ -69,15 +72,26 @@ const OrganizationSingle: FC = function () {
       <div className="overflow-x-auto bg-[#ffffff] ">
         <div className="col-span-full p-5">
           <div className="col-span-full">
-            <Breadcrumb className="mb-4">
-              <Breadcrumb.Item href="/organization">
-                <div className="flex items-center gap-x-3">
-                  <HiHome className="text-xl" />
-                  <span className="dark:text-white">Organizations</span>
-                </div>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>{selectedOrganization?.name}</Breadcrumb.Item>
-            </Breadcrumb>
+            <div className="flex w-full items-center justify-between">
+              <Breadcrumb className="mb-4">
+                <Breadcrumb.Item href="/organization">
+                  <div className="flex items-center gap-x-3">
+                    <HiHome className="text-xl" />
+                    <span className="dark:text-white">Organizations</span>
+                  </div>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{selectedOrganization?.name}</Breadcrumb.Item>
+              </Breadcrumb>
+              <div
+                className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                <FaChevronLeft />
+                Back
+              </div>
+            </div>
             <h1 className="text-lg font-bold text-gray-900 dark:text-white sm:text-2xl">
               {selectedOrganization?.name}
             </h1>

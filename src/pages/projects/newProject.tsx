@@ -12,7 +12,12 @@ import { Breadcrumb, Button, Label, Modal, TextInput } from "flowbite-react";
 import { HiHome, HiPlus, HiSearch } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
-import { FaAngleDown, FaAngleRight, FaAngleUp } from "react-icons/fa6";
+import {
+  FaAngleDown,
+  FaAngleRight,
+  FaAngleUp,
+  FaChevronLeft,
+} from "react-icons/fa6";
 import type {
   AppState,
   ImageState,
@@ -350,20 +355,31 @@ const ProjectNewPage: FC = function () {
       <ToastContainer position="bottom-right" />
       <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 pt-6 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
         <div className="col-span-full">
-          <Breadcrumb className="mb-4">
-            <Breadcrumb.Item href="/organization">
-              <div className="flex items-center gap-x-3">
-                <HiHome className="text-xl" />
-                <span className="dark:text-white">Organizations</span>
-              </div>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href={`/organization/${selectedOrg?.id}`}>
-              {selectedOrg?.name}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href="/organization/new">
-              Add Project
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <div className="flex w-full items-center justify-between">
+            <Breadcrumb className="mb-4">
+              <Breadcrumb.Item href="/organization">
+                <div className="flex items-center gap-x-3">
+                  <HiHome className="text-xl" />
+                  <span className="dark:text-white">Organizations</span>
+                </div>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item href={`/organization/${selectedOrg?.id}`}>
+                {selectedOrg?.name}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item href="/organization/new">
+                Add Project
+              </Breadcrumb.Item>
+            </Breadcrumb>
+            <div
+              className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <FaChevronLeft />
+              Back
+            </div>
+          </div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             Add Project
           </h1>

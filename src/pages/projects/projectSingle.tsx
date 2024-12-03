@@ -31,7 +31,7 @@ import type {
 } from "../../types";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { updateProjectTabMain } from "../../store/features/appSlice";
 import {
   postTower,
@@ -57,7 +57,12 @@ import { setSelectedOrganization } from "../../store/features/organizationSlice"
 import { BsSliders2Vertical } from "react-icons/bs";
 import ConfigureAccordion from "./configure";
 import ConfigureAccordionUser from "./userItems/configure";
-import { FaAngleDown, FaAngleRight, FaAngleUp } from "react-icons/fa6";
+import {
+  FaAngleDown,
+  FaAngleRight,
+  FaAngleUp,
+  FaChevronLeft,
+} from "react-icons/fa6";
 import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
@@ -75,7 +80,7 @@ const ProjectSingle: FC = function () {
   const { orgList, selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-
+  const navigate = useNavigate();
   const { userData }: UserState = useSelector((state: any) => state.user);
   const {
     projectResponse,
@@ -404,20 +409,33 @@ const ProjectSingle: FC = function () {
       <ToastContainer position="bottom-right" />
       <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 pt-6 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
         <div className="col-span-full">
-          <Breadcrumb className="mb-4">
-            <Breadcrumb.Item href="/organization">
-              <div className="flex items-center gap-x-3">
-                <HiHome className="text-xl" />
-                <span className="dark:text-white">Organizations</span>
-              </div>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href={`/organization/${selectedOrganization?.id}`}>
-              {selectedOrganization?.name}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href="/organization/new">
-              {selectedProject && selectedProject?.name}
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <div className="flex w-full items-center justify-between">
+            <Breadcrumb className="mb-4">
+              <Breadcrumb.Item href="/organization">
+                <div className="flex items-center gap-x-3">
+                  <HiHome className="text-xl" />
+                  <span className="dark:text-white">Organizations</span>
+                </div>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                href={`/organization/${selectedOrganization?.id}`}
+              >
+                {selectedOrganization?.name}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item href="/organization/new">
+                {selectedProject && selectedProject?.name}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+            <div
+              className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <FaChevronLeft />
+              Back
+            </div>
+          </div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             {selectedProject && selectedProject?.name}
           </h1>

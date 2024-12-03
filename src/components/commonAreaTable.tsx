@@ -27,7 +27,7 @@ const CommonAreaTable = function () {
   const table = useRef(null);
 
   useEffect(() => {
-    if (!isInit) {
+    if (!isInit && listCommonAreas.length == 0) {
       dispatch(getCommonAreaByProjectReducer(project_id));
       isInit = true;
     }

@@ -71,6 +71,7 @@ const initialState: ProjectState = {
   userType: "",
   userResponse: undefined,
   listCommonAreas: [],
+  commonAreaTab: 1,
 };
 
 export const projectSlice = createSlice({
@@ -129,6 +130,9 @@ export const projectSlice = createSlice({
     },
     setUserType: (state, action: PayloadAction<string>) => {
       state.userType = action.payload;
+    },
+    updateCommonAreaTab: (state, action: PayloadAction<number>) => {
+      state.commonAreaTab = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -370,6 +374,7 @@ export const {
   setResponseStatus,
   setUserType,
   updateSelectedProject,
+  updateCommonAreaTab,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

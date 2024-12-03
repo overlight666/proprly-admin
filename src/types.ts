@@ -308,6 +308,7 @@ export interface ProjectState {
   userType: string;
   userResponse: Project | undefined;
   listCommonAreas: CommonAreaType[];
+  commonAreaTab: number;
 }
 
 export interface CommonAreaType {
