@@ -290,7 +290,7 @@ const CommonAreaNewPage: FC = function () {
               uploadedWarranties={uploadedWarranties}
             />
           )}
-          <div
+          {/* <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
           >
@@ -301,7 +301,7 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard4 && <StrataUploads />}
+          {showCard4 && <StrataUploads />} */}
         </div>
         <div className="my-10 flex">
           <Button
