@@ -215,12 +215,15 @@ const AddProperty: FC = function () {
         const selectedTower: any =
           projectTowers.length &&
           projectTowers.find((t: TowerData) => t.id === value.id);
-        const floors = selectedTower.floorList.map((f) => {
-          return {
-            value: f.key,
-            label: f.value,
-          };
-        });
+        const floors =
+          selectedTower &&
+          selectedTower.floorList &&
+          selectedTower.floorList.map((f) => {
+            return {
+              value: f.key,
+              label: f.value,
+            };
+          });
         setNumFloors(floors);
         setFormData((prevFormData) => ({
           ...prevFormData,
