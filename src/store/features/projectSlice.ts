@@ -93,16 +93,22 @@ export const projectSlice = createSlice({
     reloadProjectStatus: (state, action: PayloadAction<boolean>) => {
       state.reloadProject = action.payload;
     },
-    selectZone: (state, action: PayloadAction<FullChecklist>) => {
+    selectZone: (state, action: PayloadAction<FullChecklist | undefined>) => {
       state.selectedZone = action.payload;
     },
-    selectElement: (state, action: PayloadAction<FullElements>) => {
+    selectElement: (state, action: PayloadAction<FullElements | undefined>) => {
       state.selectedElement = action.payload;
     },
-    selectCommonArea: (state, action: PayloadAction<FullChecklist>) => {
+    selectCommonArea: (
+      state,
+      action: PayloadAction<FullChecklist | undefined>
+    ) => {
       state.selectedCommonArea = action.payload;
     },
-    selectCommonAreaElement: (state, action: PayloadAction<FullElements>) => {
+    selectCommonAreaElement: (
+      state,
+      action: PayloadAction<FullElements | undefined>
+    ) => {
       state.selectedCommonAreaElement = action.payload;
     },
     clearProjectList: (state) => {

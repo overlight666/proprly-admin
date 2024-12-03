@@ -18,8 +18,8 @@ export default function CADefectsItems({ openModal, setOpenModal }: any) {
   return (
     <>
       <div className="relative p-1 px-3 pb-20 shadow-md">
-        {(selectedCommonAreaElement?.defectCode &&
-          selectedCommonAreaElement?.defectCode.length > 0 &&
+        {selectedCommonAreaElement?.defectCode &&
+        selectedCommonAreaElement?.defectCode.length > 0 ? (
           selectedCommonAreaElement?.defectCode.map(
             (defect: FullDefectCode, index: any) => {
               return (
@@ -37,7 +37,13 @@ export default function CADefectsItems({ openModal, setOpenModal }: any) {
                 </div>
               );
             }
-          )) || <span>Select an element</span>}
+          )
+        ) : selectedCommonAreaElement?.defectCode &&
+          selectedCommonAreaElement?.defectCode.length === 0 ? (
+          <span>No data to show</span>
+        ) : (
+          <span>Select an element</span>
+        )}
 
         <Button className="absolute bottom-1 my-5 ml-3 w-[150px]">
           <div className="flex items-center gap-x-2 text-xs">Save Changes</div>

@@ -50,6 +50,10 @@ import ProjectTable from "../../components/projectTable";
 import {
   clearSelectedProject,
   clearTrigger,
+  selectCommonArea,
+  selectCommonAreaElement,
+  selectElement,
+  selectZone,
   setResponseStatus,
   updateTowers,
 } from "../../store/features/projectSlice";
@@ -162,10 +166,14 @@ const ProjectSingle: FC = function () {
   }, []);
   useEffect(() => {
     if (!didLoad) {
+      dispatch(selectCommonArea(undefined));
+      dispatch(selectCommonAreaElement(undefined));
+      dispatch(selectZone(undefined));
+      dispatch(selectElement(undefined));
       dispatch(getDefectCodeListByProject(project_id));
       dispatch(getTradeCodeListByProject(project_id));
-      dispatch(getAllChecklistReducer(id));
-      dispatch(getAllCommonAreaReducer(id));
+      dispatch(getAllChecklistReducer(project_id));
+      dispatch(getAllCommonAreaReducer(project_id));
       didLoad = true;
     }
   }, []);

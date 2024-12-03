@@ -489,7 +489,7 @@ export const getChecklistElement = async (id: any) => {
 
 export const getAllChecklist = async (id: any) => {
   return api
-    .get(`property/${id}/checklist`)
+    .get(`/checklist?projectId=${id}`)
     .then((response) => {
       return response && response.data ? response.data : response;
     })
@@ -501,7 +501,7 @@ export const getAllChecklist = async (id: any) => {
 
 export const getAllCommonArea = async (id: any) => {
   return api
-    .get(`common_area/${id}/checklist`)
+    .get(`common_area_checklist?projectId=${id}`)
     .then((response) => {
       return response && response.data ? response.data : response;
     })
