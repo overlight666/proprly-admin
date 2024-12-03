@@ -750,6 +750,7 @@ const ProjectSingle: FC = function () {
                         >
                           <option selected>Please Select</option>
                           {config &&
+                            config.projectTypeList &&
                             config.projectTypeList.map(
                               (pt: ValueList, index: number) => {
                                 return (
@@ -780,6 +781,7 @@ const ProjectSingle: FC = function () {
                         >
                           <option selected>Please Select</option>
                           {config &&
+                            config.projectMaintenanceServiceTypeList &&
                             config.projectMaintenanceServiceTypeList.map(
                               (pt: ValueList, index: number) => {
                                 return (
