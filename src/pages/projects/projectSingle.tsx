@@ -422,8 +422,23 @@ const ProjectSingle: FC = function () {
               >
                 {selectedOrganization?.name}
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/organization/new">
+              <Breadcrumb.Item
+                href={`/organization/${selectedOrganization?.id}/project/${project_id}`}
+              >
                 {selectedProject && selectedProject?.name}
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {projectTabMain == 0
+                  ? "Dashboard"
+                  : projectTabMain == 1
+                  ? "Project Information"
+                  : projectTabMain == 2
+                  ? "Tower/Basement"
+                  : projectTabMain == 3
+                  ? "Configure"
+                  : projectTabMain == 4
+                  ? "Users"
+                  : "Reports"}
               </Breadcrumb.Item>
             </Breadcrumb>
             <div
