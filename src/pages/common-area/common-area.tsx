@@ -99,7 +99,13 @@ const CommonArea: FC = function () {
                 {selectedProject?.name}
               </Breadcrumb.Item>
               <Breadcrumb.Item>Common Areas</Breadcrumb.Item>
-              <Breadcrumb.Item>Manage</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {commonAreaTab == 1
+                  ? "Manage"
+                  : commonAreaTab == 2
+                  ? "Defect Resolution"
+                  : "Reports"}
+              </Breadcrumb.Item>
             </Breadcrumb>
             <div
               className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"

@@ -109,6 +109,13 @@ const Properties: FC = function () {
               <Breadcrumb.Item href="/organization/new">
                 {selectedProject?.name}
               </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {propertyTab == 1
+                  ? "Manage"
+                  : propertyTab == 2
+                  ? "Defect Resolution"
+                  : "Reports"}
+              </Breadcrumb.Item>
             </Breadcrumb>
             <div
               className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
