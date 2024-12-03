@@ -48,6 +48,9 @@ import { BsThreeDots } from "react-icons/bs";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { ConfirmModal } from "../../components/modals/confirmModal";
 import CommonAreaInformation from "./items/common-area-information";
+import StrataInformation from "./items/strata-information";
+import StrataWarrantyInformation from "./items/warranty-information";
+import StrataUploads from "./items/strata-uploads";
 
 const CommonAreaNewPage: FC = function () {
   const { project_id }: any = useParams();
@@ -132,7 +135,7 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard2 && <div></div>}
+          {showCard2 && <StrataInformation />}
           <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard3(!showCard3)}
@@ -144,7 +147,7 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <div></div>}
+          {showCard3 && <StrataWarrantyInformation />}
           <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
@@ -156,7 +159,7 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard4 && <div></div>}
+          {showCard4 && <StrataUploads />}
         </div>
       </div>
     </NavbarSidebarLayout>
