@@ -421,7 +421,7 @@ const CommonAreaViewPage: FC = function () {
             }
             color="primary"
           >
-            Proceed to Configure
+            Update
           </Button>
           <Button
             className="mx-1"
