@@ -93,7 +93,32 @@ const CommonAreaTable = function () {
       </tbody>
     </table>
   ) : (
-    <></>
+    <table className="!w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+      <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" className="px-6 py-3">
+            SR NO.
+          </th>
+          <th scope="col" className="px-6 py-3">
+            COMMON AREA LOT NO.
+          </th>
+          <th scope="col" className="px-6 py-3">
+            STATUS
+          </th>
+
+          <th scope="col" className="px-6 py-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colSpan={4}>
+            <div className="flex w-full items-center justify-center py-5">
+              No data information
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
