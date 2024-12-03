@@ -36,6 +36,8 @@ import {
   createCommonAreaReducer,
   getAllBuilders,
   getAllRegions,
+  postWarranties,
+  postWarrantyFiles,
   registerOrg,
   uploadImageFile,
 } from "../../store/features/reducers";
@@ -43,7 +45,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
-import { clear } from "../../store/features/imageSlice";
+import {
+  clear,
+  clearWarranty,
+  resetWarranty,
+} from "../../store/features/imageSlice";
 import Select from "react-select";
 import { BsThreeDots } from "react-icons/bs";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
@@ -56,13 +62,24 @@ import { clearCommonAreaResponse } from "../../store/features/projectSlice";
 
 const CommonAreaNewPage: FC = function () {
   const { project_id }: any = useParams();
+  const [uploadedWarranties, setUploadedWarranties] = useState<any>({
+    groups: [],
+  });
   const [status, setStatus] = useState<any>("");
   const [lotNo, setLotNo] = useState<any>("");
+  const [idHandler, setIdHandler] = useState<any>();
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
   const { selectedProject, commonAreaIdle, commonAreaResponse }: ProjectState =
     useSelector((state: any) => state.project);
+  const {
+    warrantyData,
+    warrantyResponse,
+    uploadDone,
+    warrantyResponseStatus,
+  }: ImageState = useSelector((state: any) => state.uploads);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
@@ -84,11 +101,99 @@ const CommonAreaNewPage: FC = function () {
     if (commonAreaResponse && commonAreaResponse.id) {
       const commonAreaId = commonAreaResponse.id;
       dispatch(clearCommonAreaResponse());
-      navigate(
-        `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}/configure`
-      );
+      if (
+        uploadedWarranties &&
+        uploadedWarranties.groups &&
+        uploadedWarranties.groups.length === 0
+      ) {
+        toast.info("New Common Area has been registered!");
+        setTimeout(() => {
+          navigate(
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}/configure`
+          );
+        }, 1000);
+      } else {
+        setIdHandler(commonAreaId);
+        dispatch(
+          postWarrantyFiles({
+            commonAreaId: commonAreaId,
+            ...uploadedWarranties,
+          })
+        );
+      }
     }
   }, [commonAreaResponse]);
+
+  useEffect(() => {
+    if (warrantyResponse && warrantyResponse.data) {
+      if (warrantyResponseStatus) {
+        toast.info("New Common Area has been registered!");
+        setTimeout(() => {
+          navigate(
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}/configure`
+          );
+        }, 1000);
+      } else {
+        toast.warning(
+          "New Common Area has been registered but warranties is not fully uploaded"
+        );
+        setTimeout(() => {
+          navigate(
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}/configure`
+          );
+        }, 1000);
+      }
+      dispatch(resetWarranty());
+    }
+  }, [warrantyResponse]);
+
+  useEffect(() => {
+    if (warrantyData) {
+      const warrant =
+        uploadedWarranties &&
+        uploadedWarranties.groups &&
+        uploadedWarranties.groups.find(
+          (obj) => obj.group === warrantyData.group
+        );
+      if (!warrant) {
+        uploadedWarranties.groups.push({
+          group: warrantyData.group,
+          files: [warrantyData.id],
+          data: [warrantyData],
+        });
+      } else {
+        uploadedWarranties &&
+          uploadedWarranties.groups &&
+          uploadedWarranties.groups.map((obj) => {
+            if (obj.group === warrantyData.group) {
+              const arr1 = [...new Set(obj.data)];
+              const arr = [...new Set(obj.files)];
+              arr1.push(warrantyData);
+              arr.push(warrantyData.id);
+              obj.files = arr;
+              obj.data = arr1;
+            }
+          });
+      }
+      setUploadedWarranties(uploadedWarranties);
+      dispatch(clearWarranty());
+    }
+  }, [warrantyData]);
+
+  const handleUpload = async (
+    event: ChangeEvent<HTMLInputElement>,
+    group: string
+  ) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      const params = {
+        group: group,
+        file: event.target.files[0],
+      };
+      dispatch(postWarranties(params));
+    }
+  };
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -178,7 +283,13 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard3 && <StrataWarrantyInformation />}
+          {showCard3 && (
+            <StrataWarrantyInformation
+              setUploadedWarranties={setUploadedWarranties}
+              handleUpload={handleUpload}
+              uploadedWarranties={uploadedWarranties}
+            />
+          )}
           <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
