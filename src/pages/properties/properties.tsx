@@ -61,6 +61,7 @@ const Properties: FC = function () {
   useEffect(() => {
     if (!didInit) {
       dispatch(getProperties(project_id));
+      dispatch(updatePropertyTab(1));
       didInit = true;
     }
   }, []);
