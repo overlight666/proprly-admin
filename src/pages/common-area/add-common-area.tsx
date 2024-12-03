@@ -33,6 +33,7 @@ import type {
   UserState,
 } from "../../types";
 import {
+  createCommonAreaReducer,
   getAllBuilders,
   getAllRegions,
   registerOrg,
@@ -51,21 +52,44 @@ import CommonAreaInformation from "./items/common-area-information";
 import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
 import StrataUploads from "./items/strata-uploads";
+import { clearCommonAreaResponse } from "../../store/features/projectSlice";
 
 const CommonAreaNewPage: FC = function () {
   const { project_id }: any = useParams();
+  const [status, setStatus] = useState<any>("");
+  const [lotNo, setLotNo] = useState<any>("");
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { selectedProject, commonAreaIdle, commonAreaResponse }: ProjectState =
+    useSelector((state: any) => state.project);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
   const [showCard4, setShowCard4] = useState(true);
+
+  const createCommonArea = () => {
+    const params = {
+      projectId: project_id,
+      lotNo,
+      status,
+    };
+    dispatch(createCommonAreaReducer(params));
+  };
+
+  useEffect(() => {
+    if (commonAreaResponse && commonAreaResponse.id) {
+      const commonAreaId = commonAreaResponse.id;
+      dispatch(clearCommonAreaResponse());
+      navigate(
+        `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}/configure`
+      );
+    }
+  }, [commonAreaResponse]);
+
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -123,7 +147,14 @@ const CommonAreaNewPage: FC = function () {
               <FaAngleDown className="h-[50px] cursor-pointer" />
             )}
           </div>
-          {showCard1 && <CommonAreaInformation />}
+          {showCard1 && (
+            <CommonAreaInformation
+              status={status}
+              lotNo={lotNo}
+              setLotNo={setLotNo}
+              setStatus={setStatus}
+            />
+          )}
           <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard2(!showCard2)}
@@ -160,6 +191,29 @@ const CommonAreaNewPage: FC = function () {
             )}
           </div>
           {showCard4 && <StrataUploads />}
+        </div>
+        <div className="my-10 flex">
+          <Button
+            className="mx-1"
+            onClick={() => createCommonArea()}
+            disabled={
+              lotNo.trim().length === 0 ||
+              status.trim().length === 0 ||
+              !commonAreaIdle
+            }
+            color="primary"
+          >
+            Proceed to Configure
+          </Button>
+          <Button
+            className="mx-1"
+            onClick={() => {
+              navigate(-1);
+            }}
+            color="gray"
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     </NavbarSidebarLayout>

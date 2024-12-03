@@ -309,8 +309,34 @@ export interface ProjectState {
   userResponse: Project | undefined;
   listCommonAreas: CommonAreaType[];
   commonAreaTab: number;
+  commonAreaIdle: boolean;
+  commonAreaResponse: commonAreaResponseType | undefined;
+  commonAreaItem: commonAreaItemType | undefined;
 }
 
+export interface commonAreaItemType {
+  id: number;
+  organizationId: number;
+  projectId: number;
+  lotNo: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  projectTowers: any[];
+  basements: any[];
+  warranty: any[];
+  warrantyStatus: string;
+}
+
+export interface commonAreaResponseType {
+  projectId: number;
+  lotNo: number;
+  status: string;
+  organizationId: number;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+}
 export interface CommonAreaType {
   id: number;
   organizationId: number;

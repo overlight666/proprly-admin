@@ -97,6 +97,7 @@ const ExampleSidebar: FC = function () {
     "/organization/:id/project/:project_id/appointments",
     "/organization/:id/project/:project_id/common-area",
     "/organization/:id/project/:project_id/common-area/new",
+    "/organization/:id/project/:project_id/common-area/:common_area_id/configure",
   ].find((pattern) => {
     return matchPath(pattern, pathname);
   });
@@ -307,7 +308,9 @@ const ExampleSidebar: FC = function () {
                                         (currentRoute ==
                                           "/organization/:id/project/:project_id/common-area" ||
                                           currentRoute ==
-                                            "/organization/:id/project/:project_id/common-area/new") &&
+                                            "/organization/:id/project/:project_id/common-area/new" ||
+                                          currentRoute ==
+                                            "/organization/:id/project/:project_id/common-area/:common_area_id/configure") &&
                                         project_id == obj.id
                                           ? "bg-gray-200"
                                           : ""

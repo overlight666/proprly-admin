@@ -4,12 +4,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
+  createCommonAreaReducer,
   createProjectUserReducer,
   getAllChecklistReducer,
   getAllCommonAreaReducer,
   getChecklistElementReducer,
   getChecklistZonesReducer,
   getCommonAreaByProjectReducer,
+  getCommonAreaReducer,
   getDefectCodeListByProject,
   getProjects,
   getSingleProject,
@@ -72,6 +74,9 @@ const initialState: ProjectState = {
   userResponse: undefined,
   listCommonAreas: [],
   commonAreaTab: 1,
+  commonAreaIdle: true,
+  commonAreaResponse: undefined,
+  commonAreaItem: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -89,6 +94,9 @@ export const projectSlice = createSlice({
       state.projectResponse = undefined;
       state.towerResponse = {};
       state.towerData = [];
+    },
+    clearCommonAreaResponse: (state) => {
+      state.commonAreaResponse = undefined;
     },
     reloadProjectStatus: (state, action: PayloadAction<boolean>) => {
       state.reloadProject = action.payload;
@@ -360,6 +368,36 @@ export const projectSlice = createSlice({
     builder.addCase(createProjectUserReducer.rejected, (state) => {
       state.responseStatus = "Adding User Failed";
     });
+    //create common area
+    builder.addCase(createCommonAreaReducer.pending, (state) => {
+      state.commonAreaIdle = false;
+    });
+    builder.addCase(createCommonAreaReducer.fulfilled, (state, action) => {
+      state.commonAreaIdle = true;
+      state.commonAreaResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(createCommonAreaReducer.rejected, (state) => {
+      state.commonAreaIdle = true;
+    });
+    //get common area
+    builder.addCase(getCommonAreaReducer.pending, (state) => {
+      state.commonAreaIdle = false;
+      state.commonAreaItem = undefined;
+    });
+    builder.addCase(getCommonAreaReducer.fulfilled, (state, action) => {
+      state.commonAreaIdle = true;
+      state.commonAreaItem =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getCommonAreaReducer.rejected, (state) => {
+      state.commonAreaIdle = true;
+      state.commonAreaItem = undefined;
+    });
   },
 });
 
@@ -381,6 +419,7 @@ export const {
   setUserType,
   updateSelectedProject,
   updateCommonAreaTab,
+  clearCommonAreaResponse,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

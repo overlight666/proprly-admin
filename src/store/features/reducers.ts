@@ -7,6 +7,7 @@ import {
   addOrganizationUser,
   addTradeCode,
   attachPropertyUser,
+  createCommonArea,
   createProjectUser,
   getAllChecklist,
   getAllCommonArea,
@@ -17,6 +18,7 @@ import {
   getAllTradeCodebyProject,
   getChecklistElement,
   getChecklistZones,
+  getCommonArea,
   getCommonAreaByProject,
   getConfig,
   getCountries,
@@ -589,6 +591,32 @@ export const createProjectUserReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await createProjectUser(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const createCommonAreaReducer: any = createAsyncThunk(
+  "createCommonAreaReducer",
+  async (data: any) => {
+    try {
+      const response = await createCommonArea(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getCommonAreaReducer: any = createAsyncThunk(
+  "getCommonAreaReducer",
+  async (id: any) => {
+    try {
+      const response = await getCommonArea(id);
       // If you want to get something back
       return response;
     } catch (err) {

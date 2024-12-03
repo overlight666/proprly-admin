@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { Label, Select, TextInput } from "flowbite-react";
-import { useState, type FC } from "react";
+import { useSelector } from "react-redux";
+import type { AppState, ReducerTypes } from "../../../types";
 
-const CommonAreaInformation: FC = function () {
-  const [lotNo, setLotNo] = useState("");
+const CommonAreaInformation = function (params) {
+  const { lotNo, setLotNo, status, setStatus }: any = params;
+  const { config }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
   return (
     <div className="flex w-full pb-5">
       <div className="grid w-full grid-rows-2 gap-2 lg:grid-cols-4">
@@ -26,8 +32,25 @@ const CommonAreaInformation: FC = function () {
           <Label htmlFor="lotNo">
             Common Area Status <span className="text-[red]">*</span>
           </Label>
-          <Select className="mt-2" id="status" name="status">
-            <option selected>Select</option>
+          <Select
+            className="mt-2"
+            id="status"
+            name="status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="" selected>
+              Please Select
+            </option>
+            {config &&
+              config.propertyStatusList &&
+              config.propertyStatusList.map((status, index) => {
+                return (
+                  <option key={index} value={status.key}>
+                    {status.value}
+                  </option>
+                );
+              })}
           </Select>
         </div>
       </div>

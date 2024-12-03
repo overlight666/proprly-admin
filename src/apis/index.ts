@@ -570,3 +570,25 @@ export const getCommonAreaByProject = async (id: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const createCommonArea = async (params: any) => {
+  return api
+    .post(`/common_area`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getCommonArea = async (id: any) => {
+  return api
+    .get(`/common_area/${id}`)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
