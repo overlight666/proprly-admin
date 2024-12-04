@@ -330,7 +330,7 @@ const CommonAreaViewPage: FC = function () {
               >
                 Common Areas
               </Breadcrumb.Item>
-              <Breadcrumb.Item>Add</Breadcrumb.Item>
+              <Breadcrumb.Item>View</Breadcrumb.Item>
             </Breadcrumb>
             <div
               className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
