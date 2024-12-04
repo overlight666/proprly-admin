@@ -81,28 +81,30 @@ const CommonAreaTable = function () {
                 <td>{ca.lotNo}</td>
                 <td>{getStatus(ca.status)}</td>
                 <td className="px-6 py-4">
-                  <Dropdown
-                    label=""
-                    dismissOnClick={false}
-                    renderTrigger={() => (
-                      <Button color="gray" className="w-[50px]">
-                        <div className="flex items-center gap-x-2 text-xs">
-                          <BsThreeDots />
-                        </div>
-                      </Button>
-                    )}
-                  >
-                    <Dropdown.Item
-                      onClick={() => {
-                        dispatch(resetWarranty());
-                        navigate(
-                          `/organization/${id}/project/${project_id}/common-area/${ca.id}`
-                        );
-                      }}
+                  <div className="flex w-full flex-row-reverse">
+                    <Dropdown
+                      label=""
+                      dismissOnClick={false}
+                      renderTrigger={() => (
+                        <Button color="gray" className="w-[50px]">
+                          <div className="flex items-center gap-x-2 text-xs">
+                            <BsThreeDots />
+                          </div>
+                        </Button>
+                      )}
                     >
-                      View
-                    </Dropdown.Item>
-                  </Dropdown>
+                      <Dropdown.Item
+                        onClick={() => {
+                          dispatch(resetWarranty());
+                          navigate(
+                            `/organization/${id}/project/${project_id}/common-area/${ca.id}`
+                          );
+                        }}
+                      >
+                        View
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </div>
                 </td>
               </tr>
             );
