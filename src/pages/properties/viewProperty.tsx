@@ -166,7 +166,7 @@ const ViewProperty: FC = function () {
         towerOptions.find((t) => t.value === formData.projectTowerId)
       );
     }
-  }, [towerOptions]);
+  });
 
   useEffect(() => {
     if (numFloors) {
@@ -188,6 +188,7 @@ const ViewProperty: FC = function () {
       setNumFloors(floors);
     }
   }, [selectedTower]);
+
   const [formData, setFormData] = useState<Property>({
     name: "",
     projectId: project_id,
@@ -504,7 +505,7 @@ const ViewProperty: FC = function () {
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
-      {!selectedProperty && (
+      {!selectedProperty && !selectedTower && !selectedFloor && (
         <div className="fixed z-50 flex h-screen w-full items-center bg-white/30 backdrop-blur-sm">
           <div role="status" className="ml-[37%]">
             <svg
