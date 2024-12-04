@@ -13,6 +13,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import "../extension.css";
 import { getCommonAreaByProjectReducer } from "../store/features/reducers";
 import type { ProjectState } from "../types";
+import { resetWarranty } from "../store/features/imageSlice";
 
 const CommonAreaTable = function () {
   const { id, project_id }: any = useParams();
@@ -86,6 +87,7 @@ const CommonAreaTable = function () {
                   >
                     <Dropdown.Item
                       onClick={() => {
+                        dispatch(resetWarranty());
                         navigate(
                           `/organization/${id}/project/${project_id}/common-area/${ca.id}`
                         );
