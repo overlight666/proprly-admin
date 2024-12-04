@@ -465,6 +465,20 @@ export interface DefectSumissionType {
   checklistSubElement: CheckListSubElementType;
   property: Property;
   activityLogs: ActivityLogsType[];
+  user?: userData;
+  userRole?: UserRoleType;
+  stage: string;
+}
+
+export interface UserRoleType {
+  id: number;
+  roleName: string;
+  roleDescription: string;
+  roleKey: string;
+  roleAccessLevel: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ActivityLogsType {
@@ -476,6 +490,7 @@ export interface ActivityLogsType {
   images?: ImageType[];
   loggedBy: string;
   loggedUserId: number;
+  user?: userData;
 }
 export interface CheckListSubElementType {
   id: number;

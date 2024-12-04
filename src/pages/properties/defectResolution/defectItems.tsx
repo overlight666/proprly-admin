@@ -19,7 +19,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
   const getStatus = (value) => {
     let val = "";
     try {
-      value =
+      val =
         value &&
         value
           .replace("_", " ")
@@ -48,7 +48,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
     ) {
       return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
     } else if (
-      defectSubStatus == "Defect logged" ||
+      defectSubStatus == "Defect Logged" ||
       defectSubStatus == "Pending Admin feedback"
     ) {
       return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
@@ -134,24 +134,33 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
           </span>
         </span>
         <span className="text-[14px] text-gray-400">
-          {/* {def.property.tower}: <span className="text-black">{org.towerA}</span> */}
+          {def.property.projectTower?.name}:{" "}
+          <span className="font-semibold text-black">
+            {def.property.projectTower &&
+              def.property.projectTower.floorList &&
+              def.property.projectTower.floorList.find(
+                (f) => f.key == def.property.floor
+              )?.value}
+          </span>
         </span>
       </div>
-      <br />
-      <hr />
-      <br />
-      <div className="grid grid-cols-3 grid-rows-2 gap-1">
-        <span className="text-[14px] text-gray-400">Type</span>
-        <span className="text-[14px] text-gray-400">Logged by</span>
-        <span className="text-[14px] text-gray-400">Date</span>
-        <span className="text-[14px] font-semibold">
-          {getStatus(def.propertyStatus)}
+      <hr className="my-3" />
+      <div className="flex w-full items-center gap-1">
+        <span className="col-span-2 w-[40%] text-[14px] text-gray-400">
+          Type
         </span>
-        <span className="text-[14px] font-semibold">
-          {getStatus(def.submittedBy)}
+        <span className="w-[30%] text-[14px] text-gray-400">Logged by</span>
+        <span className="w-[30%] text-[14px] text-gray-400">Date</span>
+      </div>
+      <div className="flex w-full items-center gap-1">
+        <span className="col-span-2 w-[40%] text-[14px] font-semibold">
+          {getStatus(def.stage)}
         </span>
-        <span className="text-[14px] font-semibold">
-          {moment(def.createdAt).format("DD MMM YYYY")}
+        <span className="w-[30%] text-[14px] font-semibold ">
+          {def.userRole?.roleName}
+        </span>
+        <span className="w-[30%] text-[14px] font-semibold ">
+          {moment(def.createdAt).format("DD MMM YY")}
         </span>
       </div>
     </div>
