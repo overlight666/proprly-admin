@@ -94,7 +94,7 @@ export interface projectRole {
   isAdmin: boolean;
 }
 export interface Config {
-  roles: Roles[];
+  roles?: Roles[];
   roleAccessLevel: AccessLevel;
   roleAccessLevelList: ValueList[];
   projectMaintenanceServiceType: MaintenanceServiceType;
@@ -445,6 +445,7 @@ export interface DefectSumissionType {
   organizationId: number;
   inspectionId: number;
   propertyId: number;
+  submittedUserRoleId?: number;
   checklistZoneId: number;
   checklistElementId: number;
   checklistSubElementId: number;
@@ -491,6 +492,7 @@ export interface ActivityLogsType {
   loggedBy: string;
   loggedUserId: number;
   user?: userData;
+  userRole: UserRoleType;
 }
 export interface CheckListSubElementType {
   id: number;

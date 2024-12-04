@@ -7,7 +7,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
-import type { PropertyState, userData, UserState } from "../../types";
+import type {
+  AppState,
+  PropertyState,
+  ReducerTypes,
+  Roles,
+  userData,
+  UserState,
+} from "../../types";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useState } from "react";
@@ -19,7 +26,9 @@ export const DefectSubmissionModal = function (props: any) {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(false);
   const [showCard3, setShowCard3] = useState(false);
-
+  const { config }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
   const getStatus = (value) => {
     let val = "";
     try {
@@ -201,7 +210,7 @@ export const DefectSubmissionModal = function (props: any) {
                             id="comment"
                             name="comment"
                             value={defect?.comment}
-                            placeholder="Enter comment"
+                            placeholder="N/A"
                             required
                           />
                         </div>
@@ -211,8 +220,15 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="logged"
                             name="logged"
-                            value={getStatus(defect?.submittedBy)}
-                            placeholder="Enter logged"
+                            value={
+                              config?.roles && config.roles.length > 0
+                                ? config.roles.find(
+                                    (k: Roles) =>
+                                      k.id == defect?.submittedUserId
+                                  )?.roleName
+                                : ""
+                            }
+                            placeholder="N/A"
                             required
                           />
                         </div>
@@ -479,7 +495,8 @@ export const DefectSubmissionModal = function (props: any) {
                                     index == 0 && "mt-[-4px]"
                                   }`}
                                 >
-                                  {activity.user && activity.user.fullName}
+                                  {activity.userRole &&
+                                    activity.userRole.roleName}
                                 </span>
                                 <span
                                   className={`text-[14px] ${textColoring(
