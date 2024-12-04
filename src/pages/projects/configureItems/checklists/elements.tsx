@@ -31,25 +31,48 @@ export default function ElementItems({ openModal, setOpenModal }: any) {
           selectedZone?.elements.length > 0 &&
           selectedZone?.elements.map((element: FullElements, index: any) => {
             return (
-              <div
-                key={index}
-                className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
-                  selectedElement &&
-                  selectedElement.id == element.id &&
-                  `bg-gray-100`
-                }`}
-                onClick={() => {
-                  dispatch(selectElement(element));
-                }}
-              >
-                <div className="flex flex-row items-center">
-                  <Button color="white" className="w-[50px]">
-                    <BsList />
-                  </Button>
-                  <span>{element.name}</span>
+              <>
+                <div
+                  key={index}
+                  className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
+                    selectedElement &&
+                    selectedElement.id == element.id &&
+                    `bg-gray-100`
+                  }`}
+                  onClick={() => {
+                    dispatch(selectElement(element));
+                  }}
+                >
+                  <div className="flex flex-row items-center">
+                    <Button color="white" className="w-[50px]">
+                      <BsList />
+                    </Button>
+                    <span>{element.name}</span>
+                  </div>
+                  <BsThreeDotsVertical />
                 </div>
-                <BsThreeDotsVertical />
-              </div>
+                {element.subElements && (
+                  <div className="flex w-full flex-col">
+                    {element.subElements && element.subElements.length ? (
+                      element.subElements.map((el, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="ml-[13%] border-l-2 py-[1px]"
+                          >
+                            <div className="relative flex items-center gap-2">
+                              <div className="absolute left-[-7px] h-[12px] w-[12px] rounded-full border-[1px] border-solid border-white bg-[black]"></div>
+                              <span className="ml-3">{el.name}</span>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                )}
+              </>
             );
           })) || <span>Select a zone</span>}
 

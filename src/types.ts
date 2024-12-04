@@ -387,7 +387,7 @@ export interface FullElements {
   commonAreaCategoryId: any;
   createdAt: string;
   updatedAt: string;
-  subElements: FullElements;
+  subElements: FullElements[];
   defectCode: FullDefectCode[];
 }
 
