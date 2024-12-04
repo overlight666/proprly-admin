@@ -35,14 +35,21 @@ const CommonAreaTable = function () {
   }, []);
 
   const getStatus = (value) => {
-    return value
-      .replace("_", " ")
-      .toLowerCase()
-      .replace(/\b[a-z]/g, function (letter) {
-        return letter.toUpperCase();
-      });
+    let val = "";
+    try {
+      val =
+        value &&
+        value
+          .replace("_", " ")
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+          });
+    } catch (error) {
+      val = "";
+    }
+    return val;
   };
-
   return listCommonAreas && listCommonAreas.length ? (
     <table
       ref={table}

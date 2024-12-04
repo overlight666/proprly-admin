@@ -19,13 +19,22 @@ export const DefectSubmissionModal = function (props: any) {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(false);
   const [showCard3, setShowCard3] = useState(false);
+
   const getStatus = (value) => {
-    return value
-      .replace("_", " ")
-      .toLowerCase()
-      .replace(/\b[a-z]/g, function (letter) {
-        return letter.toUpperCase();
-      });
+    let val = "";
+    try {
+      val =
+        value &&
+        value
+          .replace("_", " ")
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+          });
+    } catch (error) {
+      val = "";
+    }
+    return val;
   };
 
   const textColoring = (defectSubStatus, hasBg) => {
