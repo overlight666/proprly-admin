@@ -34,13 +34,22 @@ export default function ElementItems({ openModal, setOpenModal }: any) {
               <>
                 <div
                   key={index}
-                  className={`flex cursor-pointer flex-row items-center justify-between rounded-md p-2 ${
+                  className={`flex flex-row items-center justify-between rounded-md p-2 ${
                     selectedElement &&
                     selectedElement.id == element.id &&
                     `bg-gray-100`
+                  } ${
+                    element.subElements &&
+                    element.subElements.length === 0 &&
+                    "cursor-pointer"
                   }`}
                   onClick={() => {
-                    dispatch(selectElement(element));
+                    if (
+                      element.subElements &&
+                      element.subElements.length === 0
+                    ) {
+                      dispatch(selectElement(element));
+                    }
                   }}
                 >
                   <div className="flex flex-row items-center">
@@ -58,7 +67,14 @@ export default function ElementItems({ openModal, setOpenModal }: any) {
                         return (
                           <div
                             key={index}
-                            className="ml-[13%] border-l-2 py-[1px]"
+                            className={`ml-[13%] cursor-pointer border-l-2 py-[1px] ${
+                              selectedElement &&
+                              selectedElement.id == el.id &&
+                              `bg-gray-100`
+                            }`}
+                            onClick={() => {
+                              dispatch(selectElement(el));
+                            }}
                           >
                             <div className="relative flex items-center gap-2">
                               <div className="absolute left-[-7px] h-[12px] w-[12px] rounded-full border-[1px] border-solid border-white bg-[black]"></div>
