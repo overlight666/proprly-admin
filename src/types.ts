@@ -493,6 +493,7 @@ export interface ActivityLogsType {
   loggedUserId: number;
   user?: userData;
   userRole: UserRoleType;
+  loggedUserRoleId: number;
 }
 export interface CheckListSubElementType {
   id: number;

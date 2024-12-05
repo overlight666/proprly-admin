@@ -40,7 +40,7 @@ export default function DefectsItems({ openModal, setOpenModal }: any) {
           )
         ) : selectedElement?.defectCode &&
           selectedElement?.defectCode.length === 0 ? (
-          <span>No data to show</span>
+          <span>Select Sub-Element</span>
         ) : (
           <span>Select an element</span>
         )}

@@ -219,7 +219,9 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
             true
           )}`}
         >
-          {getIcons(def.subStatus)}
+          <div className="mt-[10px] flex h-full align-top">
+            {getIcons(def.subStatus)}
+          </div>
           <span className={`text-[14px]`}>{def.subStatus}</span>
         </div>
       </div>

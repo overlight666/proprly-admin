@@ -40,7 +40,7 @@ export default function CADefectsItems({ openModal, setOpenModal }: any) {
           )
         ) : selectedCommonAreaElement?.defectCode &&
           selectedCommonAreaElement?.defectCode.length === 0 ? (
-          <span>No data to show</span>
+          <span>Select Sub-Element</span>
         ) : (
           <span>Select an element</span>
         )}

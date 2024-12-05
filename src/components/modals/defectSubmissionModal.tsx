@@ -224,7 +224,7 @@ export const DefectSubmissionModal = function (props: any) {
                               config?.roles && config.roles.length > 0
                                 ? config.roles.find(
                                     (k: Roles) =>
-                                      k.id == defect?.submittedUserId
+                                      k.id == defect?.submittedUserRoleId
                                   )?.roleName
                                 : ""
                             }
@@ -495,8 +495,11 @@ export const DefectSubmissionModal = function (props: any) {
                                     index == 0 && "mt-[-4px]"
                                   }`}
                                 >
-                                  {activity.userRole &&
-                                    activity.userRole.roleName}
+                                  {config &&
+                                    config?.roles &&
+                                    config.roles.find(
+                                      (c) => c.id == activity?.loggedUserRoleId
+                                    )?.roleName}
                                 </span>
                                 <span
                                   className={`text-[14px] ${textColoring(
