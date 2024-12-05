@@ -1,25 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Label, Select } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { BsChevronRight, BsThreeDots } from "react-icons/bs";
-import { HiPlus } from "react-icons/hi";
-import AddUserModal from "../../../components/addUserModal";
-import { useDispatch, useSelector } from "react-redux";
+import { Button } from "flowbite-react";
+import { useEffect } from "react";
+import { BsThreeDots } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 import { listUserByRoleReducer } from "../../../store/features/reducers";
-import type { AppState, ReducerTypes } from "../../../types";
 
-export default function StrataInformation({
-  attachedStrata,
-  attachStrata,
-  addStrata,
-}: any) {
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedStrata, setSelectedStrata] = useState<any>();
-  const { projectStrata }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
-  );
+export default function StrataInformation({ attachedStrata }: any) {
   let didInit = false;
   const dispatch = useDispatch();
 
@@ -32,38 +20,6 @@ export default function StrataInformation({
 
   return (
     <div className="mt-5 flex w-full flex-col pb-5">
-      <div className="flex w-full flex-row items-end gap-2">
-        <div className="w-[40%]">
-          <div className="mb-2 block">
-            <Label htmlFor="user" value="Strata list" />
-          </div>
-          <Select
-            id="user"
-            value={selectedStrata}
-            onChange={(value) => setSelectedStrata(value.target.value)}
-            required
-          >
-            <option selected>Please select</option>
-            {projectStrata &&
-              projectStrata.map((user, index) => {
-                return (
-                  <option key={index} value={JSON.stringify(user)}>
-                    {user.fullName}
-                  </option>
-                );
-              })}
-          </Select>
-        </div>
-        <Button
-          className="mx-1 mb-1"
-          onClick={() => attachStrata(selectedStrata)}
-        >
-          <div className="flex items-center gap-x-2 text-xs">
-            <HiPlus />
-            Attach Strata
-          </div>
-        </Button>
-      </div>
       <div className="relative my-5 overflow-x-auto p-5 px-2 shadow-md sm:rounded-lg">
         <table
           id="organization-project-table"
@@ -124,26 +80,6 @@ export default function StrataInformation({
           </tbody>
         </table>
       </div>
-      <div className="mt-1 flex items-center text-[14px] text-[blue]">
-        <a href="javascript:void(0)" onClick={() => setOpenModal(true)}>
-          ADD NEW STRATA
-        </a>
-        <BsChevronRight />
-      </div>
-      {/* <div className="my-5 flex flex-row gap-5">
-        <Button className="w-[100px]">
-          <div className="flex items-center gap-x-2 text-xs">Submit</div>
-        </Button>
-        <Button className="w-[100px]" color="gray">
-          <div className="flex items-center gap-x-2 text-xs">Cancel</div>
-        </Button>
-      </div> */}
-      <AddUserModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        addUserHandler={addStrata}
-        title={"Add new strata"}
-      />
     </div>
   );
 }
