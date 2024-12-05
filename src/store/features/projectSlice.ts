@@ -338,21 +338,22 @@ export const projectSlice = createSlice({
     });
     //get common area by project
     builder.addCase(getCommonAreaByProjectReducer.pending, (state) => {
-      state.listCommonAreas = [];
-      state.isIdle = false;
+      state.commonAreaItem = undefined;
+      state.commonAreaIdle = false;
     });
     builder.addCase(
       getCommonAreaByProjectReducer.fulfilled,
       (state, action) => {
-        state.listCommonAreas =
+        state.commonAreaItem =
           action.payload && action.payload.data
-            ? action.payload.data
-            : action.payload;
+            ? action.payload.data[0]
+            : action.payload[0];
+        state.commonAreaIdle = true;
       }
     );
     builder.addCase(getCommonAreaByProjectReducer.rejected, (state) => {
-      state.listCommonAreas = [];
-      state.isIdle = true;
+      state.commonAreaItem = undefined;
+      state.commonAreaIdle = true;
     });
     // create project admin
     builder.addCase(createProjectUserReducer.pending, (state) => {

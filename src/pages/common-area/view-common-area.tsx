@@ -18,7 +18,7 @@ import {
   Select as Select2,
   Dropdown,
 } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
+import { HiHome, HiPlus } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp, FaChevronLeft } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
@@ -37,6 +37,7 @@ import {
   createCommonAreaReducer,
   getAllBuilders,
   getAllRegions,
+  getCommonAreaByProjectReducer,
   getCommonAreaReducer,
   postWarranties,
   postWarrantyFiles,
@@ -114,7 +115,8 @@ const CommonAreaViewPage: FC = function () {
 
   useEffect(() => {
     if (!isInit) {
-      dispatch(getCommonAreaReducer(common_area_id));
+      dispatch(getCommonAreaByProjectReducer(project_id));
+      //   dispatch(getCommonAreaReducer(common_area_id));
       isInit = true;
     }
   }, []);
@@ -343,61 +345,65 @@ const CommonAreaViewPage: FC = function () {
             </div>
           </div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            {selectedProject?.name}
+            {commonAreaIdle && !commonAreaItem
+              ? "Manage Common Area"
+              : "View Common Area"}
           </h1>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
-        <div className="flex w-full flex-col">
-          <div
-            className="flex w-full items-center justify-between border-b-[1px]"
-            onClick={() => setShowCard1(!showCard1)}
-          >
-            <h1 className="font-bold">Common Area Information</h1>
-            {showCard1 ? (
-              <FaAngleUp className="h-[50px] cursor-pointer" />
-            ) : (
-              <FaAngleDown className="h-[50px] cursor-pointer" />
-            )}
-          </div>
-          {showCard1 && (
-            <CommonAreaInformation
-              status={status}
-              lotNo={lotNo}
-              setLotNo={setLotNo}
-              setStatus={setStatus}
-            />
-          )}
-          <div
-            className="flex w-full items-center justify-between border-b-[1px]"
-            onClick={() => setShowCard2(!showCard2)}
-          >
-            <h1 className="font-bold">Strata Information</h1>
-            {showCard2 ? (
-              <FaAngleUp className="h-[50px] cursor-pointer" />
-            ) : (
-              <FaAngleDown className="h-[50px] cursor-pointer" />
-            )}
-          </div>
-          {showCard2 && <StrataInformation />}
-          <div
-            className="flex w-full items-center justify-between border-b-[1px]"
-            onClick={() => setShowCard3(!showCard3)}
-          >
-            <h1 className="font-bold">Warranty Information</h1>
-            {showCard3 ? (
-              <FaAngleUp className="h-[50px] cursor-pointer" />
-            ) : (
-              <FaAngleDown className="h-[50px] cursor-pointer" />
-            )}
-          </div>
-          {showCard3 && (
-            <StrataWarrantyInformation
-              setUploadedWarranties={removeUploadedWarranty}
-              handleUpload={handleUpload}
-              uploadedWarranties={uploadedWarranties}
-            />
-          )}
-          {/* <div
+        {commonAreaIdle && commonAreaItem ? (
+          <>
+            <div className="flex w-full flex-col">
+              <div
+                className="flex w-full items-center justify-between border-b-[1px]"
+                onClick={() => setShowCard1(!showCard1)}
+              >
+                <h1 className="font-bold">Common Area Information</h1>
+                {showCard1 ? (
+                  <FaAngleUp className="h-[50px] cursor-pointer" />
+                ) : (
+                  <FaAngleDown className="h-[50px] cursor-pointer" />
+                )}
+              </div>
+              {showCard1 && (
+                <CommonAreaInformation
+                  status={status}
+                  lotNo={lotNo}
+                  setLotNo={setLotNo}
+                  setStatus={setStatus}
+                />
+              )}
+              <div
+                className="flex w-full items-center justify-between border-b-[1px]"
+                onClick={() => setShowCard2(!showCard2)}
+              >
+                <h1 className="font-bold">Strata Information</h1>
+                {showCard2 ? (
+                  <FaAngleUp className="h-[50px] cursor-pointer" />
+                ) : (
+                  <FaAngleDown className="h-[50px] cursor-pointer" />
+                )}
+              </div>
+              {showCard2 && <StrataInformation />}
+              <div
+                className="flex w-full items-center justify-between border-b-[1px]"
+                onClick={() => setShowCard3(!showCard3)}
+              >
+                <h1 className="font-bold">Warranty Information</h1>
+                {showCard3 ? (
+                  <FaAngleUp className="h-[50px] cursor-pointer" />
+                ) : (
+                  <FaAngleDown className="h-[50px] cursor-pointer" />
+                )}
+              </div>
+              {showCard3 && (
+                <StrataWarrantyInformation
+                  setUploadedWarranties={removeUploadedWarranty}
+                  handleUpload={handleUpload}
+                  uploadedWarranties={uploadedWarranties}
+                />
+              )}
+              {/* <div
             className="flex w-full items-center justify-between border-b-[1px]"
             onClick={() => setShowCard4(!showCard4)}
           >
@@ -409,30 +415,52 @@ const CommonAreaViewPage: FC = function () {
             )}
           </div>
           {showCard4 && <StrataUploads />} */}
-        </div>
-        <div className="my-10 flex">
-          <Button
-            className="mx-1"
-            onClick={() => createCommonArea()}
-            disabled={
-              lotNo.trim().length === 0 ||
-              status.trim().length === 0 ||
-              !commonAreaIdle
-            }
-            color="primary"
-          >
-            Update
-          </Button>
-          <Button
-            className="mx-1"
-            onClick={() => {
-              navigate(-1);
-            }}
-            color="gray"
-          >
-            Cancel
-          </Button>
-        </div>
+            </div>
+            <div className="my-10 flex">
+              <Button
+                className="mx-1"
+                onClick={() => createCommonArea()}
+                disabled={
+                  lotNo.trim().length === 0 ||
+                  status.trim().length === 0 ||
+                  !commonAreaIdle
+                }
+                color="primary"
+              >
+                Update
+              </Button>
+              <Button
+                className="mx-1"
+                onClick={() => {
+                  navigate(-1);
+                }}
+                color="gray"
+              >
+                Cancel
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
+            <span className="text-gray-600">
+              <b>Congratulations</b> on creating your first Organization!!
+              Please add a project before adding any properties
+            </span>
+            <Button
+              onClick={() => {
+                navigate(
+                  `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`
+                );
+              }}
+              className="mt-7 w-[200px]"
+            >
+              <div className="flex items-center gap-x-2 text-xs">
+                <HiPlus />
+                Add Common Area
+              </div>
+            </Button>
+          </div>
+        )}
       </div>
     </NavbarSidebarLayout>
   );

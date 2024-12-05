@@ -236,7 +236,7 @@ const CommonAreaNewPage: FC = function () {
             </div>
           </div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            {selectedProject?.name}
+            Add Common Areas
           </h1>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
