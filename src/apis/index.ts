@@ -578,6 +578,7 @@ export const createCommonArea = async (params: any) => {
       return response && response.data;
     })
     .catch((error) => {
+      localStorage.removeItem("token");
       return error && error.response && error.response.data;
     });
 };

@@ -84,6 +84,9 @@ export const projectSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    clearCommonAreaItem: (state) => {
+      state.commonAreaItem = undefined;
+    },
     fireTrade: (state) => {
       state.isTradeFired = false;
     },
@@ -421,6 +424,7 @@ export const {
   updateSelectedProject,
   updateCommonAreaTab,
   clearCommonAreaResponse,
+  clearCommonAreaItem,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

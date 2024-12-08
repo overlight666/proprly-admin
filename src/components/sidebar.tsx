@@ -53,6 +53,10 @@ import {
 } from "../store/features/appSlice";
 import { BsCaretDown, BsCaretLeft } from "react-icons/bs";
 import { getGlobalConfig } from "../store/features/reducers";
+import {
+  clearCommonAreaItem,
+  clearCommonAreaResponse,
+} from "../store/features/projectSlice";
 
 const ExampleSidebar: FC = function () {
   const dispatch = useDispatch();
@@ -303,6 +307,10 @@ const ExampleSidebar: FC = function () {
                                       </div>
                                     </Sidebar.Item>
                                     <Sidebar.Item
+                                      onClick={() => {
+                                        dispatch(clearCommonAreaItem());
+                                        dispatch(clearCommonAreaResponse());
+                                      }}
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}/common-area`}
                                       className={`ml-2 text-[14px] ${
                                         (currentRoute ==
