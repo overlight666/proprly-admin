@@ -89,6 +89,22 @@ const flowbiteTheme: CustomFlowbiteTheme = {
       },
     },
   },
+  progress: {
+    color: {
+      dark: "bg-gray-600 dark:bg-gray-300",
+      blue: "bg-blue-600",
+      red: "bg-red-600 dark:bg-red-500",
+      green: "bg-green-600 dark:bg-green-500",
+      yellow: "bg-yellow-400",
+      indigo: "bg-indigo-600 dark:bg-indigo-500",
+      purple: "bg-purple-600 dark:bg-purple-500",
+      cyan: "bg-cyan-600",
+      gray: "bg-gray-500",
+      lime: "bg-lime-600",
+      pink: "bg-pink-500",
+      teal: "bg-teal-600",
+    },
+  },
 };
 
 export default flowbiteTheme;

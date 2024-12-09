@@ -47,6 +47,12 @@ export interface ImageState {
   warrantyResponse: any;
   warrantyResponseStatus: boolean;
   uploadDone: boolean;
+  uploadProgress: ProgressType[] | undefined;
+}
+
+export interface ProgressType {
+  progress: number;
+  fileName: string;
 }
 
 export interface AppState {

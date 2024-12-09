@@ -8,6 +8,7 @@ export default function Warranty({
   handleUpload,
   uploadedWarranties,
   setUploadedWarranties,
+  progressBar,
 }: any) {
   return (
     <div className="mt-5 flex w-full flex-col">
@@ -17,6 +18,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Appliances" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="appliances"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -33,6 +35,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Bathroom Fixtures" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="bathroom_fixtures"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -50,6 +53,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Air Conditioning" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="air_conditioning"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -67,6 +71,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Utilities" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="utilities"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -83,6 +88,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Intercom" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="intercom"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -99,6 +105,7 @@ export default function Warranty({
             <Label htmlFor="countries" value="Builder warranty" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="builder_warranty"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}

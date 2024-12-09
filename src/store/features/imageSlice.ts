@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 // import type { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   postWarranties,
@@ -8,7 +10,7 @@ import {
   uploadDocument,
   uploadImageFile,
 } from "./reducers";
-import type { ImageState } from "../../types";
+import type { ImageState, ProgressType } from "../../types";
 
 // Define the initial state using that type
 const initialValue = {
@@ -29,6 +31,7 @@ const initialState: ImageState = {
   warrantyResponse: undefined,
   warrantyResponseStatus: false,
   uploadDone: false,
+  uploadProgress: undefined,
 };
 
 export const imageSlice = createSlice({
@@ -36,6 +39,30 @@ export const imageSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    updateWarrantyResponse: (state, action: PayloadAction<ProgressType>) => {
+      state.warrantyData = action.payload;
+      state.uploadDone = true;
+    },
+    uploadProgress: (state, action: PayloadAction<ProgressType>) => {
+      const oldProg =
+        state.uploadProgress &&
+        state.uploadProgress.filter(
+          (f) => f.fileName !== action.payload.fileName
+        );
+      let newProg =
+        state.uploadProgress &&
+        state.uploadProgress.find(
+          (f) => f.fileName === action.payload.fileName
+        );
+      if (newProg) {
+        newProg.progress = action.payload.progress;
+      } else {
+        newProg = action.payload;
+      }
+      const mergeProgress: any = { ...oldProg, newProg };
+      state.uploadProgress = [];
+      state.uploadProgress = mergeProgress;
+    },
     clear: (state) => {
       state.imageData = initialValue;
     },
@@ -88,7 +115,7 @@ export const imageSlice = createSlice({
       state.warrantyData = undefined;
     });
     builder.addCase(postWarranties.fulfilled, (state, action) => {
-      if (action.payload.code) {
+      if (action.payload && action.payload.code) {
         state.warrantyData = undefined;
       } else {
         state.warrantyData = action.payload;
@@ -129,8 +156,15 @@ export const imageSlice = createSlice({
   },
 });
 
-export const { clear, clearFile, clearWarranty, resetWarranty, resetUpload } =
-  imageSlice.actions;
+export const {
+  clear,
+  clearFile,
+  clearWarranty,
+  resetWarranty,
+  resetUpload,
+  uploadProgress,
+  updateWarrantyResponse,
+} = imageSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

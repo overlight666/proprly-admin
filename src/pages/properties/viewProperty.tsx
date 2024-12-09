@@ -34,7 +34,7 @@ import {
   getSingleProperty,
   getTowersReducer,
   patchProperty,
-  postWarranties,
+  // postWarranties,
   postWarrantyFiles,
   putWarrantyFiles,
 } from "../../store/features/reducers";
@@ -44,12 +44,15 @@ import {
   selectProperty,
 } from "../../store/features/propertySlice";
 import { clearWarranty } from "../../store/features/imageSlice";
+import { useUploadForm } from "../../apis/hooks";
 
 const ViewProperty: FC = function () {
+  const { uploadForm, progress } = useUploadForm();
   const { id, project_id, property_id }: any = useParams();
   const { warrantyData }: ImageState = useSelector(
     (state: any) => state.uploads
   );
+
   const [ownerList, setOwnerList] = useState<any>([]);
   const [existingGroups, setExistingGroups] = useState<any>([]);
   const [attachedOwner, setAttachedOwner] = useState<any>([]);
@@ -480,11 +483,12 @@ const ViewProperty: FC = function () {
     if (!event.target.files) {
       return;
     } else {
-      const params = {
-        group: group,
-        file: event.target.files[0],
-      };
-      dispatch(postWarranties(params));
+      // const params = {
+      //   group: group,
+      //   file: event.target.files[0],
+      // };
+      uploadForm(event.target.files[0], group);
+      // dispatch(postWarranties(params));
     }
   };
 
@@ -887,6 +891,7 @@ const ViewProperty: FC = function () {
               setUploadedWarranties={removeUploadedWarranty}
               handleUpload={handleUpload}
               uploadedWarranties={uploadedWarranties}
+              progressBar={progress}
             />
           )}
           {/* <div

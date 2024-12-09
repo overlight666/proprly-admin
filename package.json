@@ -25,7 +25,7 @@
     "yarn": ">= 1"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.7",
+    "@reduxjs/toolkit": "^2.4.0",
     "@uidotdev/usehooks": "^2.4.1",
     "@zach.codes/react-calendar": "^0.3.3",
     "apexcharts": "^3.41.0",

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import type { Project, Property } from "../types";
@@ -143,6 +144,15 @@ export const uploadWarranties = async (file: any, group: any) => {
     url: "/upload",
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress: (progressEvent: any) => {
+      return (progressEvent.loaded / progressEvent.total) * 50;
+
+      // localStorage.setItem(file.name, progress.toString());
+    },
+    onDownloadProgress: (progressEvent: any) => {
+      return 50 + (progressEvent.loaded / progressEvent.total) * 50;
+      // localStorage.setItem(file.name, progress.toString());
+    },
   })
     .then((response) => {
       return { ...response.data[0], group };
