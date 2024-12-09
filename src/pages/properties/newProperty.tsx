@@ -31,7 +31,7 @@ import { useNavigate, useParams } from "react-router";
 import {
   attachPropertyUserReducer,
   getTowersReducer,
-  postWarranties,
+  // postWarranties,
   postWarrantyFiles,
   registerProperty,
 } from "../../store/features/reducers";
@@ -39,11 +39,13 @@ import { clearPropertyResponse } from "../../store/features/propertySlice";
 import ErrorHandler from "../../components/error";
 import { clearWarranty, resetWarranty } from "../../store/features/imageSlice";
 import Owner from "./propertyItems/owner";
+import { useUploadForm } from "../../apis/hooks";
 
 const AddProperty: FC = function () {
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
     groups: [],
   });
+  const { uploadForm, progress } = useUploadForm();
   const [errors, setErrors] = useState<any>([]);
   const [numFloors, setNumFloors] = useState<any>(0);
   const { projectTowers }: ProjectState = useSelector(
@@ -341,6 +343,21 @@ const AddProperty: FC = function () {
     // }
   };
 
+  // const handleUpload = async (
+  //   event: ChangeEvent<HTMLInputElement>,
+  //   group: string
+  // ) => {
+  //   if (!event.target.files) {
+  //     return;
+  //   } else {
+  //     const params = {
+  //       group: group,
+  //       file: event.target.files[0],
+  //     };
+  //     dispatch(postWarranties(params));
+  //   }
+  // };
+
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
     group: string
@@ -348,11 +365,12 @@ const AddProperty: FC = function () {
     if (!event.target.files) {
       return;
     } else {
-      const params = {
-        group: group,
-        file: event.target.files[0],
-      };
-      dispatch(postWarranties(params));
+      // const params = {
+      //   group: group,
+      //   file: event.target.files[0],
+      // };
+      uploadForm(event.target.files[0], group);
+      // dispatch(postWarranties(params));
     }
   };
 
@@ -769,6 +787,7 @@ const AddProperty: FC = function () {
               setUploadedWarranties={setUploadedWarranties}
               handleUpload={handleUpload}
               uploadedWarranties={uploadedWarranties}
+              progressBar={progress}
             />
           )}
           {/* <div
