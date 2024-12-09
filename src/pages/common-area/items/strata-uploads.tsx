@@ -8,6 +8,7 @@ export default function StrataUploads({
   handleUpload,
   uploadedWarranties,
   setUploadedWarranties,
+  progressBar,
 }: any) {
   return (
     <div className="mt-5 flex w-full flex-col pb-5">
@@ -17,6 +18,7 @@ export default function StrataUploads({
             <Label htmlFor="countries" value="Inspection Test Plans" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="inspection_test_plans"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -37,6 +39,7 @@ export default function StrataUploads({
             />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="pre_settlement_inspection_report"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -54,6 +57,7 @@ export default function StrataUploads({
             <Label htmlFor="countries" value="Handover Inspection Report" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="handover_inspection_report"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -71,6 +75,7 @@ export default function StrataUploads({
             <Label htmlFor="countries" value="Miscellaneous Report" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="miscellaneous_report"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}

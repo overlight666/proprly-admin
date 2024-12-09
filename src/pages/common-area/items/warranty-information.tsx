@@ -8,6 +8,7 @@ export default function StrataWarrantyInformation({
   handleUpload,
   uploadedWarranties,
   setUploadedWarranties,
+  progressBar,
 }: any) {
   return (
     <div className="mt-5 flex w-full flex-col pb-5">
@@ -17,6 +18,7 @@ export default function StrataWarrantyInformation({
             <Label htmlFor="countries" value="Lifts" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="lifts"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -32,6 +34,7 @@ export default function StrataWarrantyInformation({
             <Label htmlFor="countries" value="Garage Door" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="garage_door"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}
@@ -48,6 +51,7 @@ export default function StrataWarrantyInformation({
             <Label htmlFor="countries" value="Miscellaneous" />
           </div>
           <UploadedItems
+            progressBar={progressBar}
             uploadType="miscellaneous"
             setUploadedFiles={setUploadedWarranties}
             handleUpload={handleUpload}

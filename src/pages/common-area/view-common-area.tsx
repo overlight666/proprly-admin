@@ -66,9 +66,11 @@ import {
   updateCommonAreaTab,
 } from "../../store/features/projectSlice";
 import { MdBugReport } from "react-icons/md";
+import { useUploadForm } from "../../apis/hooks";
 
 const CommonAreaViewPage: FC = function () {
   const { project_id, common_area_id }: any = useParams();
+  const { uploadForm, progress } = useUploadForm();
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
     groups: [],
   });
@@ -270,11 +272,12 @@ const CommonAreaViewPage: FC = function () {
     if (!event.target.files) {
       return;
     } else {
-      const params = {
-        group: group,
-        file: event.target.files[0],
-      };
-      dispatch(postWarranties(params));
+      // const params = {
+      //   group: group,
+      //   file: event.target.files[0],
+      // };
+      uploadForm(event.target.files[0], group);
+      // dispatch(postWarranties(params));
     }
   };
 
@@ -539,6 +542,7 @@ const CommonAreaViewPage: FC = function () {
                   setUploadedWarranties={removeUploadedWarranty}
                   handleUpload={handleUpload}
                   uploadedWarranties={uploadedWarranties}
+                  progressBar={progress}
                 />
               )}
               {/* <div

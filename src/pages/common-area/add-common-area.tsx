@@ -59,8 +59,10 @@ import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
 import StrataUploads from "./items/strata-uploads";
 import { clearCommonAreaResponse } from "../../store/features/projectSlice";
+import { useUploadForm } from "../../apis/hooks";
 
 const CommonAreaNewPage: FC = function () {
+  const { uploadForm, progress } = useUploadForm();
   const { project_id }: any = useParams();
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
     groups: [],
@@ -187,13 +189,29 @@ const CommonAreaNewPage: FC = function () {
     if (!event.target.files) {
       return;
     } else {
-      const params = {
-        group: group,
-        file: event.target.files[0],
-      };
-      dispatch(postWarranties(params));
+      // const params = {
+      //   group: group,
+      //   file: event.target.files[0],
+      // };
+      uploadForm(event.target.files[0], group);
+      // dispatch(postWarranties(params));
     }
   };
+
+  // const handleUpload = async (
+  //   event: ChangeEvent<HTMLInputElement>,
+  //   group: string
+  // ) => {
+  //   if (!event.target.files) {
+  //     return;
+  //   } else {
+  //     const params = {
+  //       group: group,
+  //       file: event.target.files[0],
+  //     };
+  //     dispatch(postWarranties(params));
+  //   }
+  // };
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -288,6 +306,7 @@ const CommonAreaNewPage: FC = function () {
               setUploadedWarranties={setUploadedWarranties}
               handleUpload={handleUpload}
               uploadedWarranties={uploadedWarranties}
+              progressBar={progress}
             />
           )}
           {/* <div
