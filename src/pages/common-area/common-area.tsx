@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import { BsSliders2Vertical } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { getProperties } from "../../store/features/reducers";
-import { MdBugReport } from "react-icons/md";
+// import { MdBugReport } from "react-icons/md";
 import CommonAreaTable from "../../components/commonAreaTable";
 import { updateCommonAreaTab } from "../../store/features/projectSlice";
 import { FaChevronLeft } from "react-icons/fa";
@@ -27,13 +27,13 @@ const CommonArea: FC = function () {
   const { propertyData, isIdle }: PropertyState = useSelector(
     (state: any) => state.property
   );
+
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
 
-  const { selectedProject, commonAreaTab }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { selectedProject, commonAreaTab, listCommonAreas }: ProjectState =
+    useSelector((state: any) => state.project);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
@@ -123,19 +123,21 @@ const CommonArea: FC = function () {
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
               Manage Common Areas
             </h1>
-            <Button
-              className="col-span-2 w-[200px]"
-              onClick={() => {
-                navigate(
-                  `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`
-                );
-              }}
-            >
-              <div className="flex gap-x-2 text-xs">
-                <HiPlus />
-                Add Common Area
-              </div>
-            </Button>
+            {listCommonAreas && listCommonAreas.length === 0 && (
+              <Button
+                className="col-span-2 w-[200px]"
+                onClick={() => {
+                  navigate(
+                    `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`
+                  );
+                }}
+              >
+                <div className="flex gap-x-2 text-xs">
+                  <HiPlus />
+                  Add Common Area
+                </div>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -171,11 +173,11 @@ const CommonArea: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateCommonAreaTab(2))}
+                // onClick={() => dispatch(updateCommonAreaTab(2))}
                 className={
                   commonAreaTab === 2
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                    : `group inline-flex cursor-not-allowed items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
                 <svg
@@ -197,7 +199,7 @@ const CommonArea: FC = function () {
                 Configure
               </a>
             </li>
-            <li className="me-2">
+            {/* <li className="me-2">
               <a
                 href="javascript:void(0)"
                 onClick={() => dispatch(updateCommonAreaTab(3))}
@@ -246,7 +248,7 @@ const CommonArea: FC = function () {
                 </svg>
                 Reports
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 

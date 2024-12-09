@@ -14,6 +14,7 @@ import "../extension.css";
 import { getCommonAreaByProjectReducer } from "../store/features/reducers";
 import type { ProjectState } from "../types";
 import { resetWarranty } from "../store/features/imageSlice";
+import DataTable from "datatables.net-dt";
 
 const CommonAreaTable = function () {
   const { id, project_id }: any = useParams();
@@ -31,6 +32,26 @@ const CommonAreaTable = function () {
     if (!isInit) {
       dispatch(getCommonAreaByProjectReducer(project_id));
       isInit = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!DataTable.isDataTable("#common-area-table")) {
+      new DataTable("#common-area-table", {
+        columnDefs: [{ className: "dt-left", targets: "_all" }],
+        paging: true,
+        searching: false,
+        layout: {
+          topStart: null,
+          topEnd: null,
+          bottomStart: {
+            pageLength: {
+              text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+            },
+          },
+          bottomEnd: "paging",
+        },
+      });
     }
   }, []);
 

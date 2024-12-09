@@ -67,6 +67,7 @@ import {
 } from "../../store/features/projectSlice";
 import { MdBugReport } from "react-icons/md";
 import { useUploadForm } from "../../apis/hooks";
+import CommonAreaConfigure from "./common-area-configure";
 
 const CommonAreaViewPage: FC = function () {
   const { project_id, common_area_id }: any = useParams();
@@ -585,6 +586,7 @@ const CommonAreaViewPage: FC = function () {
             </div>
           </>
         )}
+        {commonAreaTab === 2 && <CommonAreaConfigure />}
       </div>
     </NavbarSidebarLayout>
   );
