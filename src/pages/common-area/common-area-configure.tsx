@@ -41,7 +41,10 @@ const CommonAreaConfigure: FC = function () {
   }, []);
 
   useEffect(() => {
-    if (!DataTable.isDataTable("#common-area-config-table")) {
+    if (
+      !DataTable.isDataTable("#common-area-config-table") &&
+      (commonAreaConfig?.projectTowers || commonAreaConfig?.projectBasements)
+    ) {
       new DataTable("#common-area-config-table", {
         columnDefs: [{ className: "dt-left", targets: "_all" }],
         paging: true,
