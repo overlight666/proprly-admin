@@ -20,6 +20,9 @@ import { getProperties } from "../../store/features/reducers";
 import CommonAreaTable from "../../components/commonAreaTable";
 import { updateCommonAreaTab } from "../../store/features/projectSlice";
 import { FaChevronLeft } from "react-icons/fa";
+import CommonAreaConfigure from "./common-area-configure";
+import DataTable from "datatables.net-dt";
+// import DataTable from "datatables.net-dt";
 
 const CommonArea: FC = function () {
   const { project_id }: any = useParams();
@@ -53,6 +56,25 @@ const CommonArea: FC = function () {
     }
   }, []);
 
+  useEffect(() => {
+    if (!DataTable.isDataTable("#common-area-table")) {
+      new DataTable("#common-area-table", {
+        columnDefs: [{ className: "dt-left", targets: "_all" }],
+        paging: true,
+        searching: false,
+        layout: {
+          topStart: null,
+          topEnd: null,
+          bottomStart: {
+            pageLength: {
+              text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+            },
+          },
+          bottomEnd: "paging",
+        },
+      });
+    }
+  });
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -173,11 +195,17 @@ const CommonArea: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                // onClick={() => dispatch(updateCommonAreaTab(2))}
+                onClick={() => {
+                  if (commonAreaItem) {
+                    dispatch(updateCommonAreaTab(2));
+                  }
+                }}
                 className={
                   commonAreaTab === 2
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex cursor-not-allowed items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
+                    : `${
+                        !commonAreaItem && "cursor-not-allowed"
+                      } group inline-flex  items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
                 <svg
@@ -263,8 +291,7 @@ const CommonArea: FC = function () {
             )}
             {commonAreaTab === 2 && (
               <div className="flex w-full flex-col  !bg-transparent">
-                {/* <DefectHeader />
-                <DefectResolution /> */}
+                <CommonAreaConfigure />
               </div>
             )}
             {commonAreaTab === 3 && (

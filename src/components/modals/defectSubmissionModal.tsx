@@ -603,7 +603,7 @@ export const DefectSubmissionModal = function (props: any) {
                                 </span>
                                 <div className="flex">
                                   <div
-                                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm font-medium shadow-sm transition-all
+                                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
                                   ${textColoring(
                                     activity.defectSubStatus,
                                     true

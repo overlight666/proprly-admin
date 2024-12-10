@@ -14,7 +14,6 @@ import "../extension.css";
 import { getCommonAreaByProjectReducer } from "../store/features/reducers";
 import type { ProjectState } from "../types";
 import { resetWarranty } from "../store/features/imageSlice";
-import DataTable from "datatables.net-dt";
 
 const CommonAreaTable = function () {
   const { id, project_id }: any = useParams();
@@ -34,26 +33,6 @@ const CommonAreaTable = function () {
       isInit = true;
     }
   }, []);
-
-  useEffect(() => {
-    if (!DataTable.isDataTable("#common-area-table")) {
-      new DataTable("#common-area-table", {
-        columnDefs: [{ className: "dt-left", targets: "_all" }],
-        paging: true,
-        searching: false,
-        layout: {
-          topStart: null,
-          topEnd: null,
-          bottomStart: {
-            pageLength: {
-              text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
-            },
-          },
-          bottomEnd: "paging",
-        },
-      });
-    }
-  });
 
   const getStatus = (value) => {
     let val = "";
@@ -106,7 +85,9 @@ const CommonAreaTable = function () {
                     : "bg-green-100 text-green-800"
                 }`}
               >
-                {commonAreaItem.warrantyStatus.toUpperCase()}
+                {commonAreaItem &&
+                  commonAreaItem.warrantyStatus &&
+                  commonAreaItem.warrantyStatus.toUpperCase()}
               </div>
             </th>
             <td className="px-6 py-4">
