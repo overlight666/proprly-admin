@@ -203,6 +203,7 @@ export const DefectSubmissionModal = function (props: any) {
       );
     }
   };
+  console.log(defect);
   return (
     <>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="7xl">
@@ -398,7 +399,7 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="tower"
                             name="tower"
-                            value={defect?.property.tower}
+                            value={defect?.property.projectTower?.name}
                             placeholder="Enter tower"
                             required
                           />

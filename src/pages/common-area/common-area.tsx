@@ -35,8 +35,12 @@ const CommonArea: FC = function () {
     (state: any) => state.organization
   );
 
-  const { selectedProject, commonAreaTab, commonAreaItem }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    selectedProject,
+    commonAreaTab,
+    commonAreaItem,
+    commonAreaIdle,
+  }: ProjectState = useSelector((state: any) => state.project);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
@@ -145,7 +149,7 @@ const CommonArea: FC = function () {
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
               Manage Common Area
             </h1>
-            {!commonAreaItem && (
+            {!commonAreaItem && commonAreaIdle && (
               <Button
                 className="col-span-2 w-[200px]"
                 onClick={() => {
@@ -154,7 +158,7 @@ const CommonArea: FC = function () {
                   );
                 }}
               >
-                <div className="flex gap-x-2 text-xs">
+                <div className="flex items-center justify-center gap-x-2 text-xs">
                   <HiPlus />
                   Add Common Area
                 </div>
