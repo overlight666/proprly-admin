@@ -53,7 +53,7 @@ const CommonAreaTable = function () {
         },
       });
     }
-  }, []);
+  });
 
   const getStatus = (value) => {
     let val = "";

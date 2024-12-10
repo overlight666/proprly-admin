@@ -63,6 +63,7 @@ import {
   updateCommonAreaTab,
 } from "../../store/features/projectSlice";
 import { useUploadForm } from "../../apis/hooks";
+import { MdBugReport } from "react-icons/md";
 
 const CommonAreaNewPage: FC = function () {
   const { uploadForm, progress } = useUploadForm();
@@ -264,6 +265,9 @@ const CommonAreaNewPage: FC = function () {
               Back
             </div>
           </div>
+          <h1 className=" text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+            Add Common Area
+          </h1>
           <div className="border-b border-gray-200 dark:border-gray-700">
             <ul className="-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500 dark:text-gray-400">
               <li className="me-2">
@@ -386,9 +390,6 @@ const CommonAreaNewPage: FC = function () {
               )}
             </ul>
           </div>
-          <h1 className="mt-5 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            Add Common Area
-          </h1>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
         <div className="flex w-full flex-col">

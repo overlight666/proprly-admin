@@ -357,6 +357,17 @@ const CommonAreaViewPage: FC = function () {
               Back
             </div>
           </div>
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+            {commonAreaIdle && !commonAreaItem && commonAreaTab === 1
+              ? "Add Common Area"
+              : commonAreaTab === 1
+              ? "Manage Common Area"
+              : commonAreaTab === 2
+              ? "Configure Common Area"
+              : commonAreaTab === 3
+              ? "Common Area Defect Resolution"
+              : "Common Area Reports"}
+          </h1>
           <div className="border-b border-gray-200 dark:border-gray-700">
             <ul className="-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500 dark:text-gray-400">
               <li className="me-2">
@@ -479,17 +490,6 @@ const CommonAreaViewPage: FC = function () {
               )}
             </ul>
           </div>
-          <h1 className="mt-5 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            {commonAreaIdle && !commonAreaItem && commonAreaTab === 1
-              ? "Add Common Area"
-              : commonAreaTab === 1
-              ? "Manage Common Area"
-              : commonAreaTab === 2
-              ? "Configure Common Area"
-              : commonAreaTab === 3
-              ? "Common Area Defect Resolution"
-              : "Common Area Reports"}
-          </h1>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
 
