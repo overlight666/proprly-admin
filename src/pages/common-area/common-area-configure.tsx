@@ -77,6 +77,7 @@ const CommonAreaConfigure: FC = function () {
       </div>
       {showCard1 && (
         <CommonAreaLocationMappingTable
+          id={commonAreaConfig?.id}
           towers={commonAreaConfig?.projectTowers}
           basements={commonAreaConfig?.projectBasements}
         />

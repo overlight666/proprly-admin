@@ -3,6 +3,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { leadRegistration, organizationRegistration } from "../../apis";
 import {
+  addCommonAreaBasement,
+  addCommonAreaTower,
   addDefectCode,
   addOrganizationUser,
   addTradeCode,
@@ -617,6 +619,32 @@ export const getCommonAreaReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getCommonArea(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const addCommonAreaBasementReducer: any = createAsyncThunk(
+  "addCommonAreaBasementReducer",
+  async (data: any) => {
+    try {
+      const response = await addCommonAreaBasement(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const addCommonAreaTowerReducer: any = createAsyncThunk(
+  "addCommonAreaTowerReducer",
+  async (data: any) => {
+    try {
+      const response = await addCommonAreaTower(data);
       // If you want to get something back
       return response;
     } catch (err) {

@@ -11,7 +11,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { CommonAreaConfigModal } from "./modals/commonAreaConfigModal";
 import { useState } from "react";
 
-const CommonAreaLocationMappingTable = function ({ towers, basements }: any) {
+const CommonAreaLocationMappingTable = function ({
+  towers,
+  basements,
+  id,
+}: any) {
   const [isOpen, setOpen] = useState(false);
   const [data, setData] = useState<any>();
   return (
@@ -129,7 +133,12 @@ const CommonAreaLocationMappingTable = function ({ towers, basements }: any) {
           )}
         </tbody>
       </table>
-      <CommonAreaConfigModal isOpen={isOpen} setOpen={setOpen} data={data} />
+      <CommonAreaConfigModal
+        isOpen={isOpen}
+        setOpen={setOpen}
+        data={data}
+        id={id}
+      />
     </>
   );
 };

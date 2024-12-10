@@ -4,6 +4,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import {
+  addCommonAreaBasementReducer,
+  addCommonAreaTowerReducer,
   createCommonAreaReducer,
   createProjectUserReducer,
   getAllChecklistReducer,
@@ -402,6 +404,26 @@ export const projectSlice = createSlice({
     builder.addCase(getCommonAreaReducer.rejected, (state) => {
       state.commonAreaIdle = true;
       state.commonAreaConfig = undefined;
+    });
+    //add common area tower
+    builder.addCase(addCommonAreaTowerReducer.pending, (state) => {
+      state.commonAreaIdle = false;
+    });
+    builder.addCase(addCommonAreaTowerReducer.fulfilled, (state) => {
+      state.commonAreaIdle = true;
+    });
+    builder.addCase(addCommonAreaTowerReducer.rejected, (state) => {
+      state.commonAreaIdle = true;
+    });
+    //add common area basement
+    builder.addCase(addCommonAreaBasementReducer.pending, (state) => {
+      state.commonAreaIdle = false;
+    });
+    builder.addCase(addCommonAreaBasementReducer.fulfilled, (state) => {
+      state.commonAreaIdle = true;
+    });
+    builder.addCase(addCommonAreaBasementReducer.rejected, (state) => {
+      state.commonAreaIdle = true;
     });
   },
 });

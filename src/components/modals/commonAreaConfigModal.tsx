@@ -1,19 +1,38 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal, Button, Dropdown, Checkbox, Label } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getAllCommonAreaReducer } from "../../store/features/reducers";
+import {
+  addCommonAreaBasementReducer,
+  addCommonAreaTowerReducer,
+  getAllCommonAreaReducer,
+} from "../../store/features/reducers";
 import type { ProjectState } from "../../types";
+import { toast } from "react-toastify";
+
+interface commonAreaType {
+  commonAreaId: number;
+  commonAreaCategories: number[];
+  projectTowerId?: number;
+  floor?: number;
+  basement?: number;
+}
 
 export const CommonAreaConfigModal = function (props: any) {
   const { allCommonArea }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  const { isOpen, setOpen, data } = props;
+  const { isOpen, setOpen, data, id } = props;
   const { project_id } = useParams();
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [selectedCommonArea, setSelectedCommonArea] = useState<commonAreaType>({
+    commonAreaId: id,
+    commonAreaCategories: [],
+  });
+  const [storedItem, setStoredItem] = useState<any>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,21 +41,223 @@ export const CommonAreaConfigModal = function (props: any) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!storedItem) {
+      if (selectedCommonArea.floor !== undefined) {
+        setStoredItem([
+          {
+            key: selectedCommonArea.floor,
+            commonAreaCategories: selectedCommonArea.commonAreaCategories,
+          },
+        ]);
+      } else {
+        if (selectedCommonArea.basement !== undefined) {
+          setStoredItem([
+            {
+              key: selectedCommonArea.basement,
+              commonAreaCategories: selectedCommonArea.commonAreaCategories,
+            },
+          ]);
+        }
+      }
+    } else {
+      if (selectedCommonArea.floor !== undefined) {
+        const hasOldItems =
+          storedItem &&
+          storedItem.length > 0 &&
+          storedItem.filter((o) => o.key != selectedCommonArea.floor);
+        if (hasOldItems) {
+          setStoredItem([
+            ...hasOldItems,
+            {
+              key: selectedCommonArea.floor,
+              commonAreaCategories: selectedCommonArea.commonAreaCategories,
+            },
+          ]);
+        } else {
+          setStoredItem([
+            ...storedItem,
+            {
+              key: selectedCommonArea.floor,
+              commonAreaCategories: selectedCommonArea.commonAreaCategories,
+            },
+          ]);
+        }
+      } else {
+        if (selectedCommonArea.basement !== undefined) {
+          const hasOldItems =
+            storedItem &&
+            storedItem.length > 0 &&
+            storedItem.filter((o) => o.key != selectedCommonArea.basement);
+          if (hasOldItems) {
+            setStoredItem([
+              ...hasOldItems,
+              {
+                key: selectedCommonArea.basement,
+                commonAreaCategories: selectedCommonArea.commonAreaCategories,
+              },
+            ]);
+          } else {
+            setStoredItem([
+              ...storedItem,
+              {
+                key: selectedCommonArea.basement,
+                commonAreaCategories: selectedCommonArea.commonAreaCategories,
+              },
+            ]);
+          }
+        }
+      }
+    }
+  }, [selectedCommonArea]);
+
   const addRemoveItem = (e) => {
     const isPresent =
-      selectedItems && selectedItems.find((o) => o == e.target.id);
+      selectedCommonArea.commonAreaCategories &&
+      selectedCommonArea.commonAreaCategories.find((o) => o == e.target.id);
     if (isPresent) {
       const newItems =
-        selectedItems && selectedItems.filter((o) => o != e.target.id);
-      setSelectedItems(newItems);
+        selectedCommonArea.commonAreaCategories &&
+        selectedCommonArea.commonAreaCategories.filter((o) => o != e.target.id);
+      selectedCommonArea.commonAreaCategories = newItems;
+
+      setSelectedCommonArea((prevState: any) => {
+        return {
+          ...prevState,
+          commonAreaCategories: [...prevState.commonAreaCategories, newItems],
+        };
+      });
     } else {
-      setSelectedItems([...selectedItems, parseInt(e.target.id)]);
+      setSelectedCommonArea((prevState: any) => {
+        return {
+          ...prevState,
+          commonAreaCategories: [
+            ...prevState.commonAreaCategories,
+            parseInt(e.target.id),
+          ],
+        };
+      });
     }
   };
 
+  useEffect(() => {
+    if (data && data.floors && data.floors.length) {
+      setSelectedCommonArea((prevState: any) => {
+        return {
+          ...prevState,
+          projectTowerId: data.id,
+          floor: data.floors && data.floors.length && data.floors[0].key,
+        };
+      });
+      setStoredItem([
+        {
+          key: data.floors && data.floors.length && data.floors[0].key,
+          commonAreaCategories: selectedCommonArea.commonAreaCategories,
+        },
+      ]);
+    } else {
+      if (data && data.length) {
+        setSelectedCommonArea((prevState: any) => {
+          return {
+            ...prevState,
+            basement: data[0].key,
+          };
+        });
+        setStoredItem([
+          {
+            key: data[0].key,
+            commonAreaCategories: selectedCommonArea.commonAreaCategories,
+          },
+        ]);
+      }
+    }
+  }, [data]);
+
+  const selectTower = (key) => {
+    if (selectedCommonArea.floor != key) {
+      const oldI = storedItem && storedItem.find((o) => o.key == key);
+      setSelectedCommonArea((prevState: any) => {
+        return {
+          ...prevState,
+          floor: key,
+          commonAreaCategories:
+            oldI && oldI.commonAreaCategories ? oldI.commonAreaCategories : [],
+        };
+      });
+    }
+  };
+
+  const selectBasement = (key) => {
+    if (selectedCommonArea.basement != key) {
+      const oldI = storedItem && storedItem.find((o) => o.key == key);
+      setSelectedCommonArea((prevState: any) => {
+        return {
+          ...prevState,
+          basement: key,
+          commonAreaCategories:
+            oldI && oldI.commonAreaCategories ? oldI.commonAreaCategories : [],
+        };
+      });
+    }
+  };
+  const addCommonArea = () => {
+    let hasAdded = false;
+    if (data && data.floors) {
+      storedItem &&
+        storedItem.map((params) => {
+          if (
+            params.commonAreaCategories &&
+            params.commonAreaCategories.length > 0
+          ) {
+            hasAdded = true;
+            const newParams = {
+              commonAreaId: selectedCommonArea.commonAreaId,
+              projectTowerId: selectedCommonArea.projectTowerId,
+              floor: params.key,
+              commonAreaCategories: params.commonAreaCategories,
+            };
+            dispatch(addCommonAreaTowerReducer(newParams));
+          }
+        });
+    } else {
+      storedItem &&
+        storedItem.map((params) => {
+          if (
+            params.commonAreaCategories &&
+            params.commonAreaCategories.length > 0
+          ) {
+            hasAdded = true;
+            const newParams = {
+              commonAreaId: selectedCommonArea.commonAreaId,
+              basement: params.key,
+              commonAreaCategories: params.commonAreaCategories,
+            };
+            dispatch(addCommonAreaBasementReducer(newParams));
+          }
+        });
+    }
+    setOpen(false);
+    setSelectedCommonArea({
+      commonAreaId: id,
+      commonAreaCategories: [],
+    });
+    if (hasAdded) {
+      toast.info("Common Area has been updated!");
+    }
+  };
   return (
     <>
-      <Modal onClose={() => setOpen(false)} show={isOpen} size="4xl">
+      <Modal
+        onClose={() => {
+          setSelectedCommonArea({
+            commonAreaId: id,
+            commonAreaCategories: [],
+          });
+          setOpen(false);
+        }}
+        show={isOpen}
+        size="4xl"
+      >
         <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
           <strong>{`${
             data && data.floors ? data.name : "Basement"
@@ -54,8 +275,11 @@ export const CommonAreaConfigModal = function (props: any) {
                   data.floors.map((f, index) => {
                     return (
                       <div
+                        onClick={() => selectTower(f.key)}
                         key={index}
-                        className="cursor-pointer p-3 hover:bg-gray-100"
+                        className={`cursor-pointer p-3 hover:bg-gray-100 ${
+                          selectedCommonArea?.floor == f.key && "bg-gray-100"
+                        }`}
                       >
                         <span>{f.value}</span>
                       </div>
@@ -66,8 +290,12 @@ export const CommonAreaConfigModal = function (props: any) {
                     data.map((f, index) => {
                       return (
                         <div
+                          onClick={() => selectBasement(f.key)}
                           key={index}
-                          className="cursor-pointer p-3 hover:bg-gray-100"
+                          className={`cursor-pointer p-3 hover:bg-gray-100 ${
+                            selectedCommonArea?.basement == f.key &&
+                            "bg-gray-100"
+                          }`}
                         >
                           <span>{f.value}</span>
                         </div>
@@ -119,8 +347,14 @@ export const CommonAreaConfigModal = function (props: any) {
                               //   onClick={(e) => addRemoveItem(e)}
                               onChange={(e) => addRemoveItem(e)}
                               checked={
-                                selectedItems &&
-                                selectedItems.find((o) => o == ca.id)
+                                selectedCommonArea.commonAreaCategories &&
+                                selectedCommonArea.commonAreaCategories.length >
+                                  0 &&
+                                selectedCommonArea.commonAreaCategories.find(
+                                  (o) => o == ca.id
+                                )
+                                  ? true
+                                  : false
                               }
                             />
                             <Label htmlFor={ca.id.toString()}>{ca.name}</Label>
@@ -131,9 +365,9 @@ export const CommonAreaConfigModal = function (props: any) {
                 </Dropdown>
               </div>
               <div className="mt-5 flex flex-col shadow">
-                {selectedItems &&
-                  selectedItems.length &&
-                  selectedItems.map((si, index) => {
+                {selectedCommonArea.commonAreaCategories &&
+                selectedCommonArea.commonAreaCategories.length ? (
+                  selectedCommonArea.commonAreaCategories.map((si, index) => {
                     return (
                       <div
                         key={index}
@@ -167,7 +401,10 @@ export const CommonAreaConfigModal = function (props: any) {
                         </span>
                       </div>
                     );
-                  })}
+                  })
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
@@ -177,13 +414,22 @@ export const CommonAreaConfigModal = function (props: any) {
             <Button
               color="primary"
               onClick={() => {
-                setOpen(false);
+                addCommonArea();
               }}
               //   disabled={isProcess}
             >
               <div className="flex items-center gap-x-2">Submit</div>
             </Button>
-            <Button color="gray" onClick={() => setOpen(false)}>
+            <Button
+              color="gray"
+              onClick={() => {
+                setSelectedCommonArea({
+                  commonAreaId: id,
+                  commonAreaCategories: [],
+                });
+                setOpen(false);
+              }}
+            >
               Cancel
             </Button>
           </div>
