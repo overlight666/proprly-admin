@@ -1,10 +1,39 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal, Button, Dropdown, Checkbox, Label } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { getAllCommonAreaReducer } from "../../store/features/reducers";
+import type { ProjectState } from "../../types";
 
 export const CommonAreaConfigModal = function (props: any) {
+  const { allCommonArea }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
   const { isOpen, setOpen, data } = props;
-  console.log(data);
+  const { project_id } = useParams();
+  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isOpen) {
+      dispatch(getAllCommonAreaReducer(project_id));
+    }
+  }, [isOpen]);
+
+  const addRemoveItem = (e) => {
+    const isPresent =
+      selectedItems && selectedItems.find((o) => o == e.target.id);
+    if (isPresent) {
+      const newItems =
+        selectedItems && selectedItems.filter((o) => o != e.target.id);
+      setSelectedItems(newItems);
+    } else {
+      setSelectedItems([...selectedItems, parseInt(e.target.id)]);
+    }
+  };
+
   return (
     <>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="4xl">
@@ -14,12 +43,12 @@ export const CommonAreaConfigModal = function (props: any) {
           } Common Area Configuration`}</strong>
         </Modal.Header>
         <Modal.Body>
-          <div className="flex">
+          <div className="flex gap-2">
             <div className="flex w-[50%] flex-col">
               <span className="font-medium">
                 {data && data.floors ? "Floors" : "Levels"}
               </span>
-              <div className="mt-5 flex flex-col shadow">
+              <div className="mt-9 flex flex-col shadow">
                 {(data &&
                   data.floors &&
                   data.floors.map((f, index) => {
@@ -46,7 +75,7 @@ export const CommonAreaConfigModal = function (props: any) {
                     }))}
               </div>
             </div>
-            <div className="flex w-[50%]">
+            <div className="flex w-[50%] flex-col">
               <div className="flex w-full justify-between">
                 <span className="font-medium">Common Area Categories</span>
                 <Dropdown
@@ -79,19 +108,66 @@ export const CommonAreaConfigModal = function (props: any) {
                     </Button>
                   )}
                 >
-                  <Dropdown.Item>
-                    <div className="flex items-center gap-2 ">
-                      <Checkbox id="promotion" />
-                      <Label htmlFor="promotion">Swimming Pool</Label>
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    <div className="flex items-center gap-2">
-                      <Checkbox id="promotion" />
-                      <Label htmlFor="promotion">Garden</Label>
-                    </div>
-                  </Dropdown.Item>
+                  {allCommonArea &&
+                    allCommonArea.length > 0 &&
+                    allCommonArea.map((ca, index) => {
+                      return (
+                        <Dropdown.Item key={index}>
+                          <div className="flex items-center gap-2 ">
+                            <Checkbox
+                              id={ca.id.toString()}
+                              //   onClick={(e) => addRemoveItem(e)}
+                              onChange={(e) => addRemoveItem(e)}
+                              checked={
+                                selectedItems &&
+                                selectedItems.find((o) => o == ca.id)
+                              }
+                            />
+                            <Label htmlFor={ca.id.toString()}>{ca.name}</Label>
+                          </div>
+                        </Dropdown.Item>
+                      );
+                    })}
                 </Dropdown>
+              </div>
+              <div className="mt-5 flex flex-col shadow">
+                {selectedItems &&
+                  selectedItems.length &&
+                  selectedItems.map((si, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex cursor-pointer items-center gap-2 p-3 hover:bg-gray-100"
+                      >
+                        <svg
+                          width="16"
+                          height="17"
+                          viewBox="0 0 16 17"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M15.0588 3.26223H0.941176C0.691561 3.26223 0.452169 3.15186 0.275664 2.95539C0.0991596 2.75892 0 2.49246 0 2.21461C0 1.93677 0.0991596 1.6703 0.275664 1.47383C0.452169 1.27737 0.691561 1.16699 0.941176 1.16699H15.0588C15.3084 1.16699 15.5478 1.27737 15.7243 1.47383C15.9008 1.6703 16 1.93677 16 2.21461C16 2.49246 15.9008 2.75892 15.7243 2.95539C15.5478 3.15186 15.3084 3.26223 15.0588 3.26223Z"
+                            fill="#1F2A37"
+                          />
+                          <path
+                            d="M15.0588 9.54795H0.941176C0.691561 9.54795 0.452169 9.43757 0.275664 9.2411C0.0991596 9.04464 0 8.77817 0 8.50033C0 8.22248 0.0991596 7.95601 0.275664 7.75955C0.452169 7.56308 0.691561 7.45271 0.941176 7.45271H15.0588C15.3084 7.45271 15.5478 7.56308 15.7243 7.75955C15.9008 7.95601 16 8.22248 16 8.50033C16 8.77817 15.9008 9.04464 15.7243 9.2411C15.5478 9.43757 15.3084 9.54795 15.0588 9.54795Z"
+                            fill="#1F2A37"
+                          />
+                          <path
+                            d="M15.0588 15.8337H0.941176C0.691561 15.8337 0.452169 15.7233 0.275664 15.5268C0.0991596 15.3304 0 15.0639 0 14.786C0 14.5082 0.0991596 14.2417 0.275664 14.0453C0.452169 13.8488 0.691561 13.7384 0.941176 13.7384H15.0588C15.3084 13.7384 15.5478 13.8488 15.7243 14.0453C15.9008 14.2417 16 14.5082 16 14.786C16 15.0639 15.9008 15.3304 15.7243 15.5268C15.5478 15.7233 15.3084 15.8337 15.0588 15.8337Z"
+                            fill="#1F2A37"
+                          />
+                        </svg>
+
+                        <span>
+                          {allCommonArea &&
+                            allCommonArea.length &&
+                            allCommonArea.find((ca) => ca.id == si)?.name}
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
