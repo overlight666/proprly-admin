@@ -13,6 +13,7 @@ import {
 } from "../../store/features/reducers";
 import type { ProjectState } from "../../types";
 import { toast } from "react-toastify";
+import { reloadCommonAreaTable } from "../../store/features/projectSlice";
 
 interface commonAreaType {
   commonAreaId: number;
@@ -35,6 +36,9 @@ export const CommonAreaConfigModal = function (props: any) {
   const [storedItem, setStoredItem] = useState<any>([]);
   const dispatch = useDispatch();
 
+  const getElementId = (name) => {
+    return allCommonArea.find((o) => o.name == name)?.id;
+  };
   useEffect(() => {
     if (isOpen) {
       dispatch(getAllCommonAreaReducer(project_id));
@@ -147,6 +151,14 @@ export const CommonAreaConfigModal = function (props: any) {
           ...prevState,
           projectTowerId: data.id,
           floor: data.floors && data.floors.length && data.floors[0].key,
+          commonAreaCategories:
+            (data.floors &&
+              data.floors[0].configuration &&
+              data.floors[0].configuration.commonAreaCategory &&
+              data.floors[0].configuration.commonAreaCategory.map((keys) => {
+                return getElementId(keys.name);
+              })) ||
+            [],
         };
       });
       setStoredItem([
@@ -161,6 +173,15 @@ export const CommonAreaConfigModal = function (props: any) {
           return {
             ...prevState,
             basement: data[0].key,
+            commonAreaCategories:
+              (data &&
+                data.length &&
+                data[0].configuration &&
+                data[0].configuration.commonAreaCategory &&
+                data[0].configuration.commonAreaCategory.map((keys) => {
+                  return getElementId(keys.name);
+                })) ||
+              [],
           };
         });
         setStoredItem([
@@ -176,12 +197,21 @@ export const CommonAreaConfigModal = function (props: any) {
   const selectTower = (key) => {
     if (selectedCommonArea.floor != key) {
       const oldI = storedItem && storedItem.find((o) => o.key == key);
+      const dataConfig =
+        data.floors && data.floors.find((k) => k.key == key).configuration;
       setSelectedCommonArea((prevState: any) => {
         return {
           ...prevState,
           floor: key,
           commonAreaCategories:
-            oldI && oldI.commonAreaCategories ? oldI.commonAreaCategories : [],
+            oldI && oldI.commonAreaCategories
+              ? oldI.commonAreaCategories
+              : (dataConfig &&
+                  dataConfig.commonAreaCategory &&
+                  dataConfig.commonAreaCategory.map((keys) => {
+                    return getElementId(keys.name);
+                  })) ||
+                [],
         };
       });
     }
@@ -190,12 +220,21 @@ export const CommonAreaConfigModal = function (props: any) {
   const selectBasement = (key) => {
     if (selectedCommonArea.basement != key) {
       const oldI = storedItem && storedItem.find((o) => o.key == key);
+      const dataConfig =
+        data && data.length && data.find((k) => k.key == key).configuration;
       setSelectedCommonArea((prevState: any) => {
         return {
           ...prevState,
           basement: key,
           commonAreaCategories:
-            oldI && oldI.commonAreaCategories ? oldI.commonAreaCategories : [],
+            oldI && oldI.commonAreaCategories
+              ? oldI.commonAreaCategories
+              : (dataConfig &&
+                  dataConfig.commonAreaCategory &&
+                  dataConfig.commonAreaCategory.map((keys) => {
+                    return getElementId(keys.name);
+                  })) ||
+                [],
         };
       });
     }
@@ -242,9 +281,11 @@ export const CommonAreaConfigModal = function (props: any) {
       commonAreaCategories: [],
     });
     if (hasAdded) {
+      dispatch(reloadCommonAreaTable(true));
       toast.info("Common Area has been updated!");
     }
   };
+
   return (
     <>
       <Modal

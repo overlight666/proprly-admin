@@ -18,11 +18,11 @@ import { Button } from "flowbite-react";
 import type { ProjectState } from "../../types";
 import { getCommonAreaReducer } from "../../store/features/reducers";
 import DataTable from "datatables.net-dt";
+import { reloadCommonAreaTable } from "../../store/features/projectSlice";
 
 const CommonAreaConfigure: FC = function () {
-  const { commonAreaItem, commonAreaConfig }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { commonAreaItem, commonAreaConfig, reloadAreaTable }: ProjectState =
+    useSelector((state: any) => state.project);
   const { common_area_id } = useParams();
   const [showCard1, setShowCard1] = useState(true);
   const dispatch = useDispatch();
@@ -39,6 +39,19 @@ const CommonAreaConfigure: FC = function () {
       isInit = true;
     }
   }, []);
+
+  useEffect(() => {
+    if (reloadAreaTable) {
+      setTimeout(() => {
+        dispatch(
+          getCommonAreaReducer(
+            common_area_id ? common_area_id : commonAreaItem?.id
+          )
+        );
+        dispatch(reloadCommonAreaTable(false));
+      }, 5000);
+    }
+  }, [reloadAreaTable]);
 
   useEffect(() => {
     if (

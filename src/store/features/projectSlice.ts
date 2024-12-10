@@ -80,6 +80,7 @@ const initialState: ProjectState = {
   commonAreaResponse: undefined,
   commonAreaItem: undefined,
   commonAreaConfig: undefined,
+  reloadAreaTable: false,
 };
 
 export const projectSlice = createSlice({
@@ -153,6 +154,9 @@ export const projectSlice = createSlice({
     },
     updateCommonAreaTab: (state, action: PayloadAction<number>) => {
       state.commonAreaTab = action.payload;
+    },
+    reloadCommonAreaTable: (state, action: PayloadAction<boolean>) => {
+      state.reloadAreaTable = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -448,6 +452,7 @@ export const {
   updateCommonAreaTab,
   clearCommonAreaResponse,
   clearCommonAreaItem,
+  reloadCommonAreaTable,
 } = projectSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

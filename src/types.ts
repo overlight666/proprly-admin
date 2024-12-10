@@ -319,6 +319,7 @@ export interface ProjectState {
   commonAreaResponse: commonAreaResponseType | undefined;
   commonAreaItem: commonAreaItemType | undefined;
   commonAreaConfig: commonAreaItemType | undefined;
+  reloadAreaTable: boolean;
 }
 
 export interface commonAreaItemType {
