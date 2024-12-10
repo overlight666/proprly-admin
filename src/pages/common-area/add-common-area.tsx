@@ -251,7 +251,7 @@ const CommonAreaNewPage: FC = function () {
               <Breadcrumb.Item
                 href={`/organization/${selectedOrganization?.id}/project/${project_id}/common-area`}
               >
-                Common Areas
+                Common Area
               </Breadcrumb.Item>
               <Breadcrumb.Item>Add</Breadcrumb.Item>
             </Breadcrumb>
