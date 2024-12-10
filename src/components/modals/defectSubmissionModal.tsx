@@ -617,14 +617,6 @@ export const DefectSubmissionModal = function (props: any) {
                                   </div>
                                 </div>
 
-                                {/* <span
-                                  className={`text-[14px] ${textColoring(
-                                    activity.defectSubStatus,
-                                    false
-                                  )}`}
-                                >
-                                  {activity.defectSubStatus}
-                                </span> */}
                                 {activity.images &&
                                   activity.images.length > 0 && (
                                     <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">

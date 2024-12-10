@@ -98,9 +98,9 @@ const CommonAreaTable = function () {
           <tr>
             <td>{commonAreaItem.lotNo}</td>
             <td>{getStatus(commonAreaItem.status)}</td>
-            <td>
+            <th>
               <div
-                className={`flex w-auto items-center justify-center rounded-md border border-transparent px-2.5  py-0.5 text-sm font-black  shadow-sm transition-all ${
+                className={`flex w-auto items-center justify-center rounded-md border border-transparent px-2.5  py-0.5 text-sm shadow-sm transition-all ${
                   commonAreaItem.warrantyStatus == "pending"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-green-100 text-green-800"
@@ -108,7 +108,7 @@ const CommonAreaTable = function () {
               >
                 {commonAreaItem.warrantyStatus.toUpperCase()}
               </div>
-            </td>
+            </th>
             <td className="px-6 py-4">
               <div className="flex w-full flex-row-reverse">
                 <Dropdown
