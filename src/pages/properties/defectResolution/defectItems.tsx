@@ -214,7 +214,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
       </div>
       <div className="flex flex-row">
         <div
-          className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm text-red-800 shadow-sm transition-all ${textColoring(
+          className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
             def.subStatus,
             true
           )}`}

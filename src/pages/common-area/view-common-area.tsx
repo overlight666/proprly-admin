@@ -345,7 +345,17 @@ const CommonAreaViewPage: FC = function () {
               >
                 Common Areas
               </Breadcrumb.Item>
-              <Breadcrumb.Item>View</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {commonAreaIdle && !commonAreaItem && commonAreaTab === 1
+                  ? "Add"
+                  : commonAreaTab === 1
+                  ? "Manage"
+                  : commonAreaTab === 2
+                  ? "Configure"
+                  : commonAreaTab === 3
+                  ? "Defect Resolution"
+                  : "Reports"}
+              </Breadcrumb.Item>
             </Breadcrumb>
             <div
               className="mr-1 flex cursor-pointer items-center gap-2 text-gray-500"
