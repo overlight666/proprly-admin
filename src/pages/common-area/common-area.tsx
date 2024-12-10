@@ -32,7 +32,7 @@ const CommonArea: FC = function () {
     (state: any) => state.organization
   );
 
-  const { selectedProject, commonAreaTab, listCommonAreas }: ProjectState =
+  const { selectedProject, commonAreaTab, commonAreaItem }: ProjectState =
     useSelector((state: any) => state.project);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
@@ -121,9 +121,9 @@ const CommonArea: FC = function () {
           </div>
           <div className="flex  w-full items-center justify-between">
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-              Manage Common Areas
+              Manage Common Area
             </h1>
-            {listCommonAreas && listCommonAreas.length === 0 && (
+            {!commonAreaItem && (
               <Button
                 className="col-span-2 w-[200px]"
                 onClick={() => {

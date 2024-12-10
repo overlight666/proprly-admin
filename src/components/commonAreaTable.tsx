@@ -18,7 +18,7 @@ import DataTable from "datatables.net-dt";
 
 const CommonAreaTable = function () {
   const { id, project_id }: any = useParams();
-  const { listCommonAreas }: ProjectState = useSelector(
+  const { commonAreaItem }: ProjectState = useSelector(
     (state: any) => state.project
   );
   const navigate = useNavigate();
@@ -71,8 +71,8 @@ const CommonAreaTable = function () {
     }
     return val;
   };
-  console.log(listCommonAreas);
-  return listCommonAreas && listCommonAreas.length ? (
+
+  return commonAreaItem ? (
     <table
       ref={table}
       id="common-area-table"
@@ -94,43 +94,39 @@ const CommonAreaTable = function () {
         </tr>
       </thead>
       <tbody>
-        {listCommonAreas &&
-          listCommonAreas.length &&
-          listCommonAreas.map((ca, index) => {
-            return (
-              <tr key={index}>
-                <td>{ca.lotNo}</td>
-                <td>{getStatus(ca.status)}</td>
-                <td>{getStatus(ca.warrantyStatus)}</td>
-                <td className="px-6 py-4">
-                  <div className="flex w-full flex-row-reverse">
-                    <Dropdown
-                      label=""
-                      dismissOnClick={false}
-                      renderTrigger={() => (
-                        <Button color="gray" className="w-[50px]">
-                          <div className="flex items-center gap-x-2 text-xs">
-                            <BsThreeDots />
-                          </div>
-                        </Button>
-                      )}
-                    >
-                      <Dropdown.Item
-                        onClick={() => {
-                          dispatch(resetWarranty());
-                          navigate(
-                            `/organization/${id}/project/${project_id}/common-area/${ca.id}`
-                          );
-                        }}
-                      >
-                        View
-                      </Dropdown.Item>
-                    </Dropdown>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+        {commonAreaItem && (
+          <tr>
+            <td>{commonAreaItem.lotNo}</td>
+            <td>{getStatus(commonAreaItem.status)}</td>
+            <td>{getStatus(commonAreaItem.warrantyStatus)}</td>
+            <td className="px-6 py-4">
+              <div className="flex w-full flex-row-reverse">
+                <Dropdown
+                  label=""
+                  dismissOnClick={false}
+                  renderTrigger={() => (
+                    <Button color="gray" className="w-[50px]">
+                      <div className="flex items-center gap-x-2 text-xs">
+                        <BsThreeDots />
+                      </div>
+                    </Button>
+                  )}
+                >
+                  <Dropdown.Item
+                    onClick={() => {
+                      dispatch(resetWarranty());
+                      navigate(
+                        `/organization/${id}/project/${project_id}/common-area/${commonAreaItem.id}`
+                      );
+                    }}
+                  >
+                    View
+                  </Dropdown.Item>
+                </Dropdown>
+              </div>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   ) : (
