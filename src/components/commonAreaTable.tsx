@@ -71,6 +71,7 @@ const CommonAreaTable = function () {
     }
     return val;
   };
+  console.log(listCommonAreas);
   return listCommonAreas && listCommonAreas.length ? (
     <table
       ref={table}
@@ -80,13 +81,13 @@ const CommonAreaTable = function () {
       <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="px-6 py-3">
-            SR NO.
-          </th>
-          <th scope="col" className="px-6 py-3">
             COMMON AREA LOT NO.
           </th>
           <th scope="col" className="px-6 py-3">
-            STATUS
+            COMMON AREA STATUS
+          </th>
+          <th scope="col" className="px-6 py-3">
+            WARRANTY STATUS
           </th>
 
           <th scope="col" className="px-6 py-3"></th>
@@ -98,9 +99,9 @@ const CommonAreaTable = function () {
           listCommonAreas.map((ca, index) => {
             return (
               <tr key={index}>
-                <td>{ca.id}</td>
                 <td>{ca.lotNo}</td>
                 <td>{getStatus(ca.status)}</td>
+                <td>{getStatus(ca.warrantyStatus)}</td>
                 <td className="px-6 py-4">
                   <div className="flex w-full flex-row-reverse">
                     <Dropdown
