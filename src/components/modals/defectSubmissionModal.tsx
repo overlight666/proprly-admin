@@ -601,14 +601,30 @@ export const DefectSubmissionModal = function (props: any) {
                                       (c) => c.id == activity?.loggedUserRoleId
                                     )?.roleName}
                                 </span>
-                                <span
+                                <div className="flex">
+                                  <div
+                                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm font-medium shadow-sm transition-all
+                                  ${textColoring(
+                                    activity.defectSubStatus,
+                                    true
+                                  )}
+                                  `}
+                                  >
+                                    {getIcons(activity.defectSubStatus)}
+                                    <span className="text-[12px]">
+                                      {activity.defectSubStatus}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                {/* <span
                                   className={`text-[14px] ${textColoring(
                                     activity.defectSubStatus,
                                     false
                                   )}`}
                                 >
                                   {activity.defectSubStatus}
-                                </span>
+                                </span> */}
                                 {activity.images &&
                                   activity.images.length > 0 && (
                                     <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
