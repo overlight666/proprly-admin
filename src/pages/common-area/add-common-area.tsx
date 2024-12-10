@@ -58,7 +58,10 @@ import CommonAreaInformation from "./items/common-area-information";
 import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
 import StrataUploads from "./items/strata-uploads";
-import { clearCommonAreaResponse } from "../../store/features/projectSlice";
+import {
+  clearCommonAreaResponse,
+  updateCommonAreaTab,
+} from "../../store/features/projectSlice";
 import { useUploadForm } from "../../apis/hooks";
 
 const CommonAreaNewPage: FC = function () {
@@ -109,9 +112,10 @@ const CommonAreaNewPage: FC = function () {
         uploadedWarranties.groups.length === 0
       ) {
         toast.info("New Common Area has been registered!");
+        dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}/configure`
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
           );
         }, 1000);
       } else {
@@ -130,18 +134,20 @@ const CommonAreaNewPage: FC = function () {
     if (warrantyResponse && warrantyResponse.data) {
       if (warrantyResponseStatus) {
         toast.info("New Common Area has been registered!");
+        dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}/configure`
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`
           );
         }, 1000);
       } else {
         toast.warning(
           "New Common Area has been registered but warranties is not fully uploaded"
         );
+        dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}/configure`
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`
           );
         }, 1000);
       }
