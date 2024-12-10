@@ -12,25 +12,53 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
 
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { getCommonAreaReducer } from "../../store/features/reducers";
+import { useDispatch, useSelector } from "react-redux";
 import CommonAreaLocationMappingTable from "../../components/commonAreaLocationMappingTable";
 import { Button } from "flowbite-react";
+import type { ProjectState } from "../../types";
+import { getCommonAreaReducer } from "../../store/features/reducers";
+import DataTable from "datatables.net-dt";
 
 const CommonAreaConfigure: FC = function () {
-  const { common_area_id }: any = useParams();
-
+  const { commonAreaItem, commonAreaConfig }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+  const { common_area_id } = useParams();
   const [showCard1, setShowCard1] = useState(true);
   const dispatch = useDispatch();
   let isInit = false;
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!isInit) {
-      dispatch(getCommonAreaReducer(common_area_id));
+      dispatch(
+        getCommonAreaReducer(
+          common_area_id ? common_area_id : commonAreaItem?.id
+        )
+      );
       isInit = true;
     }
   }, []);
 
+  useEffect(() => {
+    if (!DataTable.isDataTable("#common-area-config-table")) {
+      new DataTable("#common-area-config-table", {
+        columnDefs: [{ className: "dt-left", targets: "_all" }],
+        paging: true,
+        searching: false,
+        layout: {
+          topStart: null,
+          topEnd: null,
+          bottomStart: {
+            pageLength: {
+              text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+            },
+          },
+          bottomEnd: "paging",
+        },
+      });
+    }
+  });
   return (
     <div className="flex w-full flex-col">
       <div
@@ -44,7 +72,12 @@ const CommonAreaConfigure: FC = function () {
           <FaAngleDown className="h-[50px] cursor-pointer" />
         )}
       </div>
-      {showCard1 && <CommonAreaLocationMappingTable />}
+      {showCard1 && (
+        <CommonAreaLocationMappingTable
+          towers={commonAreaConfig?.projectTowers}
+          basements={commonAreaConfig?.projectBasements}
+        />
+      )}
       <div className="my-10 flex">
         <Button className="mx-1" color="primary">
           Configure

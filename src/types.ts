@@ -318,6 +318,7 @@ export interface ProjectState {
   commonAreaIdle: boolean;
   commonAreaResponse: commonAreaResponseType | undefined;
   commonAreaItem: commonAreaItemType | undefined;
+  commonAreaConfig: commonAreaItemType | undefined;
 }
 
 export interface commonAreaItemType {
@@ -329,6 +330,7 @@ export interface commonAreaItemType {
   createdAt: string;
   updatedAt: string;
   projectTowers: any[];
+  projectBasements: any[];
   basements: any[];
   warranty: any[];
   warrantyStatus: string;

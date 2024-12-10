@@ -77,6 +77,7 @@ const initialState: ProjectState = {
   commonAreaIdle: true,
   commonAreaResponse: undefined,
   commonAreaItem: undefined,
+  commonAreaConfig: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -389,18 +390,18 @@ export const projectSlice = createSlice({
     //get common area
     builder.addCase(getCommonAreaReducer.pending, (state) => {
       state.commonAreaIdle = false;
-      state.commonAreaItem = undefined;
+      state.commonAreaConfig = undefined;
     });
     builder.addCase(getCommonAreaReducer.fulfilled, (state, action) => {
       state.commonAreaIdle = true;
-      state.commonAreaItem =
+      state.commonAreaConfig =
         action.payload && action.payload.data
           ? action.payload.data
           : action.payload;
     });
     builder.addCase(getCommonAreaReducer.rejected, (state) => {
       state.commonAreaIdle = true;
-      state.commonAreaItem = undefined;
+      state.commonAreaConfig = undefined;
     });
   },
 });
