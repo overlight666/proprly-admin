@@ -86,6 +86,7 @@ const CommonArea: FC = function () {
     let flagger: any = true;
     if (commonAreaConfig) {
       commonAreaConfig &&
+        commonAreaConfig.projectBasements &&
         commonAreaConfig.projectBasements.length > 0 &&
         commonAreaConfig.projectBasements.map((o) => {
           if (o.commonAreaConfigurationStatus == "Pending") {
