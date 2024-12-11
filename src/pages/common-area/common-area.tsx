@@ -40,11 +40,13 @@ const CommonArea: FC = function () {
     commonAreaTab,
     commonAreaItem,
     commonAreaIdle,
+    commonAreaConfig,
   }: ProjectState = useSelector((state: any) => state.project);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isComplete, setIsComplete] = useState(false);
   const uploadProperty = () => {
     if (uploadType === "single") {
       navigate(
@@ -79,6 +81,35 @@ const CommonArea: FC = function () {
       });
     }
   });
+
+  useEffect(() => {
+    let flagger: any = true;
+    if (commonAreaConfig) {
+      commonAreaConfig &&
+        commonAreaConfig.projectBasements.length > 0 &&
+        commonAreaConfig.projectBasements.map((o) => {
+          if (o.commonAreaConfigurationStatus == "Pending") {
+            flagger = false;
+          }
+        });
+      commonAreaConfig &&
+        commonAreaConfig.projectTowers &&
+        commonAreaConfig.projectTowers.length &&
+        commonAreaConfig.projectTowers.map((t) => {
+          t &&
+            t.floors &&
+            t.floors.map((f) => {
+              if (f && !f.configuration) {
+                flagger = false;
+              }
+            });
+        });
+    } else {
+      flagger = false;
+    }
+    setIsComplete(flagger);
+  }, [commonAreaConfig]);
+  console.log(isComplete);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
