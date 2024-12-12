@@ -106,7 +106,9 @@ const Properties: FC = function () {
               >
                 {selectedOrganization?.name}
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/organization/new">
+              <Breadcrumb.Item
+                href={`/organization/${selectedOrganization?.id}/project/${selectedProject?.id}`}
+              >
                 {selectedProject?.name}
               </Breadcrumb.Item>
               <Breadcrumb.Item>

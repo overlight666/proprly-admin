@@ -47,6 +47,7 @@ import CommonAreaNewPage from "./pages/common-area/add-common-area";
 import CommonAreaConfigure from "./pages/common-area/common-area-configure";
 import CommonAreaViewPage from "./pages/common-area/view-common-area";
 import CommonArea from "./pages/common-area/common-area";
+import AddAppointment from "./pages/appointments/addAppointment";
 
 const App: FC = function () {
   return (
@@ -170,6 +171,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <Appointments />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/appointments/new"
+              element={
+                <PrivateRoutes>
+                  <AddAppointment />
                 </PrivateRoutes>
               }
             />

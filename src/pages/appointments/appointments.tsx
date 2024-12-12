@@ -34,6 +34,8 @@ import {
 } from "@zach.codes/react-calendar";
 import type { EventType } from "react-hook-form";
 import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
+import AppointmentHeader from "../../components/appointmentHeader";
+import { BookAppointmentModal } from "../../components/modals/bookAppointmentModal";
 
 const Appointments: FC = function () {
   const [currentMonth, setCurrentMonth] = useState<Date>(
@@ -48,7 +50,7 @@ const Appointments: FC = function () {
   const { selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
-
+  const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,8 +72,15 @@ const Appointments: FC = function () {
             <Breadcrumb.Item href={`/organization/${selectedOrganization?.id}`}>
               {selectedOrganization?.name}
             </Breadcrumb.Item>
-            <Breadcrumb.Item href="/organization/new">
+            <Breadcrumb.Item
+              href={`/organization/${selectedOrganization?.id}/project/${selectedProject?.id}`}
+            >
               {selectedProject?.name}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              href={`/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/appointments`}
+            >
+              Appointments
             </Breadcrumb.Item>
           </Breadcrumb>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
@@ -136,7 +145,7 @@ const Appointments: FC = function () {
             </li>
           </ul>
         </div>
-
+        <AppointmentHeader setOpen={setOpen} />
         <>
           {appointmentTab === 1 && (
             <div className="flex w-full flex-col  !bg-transparent">
@@ -175,6 +184,7 @@ const Appointments: FC = function () {
           )}
         </>
       </div>
+      <BookAppointmentModal isOpen={isOpen} setOpen={setOpen} />
     </NavbarSidebarLayout>
   );
 };
