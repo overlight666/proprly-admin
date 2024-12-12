@@ -282,7 +282,9 @@ export const CommonAreaConfigModal = function (props: any) {
     });
     if (hasAdded) {
       dispatch(reloadCommonAreaTable(true));
-      toast.info("Common Area has been updated!");
+      setTimeout(() => {
+        toast.info("Common Area has been updated!");
+      }, 5000);
     }
   };
 
