@@ -211,12 +211,6 @@ const ViewProperty: FC = function () {
     status: "pre_settlement",
   });
 
-  const options: any = [
-    { value: "pre_settlement", label: "Pre-Settlement" },
-    { value: "handover", label: "Handover" },
-    { value: "post_handover", label: "Post-Handover" },
-  ];
-
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
@@ -315,6 +309,7 @@ const ViewProperty: FC = function () {
   const handleInputChange = (event: any) => {
     try {
       const { name, value } = event.target;
+
       if (name === "projectTowerId") {
         const fo: any = [];
         for (let i = 1; i <= parseInt(value.numFloors); i++) {
@@ -323,7 +318,6 @@ const ViewProperty: FC = function () {
             value: i,
           });
         }
-
         setNumFloors(fo);
         setFormData((prevFormData) => ({
           ...prevFormData,
@@ -332,7 +326,7 @@ const ViewProperty: FC = function () {
       } else if (name === "status") {
         setFormData((prevFormData) => ({
           ...prevFormData,
-          [name]: value.value,
+          [name]: value,
         }));
       } else if (name === "floor") {
         setFormData((prevFormData) => ({
@@ -621,27 +615,32 @@ const ViewProperty: FC = function () {
                   <Label htmlFor="organization">
                     Property status <span className="text-[red]">*</span>
                   </Label>
-                  <Select
-                    // className="basic-single"
-                    // menuPosition="fixed"
-                    classNamePrefix="select"
-                    options={options}
-                    // isSearchable={true}
-                    defaultValue={options.find(
-                      (s) => s.value === formData.status
-                    )}
+                  <select
+                    id="status"
+                    name="status"
+                    value={formData.status}
                     onChange={(event) =>
                       handleInputChange({
                         target: {
                           name: "status",
-                          value: event,
+                          value: event.target.value,
                         },
                       })
                     }
-                    id="status"
-                    name="status"
-                    // value={country}
-                  />
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  >
+                    <option
+                      value="pre_settlement"
+                      disabled={
+                        formData.status == "handover" ||
+                        formData.status == "post_handover"
+                      }
+                    >
+                      Pre-Settlement
+                    </option>
+                    <option value="handover">Handover</option>
+                    <option value="post_handover">Post-Handover</option>
+                  </select>
                 </div>
               </div>
               <div className="grid w-[50%] grid-cols-2 gap-5">

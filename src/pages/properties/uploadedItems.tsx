@@ -40,7 +40,7 @@ export default function UploadedItems({
       dispatch(resetUpload());
     }
   }, [uploadDone]);
-  console.log(progressBar);
+
   return (
     <div className="mt-5 flex w-full flex-col">
       <div className="flex w-full flex-col items-start gap-2">
