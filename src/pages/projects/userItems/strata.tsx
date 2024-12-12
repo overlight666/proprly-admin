@@ -147,7 +147,7 @@ export default function Strata() {
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
-            Attach Sub Contructor
+            Attach Strata
           </div>
         </Button>
       </div>
