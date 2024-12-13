@@ -42,6 +42,7 @@ const CommonAreaLocationMappingTable = function ({
       ? "In Progress"
       : "Pending";
   };
+
   return (
     <>
       <table

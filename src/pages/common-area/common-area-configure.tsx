@@ -25,6 +25,7 @@ const CommonAreaConfigure: FC = function () {
     useSelector((state: any) => state.project);
   const { common_area_id } = useParams();
   const [showCard1, setShowCard1] = useState(true);
+  const [isConfigured, setIsConfigured] = useState(false);
   const dispatch = useDispatch();
   let isInit = false;
   const navigate = useNavigate();
@@ -75,6 +76,65 @@ const CommonAreaConfigure: FC = function () {
       });
     }
   });
+
+  useEffect(() => {
+    if (commonAreaConfig) {
+      let isTowerConfigured = false;
+      let isBasementConfigured = false;
+      if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
+        let isPending = false;
+        let isConfigured = false;
+        let isInProgress = false;
+
+        let isPending2 = false;
+        let isConfigured2 = false;
+        let isInProgress2 = false;
+        commonAreaConfig.projectTowers &&
+          commonAreaConfig.projectTowers.map((pt) => {
+            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
+              isPending = true;
+            }
+            if (
+              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
+            ) {
+              isInProgress = true;
+            }
+            if (
+              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
+            ) {
+              isConfigured = true;
+            }
+          });
+
+        commonAreaConfig.projectBasements &&
+          commonAreaConfig.projectBasements.map((pt) => {
+            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
+              isPending2 = true;
+            }
+            if (
+              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
+            ) {
+              isInProgress2 = true;
+            }
+            if (
+              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
+            ) {
+              isConfigured2 = true;
+            }
+          });
+
+        if (!isPending && !isInProgress && isConfigured) {
+          isTowerConfigured = true;
+        }
+        if (!isPending2 && !isInProgress2 && isConfigured2) {
+          isBasementConfigured = true;
+        }
+        if (isTowerConfigured && isBasementConfigured) {
+          setIsConfigured(true);
+        }
+      }
+    }
+  }, [commonAreaConfig]);
   return (
     <div className="flex w-full flex-col">
       <div
@@ -96,7 +156,7 @@ const CommonAreaConfigure: FC = function () {
         />
       )}
       <div className="my-10 flex">
-        <Button className="mx-1" color="primary">
+        <Button className="mx-1" color="primary" disabled={!isConfigured}>
           Configure
         </Button>
         <Button
