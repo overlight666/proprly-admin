@@ -5,7 +5,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 // import { BsSliders2Vertical } from "react-icons/bs";
@@ -20,26 +20,13 @@ import { getCommonAreaReducer } from "../../store/features/reducers";
 import DataTable from "datatables.net-dt";
 import { reloadCommonAreaTable } from "../../store/features/projectSlice";
 
-const CommonAreaConfigure: FC = function () {
+const CommonAreaConfigure = function ({ isConfigured }: any) {
   const { commonAreaItem, commonAreaConfig, reloadAreaTable }: ProjectState =
     useSelector((state: any) => state.project);
   const { common_area_id } = useParams();
   const [showCard1, setShowCard1] = useState(true);
-  const [isConfigured, setIsConfigured] = useState(false);
   const dispatch = useDispatch();
-  let isInit = false;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!isInit) {
-      dispatch(
-        getCommonAreaReducer(
-          common_area_id ? common_area_id : commonAreaItem?.id
-        )
-      );
-      isInit = true;
-    }
-  }, []);
 
   useEffect(() => {
     if (reloadAreaTable) {
@@ -77,64 +64,6 @@ const CommonAreaConfigure: FC = function () {
     }
   });
 
-  useEffect(() => {
-    if (commonAreaConfig) {
-      let isTowerConfigured = false;
-      let isBasementConfigured = false;
-      if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
-        let isPending = false;
-        let isConfigured = false;
-        let isInProgress = false;
-
-        let isPending2 = false;
-        let isConfigured2 = false;
-        let isInProgress2 = false;
-        commonAreaConfig.projectTowers &&
-          commonAreaConfig.projectTowers.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured = true;
-            }
-          });
-
-        commonAreaConfig.projectBasements &&
-          commonAreaConfig.projectBasements.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured2 = true;
-            }
-          });
-
-        if (!isPending && !isInProgress && isConfigured) {
-          isTowerConfigured = true;
-        }
-        if (!isPending2 && !isInProgress2 && isConfigured2) {
-          isBasementConfigured = true;
-        }
-        if (isTowerConfigured && isBasementConfigured) {
-          setIsConfigured(true);
-        }
-      }
-    }
-  }, [commonAreaConfig]);
   return (
     <div className="flex w-full flex-col">
       <div
