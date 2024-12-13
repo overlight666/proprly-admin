@@ -447,6 +447,7 @@ export interface PropertyState {
   defectSubmissions: DefectSumissionType[] | undefined;
   loadingDefect: boolean;
   defect: DefectSumissionType | undefined;
+  feedbackResponse: undefined | any;
 }
 
 export interface DefectSumissionType {

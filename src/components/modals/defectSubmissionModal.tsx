@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Badge, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Badge, Button, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import type {
   AppState,
@@ -21,7 +21,14 @@ import { useState } from "react";
 import moment from "moment";
 
 export const DefectSubmissionModal = function (props: any) {
-  const { isOpen, setOpen } = props;
+  const {
+    isOpen,
+    setOpen,
+    setFeedbackOpen,
+    setFeedbackTitle,
+    setDefectId,
+    setFeedback,
+  } = props;
   const { defect }: PropertyState = useSelector((state: any) => state.property);
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(false);
@@ -203,7 +210,7 @@ export const DefectSubmissionModal = function (props: any) {
       );
     }
   };
-  console.log(defect);
+
   return (
     <>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="7xl">
@@ -657,6 +664,40 @@ export const DefectSubmissionModal = function (props: any) {
                         })}
                     </div>
                   </div>
+                </div>
+                <div className="col-span-3">
+                  {defect?.activityLogs &&
+                    defect?.activityLogs[defect?.activityLogs.length - 1]
+                      ?.userRole.roleName == "Owner" && (
+                      <div className="flex gap-3">
+                        <Button
+                          color="primary"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("accept");
+                            setFeedbackTitle("Accept Defect");
+                          }}
+                        >
+                          <div className="flex items-center gap-x-2">
+                            Accept Defect
+                          </div>
+                        </Button>
+                        <Button
+                          color="gray"
+                          onClick={() => {
+                            setOpen(false);
+                            setDefectId(defect.id);
+                            setFeedbackOpen(true);
+                            setFeedback("reject");
+                            setFeedbackTitle("Reject Defect");
+                          }}
+                        >
+                          Reject & Close Defect
+                        </Button>
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

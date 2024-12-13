@@ -12,6 +12,7 @@ import {
   getSingleProperty,
   patchProperty,
   registerProperty,
+  submitFeedbackReducer,
 } from "./reducers";
 
 // Define the initial state using that type
@@ -25,6 +26,7 @@ const initialState: PropertyState = {
   defectSubmissions: undefined,
   loadingDefect: false,
   defect: undefined,
+  feedbackResponse: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -32,6 +34,9 @@ export const propertySlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    clearSubmittion: (state) => {
+      state.feedbackResponse = undefined;
+    },
     clearAttachedUsers: (state) => {
       state.attachedUser = undefined;
     },
@@ -147,9 +152,29 @@ export const propertySlice = createSlice({
       // state.loadingDefect = false;
       state.defect = undefined;
     });
+    // feedback
+    builder.addCase(submitFeedbackReducer.pending, (state) => {
+      // state.loadingDefect = true;
+      state.feedbackResponse = undefined;
+    });
+    builder.addCase(submitFeedbackReducer.fulfilled, (state, action) => {
+      state.feedbackResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      // state.loadingDefect = false;
+    });
+    builder.addCase(submitFeedbackReducer.rejected, (state) => {
+      // state.loadingDefect = false;
+      state.feedbackResponse = undefined;
+    });
   },
 });
 
-export const { clearPropertyResponse, selectProperty, clearAttachedUsers } =
-  propertySlice.actions;
+export const {
+  clearPropertyResponse,
+  selectProperty,
+  clearAttachedUsers,
+  clearSubmittion,
+} = propertySlice.actions;
 export default propertySlice.reducer;

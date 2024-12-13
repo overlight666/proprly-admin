@@ -41,6 +41,7 @@ import {
   otpVerification,
   resendOTP,
   signupLead,
+  submitFeedback,
   updateOrganization,
   updateProject,
   updateProperty,
@@ -645,6 +646,19 @@ export const addCommonAreaTowerReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await addCommonAreaTower(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const submitFeedbackReducer: any = createAsyncThunk(
+  "submitFeedbackReducer",
+  async (data: any) => {
+    try {
+      const response = await submitFeedback(data);
       // If you want to get something back
       return response;
     } catch (err) {

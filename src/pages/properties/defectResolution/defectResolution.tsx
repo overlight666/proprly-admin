@@ -9,6 +9,7 @@ import { getAllDefectResolutionReducer } from "../../../store/features/reducers"
 import { useParams } from "react-router";
 import { DefectSubmissionModal } from "../../../components/modals/defectSubmissionModal";
 import { DefectItem } from "./defectItems";
+import { DefectFeedbackModal } from "../../../components/modals/defectFeedback";
 
 const DefectResolution = function () {
   const { defectSubmissions }: PropertyState = useSelector(
@@ -29,6 +30,10 @@ const DefectResolution = function () {
   const { project_id }: any = useParams();
   const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackTitle, setFeedbackTitle] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [defectId, setDefectId] = useState<any>();
   let isInit = false;
   let defectInit = false;
   useEffect(() => {
@@ -107,7 +112,21 @@ const DefectResolution = function () {
           })}
       </div>
 
-      <DefectSubmissionModal isOpen={isOpen} setOpen={setOpen} />
+      <DefectSubmissionModal
+        setFeedbackTitle={setFeedbackTitle}
+        setDefectId={setDefectId}
+        isOpen={isOpen}
+        setOpen={setOpen}
+        setFeedbackOpen={setFeedbackOpen}
+        setFeedback={setFeedback}
+      />
+      <DefectFeedbackModal
+        feedback={feedback}
+        defectId={defectId}
+        title={feedbackTitle}
+        isOpen={isFeedbackOpen}
+        setOpen={setFeedbackOpen}
+      />
     </div>
   );
 };
