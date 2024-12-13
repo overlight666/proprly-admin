@@ -18,6 +18,30 @@ const CommonAreaLocationMappingTable = function ({
 }: any) {
   const [isOpen, setOpen] = useState(false);
   const [data, setData] = useState<any>();
+
+  const currentStatus = (basements) => {
+    let isPending = false;
+    let isInprogress = false;
+    let isConfigured = false;
+    basements &&
+      basements.length &&
+      basements.map((b) => {
+        if (b.commonAreaConfigurationStatus.toLowerCase() == "pending") {
+          isPending = true;
+        }
+        if (b.commonAreaConfigurationStatus.toLowerCase() == "in progress") {
+          isInprogress = true;
+        }
+        if (b.commonAreaConfigurationStatus.toLowerCase() == "configured") {
+          isConfigured = true;
+        }
+      });
+    return !isInprogress && !isPending && isConfigured
+      ? "Configured"
+      : isInprogress || (isConfigured && isPending)
+      ? "In Progress"
+      : "Pending";
+  };
   return (
     <>
       <table
@@ -53,6 +77,9 @@ const CommonAreaLocationMappingTable = function ({
                           c.commonAreaConfigurationStatus.toLowerCase() ==
                           "pending"
                             ? "bg-red-100 text-red-800"
+                            : c.commonAreaConfigurationStatus.toLowerCase() ==
+                              "in progress"
+                            ? "bg-yellow-100 text-yellow-800"
                             : "bg-green-100 text-green-800"
                         }`}
                       >
@@ -95,13 +122,15 @@ const CommonAreaLocationMappingTable = function ({
                 <div className="flex">
                   <div
                     className={`flex w-auto items-center justify-center rounded-md border border-transparent px-2.5  py-0.5 text-sm shadow-sm transition-all ${
-                      basements[0].commonAreaConfigurationStatus.toLowerCase() ==
-                      "pending"
+                      currentStatus(basements).toLowerCase() == "pending"
                         ? "bg-red-100 text-red-800"
+                        : currentStatus(basements).toLowerCase() ==
+                          "in progress"
+                        ? "bg-yellow-100 text-yellow-800"
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {basements[0].commonAreaConfigurationStatus}
+                    {currentStatus(basements)}
                   </div>
                 </div>
               </td>

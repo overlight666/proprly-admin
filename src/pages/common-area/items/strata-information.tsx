@@ -4,13 +4,16 @@
 import { Button } from "flowbite-react";
 import { useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { listUserByRoleReducer } from "../../../store/features/reducers";
+import type { AppState, ReducerTypes } from "../../../types";
 
-export default function StrataInformation({ attachedStrata }: any) {
+export default function StrataInformation() {
   let didInit = false;
   const dispatch = useDispatch();
-
+  const { projectStrata }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
   useEffect(() => {
     if (!didInit) {
       dispatch(listUserByRoleReducer("project_strata"));
@@ -40,8 +43,8 @@ export default function StrataInformation({ attachedStrata }: any) {
             </tr>
           </thead>
           <tbody>
-            {(attachedStrata &&
-              attachedStrata.map((user: any, index: number) => {
+            {(projectStrata &&
+              projectStrata.map((user: any, index: number) => {
                 return (
                   <tr
                     key={index}
