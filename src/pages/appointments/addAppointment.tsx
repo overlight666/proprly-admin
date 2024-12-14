@@ -121,7 +121,8 @@ const AddAppointment: FC = function () {
                 <div className="grid w-[50%] grid-cols-1 gap-5">
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
-                      CA Lot No. <span className="text-[red]">*</span>
+                      {chooseValue === "property" ? "Unit No." : "CA Lot No."}
+                      <span className="text-[red]">*</span>
                     </Label>
                     <Select
                       // className="basic-single"
@@ -137,7 +138,10 @@ const AddAppointment: FC = function () {
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="organization">
-                      CA Status <span className="text-[red]">*</span>
+                      {chooseValue === "property"
+                        ? "Property Status"
+                        : "CA Status"}
+                      <span className="text-[red]">*</span>
                     </Label>
                     <Select
                       // className="basic-single"
