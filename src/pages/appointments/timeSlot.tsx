@@ -9,7 +9,7 @@
 
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label } from "flowbite-react";
+import { Breadcrumb, Button, Checkbox, Label } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import ErrorHandler from "../../components/error";
 
@@ -27,7 +27,10 @@ import {
 } from "../../types";
 import { useNavigate, useParams } from "react-router";
 import { duration } from "moment";
-import { updateTimeSlotsReducer } from "../../store/features/reducers";
+import {
+  getTimeSlotByProjectReducer,
+  updateTimeSlotsReducer,
+} from "../../store/features/reducers";
 import { clearTImeSlot } from "../../store/features/appSlice";
 
 export interface AppointmentType {
@@ -73,7 +76,7 @@ const TimeSlots: FC = function () {
     (state: any) => state.property
   );
 
-  const { timeslotResponse }: AppState = useSelector(
+  const { timeslotResponse, timeslot }: AppState = useSelector(
     (state: any) => state.application
   );
 
@@ -89,11 +92,49 @@ const TimeSlots: FC = function () {
   const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
   const [slotSelected, setSlotSelected] = useState("1hour");
   const [daySelected, setDaySelected] = useState<any[]>(options);
+  const [daySelected2, setDaySelected2] = useState<any[]>([]);
   const [slots, setSlots] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errors, setErrors] = useState<any>([]);
 
+  useEffect(() => {
+    dispatch(getTimeSlotByProjectReducer(project_id));
+  }, []);
+
+  const slot1 = [
+    "9:00AM - 10:00AM",
+    "10:00AM - 11:00AM",
+    "11:00AM - 12:00PM",
+    "12:00PM - 1:00PM",
+    "1:00PM - 2:00PM",
+    "3:00PM - 4:00PM",
+    "4:00PM - 5:00PM",
+  ];
+  const slot2 = [
+    "9:00AM - 11:00AM",
+    "11:00AM - 1:00PM",
+    "1:00PM - 3:00PM",
+    "3:00PM - 5:00PM",
+  ];
+  const slot3 = [
+    "9:00AM - 9:30AM",
+    "9:30AM - 10:00AM",
+    "10:00AM - 10:30AM",
+    "10:30AM - 11:00AM",
+    "11:00AM - 11:30PM",
+    "11:30AM - 12:00PM",
+    "12:00PM - 12:30PM",
+    "12:30PM - 1:00PM",
+    "1:00PM - 1:30PM",
+    "1:30PM - 2:00PM",
+    "2:00PM - 2:30PM",
+    "2:30PM - 3:00PM",
+    "3:00PM - 3:30PM",
+    "3:30PM - 4:00PM",
+    "4:00PM - 4:30PM",
+    "4:30PM - 5:00PM",
+  ];
   useEffect(() => {
     if (slotSelected === "1hour") {
       const newSlots = [
@@ -140,21 +181,12 @@ const TimeSlots: FC = function () {
   }, [slotSelected]);
 
   const updateTimeSlotConfig = () => {
-    if (daySelected.length == 0) {
+    if (daySelected2.length == 0) {
       toast.error("Please select at least 1 day");
     } else {
-      const config = daySelected.map((o) => {
-        return {
-          day: o.label,
-          start_time: timeSlotStart,
-          end_time: timeSlotEnd,
-          duration:
-            slotSelected == "30mins" ? 30 : slotSelected == "1hour" ? 60 : 120,
-        };
-      });
       const params = {
         projectId: project_id,
-        configurations: config,
+        configurations: daySelected2,
       };
       dispatch(updateTimeSlotsReducer(params));
     }
@@ -167,142 +199,236 @@ const TimeSlots: FC = function () {
     }
   }, [timeslotResponse]);
 
+  const capitalizeFirstLetter = (val) => {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+  };
+
+  const updateDaySelected = (value, sl) => {
+    if (daySelected2.find((e) => e.day == value)) {
+      const newDays = daySelected2.filter((e) => e.day != value);
+      setDaySelected2(newDays);
+    } else {
+      const newVal = {
+        day: value,
+        start_time: sl.startTime,
+        end_time: sl.endTime,
+        duration: sl.duration,
+      };
+      setDaySelected2([...daySelected2, newVal]);
+    }
+  };
+
+  const updateDuration = (duration, value) => {
+    setDaySelected2(
+      daySelected2 && daySelected2.length
+        ? daySelected2.map((e) => {
+            if (e.day == value) {
+              e.duration = duration;
+            }
+            return e;
+          })
+        : []
+    );
+  };
+  console.log(daySelected2);
   return (
     <div className="w-full flex-col gap-2">
-      <div className="flex w-[40%] flex-col gap-2">
-        <div className="mt-5 flex w-full gap-2">
-          <div className="w-[50%]">
-            <label
-              htmlFor="start-time"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+      {timeslot &&
+        timeslot.length &&
+        timeslot.map((sl, index) => {
+          return (
+            <div
+              key={index}
+              className="flex w-full flex-col gap-5 border-b-2 py-5"
             >
-              Start:
-            </label>
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
-                <svg
-                  className="h-4 w-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <input
-                disabled
-                value={timeSlotStart}
-                onChange={(e) => setTimeSlotStart(e.target.value)}
-                type="time"
-                id="start-time"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                min="09:00"
-                max="18:00"
-                required
-              />
-            </div>
-          </div>
-          <div className="w-[50%]">
-            <label
-              htmlFor="end-time"
-              className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              End:
-            </label>
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
-                <svg
-                  className="h-4 w-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <input
-                disabled
-                value={timeSlotEnd}
-                onChange={(e) => setTimeSlotEnd(e.target.value)}
-                type="time"
-                id="end-time"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                min="09:00"
-                max="18:00"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-          <Label htmlFor="days">
-            Select Day
-            <span className="text-[red]">*</span>
-          </Label>
-          <Select
-            onChange={(e: any) => setDaySelected(e)}
-            closeMenuOnSelect={false}
-            defaultValue={[
-              options[0],
-              options[1],
-              options[2],
-              options[3],
-              options[4],
-            ]}
-            isMulti
-            options={options}
-            styles={colourStyles}
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-          <Label htmlFor="timeslot">
-            Select Time-Slot
-            <span className="text-[red]">*</span>
-          </Label>
-          <select
-            id="timeslot"
-            name="timeslot"
-            value={slotSelected}
-            onChange={(e) => setSlotSelected(e.target.value)}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          >
-            <option value="" selected>
-              Please Select
-            </option>
-            <option value="30mins">30 Mins</option>
-            <option value="1hour">1 Hour</option>
-            <option value="2hours">2 Hours</option>
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-        <Label htmlFor="timeslot">Available Time</Label>
-        <div className="flex flex-wrap gap-4">
-          {slots &&
-            slots.map((sl, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
-                >
-                  <span className="text-[14px]">{sl}</span>
+              <div key={index} className="flex w-full gap-5 py-5">
+                <div className="flex w-full items-center gap-5">
+                  <div className="flex w-[15%] items-center gap-x-3">
+                    <Checkbox
+                      id={sl.day}
+                      name={sl.day}
+                      onChange={(e) =>
+                        updateDaySelected(
+                          capitalizeFirstLetter(e.target.id),
+                          sl
+                        )
+                      }
+                    />
+                    <Label htmlFor={sl.day}>
+                      {capitalizeFirstLetter(sl.day)}
+                    </Label>
+                  </div>
+                  <div className="flex w-[25%] flex-col">
+                    <label
+                      htmlFor="start-time"
+                      className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Start:
+                    </label>
+                    <div className="relative">
+                      <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
+                        <svg
+                          className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        disabled
+                        value={timeSlotStart}
+                        onChange={(e) => setTimeSlotStart(e.target.value)}
+                        type="time"
+                        id="start-time"
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        min="09:00"
+                        max="18:00"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-[25%] flex-col">
+                    <label
+                      htmlFor="end-time"
+                      className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      End:
+                    </label>
+                    <div className="relative">
+                      <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3.5">
+                        <svg
+                          className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        disabled
+                        value={timeSlotEnd}
+                        onChange={(e) => setTimeSlotEnd(e.target.value)}
+                        type="time"
+                        id="end-time"
+                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm leading-none text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        min="09:00"
+                        max="18:00"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid w-[20%] grid-cols-1 gap-y-2">
+                    <Label htmlFor="timeslot">
+                      Select Time-Slot
+                      <span className="text-[red]">*</span>
+                    </Label>
+                    <select
+                      disabled={
+                        !daySelected2.find(
+                          (e) => e.day == capitalizeFirstLetter(sl.day)
+                        )
+                      }
+                      id="timeslot"
+                      name="timeslot"
+                      value={
+                        daySelected2 &&
+                        daySelected2.length &&
+                        daySelected2.find(
+                          (e) => e.day == capitalizeFirstLetter(sl.day)
+                        )?.duration
+                          ? daySelected2.find(
+                              (e) => e.day == capitalizeFirstLetter(sl.day)
+                            )?.duration
+                          : sl.duration
+                      }
+                      onChange={(e) =>
+                        updateDuration(
+                          e.target.value,
+                          capitalizeFirstLetter(sl.day)
+                        )
+                      }
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    >
+                      <option value="" selected>
+                        Please Select
+                      </option>
+                      <option value="30">30 Mins</option>
+                      <option value="60">1 Hour</option>
+                      <option value="120">2 Hours</option>
+                    </select>
+                  </div>
                 </div>
-              );
-            })}
-        </div>
-      </div>
+              </div>
+              {daySelected2 &&
+              daySelected2.length &&
+              daySelected2.find(
+                (e) => e.day == capitalizeFirstLetter(sl.day)
+              ) ? (
+                <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
+                  <Label htmlFor="timeslot">Available Time Slots</Label>
+                  <div className="flex flex-wrap gap-4">
+                    {daySelected2.find(
+                      (e) => e.day == capitalizeFirstLetter(sl.day)
+                    )?.duration == 60
+                      ? slot1.map((s, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
+                            >
+                              <span className="text-[14px]">{s}</span>
+                            </div>
+                          );
+                        })
+                      : daySelected2.find(
+                          (e) => e.day == capitalizeFirstLetter(sl.day)
+                        )?.duration == 120
+                      ? slot2.map((s, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
+                            >
+                              <span className="text-[14px]">{s}</span>
+                            </div>
+                          );
+                        })
+                      : slot3.map((s, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
+                            >
+                              <span className="text-[14px]">{s}</span>
+                            </div>
+                          );
+                        })}
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          );
+        })}
+
       <div className="my-10 flex">
         <Button
+          disabled={daySelected2.length == 0}
           className="mx-1"
           color="primary"
           onClick={() => {
