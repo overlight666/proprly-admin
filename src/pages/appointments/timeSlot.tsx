@@ -135,50 +135,6 @@ const TimeSlots: FC = function () {
     "4:00PM - 4:30PM",
     "4:30PM - 5:00PM",
   ];
-  useEffect(() => {
-    if (slotSelected === "1hour") {
-      const newSlots = [
-        "9:00AM - 10:00AM",
-        "10:00AM - 11:00AM",
-        "11:00AM - 12:00PM",
-        "12:00PM - 1:00PM",
-        "1:00PM - 2:00PM",
-        "3:00PM - 4:00PM",
-        "4:00PM - 5:00PM",
-      ];
-      setSlots(newSlots);
-    }
-    if (slotSelected === "2hours") {
-      const newSlots = [
-        "9:00AM - 11:00AM",
-        "11:00AM - 1:00PM",
-        "1:00PM - 3:00PM",
-        "3:00PM - 5:00PM",
-      ];
-      setSlots(newSlots);
-    }
-    if (slotSelected === "30mins") {
-      const newSlots = [
-        "9:00AM - 9:30AM",
-        "9:30AM - 10:00AM",
-        "10:00AM - 10:30AM",
-        "10:30AM - 11:00AM",
-        "11:00AM - 11:30PM",
-        "11:30AM - 12:00PM",
-        "12:00PM - 12:30PM",
-        "12:30PM - 1:00PM",
-        "1:00PM - 1:30PM",
-        "1:30PM - 2:00PM",
-        "2:00PM - 2:30PM",
-        "2:30PM - 3:00PM",
-        "3:00PM - 3:30PM",
-        "3:30PM - 4:00PM",
-        "4:00PM - 4:30PM",
-        "4:30PM - 5:00PM",
-      ];
-      setSlots(newSlots);
-    }
-  }, [slotSelected]);
 
   const updateTimeSlotConfig = () => {
     if (daySelected2.length == 0) {
@@ -247,12 +203,7 @@ const TimeSlots: FC = function () {
                     <Checkbox
                       id={sl.day}
                       name={sl.day}
-                      onChange={(e) =>
-                        updateDaySelected(
-                          capitalizeFirstLetter(e.target.id),
-                          sl
-                        )
-                      }
+                      onChange={(e) => updateDaySelected(e.target.id, sl)}
                     />
                     <Label htmlFor={sl.day}>
                       {capitalizeFirstLetter(sl.day)}
@@ -337,30 +288,17 @@ const TimeSlots: FC = function () {
                       <span className="text-[red]">*</span>
                     </Label>
                     <select
-                      disabled={
-                        !daySelected2.find(
-                          (e) => e.day == capitalizeFirstLetter(sl.day)
-                        )
-                      }
+                      disabled={!daySelected2.find((e) => e.day == sl.day)}
                       id="timeslot"
                       name="timeslot"
                       value={
                         daySelected2 &&
                         daySelected2.length &&
-                        daySelected2.find(
-                          (e) => e.day == capitalizeFirstLetter(sl.day)
-                        )?.duration
-                          ? daySelected2.find(
-                              (e) => e.day == capitalizeFirstLetter(sl.day)
-                            )?.duration
+                        daySelected2.find((e) => e.day == sl.day)?.duration
+                          ? daySelected2.find((e) => e.day == sl.day)?.duration
                           : sl.duration
                       }
-                      onChange={(e) =>
-                        updateDuration(
-                          e.target.value,
-                          capitalizeFirstLetter(sl.day)
-                        )
-                      }
+                      onChange={(e) => updateDuration(e.target.value, sl.day)}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
                       <option value="" selected>
@@ -375,15 +313,11 @@ const TimeSlots: FC = function () {
               </div>
               {daySelected2 &&
               daySelected2.length &&
-              daySelected2.find(
-                (e) => e.day == capitalizeFirstLetter(sl.day)
-              ) ? (
+              daySelected2.find((e) => e.day == sl.day) ? (
                 <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                   <Label htmlFor="timeslot">Available Time Slots</Label>
                   <div className="flex flex-wrap gap-4">
-                    {daySelected2.find(
-                      (e) => e.day == capitalizeFirstLetter(sl.day)
-                    )?.duration == 60
+                    {daySelected2.find((e) => e.day == sl.day)?.duration == 60
                       ? slot1.map((s, index) => {
                           return (
                             <div
@@ -394,9 +328,8 @@ const TimeSlots: FC = function () {
                             </div>
                           );
                         })
-                      : daySelected2.find(
-                          (e) => e.day == capitalizeFirstLetter(sl.day)
-                        )?.duration == 120
+                      : daySelected2.find((e) => e.day == sl.day)?.duration ==
+                        120
                       ? slot2.map((s, index) => {
                           return (
                             <div

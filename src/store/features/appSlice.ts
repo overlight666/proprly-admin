@@ -33,6 +33,16 @@ const initialState: AppState = {
   isCalendarView: true,
 };
 
+const mapDays = {
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+  sunday: 7,
+};
+
 export const appSlice = createSlice({
   name: "application",
   // `createSlice` will infer the state type from the `initialState` argument
@@ -132,7 +142,12 @@ export const appSlice = createSlice({
       state.timeslot = undefined;
     });
     builder.addCase(getTimeSlotByProjectReducer.fulfilled, (state, action) => {
-      state.timeslot = action.payload;
+      state.timeslot =
+        action.payload &&
+        action.payload.length &&
+        action.payload.sort((a, b) => {
+          return mapDays[a.day] - mapDays[b.day];
+        });
     });
     builder.addCase(getTimeSlotByProjectReducer.rejected, (state) => {
       state.timeslot = undefined;
