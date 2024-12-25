@@ -80,6 +80,7 @@ const Appointments: FC = function () {
   const [events, setEvents] = useState<any[]>([]);
   const [currentEvents, setCurrentEvents] = useState<any>([]);
   const [startKey, setStartKey] = useState<any>(undefined);
+  const [filterBy, setFilterBy] = useState("all");
   const [currentDate, setCurrentDate] = useState(
     moment().format("MMMM DD, YYYY")
   );
@@ -278,6 +279,8 @@ const Appointments: FC = function () {
             (isCalendarView == true || isCalendarView == undefined) && (
               <div className="flex w-full flex-col  !bg-transparent">
                 <AppointmentHeader
+                  setFilterBy={setFilterBy}
+                  filterBy={filterBy}
                   setOpen={setOpen}
                   setCurrentDate={setCurrentDate}
                   currentDate={currentDate}
@@ -288,7 +291,13 @@ const Appointments: FC = function () {
                   onCurrentMonthChange={(date) => setCurrentMonth(date)}
                 >
                   <MonthlyNav />
-                  <MonthlyBody events={events}>
+                  <MonthlyBody
+                    events={
+                      filterBy == "all"
+                        ? events
+                        : events.filter((e) => e.status == filterBy)
+                    }
+                  >
                     <MonthlyDay<EventType>
                       renderDay={(data) => {
                         return (
@@ -298,14 +307,36 @@ const Appointments: FC = function () {
                                 index <= 2 && (
                                   <div
                                     key={index}
-                                    className="flex cursor-pointer items-center gap-2 rounded-full bg-blue-100 p-1 px-3"
+                                    className={`flex cursor-pointer items-center gap-2 rounded-full ${
+                                      item && item.status == "booked"
+                                        ? "bg-blue-100"
+                                        : item && item.status == "canceled"
+                                        ? "bg-red-100"
+                                        : "bg-green-100"
+                                    } p-1 px-3`}
                                     onClick={() => {
                                       setAppointmentData(item);
                                       setRescheduleModal(true);
                                     }}
                                   >
-                                    <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                                    <span className="text-blue-600">
+                                    <div
+                                      className={`h-2 w-2 rounded-full ${
+                                        item && item.status == "booked"
+                                          ? "bg-blue-600"
+                                          : item && item.status == "canceled"
+                                          ? "bg-red-600"
+                                          : "bg-green-600"
+                                      }`}
+                                    ></div>
+                                    <span
+                                      className={`${
+                                        item && item.status == "booked"
+                                          ? "text-blue-600"
+                                          : item && item.status == "canceled"
+                                          ? "text-red-600 line-through"
+                                          : "text-green-600"
+                                      }`}
+                                    >
                                       <Tooltip content={getItemContent(item)}>
                                         {truncateString(item.title)}
                                       </Tooltip>
@@ -357,6 +388,8 @@ const Appointments: FC = function () {
             !isViewAll && (
               <div className="flex w-full flex-col  !bg-transparent">
                 <AppointmentHeader
+                  setFilterBy={setFilterBy}
+                  filterBy={filterBy}
                   setOpen={setOpen}
                   setCurrentDate={setCurrentDate}
                   currentDate={currentDate}
@@ -471,6 +504,8 @@ const Appointments: FC = function () {
             isViewAll && (
               <div className="flex w-full flex-col  !bg-transparent">
                 <AppointmentHeader
+                  setFilterBy={setFilterBy}
+                  filterBy={filterBy}
                   setOpen={setOpen}
                   setCurrentDate={setCurrentDate}
                   currentDate={currentDate}
