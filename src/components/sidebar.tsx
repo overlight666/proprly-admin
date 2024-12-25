@@ -48,6 +48,7 @@ import {
   FaRegFolderOpen,
 } from "react-icons/fa";
 import {
+  updateProjectOpen,
   updateProjectTab,
   updateProjectTabMain,
 } from "../store/features/appSlice";
@@ -67,7 +68,7 @@ const ExampleSidebar: FC = function () {
   const { orgList, selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { config }: AppState = useSelector(
+  const { config, openProjects }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
   const token = localStorage.getItem("token");
@@ -131,6 +132,7 @@ const ExampleSidebar: FC = function () {
     }
   }, [config, token, dispatch]);
 
+  console.log(openProjects);
   return (
     <div
       className={classNames("lg:!block", {
@@ -233,6 +235,8 @@ const ExampleSidebar: FC = function () {
                                 onClick={() => {
                                   dispatch(updateProjectTabMain(0));
                                   dispatch(updateProjectTab(1));
+
+                                  dispatch(updateProjectOpen(obj.id));
                                 }}
                                 key={index}
                                 href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
@@ -248,11 +252,9 @@ const ExampleSidebar: FC = function () {
                                     className={`mr-3 flex h-6 items-center justify-center rounded p-2 shadow`}
                                   >
                                     {" "}
-                                    {(currentRoute ==
-                                      "/organization/:id/project/:project_id/properties" ||
-                                      currentRoute ==
-                                        "/organization/:id/project/:project_id/properties/new") &&
-                                    project_id == obj.id ? (
+                                    {openProjects &&
+                                    openProjects.length &&
+                                    openProjects.includes(obj.id) ? (
                                       <FaRegFolderOpen />
                                     ) : (
                                       <FaRegFolder />
@@ -261,7 +263,9 @@ const ExampleSidebar: FC = function () {
 
                                   <div className="ml-2 flex w-full items-center justify-between">
                                     {truncateString(obj.name)}
-                                    {project_id == obj.id ? (
+                                    {openProjects &&
+                                    openProjects.length &&
+                                    openProjects.includes(obj.id) ? (
                                       <FaCaretDown
                                         color="primary"
                                         className="text-primary-700"
@@ -275,7 +279,9 @@ const ExampleSidebar: FC = function () {
                                   </div>
                                 </div>
                               </Sidebar.Item>
-                              {project_id == obj.id ? (
+                              {openProjects &&
+                              openProjects.length &&
+                              openProjects.includes(obj.id) ? (
                                 <Sidebar.Items style={{ marginLeft: 5 }}>
                                   <Sidebar.ItemGroup>
                                     <Sidebar.Item

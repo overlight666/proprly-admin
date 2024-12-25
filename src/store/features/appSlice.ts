@@ -31,6 +31,7 @@ const initialState: AppState = {
   timeslot: [],
   timeslotResponse: undefined,
   isCalendarView: true,
+  openProjects: [],
 };
 
 const mapDays = {
@@ -50,6 +51,24 @@ export const appSlice = createSlice({
   reducers: {
     updateGrid: (state, action) => {
       state.isGrid = action.payload;
+    },
+    updateProjectOpen: (state, action) => {
+      if (
+        !state.openProjects ||
+        (state.openProjects && state.openProjects.length == 0)
+      ) {
+        state.openProjects = [...state.openProjects, action.payload];
+      } else {
+        if (state.openProjects && state.openProjects.length > 0) {
+          if (state.openProjects.find((e) => e == action.payload)) {
+            state.openProjects = state.openProjects.filter(
+              (e) => e != action.payload
+            );
+          } else {
+            state.openProjects = [...state.openProjects, action.payload];
+          }
+        }
+      }
     },
     updateCalendarView: (state, action) => {
       state.isCalendarView = action.payload;
@@ -175,6 +194,7 @@ export const {
   clearConfig,
   clearTImeSlot,
   updateCalendarView,
+  updateProjectOpen,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

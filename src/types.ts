@@ -73,6 +73,7 @@ export interface AppState {
   timeslot: Timeslot[] | undefined;
   timeslotResponse: any | undefined;
   isCalendarView: boolean;
+  openProjects: any[];
 }
 
 export interface Timeslot {
