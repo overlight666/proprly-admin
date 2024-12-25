@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -38,7 +39,7 @@ const PropertyHeaderReport = function ({}: any) {
   const dispatch = useDispatch();
 
   const { warrantyData, warrantyResponse }: ImageState = useSelector(
-    (state: any) => state.uploads,
+    (state: any) => state.uploads
   );
 
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
@@ -55,7 +56,7 @@ const PropertyHeaderReport = function ({}: any) {
   // );
 
   const { bulkPropertyResponse }: PropertyState = useSelector(
-    (state: any) => state.property,
+    (state: any) => state.property
   );
 
   // const { selectedOrganization }: OrgState = useSelector(
@@ -72,7 +73,7 @@ const PropertyHeaderReport = function ({}: any) {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group,
+          (obj) => obj.group === warrantyData.group
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -417,7 +418,7 @@ const PropertyHeaderReport = function ({}: any) {
       if (warrantyResponse.error) {
         toast.warning(warrantyResponse.error);
       } else {
-        toast.info("Upload Warranties Completed");
+        // toast.info("Upload Warranties Completed");
         setOpenBulk(false);
         setIsUploading(false);
         setUploadedWarranties({

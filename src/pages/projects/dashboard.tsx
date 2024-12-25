@@ -1197,10 +1197,25 @@ const AcquisitionChart = function ({ data }: propss) {
   const getValues = (status: any) => {
     return data[status];
   };
+
+  const stringToColour = (str: string) => {
+    let hash = 0;
+    str.split("").forEach((char) => {
+      hash = char.charCodeAt(0) + ((hash << 5) - hash);
+    });
+    let colour = "#";
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xff;
+      colour += value.toString(16).padStart(2, "0");
+    }
+    return colour;
+  };
+
   const arrayValues = keyValues.map((v) => getValues(v));
+  const arrayColors = keyValues.map((v) => stringToColour(v + "- properly"));
   const options: ApexCharts.ApexOptions = {
     labels: keyValues,
-    colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],
+    colors: arrayColors,
     chart: {
       fontFamily: "Inter, sans-serif",
       toolbar: {
