@@ -16,6 +16,7 @@ import type { Report } from "../types";
 import { type PropertyState } from "../types";
 import { Button, Dropdown } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
+import { Link } from "react-router-dom";
 DataTable.use(DT);
 const PropertyReportTable = function ({ headerValue }: any) {
   const { project_id }: any = useParams();
@@ -38,6 +39,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
               r.owners.length > 0 &&
               r.owners.map((o) => o.fullName).join(", "),
             headerValue,
+            r.reportUrl,
           ];
         })) ||
       [];
@@ -74,7 +76,29 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 </Button>
               )}
             >
-              <Dropdown.Item>Export Report</Dropdown.Item>
+              <Dropdown.Item
+                onClick={async () => {
+                  try {
+                    // Fetch the PDF data as a Blob
+                    const response = await fetch(row[4]);
+                    const blob = await response.blob();
+
+                    // Create a download link and set its attributes
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    link.download = row[4];
+
+                    // Append the link to the document, click it, and remove it
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  } catch (error) {
+                    console.error("Error while downloading PDF:", error);
+                  }
+                }}
+              >
+                Export Report
+              </Dropdown.Item>
               <Dropdown.Item>
                 {row[3] === "general" || row[3] === "post_handover"
                   ? "Report History"
