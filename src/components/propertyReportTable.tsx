@@ -76,7 +76,12 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 </Button>
               )}
             >
-              <Dropdown.Item as="a" href={row[4]} target="_blank">
+              <Dropdown.Item
+                as="a"
+                href={row[4]}
+                target="_blank"
+                download={`Unit_${row[0]}_Lot_${row[1]}_${row[3]}.pdf`}
+              >
                 Export Report
               </Dropdown.Item>
               <Dropdown.Item>
