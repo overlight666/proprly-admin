@@ -70,6 +70,9 @@ export const appSlice = createSlice({
         }
       }
     },
+    clearProjectOpen: (state) => {
+      state.openProjects = [];
+    },
     updateCalendarView: (state, action) => {
       state.isCalendarView = action.payload;
     },
@@ -195,6 +198,7 @@ export const {
   clearTImeSlot,
   updateCalendarView,
   updateProjectOpen,
+  clearProjectOpen,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

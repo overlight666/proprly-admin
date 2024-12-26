@@ -48,6 +48,7 @@ import {
   FaRegFolderOpen,
 } from "react-icons/fa";
 import {
+  clearProjectOpen,
   updateProjectOpen,
   updateProjectTab,
   updateProjectTabMain,
@@ -132,7 +133,18 @@ const ExampleSidebar: FC = function () {
     }
   }, [config, token, dispatch]);
 
-  console.log(openProjects);
+  useEffect(() => {
+    if (
+      currentRoute === "/organization" ||
+      currentRoute === "/organization/new" ||
+      currentRoute === "/signup-leads" ||
+      currentRoute === "signup-leads/view" ||
+      currentRoute === "/organization/:id/edit"
+    ) {
+      dispatch(clearProjectOpen());
+    }
+  }, [currentRoute]);
+
   return (
     <div
       className={classNames("lg:!block", {
@@ -163,6 +175,9 @@ const ExampleSidebar: FC = function () {
                 currentRoute === "/organization/:id/edit" ? (
                   <>
                     <Sidebar.Item
+                      onClick={() => {
+                        dispatch(clearProjectOpen());
+                      }}
                       href="/organization"
                       // icon={HiChartPie}
                       className={
