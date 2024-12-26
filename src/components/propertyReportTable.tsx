@@ -76,27 +76,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 </Button>
               )}
             >
-              <Dropdown.Item
-                onClick={async () => {
-                  try {
-                    // Fetch the PDF data as a Blob
-                    const response = await fetch(row[4]);
-                    const blob = await response.blob();
-
-                    // Create a download link and set its attributes
-                    const link = document.createElement("a");
-                    link.href = URL.createObjectURL(blob);
-                    link.download = row[4];
-
-                    // Append the link to the document, click it, and remove it
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  } catch (error) {
-                    console.error("Error while downloading PDF:", error);
-                  }
-                }}
-              >
+              <Dropdown.Item as="a" href={row[4]} target="_blank">
                 Export Report
               </Dropdown.Item>
               <Dropdown.Item>
