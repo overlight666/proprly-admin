@@ -7,6 +7,7 @@ import type { RootState } from "../store";
 import {
   addOrgUser,
   getOneOrg,
+  getOrganizationDashboardReducer,
   getOrganizations,
   registerOrg,
   updateOrg,
@@ -29,6 +30,7 @@ const initialState: OrgState = {
   orgList: [],
   selectedOrganization: undefined,
   isUpdated: false,
+  orgDashboard: undefined,
 };
 
 export const organizationSlice = createSlice({
@@ -120,6 +122,25 @@ export const organizationSlice = createSlice({
     builder.addCase(addOrgUser.rejected, (state) => {
       state.loading = false;
       state.isIdle = true;
+    });
+    //dashboard
+    builder.addCase(getOrganizationDashboardReducer.pending, (state) => {
+      state.loading = true;
+      state.isIdle = false;
+      state.orgDashboard = undefined;
+    });
+    builder.addCase(
+      getOrganizationDashboardReducer.fulfilled,
+      (state, action) => {
+        state.orgDashboard = action.payload;
+        state.loading = false;
+        state.isIdle = true;
+      }
+    );
+    builder.addCase(getOrganizationDashboardReducer.rejected, (state) => {
+      state.loading = false;
+      state.isIdle = true;
+      state.orgDashboard = undefined;
     });
   },
 });

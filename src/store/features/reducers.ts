@@ -29,7 +29,9 @@ import {
   getDefectResolutionById,
   getOneOrganization,
   getOneProject,
+  getOrganizationDashboard,
   getProjectAppointments,
+  getProjectDashboard,
   getprojects,
   getProperty,
   getPropertyReports,
@@ -771,6 +773,32 @@ export const cancelAppointmentReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await cancelAppointmentApi(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getOrganizationDashboardReducer: any = createAsyncThunk(
+  "getOrganizationDashboardReducer",
+  async (id: any) => {
+    try {
+      const response = await getOrganizationDashboard(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getProjectDashboardReducer: any = createAsyncThunk(
+  "getProjectDashboardReducer",
+  async (data: any) => {
+    try {
+      const response = await getProjectDashboard(data);
       // If you want to get something back
       return response;
     } catch (err) {

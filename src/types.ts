@@ -230,6 +230,29 @@ export interface OrgState {
   orgList: Organization[];
   selectedOrganization: Organization | undefined;
   isUpdated: boolean;
+  orgDashboard: OrganizationDashboard | undefined;
+}
+
+export interface OrganizationDashboard {
+  totalNotifications: number;
+  totalProjects: number;
+  totalProperties: number;
+  defectsByProperty: DefectsByProperty;
+  defectsByCommonArea: DefectsByCommonArea;
+}
+
+export interface DefectsByProperty {
+  in_progress: number;
+  disputed: number;
+  resolved: number;
+  pending: number;
+}
+
+export interface DefectsByCommonArea {
+  in_progress: number;
+  disputed: number;
+  resolved: number;
+  pending: number;
 }
 
 export interface TowerResponseState {
@@ -344,6 +367,15 @@ export interface ProjectState {
   commonAreaConfig: commonAreaItemType | undefined;
   reloadAreaTable: boolean;
   projectAppointments: any[] | undefined;
+  projectDashboard: ProjectDashboard | undefined;
+}
+
+export interface ProjectDashboard {
+  totalNotifications: number;
+  totalProjects: number;
+  totalProperties: number;
+  defectsByProperty: DefectsByProperty;
+  defectsByCommonArea: DefectsByCommonArea;
 }
 
 export interface commonAreaItemType {

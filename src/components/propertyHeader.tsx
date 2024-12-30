@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
-
+import * as excelJs from "exceljs";
 import { Button, Label, Modal } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useState } from "react";
+import { AiOutlineRight } from "react-icons/ai";
 const PropertyHeader = function () {
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
@@ -21,6 +25,83 @@ const PropertyHeader = function () {
     if (uploadType === "single") {
       navigate(`/organization/${id}/project/${project_id}/properties/new`);
     }
+  };
+
+  const generateTemplate = async () => {
+    const workbook = new excelJs.Workbook();
+
+    const ws: any = workbook.addWorksheet("Test Worksheet");
+
+    const options1 = ["O1", "O2"];
+    const options2 = ["O3", "O4"];
+    const options3 = ["O5", "O6"];
+
+    // Add data to the worksheet
+    ws.addRow(["Name", "Latitude", "Parents", "Address", "Dog name"]);
+
+    ws.columns.map((col, index) => (col.width = 18));
+
+    ws.dataValidations.add("A2:A99999", {
+      type: "list",
+      allowBlank: false,
+      formulae: [`"${options1.join(",")}"`],
+    });
+
+    // ws.getCell("B2:B99999").value = {
+    //   formula: 'IF(datasheet!A1<>"",datasheet!B1,"")',
+    // };
+
+    ws.dataValidations.add("B2:B99999", {
+      type: "list",
+      allowBlank: false,
+      formulae: [`IF(A1="O1","${options2.join(",")}","${options3.join(",")}")`],
+    });
+
+    // ws.dataValidations.add("B2:B99999", {
+    //   type: "list",
+    //   allowBlank: false,
+    //   formulae: [`"${options2.join(",")}"`],
+    // });
+
+    ws.dataValidations.add("C2:C99999", {
+      type: "list",
+      allowBlank: false,
+      formulae: [`"${options3.join(",")}"`],
+    });
+
+    ws.getRow(1).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFADD8E6" },
+    };
+
+    ws.eachRow((row) => {
+      row.eachCell((cell) => {
+        cell.font = {
+          name: "Inter",
+          size: 8,
+        };
+        cell.alignment = {
+          horizontal: "center",
+        };
+      });
+    });
+
+    const excelBlob = await workbook.xlsx.writeBuffer();
+    const excelUrl = URL.createObjectURL(
+      new Blob([excelBlob], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      })
+    );
+
+    const link = document.createElement("a");
+    link.href = excelUrl;
+    link.download = "herbert2.xlsx";
+    document.body.appendChild(link);
+    link.click();
+
+    URL.revokeObjectURL(excelUrl);
+    document.body.removeChild(link);
   };
 
   return (
@@ -86,7 +167,7 @@ const PropertyHeader = function () {
         <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header>Add Property</Modal.Header>
           <Modal.Body>
-            <div className="space-y-6">
+            <div className="space-y-2">
               <div className="grid grid-cols-1 gap-y-2">
                 <Label htmlFor="floors">Select upload type</Label>
                 <select
@@ -100,6 +181,17 @@ const PropertyHeader = function () {
                   <option value="bulk">Bulk Upload</option>
                 </select>
               </div>
+              {uploadType == "bulk" && (
+                <div>
+                  <span
+                    className="cursor-pointer text-blue-600"
+                    onClick={() => generateTemplate()}
+                  >
+                    DOWNLOAD PROPERTY TEMPLATE
+                    <AiOutlineRight className="ml-1 inline" />
+                  </span>
+                </div>
+              )}
             </div>
           </Modal.Body>
           <Modal.Footer>

@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
 // import { FaDownload } from "react-icons/fa";
@@ -9,8 +11,22 @@ import {
   HiCalendar,
   HiDotsHorizontal,
 } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrganizationDashboardReducer } from "../../store/features/reducers";
+import { useParams } from "react-router";
+import type { OrgState, ReducerTypes } from "../../types";
 
 const Dashboard: FC = function () {
+  const dispatch = useDispatch();
+  const { id }: any = useParams();
+  const { orgDashboard }: OrgState = useSelector(
+    (state: ReducerTypes) => state.organization
+  );
+
+  useEffect(() => {
+    dispatch(getOrganizationDashboardReducer(id));
+  }, []);
+
   return (
     <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
@@ -47,7 +63,7 @@ const Dashboard: FC = function () {
               </svg>
               <span className="text-gray-500">Alerts - Needs Attention</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {orgDashboard?.totalNotifications}
               </span>
               <div className="flex items-center">
                 <svg
@@ -87,7 +103,7 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Projects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {orgDashboard?.totalProjects}
               </span>
               <div className="flex items-center">
                 <svg
@@ -127,7 +143,7 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Properties</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {orgDashboard?.totalProperties}
               </span>
               <div className="flex items-center">
                 <svg
@@ -243,7 +259,7 @@ const Dashboard: FC = function () {
               </Timeline.Item>
             </Timeline>
           </div>
-          <Defects />
+          <Defects orgDashboard={orgDashboard} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 p-5">
@@ -324,7 +340,7 @@ const Dashboard: FC = function () {
   );
 };
 
-const Defects: FC = function () {
+const Defects = function ({ orgDashboard }: any) {
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -407,7 +423,7 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35
+                {orgDashboard?.defectsByProperty.pending}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -416,7 +432,7 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35
+                {orgDashboard?.defectsByCommonArea.pending}
               </div>
             </div>
           </div>
@@ -434,7 +450,7 @@ const Defects: FC = function () {
                 style={{ width: "50%" }}
               >
                 {" "}
-                50
+                {orgDashboard?.defectsByProperty.in_progress}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -443,7 +459,7 @@ const Defects: FC = function () {
                 style={{ width: "80%" }}
               >
                 {" "}
-                80
+                {orgDashboard?.defectsByCommonArea.in_progress}
               </div>
             </div>
           </div>
@@ -461,7 +477,7 @@ const Defects: FC = function () {
                 style={{ width: "85.5%" }}
               >
                 {" "}
-                85.5
+                {orgDashboard?.defectsByProperty.resolved}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -470,7 +486,7 @@ const Defects: FC = function () {
                 style={{ width: "40%" }}
               >
                 {" "}
-                40
+                {orgDashboard?.defectsByCommonArea.resolved}
               </div>
             </div>
           </div>
@@ -488,7 +504,7 @@ const Defects: FC = function () {
                 style={{ width: "10%" }}
               >
                 {" "}
-                10
+                {orgDashboard?.defectsByProperty.disputed}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -497,7 +513,7 @@ const Defects: FC = function () {
                 style={{ width: "15%" }}
               >
                 {" "}
-                15
+                {orgDashboard?.defectsByCommonArea.disputed}
               </div>
             </div>
           </div>

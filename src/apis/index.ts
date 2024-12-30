@@ -712,3 +712,25 @@ export const cancelAppointmentApi = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getOrganizationDashboard = async (id: any) => {
+  return api
+    .get(`/dashboard/organizations/${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getProjectDashboard = async (params: any) => {
+  return api
+    .get(`/dashboard/organizations/${params.id}?projectId=${params.project_id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

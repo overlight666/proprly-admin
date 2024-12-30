@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
 
@@ -9,8 +11,63 @@ import {
   HiCalendar,
   HiDotsHorizontal,
 } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { getProjectDashboardReducer } from "../../store/features/reducers";
+import type { ProjectState } from "../../types";
 
 const Dashboard: FC = function () {
+  const dispatch = useDispatch();
+  const { id, project_id }: any = useParams();
+  const { projectDashboard }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+
+  useEffect(() => {
+    const params = {
+      id: id,
+      project_id: project_id,
+    };
+    dispatch(getProjectDashboardReducer(params));
+  }, []);
+
+  const getTotal = () => {
+    const count1 = projectDashboard?.defectsByProperty.in_progress
+      ? projectDashboard?.defectsByProperty.in_progress
+      : 0;
+    const count2 = projectDashboard?.defectsByCommonArea.in_progress
+      ? projectDashboard?.defectsByCommonArea.in_progress
+      : 0;
+    return count1 + count2;
+  };
+
+  const getTotalDefects = () => {
+    const pending1 =
+      projectDashboard?.defectsByProperty &&
+      projectDashboard?.defectsByProperty.pending
+        ? projectDashboard?.defectsByProperty.pending
+        : 0;
+    const pending2 =
+      projectDashboard?.defectsByCommonArea &&
+      projectDashboard?.defectsByCommonArea.pending
+        ? projectDashboard?.defectsByCommonArea.pending
+        : 0;
+    const in_progress1 =
+      projectDashboard?.defectsByProperty &&
+      projectDashboard?.defectsByProperty.in_progress
+        ? projectDashboard?.defectsByProperty.in_progress
+        : 0;
+
+    const in_progress2 =
+      projectDashboard?.defectsByCommonArea &&
+      projectDashboard?.defectsByCommonArea.in_progress
+        ? projectDashboard?.defectsByCommonArea.in_progress
+        : 0;
+
+    return pending1 + pending2 + in_progress1 + in_progress2;
+  };
+
+  console.log(projectDashboard);
   return (
     <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
@@ -47,7 +104,7 @@ const Dashboard: FC = function () {
               </svg>
               <span className="text-gray-500">Alerts - Needs Attention</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {projectDashboard?.totalNotifications}
               </span>
               <div className="flex items-center">
                 <svg
@@ -85,9 +142,9 @@ const Dashboard: FC = function () {
                 />
               </svg>
 
-              <span className="text-gray-500">Total Projects</span>
+              <span className="text-gray-500">Total Defects In-Progress</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {getTotal()}
               </span>
               <div className="flex items-center">
                 <svg
@@ -127,7 +184,7 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Properties</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {projectDashboard?.totalProperties}
               </span>
               <div className="flex items-center">
                 <svg
@@ -168,7 +225,7 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {getTotalDefects()}
               </span>
               <div className="flex items-center">
                 <svg
@@ -243,7 +300,7 @@ const Dashboard: FC = function () {
               </Timeline.Item>
             </Timeline>
           </div>
-          <Defects />
+          <Defects projectDashboard={projectDashboard} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 p-5">
@@ -324,7 +381,7 @@ const Dashboard: FC = function () {
   );
 };
 
-const Defects: FC = function () {
+const Defects = function ({ projectDashboard }: any) {
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -407,7 +464,7 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35
+                {projectDashboard?.defectsByProperty.pending}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -416,7 +473,7 @@ const Defects: FC = function () {
                 style={{ width: "35%" }}
               >
                 {" "}
-                35
+                {projectDashboard?.defectsByCommonArea.pending}
               </div>
             </div>
           </div>
@@ -434,7 +491,7 @@ const Defects: FC = function () {
                 style={{ width: "50%" }}
               >
                 {" "}
-                50
+                {projectDashboard?.defectsByProperty.in_progress}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -443,7 +500,7 @@ const Defects: FC = function () {
                 style={{ width: "80%" }}
               >
                 {" "}
-                80
+                {projectDashboard?.defectsByCommonArea.in_progress}
               </div>
             </div>
           </div>
@@ -461,7 +518,7 @@ const Defects: FC = function () {
                 style={{ width: "85.5%" }}
               >
                 {" "}
-                85.5
+                {projectDashboard?.defectsByProperty.resolved}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -470,7 +527,7 @@ const Defects: FC = function () {
                 style={{ width: "40%" }}
               >
                 {" "}
-                40
+                {projectDashboard?.defectsByCommonArea.resolved}
               </div>
             </div>
           </div>
@@ -488,7 +545,7 @@ const Defects: FC = function () {
                 style={{ width: "10%" }}
               >
                 {" "}
-                10
+                {projectDashboard?.defectsByProperty.disputed}
               </div>
             </div>
             <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
@@ -497,7 +554,7 @@ const Defects: FC = function () {
                 style={{ width: "15%" }}
               >
                 {" "}
-                15
+                {projectDashboard?.defectsByCommonArea.disputed}
               </div>
             </div>
           </div>

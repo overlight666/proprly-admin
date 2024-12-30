@@ -31,6 +31,7 @@ import { MdBugReport } from "react-icons/md";
 import PropertyReportHeader from "../../components/propertyReportHeader";
 import PropertyReportTable from "../../components/propertyReportTable";
 import { FaChevronLeft } from "react-icons/fa";
+import { BsCaretRightFill } from "react-icons/bs";
 
 const Properties: FC = function () {
   const { project_id }: any = useParams();
@@ -263,6 +264,11 @@ const Properties: FC = function () {
                 <option value="bulk">Bulk Upload</option>
               </select>
             </div>
+            {uploadType == "bulk" && (
+              <span className="text-blue-600">
+                DOWNLOAD PROPERTY TEMPLATE <BsCaretRightFill className="ml-2" />
+              </span>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
