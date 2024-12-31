@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
 // import { FaDownload } from "react-icons/fa";
@@ -341,6 +341,33 @@ const Dashboard: FC = function () {
 };
 
 const Defects = function ({ orgDashboard }: any) {
+  const [showOnly, setShowOnly] = useState("all");
+  // const getTotal = (value: any) => {
+  //   if (value == "properties") {
+  //     return orgDashboard.defectsByProperty.in_progress
+  //       ? orgDashboard.defectsByProperty.in_progress
+  //       : 0 + orgDashboard.defectsByProperty.resolved
+  //       ? orgDashboard.defectsByProperty.resolved
+  //       : 0 + orgDashboard.defectsByProperty.disputed
+  //       ? orgDashboard.defectsByProperty.disputed
+  //       : 0 + orgDashboard.defectsByProperty.pending
+  //       ? orgDashboard.defectsByProperty.pending
+  //       : 0;
+  //   }
+  //   return orgDashboard?.defectsByCommonArea.pending
+  //     ? orgDashboard?.defectsByCommonArea.pending
+  //     : 0 + orgDashboard?.defectsByCommonArea.in_progress
+  //     ? orgDashboard?.defectsByCommonArea.in_progress
+  //     : 0 + orgDashboard?.defectsByCommonArea.resolved
+  //     ? orgDashboard?.defectsByCommonArea.resolved
+  //     : 0 + orgDashboard?.defectsByCommonArea.disputed
+  //     ? orgDashboard?.defectsByCommonArea.disputed
+  //     : 0;
+  // };
+
+  // const getPercent = (value, total) => {
+  //   return value && value > 0 ? `${(value * 100) / total}%` : "0%";
+  // };
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -392,20 +419,31 @@ const Defects = function ({ orgDashboard }: any) {
           <span className="text-[14px]">Show only:</span>
           <div className="flex items-center gap-2">
             <Radio
-              id="united-state"
-              name="countries"
-              value="USA"
+              id="all"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
               defaultChecked
             />
             <Label htmlFor="united-state">All</Label>
           </div>
           <div className="flex items-center gap-2">
-            <Radio id="germany" name="countries" value="Germany" />
-            <Label htmlFor="germany">Properties</Label>
+            <Radio
+              id="properties"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
+            />
+            <Label htmlFor="properties">Properties</Label>
           </div>
           <div className="flex items-center gap-2">
-            <Radio id="germany" name="countries" value="Germany" />
-            <Label htmlFor="germany">Common Areas</Label>
+            <Radio
+              id="commonArea"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
+            />
+            <Label htmlFor="commonArea">Common Areas</Label>
           </div>
         </fieldset>
       </div>
@@ -417,24 +455,32 @@ const Defects = function ({ orgDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "35%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByProperty.pending}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{
+                    width: "95%",
+                  }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByProperty.pending}{" "}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "35%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByCommonArea.pending}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{
+                    width: "70%",
+                  }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByCommonArea.pending}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -444,24 +490,28 @@ const Defects = function ({ orgDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "50%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByProperty.in_progress}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "50%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByProperty.in_progress}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "80%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByCommonArea.in_progress}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "80%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByCommonArea.in_progress}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -471,24 +521,28 @@ const Defects = function ({ orgDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "85.5%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByProperty.resolved}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "85.5%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByProperty.resolved}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "40%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByCommonArea.resolved}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "40%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByCommonArea.resolved}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -498,24 +552,28 @@ const Defects = function ({ orgDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "10%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByProperty.disputed}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "10%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByProperty.disputed}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "15%" }}
-              >
-                {" "}
-                {orgDashboard?.defectsByCommonArea.disputed}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "15%" }}
+                >
+                  {" "}
+                  {orgDashboard?.defectsByCommonArea.disputed}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
       </ul>

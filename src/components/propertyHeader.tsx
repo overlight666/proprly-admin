@@ -9,12 +9,24 @@ import { Button, Label, Modal } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import type { ProjectState, TowerData } from "../types";
+import { getTowersReducer } from "../store/features/reducers";
 const PropertyHeader = function () {
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const { id, project_id }: any = useParams();
+  const dispatch = useDispatch();
+
+  const { projectTowers }: ProjectState = useSelector(
+    (state: any) => state.project
+  );
+
+  useEffect(() => {
+    dispatch(getTowersReducer(project_id));
+  }, []);
   // const { userData }: UserState = useSelector(
   //   (state: ReducerTypes) => state.user
   // );
@@ -28,34 +40,78 @@ const PropertyHeader = function () {
   };
 
   const generateTemplate = async () => {
+    const cols = projectTowers.map((t: TowerData) => {
+      return {
+        name: t.name,
+      };
+    });
+
+    const contents: any = projectTowers.map((t: TowerData) => {
+      return t.floorList;
+    });
+
+    const result: any = [];
+
+    const colValues = contents.map((value, index) => {
+      result.push(contents[index]);
+    });
+
+    console.log(result);
+
     const workbook = new excelJs.Workbook();
 
     const ws: any = workbook.addWorksheet("Test Worksheet");
 
-    const options1 = ["O1", "O2"];
+    const options1 = ["Pre-Settlement", "Handover", "Post-Handover"];
     const options2 = ["O3", "O4"];
     const options3 = ["O5", "O6"];
 
     // Add data to the worksheet
-    ws.addRow(["Name", "Latitude", "Parents", "Address", "Dog name"]);
+    ws.addRow([
+      "Lot No",
+      "Unit No",
+      "Property Status",
+      "Tower",
+      "Floor",
+      "Bedroom",
+      "Bathroom",
+      "Ensuite",
+      "Study Room",
+      "Storage",
+      "Parking Spaces",
+      "Internal Area(m2)",
+      "External Area(m2)",
+    ]);
 
     ws.columns.map((col, index) => (col.width = 18));
 
-    ws.dataValidations.add("A2:A99999", {
+    ws.dataValidations.add("C2:C99999", {
       type: "list",
       allowBlank: false,
       formulae: [`"${options1.join(",")}"`],
     });
 
+    ws.addTable({
+      name: "Towers",
+      ref: "O1",
+      headerRow: true,
+      totalsRow: true,
+      columns: cols,
+      rows: [
+        [new Date("2019-07-20")],
+        [new Date("2019-07-21")],
+        [new Date("2019-07-22")],
+      ],
+    });
     // ws.getCell("B2:B99999").value = {
     //   formula: 'IF(datasheet!A1<>"",datasheet!B1,"")',
     // };
 
-    ws.dataValidations.add("B2:B99999", {
-      type: "list",
-      allowBlank: false,
-      formulae: [`IF(A1="O1","${options2.join(",")}","${options3.join(",")}")`],
-    });
+    // ws.dataValidations.add("B2:B99999", {
+    //   type: "list",
+    //   allowBlank: false,
+    //   formulae: [`IF(A1="O1","${options2.join(",")}","${options3.join(",")}")`],
+    // });
 
     // ws.dataValidations.add("B2:B99999", {
     //   type: "list",
@@ -63,11 +119,11 @@ const PropertyHeader = function () {
     //   formulae: [`"${options2.join(",")}"`],
     // });
 
-    ws.dataValidations.add("C2:C99999", {
-      type: "list",
-      allowBlank: false,
-      formulae: [`"${options3.join(",")}"`],
-    });
+    // ws.dataValidations.add("C2:C99999", {
+    //   type: "list",
+    //   allowBlank: false,
+    //   formulae: [`"${options3.join(",")}"`],
+    // });
 
     ws.getRow(1).fill = {
       type: "pattern",
@@ -94,14 +150,14 @@ const PropertyHeader = function () {
       })
     );
 
-    const link = document.createElement("a");
-    link.href = excelUrl;
-    link.download = "herbert2.xlsx";
-    document.body.appendChild(link);
-    link.click();
+    // const link = document.createElement("a");
+    // link.href = excelUrl;
+    // link.download = "herbert2.xlsx";
+    // document.body.appendChild(link);
+    // link.click();
 
-    URL.revokeObjectURL(excelUrl);
-    document.body.removeChild(link);
+    // URL.revokeObjectURL(excelUrl);
+    // document.body.removeChild(link);
   };
 
   return (

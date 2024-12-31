@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
-import { useEffect, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
 
@@ -382,6 +382,7 @@ const Dashboard: FC = function () {
 };
 
 const Defects = function ({ projectDashboard }: any) {
+  const [showOnly, setShowOnly] = useState("all");
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -433,20 +434,31 @@ const Defects = function ({ projectDashboard }: any) {
           <span className="text-[14px]">Show only:</span>
           <div className="flex items-center gap-2">
             <Radio
-              id="united-state"
-              name="countries"
-              value="USA"
+              id="all"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
               defaultChecked
             />
             <Label htmlFor="united-state">All</Label>
           </div>
           <div className="flex items-center gap-2">
-            <Radio id="germany" name="countries" value="Germany" />
-            <Label htmlFor="germany">Properties</Label>
+            <Radio
+              id="properties"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
+            />
+            <Label htmlFor="properties">Properties</Label>
           </div>
           <div className="flex items-center gap-2">
-            <Radio id="germany" name="countries" value="Germany" />
-            <Label htmlFor="germany">Common Areas</Label>
+            <Radio
+              id="commonArea"
+              name="showOnly"
+              value={showOnly}
+              onChange={(e) => setShowOnly(e.target.id)}
+            />
+            <Label htmlFor="commonArea">Common Areas</Label>
           </div>
         </fieldset>
       </div>
@@ -458,24 +470,28 @@ const Defects = function ({ projectDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "35%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByProperty.pending}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "35%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByProperty.pending}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "35%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByCommonArea.pending}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "35%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByCommonArea.pending}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -485,24 +501,28 @@ const Defects = function ({ projectDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "50%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByProperty.in_progress}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "50%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByProperty.in_progress}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "80%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByCommonArea.in_progress}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "80%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByCommonArea.in_progress}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -512,24 +532,28 @@ const Defects = function ({ projectDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "85.5%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByProperty.resolved}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "85.5%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByProperty.resolved}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "40%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByCommonArea.resolved}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "40%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByCommonArea.resolved}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
         <li className="w-full items-center sm:flex">
@@ -539,24 +563,28 @@ const Defects = function ({ projectDashboard }: any) {
             </span>
           </div>
           <div className="flex w-full flex-col">
-            <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "10%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByProperty.disputed}
+            {(showOnly == "all" || showOnly == "properties") && (
+              <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "10%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByProperty.disputed}
+                </div>
               </div>
-            </div>
-            <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-              <div
-                className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                style={{ width: "15%" }}
-              >
-                {" "}
-                {projectDashboard?.defectsByCommonArea.disputed}
+            )}
+            {(showOnly == "all" || showOnly == "commonArea") && (
+              <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
+                <div
+                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                  style={{ width: "15%" }}
+                >
+                  {" "}
+                  {projectDashboard?.defectsByCommonArea.disputed}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </li>
       </ul>
