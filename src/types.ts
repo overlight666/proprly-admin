@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { leadRegistration, organizationRegistration } from "./apis";
 
 export interface OtpState {
@@ -74,8 +75,28 @@ export interface AppState {
   timeslotResponse: any | undefined;
   isCalendarView: boolean;
   openProjects: any[];
+  notifications: NotificationType[] | undefined;
+  notificationsCount: NotificationCountType | undefined;
+}
+export interface NotificationCountType {
+  count: number;
 }
 
+export interface NotificationType {
+  id: number;
+  title: string;
+  body: string;
+  data: NotificationDataType;
+  isRead: boolean;
+  forAdmin: boolean;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface NotificationDataType {
+  screen: string;
+  id: number;
+}
 export interface Timeslot {
   id: number;
   projectId: number;

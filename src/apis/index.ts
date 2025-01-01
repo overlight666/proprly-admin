@@ -734,3 +734,25 @@ export const getProjectDashboard = async (params: any) => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getNotifications = async () => {
+  return api
+    .get(`/notifications`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getNotificationsCount = async () => {
+  return api
+    .get(`/notifications/count`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

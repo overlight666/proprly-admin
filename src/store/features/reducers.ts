@@ -27,6 +27,8 @@ import {
   getConfig,
   getCountries,
   getDefectResolutionById,
+  getNotifications,
+  getNotificationsCount,
   getOneOrganization,
   getOneProject,
   getOrganizationDashboard,
@@ -799,6 +801,32 @@ export const getProjectDashboardReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await getProjectDashboard(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getNotificationsReducer: any = createAsyncThunk(
+  "getNotificationsReducer",
+  async () => {
+    try {
+      const response = await getNotifications();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getNotificationsCountReducer: any = createAsyncThunk(
+  "getNotificationsCountReducer",
+  async () => {
+    try {
+      const response = await getNotificationsCount();
       // If you want to get something back
       return response;
     } catch (err) {

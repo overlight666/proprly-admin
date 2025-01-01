@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useContext, type FC } from "react";
+import { useContext, useEffect, type FC } from "react";
 import {
   Avatar,
   DarkThemeToggle,
@@ -32,9 +34,14 @@ import { AuthContext } from "../hooks/authProvider";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/features/userSlice";
-import type { UserState } from "../types";
+import type { AppState, ReducerTypes, UserState } from "../types";
 import userImage from "../../public/images/users/neil-sims.png";
 import { clearConfig } from "../store/features/appSlice";
+import {
+  getNotificationsCountReducer,
+  getNotificationsReducer,
+} from "../store/features/reducers";
+import moment from "moment";
 
 const ExampleNavbar: FC = function () {
   const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -104,14 +111,29 @@ const ExampleNavbar: FC = function () {
 };
 
 const NotificationBellDropdown: FC = function () {
+  const { notifications, notificationsCount }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getNotificationsCountReducer());
+    dispatch(getNotificationsReducer());
+  }, []);
+
+  console.log(notifications, notificationsCount);
   return (
     <Dropdown
       arrowIcon={false}
       inline
       label={
-        <span className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <span className="relative rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700">
           <span className="sr-only">Notifications</span>
-          <HiBell className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white " />
+          {notificationsCount && notificationsCount?.count > 0 && (
+            <div className="absolute right-0 top-1 h-3 w-3 rounded-full bg-[red]"></div>
+          )}
+          <HiBell className="relative text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
         </span>
       }
     >
@@ -120,34 +142,34 @@ const NotificationBellDropdown: FC = function () {
           Notifications
         </div>
         <div>
-          <a
-            href="#"
-            className="flex border-y px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
-          >
-            <div className="shrink-0">
-              <img
-                alt=""
-                src="../images/users/bonnie-green.png"
-                className="h-11 w-11 rounded-full"
-              />
-              <div className="absolute -mt-5 ml-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-primary-700 dark:border-gray-700">
-                <NewMessageIcon />
-              </div>
-            </div>
-            <div className="w-full pl-3">
-              <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                New message from&nbsp;
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  Bonnie Green
-                </span>
-                : "Hey, what's up? All set for the presentation?"
-              </div>
-              <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
-                a few moments ago
-              </div>
-            </div>
-          </a>
-          <a
+          {notifications &&
+            notifications.length > 0 &&
+            notifications.map((notif, index) => {
+              if (index < 4) {
+                return (
+                  <a
+                    key={index}
+                    href="#"
+                    className="flex border-y px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
+                  >
+                    <div className="w-full pl-3">
+                      <span className="font-semibold text-gray-900 dark:text-white">
+                        {notif.body}
+                      </span>
+                      <br />
+                      <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
+                        {notif.title}
+                      </div>
+                      <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
+                        {moment(notif.createdAt, "YYYYMMDD").fromNow()}
+                      </div>
+                    </div>
+                  </a>
+                );
+              }
+            })}
+
+          {/* <a
             href="#"
             className="flex border-b px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
           >
@@ -176,94 +198,7 @@ const NotificationBellDropdown: FC = function () {
                 10 minutes ago
               </div>
             </div>
-          </a>
-          <a
-            href="#"
-            className="flex border-b px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
-          >
-            <div className="shrink-0">
-              <img
-                alt=""
-                src="../images/users/joseph-mcfall.png"
-                className="h-11 w-11 rounded-full"
-              />
-              <div className="absolute -mt-5 ml-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-red-600 dark:border-gray-700">
-                <NewLoveIcon />
-              </div>
-            </div>
-            <div className="w-full pl-3">
-              <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  Joseph Mcfall
-                </span>
-                &nbsp;and&nbsp;
-                <span className="font-medium text-gray-900 dark:text-white">
-                  141 others
-                </span>
-                &nbsp;love your story. See it and view more stories.
-              </div>
-              <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
-                44 minutes ago
-              </div>
-            </div>
-          </a>
-          <a
-            href="#"
-            className="flex border-b px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
-          >
-            <div className="shrink-0">
-              <img
-                alt=""
-                src="../images/users/leslie-livingston.png"
-                className="h-11 w-11 rounded-full"
-              />
-              <div className="absolute -mt-5 ml-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-green-400 dark:border-gray-700">
-                <NewMentionIcon />
-              </div>
-            </div>
-            <div className="w-full pl-3">
-              <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  Leslie Livingston
-                </span>
-                &nbsp;mentioned you in a comment:&nbsp;
-                <span className="font-medium text-primary-700 dark:text-primary-500">
-                  @bonnie.green
-                </span>
-                &nbsp;what do you say?
-              </div>
-              <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
-                1 hour ago
-              </div>
-            </div>
-          </a>
-          <a
-            href="#"
-            className="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600"
-          >
-            <div className="shrink-0">
-              <img
-                alt=""
-                src="../images/users/robert-brown.png"
-                className="h-11 w-11 rounded-full"
-              />
-              <div className="absolute -mt-5 ml-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-purple-500 dark:border-gray-700">
-                <NewVideoIcon />
-              </div>
-            </div>
-            <div className="w-full pl-3">
-              <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-semibold text-gray-900 dark:text-white">
-                  Robert Brown
-                </span>
-                &nbsp;posted a new video: Glassmorphism - learn how to implement
-                the new design trend.
-              </div>
-              <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
-                3 hours ago
-              </div>
-            </div>
-          </a>
+          </a> */}
         </div>
         <a
           href="#"

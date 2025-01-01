@@ -6,6 +6,8 @@ import {
   getAllCountries,
   getAllRegions,
   getGlobalConfig,
+  getNotificationsCountReducer,
+  getNotificationsReducer,
   getTimeSlotByProjectReducer,
   listUserByRoleReducer,
   updateTimeSlotsReducer,
@@ -32,6 +34,8 @@ const initialState: AppState = {
   timeslotResponse: undefined,
   isCalendarView: true,
   openProjects: [],
+  notifications: undefined,
+  notificationsCount: undefined,
 };
 
 const mapDays = {
@@ -183,6 +187,32 @@ export const appSlice = createSlice({
     });
     builder.addCase(updateTimeSlotsReducer.rejected, (state) => {
       state.timeslotResponse = undefined;
+    });
+    //get notifications
+    builder.addCase(getNotificationsReducer.pending, (state) => {
+      state.notifications = undefined;
+    });
+    builder.addCase(getNotificationsReducer.fulfilled, (state, action) => {
+      state.notifications =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getNotificationsReducer.rejected, (state) => {
+      state.notifications = undefined;
+    });
+    //get notifications count
+    builder.addCase(getNotificationsCountReducer.pending, (state) => {
+      state.notificationsCount = undefined;
+    });
+    builder.addCase(getNotificationsCountReducer.fulfilled, (state, action) => {
+      state.notificationsCount =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getNotificationsCountReducer.rejected, (state) => {
+      state.notificationsCount = undefined;
     });
   },
 });
