@@ -122,7 +122,6 @@ const NotificationBellDropdown: FC = function () {
     dispatch(getNotificationsReducer());
   }, []);
 
-  console.log(notifications, notificationsCount);
   return (
     <Dropdown
       arrowIcon={false}
