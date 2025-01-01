@@ -42,6 +42,23 @@ const PropertyTable = function ({ properties }) {
     }
   }, [properties]);
 
+  const getStatus = (value) => {
+    let val = "";
+    try {
+      val =
+        value &&
+        value
+          .replace("_", " ")
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+          });
+    } catch (error) {
+      val = "";
+    }
+    return val;
+  };
+
   return (
     <table
       id="organization-property-table"
@@ -71,10 +88,10 @@ const PropertyTable = function ({ properties }) {
             OWNER NAME
           </th>
           <th scope="col" className="px-6 py-3">
-            TOWER
+            PROPERTY STATUS
           </th>
           <th scope="col" className="px-6 py-3">
-            FLOOR
+            LOCATION
           </th>
           <th scope="col" className="px-6 py-3">
             WARRANTY STATUS
@@ -123,14 +140,17 @@ const PropertyTable = function ({ properties }) {
                       .join(", ")}
                 </th>
                 <th className="px-6 py-4">
-                  {props.projectTower && props.projectTower.name}
+                  {props.status && getStatus(props.status)}
                 </th>
                 <th className="px-6 py-4">
-                  {props.projectTower &&
+                  {`${props.projectTower && props.projectTower.name}, ${
+                    props.projectTower &&
                     props.projectTower.floorList.find(
                       (f) => f.key == props.floor
-                    )?.value}
+                    )?.value
+                  }`}
                 </th>
+
                 <th className="px-6 py-4">
                   <div
                     className={`flex w-auto items-center justify-center rounded-md border border-transparent  px-2.5 py-0.5 text-sm  shadow-sm transition-all ${
@@ -166,8 +186,11 @@ const PropertyTable = function ({ properties }) {
                         );
                       }}
                     >
-                      View
+                      Edit
                     </Dropdown.Item>
+                    <Dropdown.Item>Export Property Report</Dropdown.Item>
+                    <Dropdown.Item>Report History</Dropdown.Item>
+                    <Dropdown.Item>Export Logbook</Dropdown.Item>
                   </Dropdown>
                 </td>
               </tr>

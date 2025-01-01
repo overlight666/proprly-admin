@@ -89,6 +89,17 @@ const PropertyReportTable = function ({ headerValue }: any) {
                   ? "Report History"
                   : "Trade Reports"}
               </Dropdown.Item>
+              {row[3] === "general" ||
+                (row[3] === "post_handover" && (
+                  <Dropdown.Item
+                    as="a"
+                    href={row[4]}
+                    target="_blank"
+                    download={`Unit_${row[0]}_Lot_${row[1]}_${row[3]}.pdf`}
+                  >
+                    Export Full Report
+                  </Dropdown.Item>
+                ))}
             </Dropdown>
           ),
         }}
