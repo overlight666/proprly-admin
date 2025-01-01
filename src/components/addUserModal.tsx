@@ -17,6 +17,19 @@ const AddUserModal = function ({
         <Modal.Header>{title}</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
+            {title == "Add Sub-Contractor" && (
+              <div className="grid grid-cols-1 gap-y-2">
+                <Label htmlFor="name">Select Trade Category</Label>
+                <select
+                  id="trade_category"
+                  name="trade_category"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                >
+                  <option value="property">Property</option>
+                  <option value="common_area">Common Area</option>
+                </select>
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-y-2">
               <Label htmlFor="name">Full Name</Label>
               <TextInput
