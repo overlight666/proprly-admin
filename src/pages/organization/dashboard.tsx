@@ -6,15 +6,13 @@ import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
 import { BsListTask } from "react-icons/bs";
 // import { FaDownload } from "react-icons/fa";
-import {
-  HiArrowNarrowRight,
-  HiCalendar,
-  HiDotsHorizontal,
-} from "react-icons/hi";
+import { HiCalendar, HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrganizationDashboardReducer } from "../../store/features/reducers";
 import { useParams } from "react-router";
-import type { OrgState, ReducerTypes } from "../../types";
+import type { AppState, OrgState, ReducerTypes } from "../../types";
+import moment from "moment";
+import { MdBrokenImage } from "react-icons/md";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
@@ -22,6 +20,16 @@ const Dashboard: FC = function () {
   const { orgDashboard }: OrgState = useSelector(
     (state: ReducerTypes) => state.organization
   );
+
+  const { notifications }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
+
+  const nl2br = (str, replaceMode, isXhtml) => {
+    const breakTag = isXhtml ? "<br />" : "<br>";
+    const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";
+    return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+  };
 
   useEffect(() => {
     dispatch(getOrganizationDashboardReducer(id));
@@ -213,50 +221,52 @@ const Dashboard: FC = function () {
             <h3 className="my-5 text-xl font-bold leading-none text-gray-900 dark:text-white">
               Timeline
             </h3>
-            <Timeline>
-              <Timeline.Item>
-                <Timeline.Point icon={HiCalendar} />
-                <Timeline.Content>
-                  <Timeline.Time>February 2022</Timeline.Time>
-                  <Timeline.Title>
-                    Application UI code in Tailwind CSS
-                  </Timeline.Title>
-                  <Timeline.Body>
-                    Get access to over 20+ pages including a dashboard layout,
-                    charts, kanban board, calendar, and pre-order E-commerce &
-                    Marketing pages.
-                  </Timeline.Body>
-                  <Button color="gray">
-                    Learn More
-                    <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                  </Button>
-                </Timeline.Content>
-              </Timeline.Item>
-              <Timeline.Item>
-                <Timeline.Point icon={HiCalendar} />
-                <Timeline.Content>
-                  <Timeline.Time>March 2022</Timeline.Time>
-                  <Timeline.Title>Marketing UI design in Figma</Timeline.Title>
-                  <Timeline.Body>
-                    All of the pages and components are first designed in Figma
-                    and we keep a parity between the two versions even as we
-                    update the project.
-                  </Timeline.Body>
-                </Timeline.Content>
-              </Timeline.Item>
-              <Timeline.Item>
-                <Timeline.Point icon={HiCalendar} />
-                <Timeline.Content>
-                  <Timeline.Time>April 2022</Timeline.Time>
-                  <Timeline.Title>
-                    E-Commerce UI code in Tailwind CSS
-                  </Timeline.Title>
-                  <Timeline.Body>
-                    Get started with dozens of web components and interactive
-                    elements built on top of Tailwind CSS.
-                  </Timeline.Body>
-                </Timeline.Content>
-              </Timeline.Item>
+            <Timeline className="max-h-[500px] overflow-auto">
+              {notifications &&
+                notifications.length > 0 &&
+                notifications.map((notif, index) => {
+                  return (
+                    <Timeline.Item key={index}>
+                      <Timeline.Point icon={HiCalendar} />
+                      <Timeline.Content>
+                        <Timeline.Time>
+                          <div className="font-semibold text-gray-900 dark:text-white">
+                            {notif.title}
+                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
+                              {moment(notif.createdAt, "YYYYMMDD").fromNow()}
+                            </div>
+                          </div>
+                        </Timeline.Time>
+                        <Timeline.Title>
+                          <span
+                            className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
+                            dangerouslySetInnerHTML={{
+                              __html: nl2br(notif.body, true, true),
+                            }}
+                          ></span>
+                        </Timeline.Title>
+                        <Timeline.Body>
+                          <div className="text-sm">
+                            <span className="text-primary-700">
+                              Date:{" "}
+                              <span className="text-gray-600">
+                                {" "}
+                                {moment(
+                                  notif.createdAt,
+                                  "YYYY-MM-DD h:mm:ss a"
+                                ).format("MMM Do, YYYY h:mm:ss a")}
+                              </span>
+                            </span>
+                          </div>
+                        </Timeline.Body>
+                        <Button color="gray">
+                          <MdBrokenImage className="mr-2 h-3 w-3" />
+                          Needs Action
+                        </Button>
+                      </Timeline.Content>
+                    </Timeline.Item>
+                  );
+                })}
             </Timeline>
           </div>
           <Defects orgDashboard={orgDashboard} />
