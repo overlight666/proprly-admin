@@ -12,7 +12,7 @@ import { getOrganizationDashboardReducer } from "../../store/features/reducers";
 import { useParams } from "react-router";
 import type { AppState, OrgState, ReducerTypes } from "../../types";
 import moment from "moment";
-import { MdBrokenImage } from "react-icons/md";
+// import { MdBrokenImage } from "react-icons/md";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
@@ -259,10 +259,10 @@ const Dashboard: FC = function () {
                             </span>
                           </div>
                         </Timeline.Body>
-                        <Button color="gray">
+                        {/* <Button color="gray">
                           <MdBrokenImage className="mr-2 h-3 w-3" />
                           Needs Action
-                        </Button>
+                        </Button> */}
                       </Timeline.Content>
                     </Timeline.Item>
                   );

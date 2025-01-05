@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getProjectDashboardReducer } from "../../store/features/reducers";
 import type { AppState, ProjectState, ReducerTypes } from "../../types";
-import { MdBrokenImage } from "react-icons/md";
+// import { MdBrokenImage } from "react-icons/md";
 import moment from "moment";
 
 const Dashboard: FC = function () {
@@ -298,10 +298,10 @@ const Dashboard: FC = function () {
                             </span>
                           </div>
                         </Timeline.Body>
-                        <Button color="gray">
+                        {/* <Button color="gray">
                           <MdBrokenImage className="mr-2 h-3 w-3" />
                           Needs Action
-                        </Button>
+                        </Button> */}
                       </Timeline.Content>
                     </Timeline.Item>
                   );
