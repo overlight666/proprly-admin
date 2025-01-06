@@ -381,14 +381,16 @@ const PropertyHeader = function () {
                 <Table>
                   <Table.Head>
                     {Object.keys(excelData[0]).map((key) => (
-                      <Table.HeadCell key={key}>{key}</Table.HeadCell>
+                      <Table.HeadCell key={key} className="whitespace-nowrap">
+                        {key}
+                      </Table.HeadCell>
                     ))}
                   </Table.Head>
                   <Table.Body className="divide-y">
                     {excelData.map((individualExcelData, index) => (
                       <Table.Row
                         key={index}
-                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                        className="whitespace-nowrap bg-white dark:border-gray-700 dark:bg-gray-800"
                       >
                         {Object.keys(individualExcelData).map((key) => (
                           <Table.Cell key={key} className="whitespace-nowrap">
