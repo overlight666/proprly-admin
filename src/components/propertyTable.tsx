@@ -159,10 +159,12 @@ const PropertyTable = function ({ properties }) {
                         ? "bg-red-100 text-red-800"
                         : props.warrantyStatus == "rejected"
                         ? "bg-red-100 text-red-800"
+                        : props.warrantyStatus == "in_progress"
+                        ? "bg-yellow-100 text-yellow-800"
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {props.warrantyStatus && props.warrantyStatus.toUpperCase()}
+                    {props.warrantyStatus && getStatus(props.warrantyStatus)}
                   </div>
                 </th>
 
