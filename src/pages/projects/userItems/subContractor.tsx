@@ -165,6 +165,9 @@ export default function SubContractor() {
               <th scope="col" className="px-6 py-3">
                 EMAIL ADDRESS
               </th>
+              <th scope="col" className="px-6 py-3">
+                TRADE CATEGORY
+              </th>
               <th scope="col" className="px-6 py-3"></th>
             </tr>
           </thead>
@@ -185,6 +188,7 @@ export default function SubContractor() {
                     </th>
                     <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
+                    <td className="px-6 py-4"></td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">
                         <div className="flex items-center gap-x-2 text-xs">
