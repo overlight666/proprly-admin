@@ -5,10 +5,10 @@
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
 import * as excelJs from "exceljs";
-import { Button, Label, Modal } from "flowbite-react";
+import { Button, FileInput, Label, Modal, Table } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
-
+import * as XLSX from "xlsx";
 import { useEffect, useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,11 +19,17 @@ import type {
   TowerData,
 } from "../types";
 import { getTowersReducer } from "../store/features/reducers";
+import { toast } from "react-toastify";
+
 const PropertyHeader = function () {
   const [openModal, setOpenModal] = useState(false);
+  const [excelModal, setOpenExcelModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const { id, project_id }: any = useParams();
   const dispatch = useDispatch();
+
+  // submit state
+  const [excelData, setExcelData] = useState<any>(null);
 
   const { projectTowers, selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
@@ -218,6 +224,34 @@ const PropertyHeader = function () {
     document.body.removeChild(link);
   };
 
+  const handleUpload = (event) => {
+    const fileTypes = [
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "text/csv",
+    ];
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      if (selectedFile && fileTypes.includes(selectedFile.type)) {
+        const reader = new FileReader();
+        reader.onload = async (e: any) => {
+          const workbook = XLSX.read(e.target.result, { type: "buffer" });
+          const worksheetName: any = workbook.SheetNames[0];
+          const worksheet: any = workbook.Sheets[worksheetName];
+          const data = XLSX.utils.sheet_to_json(worksheet);
+          console.log(data, worksheetName, worksheet);
+          setExcelData(data.slice(0, 10));
+          setOpenExcelModal(true);
+        };
+        reader.readAsArrayBuffer(selectedFile);
+      } else {
+        toast.error("Please select only excel file types");
+      }
+    } else {
+      toast.error("Please select your file");
+    }
+  };
+
   return (
     <>
       <div className="mb-10 mt-5 grid w-full grid-cols-9 gap-2">
@@ -309,41 +343,77 @@ const PropertyHeader = function () {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => uploadProperty()}>Submit</Button>
+            {uploadType != "bulk" ? (
+              <Button onClick={() => uploadProperty()}>Submit</Button>
+            ) : (
+              <div>
+                <Label
+                  htmlFor="dropzone-file"
+                  className="flex cursor-pointer rounded-md bg-blue-600 p-2.5 text-white"
+                >
+                  Upload & Preview
+                  <FileInput
+                    onChange={(e) => {
+                      handleUpload(e);
+                    }}
+                    id="dropzone-file"
+                    className="hidden"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  />
+                </Label>
+              </div>
+            )}
+
             <Button color="gray" onClick={() => setOpenModal(false)}>
               Cancel
             </Button>
           </Modal.Footer>
         </Modal>
+        <Modal
+          show={excelModal}
+          onClose={() => setOpenExcelModal(false)}
+          size="7xl"
+        >
+          <Modal.Header>Preview</Modal.Header>
+          <Modal.Body>
+            {excelData && excelData.length > 0 ? (
+              <div className="flex overflow-auto">
+                <Table>
+                  <Table.Head>
+                    {Object.keys(excelData[0]).map((key) => (
+                      <Table.HeadCell key={key}>{key}</Table.HeadCell>
+                    ))}
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {excelData.map((individualExcelData, index) => (
+                      <Table.Row
+                        key={index}
+                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                      >
+                        {Object.keys(individualExcelData).map((key) => (
+                          <Table.Cell key={key} className="whitespace-nowrap">
+                            {individualExcelData[key]}
+                          </Table.Cell>
+                        ))}
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </div>
+            ) : (
+              <div>
+                No File is uploaded yet or no data is present from the file
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button>Upload</Button>
+            <Button color="gray" onClick={() => setOpenExcelModal(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
-      {/* <fieldset className="my-5 flex flex-row items-center gap-4">
-        <span className="text-[14px]">Show only:</span>
-        <div className="flex items-center gap-2">
-          <Radio
-            id="united-state"
-            name="countries"
-            value="USA"
-            defaultChecked
-          />
-          <Label htmlFor="united-state">All</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="germany" name="countries" value="Germany" />
-          <Label htmlFor="germany">Under Construction</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Pre-Settlement</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Handover</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain">Post-Pandover</Label>
-        </div>
-      </fieldset> */}
     </>
   );
 };
