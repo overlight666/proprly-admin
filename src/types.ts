@@ -78,6 +78,23 @@ export interface AppState {
   notifications: NotificationType[] | undefined;
   notificationsCount: NotificationCountType | undefined;
 }
+
+export interface ExcelData {
+  Bathroom: number;
+  Bedroom: number;
+  Ensuite: number;
+  "External Area(m2)": number;
+  Floor: string;
+  "Internal Area(m2)": number;
+  "Lot No": number;
+  "Parking Spaces": number;
+  "Property Status": string;
+  Storage: number;
+  "Study Room": number;
+  Tower: string;
+  "Unit No": number;
+}
+
 export interface NotificationCountType {
   count: number;
 }

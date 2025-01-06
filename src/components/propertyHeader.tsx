@@ -13,12 +13,13 @@ import { useEffect, useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import type {
+  ExcelData,
   OrgState,
   ProjectState,
   PropertyState,
   TowerData,
 } from "../types";
-import { getTowersReducer } from "../store/features/reducers";
+import { getTowersReducer, registerProperty } from "../store/features/reducers";
 import { toast } from "react-toastify";
 
 const PropertyHeader = function () {
@@ -27,7 +28,7 @@ const PropertyHeader = function () {
   const [uploadType, setUploadType] = useState("single");
   const { id, project_id }: any = useParams();
   const dispatch = useDispatch();
-
+  const [isValidTemplate, setIsValidTemplate] = useState(true);
   // submit state
   const [excelData, setExcelData] = useState<any>(null);
 
@@ -224,6 +225,42 @@ const PropertyHeader = function () {
     document.body.removeChild(link);
   };
 
+  const validateData = (data: ExcelData[]) => {
+    const validTowers: any = [];
+    const validFloors: any = [];
+    data &&
+      data.map((e: ExcelData) => {
+        const validTower = projectTowers.find(
+          (t) => t.name == e.Tower.replace(/_/g, " ")
+        );
+
+        if (validTower) {
+          validTowers.push(true);
+          const validFloor =
+            validTower &&
+            validTower.floorList &&
+            validTower.floorList.find((f) => f.value == e.Floor);
+          if (validFloor) {
+            validFloors.push(true);
+          } else {
+            validFloors.push(false);
+          }
+        } else {
+          validTowers.push(false);
+        }
+      });
+    if (
+      validTowers.filter((e) => e == false).length > 0 ||
+      validFloors.filter((f) => f == false).length > 0
+    ) {
+      setIsValidTemplate(false);
+      toast.error("The template you uploaded did not match for this property.");
+    } else {
+      setExcelData(data);
+      setOpenExcelModal(true);
+    }
+  };
+
   const handleUpload = (event) => {
     const fileTypes = [
       "application/vnd.ms-excel",
@@ -238,10 +275,8 @@ const PropertyHeader = function () {
           const workbook = XLSX.read(e.target.result, { type: "buffer" });
           const worksheetName: any = workbook.SheetNames[0];
           const worksheet: any = workbook.Sheets[worksheetName];
-          const data = XLSX.utils.sheet_to_json(worksheet);
-          console.log(data, worksheetName, worksheet);
-          setExcelData(data.slice(0, 10));
-          setOpenExcelModal(true);
+          const data: any = XLSX.utils.sheet_to_json(worksheet);
+          validateData(data.slice(0, 10));
         };
         reader.readAsArrayBuffer(selectedFile);
       } else {
@@ -250,6 +285,47 @@ const PropertyHeader = function () {
     } else {
       toast.error("Please select your file");
     }
+  };
+
+  const convertStatus = (status) => {
+    return status.toLowerCase().replace("-", "_");
+  };
+
+  const uploadBulkProperties = () => {
+    excelData &&
+      excelData.length &&
+      excelData.map((d: ExcelData) => {
+        const tower = projectTowers.find(
+          (t) => t.name == d.Tower.replace(/_/g, " ")
+        );
+        const floor =
+          tower &&
+          tower.floorList &&
+          tower.floorList.find((f) => f.value == d.Floor);
+        const params = {
+          projectId: selectedProject?.id,
+          projectTowerId: tower?.id,
+          lotNo: d["Lot No"] ? d["Lot No"] : 0,
+          floor: floor?.key,
+          unitNo: d["Unit No"],
+          bedroom: d.Bedroom ? d.Bedroom : 0,
+          bathroom: d.Bathroom ? d.Bathroom : 0,
+          ensuite: d.Ensuite ? d.Ensuite : 0,
+          studyRoom: d["Study Room"] ? d["Study Room"] : 0,
+          storage: d.Storage ? d.Storage : 0,
+          parkingSpaces: d["Parking Spaces"] ? d["Parking Spaces"] : 0,
+          internalArea: d["Internal Area(m2)"] ? d["Internal Area(m2)"] : 0,
+          externalArea: d["External Area(m2)"] ? d["External Area(m2)"] : 0,
+          status: convertStatus(d["Property Status"]),
+        };
+        dispatch(registerProperty(params));
+      });
+    setExcelData([]);
+    setOpenExcelModal(false);
+    toast.info("New properties has been added");
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 
   return (
@@ -404,12 +480,14 @@ const PropertyHeader = function () {
               </div>
             ) : (
               <div>
-                No File is uploaded yet or no data is present from the file
+                {isValidTemplate
+                  ? "No File is uploaded yet or no data is present from the file"
+                  : "Please upload a valid template"}
               </div>
             )}
           </Modal.Body>
           <Modal.Footer>
-            <Button>Upload</Button>
+            <Button onClick={() => uploadBulkProperties()}>Upload</Button>
             <Button color="gray" onClick={() => setOpenExcelModal(false)}>
               Cancel
             </Button>
