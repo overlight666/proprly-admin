@@ -91,7 +91,7 @@ const Appointments: FC = function () {
     if (document.getElementById("highlight")) {
       document
         .getElementById("highlight")
-        ?.parentElement?.parentElement?.classList.add("bg-orage-100");
+        ?.parentElement?.parentElement?.classList.add("bg-orange-100");
     }
   });
 
