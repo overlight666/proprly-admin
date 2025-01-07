@@ -155,7 +155,11 @@ export const RescheduleAppointmentModal = function (props: any) {
     <>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
         <Modal.Header>
-          <strong>Re-Schedule Appointment</strong>
+          <strong>
+            {appointmentData?.status == "canceled"
+              ? "View Cancelled"
+              : "Re-Schedule Appointment"}
+          </strong>
         </Modal.Header>
         <Modal.Body>
           <div className="max-h-[600px] space-y-6">
@@ -213,6 +217,7 @@ export const RescheduleAppointmentModal = function (props: any) {
                 Appointment Date <span className="text-[red]">*</span>
               </Label>
               <Datepicker
+                disabled={appointmentData?.status == "canceled"}
                 value={appointmentDate}
                 onSelectedDateChanged={(e) =>
                   setAppointmentDate(
@@ -231,6 +236,7 @@ export const RescheduleAppointmentModal = function (props: any) {
                 Appointment Time Slot <span className="text-[red]">*</span>
               </Label>
               <select
+                disabled={appointmentData?.status == "canceled"}
                 id="timeslot"
                 name="timeslot"
                 value={selectedTimeSlot}
@@ -278,33 +284,36 @@ export const RescheduleAppointmentModal = function (props: any) {
                 placeholder="auditor"
               />
             </div>
-            <div
-              className="flex cursor-pointer items-center gap-2 pb-5 text-red-600"
-              onClick={() => {
-                setConfirmModal(true);
-              }}
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 10 10"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {appointmentData?.status != "canceled" && (
+              <div
+                className="flex cursor-pointer items-center gap-2 pb-5 text-red-600"
+                onClick={() => {
+                  setConfirmModal(true);
+                }}
               >
-                <path
-                  d="M10 1.00714L8.99286 0L5 3.99286L1.00714 0L0 1.00714L3.99286 5L0 8.99286L1.00714 10L5 6.00714L8.99286 10L10 8.99286L6.00714 5L10 1.00714Z"
-                  fill="#E02424"
-                />
-              </svg>
-              <span className="text-[14px] font-medium">
-                CANCEL APPOINTMENT
-              </span>
-            </div>
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10 1.00714L8.99286 0L5 3.99286L1.00714 0L0 1.00714L3.99286 5L0 8.99286L1.00714 10L5 6.00714L8.99286 10L10 8.99286L6.00714 5L10 1.00714Z"
+                    fill="#E02424"
+                  />
+                </svg>
+                <span className="text-[14px] font-medium">
+                  CANCEL APPOINTMENT
+                </span>
+              </div>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
           <div className="flex items-center gap-x-3">
             <Button
+              disabled={appointmentData?.status == "canceled"}
               color="primary"
               onClick={() => {
                 rescheduleAppointment();
