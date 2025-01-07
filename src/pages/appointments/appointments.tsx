@@ -645,11 +645,22 @@ const AppointmentCard = function ({
 
   return (
     <div
-      className="flex h-[150px] w-[25%] cursor-pointer flex-col rounded-md p-3 shadow-md"
+      className="relative flex h-[150px] w-[25%] cursor-pointer flex-col rounded-md p-3 shadow-md"
       onClick={() => {
         thisClick(thisEvent);
       }}
     >
+      <span
+        className={`absolute right-1 top-2 text-[14px] ${
+          thisEvent.status == "booked"
+            ? "text-blue-600"
+            : thisEvent.status == "canceled"
+            ? "text-red-600"
+            : "text-green-600"
+        }`}
+      >
+        {getStatus(thisEvent.status)}
+      </span>
       <span className="text-[16px] font-medium">
         {thisEvent && thisEvent.type == "inspection"
           ? "Inspection Appontment"

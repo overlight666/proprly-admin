@@ -366,7 +366,7 @@ const PropertyHeader = function () {
               Bulk Upload Warranty
             </div>
           </Button>
-          <Button
+          {/* <Button
             // onClick={() => gotoPage("/organization/new")}
             className="mx-1 "
             color="gray"
@@ -374,7 +374,7 @@ const PropertyHeader = function () {
             <div className="flex items-center gap-x-2 text-xs text-[blue]">
               Bulk Import
             </div>
-          </Button>
+          </Button> */}
         </div>
         <Button
           onClick={() => {

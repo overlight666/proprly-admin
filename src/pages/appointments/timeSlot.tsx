@@ -186,7 +186,7 @@ const TimeSlots: FC = function () {
         : []
     );
   };
-  console.log(daySelected2);
+
   return (
     <div className="w-full flex-col gap-2">
       {timeslot &&
