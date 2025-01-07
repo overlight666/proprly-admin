@@ -267,7 +267,7 @@ export const RescheduleAppointmentModal = function (props: any) {
                 disabled
               />
             </div>
-            <div className="grid grid-cols-1 gap-y-2 ">
+            <div className="grid grid-cols-1 gap-y-2 pb-2">
               <Label htmlFor="organization">
                 Auditor
                 <span className="text-[red]">*</span>
@@ -311,28 +311,29 @@ export const RescheduleAppointmentModal = function (props: any) {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <div className="flex items-center gap-x-3">
-            <Button
-              disabled={appointmentData?.status == "canceled"}
-              color="primary"
-              onClick={() => {
-                rescheduleAppointment();
-              }}
-              //   disabled={isProcess}
-            >
-              {/* {isProcess && (
+          {appointmentData?.status != "canceled" && (
+            <div className="flex items-center gap-x-3">
+              <Button
+                color="primary"
+                onClick={() => {
+                  rescheduleAppointment();
+                }}
+                //   disabled={isProcess}
+              >
+                {/* {isProcess && (
                 <Spinner
                   aria-label="Alternate spinner button example"
                   size="sm"
                   color="success"
                 />
               )} */}
-              <div className="flex items-center gap-x-2">Submit</div>
-            </Button>
-            <Button color="gray" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-          </div>
+                <div className="flex items-center gap-x-2">Submit</div>
+              </Button>
+              <Button color="gray" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+            </div>
+          )}
         </Modal.Footer>
       </Modal>
       <ConfirmModal
