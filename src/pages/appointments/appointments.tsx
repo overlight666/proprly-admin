@@ -88,6 +88,14 @@ const Appointments: FC = function () {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (document.getElementById("highlight")) {
+      document
+        .getElementById("highlight")
+        ?.parentElement?.parentElement?.classList.add("bg-orage-100");
+    }
+  });
+
+  useEffect(() => {
     dispatch(getProperties(selectedProject?.id));
     dispatch(getProjectAppointmentsReducer(project_id));
     dispatch(getTimeSlotByProjectReducer(project_id));
@@ -294,56 +302,75 @@ const Appointments: FC = function () {
                   <MonthlyBody
                     events={
                       filterBy == "all"
-                        ? events
+                        ? [
+                            ...events,
+                            {
+                              title: "highlight",
+                              date: new Date(
+                                moment(
+                                  new Date(),
+                                  "YYYY-MM-DD h:mm a"
+                                ).toString()
+                              ),
+                            },
+                          ]
                         : events.filter((e) => e.status == filterBy)
                     }
                   >
                     <MonthlyDay<EventType>
-                      renderDay={(data) => {
+                      renderDay={(data: any) => {
                         return (
-                          <div className="flex flex-col gap-1">
-                            {data.map(
-                              (item: any, index) =>
-                                index <= 2 && (
-                                  <div
-                                    key={index}
-                                    className={`flex cursor-pointer items-center gap-2 rounded-full ${
-                                      item && item.status == "booked"
-                                        ? "bg-blue-100"
-                                        : item && item.status == "canceled"
-                                        ? "bg-red-100"
-                                        : "bg-green-100"
-                                    } p-1 px-3`}
-                                    onClick={() => {
-                                      setAppointmentData(item);
-                                      setRescheduleModal(true);
-                                    }}
-                                  >
+                          <div
+                            className="flex flex-col gap-1"
+                            id={
+                              data.find((e: any) => e.title == "highlight")
+                                ?.title
+                            }
+                          >
+                            {data
+                              .filter((e: any) => e.title !== "highlight")
+                              .map(
+                                (item: any, index) =>
+                                  index <= 2 && (
                                     <div
-                                      className={`h-2 w-2 rounded-full ${
+                                      key={index}
+                                      className={`flex cursor-pointer items-center gap-2 rounded-full ${
                                         item && item.status == "booked"
-                                          ? "bg-blue-600"
+                                          ? "bg-blue-100"
                                           : item && item.status == "canceled"
-                                          ? "bg-red-600"
-                                          : "bg-green-600"
-                                      }`}
-                                    ></div>
-                                    <span
-                                      className={`${
-                                        item && item.status == "booked"
-                                          ? "text-blue-600"
-                                          : item && item.status == "canceled"
-                                          ? "text-red-600 line-through"
-                                          : "text-green-600"
-                                      }`}
+                                          ? "bg-red-100"
+                                          : "bg-green-100"
+                                      } p-1 px-3`}
+                                      onClick={() => {
+                                        setAppointmentData(item);
+                                        setRescheduleModal(true);
+                                      }}
                                     >
-                                      <Tooltip content={getItemContent(item)}>
-                                        {truncateString(item.title)}
-                                      </Tooltip>
-                                    </span>
-                                  </div>
-                                )
-                            )}
+                                      <div
+                                        className={`h-2 w-2 rounded-full ${
+                                          item && item.status == "booked"
+                                            ? "bg-blue-600"
+                                            : item && item.status == "canceled"
+                                            ? "bg-red-600"
+                                            : "bg-green-600"
+                                        }`}
+                                      ></div>
+                                      <span
+                                        className={`${
+                                          item && item.status == "booked"
+                                            ? "text-blue-600"
+                                            : item && item.status == "canceled"
+                                            ? "text-red-600 line-through"
+                                            : "text-green-600"
+                                        }`}
+                                      >
+                                        <Tooltip content={getItemContent(item)}>
+                                          {truncateString(item.title)}
+                                        </Tooltip>
+                                      </span>
+                                    </div>
+                                  )
+                              )}
                             {data && data.length > 2 && (
                               <Dropdown
                                 label=""

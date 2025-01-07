@@ -37,7 +37,6 @@ export const RescheduleAppointmentModal = function (props: any) {
     (state: any) => state.property
   );
 
-  console.log(appointmentData);
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment(appointmentData && appointmentData.appointmentDate).format(
       "MMMM"
