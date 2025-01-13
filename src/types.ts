@@ -77,6 +77,8 @@ export interface AppState {
   openProjects: any[];
   notifications: NotificationType[] | undefined;
   notificationsCount: NotificationCountType | undefined;
+  propertyDefectSubmissions: DefectSumissionType[] | undefined;
+  commonAreaDefectSubmissions: DefectSumissionType[] | undefined;
 }
 
 export interface ExcelData {

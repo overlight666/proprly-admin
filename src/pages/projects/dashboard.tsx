@@ -9,7 +9,12 @@ import { BsListTask } from "react-icons/bs";
 import { HiCalendar, HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getProjectDashboardReducer } from "../../store/features/reducers";
+import {
+  getAllDefectResolutionByCommonAreaReducer,
+  getAllDefectResolutionByPropertyReducer,
+  getCommonAreaByProjectReducer,
+  getProjectDashboardReducer,
+} from "../../store/features/reducers";
 import type { AppState, ProjectState, ReducerTypes } from "../../types";
 // import { MdBrokenImage } from "react-icons/md";
 import moment from "moment";
@@ -17,12 +22,14 @@ import moment from "moment";
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
   const { id, project_id }: any = useParams();
-  const { projectDashboard }: ProjectState = useSelector(
+  const { projectDashboard, commonAreaItem }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  const { notifications }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
-  );
+  const {
+    notifications,
+    propertyDefectSubmissions,
+    commonAreaDefectSubmissions,
+  }: AppState = useSelector((state: ReducerTypes) => state.application);
 
   const nl2br = (str, replaceMode, isXhtml) => {
     const breakTag = isXhtml ? "<br />" : "<br>";
@@ -36,7 +43,15 @@ const Dashboard: FC = function () {
       project_id: project_id,
     };
     dispatch(getProjectDashboardReducer(params));
+    dispatch(getAllDefectResolutionByPropertyReducer(project_id));
+    dispatch(getCommonAreaByProjectReducer(project_id));
   }, []);
+
+  useEffect(() => {
+    if (commonAreaItem) {
+      dispatch(getAllDefectResolutionByCommonAreaReducer(commonAreaItem.id));
+    }
+  }, [commonAreaItem]);
 
   const getTotal = () => {
     const count1 = projectDashboard?.defectsByProperty.in_progress
@@ -339,11 +354,21 @@ const Dashboard: FC = function () {
           </div>
 
           <div className="my-6">
-            <AcquisitionChart />
+            {(propertyDefectSubmissions &&
+              propertyDefectSubmissions.length > 0 && (
+                <AcquisitionChart data={propertyDefectSubmissions} />
+              )) || (
+              <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
+                <span className="font-black text-white">No data found</span>
+              </div>
+            )}
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
-              Total property defects <span className="text-green-500">0</span>
+              Total property defects{" "}
+              <span className="text-green-500">
+                {propertyDefectSubmissions?.length}
+              </span>
             </span>
           </div>
         </div>
@@ -375,12 +400,21 @@ const Dashboard: FC = function () {
           </div>
 
           <div className="my-6">
-            <AcquisitionChart />
+            {(commonAreaDefectSubmissions &&
+              commonAreaDefectSubmissions.length > 0 && (
+                <AcquisitionChart data={commonAreaDefectSubmissions} />
+              )) || (
+              <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
+                <span className="font-black text-white">No data found</span>
+              </div>
+            )}
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
               Total common area defects{" "}
-              <span className="text-green-500">0</span>
+              <span className="text-green-500">
+                {commonAreaDefectSubmissions?.length}
+              </span>
             </span>
           </div>
         </div>
@@ -691,13 +725,24 @@ const Defects = function ({ projectDashboard }: any) {
   );
 };
 
-const AcquisitionChart: FC = function () {
+const AcquisitionChart = function ({ data }: any) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
 
+  const getValues = (status: any) => {
+    const count = data && data.filter((f) => f.stage == status);
+    return (count.length * 100) / data.length;
+  };
+
   const options: ApexCharts.ApexOptions = {
-    labels: ["Organic", "Referral", "Direct", "Social", "Other", "Email"],
-    colors: ["#16BDCA", "#FDBA8C", "#1A56DB", "#D61F69", "#9061F9", "#6875F5"],
+    labels: [
+      "Pre-Sales",
+      "Under Construction",
+      "Pre-Settlement",
+      "Handover",
+      "Post-Handover",
+    ],
+    colors: ["#16BDCA", "#FDBA8C", "#1A56DB", "#D61F69", "#9061F9"],
     chart: {
       fontFamily: "Inter, sans-serif",
       toolbar: {
@@ -754,7 +799,16 @@ const AcquisitionChart: FC = function () {
       show: false,
     },
   };
-  const series = [30, 24, 18, 12, 9, 7];
+  const series =
+    data.length > 0
+      ? [
+          getValues("pre_sales"),
+          getValues("under_construction"),
+          getValues("pre_settlement"),
+          getValues("handover"),
+          getValues("post_handover"),
+        ]
+      : [];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
 };

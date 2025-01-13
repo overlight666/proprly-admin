@@ -17,6 +17,8 @@ import {
   getAllCommonArea,
   getAllDefectCodebyProject,
   getAllDefectResolution,
+  getAllDefectResolutionByCommonArea,
+  getAllDefectResolutionByProperty,
   getAllOrganizations,
   getAllProperties,
   getAllTradeCodebyProject,
@@ -827,6 +829,32 @@ export const getNotificationsCountReducer: any = createAsyncThunk(
   async () => {
     try {
       const response = await getNotificationsCount();
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllDefectResolutionByPropertyReducer: any = createAsyncThunk(
+  "getAllDefectResolutionByPropertyReducer",
+  async (params) => {
+    try {
+      const response = await getAllDefectResolutionByProperty(params);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getAllDefectResolutionByCommonAreaReducer: any = createAsyncThunk(
+  "getAllDefectResolutionByCommonAreaReducer",
+  async (params) => {
+    try {
+      const response = await getAllDefectResolutionByCommonArea(params);
       // If you want to get something back
       return response;
     } catch (err) {

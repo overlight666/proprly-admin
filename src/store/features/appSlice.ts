@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AppState } from "../../types";
 import {
   getAllCountries,
+  getAllDefectResolutionByCommonAreaReducer,
+  getAllDefectResolutionByPropertyReducer,
   getAllRegions,
   getGlobalConfig,
   getNotificationsCountReducer,
@@ -36,6 +38,8 @@ const initialState: AppState = {
   openProjects: [],
   notifications: undefined,
   notificationsCount: undefined,
+  propertyDefectSubmissions: undefined,
+  commonAreaDefectSubmissions: undefined,
 };
 
 const mapDays = {
@@ -214,6 +218,50 @@ export const appSlice = createSlice({
     builder.addCase(getNotificationsCountReducer.rejected, (state) => {
       state.notificationsCount = undefined;
     });
+
+    builder.addCase(
+      getAllDefectResolutionByPropertyReducer.pending,
+      (state) => {
+        state.propertyDefectSubmissions = undefined;
+      }
+    );
+    builder.addCase(
+      getAllDefectResolutionByPropertyReducer.fulfilled,
+      (state, action) => {
+        state.propertyDefectSubmissions =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(
+      getAllDefectResolutionByPropertyReducer.rejected,
+      (state) => {
+        state.propertyDefectSubmissions = undefined;
+      }
+    );
+
+    builder.addCase(
+      getAllDefectResolutionByCommonAreaReducer.pending,
+      (state) => {
+        state.commonAreaDefectSubmissions = undefined;
+      }
+    );
+    builder.addCase(
+      getAllDefectResolutionByCommonAreaReducer.fulfilled,
+      (state, action) => {
+        state.commonAreaDefectSubmissions =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(
+      getAllDefectResolutionByCommonAreaReducer.rejected,
+      (state) => {
+        state.commonAreaDefectSubmissions = undefined;
+      }
+    );
   },
 });
 
