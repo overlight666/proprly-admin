@@ -561,7 +561,7 @@ export const getAllDefectResolution = async (params: any) => {
 
 export const getAllDefectResolutionByProperty = async (id: any) => {
   return api
-    .get(`/admin/defect-submissions?propertyId=${id}`)
+    .get(`/admin/defect-submissions?projectId=${id}`)
     .then((response) => {
       return response && response.data;
     })
