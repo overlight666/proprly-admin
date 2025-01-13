@@ -19,6 +19,7 @@ import {
 
 const initialState: AppState = {
   isGrid: true,
+  masterTab: 1,
   projectTab: 1,
   projectTabMain: 0,
   propertyTab: 1,
@@ -92,6 +93,9 @@ export const appSlice = createSlice({
     },
     updateProjectTabMain: (state, action) => {
       state.projectTabMain = action.payload;
+    },
+    updateMasterTab: (state, action) => {
+      state.masterTab = action.payload;
     },
     updateOrgTab: (state, action) => {
       state.orgTab = action.payload;
@@ -277,6 +281,7 @@ export const {
   updateCalendarView,
   updateProjectOpen,
   clearProjectOpen,
+  updateMasterTab,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

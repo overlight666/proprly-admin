@@ -48,6 +48,7 @@ import CommonAreaConfigure from "./pages/common-area/common-area-configure";
 import CommonAreaViewPage from "./pages/common-area/view-common-area";
 import CommonArea from "./pages/common-area/common-area";
 import AddAppointment from "./pages/appointments/addAppointment";
+import MasterConfiguration from "./pages/admin/master-configuration";
 
 const App: FC = function () {
   return (
@@ -209,6 +210,22 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ViewSignupLead />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/master-configurations"
+              element={
+                <PrivateRoutes>
+                  <MasterConfiguration />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/support-tickets"
+              element={
+                <PrivateRoutes>
+                  <MailingInboxPage />
                 </PrivateRoutes>
               }
             />

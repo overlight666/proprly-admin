@@ -99,6 +99,8 @@ const ExampleSidebar: FC = function () {
     "/organization/new",
     "/signup-leads",
     "signup-leads/view",
+    "/master-configurations",
+    "/support-tickets",
     "/organization/:id",
     "/organization/:id/edit",
     "/organization/:id/project/:project_id",
@@ -139,6 +141,8 @@ const ExampleSidebar: FC = function () {
       currentRoute === "/organization/new" ||
       currentRoute === "/signup-leads" ||
       currentRoute === "signup-leads/view" ||
+      currentRoute === "/master-configurations" ||
+      currentRoute === "/support-tickets" ||
       currentRoute === "/organization/:id/edit"
     ) {
       dispatch(clearProjectOpen());
@@ -172,6 +176,8 @@ const ExampleSidebar: FC = function () {
                 currentRoute === "/organization/new" ||
                 currentRoute === "/signup-leads" ||
                 currentRoute === "signup-leads/view" ||
+                currentRoute === "/master-configurations" ||
+                currentRoute === "/support-tickets" ||
                 currentRoute === "/organization/:id/edit" ? (
                   <>
                     <Sidebar.Item
@@ -205,6 +211,40 @@ const ExampleSidebar: FC = function () {
                       >
                         <div className="flex w-full items-center justify-between">
                           Sign-Up Leads
+                        </div>
+                      </Sidebar.Item>
+                    )}
+                    {userData.user?.permissions?.includes(
+                      "can_access_leads"
+                    ) && (
+                      <Sidebar.Item
+                        href="/master-configurations"
+                        key={"master-configurations"}
+                        className={
+                          "/master-configurations" === currentPage
+                            ? "bg-gray-100 dark:bg-gray-700"
+                            : ""
+                        }
+                      >
+                        <div className="flex w-full items-center justify-between">
+                          Master Configurations
+                        </div>
+                      </Sidebar.Item>
+                    )}
+                    {userData.user?.permissions?.includes(
+                      "can_access_leads"
+                    ) && (
+                      <Sidebar.Item
+                        href="/support-tickets"
+                        key={"support-tickets"}
+                        className={
+                          "/support-tickets" === currentPage
+                            ? "bg-gray-100 dark:bg-gray-700"
+                            : ""
+                        }
+                      >
+                        <div className="flex w-full items-center justify-between">
+                          Support Tickets
                         </div>
                       </Sidebar.Item>
                     )}

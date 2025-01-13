@@ -58,6 +58,7 @@ export interface ProgressType {
 
 export interface AppState {
   isGrid: boolean;
+  masterTab: number;
   projectTab: number;
   projectTabMain: number;
   orgTab: number;
