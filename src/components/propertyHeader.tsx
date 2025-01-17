@@ -19,8 +19,12 @@ import type {
   PropertyState,
   TowerData,
 } from "../types";
-import { getTowersReducer, registerProperty } from "../store/features/reducers";
+import {
+  getTowersReducer,
+  registerBulkProperty,
+} from "../store/features/reducers";
 import { toast } from "react-toastify";
+import { resetBulkResponse } from "../store/features/propertySlice";
 
 const PropertyHeader = function () {
   const [openModal, setOpenModal] = useState(false);
@@ -36,7 +40,7 @@ const PropertyHeader = function () {
     (state: any) => state.project
   );
 
-  const { selectedProperty }: PropertyState = useSelector(
+  const { selectedProperty, bulkPropertyResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
 
@@ -292,6 +296,7 @@ const PropertyHeader = function () {
   };
 
   const uploadBulkProperties = () => {
+    const bulkProps: any = [];
     excelData &&
       excelData.length &&
       excelData.map((d: ExcelData) => {
@@ -302,6 +307,7 @@ const PropertyHeader = function () {
           tower &&
           tower.floorList &&
           tower.floorList.find((f) => f.value == d.Floor);
+
         const params = {
           projectId: selectedProject?.id,
           projectTowerId: tower?.id,
@@ -318,16 +324,25 @@ const PropertyHeader = function () {
           externalArea: d["External Area(m2)"] ? d["External Area(m2)"] : 0,
           status: convertStatus(d["Property Status"]),
         };
-        dispatch(registerProperty(params));
+        bulkProps.push(params);
+        // dispatch(registerProperty(params));
       });
-    setExcelData([]);
-    setOpenExcelModal(false);
-    toast.info("New properties has been added");
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
+    if (bulkProps.length > 0) {
+      dispatch(registerBulkProperty(bulkProps));
+    }
   };
 
+  useEffect(() => {
+    if (bulkPropertyResponse) {
+      setExcelData([]);
+      setOpenExcelModal(false);
+      toast.info("New properties has been added");
+      dispatch(resetBulkResponse());
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
+  }, []);
   return (
     <>
       <div className="mb-10 mt-5 grid w-full grid-cols-9 gap-2">

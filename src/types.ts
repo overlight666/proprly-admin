@@ -548,6 +548,7 @@ export interface PropertyState {
   appointmentResponse: undefined | any;
   propertyReports: PropertyReport[] | undefined;
   appointmentRefresh: boolean;
+  bulkPropertyResponse: any | undefined;
 }
 
 export interface PropertyReport {

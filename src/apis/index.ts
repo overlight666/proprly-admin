@@ -235,6 +235,18 @@ export const newProperty = async (params: Property) => {
     });
 };
 
+export const bulkProperty = async (params: Property) => {
+  return api
+    .post(`/property/bulk`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error.response;
+    });
+};
+
 export const updateProperty = async (params: Property) => {
   return api
     .put(`/property/${params.id}`, params)

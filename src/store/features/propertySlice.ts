@@ -14,6 +14,7 @@ import {
   getPropertyReportsReducer,
   getSingleProperty,
   patchProperty,
+  registerBulkProperty,
   registerProperty,
   rescheduleAppointmentReducer,
   submitFeedbackReducer,
@@ -34,6 +35,7 @@ const initialState: PropertyState = {
   appointmentResponse: undefined,
   propertyReports: undefined,
   appointmentRefresh: false,
+  bulkPropertyResponse: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -62,6 +64,9 @@ export const propertySlice = createSlice({
     setRefreshAppontments: (state, action: PayloadAction<boolean>) => {
       state.appointmentRefresh = action.payload;
     },
+    resetBulkResponse: (state) => {
+      state.bulkPropertyResponse = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerProperty.pending, (state) => {
@@ -73,6 +78,19 @@ export const propertySlice = createSlice({
     });
     builder.addCase(registerProperty.rejected, (state) => {
       state.isIdle = true;
+    });
+
+    builder.addCase(registerBulkProperty.pending, (state) => {
+      state.isIdle = false;
+      state.bulkPropertyResponse = undefined;
+    });
+    builder.addCase(registerBulkProperty.fulfilled, (state, action) => {
+      state.bulkPropertyResponse = action.payload;
+      state.isIdle = true;
+    });
+    builder.addCase(registerBulkProperty.rejected, (state) => {
+      state.isIdle = true;
+      state.bulkPropertyResponse = undefined;
     });
     builder.addCase(getProperties.pending, (state) => {
       state.isIdle = false;
@@ -256,5 +274,6 @@ export const {
   clearAppointmentResponse,
   clearPropertyData,
   setRefreshAppontments,
+  resetBulkResponse,
 } = propertySlice.actions;
 export default propertySlice.reducer;

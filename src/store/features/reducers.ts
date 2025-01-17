@@ -10,6 +10,7 @@ import {
   addTradeCode,
   attachPropertyUser,
   bookAppointmentApi,
+  bulkProperty,
   cancelAppointmentApi,
   createCommonArea,
   createProjectUser,
@@ -123,6 +124,19 @@ export const registerProperty: any = createAsyncThunk(
   async (data: Property) => {
     try {
       const response = await newProperty(data);
+      // If you want to get something back
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const registerBulkProperty: any = createAsyncThunk(
+  "registerBulkProperty",
+  async (data: Property) => {
+    try {
+      const response = await bulkProperty(data);
       // If you want to get something back
       return response.data;
     } catch (err) {
