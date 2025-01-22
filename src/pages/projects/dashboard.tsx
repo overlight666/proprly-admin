@@ -519,7 +519,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "35%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByProperty.pending}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByProperty.pending}
                 </div>
               </div>
             )}
@@ -530,7 +532,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "35%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByCommonArea.pending}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByCommonArea.pending}
                 </div>
               </div>
             )}
@@ -550,7 +554,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "50%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByProperty.in_progress}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByProperty.in_progress}
                 </div>
               </div>
             )}
@@ -561,7 +567,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "80%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByCommonArea.in_progress}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByCommonArea.in_progress}
                 </div>
               </div>
             )}
@@ -581,7 +589,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "85.5%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByProperty.resolved}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByProperty.resolved}
                 </div>
               </div>
             )}
@@ -592,7 +602,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "40%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByCommonArea.resolved}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByCommonArea.resolved}
                 </div>
               </div>
             )}
@@ -612,7 +624,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "10%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByProperty.disputed}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByProperty.disputed}
                 </div>
               </div>
             )}
@@ -623,7 +637,9 @@ const Defects = function ({ projectDashboard }: any) {
                   style={{ width: "15%" }}
                 >
                   {" "}
-                  {projectDashboard?.defectsByCommonArea.disputed}
+                  {projectDashboard &&
+                    projectDashboard?.defectsByProperty &&
+                    projectDashboard?.defectsByCommonArea.disputed}
                 </div>
               </div>
             )}
