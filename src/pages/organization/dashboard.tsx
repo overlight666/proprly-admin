@@ -474,7 +474,9 @@ const Defects = function ({ orgDashboard }: any) {
                   }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByProperty.pending}{" "}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByProperty.pending}{" "}
                 </div>
               </div>
             )}
@@ -487,7 +489,9 @@ const Defects = function ({ orgDashboard }: any) {
                   }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByCommonArea.pending}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByProperty.pending}
                 </div>
               </div>
             )}
@@ -507,7 +511,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "50%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByProperty.in_progress}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByProperty.in_progress}
                 </div>
               </div>
             )}
@@ -518,7 +524,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "80%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByCommonArea.in_progress}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByCommonArea.in_progress}
                 </div>
               </div>
             )}
@@ -538,7 +546,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "85.5%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByProperty.resolved}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByProperty.resolved}
                 </div>
               </div>
             )}
@@ -549,7 +559,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "40%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByCommonArea.resolved}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByCommonArea.resolved}
                 </div>
               </div>
             )}
@@ -569,7 +581,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "10%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByProperty.disputed}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByProperty.disputed}
                 </div>
               </div>
             )}
@@ -580,7 +594,9 @@ const Defects = function ({ orgDashboard }: any) {
                   style={{ width: "15%" }}
                 >
                   {" "}
-                  {orgDashboard?.defectsByCommonArea.disputed}
+                  {orgDashboard &&
+                    orgDashboard?.defectsByProperty &&
+                    orgDashboard?.defectsByCommonArea.disputed}
                 </div>
               </div>
             )}
