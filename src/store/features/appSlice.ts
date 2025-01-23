@@ -7,6 +7,8 @@ import {
   getAllDefectResolutionByCommonAreaReducer,
   getAllDefectResolutionByPropertyReducer,
   getAllRegions,
+  getDashboardOrganizationReducer,
+  getDashboardProjectReducer,
   getGlobalConfig,
   getNotificationsCountReducer,
   getNotificationsReducer,
@@ -41,6 +43,8 @@ const initialState: AppState = {
   notificationsCount: undefined,
   propertyDefectSubmissions: undefined,
   commonAreaDefectSubmissions: undefined,
+  projectDashboard: undefined,
+  organizationDashboard: undefined,
 };
 
 const mapDays = {
@@ -266,6 +270,35 @@ export const appSlice = createSlice({
         state.commonAreaDefectSubmissions = undefined;
       }
     );
+
+    builder.addCase(getDashboardProjectReducer.pending, (state) => {
+      state.projectDashboard = undefined;
+    });
+    builder.addCase(getDashboardProjectReducer.fulfilled, (state, action) => {
+      state.projectDashboard =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getDashboardProjectReducer.rejected, (state) => {
+      state.projectDashboard = undefined;
+    });
+
+    builder.addCase(getDashboardOrganizationReducer.pending, (state) => {
+      state.organizationDashboard = undefined;
+    });
+    builder.addCase(
+      getDashboardOrganizationReducer.fulfilled,
+      (state, action) => {
+        state.organizationDashboard =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getDashboardOrganizationReducer.rejected, (state) => {
+      state.organizationDashboard = undefined;
+    });
   },
 });
 

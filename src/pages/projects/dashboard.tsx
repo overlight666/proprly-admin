@@ -1,35 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
+import { Label, Radio, Timeline, useTheme } from "flowbite-react";
 import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
-import { BsListTask } from "react-icons/bs";
-
-import { HiCalendar, HiDotsHorizontal } from "react-icons/hi";
+import { HiCalendar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import {
   getAllDefectResolutionByCommonAreaReducer,
   getAllDefectResolutionByPropertyReducer,
   getCommonAreaByProjectReducer,
+  getDashboardProjectReducer,
   getProjectDashboardReducer,
 } from "../../store/features/reducers";
-import type { AppState, ProjectState, ReducerTypes } from "../../types";
+import type {
+  AppState,
+  DashboardData,
+  ProjectState,
+  ReducerTypes,
+  TradeVariables,
+} from "../../types";
 // import { MdBrokenImage } from "react-icons/md";
 import moment from "moment";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
   const { id, project_id }: any = useParams();
-  const { projectDashboard, commonAreaItem }: ProjectState = useSelector(
+  const { commonAreaItem }: ProjectState = useSelector(
     (state: any) => state.project
   );
-  const {
-    notifications,
-    propertyDefectSubmissions,
-    commonAreaDefectSubmissions,
-  }: AppState = useSelector((state: ReducerTypes) => state.application);
+  const [showOnly, setShowOnly] = useState("all");
+  const [showOnly2, setShowOnly2] = useState("all");
+  const { notifications, projectDashboard }: AppState = useSelector(
+    (state: ReducerTypes) => state.application
+  );
 
   const nl2br = (str, replaceMode, isXhtml) => {
     const breakTag = isXhtml ? "<br />" : "<br>";
@@ -45,6 +50,7 @@ const Dashboard: FC = function () {
     dispatch(getProjectDashboardReducer(params));
     dispatch(getAllDefectResolutionByPropertyReducer(project_id));
     dispatch(getCommonAreaByProjectReducer(project_id));
+    dispatch(getDashboardProjectReducer(params));
   }, []);
 
   useEffect(() => {
@@ -63,32 +69,14 @@ const Dashboard: FC = function () {
     return count1 + count2;
   };
 
-  const getTotalDefects = () => {
-    const pending1 =
-      projectDashboard?.defectsByProperty &&
-      projectDashboard?.defectsByProperty.pending
-        ? projectDashboard?.defectsByProperty.pending
-        : 0;
-    const pending2 =
-      projectDashboard?.defectsByCommonArea &&
-      projectDashboard?.defectsByCommonArea.pending
-        ? projectDashboard?.defectsByCommonArea.pending
-        : 0;
-    const in_progress1 =
-      projectDashboard?.defectsByProperty &&
-      projectDashboard?.defectsByProperty.in_progress
-        ? projectDashboard?.defectsByProperty.in_progress
-        : 0;
-
-    const in_progress2 =
-      projectDashboard?.defectsByCommonArea &&
-      projectDashboard?.defectsByCommonArea.in_progress
-        ? projectDashboard?.defectsByCommonArea.in_progress
-        : 0;
-
-    return pending1 + pending2 + in_progress1 + in_progress2;
+  const checkIsValid = (d: TradeVariables) => {
+    try {
+      const sum = d.Electrician + d.Painter + d.Tiler;
+      return sum > 0 ? true : false;
+    } catch (error) {
+      return false;
+    }
   };
-
   return (
     <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
@@ -128,7 +116,7 @@ const Dashboard: FC = function () {
                 {projectDashboard?.totalNotifications}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -140,9 +128,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -168,7 +156,7 @@ const Dashboard: FC = function () {
                 {getTotal()}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -180,9 +168,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -208,7 +196,7 @@ const Dashboard: FC = function () {
                 {projectDashboard?.totalProperties}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -220,10 +208,10 @@ const Dashboard: FC = function () {
                     fill="#E02424"
                     stroke="#E02424"
                   />
-                </svg>
+                </svg> */}
 
-                <span className="mr-1 text-red-500">0%</span>
-                <span>vs last 24h </span>
+                {/* <span className="mr-1 text-red-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -246,10 +234,13 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                {getTotalDefects()}
+                {projectDashboard &&
+                  projectDashboard.totalDefects.total &&
+                  projectDashboard.totalDefects.total &&
+                  projectDashboard.totalDefects.total}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -261,9 +252,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -328,12 +319,12 @@ const Dashboard: FC = function () {
       </div>
       <div className="grid grid-cols-2 gap-2 p-5">
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full flex-col justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
               Property Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
-              <Button
+              {/* <Button
                 // onClick={() => gotoPage("/organization/new")}
                 className="mx-1"
                 color="gray"
@@ -349,15 +340,72 @@ const Dashboard: FC = function () {
                 className="inline-flex cursor-pointer items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <HiDotsHorizontal className="text-2xl" />
-              </a>
+              </a> */}
             </div>
+            <fieldset className="my-5 flex flex-row items-center gap-4">
+              <span className="text-[14px]">Show only:</span>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="all"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                  defaultChecked
+                />
+                <Label htmlFor="united-state">All</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="in_progress"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="in_progress">In-Progress</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="pending"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="pending">Pending</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="resolved"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="resolved">Resolved</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="disputed"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="disputed">Disputed</Label>
+              </div>
+            </fieldset>
           </div>
 
           <div className="my-6">
-            {(propertyDefectSubmissions &&
-              propertyDefectSubmissions.length > 0 && (
-                <AcquisitionChart data={propertyDefectSubmissions} />
-              )) || (
+            {(checkIsValid(
+              projectDashboard &&
+                projectDashboard.propertyDefectsByStatusAndTrade &&
+                projectDashboard.propertyDefectsByStatusAndTrade[showOnly]
+            ) && (
+              <AcquisitionChart
+                data={
+                  projectDashboard?.propertyDefectsByStatusAndTrade[showOnly]
+                }
+              />
+            )) || (
               <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
                 <span className="font-black text-white">No data found</span>
               </div>
@@ -367,19 +415,39 @@ const Dashboard: FC = function () {
             <span className="text-gray-500">
               Total property defects{" "}
               <span className="text-green-500">
-                {propertyDefectSubmissions?.length}
+                {parseInt(
+                  projectDashboard &&
+                    projectDashboard.propertyDefectsByStatusAndTrade &&
+                    projectDashboard.propertyDefectsByStatusAndTrade[showOnly][
+                      "Painter"
+                    ]
+                ) +
+                  parseInt(
+                    projectDashboard &&
+                      projectDashboard.propertyDefectsByStatusAndTrade &&
+                      projectDashboard.propertyDefectsByStatusAndTrade[
+                        showOnly
+                      ]["Electrician"]
+                  ) +
+                  parseInt(
+                    projectDashboard &&
+                      projectDashboard.propertyDefectsByStatusAndTrade &&
+                      projectDashboard.propertyDefectsByStatusAndTrade[
+                        showOnly
+                      ]["Tiler"]
+                  )}
               </span>
             </span>
           </div>
         </div>
 
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full flex-col justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
               Common Area Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
-              <Button
+              {/* <Button
                 // onClick={() => gotoPage("/organization/new")}
                 className="mx-1"
                 color="gray"
@@ -395,15 +463,72 @@ const Dashboard: FC = function () {
                 className="inline-flex cursor-pointer items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <HiDotsHorizontal className="text-2xl" />
-              </a>
+              </a> */}
             </div>
+            <fieldset className="my-5 flex flex-row items-center gap-4">
+              <span className="text-[14px]">Show only:</span>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="all"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                  defaultChecked
+                />
+                <Label htmlFor="united-state">All</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="in_progress"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="in_progress">In-Progress</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="pending"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="pending">Pending</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="resolved"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="resolved">Resolved</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="disputed"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="disputed">Disputed</Label>
+              </div>
+            </fieldset>
           </div>
 
           <div className="my-6">
-            {(commonAreaDefectSubmissions &&
-              commonAreaDefectSubmissions.length > 0 && (
-                <AcquisitionChart data={commonAreaDefectSubmissions} />
-              )) || (
+            {(checkIsValid(
+              projectDashboard &&
+                projectDashboard.commonAreaDefectsByStatusAndTrade &&
+                projectDashboard.commonAreaDefectsByStatusAndTrade[showOnly2]
+            ) && (
+              <AcquisitionChart
+                data={
+                  projectDashboard?.commonAreaDefectsByStatusAndTrade[showOnly2]
+                }
+              />
+            )) || (
               <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
                 <span className="font-black text-white">No data found</span>
               </div>
@@ -413,7 +538,27 @@ const Dashboard: FC = function () {
             <span className="text-gray-500">
               Total common area defects{" "}
               <span className="text-green-500">
-                {commonAreaDefectSubmissions?.length}
+                {parseInt(
+                  projectDashboard &&
+                    projectDashboard.commonAreaDefectsByStatusAndTrade &&
+                    projectDashboard.commonAreaDefectsByStatusAndTrade[
+                      showOnly2
+                    ]["Painter"]
+                ) +
+                  parseInt(
+                    projectDashboard &&
+                      projectDashboard.commonAreaDefectsByStatusAndTrade &&
+                      projectDashboard.commonAreaDefectsByStatusAndTrade[
+                        showOnly2
+                      ]["Electrician"]
+                  ) +
+                  parseInt(
+                    projectDashboard &&
+                      projectDashboard.commonAreaDefectsByStatusAndTrade &&
+                      projectDashboard.commonAreaDefectsByStatusAndTrade[
+                        showOnly2
+                      ]["Tiler"]
+                  )}
               </span>
             </span>
           </div>
@@ -423,8 +568,18 @@ const Dashboard: FC = function () {
   );
 };
 
-const Defects = function ({ projectDashboard }: any) {
+interface P {
+  projectDashboard: DashboardData | undefined;
+}
+
+const Defects = function (props: P) {
+  const { projectDashboard } = props;
   const [showOnly, setShowOnly] = useState("all");
+
+  const getPercent = (current: any, total: any) => {
+    const percentage = (current * 100) / total;
+    return `${percentage < 3 ? 3 : percentage}%`;
+  };
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -434,9 +589,11 @@ const Defects = function ({ projectDashboard }: any) {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center ">
             <span className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              0
+              {projectDashboard &&
+                projectDashboard.totalDefects &&
+                projectDashboard.totalDefects.total}
             </span>
-            <div className="ml-2 flex items-center rounded bg-green-100 p-1">
+            {/* <div className="ml-2 flex items-center rounded bg-green-100 p-1">
               <svg
                 width="8"
                 height="11"
@@ -451,9 +608,9 @@ const Defects = function ({ projectDashboard }: any) {
                 />
               </svg>
               <span className="ml-1 text-[12px] text-green-500">0%</span>
-            </div>
+            </div> */}
           </div>
-          <div>
+          {/* <div>
             <table className="w-full border-collapse rounded border border-gray-100">
               <tr>
                 <td className="border border-gray-100 p-1">
@@ -470,7 +627,7 @@ const Defects = function ({ projectDashboard }: any) {
                 </td>
               </tr>
             </table>
-          </div>
+          </div> */}
         </div>
         <fieldset className="my-5 flex flex-row items-center gap-4">
           <span className="text-[14px]">Show only:</span>
@@ -514,28 +671,68 @@ const Defects = function ({ projectDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "35%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByProperty.pending}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard.defectsByProperty &&
+                  projectDashboard.defectsByProperty.pending > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard.defectsByProperty &&
+                            projectDashboard.defectsByProperty.pending,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByProperty &&
+                        projectDashboard?.defectsByProperty.pending}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "35%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByCommonArea.pending}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByCommonArea &&
+                  projectDashboard?.defectsByCommonArea.pending > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByCommonArea &&
+                            projectDashboard?.defectsByCommonArea.pending,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByCommonArea &&
+                        projectDashboard?.defectsByCommonArea.pending}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -549,28 +746,68 @@ const Defects = function ({ projectDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "50%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByProperty.in_progress}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByProperty &&
+                  projectDashboard?.defectsByProperty.in_progress > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByProperty &&
+                            projectDashboard?.defectsByProperty.in_progress,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByProperty &&
+                        projectDashboard?.defectsByProperty.in_progress}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "80%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByCommonArea.in_progress}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByCommonArea &&
+                  projectDashboard?.defectsByCommonArea.in_progress > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByCommonArea &&
+                            projectDashboard?.defectsByCommonArea.in_progress,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByCommonArea &&
+                        projectDashboard?.defectsByCommonArea.in_progress}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -584,28 +821,68 @@ const Defects = function ({ projectDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "85.5%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByProperty.resolved}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByProperty &&
+                  projectDashboard?.defectsByProperty.resolved > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByProperty &&
+                            projectDashboard?.defectsByProperty.resolved,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByProperty &&
+                        projectDashboard?.defectsByProperty.resolved}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "40%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByCommonArea.resolved}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByCommonArea &&
+                  projectDashboard?.defectsByCommonArea.resolved > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByCommonArea &&
+                            projectDashboard?.defectsByCommonArea.resolved,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByCommonArea &&
+                        projectDashboard?.defectsByCommonArea.resolved}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -619,28 +896,68 @@ const Defects = function ({ projectDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "10%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByProperty.disputed}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByProperty &&
+                  projectDashboard?.defectsByProperty.disputed > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByProperty &&
+                            projectDashboard?.defectsByProperty.disputed,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByProperty &&
+                        projectDashboard?.defectsByProperty.disputed}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "15%" }}
-                >
-                  {" "}
-                  {projectDashboard &&
-                    projectDashboard?.defectsByProperty &&
-                    projectDashboard?.defectsByCommonArea.disputed}
-                </div>
+                {(projectDashboard &&
+                  projectDashboard?.defectsByCommonArea &&
+                  projectDashboard?.defectsByCommonArea.disputed > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          projectDashboard &&
+                            projectDashboard?.defectsByCommonArea &&
+                            projectDashboard?.defectsByCommonArea.disputed,
+                          projectDashboard &&
+                            projectDashboard.totalDefects &&
+                            projectDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {projectDashboard &&
+                        projectDashboard?.defectsByCommonArea &&
+                        projectDashboard?.defectsByCommonArea.disputed}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -741,24 +1058,20 @@ const Defects = function ({ projectDashboard }: any) {
   );
 };
 
-const AcquisitionChart = function ({ data }: any) {
+interface propss {
+  data: TradeVariables;
+}
+const AcquisitionChart = function ({ data }: propss) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
 
   const getValues = (status: any) => {
-    const count = data && data.filter((f) => f.stage == status);
-    return (count.length * 100) / data.length;
+    return data[status];
   };
 
   const options: ApexCharts.ApexOptions = {
-    labels: [
-      "Pre-Sales",
-      "Under Construction",
-      "Pre-Settlement",
-      "Handover",
-      "Post-Handover",
-    ],
-    colors: ["#16BDCA", "#FDBA8C", "#1A56DB", "#D61F69", "#9061F9"],
+    labels: ["Painter", "Electrician", "Tiler"],
+    colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],
     chart: {
       fontFamily: "Inter, sans-serif",
       toolbar: {
@@ -801,7 +1114,7 @@ const AcquisitionChart = function ({ data }: any) {
       },
       y: {
         formatter: function (value) {
-          return value + "%";
+          return value + "";
         },
       },
     },
@@ -815,16 +1128,9 @@ const AcquisitionChart = function ({ data }: any) {
       show: false,
     },
   };
-  const series =
-    data.length > 0
-      ? [
-          getValues("pre_sales"),
-          getValues("under_construction"),
-          getValues("pre_settlement"),
-          getValues("handover"),
-          getValues("post_handover"),
-        ]
-      : [];
+  const series = data
+    ? [getValues("Painter"), getValues("Electrician"), getValues("Tiler")]
+    : [];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
 };

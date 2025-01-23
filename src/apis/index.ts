@@ -790,3 +790,25 @@ export const getNotificationsCount = async () => {
       return error && error.response && error.response.data;
     });
 };
+
+export const getDashboardProject = async (params: any) => {
+  return api
+    .get(`/dashboard/organizations/${params.id}?projectId=${params.project_id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getDashboardOrganization = async (id: any) => {
+  return api
+    .get(`/dashboard/organizations/${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};

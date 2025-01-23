@@ -29,6 +29,8 @@ import {
   getCommonAreaByProject,
   getConfig,
   getCountries,
+  getDashboardOrganization,
+  getDashboardProject,
   getDefectResolutionById,
   getNotifications,
   getNotificationsCount,
@@ -869,6 +871,32 @@ export const getAllDefectResolutionByCommonAreaReducer: any = createAsyncThunk(
   async (params) => {
     try {
       const response = await getAllDefectResolutionByCommonArea(params);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getDashboardProjectReducer: any = createAsyncThunk(
+  "getDashboardProjectReducer",
+  async (params: any) => {
+    try {
+      const response = await getDashboardProject(params);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getDashboardOrganizationReducer: any = createAsyncThunk(
+  "getDashboardOrganizationReducer",
+  async (id: any) => {
+    try {
+      const response = await getDashboardOrganization(id);
       // If you want to get something back
       return response;
     } catch (err) {

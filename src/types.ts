@@ -80,6 +80,53 @@ export interface AppState {
   notificationsCount: NotificationCountType | undefined;
   propertyDefectSubmissions: DefectSumissionType[] | undefined;
   commonAreaDefectSubmissions: DefectSumissionType[] | undefined;
+  projectDashboard: DashboardData | undefined;
+  organizationDashboard: DashboardData | undefined;
+}
+
+export interface DefectsData {
+  in_progress: number;
+  disputed: number;
+  resolved: number;
+  pending: number;
+  total: number;
+  open: number;
+}
+
+export interface TradeVariables {
+  Painter: number;
+  Electrician: number;
+  Tiler: number;
+}
+
+export interface StatusAndTrade {
+  in_progress: TradeVariables;
+  disputed: TradeVariables;
+  resolved: TradeVariables;
+  pending: TradeVariables;
+  all: TradeVariables;
+}
+
+export interface TotalDefects {
+  pending: number;
+  in_progress: number;
+  disputed: number;
+  resolved: number;
+  total: number;
+  open: number;
+}
+export interface DashboardData {
+  totalNotifications: number;
+  totalProjects: number;
+  totalProperties: number;
+  defectsByProperty: DefectsData;
+  defectsByCommonArea: DefectsData;
+  propertyDefectsByStatusAndTrade: StatusAndTrade;
+  commonAreaDefectsByStatusAndTrade: StatusAndTrade;
+  totalDefects: TotalDefects;
+  totalOpenDefects: number;
+  totalPropertyDefectsByTrade: number;
+  totalCommonAreaDefectsByTrade: number;
 }
 
 export interface ExcelData {

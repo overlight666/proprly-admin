@@ -1,27 +1,35 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
+import { Label, Radio, Timeline, useTheme } from "flowbite-react";
 import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
-import { BsListTask } from "react-icons/bs";
-// import { FaDownload } from "react-icons/fa";
-import { HiCalendar, HiDotsHorizontal } from "react-icons/hi";
+import { HiCalendar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrganizationDashboardReducer } from "../../store/features/reducers";
 import { useParams } from "react-router";
-import type { AppState, OrgState, ReducerTypes } from "../../types";
-import moment from "moment";
+import {
+  getAllDefectResolutionByCommonAreaReducer,
+  getDashboardOrganizationReducer,
+} from "../../store/features/reducers";
+import type {
+  AppState,
+  DashboardData,
+  ProjectState,
+  ReducerTypes,
+  TradeVariables,
+} from "../../types";
 // import { MdBrokenImage } from "react-icons/md";
+import moment from "moment";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
   const { id }: any = useParams();
-  const { orgDashboard }: OrgState = useSelector(
-    (state: ReducerTypes) => state.organization
+  const { commonAreaItem }: ProjectState = useSelector(
+    (state: any) => state.project
   );
-
-  const { notifications }: AppState = useSelector(
+  const [showOnly, setShowOnly] = useState("all");
+  const [showOnly2, setShowOnly2] = useState("all");
+  const { notifications, organizationDashboard }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
 
@@ -32,9 +40,23 @@ const Dashboard: FC = function () {
   };
 
   useEffect(() => {
-    dispatch(getOrganizationDashboardReducer(id));
+    dispatch(getDashboardOrganizationReducer(id));
   }, []);
 
+  useEffect(() => {
+    if (commonAreaItem) {
+      dispatch(getAllDefectResolutionByCommonAreaReducer(commonAreaItem.id));
+    }
+  }, [commonAreaItem]);
+
+  const checkIsValid = (d: TradeVariables) => {
+    try {
+      const sum = d.Electrician + d.Painter + d.Tiler;
+      return sum > 0 ? true : false;
+    } catch (error) {
+      return false;
+    }
+  };
   return (
     <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
@@ -71,10 +93,10 @@ const Dashboard: FC = function () {
               </svg>
               <span className="text-gray-500">Alerts - Needs Attention</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                {orgDashboard?.totalNotifications}
+                {organizationDashboard?.totalNotifications}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -86,9 +108,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -111,10 +133,10 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Projects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                {orgDashboard?.totalProjects}
+                {organizationDashboard && organizationDashboard?.totalProjects}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -126,9 +148,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -151,10 +173,10 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Properties</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                {orgDashboard?.totalProperties}
+                {organizationDashboard?.totalProperties}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -166,10 +188,10 @@ const Dashboard: FC = function () {
                     fill="#E02424"
                     stroke="#E02424"
                   />
-                </svg>
+                </svg> */}
 
-                <span className="mr-1 text-red-500">0%</span>
-                <span>vs last 24h </span>
+                {/* <span className="mr-1 text-red-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -192,10 +214,13 @@ const Dashboard: FC = function () {
 
               <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                0
+                {organizationDashboard &&
+                  organizationDashboard.totalDefects.total &&
+                  organizationDashboard.totalDefects.total &&
+                  organizationDashboard.totalDefects.total}
               </span>
               <div className="flex items-center">
-                <svg
+                {/* <svg
                   width="8"
                   height="11"
                   viewBox="0 0 8 11"
@@ -207,9 +232,9 @@ const Dashboard: FC = function () {
                     fill="#0E9F6E"
                     stroke="#0E9F6E"
                   />
-                </svg>
-                <span className="mr-1 text-green-500">0%</span>
-                <span>vs last 24h </span>
+                </svg> */}
+                {/* <span className="mr-1 text-green-500">0%</span>
+                <span>vs last 24h </span> */}
               </div>
             </div>
           </div>
@@ -269,17 +294,17 @@ const Dashboard: FC = function () {
                 })}
             </Timeline>
           </div>
-          <Defects orgDashboard={orgDashboard} />
+          <Defects organizationDashboard={organizationDashboard} />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 p-5">
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full flex-col justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
               Property Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
-              <Button
+              {/* <Button
                 // onClick={() => gotoPage("/organization/new")}
                 className="mx-1"
                 color="gray"
@@ -295,27 +320,116 @@ const Dashboard: FC = function () {
                 className="inline-flex cursor-pointer items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <HiDotsHorizontal className="text-2xl" />
-              </a>
+              </a> */}
             </div>
+            <fieldset className="my-5 flex flex-row items-center gap-4">
+              <span className="text-[14px]">Show only:</span>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="all"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                  defaultChecked
+                />
+                <Label htmlFor="united-state">All</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="in_progress"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="in_progress">In-Progress</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="pending"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="pending">Pending</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="resolved"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="resolved">Resolved</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="disputed"
+                  name="showOnly"
+                  value={showOnly}
+                  onChange={(e) => setShowOnly(e.target.id)}
+                />
+                <Label htmlFor="disputed">Disputed</Label>
+              </div>
+            </fieldset>
           </div>
 
           <div className="my-6">
-            <AcquisitionChart />
+            {(checkIsValid(
+              organizationDashboard &&
+                organizationDashboard.propertyDefectsByStatusAndTrade &&
+                organizationDashboard.propertyDefectsByStatusAndTrade[showOnly]
+            ) && (
+              <AcquisitionChart
+                data={
+                  organizationDashboard?.propertyDefectsByStatusAndTrade[
+                    showOnly
+                  ]
+                }
+              />
+            )) || (
+              <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
+                <span className="font-black text-white">No data found</span>
+              </div>
+            )}
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
-              Total property defects <span className="text-green-500">0</span>
+              Total property defects{" "}
+              <span className="text-green-500">
+                {parseInt(
+                  organizationDashboard &&
+                    organizationDashboard.propertyDefectsByStatusAndTrade &&
+                    organizationDashboard.propertyDefectsByStatusAndTrade[
+                      showOnly
+                    ]["Painter"]
+                ) +
+                  parseInt(
+                    organizationDashboard &&
+                      organizationDashboard.propertyDefectsByStatusAndTrade &&
+                      organizationDashboard.propertyDefectsByStatusAndTrade[
+                        showOnly
+                      ]["Electrician"]
+                  ) +
+                  parseInt(
+                    organizationDashboard &&
+                      organizationDashboard.propertyDefectsByStatusAndTrade &&
+                      organizationDashboard.propertyDefectsByStatusAndTrade[
+                        showOnly
+                      ]["Tiler"]
+                  )}
+              </span>
             </span>
           </div>
         </div>
 
         <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full flex-col justify-between">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
               Common Area Defects by Trade
             </h3>
             <div className="flex items-center justify-between">
-              <Button
+              {/* <Button
                 // onClick={() => gotoPage("/organization/new")}
                 className="mx-1"
                 color="gray"
@@ -331,17 +445,107 @@ const Dashboard: FC = function () {
                 className="inline-flex cursor-pointer items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <HiDotsHorizontal className="text-2xl" />
-              </a>
+              </a> */}
             </div>
+            <fieldset className="my-5 flex flex-row items-center gap-4">
+              <span className="text-[14px]">Show only:</span>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="all"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                  defaultChecked
+                />
+                <Label htmlFor="united-state">All</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="in_progress"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="in_progress">In-Progress</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="pending"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="pending">Pending</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="resolved"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="resolved">Resolved</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="disputed"
+                  name="showOnly2"
+                  value={showOnly2}
+                  onChange={(e) => setShowOnly2(e.target.id)}
+                />
+                <Label htmlFor="disputed">Disputed</Label>
+              </div>
+            </fieldset>
           </div>
 
           <div className="my-6">
-            <AcquisitionChart />
+            {(checkIsValid(
+              organizationDashboard &&
+                organizationDashboard.commonAreaDefectsByStatusAndTrade &&
+                organizationDashboard.commonAreaDefectsByStatusAndTrade[
+                  showOnly2
+                ]
+            ) && (
+              <AcquisitionChart
+                data={
+                  organizationDashboard?.commonAreaDefectsByStatusAndTrade[
+                    showOnly2
+                  ]
+                }
+              />
+            )) || (
+              <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
+                <span className="font-black text-white">No data found</span>
+              </div>
+            )}
           </div>
           <div className="flex w-[80%] items-center justify-center border-t pt-5">
             <span className="text-gray-500">
               Total common area defects{" "}
-              <span className="text-green-500">0</span>
+              <span className="text-green-500">
+                {parseInt(
+                  organizationDashboard &&
+                    organizationDashboard.commonAreaDefectsByStatusAndTrade &&
+                    organizationDashboard.commonAreaDefectsByStatusAndTrade[
+                      showOnly2
+                    ]["Painter"]
+                ) +
+                  parseInt(
+                    organizationDashboard &&
+                      organizationDashboard.commonAreaDefectsByStatusAndTrade &&
+                      organizationDashboard.commonAreaDefectsByStatusAndTrade[
+                        showOnly2
+                      ]["Electrician"]
+                  ) +
+                  parseInt(
+                    organizationDashboard &&
+                      organizationDashboard.commonAreaDefectsByStatusAndTrade &&
+                      organizationDashboard.commonAreaDefectsByStatusAndTrade[
+                        showOnly2
+                      ]["Tiler"]
+                  )}
+              </span>
             </span>
           </div>
         </div>
@@ -350,34 +554,18 @@ const Dashboard: FC = function () {
   );
 };
 
-const Defects = function ({ orgDashboard }: any) {
-  const [showOnly, setShowOnly] = useState("all");
-  // const getTotal = (value: any) => {
-  //   if (value == "properties") {
-  //     return orgDashboard.defectsByProperty.in_progress
-  //       ? orgDashboard.defectsByProperty.in_progress
-  //       : 0 + orgDashboard.defectsByProperty.resolved
-  //       ? orgDashboard.defectsByProperty.resolved
-  //       : 0 + orgDashboard.defectsByProperty.disputed
-  //       ? orgDashboard.defectsByProperty.disputed
-  //       : 0 + orgDashboard.defectsByProperty.pending
-  //       ? orgDashboard.defectsByProperty.pending
-  //       : 0;
-  //   }
-  //   return orgDashboard?.defectsByCommonArea.pending
-  //     ? orgDashboard?.defectsByCommonArea.pending
-  //     : 0 + orgDashboard?.defectsByCommonArea.in_progress
-  //     ? orgDashboard?.defectsByCommonArea.in_progress
-  //     : 0 + orgDashboard?.defectsByCommonArea.resolved
-  //     ? orgDashboard?.defectsByCommonArea.resolved
-  //     : 0 + orgDashboard?.defectsByCommonArea.disputed
-  //     ? orgDashboard?.defectsByCommonArea.disputed
-  //     : 0;
-  // };
+interface P {
+  organizationDashboard: DashboardData | undefined;
+}
 
-  // const getPercent = (value, total) => {
-  //   return value && value > 0 ? `${(value * 100) / total}%` : "0%";
-  // };
+const Defects = function (props: P) {
+  const { organizationDashboard } = props;
+  const [showOnly, setShowOnly] = useState("all");
+
+  const getPercent = (current: any, total: any) => {
+    const percentage = (current * 100) / total;
+    return `${percentage < 3 ? 3 : percentage}%`;
+  };
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
@@ -387,9 +575,11 @@ const Defects = function ({ orgDashboard }: any) {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center ">
             <span className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              0
+              {organizationDashboard &&
+                organizationDashboard.totalDefects &&
+                organizationDashboard.totalDefects.total}
             </span>
-            <div className="ml-2 flex items-center rounded bg-green-100 p-1">
+            {/* <div className="ml-2 flex items-center rounded bg-green-100 p-1">
               <svg
                 width="8"
                 height="11"
@@ -404,9 +594,9 @@ const Defects = function ({ orgDashboard }: any) {
                 />
               </svg>
               <span className="ml-1 text-[12px] text-green-500">0%</span>
-            </div>
+            </div> */}
           </div>
-          <div>
+          {/* <div>
             <table className="w-full border-collapse rounded border border-gray-100">
               <tr>
                 <td className="border border-gray-100 p-1">
@@ -423,7 +613,7 @@ const Defects = function ({ orgDashboard }: any) {
                 </td>
               </tr>
             </table>
-          </div>
+          </div> */}
         </div>
         <fieldset className="my-5 flex flex-row items-center gap-4">
           <span className="text-[14px]">Show only:</span>
@@ -467,32 +657,68 @@ const Defects = function ({ orgDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{
-                    width: "95%",
-                  }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByProperty.pending}{" "}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard.defectsByProperty &&
+                  organizationDashboard.defectsByProperty.pending > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard.defectsByProperty &&
+                            organizationDashboard.defectsByProperty.pending,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByProperty &&
+                        organizationDashboard?.defectsByProperty.pending}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{
-                    width: "70%",
-                  }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByProperty.pending}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByCommonArea &&
+                  organizationDashboard?.defectsByCommonArea.pending > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByCommonArea &&
+                            organizationDashboard?.defectsByCommonArea.pending,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByCommonArea &&
+                        organizationDashboard?.defectsByCommonArea.pending}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -506,28 +732,71 @@ const Defects = function ({ orgDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "50%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByProperty.in_progress}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByProperty &&
+                  organizationDashboard?.defectsByProperty.in_progress > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByProperty &&
+                            organizationDashboard?.defectsByProperty
+                              .in_progress,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByProperty &&
+                        organizationDashboard?.defectsByProperty.in_progress}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "80%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByCommonArea.in_progress}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByCommonArea &&
+                  organizationDashboard?.defectsByCommonArea.in_progress >
+                    0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByCommonArea &&
+                            organizationDashboard?.defectsByCommonArea
+                              .in_progress,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByCommonArea &&
+                        organizationDashboard?.defectsByCommonArea.in_progress}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -541,28 +810,68 @@ const Defects = function ({ orgDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "85.5%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByProperty.resolved}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByProperty &&
+                  organizationDashboard?.defectsByProperty.resolved > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByProperty &&
+                            organizationDashboard?.defectsByProperty.resolved,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByProperty &&
+                        organizationDashboard?.defectsByProperty.resolved}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "40%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByCommonArea.resolved}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByCommonArea &&
+                  organizationDashboard?.defectsByCommonArea.resolved > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByCommonArea &&
+                            organizationDashboard?.defectsByCommonArea.resolved,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByCommonArea &&
+                        organizationDashboard?.defectsByCommonArea.resolved}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -576,28 +885,68 @@ const Defects = function ({ orgDashboard }: any) {
           <div className="flex w-full flex-col">
             {(showOnly == "all" || showOnly == "properties") && (
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "10%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByProperty.disputed}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByProperty &&
+                  organizationDashboard?.defectsByProperty.disputed > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByProperty &&
+                            organizationDashboard?.defectsByProperty.disputed,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByProperty &&
+                        organizationDashboard?.defectsByProperty.disputed}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
             {(showOnly == "all" || showOnly == "commonArea") && (
               <div className="my-1 h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div
-                  className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
-                  style={{ width: "15%" }}
-                >
-                  {" "}
-                  {orgDashboard &&
-                    orgDashboard?.defectsByProperty &&
-                    orgDashboard?.defectsByCommonArea.disputed}
-                </div>
+                {(organizationDashboard &&
+                  organizationDashboard?.defectsByCommonArea &&
+                  organizationDashboard?.defectsByCommonArea.disputed > 0 && (
+                    <div
+                      className="h-5 rounded-md bg-teal-500 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                      style={{
+                        width: getPercent(
+                          organizationDashboard &&
+                            organizationDashboard?.defectsByCommonArea &&
+                            organizationDashboard?.defectsByCommonArea.disputed,
+                          organizationDashboard &&
+                            organizationDashboard.totalDefects &&
+                            organizationDashboard.totalDefects.total
+                        ),
+                      }}
+                    >
+                      {" "}
+                      {organizationDashboard &&
+                        organizationDashboard?.defectsByCommonArea &&
+                        organizationDashboard?.defectsByCommonArea.disputed}
+                    </div>
+                  )) || (
+                  <div
+                    className="h-5 rounded-md bg-gray-200 p-1 text-center text-xs font-bold leading-none text-primary-100"
+                    style={{
+                      width: "3%",
+                    }}
+                  ></div>
+                )}
               </div>
             )}
           </div>
@@ -698,13 +1047,20 @@ const Defects = function ({ orgDashboard }: any) {
   );
 };
 
-const AcquisitionChart: FC = function () {
+interface propss {
+  data: TradeVariables;
+}
+const AcquisitionChart = function ({ data }: propss) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
 
+  const getValues = (status: any) => {
+    return data[status];
+  };
+
   const options: ApexCharts.ApexOptions = {
-    labels: ["Organic", "Referral", "Direct", "Social", "Other", "Email"],
-    colors: ["#16BDCA", "#FDBA8C", "#1A56DB", "#D61F69", "#9061F9", "#6875F5"],
+    labels: ["Painter", "Electrician", "Tiler"],
+    colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],
     chart: {
       fontFamily: "Inter, sans-serif",
       toolbar: {
@@ -747,7 +1103,7 @@ const AcquisitionChart: FC = function () {
       },
       y: {
         formatter: function (value) {
-          return value + "%";
+          return value + "";
         },
       },
     },
@@ -761,7 +1117,9 @@ const AcquisitionChart: FC = function () {
       show: false,
     },
   };
-  const series = [30, 24, 18, 12, 9, 7];
+  const series = data
+    ? [getValues("Painter"), getValues("Electrician"), getValues("Tiler")]
+    : [];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
 };
