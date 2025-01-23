@@ -46,7 +46,7 @@ export const userSlice = createSlice({
       state.loginTrigger = true;
     });
     builder.addCase(loginUser.rejected, (state) => {
-      state.isIdle = true;
+      state.isIdle = false;
       state.loginTrigger = false;
     });
   },
