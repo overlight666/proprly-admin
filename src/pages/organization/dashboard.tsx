@@ -49,9 +49,12 @@ const Dashboard: FC = function () {
     }
   }, [commonAreaItem]);
 
+  const sumValues = (obj) =>
+    Object.values(obj).reduce((a: any, b: any) => a + b);
+
   const checkIsValid = (d: TradeVariables) => {
     try {
-      const sum = d.Electrician + d.Painter + d.Tiler;
+      const sum: any = sumValues(d);
       return sum > 0 ? true : false;
     } catch (error) {
       return false;
@@ -215,8 +218,7 @@ const Dashboard: FC = function () {
               <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
                 {organizationDashboard &&
-                  organizationDashboard.totalDefects.total &&
-                  organizationDashboard.totalDefects.total &&
+                  organizationDashboard.totalDefects &&
                   organizationDashboard.totalDefects.total}
               </span>
               <div className="flex items-center">
@@ -1053,13 +1055,15 @@ interface propss {
 const AcquisitionChart = function ({ data }: propss) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
+  const keyValues = Object.keys(data);
 
   const getValues = (status: any) => {
     return data[status];
   };
-
+  const arrayValues = keyValues.map((v) => getValues(v));
+  console.log(arrayValues);
   const options: ApexCharts.ApexOptions = {
-    labels: ["Painter", "Electrician", "Tiler"],
+    labels: keyValues,
     colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],
     chart: {
       fontFamily: "Inter, sans-serif",
@@ -1117,9 +1121,7 @@ const AcquisitionChart = function ({ data }: propss) {
       show: false,
     },
   };
-  const series = data
-    ? [getValues("Painter"), getValues("Electrician"), getValues("Tiler")]
-    : [];
+  const series = data ? arrayValues : [];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
 };
