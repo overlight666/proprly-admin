@@ -328,7 +328,7 @@ const PropertyHeader = function () {
         // dispatch(registerProperty(params));
       });
     if (bulkProps.length > 0) {
-      dispatch(registerBulkProperty(bulkProps));
+      dispatch(registerBulkProperty({ properties: bulkProps }));
     }
   };
 
