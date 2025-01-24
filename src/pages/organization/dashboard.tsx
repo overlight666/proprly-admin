@@ -1052,6 +1052,7 @@ const Defects = function (props: P) {
 interface propss {
   data: TradeVariables;
 }
+
 const AcquisitionChart = function ({ data }: propss) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";

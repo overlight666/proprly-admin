@@ -69,14 +69,18 @@ const Dashboard: FC = function () {
     return count1 + count2;
   };
 
+  const sumValues = (obj) =>
+    Object.values(obj).reduce((a: any, b: any) => a + b);
+
   const checkIsValid = (d: TradeVariables) => {
     try {
-      const sum = d.Electrician + d.Painter + d.Tiler;
+      const sum: any = sumValues(d);
       return sum > 0 ? true : false;
     } catch (error) {
       return false;
     }
   };
+
   return (
     <div className="flex flex-col">
       <div className="grid gap-2 p-5 sm:grid-cols-1 lg:grid-cols-4">
@@ -1061,16 +1065,19 @@ const Defects = function (props: P) {
 interface propss {
   data: TradeVariables;
 }
+
 const AcquisitionChart = function ({ data }: propss) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
+  const keyValues = Object.keys(data);
 
   const getValues = (status: any) => {
     return data[status];
   };
-
+  const arrayValues = keyValues.map((v) => getValues(v));
+  console.log(arrayValues);
   const options: ApexCharts.ApexOptions = {
-    labels: ["Painter", "Electrician", "Tiler"],
+    labels: keyValues,
     colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],
     chart: {
       fontFamily: "Inter, sans-serif",
@@ -1128,9 +1135,7 @@ const AcquisitionChart = function ({ data }: propss) {
       show: false,
     },
   };
-  const series = data
-    ? [getValues("Painter"), getValues("Electrician"), getValues("Tiler")]
-    : [];
+  const series = data ? arrayValues : [];
 
   return <Chart height={305} options={options} series={series} type="donut" />;
 };
