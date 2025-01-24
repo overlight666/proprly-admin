@@ -113,6 +113,7 @@ const CommonAreaNewPage: FC = function () {
   useEffect(() => {
     if (commonAreaResponse && commonAreaResponse.id) {
       const commonAreaId = commonAreaResponse.id;
+      setIdHandler(commonAreaId);
       dispatch(clearCommonAreaResponse());
       if (
         uploadedWarranties &&
@@ -130,7 +131,6 @@ const CommonAreaNewPage: FC = function () {
           );
         }, 1000);
       } else {
-        setIdHandler(commonAreaId);
         dispatch(
           postWarrantyFiles({
             commonAreaId: commonAreaId,
