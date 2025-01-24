@@ -85,7 +85,10 @@ export const propertySlice = createSlice({
       state.bulkPropertyResponse = undefined;
     });
     builder.addCase(registerBulkProperty.fulfilled, (state, action) => {
-      state.bulkPropertyResponse = action.payload;
+      state.bulkPropertyResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
       state.isIdle = true;
     });
     builder.addCase(registerBulkProperty.rejected, (state) => {

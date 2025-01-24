@@ -333,16 +333,22 @@ const PropertyHeader = function () {
   };
 
   useEffect(() => {
+    console.log(bulkPropertyResponse);
     if (bulkPropertyResponse) {
-      setExcelData([]);
-      setOpenExcelModal(false);
-      toast.info("New properties has been added");
-      dispatch(resetBulkResponse());
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      if (bulkPropertyResponse && bulkPropertyResponse.error) {
+        toast.error(bulkPropertyResponse.error);
+      } else {
+        setExcelData([]);
+        setOpenExcelModal(false);
+        toast.info("New properties has been added");
+        dispatch(resetBulkResponse());
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      }
     }
-  }, []);
+  }, [bulkPropertyResponse]);
+
   return (
     <>
       <div className="mb-10 mt-5 grid w-full grid-cols-9 gap-2">

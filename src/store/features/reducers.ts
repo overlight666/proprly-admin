@@ -140,7 +140,7 @@ export const registerBulkProperty: any = createAsyncThunk(
     try {
       const response = await bulkProperty(data);
       // If you want to get something back
-      return response.data;
+      return response && response.data ? response.data : response;
     } catch (err) {
       console.error(err);
     }

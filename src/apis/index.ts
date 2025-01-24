@@ -239,7 +239,7 @@ export const bulkProperty = async (params: Property) => {
   return api
     .post(`/property/bulk`, params)
     .then((response) => {
-      return response.data;
+      return response && response.data ? response.data : response;
     })
     .catch((error) => {
       // log request error if any
