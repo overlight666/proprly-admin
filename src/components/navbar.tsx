@@ -142,7 +142,7 @@ const NotificationBellDropdown: FC = function () {
         </span>
       }
     >
-      <div className="max-w-[24rem]">
+      <div className="max-h-[40rem] max-w-[24rem] overflow-auto">
         <div className="block rounded-t-xl bg-gray-50 px-4 py-2 text-center text-base font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           Notifications
         </div>
@@ -150,42 +150,42 @@ const NotificationBellDropdown: FC = function () {
           {notifications &&
             notifications.length > 0 &&
             notifications.map((notif, index) => {
-              if (index < 4) {
-                return (
-                  <a
-                    key={index}
-                    href="#"
-                    className="flex border-y px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
-                  >
-                    <div className="w-full pl-3">
-                      <div className="font-semibold text-gray-900 dark:text-white">
-                        {notif.title}
-                        <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
-                          {moment(notif.createdAt, "YYYYMMDD").fromNow()}
-                        </div>
-                      </div>
-                      <span
-                        className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
-                        dangerouslySetInnerHTML={{
-                          __html: nl2br(notif.body, true, true),
-                        }}
-                      ></span>
-                      <div className="text-sm">
-                        <span className="text-primary-700">
-                          Date:{" "}
-                          <span className="text-gray-600">
-                            {" "}
-                            {moment(
-                              notif.createdAt,
-                              "YYYY-MM-DD h:mm:ss a"
-                            ).format("MMM Do, YYYY h:mm:ss a")}
-                          </span>
-                        </span>
+              // if (index < 4) {
+              return (
+                <a
+                  key={index}
+                  href="#"
+                  className="flex border-y px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
+                >
+                  <div className="w-full pl-3">
+                    <div className="font-semibold text-gray-900 dark:text-white">
+                      {notif.title}
+                      <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
+                        {moment(notif.createdAt, "YYYYMMDD").fromNow()}
                       </div>
                     </div>
-                  </a>
-                );
-              }
+                    <span
+                      className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
+                      dangerouslySetInnerHTML={{
+                        __html: nl2br(notif.body, true, true),
+                      }}
+                    ></span>
+                    <div className="text-sm">
+                      <span className="text-primary-700">
+                        Date:{" "}
+                        <span className="text-gray-600">
+                          {" "}
+                          {moment(
+                            notif.createdAt,
+                            "YYYY-MM-DD h:mm:ss a"
+                          ).format("MMM Do, YYYY h:mm:ss a")}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              );
+              // }
             })}
 
           {/* <a
