@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Label, Radio, Timeline, useTheme } from "flowbite-react";
+import { Button, Label, Radio, Timeline, useTheme } from "flowbite-react";
 import { useEffect, useState, type FC } from "react";
 import Chart from "react-apexcharts";
 import { HiCalendar } from "react-icons/hi";
@@ -20,6 +20,7 @@ import type {
 } from "../../types";
 // import { MdBrokenImage } from "react-icons/md";
 import moment from "moment";
+import { MdBrokenImage } from "react-icons/md";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
@@ -286,10 +287,15 @@ const Dashboard: FC = function () {
                             </span>
                           </div>
                         </Timeline.Body>
-                        {/* <Button color="gray">
-                          <MdBrokenImage className="mr-2 h-3 w-3" />
-                          Needs Action
-                        </Button> */}
+                        {notif.title.toLowerCase() ==
+                          "pending admin feedback" ||
+                          (notif.title.toLowerCase() ==
+                            "pending Admin approval" && (
+                            <Button color="gray">
+                              <MdBrokenImage className="mr-2 h-3 w-3" />
+                              Needs Action
+                            </Button>
+                          ))}
                       </Timeline.Content>
                     </Timeline.Item>
                   );
@@ -918,7 +924,7 @@ const Defects = function (props: P) {
           </div>
         </li>
       </ul>
-      <div className="flex w-full">
+      {/* <div className="flex w-full">
         <div className="mx-5 ml-11 w-32"></div>
         <div className="my-2 flex h-5 w-full">
           <div
@@ -983,7 +989,7 @@ const Defects = function (props: P) {
             <span className="absolute right-0">100</span>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
         {/* <Datepicker /> */}
         {/* <div className="shrink-0">
