@@ -39,6 +39,7 @@ import {
   getOrganizationDashboard,
   getProjectAppointments,
   getProjectDashboard,
+  getProjectReport,
   getprojects,
   getProperty,
   getPropertyReports,
@@ -897,6 +898,19 @@ export const getDashboardOrganizationReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getDashboardOrganization(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getProjectReportReducer: any = createAsyncThunk(
+  "getProjectReportReducer",
+  async (id: any) => {
+    try {
+      const response = await getProjectReport(id);
       // If you want to get something back
       return response;
     } catch (err) {

@@ -456,6 +456,31 @@ export interface ProjectState {
   reloadAreaTable: boolean;
   projectAppointments: any[] | undefined;
   projectDashboard: ProjectDashboard | undefined;
+  projectReports: ProjectReport | undefined;
+}
+
+export interface ProjectReport {
+  totalProperties: number;
+  totalDefects: number;
+  openDefects: number;
+  resolvedDefects: number;
+  defectDescriptions: DefectDescriptions;
+  name: string;
+  address: string;
+  devloper: string;
+}
+export interface DefectDescriptions {
+  tableData: ProjectDefectData[];
+}
+
+export interface ProjectDefectData {
+  srNo: number;
+  unitNo: string;
+  totalDefects: number;
+  openDefects: number;
+  closedDefects: number;
+  openDefectCodes: string;
+  lastInspectionDate: string;
 }
 
 export interface ProjectDashboard {

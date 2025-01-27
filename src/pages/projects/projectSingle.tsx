@@ -71,6 +71,7 @@ import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
 import Dashboard from "./dashboard";
+import ProjectReportTable from "./report/projectReportTable";
 
 type towerType = {
   levels?: string;
@@ -1136,7 +1137,7 @@ const ProjectSingle: FC = function () {
         ) : projectTabMain === 4 ? (
           <ConfigureAccordionUser />
         ) : (
-          <></>
+          <ProjectReportTable />
         )}
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>

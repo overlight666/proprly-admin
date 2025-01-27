@@ -18,6 +18,7 @@ import {
   getDefectCodeListByProject,
   getProjectAppointmentsReducer,
   getProjectDashboardReducer,
+  getProjectReportReducer,
   getProjects,
   getSingleProject,
   getTowersReducer,
@@ -87,6 +88,7 @@ const initialState: ProjectState = {
   reloadAreaTable: false,
   projectAppointments: undefined,
   projectDashboard: undefined,
+  projectReports: undefined,
 };
 
 export const projectSlice = createSlice({
@@ -486,6 +488,20 @@ export const projectSlice = createSlice({
     });
     builder.addCase(getProjectDashboardReducer.rejected, (state) => {
       state.projectDashboard = undefined;
+    });
+    // project report
+
+    builder.addCase(getProjectReportReducer.pending, (state) => {
+      state.projectReports = undefined;
+    });
+    builder.addCase(getProjectReportReducer.fulfilled, (state, action) => {
+      state.projectReports =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getProjectReportReducer.rejected, (state) => {
+      state.projectReports = undefined;
     });
   },
 });

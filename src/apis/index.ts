@@ -461,6 +461,7 @@ export const getAllTradeCodebyProject = async (id: any) => {
       return error;
     });
 };
+
 export const getRegions = async () => {
   return api
     .get(`/region`)
@@ -810,5 +811,17 @@ export const getDashboardOrganization = async (id: any) => {
     })
     .catch((error) => {
       return error && error.response && error.response.data;
+    });
+};
+
+export const getProjectReport = async (id: any) => {
+  return api
+    .get(`/project-report/${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
     });
 };
