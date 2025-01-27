@@ -309,15 +309,15 @@ const Dashboard: FC = function () {
                             </span>
                           </div>
                         </Timeline.Body>
-                        {notif.title.toLowerCase() ==
+                        {(notif.title.toLowerCase() ==
                           "pending admin feedback" ||
-                          (notif.title.toLowerCase() ==
-                            "pending Admin approval" && (
-                            <Button color="gray">
-                              <MdBrokenImage className="mr-2 h-3 w-3" />
-                              Needs Action
-                            </Button>
-                          ))}
+                          notif.title.toLowerCase() ==
+                            "pending admin approval") && (
+                          <Button color="gray">
+                            <MdBrokenImage className="mr-2 h-3 w-3" />
+                            Needs Action
+                          </Button>
+                        )}
                       </Timeline.Content>
                     </Timeline.Item>
                   );
