@@ -399,27 +399,9 @@ const Dashboard: FC = function () {
             <span className="text-gray-500">
               Total property defects{" "}
               <span className="text-green-500">
-                {parseInt(
-                  organizationDashboard &&
-                    organizationDashboard.propertyDefectsByStatusAndTrade &&
-                    organizationDashboard.propertyDefectsByStatusAndTrade[
-                      showOnly
-                    ]["Painter"]
-                ) +
-                  parseInt(
-                    organizationDashboard &&
-                      organizationDashboard.propertyDefectsByStatusAndTrade &&
-                      organizationDashboard.propertyDefectsByStatusAndTrade[
-                        showOnly
-                      ]["Electrician"]
-                  ) +
-                  parseInt(
-                    organizationDashboard &&
-                      organizationDashboard.propertyDefectsByStatusAndTrade &&
-                      organizationDashboard.propertyDefectsByStatusAndTrade[
-                        showOnly
-                      ]["Tiler"]
-                  )}
+                {organizationDashboard &&
+                  organizationDashboard.defectsByProperty &&
+                  organizationDashboard.defectsByProperty.total}
               </span>
             </span>
           </div>
@@ -526,27 +508,9 @@ const Dashboard: FC = function () {
             <span className="text-gray-500">
               Total common area defects{" "}
               <span className="text-green-500">
-                {parseInt(
-                  organizationDashboard &&
-                    organizationDashboard.commonAreaDefectsByStatusAndTrade &&
-                    organizationDashboard.commonAreaDefectsByStatusAndTrade[
-                      showOnly2
-                    ]["Painter"]
-                ) +
-                  parseInt(
-                    organizationDashboard &&
-                      organizationDashboard.commonAreaDefectsByStatusAndTrade &&
-                      organizationDashboard.commonAreaDefectsByStatusAndTrade[
-                        showOnly2
-                      ]["Electrician"]
-                  ) +
-                  parseInt(
-                    organizationDashboard &&
-                      organizationDashboard.commonAreaDefectsByStatusAndTrade &&
-                      organizationDashboard.commonAreaDefectsByStatusAndTrade[
-                        showOnly2
-                      ]["Tiler"]
-                  )}
+                {organizationDashboard &&
+                  organizationDashboard.defectsByCommonArea &&
+                  organizationDashboard.defectsByCommonArea.total}
               </span>
             </span>
           </div>
