@@ -64,6 +64,9 @@ const ViewSignupLead: FC = function () {
   const [selectedBuilder, setSelectedBuilder] = useState("");
   const [tempBuilders, setTempBuilder] = useState<any>();
   const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
+  const [defaultImg, setDefaultImg] = useState(
+    "https://proprly-dev-assets.s3.ap-southeast-2.amazonaws.com/images/istockphoto-1322575582-612x612-jpg-1728864716769.jpg"
+  );
   const { isIdle, loading, orgData }: OrgState = useSelector(
     (state: any) => state.organization
   );
@@ -328,6 +331,7 @@ const ViewSignupLead: FC = function () {
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                     <Label htmlFor="name">Organization Name</Label>
                     <TextInput
+                      disabled
                       id="name"
                       name="name"
                       value={formData.name}
@@ -339,6 +343,7 @@ const ViewSignupLead: FC = function () {
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="organization">Select Country</Label>
                     <select
+                      disabled
                       id="country"
                       name="country"
                       value={formData.country}
@@ -371,6 +376,7 @@ const ViewSignupLead: FC = function () {
                   <div className="grid grid-cols-1 gap-y-2">
                     <Label htmlFor="timezone">Select Timezone</Label>
                     <select
+                      disabled
                       id="timezone"
                       name="timezone"
                       value={formData.timezone}
@@ -386,7 +392,9 @@ const ViewSignupLead: FC = function () {
 
                     <div className="relative flex w-full items-center justify-center">
                       {myImage.imageData === undefined ||
-                      (myImage.imageData && myImage.imageData.id === 0) ? (
+                      (myImage.imageData &&
+                        myImage.imageData.id === 0 &&
+                        defaultImg == "") ? (
                         <label
                           htmlFor="dropzone-file"
                           className="relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-800"
@@ -451,21 +459,28 @@ const ViewSignupLead: FC = function () {
                         </label>
                       ) : (
                         <>
-                          <img src={myImage.imageData.url} alt="file" />
-                          <Button
-                            className="absolute right-0 top-1"
-                            onClick={() => {
-                              dispatch(clear());
-                            }}
-                            color="white"
-                          >
-                            <div className="flex items-center gap-x-2 text-xs">
-                              <RiCloseCircleFill
-                                color="red"
-                                className="h-6 w-6"
-                              />
-                            </div>
-                          </Button>
+                          <img
+                            src={myImage.imageData.url || defaultImg}
+                            alt="file"
+                          />
+                          {selectedLead &&
+                            selectedLead?.status != "accepted" && (
+                              <Button
+                                className="absolute right-0 top-1"
+                                onClick={() => {
+                                  dispatch(clear());
+                                  setDefaultImg("");
+                                }}
+                                color="white"
+                              >
+                                <div className="flex items-center gap-x-2 text-xs">
+                                  <RiCloseCircleFill
+                                    color="red"
+                                    className="h-6 w-6"
+                                  />
+                                </div>
+                              </Button>
+                            )}
                         </>
                       )}
                     </div>
@@ -550,15 +565,17 @@ const ViewSignupLead: FC = function () {
             </div>
           )}
           <div className="grid grid-cols-12 gap-5 pt-10">
-            <Button
-              color="primary"
-              onClick={() => {
-                setStatus("convert");
-                setOpen(true);
-              }}
-            >
-              Convert
-            </Button>
+            {selectedLead && selectedLead?.status != "accepted" && (
+              <Button
+                color="primary"
+                onClick={() => {
+                  setStatus("convert");
+                  setOpen(true);
+                }}
+              >
+                Convert
+              </Button>
+            )}
             <Button
               color="white"
               className="border-[1px]"

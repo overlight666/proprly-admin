@@ -171,24 +171,33 @@ const LeadTable = function () {
                         >
                           View
                         </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => {
-                            setStatus("convert");
-                            setLeadId(lead.id);
-                            setOpen(true);
-                          }}
-                        >
-                          Convert
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => {
-                            setStatus("reject");
-                            setLeadId(lead.id);
-                            setOpen(true);
-                          }}
-                        >
-                          Reject
-                        </Dropdown.Item>
+                        {lead.status &&
+                          lead.status
+                            .toLowerCase()
+                            .replace(/\b[a-z]/g, function (letter) {
+                              return letter.toUpperCase();
+                            }) !== "Accepted" && (
+                            <>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setStatus("convert");
+                                  setLeadId(lead.id);
+                                  setOpen(true);
+                                }}
+                              >
+                                Convert
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() => {
+                                  setStatus("reject");
+                                  setLeadId(lead.id);
+                                  setOpen(true);
+                                }}
+                              >
+                                Reject
+                              </Dropdown.Item>
+                            </>
+                          )}
                       </Dropdown>
                     </td>
                   </tr>

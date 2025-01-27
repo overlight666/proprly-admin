@@ -46,7 +46,7 @@ export default function SubContractor() {
 
   useEffect(() => {
     if (responseStatus === "User Added" && userType === "sub_contractor") {
-      toast.info("New sub contructor user is attached");
+      toast.info("New sub contractor user is attached");
       dispatch(setResponseStatus(""));
       if (userResponse && userResponse.user) {
         dispatch(getSingleProject(project_id));
@@ -113,6 +113,7 @@ export default function SubContractor() {
           id: selectedUser?.id,
           roleId: 5,
           projectId: project_id,
+          tradeCodeIds: [],
         };
         dispatch(createProjectUserReducer(params));
         dispatch(setUserType("sub_contractor"));
@@ -129,6 +130,7 @@ export default function SubContractor() {
       dispatch(setUserType("sub_contractor"));
     }
   };
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
