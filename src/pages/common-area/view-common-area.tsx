@@ -513,7 +513,7 @@ const CommonAreaViewPage: FC = function () {
                 Configure
               </a>
             </li>
-            {commonAreaIdle && commonAreaItem && isConfigured && (
+            {/* {commonAreaIdle && commonAreaItem && isConfigured && (
               <li className="me-2">
                 <a
                   href="javascript:void(0)"
@@ -566,7 +566,7 @@ const CommonAreaViewPage: FC = function () {
                   Reports
                 </a>
               </li>
-            )}
+            )} */}
           </ul>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />
