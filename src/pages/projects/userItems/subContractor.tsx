@@ -61,14 +61,24 @@ export default function SubContractor() {
     // }
   }, []);
 
-  const addUserHandler = (name, email, mobile) => {
-    if (name !== "" && email !== "" && mobile !== "") {
+  const addUserHandler = (name, email, mobile, tradeCodeIds) => {
+    if (
+      name !== "" &&
+      email !== "" &&
+      mobile !== "" &&
+      tradeCodeIds.length > 0
+    ) {
+      const codeIds =
+        tradeCodeIds &&
+        tradeCodeIds.length > 0 &&
+        tradeCodeIds.map((e) => e.value);
       const params = {
         fullName: name,
         email: email,
         mobile: mobile,
         roleId: 5,
         projectId: project_id,
+        tradeCodeIds: codeIds,
       };
       dispatch(createProjectUserReducer(params));
       dispatch(setUserType("sub_contractor"));
