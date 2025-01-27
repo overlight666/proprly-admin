@@ -102,7 +102,10 @@ const AddUserModal = function ({
               } else {
                 addUserHandler(name, email, mobile);
               }
-
+              setName("");
+              setMobile("");
+              setEmail("");
+              setSelected([]);
               setOpenModal(false);
             }}
           >
