@@ -16,12 +16,13 @@ import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import "../extension.css";
 DataTable.use(DT);
-const PropertyTable = function ({ properties }) {
+const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [reports, setReports] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isAll, setIsAll] = useState(false);
 
   const getStatus = (value) => {
     let val = "";
@@ -45,6 +46,35 @@ const PropertyTable = function ({ properties }) {
     setOpenModal(true);
   };
 
+  const onCheckAll = (e) => {
+    if (e) {
+      properties &&
+        properties.length > 0 &&
+        properties.map((props: Property | any) => {
+          if (
+            props.warrantyStatus != "uploaded" &&
+            props.warrantyStatus != "in_progress"
+          ) {
+            setSelected((oldArray) => [...oldArray, props.id]);
+          }
+        });
+    } else {
+      setSelected([]);
+    }
+  };
+
+  const getSelected = (id) => {
+    const isPresent =
+      selected && selected.length > 0 && selected.find((e) => e == id);
+    if (isPresent) {
+      const remover =
+        selected && selected.length > 0 && selected.filter((e) => e != id);
+      setSelected(remover);
+    } else {
+      setSelected((oldArray) => [...oldArray, id]);
+    }
+  };
+
   return (
     <>
       <table
@@ -59,6 +89,7 @@ const PropertyTable = function ({ properties }) {
                   id="checkbox-all-search"
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
+                  onChange={(e) => onCheckAll(e.target.checked)}
                 />
                 <label htmlFor="checkbox-all-search" className="sr-only">
                   checkbox
@@ -90,7 +121,7 @@ const PropertyTable = function ({ properties }) {
         <tbody>
           {properties &&
             properties.length > 0 &&
-            properties.map((props: Property, index) => {
+            properties.map((props: Property | any, index) => {
               return (
                 <tr
                   key={index}
@@ -99,9 +130,16 @@ const PropertyTable = function ({ properties }) {
                   <td className="w-4 p-4">
                     <div className="flex items-center">
                       <input
+                        checked={
+                          selected &&
+                          selected.length > 0 &&
+                          selected.find((e) => e == props.id)
+                        }
                         id="checkbox-table-search-1"
+                        name={props?.id}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
+                        onChange={(e) => getSelected(props.id)}
                       />
                       <label
                         htmlFor="checkbox-table-search-1"

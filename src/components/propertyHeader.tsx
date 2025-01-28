@@ -9,11 +9,13 @@ import { Button, FileInput, Label, Modal, Table } from "flowbite-react";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 import * as XLSX from "xlsx";
+import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import type {
   ExcelData,
+  ImageState,
   OrgState,
   ProjectState,
   PropertyState,
@@ -21,17 +23,33 @@ import type {
 } from "../types";
 import {
   getTowersReducer,
+  postWarrantyFiles,
   registerBulkProperty,
 } from "../store/features/reducers";
 import { toast } from "react-toastify";
 import { resetBulkResponse } from "../store/features/propertySlice";
+import Warranty from "../pages/properties/propertyItems/warranty";
+import { useUploadForm } from "../apis/hooks";
+import ModalWarranty from "../pages/properties/propertyItems/modalWarranty";
+import { clearWarranty, resetWarranty } from "../store/features/imageSlice";
 
-const PropertyHeader = function () {
+const PropertyHeader = function ({ selected }: any) {
   const [openModal, setOpenModal] = useState(false);
+  const [openBulk, setOpenBulk] = useState(false);
   const [excelModal, setOpenExcelModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const { id, project_id }: any = useParams();
   const dispatch = useDispatch();
+
+  const { warrantyData, warrantyResponse }: ImageState = useSelector(
+    (state: any) => state.uploads
+  );
+
+  const [uploadedWarranties, setUploadedWarranties] = useState<any>({
+    groups: [],
+  });
+
+  const { uploadForm, progress } = useUploadForm();
   const [isValidTemplate, setIsValidTemplate] = useState(true);
   // submit state
   const [excelData, setExcelData] = useState<any>(null);
@@ -51,12 +69,42 @@ const PropertyHeader = function () {
   useEffect(() => {
     dispatch(getTowersReducer(project_id));
   }, []);
-  // const { userData }: UserState = useSelector(
-  //   (state: ReducerTypes) => state.user
-  // );
+
+  useEffect(() => {
+    if (warrantyData) {
+      const warrant =
+        uploadedWarranties &&
+        uploadedWarranties.groups &&
+        uploadedWarranties.groups.find(
+          (obj) => obj.group === warrantyData.group
+        );
+      if (!warrant) {
+        uploadedWarranties.groups.push({
+          group: warrantyData.group,
+          files: [warrantyData.id],
+          data: [warrantyData],
+        });
+      } else {
+        uploadedWarranties &&
+          uploadedWarranties.groups &&
+          uploadedWarranties.groups.map((obj) => {
+            if (obj.group === warrantyData.group) {
+              const arr1 = [...new Set(obj.data)];
+              const arr = [...new Set(obj.files)];
+              arr1.push(warrantyData);
+              arr.push(warrantyData.id);
+              obj.files = arr;
+              obj.data = arr1;
+            }
+          });
+      }
+      setUploadedWarranties(uploadedWarranties);
+      dispatch(clearWarranty());
+    }
+  }, [warrantyData]);
 
   const navigate = useNavigate();
-
+  const [isUploding, setIsUploading] = useState(false);
   const uploadProperty = () => {
     if (uploadType === "single") {
       navigate(`/organization/${id}/project/${project_id}/properties/new`);
@@ -332,10 +380,29 @@ const PropertyHeader = function () {
     }
   };
 
+  const handleProgressUpload = async (
+    event: ChangeEvent<HTMLInputElement>,
+    group: string
+  ) => {
+    if (!event.target.files) {
+      return;
+    } else {
+      // const params = {
+      //   group: group,
+      //   file: event.target.files[0],
+      // };
+      uploadForm(event.target.files[0], group);
+      // dispatch(postWarranties(params));
+    }
+  };
+
   useEffect(() => {
     if (bulkPropertyResponse) {
-      if (bulkPropertyResponse && bulkPropertyResponse.error) {
-        toast.error(bulkPropertyResponse.error);
+      if (
+        (bulkPropertyResponse && bulkPropertyResponse.error) ||
+        bulkPropertyResponse.code
+      ) {
+        toast.error("Upload failed please contact admin.");
         dispatch(resetBulkResponse());
       } else {
         setExcelData([]);
@@ -348,6 +415,25 @@ const PropertyHeader = function () {
       }
     }
   }, [bulkPropertyResponse]);
+
+  useEffect(() => {
+    if (warrantyResponse) {
+      if (warrantyResponse.error) {
+        toast.warning(warrantyResponse.error);
+      } else {
+        toast.info("Upload Warranties Completed");
+        setOpenBulk(false);
+        setIsUploading(false);
+        setUploadedWarranties({
+          groups: [],
+        });
+      }
+      dispatch(resetWarranty());
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
+  }, [warrantyResponse]);
 
   return (
     <>
@@ -379,7 +465,13 @@ const PropertyHeader = function () {
             </div>
           </Button>
           <Button
-            // onClick={() => gotoPage("/organization/new")}
+            onClick={() => {
+              if (selected && selected.length > 1) {
+                setOpenBulk(true);
+              } else {
+                toast.warning("Please select property from the table");
+              }
+            }}
             className="mx-1 "
             color="gray"
           >
@@ -510,6 +602,38 @@ const PropertyHeader = function () {
           <Modal.Footer>
             <Button onClick={() => uploadBulkProperties()}>Upload</Button>
             <Button color="gray" onClick={() => setOpenExcelModal(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={openBulk} onClose={() => setOpenBulk(false)}>
+          <Modal.Header>Bulk Upload Warranty</Modal.Header>
+          <Modal.Body className="max-h-[600px] ">
+            <ModalWarranty
+              setUploadedWarranties={setUploadedWarranties}
+              handleUpload={handleProgressUpload}
+              uploadedWarranties={uploadedWarranties}
+              progressBar={progress}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                setIsUploading(true);
+                dispatch(
+                  postWarrantyFiles({
+                    propertyIds: selected,
+                    ...uploadedWarranties,
+                  })
+                );
+              }}
+              disabled={isUploding}
+            >
+              Submit
+            </Button>
+
+            <Button color="gray" onClick={() => setOpenBulk(false)}>
               Cancel
             </Button>
           </Modal.Footer>

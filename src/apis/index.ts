@@ -98,7 +98,7 @@ export const uploadWarrantyFiles = async (params: any) => {
   return api
     .post(`/warranty`, params)
     .then((response) => {
-      return response.data;
+      return response && response.data ? response.data : response;
     })
     .catch((error) => {
       // log request error if any

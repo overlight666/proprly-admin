@@ -48,6 +48,7 @@ const Properties: FC = function () {
   const { selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
+  const [selected, setSelected] = useState<any>([]);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const [headerValue, setHeaderValue] = useState("general");
@@ -228,8 +229,12 @@ const Properties: FC = function () {
           <>
             {propertyTab === 1 && (
               <div className="flex w-full flex-col  !bg-transparent">
-                <PropertyHeader />
-                <PropertyTable properties={propertyData} />
+                <PropertyHeader selected={selected} />
+                <PropertyTable
+                  properties={propertyData}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
               </div>
             )}
             {propertyTab === 2 && (

@@ -58,7 +58,7 @@ export default function UploadedItems({
         {uploadedFiles &&
           uploadedFiles.map((files: ImageType, index: number) => {
             return (
-              <div key={index} className="flex flex-col">
+              <div key={index} className="flex w-full flex-col">
                 <div className="flex w-full items-center justify-start gap-5">
                   <svg
                     width="20"
