@@ -10,7 +10,6 @@ const RegistrationStep3 = function (props: UserRegistration) {
   const [OTP, setOTP] = useState<string[]>(Array(length).fill(""));
   const handleSubmit = () => {
     // handle api request here but I'm console logging it
-    console.log(OTP.join(""));
     // if (OTP.join("") !== "123456") {
     //   setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
     // } else {

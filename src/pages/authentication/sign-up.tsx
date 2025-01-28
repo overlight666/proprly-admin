@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
@@ -100,26 +101,27 @@ const SignUpPage: FC = function () {
 
   useEffect(() => {
     if (otpResponse) {
+      console.log(formData.step);
+      // if (formData.step === 3) {
+      //   if (otpResponse && otpResponse.data.verified) {
+      //   setHeader("Verify your Mobile Number");
+      //   setSubHeader(` We sent you a six-digit code to xxxxxx
+      //     ${
+      //       formData.mobile &&
+      //       formData.mobile.substr(formData.mobile.length - 3)
+      //     }. Enter the code to confirm
+      //     your mobile number.`);
+      //   setFormData((prevFormData) => ({
+      //     ...prevFormData,
+      //     ["step"]: prevFormData.step + 1,
+      //   }));
+      //   } else {
+      //     if (otpResponse && !otpResponse.data.verified) {
+      //       setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
+      //     }
+      //   }
+      // }
       if (formData.step === 3) {
-        if (otpResponse && otpResponse.data.verified) {
-          setHeader("Verify your Mobile Number");
-          setSubHeader(` We sent you a six-digit code to xxxxxx
-          ${
-            formData.mobile &&
-            formData.mobile.substr(formData.mobile.length - 3)
-          }. Enter the code to confirm
-          your mobile number.`);
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            ["step"]: prevFormData.step + 1,
-          }));
-        } else {
-          if (otpResponse && !otpResponse.data.verified) {
-            setErrors((oldArray) => [...oldArray, "Incorrect OTP!"]);
-          }
-        }
-      }
-      if (formData.step === 4) {
         if (otpResponse && otpResponse.data.verified) {
           setHeader("");
           setSubHeader("");
@@ -226,9 +228,16 @@ const SignUpPage: FC = function () {
         setErrors((oldArray) => [...oldArray, "Country is required"]);
       }
       if (valid) {
-        setHeader("Verify your Email Address");
-        setSubHeader(`We emailed you a six-digit code to ${formData.email}. Enter the code below
-              to confirm your email adress.`);
+        // setHeader("Verify your Email Address");
+        // setSubHeader(`We emailed you a six-digit code to ${formData.email}. Enter the code below
+        //       to confirm your email adress.`);
+        setHeader("Verify your Mobile Number");
+        setSubHeader(` We sent you a six-digit code to xxxxxx
+          ${
+            formData.mobile &&
+            formData.mobile.substr(formData.mobile.length - 3)
+          }. Enter the code to confirm
+          your mobile number.`);
         setErrors([]);
         setSuccess([]);
         // setFormData((prevFormData) => ({
@@ -253,15 +262,15 @@ const SignUpPage: FC = function () {
   const nextStepOtp = async (otp: any) => {
     setErrors([]);
     setSuccess([]);
+    // if (formData.step === 3) {
+    //   const otpParams: OtpType = {
+    //     id: leadData.id,
+    //     type: "email",
+    //     otp: otp,
+    //   };
+    //   dispatch(VerifyOtp(otpParams));
+    // }
     if (formData.step === 3) {
-      const otpParams: OtpType = {
-        id: leadData.id,
-        type: "email",
-        otp: otp,
-      };
-      dispatch(VerifyOtp(otpParams));
-    }
-    if (formData.step === 4) {
       const otpParams: OtpType = {
         id: leadData.id,
         type: "mobile-number",
@@ -273,13 +282,13 @@ const SignUpPage: FC = function () {
 
   return (
     <>
-      <div className="bg-[url('/images/Background.png')] bg-cover">
+      <div className="h-auto bg-[url('/images/Background.png')] bg-cover">
         <PublicNav />
         <div className="flex items-center justify-center pt-32 max-lg:px-10">
           <Card
             horizontal
             imgAlt=""
-            className="md:max-h-auto relative mt-[60px] w-full md:max-w-[500px] md:[&>*]:w-full md:[&>*]:p-16 [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 lg:[&>img]:block"
+            className="md:max-h-auto relative mt-[60px] min-h-[320px] w-full md:max-w-[500px] md:[&>*]:w-full md:[&>*]:p-16 [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 lg:[&>img]:block"
           >
             {formData.step !== 5 && (
               <ol className="absolute left-2 top-5 flex w-full items-center text-xs font-medium text-gray-900 sm:text-base">
@@ -387,7 +396,7 @@ const SignUpPage: FC = function () {
                 loading={loading}
               />
             )}
-            {formData.step === 3 && (
+            {/* {formData.step === 3 && (
               <RegistrationStep3
                 resendOTP={resendOTP}
                 email={formData.email}
@@ -400,8 +409,8 @@ const SignUpPage: FC = function () {
                 nextStepOtp={nextStepOtp}
                 verifying={verifying}
               />
-            )}
-            {formData.step === 4 && (
+            )} */}
+            {formData.step === 3 && (
               <RegistrationStep4
                 resendOTP={resendOTP}
                 mobile={formData.mobile}
@@ -415,7 +424,7 @@ const SignUpPage: FC = function () {
                 verifying={verifying}
               />
             )}
-            {formData.step === 5 && <RegistrationStep5 />}
+            {formData.step === 4 && <RegistrationStep5 />}
           </Card>
         </div>
         <PublicFooter />
