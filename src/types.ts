@@ -159,6 +159,13 @@ export interface NotificationType {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  bodyWeb: BodyWeb;
+}
+export interface BodyWeb {
+  Project: string;
+  Zone: string;
+  Element: string;
+  UnitNo: string;
 }
 export interface NotificationDataType {
   screen: string;

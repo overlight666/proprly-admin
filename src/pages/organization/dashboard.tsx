@@ -34,12 +34,6 @@ const Dashboard: FC = function () {
     (state: ReducerTypes) => state.application
   );
 
-  const nl2br = (str, replaceMode, isXhtml) => {
-    const breakTag = isXhtml ? "<br />" : "<br>";
-    const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";
-    return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
-  };
-
   useEffect(() => {
     dispatch(getDashboardOrganizationReducer(id));
   }, []);
@@ -266,15 +260,54 @@ const Dashboard: FC = function () {
                           </div>
                         </Timeline.Time>
                         <Timeline.Title>
-                          <span
+                          {/* <span
                             className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
                             dangerouslySetInnerHTML={{
                               __html: nl2br(notif.body, true, true),
                             }}
-                          ></span>
+                          ></span> */}
                         </Timeline.Title>
                         <Timeline.Body>
-                          <div className="text-sm">
+                          <div className="flex flex-col">
+                            <span className="text-sm text-black">
+                              Project: {notif.bodyWeb && notif.bodyWeb.Project}
+                            </span>
+                            <div className="flex">
+                              {notif.bodyWeb && notif.bodyWeb.UnitNo && (
+                                <>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Unit no.
+                                    </span>
+                                    {notif.bodyWeb.UnitNo}
+                                  </span>{" "}
+                                  <div className="mx-[2px]">|</div>
+                                </>
+                              )}
+                              {notif.bodyWeb && notif.bodyWeb.Zone && (
+                                <>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Zone:{" "}
+                                    </span>
+                                    {notif.bodyWeb.Zone}
+                                  </span>
+                                </>
+                              )}
+                              {notif.bodyWeb && notif.bodyWeb.Element && (
+                                <>
+                                  <div className="mx-[2px]">|</div>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Element:{" "}
+                                    </span>
+                                    {notif.bodyWeb.Element}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div>
                             <span className="text-primary-700">
                               Date:{" "}
                               <span className="text-gray-600">
