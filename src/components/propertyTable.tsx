@@ -15,6 +15,7 @@ import { selectProperty } from "../store/features/propertySlice";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import "../extension.css";
+import { toast } from "react-toastify";
 DataTable.use(DT);
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
@@ -63,15 +64,19 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
     }
   };
 
-  const getSelected = (id) => {
-    const isPresent =
-      selected && selected.length > 0 && selected.find((e) => e == id);
-    if (isPresent) {
-      const remover =
-        selected && selected.length > 0 && selected.filter((e) => e != id);
-      setSelected(remover);
+  const getSelected = (id, status) => {
+    if (status != "uploaded" && status != "in_progress") {
+      const isPresent =
+        selected && selected.length > 0 && selected.find((e) => e == id);
+      if (isPresent) {
+        const remover =
+          selected && selected.length > 0 && selected.filter((e) => e != id);
+        setSelected(remover);
+      } else {
+        setSelected((oldArray) => [...oldArray, id]);
+      }
     } else {
-      setSelected((oldArray) => [...oldArray, id]);
+      toast.warning("This property has already warranty files uploaded.");
     }
   };
 
@@ -139,7 +144,9 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         name={props?.id}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
-                        onChange={(e) => getSelected(props.id)}
+                        onChange={(e) =>
+                          getSelected(props.id, props.warrantyStatus)
+                        }
                       />
                       <label
                         htmlFor="checkbox-table-search-1"
