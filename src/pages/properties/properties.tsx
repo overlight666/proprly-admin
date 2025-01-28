@@ -217,7 +217,7 @@ const Properties: FC = function () {
                     fill={propertyTab === 3 ? `#1A56DB` : `#6B7280`}
                   />
                 </svg>
-                Reports
+                Inspection Reports
               </a>
             </li>
           </ul>

@@ -681,7 +681,7 @@ const ProjectSingle: FC = function () {
                     fill={projectTabMain === 5 ? `#1A56DB` : `#6B7280`}
                   />
                 </svg>
-                Reports
+                Project Reports
               </a>
             </li>
           </ul>

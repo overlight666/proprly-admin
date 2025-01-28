@@ -271,7 +271,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                   Sr No
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Project Report Name
+                  Property Report Name
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Date Created

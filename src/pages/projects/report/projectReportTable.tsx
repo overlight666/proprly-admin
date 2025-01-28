@@ -54,31 +54,19 @@ const ProjectReportTable = function () {
   }, [selectedProject]);
 
   useEffect(() => {
-    const rp =
-      (selectedProject &&
-        projectReports &&
-        projectReports.defectDescriptions &&
-        projectReports.defectDescriptions.tableData &&
-        projectReports.defectDescriptions.tableData.length > 0 &&
-        projectReports.defectDescriptions.tableData.map(
-          (r: ProjectDefectData) => {
-            return [
-              projectReports.name,
-              (selectedProject && selectedProject.type.toUpperCase()) || "",
-              ucword(
-                selectedProject && selectedProject.maintenanceServiceType
-              ) || "",
-              (selectedProject &&
-                selectedProject.projectTower &&
-                selectedProject.projectTower.length > 0 &&
-                selectedProject.projectTower.map((t) => t.name).join(", ")) ||
-                "",
-              (selectedProject && selectedProject.numBasementLevels) || "",
-            ];
-          }
-        )) ||
-      [];
-    setTableData(rp);
+    setTableData([
+      [
+        selectedProject && selectedProject.name,
+        (selectedProject && selectedProject.type.toUpperCase()) || "",
+        ucword(selectedProject && selectedProject.maintenanceServiceType) || "",
+        (selectedProject &&
+          selectedProject.projectTower &&
+          selectedProject.projectTower.length > 0 &&
+          selectedProject.projectTower.map((t) => t.name).join(", ")) ||
+          "",
+        (selectedProject && selectedProject.numBasementLevels) || "",
+      ],
+    ]);
   }, [projectReports, selectedProject]);
 
   useEffect(() => {
@@ -169,6 +157,9 @@ const ProjectReportTable = function () {
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="7xl">
         <Modal.Header>Project Report History</Modal.Header>
         <Modal.Body>
+          <div className="flex flex-row-reverse">
+            <Button color="primary">Generate Latest Project Reports</Button>
+          </div>
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
