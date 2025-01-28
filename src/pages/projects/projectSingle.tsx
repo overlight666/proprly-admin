@@ -1136,8 +1136,10 @@ const ProjectSingle: FC = function () {
           <ConfigureAccordion project_id={project_id} />
         ) : projectTabMain === 4 ? (
           <ConfigureAccordionUser />
-        ) : (
+        ) : projectTabMain === 5 ? (
           <ProjectReportTable />
+        ) : (
+          <></>
         )}
       </div>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
