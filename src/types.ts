@@ -371,6 +371,7 @@ export interface FloorListData {
 }
 
 export interface Project {
+  report?: ReportDetails[];
   id?: number;
   organizationId: number;
   name: string;
@@ -386,6 +387,20 @@ export interface Project {
   image?: ImageType;
   documents?: DocumentFile[];
   user?: userInterface[];
+}
+
+export interface ReportDetails {
+  commonAreaId: any;
+  createdAt: number;
+  id: number;
+  inspectionId: any;
+  organizationId: number;
+  projectId: number;
+  propertyId: any;
+  reportFor: any;
+  reportUrl: string;
+  stage: any;
+  updatedAt: string;
 }
 
 export interface DocumentFile {

@@ -412,7 +412,7 @@ const ExampleSidebar: FC = function () {
                                         Common Areas
                                       </div>
                                     </Sidebar.Item>
-                                    <Sidebar.Item
+                                    {/* <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}`}
                                       className={`ml-2 text-[14px]`}
                                     >
@@ -462,7 +462,7 @@ const ExampleSidebar: FC = function () {
                                         </div>
                                         ITPs
                                       </div>
-                                    </Sidebar.Item>
+                                    </Sidebar.Item> */}
                                     <Sidebar.Item
                                       href={`/organization/${selectedOrganization.id}/project/${obj.id}/appointments`}
                                       className={`ml-2 text-[14px] ${

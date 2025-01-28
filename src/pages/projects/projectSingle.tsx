@@ -71,7 +71,8 @@ import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
 import Dashboard from "./dashboard";
-import ProjectReportTable from "./report/projectReportTable";
+import ProjectReportTableNew from "./report/projectReportTableNew";
+import PropertyHeaderReport from "../../components/propertyHeaderReport";
 
 type towerType = {
   levels?: string;
@@ -1137,7 +1138,10 @@ const ProjectSingle: FC = function () {
         ) : projectTabMain === 4 ? (
           <ConfigureAccordionUser />
         ) : projectTabMain === 5 ? (
-          <ProjectReportTable />
+          <>
+            <PropertyHeaderReport />
+            <ProjectReportTableNew />
+          </>
         ) : (
           <></>
         )}
