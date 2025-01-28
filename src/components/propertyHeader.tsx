@@ -333,10 +333,10 @@ const PropertyHeader = function () {
   };
 
   useEffect(() => {
-    console.log(bulkPropertyResponse);
     if (bulkPropertyResponse) {
       if (bulkPropertyResponse && bulkPropertyResponse.error) {
         toast.error(bulkPropertyResponse.error);
+        dispatch(resetBulkResponse());
       } else {
         setExcelData([]);
         setOpenExcelModal(false);

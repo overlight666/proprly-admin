@@ -167,6 +167,7 @@ const ProjectReportTable = function () {
         </thead>
       </DataTable>
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="7xl">
+        <Modal.Header>Project Report History</Modal.Header>
         <Modal.Body>
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
