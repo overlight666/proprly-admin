@@ -117,6 +117,7 @@ export interface TotalDefects {
 }
 export interface DashboardData {
   totalNotifications: number;
+  needAttention: number;
   totalProjects: number;
   totalProperties: number;
   defectsByProperty: DefectsData;
@@ -330,6 +331,7 @@ export interface OrgState {
 
 export interface OrganizationDashboard {
   totalNotifications: number;
+  needAttention: number;
   totalProjects: number;
   totalProperties: number;
   defectsByProperty: DefectsByProperty;
@@ -508,6 +510,7 @@ export interface ProjectDefectData {
 export interface ProjectDashboard {
   totalNotifications: number;
   totalProjects: number;
+  needAttention: number;
   totalProperties: number;
   defectsByProperty: DefectsByProperty;
   defectsByCommonArea: DefectsByCommonArea;

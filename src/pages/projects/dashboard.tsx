@@ -118,7 +118,7 @@ const Dashboard: FC = function () {
               </svg>
               <span className="text-gray-500">Alerts - Needs Attention</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-                {projectDashboard?.totalNotifications}
+                {(projectDashboard && projectDashboard.needAttention) || 0}
               </span>
               <div className="flex items-center">
                 {/* <svg
