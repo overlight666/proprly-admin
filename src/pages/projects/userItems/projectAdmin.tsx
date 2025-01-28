@@ -34,6 +34,7 @@ export default function ProjectAdmin() {
     (state: ReducerTypes) => state.application
   );
   const [selectedUser, setSelectedUser] = useState<Lead>();
+  const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
     useSelector((state: any) => state.project);
 
@@ -82,6 +83,7 @@ export default function ProjectAdmin() {
       dispatch(createProjectUserReducer(params));
       dispatch(setUserType("admin"));
       setOpenModal(false);
+      setIsSuccess(true);
     } else {
       toast.warn("All fields are required");
     }
@@ -223,6 +225,8 @@ export default function ProjectAdmin() {
         </Button>
       </div> */}
       <AddUserModal
+        isSuccess={isSuccess}
+        setIsSuccess={setIsSuccess}
         openModal={openModal}
         setOpenModal={setOpenModal}
         addUserHandler={addUserHandler}

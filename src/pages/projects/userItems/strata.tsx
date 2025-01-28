@@ -41,6 +41,7 @@ export default function Strata() {
   }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Lead>();
   const dispatch = useDispatch();
 
@@ -73,6 +74,7 @@ export default function Strata() {
       dispatch(createProjectUserReducer(params));
       dispatch(setUserType("strata"));
       setOpenModal(false);
+      setIsSuccess(true);
     } else {
       toast.warn("All fields are required");
     }
@@ -224,6 +226,8 @@ export default function Strata() {
         </Button>
       </div> */}
       <AddUserModal
+        isSuccess={isSuccess}
+        setIsSuccess={setIsSuccess}
         openModal={openModal}
         setOpenModal={setOpenModal}
         addUserHandler={addUserHandler}

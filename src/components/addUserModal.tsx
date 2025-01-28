@@ -13,6 +13,8 @@ const AddUserModal = function ({
   openModal,
   addUserHandler,
   title,
+  setIsSuccess,
+  isSuccess,
 }: any) {
   const { tradeCodeList }: ProjectState = useSelector(
     (state: any) => state.project
@@ -31,6 +33,17 @@ const AddUserModal = function ({
       dispatch(getTradeCodeListByProject(project_id));
     }
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsSuccess(false);
+      setName("");
+      setMobile("");
+      setEmail("");
+      setSelected([]);
+    }
+  }, [isSuccess]);
+
   useEffect(() => {
     const o =
       tradeCodeList &&
@@ -102,11 +115,6 @@ const AddUserModal = function ({
               } else {
                 addUserHandler(name, email, mobile);
               }
-              setName("");
-              setMobile("");
-              setEmail("");
-              setSelected([]);
-              setOpenModal(false);
             }}
           >
             Submit

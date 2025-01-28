@@ -33,6 +33,7 @@ export default function Auditor() {
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
+  const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
     useSelector((state: any) => state.project);
   const [selectedUser, setSelectedUser] = useState<Lead>();
@@ -69,6 +70,7 @@ export default function Auditor() {
       dispatch(createProjectUserReducer(params));
       dispatch(setUserType("auditor"));
       setOpenModal(false);
+      setIsSuccess(true);
     } else {
       toast.warn("All fields are required");
     }
@@ -228,6 +230,8 @@ export default function Auditor() {
         </Button>
       </div> */}
       <AddUserModal
+        isSuccess={isSuccess}
+        setIsSuccess={setIsSuccess}
         openModal={openModal}
         setOpenModal={setOpenModal}
         addUserHandler={addUserHandler}

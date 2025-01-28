@@ -41,6 +41,7 @@ export default function SubContractor() {
   }: ProjectState = useSelector((state: any) => state.project);
 
   const [openModal, setOpenModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Lead>();
   const dispatch = useDispatch();
 
@@ -83,6 +84,7 @@ export default function SubContractor() {
       dispatch(createProjectUserReducer(params));
       dispatch(setUserType("sub_contractor"));
       setOpenModal(false);
+      setIsSuccess(true);
     } else {
       toast.warn("All fields are required");
     }
@@ -238,6 +240,8 @@ export default function SubContractor() {
         </Button>
       </div> */}
       <AddUserModal
+        isSuccess={isSuccess}
+        setIsSuccess={setIsSuccess}
         openModal={openModal}
         setOpenModal={setOpenModal}
         addUserHandler={addUserHandler}
