@@ -297,7 +297,7 @@ const Dashboard: FC = function () {
                         </Timeline.Title>
                         <Timeline.Body>
                           <div className="text-sm">
-                            <span className="text-primary-700">
+                            <span className="text-sm text-primary-700">
                               Date:{" "}
                               <span className="text-gray-600">
                                 {" "}

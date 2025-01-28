@@ -268,7 +268,7 @@ const Dashboard: FC = function () {
                           ></span> */}
                         </Timeline.Title>
                         <Timeline.Body>
-                          <div className="flex flex-col">
+                          <div className="flex flex-col ">
                             <span className="text-sm text-black">
                               Project: {notif.bodyWeb && notif.bodyWeb.Project}
                             </span>
@@ -308,7 +308,7 @@ const Dashboard: FC = function () {
                             </div>
                           </div>
                           <div>
-                            <span className="text-primary-700">
+                            <span className="text-sm text-primary-700">
                               Date:{" "}
                               <span className="text-gray-600">
                                 {" "}
