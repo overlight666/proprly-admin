@@ -562,11 +562,11 @@ const Defects = function (props: P) {
         </h3>
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center ">
-            <span className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+            {/* <span className="text-xl font-bold leading-none text-gray-900 dark:text-white">
               {projectDashboard &&
                 projectDashboard.totalDefects &&
                 projectDashboard.totalDefects.total}
-            </span>
+            </span> */}
             {/* <div className="ml-2 flex items-center rounded bg-green-100 p-1">
               <svg
                 width="8"
@@ -608,7 +608,7 @@ const Defects = function (props: P) {
           <div className="flex items-center gap-2">
             <Radio
               id="all"
-              name="showOnly"
+              name="showOnly0"
               value={showOnly}
               onChange={(e) => setShowOnly(e.target.id)}
               defaultChecked
@@ -618,7 +618,7 @@ const Defects = function (props: P) {
           <div className="flex items-center gap-2">
             <Radio
               id="properties"
-              name="showOnly"
+              name="showOnly0"
               value={showOnly}
               onChange={(e) => setShowOnly(e.target.id)}
             />
@@ -627,7 +627,7 @@ const Defects = function (props: P) {
           <div className="flex items-center gap-2">
             <Radio
               id="commonArea"
-              name="showOnly"
+              name="showOnly0"
               value={showOnly}
               onChange={(e) => setShowOnly(e.target.id)}
             />
@@ -1027,6 +1027,16 @@ const Defects = function (props: P) {
             </svg>
           </a>
         </div> */}
+        <div className="flex h-auto w-[100%] items-center justify-center pt-5">
+          <span className="text-gray-500">
+            Total defects{" "}
+            <span className="text-green-500">
+              {projectDashboard &&
+                projectDashboard.totalDefects &&
+                projectDashboard.totalDefects.total}
+            </span>
+          </span>
+        </div>
       </div>
     </div>
   );
