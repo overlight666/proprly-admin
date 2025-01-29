@@ -28,6 +28,7 @@ import {
   getCommonArea,
   getCommonAreaByProject,
   getCommonAreaDefectResolution,
+  getCommonAreaReports,
   getConfig,
   getCountries,
   getDashboardOrganization,
@@ -756,6 +757,19 @@ export const getPropertyReportsReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getPropertyReports(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getCommonAreaReportsReducer: any = createAsyncThunk(
+  "getCommonAreaReportsReducer",
+  async (id: any) => {
+    try {
+      const response = await getCommonAreaReports(id);
       // If you want to get something back
       return response;
     } catch (err) {

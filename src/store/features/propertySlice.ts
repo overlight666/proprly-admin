@@ -10,6 +10,7 @@ import {
   cancelAppointmentReducer,
   getAllDefectResolutionReducer,
   getCommonAreaDefectResolutionReducer,
+  getCommonAreaReportsReducer,
   getDefectResolutionByIdReducer,
   getProperties,
   getPropertyReportsReducer,
@@ -35,6 +36,7 @@ const initialState: PropertyState = {
   feedbackResponse: undefined,
   appointmentResponse: undefined,
   propertyReports: undefined,
+  commonAreaReports: undefined,
   appointmentRefresh: false,
   bulkPropertyResponse: undefined,
   commonAreaDefectSubmissions: undefined,
@@ -288,6 +290,19 @@ export const propertySlice = createSlice({
     });
     builder.addCase(getPropertyReportsReducer.rejected, (state) => {
       state.propertyReports = undefined;
+    });
+    //common Area reports
+    builder.addCase(getCommonAreaReportsReducer.pending, (state) => {
+      state.commonAreaReports = undefined;
+    });
+    builder.addCase(getCommonAreaReportsReducer.fulfilled, (state, action) => {
+      state.commonAreaReports =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(getCommonAreaReportsReducer.rejected, (state) => {
+      state.commonAreaReports = undefined;
     });
   },
 });

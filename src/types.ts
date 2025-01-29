@@ -648,6 +648,7 @@ export interface PropertyState {
   feedbackResponse: undefined | any;
   appointmentResponse: undefined | any;
   propertyReports: PropertyReport[] | undefined;
+  commonAreaReports: PropertyReport[] | undefined;
   appointmentRefresh: boolean;
   bulkPropertyResponse: any | undefined;
   commonAreaDefectSubmissions: DefectSumissionType[] | undefined;

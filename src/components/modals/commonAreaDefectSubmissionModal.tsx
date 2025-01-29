@@ -58,7 +58,6 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
     return val;
   };
 
-  console.log(defect);
   const textColoring = (defectSubStatus, hasBg) => {
     if (
       defectSubStatus == "Tradesman to be organised" ||
@@ -275,7 +274,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                             value={
                               defect && defect.property
                                 ? defect.property.lotNo
-                                : ""
+                                : "n/a"
                             }
                             placeholder="Enter lotno"
                             required

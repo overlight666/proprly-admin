@@ -47,22 +47,6 @@ const PropertyReportTable = function ({ headerValue }: any) {
   };
 
   useEffect(() => {
-    // const rp =
-    //   (reports &&
-    //     reports.length > 0 &&
-    //     reports.map((r: Report) => {
-    //       return [
-    //         r.lotNo,
-    //         r.unitNo,
-    //         r.owners &&
-    //           r.owners.length > 0 &&
-    //           r.owners.map((o) => o.fullName).join(", "),
-    //         headerValue,
-    //         r.reportUrl,
-    //       ];
-    //     })) ||
-    //   [];
-
     if (headerValue !== "all" && reports) {
       if (reports && reports.lotNo) {
         const reps =
@@ -136,6 +120,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
               r.owners &&
                 r.owners.length > 0 &&
                 r.owners.map((o) => o.fullName).join(", "),
+              ucword(rep.key),
               moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
               r.reportUrl,
             ];
@@ -145,6 +130,37 @@ const PropertyReportTable = function ({ headerValue }: any) {
       setFullReport((rep && rep?.fullReport) || {});
     }
   }, [propertyReports, headerValue]);
+
+  const resetUCWords = (val) => {
+    return val.toLowerCase().replace(/ /g, "_");
+  };
+
+  const generateReportHistory = (hval) => {
+    const rep: any =
+      propertyReports &&
+      propertyReports.length > 0 &&
+      propertyReports.find((o) => o.key == resetUCWords(hval));
+    setReports(rep && rep.latestReport ? rep.latestReport : []);
+    const repHistory =
+      (rep &&
+        rep.reports &&
+        rep.reports.length > 0 &&
+        rep.reports.map((r: any) => {
+          return [
+            r.lotNo,
+            r.unitNo,
+            r.owners &&
+              r.owners.length > 0 &&
+              r.owners.map((o) => o.fullName).join(", "),
+            hval,
+            moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+            r.reportUrl,
+          ];
+        })) ||
+      [];
+    setReportHistory(repHistory);
+    setOpenModal(true);
+  };
 
   return (
     <>
@@ -171,7 +187,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
               >
                 Export Report
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => setOpenModal(true)}>
+              <Dropdown.Item onClick={() => generateReportHistory(row[3])}>
                 {row[3] === ucword("general") ||
                 row[3] === ucword("post_handover")
                   ? "Report History"
@@ -240,10 +256,10 @@ const PropertyReportTable = function ({ headerValue }: any) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              4: (data: any, row: any) => (
+              5: (data: any, row: any) => (
                 <div>
                   <a
-                    href={row[4]}
+                    href={row[5]}
                     target="_blank"
                     download={`${row[0]}_${row[1]}_${row[2]}_${row[3]}.pdf`}
                     rel="noreferrer"
@@ -281,6 +297,9 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 </th>
                 <th scope="col" className="px-6 py-3">
                   OWNER NAME
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  INSPECTION TYPE
                 </th>
                 <th scope="col" className="px-6 py-3">
                   DATE CREATED

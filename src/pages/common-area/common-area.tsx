@@ -60,7 +60,7 @@ const CommonArea: FC = function () {
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [headerValue, setHeaderValue] = useState("general");
+  const [headerValue, setHeaderValue] = useState("all");
   // const [isComplete, setIsComplete] = useState(false);
   const uploadProperty = () => {
     if (uploadType === "single") {

@@ -27,16 +27,27 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <span className="text-[14px]">Inspection Type:</span>
         <div className="flex items-center gap-2">
           <Radio
-            id="general"
+            id="all"
             name="propertyHeader"
-            value="general"
+            value="all"
             defaultChecked
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="general" className="text-[14px]">
-            General
+          <Label htmlFor="all" className="text-[14px]">
+            All
           </Label>
         </div>
+        {/* <div className="flex items-center gap-2">
+          <Radio
+            id="under_construction"
+            name="propertyHeader"
+            value="under_construction"
+            onChange={(e) => setHeaderValue(e.target.value)}
+          />
+          <Label htmlFor="under_construction" className="text-[14px]">
+            Under-Construction
+          </Label>
+        </div> */}
         <div className="flex items-center gap-2">
           <Radio
             id="pre_settlement"
@@ -48,6 +59,18 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
             Pre-Settlement
           </Label>
         </div>
+        <div className="flex items-center gap-2">
+          <Radio
+            id="general"
+            name="propertyHeader"
+            value="general"
+            onChange={(e) => setHeaderValue(e.target.value)}
+          />
+          <Label htmlFor="general" className="text-[14px]">
+            General
+          </Label>
+        </div>
+
         <div className="flex items-center gap-2">
           <Radio
             id="handover"

@@ -86,7 +86,7 @@ const CommonAreaViewPage: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const [headerValue, setHeaderValue] = useState("general");
+  const [headerValue, setHeaderValue] = useState("all");
   const {
     selectedProject,
     commonAreaIdle,
