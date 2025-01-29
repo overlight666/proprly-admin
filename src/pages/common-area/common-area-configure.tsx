@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -27,7 +28,8 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
   const [showCard1, setShowCard1] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [isTowerConfigured, setIsTowerConfigured] = useState<any>(false);
+  const [isBasementConfigured, setIsBasementConfigured] = useState<any>(false);
   useEffect(() => {
     if (reloadAreaTable) {
       setTimeout(() => {
@@ -40,6 +42,34 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
       }, 5000);
     }
   }, [reloadAreaTable]);
+
+  useEffect(() => {
+    if (commonAreaConfig && commonAreaConfig?.projectTowers) {
+      const configureCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectTowers.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
+      setIsTowerConfigured(
+        commonAreaConfig?.projectTowers &&
+          commonAreaConfig.projectTowers.length == configureCount.length
+      );
+    }
+  }, [commonAreaConfig?.projectTowers]);
+
+  useEffect(() => {
+    if (commonAreaConfig && commonAreaConfig?.projectBasements) {
+      const configureCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectBasements.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
+      setIsBasementConfigured(
+        commonAreaConfig?.projectBasements &&
+          commonAreaConfig.projectBasements.length == configureCount.length
+      );
+    }
+  }, [commonAreaConfig?.projectBasements]);
 
   useEffect(() => {
     if (
@@ -68,7 +98,7 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
     <div className="flex w-full flex-col">
       <div
         className="flex w-full items-center justify-between border-b-[1px]"
-        onClick={() => setShowCard1(!showCard1)}
+        // onClick={() => setShowCard1(!showCard1)}
       >
         <h1 className="mb-5 mt-7 font-bold">Common Area Location Mapping</h1>
         {showCard1 ? (
@@ -85,7 +115,11 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
         />
       )}
       <div className="my-10 flex">
-        <Button className="mx-1" color="primary" disabled={!isConfigured}>
+        <Button
+          className="mx-1"
+          color="primary"
+          disabled={!isBasementConfigured || !isTowerConfigured}
+        >
           Configure
         </Button>
         <Button
