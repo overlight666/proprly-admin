@@ -1055,7 +1055,6 @@ const AcquisitionChart = function ({ data }: propss) {
     return data[status];
   };
   const arrayValues = keyValues.map((v) => getValues(v));
-  console.log(arrayValues);
   const options: ApexCharts.ApexOptions = {
     labels: keyValues,
     colors: ["#16BDCA", "#FDBA8C", "#1A56DB"],

@@ -575,7 +575,6 @@ const Defects = function (props: P) {
     return `${percentage < 3 ? 3 : percentage}%`;
   };
 
-  console.log(showOnly);
   return (
     <div className="mb-4 rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:mb-0 xl:p-8 2xl:col-span-2">
       <div className="mb-4">
