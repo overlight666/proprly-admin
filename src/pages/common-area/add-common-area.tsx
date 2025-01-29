@@ -120,16 +120,16 @@ const CommonAreaNewPage: FC = function () {
         uploadedWarranties.groups &&
         uploadedWarranties.groups.length === 0
       ) {
-        toast.info("New Common Area has been registered!");
+        // toast.info("New Common Area has been registered!");
         dispatch(updateCommonAreaTab(2));
         dispatch(clearCommonAreaConfig());
+        // dispatch(reloadCommonAreaTable(true));
+        // setTimeout(() => {
         dispatch(reloadCommonAreaTable(true));
-        setTimeout(() => {
-          dispatch(reloadCommonAreaTable(true));
-          navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
-          );
-        }, 1000);
+        navigate(
+          `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
+        );
+        // }, 1000);
       } else {
         dispatch(
           postWarrantyFiles({

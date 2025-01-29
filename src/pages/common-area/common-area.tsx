@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -21,7 +22,10 @@ import {
 } from "../../store/features/reducers";
 // import { MdBugReport } from "react-icons/md";
 import CommonAreaTable from "../../components/commonAreaTable";
-import { updateCommonAreaTab } from "../../store/features/projectSlice";
+import {
+  clearCommonAreaConfig,
+  updateCommonAreaTab,
+} from "../../store/features/projectSlice";
 import { FaChevronLeft } from "react-icons/fa";
 import CommonAreaConfigure from "./common-area-configure";
 import DataTable from "datatables.net-dt";
@@ -81,6 +85,8 @@ const CommonArea: FC = function () {
           common_area_id ? common_area_id : commonAreaItem?.id
         )
       );
+    } else {
+      dispatch(clearCommonAreaConfig());
     }
   }, [commonAreaItem]);
 
@@ -133,66 +139,99 @@ const CommonArea: FC = function () {
   //   setIsComplete(flagger);
   // }, [commonAreaConfig]);
 
+  // useEffect(() => {
+  //   if (commonAreaConfig) {
+  //     let isTowerConfigured = false;
+  //     let isBasementConfigured = false;
+  //     if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
+  //       let isPending = false;
+  //       let isConfigured = false;
+  //       let isInProgress = false;
+
+  //       let isPending2 = false;
+  //       let isConfigured2 = false;
+  //       let isInProgress2 = false;
+  //       commonAreaConfig.projectTowers &&
+  //         commonAreaConfig.projectTowers.map((pt) => {
+  //           if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
+  //             isPending = true;
+  //           }
+  //           if (
+  //             pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
+  //           ) {
+  //             isInProgress = true;
+  //           }
+  //           if (
+  //             pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
+  //           ) {
+  //             isConfigured = true;
+  //           }
+  //         });
+
+  //       commonAreaConfig.projectBasements &&
+  //         commonAreaConfig.projectBasements.map((pt) => {
+  //           if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
+  //             isPending2 = true;
+  //           }
+  //           if (
+  //             pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
+  //           ) {
+  //             isInProgress2 = true;
+  //           }
+  //           if (
+  //             pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
+  //           ) {
+  //             isConfigured2 = true;
+  //           }
+  //         });
+
+  //       if (!isPending && !isInProgress && isConfigured) {
+  //         isTowerConfigured = true;
+  //       }
+  //       if (!isPending2 && !isInProgress2 && isConfigured2) {
+  //         isBasementConfigured = true;
+  //       }
+  //       if (isTowerConfigured && isBasementConfigured) {
+  //         setIsConfigured(true);
+  //       } else {
+  //         setIsConfigured(false);
+  //       }
+  //     }
+  //   }
+  // }, [commonAreaConfig]);
+
   useEffect(() => {
-    if (commonAreaConfig) {
-      let isTowerConfigured = false;
-      let isBasementConfigured = false;
-      if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
-        let isPending = false;
-        let isConfigured = false;
-        let isInProgress = false;
+    if (
+      commonAreaConfig &&
+      commonAreaConfig?.projectTowers &&
+      commonAreaConfig &&
+      commonAreaConfig.projectBasements
+    ) {
+      const configureTowerCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectTowers.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
 
-        let isPending2 = false;
-        let isConfigured2 = false;
-        let isInProgress2 = false;
-        commonAreaConfig.projectTowers &&
-          commonAreaConfig.projectTowers.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured = true;
-            }
-          });
+      const configureBasementCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectBasements.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
 
-        commonAreaConfig.projectBasements &&
-          commonAreaConfig.projectBasements.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured2 = true;
-            }
-          });
+      const isBasementConfigured =
+        commonAreaConfig?.projectBasements &&
+        commonAreaConfig.projectBasements.length ==
+          configureBasementCount.length;
+      const isTowerConfigured =
+        commonAreaConfig?.projectTowers &&
+        commonAreaConfig.projectTowers.length == configureTowerCount.length;
 
-        if (!isPending && !isInProgress && isConfigured) {
-          isTowerConfigured = true;
-        }
-        if (!isPending2 && !isInProgress2 && isConfigured2) {
-          isBasementConfigured = true;
-        }
-        if (isTowerConfigured && isBasementConfigured) {
-          setIsConfigured(true);
-        } else {
-          setIsConfigured(false);
-        }
-      }
+      setIsConfigured(isTowerConfigured && isBasementConfigured);
+    } else {
+      setIsConfigured(false);
     }
-  }, [commonAreaConfig]);
+  }, [commonAreaConfig, commonAreaItem]);
 
   return (
     <NavbarSidebarLayout isFooter={false}>

@@ -19,57 +19,64 @@ import { Button } from "flowbite-react";
 import type { ProjectState } from "../../types";
 import { getCommonAreaReducer } from "../../store/features/reducers";
 import DataTable from "datatables.net-dt";
-import { reloadCommonAreaTable } from "../../store/features/projectSlice";
+import {
+  reloadCommonAreaTable,
+  updateCommonAreaTab,
+} from "../../store/features/projectSlice";
+import { toast } from "react-toastify";
 
 const CommonAreaConfigure = function ({ isConfigured }: any) {
-  const { commonAreaItem, commonAreaConfig, reloadAreaTable }: ProjectState =
-    useSelector((state: any) => state.project);
+  const {
+    commonAreaItem,
+    commonAreaConfig,
+    reloadAreaTable,
+    commonAreaTowerResponse,
+    commonAreaTowerProcess,
+    commonAreaBasementResponse,
+    commonAreaBasementProcess,
+  }: ProjectState = useSelector((state: any) => state.project);
   const { common_area_id } = useParams();
   const [showCard1, setShowCard1] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isTowerConfigured, setIsTowerConfigured] = useState<any>(false);
   const [isBasementConfigured, setIsBasementConfigured] = useState<any>(false);
+
   useEffect(() => {
-    if (reloadAreaTable) {
+    dispatch(
+      getCommonAreaReducer(common_area_id ? common_area_id : commonAreaItem?.id)
+    );
+    dispatch(reloadCommonAreaTable(false));
+    // }
+  }, []);
+
+  useEffect(() => {
+    if (
+      reloadAreaTable &&
+      ((commonAreaTowerResponse &&
+        !commonAreaTowerProcess &&
+        !commonAreaBasementProcess) ||
+        (commonAreaBasementResponse &&
+          !commonAreaTowerProcess &&
+          !commonAreaBasementProcess))
+    ) {
+      dispatch(
+        getCommonAreaReducer(
+          common_area_id ? common_area_id : commonAreaItem?.id
+        )
+      );
+      dispatch(reloadCommonAreaTable(false));
       setTimeout(() => {
-        dispatch(
-          getCommonAreaReducer(
-            common_area_id ? common_area_id : commonAreaItem?.id
-          )
-        );
-        dispatch(reloadCommonAreaTable(false));
-      }, 5000);
+        toast.info("Common Area has been updated!");
+      }, 100);
     }
-  }, [reloadAreaTable]);
-
-  useEffect(() => {
-    if (commonAreaConfig && commonAreaConfig?.projectTowers) {
-      const configureCount =
-        commonAreaConfig &&
-        commonAreaConfig?.projectTowers.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
-        );
-      setIsTowerConfigured(
-        commonAreaConfig?.projectTowers &&
-          commonAreaConfig.projectTowers.length == configureCount.length
-      );
-    }
-  }, [commonAreaConfig?.projectTowers]);
-
-  useEffect(() => {
-    if (commonAreaConfig && commonAreaConfig?.projectBasements) {
-      const configureCount =
-        commonAreaConfig &&
-        commonAreaConfig?.projectBasements.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
-        );
-      setIsBasementConfigured(
-        commonAreaConfig?.projectBasements &&
-          commonAreaConfig.projectBasements.length == configureCount.length
-      );
-    }
-  }, [commonAreaConfig?.projectBasements]);
+  }, [
+    reloadAreaTable,
+    commonAreaTowerResponse,
+    commonAreaTowerProcess,
+    commonAreaBasementProcess,
+    commonAreaBasementResponse,
+  ]);
 
   useEffect(() => {
     if (
@@ -101,11 +108,11 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
         // onClick={() => setShowCard1(!showCard1)}
       >
         <h1 className="mb-5 mt-7 font-bold">Common Area Location Mapping</h1>
-        {showCard1 ? (
+        {/* {showCard1 ? (
           <FaAngleUp className="h-[50px] cursor-pointer" />
         ) : (
           <FaAngleDown className="h-[50px] cursor-pointer" />
-        )}
+        )} */}
       </div>
       {showCard1 && (
         <CommonAreaLocationMappingTable
@@ -114,11 +121,14 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
           basements={commonAreaConfig?.projectBasements}
         />
       )}
-      <div className="my-10 flex">
+      {/* <div className="my-10 flex">
         <Button
           className="mx-1"
           color="primary"
-          disabled={!isBasementConfigured || !isTowerConfigured}
+          disabled={!isConfigured}
+          onClick={() => {
+            dispatch(updateCommonAreaTab(1));
+          }}
         >
           Configure
         </Button>
@@ -131,7 +141,7 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
         >
           Cancel
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

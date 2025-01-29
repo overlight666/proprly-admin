@@ -135,28 +135,34 @@ const OrganizationNewPage: FC = function () {
     // if (!isIdle && loading) {
     //   setIsTriggered(true);
     // }
-    if (orgData && orgData.name === "error") {
+    if (orgData && orgData.error) {
       toast.error(
         "We encountered some errors during the process, please contact admin"
       );
-      dispatch(clear());
-      setTimeout(() => {
-        navigate(`/organization`);
-      }, 5000);
     } else {
-      if (isTriggered && isIdle && !loading) {
-        if (orgData.id !== undefined && orgData?.id > 0) {
-          toast.success("Organization registerd successfully!");
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            country: "",
-            timezone: "",
-            currency: "",
-            name: "",
-            imageId: 0,
-          }));
-          dispatch(clear());
+      if (orgData && orgData.name === "error") {
+        toast.error(
+          "We encountered some errors during the process, please contact admin"
+        );
+        dispatch(clear());
+        setTimeout(() => {
           navigate(`/organization`);
+        }, 5000);
+      } else {
+        if (isTriggered && isIdle && !loading) {
+          if (orgData.id !== undefined && orgData?.id > 0) {
+            toast.success("Organization registerd successfully!");
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              country: "",
+              timezone: "",
+              currency: "",
+              name: "",
+              imageId: 0,
+            }));
+            dispatch(clear());
+            navigate(`/organization`);
+          }
         }
       }
     }

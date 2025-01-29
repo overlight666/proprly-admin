@@ -481,6 +481,10 @@ export interface ProjectState {
   projectAppointments: any[] | undefined;
   projectDashboard: ProjectDashboard | undefined;
   projectReports: ProjectReport | undefined;
+  commonAreaTowerResponse: any;
+  commonAreaBasementResponse: any;
+  commonAreaTowerProcess: boolean;
+  commonAreaBasementProcess: boolean;
 }
 
 export interface ProjectReport {

@@ -89,6 +89,10 @@ const initialState: ProjectState = {
   projectAppointments: undefined,
   projectDashboard: undefined,
   projectReports: undefined,
+  commonAreaTowerResponse: undefined,
+  commonAreaBasementResponse: undefined,
+  commonAreaTowerProcess: false,
+  commonAreaBasementProcess: false,
 };
 
 export const projectSlice = createSlice({
@@ -442,22 +446,36 @@ export const projectSlice = createSlice({
     //add common area tower
     builder.addCase(addCommonAreaTowerReducer.pending, (state) => {
       state.commonAreaIdle = false;
+      state.commonAreaTowerProcess = true;
     });
-    builder.addCase(addCommonAreaTowerReducer.fulfilled, (state) => {
+    builder.addCase(addCommonAreaTowerReducer.fulfilled, (state, action) => {
+      state.commonAreaTowerResponse = state.projectAppointments =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      state.commonAreaTowerProcess = false;
       state.commonAreaIdle = true;
     });
     builder.addCase(addCommonAreaTowerReducer.rejected, (state) => {
       state.commonAreaIdle = true;
+      state.commonAreaTowerProcess = false;
     });
     //add common area basement
     builder.addCase(addCommonAreaBasementReducer.pending, (state) => {
       state.commonAreaIdle = false;
+      state.commonAreaBasementProcess = true;
     });
-    builder.addCase(addCommonAreaBasementReducer.fulfilled, (state) => {
+    builder.addCase(addCommonAreaBasementReducer.fulfilled, (state, action) => {
       state.commonAreaIdle = true;
+      state.commonAreaBasementResponse = state.projectAppointments =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+      state.commonAreaBasementProcess = false;
     });
     builder.addCase(addCommonAreaBasementReducer.rejected, (state) => {
       state.commonAreaIdle = true;
+      state.commonAreaBasementProcess = false;
     });
     //get appointments
     builder.addCase(getProjectAppointmentsReducer.pending, (state) => {

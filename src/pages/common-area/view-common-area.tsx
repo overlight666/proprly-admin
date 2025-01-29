@@ -274,65 +274,36 @@ const CommonAreaViewPage: FC = function () {
   }, [commonAreaItem]);
 
   useEffect(() => {
-    if (commonAreaConfig) {
-      let isTowerConfigured = false;
-      let isBasementConfigured = false;
-      if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
-        let isPending = false;
-        let isConfigured = false;
-        let isInProgress = false;
+    if (
+      commonAreaConfig &&
+      commonAreaConfig?.projectTowers &&
+      commonAreaConfig &&
+      commonAreaConfig.projectBasements
+    ) {
+      const configureTowerCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectTowers.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
 
-        let isPending2 = false;
-        let isConfigured2 = false;
-        let isInProgress2 = false;
-        commonAreaConfig.projectTowers &&
-          commonAreaConfig.projectTowers.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured = true;
-            }
-          });
+      const configureBasementCount =
+        commonAreaConfig &&
+        commonAreaConfig?.projectBasements.filter(
+          (o) => o.commonAreaConfigurationStatus == "Configured"
+        );
 
-        commonAreaConfig.projectBasements &&
-          commonAreaConfig.projectBasements.map((pt) => {
-            if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-              isPending2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-            ) {
-              isInProgress2 = true;
-            }
-            if (
-              pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-            ) {
-              isConfigured2 = true;
-            }
-          });
-
-        if (!isPending && !isInProgress && isConfigured) {
-          isTowerConfigured = true;
-        }
-        if (!isPending2 && !isInProgress2 && isConfigured2) {
-          isBasementConfigured = true;
-        }
-        if (isTowerConfigured && isBasementConfigured) {
-          setIsConfigured(true);
-        } else {
-          setIsConfigured(false);
-        }
-      }
+      const isBasementConfigured =
+        commonAreaConfig?.projectBasements &&
+        commonAreaConfig.projectBasements.length ==
+          configureBasementCount.length;
+      const isTowerConfigured =
+        commonAreaConfig?.projectTowers &&
+        commonAreaConfig.projectTowers.length == configureTowerCount.length;
+      setIsConfigured(isTowerConfigured && isBasementConfigured);
+    } else {
+      setIsConfigured(false);
     }
-  }, [commonAreaConfig]);
+  }, [commonAreaConfig, commonAreaItem]);
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
@@ -513,7 +484,7 @@ const CommonAreaViewPage: FC = function () {
                 Configure
               </a>
             </li>
-            {/* {commonAreaIdle && commonAreaItem && isConfigured && (
+            {commonAreaIdle && commonAreaItem && isConfigured && (
               <li className="me-2">
                 <a
                   href="javascript:void(0)"
@@ -566,7 +537,7 @@ const CommonAreaViewPage: FC = function () {
                   Reports
                 </a>
               </li>
-            )} */}
+            )}
           </ul>
         </div>
         <ErrorHandler errors={errors} setErrors={setErrors} />

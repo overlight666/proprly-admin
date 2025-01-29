@@ -12,7 +12,6 @@ import {
   getAllCommonAreaReducer,
 } from "../../store/features/reducers";
 import type { ProjectState } from "../../types";
-import { toast } from "react-toastify";
 import { reloadCommonAreaTable } from "../../store/features/projectSlice";
 
 interface commonAreaType {
@@ -27,7 +26,9 @@ export const CommonAreaConfigModal = function (props: any) {
   const { allCommonArea }: ProjectState = useSelector(
     (state: any) => state.project
   );
+
   const { isOpen, setOpen, data, id } = props;
+  console.log(data);
   const { project_id } = useParams();
   const [selectedCommonArea, setSelectedCommonArea] = useState<commonAreaType>({
     commonAreaId: id,
@@ -282,9 +283,6 @@ export const CommonAreaConfigModal = function (props: any) {
     });
     if (hasAdded) {
       dispatch(reloadCommonAreaTable(true));
-      setTimeout(() => {
-        toast.info("Common Area has been updated!");
-      }, 5000);
     }
   };
 

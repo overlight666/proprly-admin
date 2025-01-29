@@ -21,6 +21,7 @@ export type organizationRegistration = {
   currency: string;
   dateFormat: string;
   id?: number;
+  error?: string;
 };
 
 export type loginUserType = {
@@ -642,7 +643,7 @@ export const addCommonAreaBasement = async (params: any) => {
   return api
     .post(`/common_area/basement/common_area_category`, params)
     .then((response) => {
-      return response && response.data;
+      return response && response.data ? response.data : response;
     })
     .catch((error) => {
       return error && error.response && error.response.data;
@@ -653,7 +654,7 @@ export const addCommonAreaTower = async (params: any) => {
   return api
     .post(`/common_area/project_tower_floor/common_area_category`, params)
     .then((response) => {
-      return response && response.data;
+      return response && response.data ? response.data : response;
     })
     .catch((error) => {
       return error && error.response && error.response.data;
