@@ -37,7 +37,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             All
           </Label>
         </div>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Radio
             id="under_construction"
             name="propertyHeader"
@@ -47,7 +47,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
           <Label htmlFor="under_construction" className="text-[14px]">
             Under-Construction
           </Label>
-        </div>
+        </div> */}
         <div className="flex items-center gap-2">
           <Radio
             id="pre_settlement"

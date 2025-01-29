@@ -26,11 +26,26 @@ const PropertyReportTable = function ({ headerValue }: any) {
     (state: any) => state.property
   );
   const [reports, setReports] = useState<any>(undefined);
+  const [allReports, setAllReports] = useState<any>(undefined);
   const [reportHistory, setReportHistory] = useState<any>(undefined);
   const [openModal, setOpenModal] = useState(false);
   const [fullReport, setFullReport] = useState<any>({});
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<any>([]);
+
+  const ucword = (str) => {
+    return (
+      (str &&
+        str
+          .replace(/_/g, " ")
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+          })) ||
+      ""
+    );
+  };
+
   useEffect(() => {
     // const rp =
     //   (reports &&
@@ -47,19 +62,54 @@ const PropertyReportTable = function ({ headerValue }: any) {
     //       ];
     //     })) ||
     //   [];
-    if (reports && reports.lotNo) {
-      const reps =
-        (reports && [
-          reports.lotNo ? reports.lotNo : "",
-          reports.unitNo ? reports.unitNo : "",
-          reports.owners &&
-            reports.owners.length > 0 &&
-            reports.owners.map((o) => o.fullName).join(", "),
-          headerValue,
-          reports.reportUrl ? reports.reportUrl : "",
-        ]) ||
-        [];
-      setTableData([reps]);
+
+    if (headerValue !== "all" && reports) {
+      if (reports && reports.lotNo) {
+        const reps =
+          (reports && [
+            reports.lotNo ? reports.lotNo : "",
+            reports.unitNo ? reports.unitNo : "",
+            reports.owners &&
+              reports.owners.length > 0 &&
+              reports.owners.map((o) => o.fullName).join(", "),
+            ucword(headerValue),
+            reports.reportUrl ? reports.reportUrl : "",
+          ]) ||
+          [];
+        setTableData([reps]);
+      } else {
+        setTableData([]);
+      }
+    } else {
+      const allrep =
+        propertyReports &&
+        propertyReports.length > 0 &&
+        propertyReports.map((x) => {
+          return [
+            (x.latestReport && x.latestReport.lotNo && x.latestReport.lotNo) ||
+              "",
+            (x.latestReport &&
+              x.latestReport.unitNo &&
+              x.latestReport.unitNo) ||
+              "",
+            x.latestReport &&
+              x.latestReport.owners &&
+              x.latestReport.owners.length > 0 &&
+              x.latestReport.owners.map((o) => o.fullName).join(", "),
+            ucword(x.key),
+            (x.latestReport && x.latestReport.reportUrl) || "",
+          ];
+        });
+      const filtered =
+        allrep &&
+        allrep.length > 0 &&
+        allrep.filter(
+          (y) =>
+            y[3] !== ucword("under_construction") &&
+            y[3] !== ucword("pre_sales") &&
+            y[0] !== ""
+        );
+      setTableData(filtered || []);
     }
   }, [reports, headerValue]);
 
@@ -70,24 +120,27 @@ const PropertyReportTable = function ({ headerValue }: any) {
   useEffect(() => {
     setReports([]);
     if (propertyReports) {
-      const rep =
-        propertyReports && propertyReports.find((o) => o.key == headerValue);
+      const rep: any =
+        propertyReports &&
+        propertyReports.length > 0 &&
+        propertyReports.find((o) => o.key == headerValue);
       setReports(rep && rep.latestReport ? rep.latestReport : []);
       const repHistory =
-        rep &&
-        rep.reports &&
-        rep.reports.length > 0 &&
-        rep.reports.map((r: any) => {
-          return [
-            r.lotNo,
-            r.unitNo,
-            r.owners &&
-              r.owners.length > 0 &&
-              r.owners.map((o) => o.fullName).join(", "),
-            moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
-            r.reportUrl,
-          ];
-        });
+        (rep &&
+          rep.reports &&
+          rep.reports.length > 0 &&
+          rep.reports.map((r: any) => {
+            return [
+              r.lotNo,
+              r.unitNo,
+              r.owners &&
+                r.owners.length > 0 &&
+                r.owners.map((o) => o.fullName).join(", "),
+              moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+              r.reportUrl,
+            ];
+          })) ||
+        [];
       setReportHistory(repHistory);
       setFullReport((rep && rep?.fullReport) || {});
     }
@@ -98,7 +151,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
       <DataTable
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         slots={{
-          3: (data: any, row: any) => (
+          4: (data: any, row: any) => (
             <Dropdown
               label=""
               dismissOnClick={false}
@@ -119,12 +172,13 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 Export Report
               </Dropdown.Item>
               <Dropdown.Item onClick={() => setOpenModal(true)}>
-                {row[3] === "general" || row[3] === "post_handover"
+                {row[3] === ucword("general") ||
+                row[3] === ucword("post_handover")
                   ? "Report History"
                   : "Trade Reports"}
               </Dropdown.Item>
-              {row[3] === "general" ||
-                (row[3] === "post_handover" &&
+              {row[3] === ucword("general") ||
+                (row[3] === ucword("post_handover") &&
                   ((fullReport && fullReport.reportUrl && (
                     <Dropdown.Item
                       as="a"
@@ -171,6 +225,9 @@ const PropertyReportTable = function ({ headerValue }: any) {
             </th>
             <th scope="col" className="px-6 py-3">
               OWNER NAME
+            </th>
+            <th scope="col" className="px-6 py-3">
+              INSPECTION TYPE
             </th>
             <th></th>
           </tr>

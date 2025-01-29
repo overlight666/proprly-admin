@@ -51,7 +51,7 @@ const Properties: FC = function () {
   const [selected, setSelected] = useState<any>([]);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
-  const [headerValue, setHeaderValue] = useState("general");
+  const [headerValue, setHeaderValue] = useState("all");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uploadProperty = () => {
