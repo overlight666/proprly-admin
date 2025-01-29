@@ -706,7 +706,7 @@ export const updateTimeSlots = async (params: any) => {
 
 export const getPropertyReports = async (id: any) => {
   return api
-    .get(`project/${id}/property_reports`)
+    .get(`property/${id}/property_reports`)
     .then((response) => {
       return response && response.data ? response.data : response;
     })

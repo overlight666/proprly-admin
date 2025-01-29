@@ -653,6 +653,8 @@ export interface PropertyReport {
   value: string;
   nextStatus: any[];
   reports: Report[];
+  latestReport: Report;
+  fullReport: Report;
 }
 
 export interface Report {
