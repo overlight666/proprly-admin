@@ -84,7 +84,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
             r.owners &&
               r.owners.length > 0 &&
               r.owners.map((o) => o.fullName).join(", "),
-            moment(r.createdAt).format("YYYY-DD-MM"),
+            moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
             r.reportUrl,
           ];
         });
@@ -179,7 +179,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
 
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="7xl">
         <Modal.Header>Property Report History</Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="max-h-[500px]">
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{

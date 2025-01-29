@@ -63,7 +63,7 @@ const ProjectReportTableNew = function () {
           `${selectedProject.name}_${moment(rep.createdAt).format(
             "YYYY-DD-MM_HH_ss"
           )}`,
-          moment(rep.createdAt).format("YYYY-DD-MM HH:ss"),
+          moment(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
           rep.reportUrl,
         ];
       });
