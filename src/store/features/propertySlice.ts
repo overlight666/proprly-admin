@@ -9,6 +9,7 @@ import {
   bookAppointmentReducer,
   cancelAppointmentReducer,
   getAllDefectResolutionReducer,
+  getCommonAreaDefectResolutionReducer,
   getDefectResolutionByIdReducer,
   getProperties,
   getPropertyReportsReducer,
@@ -36,6 +37,7 @@ const initialState: PropertyState = {
   propertyReports: undefined,
   appointmentRefresh: false,
   bulkPropertyResponse: undefined,
+  commonAreaDefectSubmissions: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -169,6 +171,27 @@ export const propertySlice = createSlice({
     );
     builder.addCase(getAllDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
+    });
+
+    //common area
+
+    builder.addCase(getCommonAreaDefectResolutionReducer.pending, (state) => {
+      state.isIdle = false;
+      state.commonAreaDefectSubmissions = undefined;
+    });
+    builder.addCase(
+      getCommonAreaDefectResolutionReducer.fulfilled,
+      (state, action) => {
+        state.commonAreaDefectSubmissions =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+        state.isIdle = true;
+      }
+    );
+    builder.addCase(getCommonAreaDefectResolutionReducer.rejected, (state) => {
+      state.isIdle = true;
+      state.commonAreaDefectSubmissions = undefined;
     });
 
     builder.addCase(getDefectResolutionByIdReducer.pending, (state) => {

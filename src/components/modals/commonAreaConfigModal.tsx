@@ -28,7 +28,7 @@ export const CommonAreaConfigModal = function (props: any) {
   );
 
   const { isOpen, setOpen, data, id } = props;
-  console.log(data);
+
   const { project_id } = useParams();
   const [selectedCommonArea, setSelectedCommonArea] = useState<commonAreaType>({
     commonAreaId: id,

@@ -27,6 +27,7 @@ import {
   getChecklistZones,
   getCommonArea,
   getCommonAreaByProject,
+  getCommonAreaDefectResolution,
   getConfig,
   getCountries,
   getDashboardOrganization,
@@ -911,6 +912,19 @@ export const getProjectReportReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getProjectReport(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getCommonAreaDefectResolutionReducer: any = createAsyncThunk(
+  "getCommonAreaDefectResolutionReducer",
+  async (id: any) => {
+    try {
+      const response = await getCommonAreaDefectResolution(id);
       // If you want to get something back
       return response;
     } catch (err) {

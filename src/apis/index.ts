@@ -826,3 +826,15 @@ export const getProjectReport = async (id: any) => {
       return error;
     });
 };
+
+export const getCommonAreaDefectResolution = async (id: any) => {
+  return api
+    .get(`/admin/defect-submissions?commonAreaId=${id}&type=commonArea`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};

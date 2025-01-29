@@ -2,20 +2,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 
-import type { DefectSumissionType, PropertyState } from "../../../types";
-import { useSelector } from "react-redux";
+import type {
+  DefectSumissionType,
+  ProjectState,
+  PropertyState,
+} from "../../../types";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 // import { getAllDefectResolutionReducer } from "../../../store/features/reducers";
 // import { useParams } from "react-router";
-import { DefectSubmissionModal } from "../../../components/modals/defectSubmissionModal";
 import { DefectFeedbackModal } from "../../../components/modals/defectFeedback";
 import { CommonAreaDefectItem } from "./common-area-defect-items";
+import {
+  getCommonAreaByProjectReducer,
+  getCommonAreaDefectResolutionReducer,
+} from "../../../store/features/reducers";
+import { useParams } from "react-router";
+import { CommonAreaDefectSubmittionModal } from "../../../components/modals/commonAreaDefectSubmissionModal";
 // import { clearSubmittion } from "../../../store/features/propertySlice";
 
 const CommonAreaDefectResolution = function () {
-  const { defectSubmissions, feedbackResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+  const { feedbackResponse, commonAreaDefectSubmissions }: PropertyState =
+    useSelector((state: any) => state.property);
+  const { commonAreaItem }: ProjectState = useSelector(
+    (state: any) => state.project
   );
+
   const [pendingDefects, setPendingDefects] = useState<
     DefectSumissionType[] | []
   >([]);
@@ -28,8 +40,8 @@ const CommonAreaDefectResolution = function () {
   const [resolvedDefects, setResolvedDefects] = useState<
     DefectSumissionType[] | []
   >([]);
-  //   const { project_id }: any = useParams();
-  //   const dispatch = useDispatch();
+  const { project_id, common_area_id }: any = useParams();
+  const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
   const [isFeedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackTitle, setFeedbackTitle] = useState("");
@@ -39,15 +51,18 @@ const CommonAreaDefectResolution = function () {
   let defectInit = false;
 
   useEffect(() => {
-    // if (!isInit) {
-    // dispatch(
-    //   getAllDefectResolutionReducer({
-    //     projectId: project_id,
-    //   })
-    // );
-    // isInit = true;
-    // }
+    if (common_area_id) {
+      dispatch(getCommonAreaDefectResolutionReducer(common_area_id));
+    } else {
+      dispatch(getCommonAreaByProjectReducer(project_id));
+    }
   }, []);
+
+  useEffect(() => {
+    if (commonAreaItem && !common_area_id) {
+      dispatch(getCommonAreaDefectResolutionReducer(commonAreaItem.id));
+    }
+  }, [commonAreaItem]);
 
   useEffect(() => {
     // if (feedbackResponse) {
@@ -61,28 +76,28 @@ const CommonAreaDefectResolution = function () {
   }, [feedbackResponse]);
 
   useEffect(() => {
-    if (defectSubmissions && defectSubmissions.length) {
+    if (commonAreaDefectSubmissions && commonAreaDefectSubmissions.length) {
       if (!defectInit) {
-        // const pendings: any = defectSubmissions.filter(
-        //   (d) => d.status === "logged"
-        // );
-        // const disputed: any = defectSubmissions.filter(
-        //   (d) => d.status === "disputed"
-        // );
-        // const in_progress: any = defectSubmissions.filter(
-        //   (d) => d.status === "in_progress"
-        // );
-        // const resolved: any = defectSubmissions.filter(
-        //   (d) => d.status === "resolved"
-        // );
-        setDisputedDefects([]);
-        setPendingDefects([]);
-        setInprogressDefects([]);
-        setResolvedDefects([]);
+        const pendings: any = commonAreaDefectSubmissions.filter(
+          (d) => d.status === "logged"
+        );
+        const disputed: any = commonAreaDefectSubmissions.filter(
+          (d) => d.status === "disputed"
+        );
+        const in_progress: any = commonAreaDefectSubmissions.filter(
+          (d) => d.status === "in_progress"
+        );
+        const resolved: any = commonAreaDefectSubmissions.filter(
+          (d) => d.status === "resolved"
+        );
+        setDisputedDefects(disputed);
+        setPendingDefects(pendings);
+        setInprogressDefects(in_progress);
+        setResolvedDefects(resolved);
         defectInit = true;
       }
     }
-  }, [defectSubmissions]);
+  }, [commonAreaDefectSubmissions]);
   return (
     <div className="flex flex-row gap-2 px-5">
       <div className="flex min-w-[25%] max-w-[25%] flex-col gap-0">
@@ -149,7 +164,7 @@ const CommonAreaDefectResolution = function () {
           })}
       </div>
 
-      <DefectSubmissionModal
+      <CommonAreaDefectSubmittionModal
         setFeedbackTitle={setFeedbackTitle}
         setDefectId={setDefectId}
         isOpen={isOpen}

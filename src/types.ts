@@ -650,6 +650,7 @@ export interface PropertyState {
   propertyReports: PropertyReport[] | undefined;
   appointmentRefresh: boolean;
   bulkPropertyResponse: any | undefined;
+  commonAreaDefectSubmissions: DefectSumissionType[] | undefined;
 }
 
 export interface PropertyReport {
@@ -674,6 +675,8 @@ export interface Report {
 
 export interface DefectSumissionType {
   id: number;
+  commonArea?: CommonAreaData;
+  commonAreaCategory?: CommonAreaCategory;
   organizationId: number;
   inspectionId: number;
   propertyId: number;
@@ -698,10 +701,33 @@ export interface DefectSumissionType {
   checklistSubElement: CheckListSubElementType;
   property: Property;
   activityLogs: ActivityLogsType[];
-  user?: userData;
+  user?: userData | userData[];
   userRole?: UserRoleType;
   stage: string;
   approvalNeededBy: string;
+  projectTower?: TowerData;
+  floor?: any;
+}
+export interface CommonAreaData {
+  createdAt: string;
+  id: number;
+  lotNo: string;
+  organizationId: number;
+  projectId: number;
+  status: string;
+  updatedAt: string;
+}
+export interface CommonAreaCategory {
+  createdAt: string;
+  id: number;
+  isActive: boolean;
+  isDefault: boolean;
+  name: string;
+  organizationId: any;
+  projectId: any;
+  regionId: any;
+  sequence: number;
+  updatedAt: string;
 }
 
 export interface UserRoleType {

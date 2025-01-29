@@ -238,7 +238,8 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
       </div>
       <div className="mt-2 flex flex-col">
         <span className="text-[14px] font-semibold">
-          {`Unit ${def.property.unitNo}, ${def.checklistZone.name} - ${def.checklistElement?.name}`}
+          {`${def.commonAreaCategory && def.commonAreaCategory.name} - ${def
+            .checklistElement?.name}`}
         </span>
         <span className="text-[14px] text-gray-400">
           Defect Code:{" "}
@@ -270,13 +271,11 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
           </span>
         </span>
         <span className="text-[14px] text-gray-400">
-          {def.property.projectTower?.name}:{" "}
+          {def.projectTower?.name}:{" "}
           <span className="font-semibold text-black">
-            {def.property.projectTower &&
-              def.property.projectTower.floorList &&
-              def.property.projectTower.floorList.find(
-                (f) => f.key == def.property.floor
-              )?.value}
+            {def.projectTower &&
+              def.projectTower.floorList &&
+              def.projectTower.floorList.find((f) => f.key == def.floor)?.value}
           </span>
         </span>
       </div>
