@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AppState } from "../../types";
 import {
+  generateLatestReportReducer,
   getAllCountries,
   getAllDefectResolutionByCommonAreaReducer,
   getAllDefectResolutionByPropertyReducer,
@@ -45,6 +46,7 @@ const initialState: AppState = {
   commonAreaDefectSubmissions: undefined,
   projectDashboard: undefined,
   organizationDashboard: undefined,
+  reportGenerated: false,
 };
 
 const mapDays = {
@@ -62,6 +64,9 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    resetReport: (state) => {
+      state.reportGenerated = false;
+    },
     updateGrid: (state, action) => {
       state.isGrid = action.payload;
     },
@@ -299,6 +304,17 @@ export const appSlice = createSlice({
     builder.addCase(getDashboardOrganizationReducer.rejected, (state) => {
       state.organizationDashboard = undefined;
     });
+    // generate latest
+
+    builder.addCase(generateLatestReportReducer.pending, (state) => {
+      state.reportGenerated = false;
+    });
+    builder.addCase(generateLatestReportReducer.fulfilled, (state) => {
+      state.reportGenerated = true;
+    });
+    builder.addCase(generateLatestReportReducer.rejected, (state) => {
+      state.reportGenerated = false;
+    });
   },
 });
 
@@ -315,6 +331,7 @@ export const {
   updateProjectOpen,
   clearProjectOpen,
   updateMasterTab,
+  resetReport,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

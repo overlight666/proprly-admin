@@ -14,6 +14,7 @@ import {
   cancelAppointmentApi,
   createCommonArea,
   createProjectUser,
+  generateLatestReport,
   getAllChecklist,
   getAllCommonArea,
   getAllDefectCodebyProject,
@@ -943,6 +944,19 @@ export const getCommonAreaDefectResolutionReducer: any = createAsyncThunk(
   async (id: any) => {
     try {
       const response = await getCommonAreaDefectResolution(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const generateLatestReportReducer: any = createAsyncThunk(
+  "generateLatestReportReducer",
+  async (params: any) => {
+    try {
+      const response = await generateLatestReport(params);
       // If you want to get something back
       return response;
     } catch (err) {

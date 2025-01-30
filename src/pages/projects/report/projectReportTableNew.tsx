@@ -19,11 +19,14 @@ import {
   getSingleProject,
 } from "../../../store/features/reducers";
 import type {
+  AppState,
   ProjectDefectData,
   ProjectReport,
   ProjectState,
 } from "../../../types";
 import moment from "moment";
+import { resetReport } from "../../../store/features/appSlice";
+import { toast } from "react-toastify";
 DataTable.use(DT);
 const ProjectReportTableNew = function () {
   const { project_id }: any = useParams();
@@ -31,6 +34,11 @@ const ProjectReportTableNew = function () {
   const { projectReports, selectedProject }: ProjectState = useSelector(
     (state: any) => state.project
   );
+
+  const { reportGenerated }: AppState = useSelector(
+    (state: any) => state.application
+  );
+
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<any>([]);
   const ucword = (str) => {
@@ -74,6 +82,13 @@ const ProjectReportTableNew = function () {
     dispatch(getProjectReportReducer(project_id));
   }, []);
 
+  useEffect(() => {
+    if (reportGenerated) {
+      dispatch(getProjectReportReducer(project_id));
+      dispatch(resetReport());
+      toast.info("New Report has been Generated!");
+    }
+  }, [reportGenerated]);
   return (
     <>
       <DataTable

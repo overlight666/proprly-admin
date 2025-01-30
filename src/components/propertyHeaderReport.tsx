@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import type {
+  AppState,
   ExcelData,
   ImageState,
   OrgState,
@@ -22,6 +23,7 @@ import type {
   TowerData,
 } from "../types";
 import {
+  generateLatestReportReducer,
   getTowersReducer,
   postWarrantyFiles,
   registerBulkProperty,
@@ -456,7 +458,7 @@ const PropertyHeaderReport = function ({ selected }: any) {
         <div className="col-span-5 flex items-center"></div>
         <Button
           onClick={() => {
-            setOpenModal(true);
+            dispatch(generateLatestReportReducer(`projectId=${project_id}`));
           }}
           className="col-span-2 w-[100%]"
         >

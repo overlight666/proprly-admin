@@ -15,14 +15,18 @@ import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import {
+  generateLatestReportReducer,
   getProjectReportReducer,
   getSingleProject,
 } from "../../../store/features/reducers";
 import type {
+  AppState,
   ProjectDefectData,
   ProjectReport,
   ProjectState,
 } from "../../../types";
+import { resetReport } from "../../../store/features/appSlice";
+import { toast } from "react-toastify";
 DataTable.use(DT);
 const ProjectReportTable = function () {
   const { project_id }: any = useParams();
@@ -34,6 +38,9 @@ const ProjectReportTable = function () {
   const [reports, setReports] = useState<any[] | undefined>(undefined);
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<any>([]);
+  const { reportGenerated }: AppState = useSelector(
+    (state: any) => state.application
+  );
   const ucword = (str) => {
     return (
       (str &&
@@ -72,6 +79,14 @@ const ProjectReportTable = function () {
   useEffect(() => {
     dispatch(getProjectReportReducer(project_id));
   }, []);
+
+  useEffect(() => {
+    if (reportGenerated) {
+      dispatch(getProjectReportReducer(project_id));
+      dispatch(resetReport());
+      toast.info("New report has been generated!");
+    }
+  }, [reportGenerated]);
 
   const openReports = () => {
     const rp =
@@ -158,7 +173,16 @@ const ProjectReportTable = function () {
         <Modal.Header>Project Report History</Modal.Header>
         <Modal.Body>
           <div className="flex flex-row-reverse">
-            <Button color="primary">Generate Latest Project Reports</Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                dispatch(
+                  generateLatestReportReducer(`projectId=${project_id}`)
+                );
+              }}
+            >
+              Generate Latest Project Reports
+            </Button>
           </div>
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"

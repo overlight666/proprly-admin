@@ -861,3 +861,15 @@ export const getCommonAreaDefectResolution = async (id: any) => {
       return error;
     });
 };
+
+export const generateLatestReport = async (param: any) => {
+  return api
+    .get(`request-report-generation?${param}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
