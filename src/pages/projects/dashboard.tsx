@@ -64,9 +64,10 @@ const Dashboard: FC = function () {
       } else {
         setOpenCommonAreaModal(true);
       }
-      setActionTrigger(true);
+      setActionTrigger(false);
     }
   }, [defect]);
+
   const nl2br = (str, replaceMode, isXhtml) => {
     const breakTag = isXhtml ? "<br />" : "<br>";
     const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";

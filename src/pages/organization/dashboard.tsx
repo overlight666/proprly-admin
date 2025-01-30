@@ -83,7 +83,7 @@ const Dashboard: FC = function () {
       } else {
         setOpenCommonAreaModal(true);
       }
-      setActionTrigger(true);
+      setActionTrigger(false);
     }
   }, [defect]);
 
