@@ -59,12 +59,12 @@ const Dashboard: FC = function () {
 
   useEffect(() => {
     if (defect && actionTrigger) {
+      setActionTrigger(false);
       if (defect && defect.property) {
         setOpenPropertyAreaModal(true);
       } else {
         setOpenCommonAreaModal(true);
       }
-      setActionTrigger(false);
     }
   }, [defect]);
 

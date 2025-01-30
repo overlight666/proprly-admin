@@ -113,6 +113,7 @@ export const DefectFeedbackModal = function (props: any) {
           toast.info("Defect submission rejected!");
         }
       }
+      dispatch(clearSubmittion());
     }
   }, [feedbackResponse]);
 
