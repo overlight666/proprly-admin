@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectUserReducer,
   getSingleProject,
+  getTradeCodeListByProject,
   listUserByRoleReducer,
 } from "../../../store/features/reducers";
 import type {
@@ -27,6 +28,7 @@ import {
   setResponseStatus,
   setUserType,
 } from "../../../store/features/projectSlice";
+import { MultiSelect } from "react-multi-select-component";
 
 export default function SubContractor() {
   const { project_id }: any = useParams();
@@ -42,12 +44,25 @@ export default function SubContractor() {
     responseStatus,
     userType,
     userResponse,
+    tradeCodeList,
   }: ProjectState = useSelector((state: any) => state.project);
 
+  const [selected, setSelected] = useState([]);
+  const [options, setOptions] = useState<any>([]);
   const [openModal, setOpenModal] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Lead>();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const o =
+      tradeCodeList &&
+      tradeCodeList.length > 0 &&
+      tradeCodeList.map((e) => {
+        return { label: e.tradeName, value: e.id };
+      });
+    setOptions(o);
+  }, [tradeCodeList]);
 
   useEffect(() => {
     if (responseStatus === "User Added" && userType === "sub_contractor") {
@@ -67,6 +82,7 @@ export default function SubContractor() {
       userType: (userData && userData.user && userData.user.userType) || "",
     };
     dispatch(listUserByRoleReducer(params));
+    dispatch(getTradeCodeListByProject(project_id));
     //   didInit = true;
     // }
   }, []);
@@ -116,36 +132,45 @@ export default function SubContractor() {
   };
 
   const attachUser = () => {
-    if (projectUser) {
-      if (
-        !projectUser.find((user: userInterface) => user.id === selectedUser?.id)
-      ) {
+    const codeIds =
+      selected && selected.length > 0 && selected.map((e: any) => e.value);
+    if (codeIds && codeIds.length > 0) {
+      if (projectUser) {
+        if (
+          !projectUser.find(
+            (user: userInterface) => user.id === selectedUser?.id
+          )
+        ) {
+          const params = {
+            id: selectedUser?.id,
+            roleId: 5,
+            projectId: project_id,
+            tradeCodeIds: codeIds,
+          };
+          dispatch(createProjectUserReducer(params));
+          dispatch(setUserType("sub_contractor"));
+        } else {
+          toast.warning("The selected user is already exist!");
+        }
+      } else {
         const params = {
           id: selectedUser?.id,
           roleId: 5,
           projectId: project_id,
-          tradeCodeIds: [],
+          tradeCodeIds: codeIds,
         };
         dispatch(createProjectUserReducer(params));
         dispatch(setUserType("sub_contractor"));
-      } else {
-        toast.warning("The selected user is already exist!");
       }
     } else {
-      const params = {
-        id: selectedUser?.id,
-        roleId: 5,
-        projectId: project_id,
-      };
-      dispatch(createProjectUserReducer(params));
-      dispatch(setUserType("sub_contractor"));
+      toast.error("Please Assign a Trade Code");
     }
   };
 
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
-        <div className="w-[40%]">
+        <div className="w-[30%]">
           <div className="mb-2 block">
             <Label htmlFor="project_admins" value="Sub-Contractor List" />
           </div>
@@ -154,21 +179,43 @@ export default function SubContractor() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            {(projectSubContractor &&
-              projectSubContractor.length > 0 &&
-              projectSubContractor.map((user: Lead, index: number) => {
-                return (
-                  <option key={index} value={JSON.stringify(user)}>
-                    {user.fullName}
-                  </option>
-                );
-              })) || (
+            {projectSubContractor && projectSubContractor.length > 0 ? (
+              <>
+                <option selected disabled>
+                  Please Select
+                </option>
+                {projectSubContractor.map((user: Lead, index: number) => {
+                  return (
+                    <option key={index} value={JSON.stringify(user)}>
+                      {user.fullName}
+                    </option>
+                  );
+                })}
+              </>
+            ) : (
               <option selected disabled>
                 No user available
               </option>
             )}
           </Select>
         </div>
+        {selectedUser && (
+          <div className="w-[30%]">
+            <div className="mb-2 block">
+              <Label
+                className="mb-2"
+                htmlFor="project_admins"
+                value="Select Trade Category"
+              />
+            </div>
+            <MultiSelect
+              options={options}
+              value={selected}
+              onChange={setSelected}
+              labelledBy="Select"
+            />
+          </div>
+        )}
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>
           <div className="flex items-center gap-x-2 text-xs">
             <HiPlus />
@@ -260,6 +307,14 @@ export default function SubContractor() {
         addUserHandler={addUserHandler}
         title={"Add Sub-Contractor"}
       />
+      {/* <SelectTradeCode
+        isSuccess={isSuccess}
+        setIsSuccess={setIsSuccess}
+        openModal={openTradeCodes}
+        setOpenModal={setOpenTradeCodes}
+        addUserHandler={addUserHandlerSub}
+        title={"Select Trade Codes"}
+      /> */}
     </div>
   );
 }

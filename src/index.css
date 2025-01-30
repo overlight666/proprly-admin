@@ -197,3 +197,6 @@ table tr td.dt-type-numeric {
 table tr th.dt-type-numeric {
   text-align: left !important;
 }
+.dropdown-content {
+  position: absolute;
+}
