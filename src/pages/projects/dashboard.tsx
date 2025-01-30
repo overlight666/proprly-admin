@@ -61,12 +61,18 @@ const Dashboard: FC = function () {
   }, [commonAreaItem]);
 
   const getTotal = () => {
-    const count1 = projectDashboard?.defectsByProperty.in_progress
-      ? projectDashboard?.defectsByProperty.in_progress
-      : 0;
-    const count2 = projectDashboard?.defectsByCommonArea.in_progress
-      ? projectDashboard?.defectsByCommonArea.in_progress
-      : 0;
+    const count1 =
+      projectDashboard &&
+      projectDashboard?.defectsByProperty &&
+      projectDashboard?.defectsByProperty.in_progress
+        ? projectDashboard?.defectsByProperty.in_progress
+        : 0;
+    const count2 =
+      projectDashboard &&
+      projectDashboard?.defectsByCommonArea &&
+      projectDashboard?.defectsByCommonArea.in_progress
+        ? projectDashboard?.defectsByCommonArea.in_progress
+        : 0;
     return count1 + count2;
   };
 
@@ -240,7 +246,7 @@ const Dashboard: FC = function () {
               <span className="text-gray-500">Total Open Defects</span>
               <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
                 {projectDashboard &&
-                  projectDashboard.totalDefects.total &&
+                  projectDashboard.totalDefects &&
                   projectDashboard.totalDefects.total &&
                   projectDashboard.totalDefects.total}
               </span>
@@ -722,6 +728,7 @@ const Defects = function (props: P) {
               <div className="my-1  h-5 w-full rounded-lg bg-gray-200 dark:bg-gray-700">
                 {(projectDashboard &&
                   projectDashboard?.defectsByProperty &&
+                  projectDashboard?.defectsByProperty.in_progress &&
                   projectDashboard?.defectsByProperty.in_progress > 0 && (
                     <div
                       className="h-5 rounded-md bg-primary-700 p-1 text-center text-xs font-bold leading-none text-primary-100"
