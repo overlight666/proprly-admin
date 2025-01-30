@@ -147,15 +147,20 @@ export default function Auditor() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            {(projectAuditors &&
-              projectAuditors.length > 0 &&
-              projectAuditors.map((user: Lead, index: number) => {
-                return (
-                  <option key={index} value={JSON.stringify(user)}>
-                    {user.fullName}
-                  </option>
-                );
-              })) || (
+            {projectAuditors && projectAuditors.length > 0 ? (
+              <>
+                <option selected disabled>
+                  Please Select
+                </option>
+                {projectAuditors.map((user: Lead, index: number) => {
+                  return (
+                    <option key={index} value={JSON.stringify(user)}>
+                      {user.fullName}
+                    </option>
+                  );
+                })}
+              </>
+            ) : (
               <option selected disabled>
                 No user available
               </option>

@@ -144,15 +144,20 @@ export default function Strata() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            {(projectStrata &&
-              projectStrata.length > 0 &&
-              projectStrata.map((user: userInterface, index: number) => {
-                return (
-                  <option key={index} value={JSON.stringify(user)}>
-                    {user.fullName}
-                  </option>
-                );
-              })) || (
+            {projectStrata && projectStrata.length > 0 ? (
+              <>
+                <option selected disabled>
+                  Please Select
+                </option>
+                {projectStrata.map((user: userInterface, index: number) => {
+                  return (
+                    <option key={index} value={JSON.stringify(user)}>
+                      {user.fullName}
+                    </option>
+                  );
+                })}
+              </>
+            ) : (
               <option selected disabled>
                 No user available
               </option>
