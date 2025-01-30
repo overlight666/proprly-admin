@@ -204,6 +204,19 @@ export interface userInterface {
   createdAt: string;
   updatedAt: string;
   project_role?: projectRole[];
+  tradeCodes?: TradeCodes[];
+}
+
+export interface TradeCodes {
+  createdAt: string;
+  id: number;
+  isActive: boolean;
+  isDefault: boolean;
+  organizationId: any;
+  regionId: any;
+  tradeCode: string;
+  tradeName: string;
+  updatedAt: string;
 }
 
 export interface projectRole {

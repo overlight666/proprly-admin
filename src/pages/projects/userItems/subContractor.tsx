@@ -167,6 +167,7 @@ export default function SubContractor() {
     }
   };
 
+  console.log(projectUser);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full flex-row items-end gap-2">
@@ -262,7 +263,14 @@ export default function SubContractor() {
                     </th>
                     <td className="px-6 py-4">{user.mobile}</td>
                     <td className="px-6 py-4">{user.email}</td>
-                    <td className="px-6 py-4"></td>
+                    <td className="px-6 py-4">
+                      {user &&
+                        user.tradeCodes &&
+                        user.tradeCodes.length > 0 &&
+                        user.tradeCodes
+                          .map((td) => `[${td.tradeCode}]${td.tradeName}`)
+                          .join(", ")}
+                    </td>
                     <td className="px-6 py-4">
                       <Button color="gray" className="w-[50px]">
                         <div className="flex items-center gap-x-2 text-xs">
