@@ -12,18 +12,23 @@ import {
   getAllDefectResolutionByPropertyReducer,
   getCommonAreaByProjectReducer,
   getDashboardProjectReducer,
+  getDefectResolutionByIdReducer,
   getProjectDashboardReducer,
 } from "../../store/features/reducers";
 import type {
   AppState,
   DashboardData,
   ProjectState,
+  PropertyState,
   ReducerTypes,
   TradeVariables,
 } from "../../types";
 // import { MdBrokenImage } from "react-icons/md";
 import moment from "moment";
 import { MdBrokenImage } from "react-icons/md";
+import { CommonAreaDefectSubmittionModal } from "../../components/modals/commonAreaDefectSubmissionModal";
+import { DefectSubmissionModal } from "../../components/modals/defectSubmissionModal";
+import { DefectFeedbackModal } from "../../components/modals/defectFeedback";
 
 const Dashboard: FC = function () {
   const dispatch = useDispatch();
@@ -37,6 +42,31 @@ const Dashboard: FC = function () {
     (state: ReducerTypes) => state.application
   );
 
+  const { defect }: PropertyState = useSelector((state: any) => state.property);
+  const [actionTrigger, setActionTrigger] = useState(false);
+  const [openCommonAreaModal, setOpenCommonAreaModal] = useState(false);
+  const [openPropertyAreaModal, setOpenPropertyAreaModal] = useState(false);
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackTitle, setFeedbackTitle] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [defectId, setDefectId] = useState<any>();
+
+  const NeedAction = (id) => {
+    dispatch(getDefectResolutionByIdReducer(id));
+    setDefectId(id);
+    setActionTrigger(true);
+  };
+
+  useEffect(() => {
+    if (defect && actionTrigger) {
+      if (defect && defect.property) {
+        setOpenPropertyAreaModal(true);
+      } else {
+        setOpenCommonAreaModal(true);
+      }
+      setActionTrigger(true);
+    }
+  }, [defect]);
   const nl2br = (str, replaceMode, isXhtml) => {
     const breakTag = isXhtml ? "<br />" : "<br>";
     const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";
@@ -319,7 +349,10 @@ const Dashboard: FC = function () {
                           "pending admin feedback" ||
                           notif.title.toLowerCase() ==
                             "pending admin approval") && (
-                          <Button color="gray">
+                          <Button
+                            color="gray"
+                            onClick={() => NeedAction(notif.data.id)}
+                          >
                             <MdBrokenImage className="mr-2 h-3 w-3" />
                             Needs Action
                           </Button>
@@ -544,6 +577,31 @@ const Dashboard: FC = function () {
           </div>
         </div>
       </div>
+      <CommonAreaDefectSubmittionModal
+        setFeedbackTitle={setFeedbackTitle}
+        setDefectId={setDefectId}
+        isOpen={openCommonAreaModal}
+        setOpen={setOpenCommonAreaModal}
+        setFeedbackOpen={setFeedbackOpen}
+        setFeedback={setFeedback}
+      />
+
+      <DefectSubmissionModal
+        setFeedbackTitle={setFeedbackTitle}
+        setDefectId={setDefectId}
+        isOpen={openPropertyAreaModal}
+        setOpen={setOpenPropertyAreaModal}
+        setFeedbackOpen={setFeedbackOpen}
+        setFeedback={setFeedback}
+      />
+
+      <DefectFeedbackModal
+        feedback={feedback}
+        defectId={defectId}
+        title={feedbackTitle}
+        isOpen={isFeedbackOpen}
+        setOpen={setFeedbackOpen}
+      />
     </div>
   );
 };
