@@ -18,6 +18,7 @@ import type {
   ProjectState,
   ReducerTypes,
   userInterface,
+  UserState,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -32,6 +33,9 @@ export default function SubContractor() {
   // let didInit = false;
   const { projectSubContractor }: AppState = useSelector(
     (state: ReducerTypes) => state.application
+  );
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
   );
   const {
     selectedProject,
@@ -57,7 +61,12 @@ export default function SubContractor() {
 
   useEffect(() => {
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("project_sub_contractor"));
+    const params = {
+      id: project_id,
+      role: "project_sub_contractor",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);
@@ -153,7 +162,11 @@ export default function SubContractor() {
                     {user.fullName}
                   </option>
                 );
-              })) || <option selected>No user available</option>}
+              })) || (
+              <option selected disabled>
+                No user available
+              </option>
+            )}
           </Select>
         </div>
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>

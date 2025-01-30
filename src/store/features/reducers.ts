@@ -51,6 +51,7 @@ import {
   listOfBuilders,
   listOfLeads,
   listUserByRole,
+  listUserByRoleNormal,
   newOrganization,
   newProject,
   newProperty,
@@ -624,9 +625,12 @@ export const getCommonAreaByProjectArrayReducer: any = createAsyncThunk(
 
 export const listUserByRoleReducer: any = createAsyncThunk(
   "listUserByRole",
-  async (role: any) => {
+  async (params: any) => {
     try {
-      const response = await listUserByRole(role);
+      const response =
+        (await params.userType) == "admin"
+          ? listUserByRole(params.role)
+          : listUserByRoleNormal(params);
       // If you want to get something back
       return response;
     } catch (err) {

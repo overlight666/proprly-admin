@@ -547,6 +547,18 @@ export const listUserByRole = async (role) => {
     });
 };
 
+export const listUserByRoleNormal = async (params: any) => {
+  return api
+    .get(`/organization/${params.id}/users?roleKey=${params.role}`)
+    .then((response) => {
+      return { ...response.data, role: params.role };
+    })
+    .catch((error) => {
+      // log request error if any
+      return error;
+    });
+};
+
 export const createProjectUser = async (params: any) => {
   return api
     .post(`/project/${params.projectId}/user`, params)

@@ -18,6 +18,7 @@ import type {
   ProjectState,
   ReducerTypes,
   userInterface,
+  UserState,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -40,6 +41,10 @@ export default function Strata() {
     userResponse,
   }: ProjectState = useSelector((state: any) => state.project);
 
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
+
   const [openModal, setOpenModal] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Lead>();
@@ -56,8 +61,13 @@ export default function Strata() {
   }, [responseStatus]);
 
   useEffect(() => {
+    const params = {
+      id: project_id,
+      role: "project_strata",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("project_strata"));
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);
@@ -134,7 +144,6 @@ export default function Strata() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            <option selected>Please select</option>
             {(projectStrata &&
               projectStrata.length > 0 &&
               projectStrata.map((user: userInterface, index: number) => {
@@ -143,7 +152,11 @@ export default function Strata() {
                     {user.fullName}
                   </option>
                 );
-              })) || <option selected>No user available</option>}
+              })) || (
+              <option selected disabled>
+                No user available
+              </option>
+            )}
           </Select>
         </div>
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>

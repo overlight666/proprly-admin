@@ -17,7 +17,7 @@ import { Datepicker } from "flowbite-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import type { commonAreaItemType, userData } from "../../types";
+import type { commonAreaItemType, userData, UserState } from "../../types";
 import {
   type AppState,
   type OrgState,
@@ -65,6 +65,10 @@ const AddAppointment: FC = function () {
     (state: ReducerTypes) => state.application
   );
 
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
+
   const { project_id }: any = useParams();
   const [chooseValue, setChooseValue] = useState("property");
   const navigate = useNavigate();
@@ -99,7 +103,12 @@ const AddAppointment: FC = function () {
     // if (!didInit) {
     dispatch(getProperties(project_id));
     dispatch(getTimeSlotByProjectReducer(project_id));
-    dispatch(listUserByRoleReducer("project_auditor"));
+    const params = {
+      id: project_id,
+      role: "project_auditor",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);

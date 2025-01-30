@@ -24,6 +24,7 @@ import type {
   Lead,
   userInterface,
   projectRole,
+  UserState,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 
@@ -32,6 +33,9 @@ export default function Auditor() {
   const { project_id }: any = useParams();
   const { projectAuditors }: AppState = useSelector(
     (state: ReducerTypes) => state.application
+  );
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
   );
   const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
@@ -52,8 +56,13 @@ export default function Auditor() {
   }, [responseStatus]);
 
   useEffect(() => {
+    const params = {
+      id: project_id,
+      role: "project_auditor",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("project_auditor"));
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);
@@ -138,7 +147,6 @@ export default function Auditor() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            <option selected>Please select</option>
             {(projectAuditors &&
               projectAuditors.length > 0 &&
               projectAuditors.map((user: Lead, index: number) => {
@@ -147,7 +155,11 @@ export default function Auditor() {
                     {user.fullName}
                   </option>
                 );
-              })) || <option selected>No user available</option>}
+              })) || (
+              <option selected disabled>
+                No user available
+              </option>
+            )}
           </Select>
         </div>
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>

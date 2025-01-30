@@ -18,6 +18,7 @@ import type {
   ProjectState,
   ReducerTypes,
   userInterface,
+  UserState,
 } from "../../../types";
 import AddUserModal from "../../../components/addUserModal";
 import { toast } from "react-toastify";
@@ -37,7 +38,9 @@ export default function ProjectAdmin() {
   const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
     useSelector((state: any) => state.project);
-
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
   const projectAdminUser =
     selectedProject &&
     selectedProject.user &&
@@ -65,8 +68,13 @@ export default function ProjectAdmin() {
   }, [responseStatus]);
 
   useEffect(() => {
+    const params = {
+      id: project_id,
+      role: "project_admin",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("project_admin"));
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);
@@ -133,7 +141,6 @@ export default function ProjectAdmin() {
             onChange={(e) => fillUserData(e.target.value)}
             required
           >
-            <option selected>Please select</option>
             {(projectUsers &&
               projectUsers.length > 0 &&
               projectUsers.map((user: Lead, index: number) => {
@@ -142,7 +149,11 @@ export default function ProjectAdmin() {
                     {user.fullName}
                   </option>
                 );
-              })) || <option selected>No user available</option>}
+              })) || (
+              <option selected disabled>
+                No user available
+              </option>
+            )}
           </Select>
         </div>
         <Button className="mx-2 mb-1 w-[200px]" onClick={() => attachUser()}>

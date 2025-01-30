@@ -6,17 +6,27 @@ import { useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { listUserByRoleReducer } from "../../../store/features/reducers";
-import type { AppState, ReducerTypes } from "../../../types";
+import type { AppState, ReducerTypes, UserState } from "../../../types";
+import { useParams } from "react-router";
 
 export default function StrataInformation() {
   // let didInit = false;
+  const { project_id }: any = useParams();
   const dispatch = useDispatch();
   const { projectStrata }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
   useEffect(() => {
+    const params = {
+      id: project_id,
+      role: "project_strata",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("project_strata"));
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);

@@ -8,7 +8,8 @@ import { HiPlus } from "react-icons/hi";
 import AddUserModal from "../../../components/addUserModal";
 import { useDispatch, useSelector } from "react-redux";
 import { listUserByRoleReducer } from "../../../store/features/reducers";
-import type { AppState, ReducerTypes } from "../../../types";
+import type { AppState, ReducerTypes, UserState } from "../../../types";
+import { useParams } from "react-router";
 
 export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
   const [openModal, setOpenModal] = useState(false);
@@ -16,12 +17,21 @@ export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
   const { propertyOwnerList }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
+  const { userData }: UserState = useSelector(
+    (state: ReducerTypes) => state.user
+  );
+  const { project_id }: any = useParams();
   // let didInit = false;
   const dispatch = useDispatch();
 
   useEffect(() => {
     // if (!didInit) {
-    dispatch(listUserByRoleReducer("property_owner"));
+    const params = {
+      id: project_id,
+      role: "property_owner",
+      userType: (userData && userData.user && userData.user.userType) || "",
+    };
+    dispatch(listUserByRoleReducer(params));
     //   didInit = true;
     // }
   }, []);
