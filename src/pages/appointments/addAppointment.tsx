@@ -186,6 +186,7 @@ const AddAppointment: FC = function () {
     }
     if (chooseValue == "common-area") {
       params.commonAreaId = selectedCommonArea?.id;
+      params.userId = selectedAuditor?.id;
     }
     dispatch(bookAppointmentReducer(params));
   };

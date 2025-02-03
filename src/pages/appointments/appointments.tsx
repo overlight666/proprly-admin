@@ -182,13 +182,22 @@ const Appointments: FC = function () {
   };
 
   const getItemContent = (item) => {
-    return `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
-      "h:mm A"
-    )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
-      "h:mm A"
-    )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
-      item.type == "inspection" ? "Inspection" : "Defect"
-    } appointment`;
+    console.log(item);
+    return item.property
+      ? `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
+          item.type == "inspection" ? "Inspection" : "Defect"
+        } appointment`
+      : `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} Common Area ${
+          item.type == "inspection" ? "Inspection" : "Defect"
+        } appointment`;
   };
 
   return (
