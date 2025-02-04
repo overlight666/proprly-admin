@@ -274,6 +274,7 @@ const AddAppointment: FC = function () {
       appointmentResponse.messages.map((m: any) => {
         toast.error(m.message || "Unknown Error");
       });
+      dispatch(clearAppointmentResponse());
     } else if (appointmentResponse && !appointmentResponse.error) {
       toast.info("Appointment successfully added");
       dispatch(clearAppointmentResponse());
