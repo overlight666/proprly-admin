@@ -29,5 +29,5 @@ root.render(
       </PersistGate>
     </BrowserRouter>
     {/* </StrictMode> */}
-  </Provider>
+  </Provider>,
 );

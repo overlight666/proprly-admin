@@ -14,7 +14,7 @@ import { AddTradeCodeModal } from "../../../projects/modals/addTradeCodeModal";
 
 export default function TradeMapping({ project_id }: any) {
   const { tradeCodeList, defectCodeList }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   // let didInit = false;
   useEffect(() => {

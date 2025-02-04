@@ -9,55 +9,24 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import {
-  Breadcrumb,
-  Button,
-  Label,
-  Modal,
-  TextInput,
-  Select as Select2,
-  Dropdown,
-} from "flowbite-react";
+import { Breadcrumb, Button } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp, FaChevronLeft } from "react-icons/fa";
-import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
-import type {
-  AppState,
-  ImageState,
-  LeadState,
-  OrgState,
-  ProjectState,
-  Timezone,
-  UserState,
-} from "../../types";
+import type { ImageState, OrgState, ProjectState } from "../../types";
 import {
   createCommonAreaReducer,
-  getAllBuilders,
-  getAllRegions,
-  postWarranties,
   postWarrantyFiles,
-  registerOrg,
-  uploadImageFile,
 } from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { RiCloseCircleFill } from "react-icons/ri";
-import {
-  clear,
-  clearWarranty,
-  resetWarranty,
-} from "../../store/features/imageSlice";
-import Select from "react-select";
-import { BsThreeDots } from "react-icons/bs";
+import { clearWarranty, resetWarranty } from "../../store/features/imageSlice";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { ConfirmModal } from "../../components/modals/confirmModal";
 import CommonAreaInformation from "./items/common-area-information";
 import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
-import StrataUploads from "./items/strata-uploads";
 import {
   clearCommonAreaConfig,
   clearCommonAreaResponse,
@@ -77,7 +46,7 @@ const CommonAreaNewPage: FC = function () {
   const [lotNo, setLotNo] = useState<any>("");
   const [idHandler, setIdHandler] = useState<any>();
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const {
     selectedProject,
@@ -89,7 +58,7 @@ const CommonAreaNewPage: FC = function () {
   const {
     warrantyData,
     warrantyResponse,
-    uploadDone,
+    // uploadDone,
     warrantyResponseStatus,
   }: ImageState = useSelector((state: any) => state.uploads);
 
@@ -99,7 +68,7 @@ const CommonAreaNewPage: FC = function () {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
-  const [showCard4, setShowCard4] = useState(true);
+  // const [showCard4, setShowCard4] = useState(true);
 
   const createCommonArea = () => {
     const params = {
@@ -127,7 +96,7 @@ const CommonAreaNewPage: FC = function () {
         // setTimeout(() => {
         dispatch(reloadCommonAreaTable(true));
         navigate(
-          `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
+          `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`,
         );
         // }, 1000);
       } else {
@@ -135,7 +104,7 @@ const CommonAreaNewPage: FC = function () {
           postWarrantyFiles({
             commonAreaId: commonAreaId,
             ...uploadedWarranties,
-          })
+          }),
         );
       }
     }
@@ -148,17 +117,17 @@ const CommonAreaNewPage: FC = function () {
         dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`,
           );
         }, 1000);
       } else {
         toast.warning(
-          "New Common Area has been registered but warranties is not fully uploaded"
+          "New Common Area has been registered but warranties is not fully uploaded",
         );
         dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`
+            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`,
           );
         }, 1000);
       }
@@ -172,7 +141,7 @@ const CommonAreaNewPage: FC = function () {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group
+          (obj) => obj.group === warrantyData.group,
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -201,7 +170,7 @@ const CommonAreaNewPage: FC = function () {
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string
+    group: string,
   ) => {
     if (!event.target.files) {
       return;

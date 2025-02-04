@@ -32,14 +32,14 @@ export default function ProjectAdmin() {
   const { project_id }: any = useParams();
   // let didInit = false;
   const { projectUsers }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const [selectedUser, setSelectedUser] = useState<Lead>();
   const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
     useSelector((state: any) => state.project);
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
   const projectAdminUser =
     selectedProject &&
@@ -49,8 +49,8 @@ export default function ProjectAdmin() {
       (u: userInterface) =>
         u.project_role &&
         u.project_role.find(
-          (role: projectRole) => role.roleKey === "project_admin"
-        )
+          (role: projectRole) => role.roleKey === "project_admin",
+        ),
     );
 
   const [openModal, setOpenModal] = useState(false);
@@ -105,7 +105,7 @@ export default function ProjectAdmin() {
     if (projectAdminUser) {
       if (
         !projectAdminUser.find(
-          (user: userInterface) => user.id === selectedUser?.id
+          (user: userInterface) => user.id === selectedUser?.id,
         )
       ) {
         const params = {

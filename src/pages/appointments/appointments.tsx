@@ -50,24 +50,24 @@ import { MdClose } from "react-icons/md";
 const Appointments: FC = function () {
   const { project_id } = useParams();
   const [currentMonth, setCurrentMonth] = useState<Date>(
-    startOfMonth(new Date())
+    startOfMonth(new Date()),
   );
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const { appointmentTab, isCalendarView, timeslot }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { selectedProject, projectAppointments }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const { appointmentRefresh }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
 
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
-    undefined
+    undefined,
   );
 
   const [isOpen, setOpen] = useState(false);
@@ -82,7 +82,7 @@ const Appointments: FC = function () {
   const [startKey, setStartKey] = useState<any>(undefined);
   const [filterBy, setFilterBy] = useState("all");
   const [currentDate, setCurrentDate] = useState(
-    moment().format("MMMM DD, YYYY")
+    moment().format("MMMM DD, YYYY"),
   );
 
   const dispatch = useDispatch();
@@ -125,13 +125,13 @@ const Appointments: FC = function () {
         projectAppointments.map((o) => {
           return {
             title: `${moment(o.startDate, "YYYY-MM-DD h:mm a").format(
-              "h:mm A"
+              "h:mm A",
             )} ${o.type}`,
             date: new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString()),
             ...o,
           };
         })) ||
-        []
+        [],
     );
   }, [projectAppointments, currentDate]);
 
@@ -143,9 +143,9 @@ const Appointments: FC = function () {
         events.filter(
           (e: any) =>
             moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
-              "YYYY-MM-DD"
-            ) == moment(currentDate).format("YYYY-MM-DD")
-        )
+              "YYYY-MM-DD",
+            ) == moment(currentDate).format("YYYY-MM-DD"),
+        ),
     );
   }, [events]);
 
@@ -177,7 +177,7 @@ const Appointments: FC = function () {
     setViewAllData(
       myEvents &&
         myEvents.length &&
-        myEvents.filter((me) => me.appointmentTimeslot == cardKey)
+        myEvents.filter((me) => me.appointmentTimeslot == cardKey),
     );
   };
 
@@ -185,16 +185,16 @@ const Appointments: FC = function () {
     console.log(item);
     return item.property
       ? `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
+          "h:mm A",
         )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
+          "h:mm A",
         )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`
       : `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
+          "h:mm A",
         )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
+          "h:mm A",
         )} Common Area ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`;
@@ -318,8 +318,8 @@ const Appointments: FC = function () {
                               date: new Date(
                                 moment(
                                   new Date(),
-                                  "YYYY-MM-DD h:mm a"
-                                ).toString()
+                                  "YYYY-MM-DD h:mm a",
+                                ).toString(),
                               ),
                             },
                           ]
@@ -378,7 +378,7 @@ const Appointments: FC = function () {
                                         </Tooltip>
                                       </span>
                                     </div>
-                                  )
+                                  ),
                               )}
                             {data && data.length > 2 && (
                               <Dropdown
@@ -405,7 +405,7 @@ const Appointments: FC = function () {
                                       >
                                         {item.title}
                                       </Dropdown.Item>
-                                    )
+                                    ),
                                 )}
                               </Dropdown>
                             )}
@@ -528,7 +528,7 @@ const Appointments: FC = function () {
                             </div>
                           )
                         );
-                      }
+                      },
                     )}
                 </div>
               </div>
@@ -582,7 +582,7 @@ const Appointments: FC = function () {
                     <div className="flex w-full flex-col">
                       {viewAllData &&
                         viewAllData.length > 0 &&
-                        viewAllData.map((v, index) => {
+                        viewAllData.map((_v, index) => {
                           return (
                             <AppointmentCard
                               key={index}

@@ -43,7 +43,7 @@ export default function Warranty({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "bathroom_fixtures"
+                (g) => g.group === "bathroom_fixtures",
               )?.data
             }
           />
@@ -61,7 +61,7 @@ export default function Warranty({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "air_conditioning"
+                (g) => g.group === "air_conditioning",
               )?.data
             }
           />
@@ -113,7 +113,7 @@ export default function Warranty({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "builder_warranty"
+                (g) => g.group === "builder_warranty",
               )?.data
             }
           />

@@ -51,22 +51,22 @@ export interface AppointmentType {
 
 const AddAppointment: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const { selectedProject, commonAreaArray }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const { propertyData, appointmentResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const { timeslot }: AppState = useSelector((state: any) => state.application);
 
   const { projectAuditors }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
 
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
 
   const { project_id }: any = useParams();
@@ -81,20 +81,20 @@ const AddAppointment: FC = function () {
     commonAreaItemType | undefined
   >(undefined);
   const [selectedAuditor, setSelectedAuditor] = useState<userData | undefined>(
-    undefined
+    undefined,
   );
   const [description, setDescription] = useState("");
   const [appointmentType, setInspectionType] = useState("inspection");
   const [inspectionStatus, setInspectionStatus] = useState("");
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
-      "YYYY"
-    )} `
+      "YYYY",
+    )} `,
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
-    undefined
+    undefined,
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   // let didInit = false;
@@ -153,22 +153,22 @@ const AddAppointment: FC = function () {
   };
 
   const loadOptions = (
-    inputValue: string,
-    callback: (options: any[]) => void
+    _inputValue: string,
+    callback: (options: any[]) => void,
   ) => {
     callback(optionItem());
   };
 
   const loadOptions2 = (
-    inputValue: string,
-    callback: (options: any[]) => void
+    _inputValue: string,
+    callback: (options: any[]) => void,
   ) => {
     callback(optionItem2());
   };
 
   const loadAuditors = (
-    inputValue: string,
-    callback: (options: any[]) => void
+    _inputValue: string,
+    callback: (options: any[]) => void,
   ) => {
     callback(auditorItems());
   };
@@ -379,15 +379,15 @@ const AddAppointment: FC = function () {
                       onSelectedDateChanged={(e) =>
                         setAppointmentDate(
                           `${moment(e).format("MMMM")} ${moment(e).format(
-                            "DD"
-                          )}, ${moment(e).format("YYYY")} `
+                            "DD",
+                          )}, ${moment(e).format("YYYY")} `,
                         )
                       }
                       minDate={
                         new Date(
                           moment().year(),
                           moment().month(),
-                          moment().date()
+                          moment().date(),
                         )
                       }
                     />
@@ -414,7 +414,7 @@ const AddAppointment: FC = function () {
                                 {time.value}
                               </option>
                             );
-                          }
+                          },
                         )}
                     </select>
                   </div>

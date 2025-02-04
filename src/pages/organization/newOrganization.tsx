@@ -29,7 +29,6 @@ import type {
   LeadState,
   OrgState,
   Timezone,
-  UserState,
 } from "../../types";
 import {
   getAllBuilders,
@@ -59,7 +58,7 @@ type organization = {
 };
 const OrganizationNewPage: FC = function () {
   const { builderList, loadingBuilders }: LeadState = useSelector(
-    (state: any) => state.lead
+    (state: any) => state.lead,
   );
 
   const [showCard1, setShowCard1] = useState(true);
@@ -67,7 +66,7 @@ const OrganizationNewPage: FC = function () {
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [_password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
   const [selectedBuilder, setSelectedBuilder] = useState("");
   const [tempBuilders, setTempBuilder] = useState<any>([]);
@@ -76,7 +75,7 @@ const OrganizationNewPage: FC = function () {
   const [timezoneOption, setTimezoneOptions] = useState<any>([]);
 
   const { isIdle, loading, orgData }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const { regions }: AppState = useSelector((state: any) => state.application);
@@ -137,12 +136,12 @@ const OrganizationNewPage: FC = function () {
     // }
     if (orgData && orgData.error) {
       toast.error(
-        "We encountered some errors during the process, please contact admin"
+        "We encountered some errors during the process, please contact admin",
       );
     } else {
       if (orgData && orgData.name === "error") {
         toast.error(
-          "We encountered some errors during the process, please contact admin"
+          "We encountered some errors during the process, please contact admin",
         );
         dispatch(clear());
         setTimeout(() => {
@@ -325,7 +324,7 @@ const OrganizationNewPage: FC = function () {
   const handleConfirm = () => {
     setIsProcess(true);
     const newList = selectedBuilderList.filter(
-      (o) => o.email !== selectedObj.email
+      (o) => o.email !== selectedObj.email,
     );
     setSelectedBuilderList(newList);
     setSelectedObj(false);

@@ -34,10 +34,10 @@ export default function SubContractor() {
   const { project_id }: any = useParams();
   // let didInit = false;
   const { projectSubContractor }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
   const {
     selectedProject,
@@ -123,8 +123,8 @@ export default function SubContractor() {
       (u: userInterface) =>
         u.project_role &&
         u.project_role.find(
-          (role: projectRole) => role.roleKey === "project_sub_contractor"
-        )
+          (role: projectRole) => role.roleKey === "project_sub_contractor",
+        ),
     );
 
   const fillUserData = (e) => {
@@ -138,7 +138,7 @@ export default function SubContractor() {
       if (projectUser) {
         if (
           !projectUser.find(
-            (user: userInterface) => user.id === selectedUser?.id
+            (user: userInterface) => user.id === selectedUser?.id,
           )
         ) {
           const params = {

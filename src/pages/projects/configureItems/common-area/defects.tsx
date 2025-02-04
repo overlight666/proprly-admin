@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 export default function CADefectsItems({ openModal, setOpenModal }: any) {
   const { selectedCommonAreaElement }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const addDefect = () => {
@@ -36,7 +36,7 @@ export default function CADefectsItems({ openModal, setOpenModal }: any) {
                   <BsX />
                 </div>
               );
-            }
+            },
           )
         ) : selectedCommonAreaElement?.defectCode &&
           selectedCommonAreaElement?.defectCode.length === 0 ? (

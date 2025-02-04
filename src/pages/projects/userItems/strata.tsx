@@ -32,7 +32,7 @@ export default function Strata() {
   const { project_id }: any = useParams();
   // let didInit = false;
   const { projectStrata }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const {
     selectedProject,
@@ -42,7 +42,7 @@ export default function Strata() {
   }: ProjectState = useSelector((state: any) => state.project);
 
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
 
   const [openModal, setOpenModal] = useState(false);
@@ -98,8 +98,8 @@ export default function Strata() {
       (u: userInterface) =>
         u.project_role &&
         u.project_role.find(
-          (role: projectRole) => role.roleKey === "project_strata"
-        )
+          (role: projectRole) => role.roleKey === "project_strata",
+        ),
     );
 
   const fillUserData = (e) => {

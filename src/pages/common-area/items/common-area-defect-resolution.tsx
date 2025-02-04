@@ -25,7 +25,7 @@ const CommonAreaDefectResolution = function () {
   const { feedbackResponse, commonAreaDefectSubmissions }: PropertyState =
     useSelector((state: any) => state.property);
   const { commonAreaItem }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const [pendingDefects, setPendingDefects] = useState<
@@ -79,16 +79,16 @@ const CommonAreaDefectResolution = function () {
     if (commonAreaDefectSubmissions && commonAreaDefectSubmissions.length) {
       if (!defectInit) {
         const pendings: any = commonAreaDefectSubmissions.filter(
-          (d) => d.status === "logged"
+          (d) => d.status === "logged",
         );
         const disputed: any = commonAreaDefectSubmissions.filter(
-          (d) => d.status === "disputed"
+          (d) => d.status === "disputed",
         );
         const in_progress: any = commonAreaDefectSubmissions.filter(
-          (d) => d.status === "in_progress"
+          (d) => d.status === "in_progress",
         );
         const resolved: any = commonAreaDefectSubmissions.filter(
-          (d) => d.status === "resolved"
+          (d) => d.status === "resolved",
         );
         setDisputedDefects(disputed);
         setPendingDefects(pendings);

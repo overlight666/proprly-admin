@@ -13,7 +13,7 @@ import type { AppState, ReducerTypes } from "../types";
 import { clear } from "../store/features/imageSlice";
 const OrganizationHeader = function (props: any) {
   const { isGrid }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
 
   const { canAddOrg, canTransformTable } = props;

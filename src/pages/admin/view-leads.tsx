@@ -13,11 +13,11 @@ import {
   Label,
   Modal,
   TextInput,
-  Select,
+  // Select,
 } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { GoPlus } from "react-icons/go";
+// import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
 import type {
@@ -25,11 +25,11 @@ import type {
   ImageState,
   LeadState,
   OrgState,
-  UserState,
+  // UserState,
 } from "../../types";
 import {
   getAllBuilders,
-  registerOrg,
+  // registerOrg,
   uploadImageFile,
 } from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
@@ -37,8 +37,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { clear } from "../../store/features/imageSlice";
-import { registerToOrg } from "../../apis";
-import { current } from "@reduxjs/toolkit";
+// import { registerToOrg } from "../../apis";
+// import { current } from "@reduxjs/toolkit";
 import { LeadConfirmModal } from "../../components/modals/leadsModal";
 type organization = {
   name: string;
@@ -50,7 +50,7 @@ type organization = {
 };
 const ViewSignupLead: FC = function () {
   const { builderList, loadingBuilders, selectedLead }: LeadState = useSelector(
-    (state: any) => state.lead
+    (state: any) => state.lead,
   );
   const [isOpen, setOpen] = useState(false);
   const [status, setStatus] = useState<string | undefined>(undefined);
@@ -61,20 +61,20 @@ const ViewSignupLead: FC = function () {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
-  const [selectedBuilder, setSelectedBuilder] = useState("");
-  const [tempBuilders, setTempBuilder] = useState<any>();
-  const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
+  // const [selectedBuilder, setSelectedBuilder] = useState("");
+  const [_tempBuilders, setTempBuilder] = useState<any>();
+  // const [selectedBuilderList, setSelectedBuilderList] = useState<any>([]);
   const [defaultImg, setDefaultImg] = useState(
-    "https://proprly-dev-assets.s3.ap-southeast-2.amazonaws.com/images/istockphoto-1322575582-612x612-jpg-1728864716769.jpg"
+    "https://proprly-dev-assets.s3.ap-southeast-2.amazonaws.com/images/istockphoto-1322575582-612x612-jpg-1728864716769.jpg",
   );
   const { isIdle, loading, orgData }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const { countries }: AppState = useSelector(
-    (state: any) => state.application
+    (state: any) => state.application,
   );
   const myImage: ImageState = useSelector((state: any) => state.uploads);
-  const [isTriggered, setIsTriggered] = useState<boolean>(false);
+  const [isTriggered, _setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
@@ -149,7 +149,7 @@ const ViewSignupLead: FC = function () {
     // }
     if (orgData && orgData.name === "error") {
       toast.error(
-        "We encountered some errors during the process, please contact admin"
+        "We encountered some errors during the process, please contact admin",
       );
       dispatch(clear());
       setTimeout(() => {
@@ -174,15 +174,15 @@ const ViewSignupLead: FC = function () {
     }
   }, [isIdle, isTriggered, orgData, loading]);
 
-  const addSelectedBuilder = () => {
-    if (selectedBuilder) {
-      setSelectedBuilderList((oldArray) => [
-        ...oldArray,
-        JSON.parse(selectedBuilder),
-      ]);
-      console.log(selectedBuilderList);
-    }
-  };
+  // const addSelectedBuilder = () => {
+  //   if (selectedBuilder) {
+  //     setSelectedBuilderList((oldArray) => [
+  //       ...oldArray,
+  //       JSON.parse(selectedBuilder),
+  //     ]);
+  //     console.log(selectedBuilderList);
+  //   }
+  // };
 
   const handleInputChange = (event: any) => {
     try {
@@ -204,58 +204,58 @@ const ViewSignupLead: FC = function () {
     }
   };
 
-  const handleSubmit = () => {
-    let valid = true;
-    setErrors([]);
-    if (formData.name === "") {
-      setErrors((oldArray) => [
-        ...[...new Set(oldArray)],
-        "Organization name is required!",
-      ]);
-      valid = false;
-    }
-    if (formData.timezone === "") {
-      setErrors((oldArray) => [
-        ...[...new Set(oldArray)],
-        "Timezone is required!",
-      ]);
-      valid = false;
-    }
-    if (formData.country === "") {
-      setErrors((oldArray) => [
-        ...[...new Set(oldArray)],
-        "Country is required!",
-      ]);
-      valid = false;
-    }
-    if (formData.currency === "") {
-      setErrors((oldArray) => [
-        ...[...new Set(oldArray)],
-        "Currency is required!",
-      ]);
-      valid = false;
-    }
-    if (formData.imageId === 0) {
-      setErrors((oldArray) => [
-        ...[...new Set(oldArray)],
-        "Your uploaded images has encounter an error please re-upload",
-      ]);
-      valid = false;
-    }
-    const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
-    builderToAttach.map(async (builder: any) => {
-      const params = {
-        id: builder.id,
-      };
-      await registerToOrg(params);
-    });
-    const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
-    const newData = { ...formData, users: newBuilder };
-    if (valid) {
-      setIsTriggered(true);
-      dispatch(registerOrg(newData));
-    }
-  };
+  // const handleSubmit = () => {
+  //   let valid = true;
+  //   setErrors([]);
+  //   if (formData.name === "") {
+  //     setErrors((oldArray) => [
+  //       ...[...new Set(oldArray)],
+  //       "Organization name is required!",
+  //     ]);
+  //     valid = false;
+  //   }
+  //   if (formData.timezone === "") {
+  //     setErrors((oldArray) => [
+  //       ...[...new Set(oldArray)],
+  //       "Timezone is required!",
+  //     ]);
+  //     valid = false;
+  //   }
+  //   if (formData.country === "") {
+  //     setErrors((oldArray) => [
+  //       ...[...new Set(oldArray)],
+  //       "Country is required!",
+  //     ]);
+  //     valid = false;
+  //   }
+  //   if (formData.currency === "") {
+  //     setErrors((oldArray) => [
+  //       ...[...new Set(oldArray)],
+  //       "Currency is required!",
+  //     ]);
+  //     valid = false;
+  //   }
+  //   if (formData.imageId === 0) {
+  //     setErrors((oldArray) => [
+  //       ...[...new Set(oldArray)],
+  //       "Your uploaded images has encounter an error please re-upload",
+  //     ]);
+  //     valid = false;
+  //   }
+  //   const builderToAttach = selectedBuilderList.filter((obj) => obj.id);
+  //   builderToAttach.map(async (builder: any) => {
+  //     const params = {
+  //       id: builder.id,
+  //     };
+  //     await registerToOrg(params);
+  //   });
+  //   const newBuilder = selectedBuilderList.filter((obj) => !obj.id);
+  //   const newData = { ...formData, users: newBuilder };
+  //   if (valid) {
+  //     setIsTriggered(true);
+  //     dispatch(registerOrg(newData));
+  //   }
+  // };
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return;

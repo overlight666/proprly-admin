@@ -31,7 +31,7 @@ const AuthContext = createContext<IAuthContext>(initialValue);
 const AuthProvider = ({ children }: Props) => {
   //Initializing an auth state with false value (unauthenticated)
   const [authenticated, setAuthenticated] = useState(
-    initialValue.authenticated
+    initialValue.authenticated,
   );
   const [user, setUser] = useState<userData | null>(initialValue.user);
   const [token, setToken] = useState(initialValue.token);

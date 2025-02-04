@@ -575,7 +575,7 @@ export const getAllDefectResolution = async (params: any) => {
     .get(
       `/admin/defect-submissions?projectId=${params.projectId}&status=${
         params.status ? params.status : ""
-      }`
+      }`,
     )
     .then((response) => {
       return response && response.data;

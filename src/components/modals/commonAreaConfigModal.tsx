@@ -24,7 +24,7 @@ interface commonAreaType {
 
 export const CommonAreaConfigModal = function (props: any) {
   const { allCommonArea }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const { isOpen, setOpen, data, id } = props;
@@ -400,7 +400,7 @@ export const CommonAreaConfigModal = function (props: any) {
                                     selectedCommonArea.commonAreaCategories
                                       .length > 0 &&
                                     selectedCommonArea.commonAreaCategories.find(
-                                      (o) => o == ca.id
+                                      (o) => o == ca.id,
                                     )
                                       ? true
                                       : false
@@ -460,7 +460,7 @@ export const CommonAreaConfigModal = function (props: any) {
                               </span>
                             </div>
                           );
-                        }
+                        },
                       )
                     ) : (
                       <></>

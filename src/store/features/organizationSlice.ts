@@ -43,7 +43,7 @@ export const organizationSlice = createSlice({
     },
     setSelectedOrganization: (
       state,
-      action: PayloadAction<Organization | undefined>
+      action: PayloadAction<Organization | undefined>,
     ) => {
       state.selectedOrganization = action.payload;
     },
@@ -135,7 +135,7 @@ export const organizationSlice = createSlice({
         state.orgDashboard = action.payload;
         state.loading = false;
         state.isIdle = true;
-      }
+      },
     );
     builder.addCase(getOrganizationDashboardReducer.rejected, (state) => {
       state.loading = false;

@@ -34,12 +34,12 @@ const Dashboard: FC = function () {
   const dispatch = useDispatch();
   const { id, project_id }: any = useParams();
   const { commonAreaItem }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const [showOnly, setShowOnly] = useState("all");
   const [showOnly2, setShowOnly2] = useState("all");
   const { notifications, projectDashboard }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
 
   const { defect }: PropertyState = useSelector((state: any) => state.property);
@@ -340,7 +340,7 @@ const Dashboard: FC = function () {
                                 {" "}
                                 {moment(
                                   notif.createdAt,
-                                  "YYYY-MM-DD h:mm:ss a"
+                                  "YYYY-MM-DD h:mm:ss a",
                                 ).format("MMM Do, YYYY h:mm:ss a")}
                               </span>
                             </span>
@@ -448,7 +448,7 @@ const Dashboard: FC = function () {
             {(checkIsValid(
               projectDashboard &&
                 projectDashboard.propertyDefectsByStatusAndTrade &&
-                projectDashboard.propertyDefectsByStatusAndTrade[showOnly]
+                projectDashboard.propertyDefectsByStatusAndTrade[showOnly],
             ) && (
               <AcquisitionChart
                 data={
@@ -553,7 +553,7 @@ const Dashboard: FC = function () {
             {(checkIsValid(
               projectDashboard &&
                 projectDashboard.commonAreaDefectsByStatusAndTrade &&
-                projectDashboard.commonAreaDefectsByStatusAndTrade[showOnly2]
+                projectDashboard.commonAreaDefectsByStatusAndTrade[showOnly2],
             ) && (
               <AcquisitionChart
                 data={
@@ -722,7 +722,7 @@ const Defects = function (props: P) {
                             projectDashboard.defectsByProperty.pending,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -755,7 +755,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByCommonArea.pending,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -798,7 +798,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByProperty.in_progress,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -831,7 +831,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByCommonArea.in_progress,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -873,7 +873,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByProperty.resolved,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -906,7 +906,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByCommonArea.resolved,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -948,7 +948,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByProperty.disputed,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >
@@ -981,7 +981,7 @@ const Defects = function (props: P) {
                             projectDashboard?.defectsByCommonArea.disputed,
                           projectDashboard &&
                             projectDashboard.totalDefects &&
-                            projectDashboard.totalDefects.total
+                            projectDashboard.totalDefects.total,
                         ),
                       }}
                     >

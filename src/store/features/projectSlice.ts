@@ -131,13 +131,13 @@ export const projectSlice = createSlice({
     },
     selectCommonArea: (
       state,
-      action: PayloadAction<FullChecklist | undefined>
+      action: PayloadAction<FullChecklist | undefined>,
     ) => {
       state.selectedCommonArea = action.payload;
     },
     selectCommonAreaElement: (
       state,
-      action: PayloadAction<FullElements | undefined>
+      action: PayloadAction<FullElements | undefined>,
     ) => {
       state.selectedCommonAreaElement = action.payload;
     },
@@ -374,7 +374,7 @@ export const projectSlice = createSlice({
             ? action.payload.data[0]
             : action.payload[0];
         state.commonAreaIdle = true;
-      }
+      },
     );
     builder.addCase(getCommonAreaByProjectReducer.rejected, (state) => {
       state.commonAreaItem = undefined;
@@ -393,7 +393,7 @@ export const projectSlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.commonAreaIdle = true;
-      }
+      },
     );
     builder.addCase(getCommonAreaByProjectArrayReducer.rejected, (state) => {
       state.commonAreaArray = undefined;
@@ -488,7 +488,7 @@ export const projectSlice = createSlice({
           action.payload && action.payload.data
             ? action.payload.data
             : action.payload;
-      }
+      },
     );
     builder.addCase(getProjectAppointmentsReducer.rejected, (state) => {
       state.projectAppointments = undefined;

@@ -13,7 +13,7 @@ import { selectZone } from "../../../../store/features/projectSlice";
 
 export default function ZoneItems({ openModal, setOpenModal }: any) {
   const { allChecklist, selectedZone }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const dispatch = useDispatch();
   const [zone, setZone] = useState("");

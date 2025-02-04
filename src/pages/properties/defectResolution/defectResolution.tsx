@@ -14,7 +14,7 @@ import { clearSubmittion } from "../../../store/features/propertySlice";
 
 const DefectResolution = function () {
   const { defectSubmissions, feedbackResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const [pendingDefects, setPendingDefects] = useState<
     DefectSumissionType[] | []
@@ -43,7 +43,7 @@ const DefectResolution = function () {
     dispatch(
       getAllDefectResolutionReducer({
         projectId: project_id,
-      })
+      }),
     );
     // isInit = true;
     // }
@@ -54,7 +54,7 @@ const DefectResolution = function () {
       dispatch(
         getAllDefectResolutionReducer({
           projectId: project_id,
-        })
+        }),
       );
       dispatch(clearSubmittion());
     }
@@ -64,16 +64,16 @@ const DefectResolution = function () {
     if (defectSubmissions && defectSubmissions.length) {
       if (!defectInit) {
         const pendings: any = defectSubmissions.filter(
-          (d) => d.status === "logged"
+          (d) => d.status === "logged",
         );
         const disputed: any = defectSubmissions.filter(
-          (d) => d.status === "disputed"
+          (d) => d.status === "disputed",
         );
         const in_progress: any = defectSubmissions.filter(
-          (d) => d.status === "in_progress"
+          (d) => d.status === "in_progress",
         );
         const resolved: any = defectSubmissions.filter(
-          (d) => d.status === "resolved"
+          (d) => d.status === "resolved",
         );
         setDisputedDefects(disputed);
         setPendingDefects(pendings);

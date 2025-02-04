@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import type { Property } from "../types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
@@ -20,10 +20,10 @@ DataTable.use(DT);
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
   const [openModal, setOpenModal] = useState(false);
-  const [reports, setReports] = useState([]);
+  const [reports, _setReports] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isAll, setIsAll] = useState(false);
+  // const [isAll, setIsAll] = useState(false);
 
   const getStatus = (value) => {
     let val = "";
@@ -144,7 +144,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         name={props?.id}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
-                        onChange={(e) =>
+                        onChange={(_e) =>
                           getSelected(props.id, props.warrantyStatus)
                         }
                       />
@@ -178,7 +178,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                     {`${props.projectTower && props.projectTower.name}, ${
                       props.projectTower &&
                       props.projectTower.floorList.find(
-                        (f) => f.key == props.floor
+                        (f) => f.key == props.floor,
                       )?.value
                     }`}
                   </th>
@@ -216,7 +216,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         onClick={() => {
                           dispatch(selectProperty(undefined));
                           navigate(
-                            `/organization/${id}/project/${project_id}/properties/${props.id}`
+                            `/organization/${id}/project/${project_id}/properties/${props.id}`,
                           );
                         }}
                       >
@@ -244,7 +244,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              3: (data: any, row: any) => (
+              3: (_data: any, _row: any) => (
                 <Button color="gray">Download</Button>
               ),
             }}

@@ -49,11 +49,11 @@ const AddProperty: FC = function () {
   const [errors, setErrors] = useState<any>([]);
   const [numFloors, setNumFloors] = useState<any>(0);
   const { projectTowers }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const { propertyResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
 
   const {
@@ -68,11 +68,11 @@ const AddProperty: FC = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const [attachedOwner, setAttachedOwner] = useState<any>([]);
   const { selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const AddProperty: FC = function () {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group
+          (obj) => obj.group === warrantyData.group,
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -118,7 +118,7 @@ const AddProperty: FC = function () {
         postWarrantyFiles({
           propertyId: propertyResponse.id,
           ...uploadedWarranties,
-        })
+        }),
       );
       const mutateUser =
         existingOwners &&
@@ -147,16 +147,16 @@ const AddProperty: FC = function () {
           toast.info("New Property has been registered!");
           setTimeout(() => {
             navigate(
-              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
+              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`,
             );
           }, 1000);
         } else {
           toast.warning(
-            "New Property has been registered but warranties is not fully uploaded"
+            "New Property has been registered but warranties is not fully uploaded",
           );
           setTimeout(() => {
             navigate(
-              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`
+              `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/properties`,
             );
           }, 1000);
         }
@@ -279,7 +279,7 @@ const AddProperty: FC = function () {
                         attachedOwner && attachedOwner.filter((own) => !own.id);
                       setExistingOwners(oldOwner);
                       dispatch(
-                        registerProperty({ ...formData, users: newOwner })
+                        registerProperty({ ...formData, users: newOwner }),
                       );
                     } else {
                       setErrors((oldArray) => [
@@ -360,7 +360,7 @@ const AddProperty: FC = function () {
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string
+    group: string,
   ) => {
     if (!event.target.files) {
       return;
@@ -380,13 +380,13 @@ const AddProperty: FC = function () {
       if (
         attachedOwner &&
         !attachedOwner.find(
-          (owner: userInterface) => owner.email === parsedOwner.email
+          (owner: userInterface) => owner.email === parsedOwner.email,
         )
       ) {
         if (
           attachedOwner &&
           !attachedOwner.find(
-            (owner: userInterface) => owner.mobile === parsedOwner.mobile
+            (owner: userInterface) => owner.mobile === parsedOwner.mobile,
           )
         ) {
           setAttachedOwner((oldArray) => [JSON.parse(owner), ...oldArray]);

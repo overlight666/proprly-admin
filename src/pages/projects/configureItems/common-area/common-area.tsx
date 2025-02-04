@@ -13,7 +13,7 @@ import { selectCommonArea } from "../../../../store/features/projectSlice";
 
 export default function CommonAreaItems({ openModal, setOpenModal }: any) {
   const { allCommonArea, selectedCommonArea }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const dispatch = useDispatch();
   const [zone, setZone] = useState("");

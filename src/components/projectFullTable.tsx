@@ -19,7 +19,7 @@ const ProjectFullTable = function () {
   const { id }: any = useParams();
   const dispatch = useDispatch();
   const { projectList }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   // let didInit = false;
 

@@ -64,7 +64,7 @@ const KanbanPage: FC = function () {
                       setList((list) => {
                         const newList = [...list];
                         const index = newList.findIndex(
-                          (item) => item.id === board.id
+                          (item) => item.id === board.id,
                         );
                         newList[index]!.tasks = tasks;
                         return newList;

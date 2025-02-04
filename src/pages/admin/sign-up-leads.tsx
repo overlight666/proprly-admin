@@ -7,8 +7,8 @@ import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
 
 import OrganizationHeader from "../../components/organizationHeader";
 import LeadTable from "../../components/leadTable";
-import { useDispatch, useSelector } from "react-redux";
-import type { LeadState, ReducerTypes } from "../../types";
+import { useDispatch } from "react-redux";
+// import type { LeadState, ReducerTypes } from "../../types";
 import { getAllLeads } from "../../store/features/reducers";
 import { ToastContainer } from "react-toastify";
 

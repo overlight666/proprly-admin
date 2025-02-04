@@ -9,7 +9,7 @@ import type { AppState, ReducerTypes } from "../../../types";
 const CommonAreaInformation = function (params) {
   const { lotNo, setLotNo, status, setStatus }: any = params;
   const { config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   return (
     <div className="flex w-full pb-5">

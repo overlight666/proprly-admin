@@ -32,10 +32,10 @@ export default function Auditor() {
   // let didInit = false;
   const { project_id }: any = useParams();
   const { projectAuditors }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
   const [isSuccess, setIsSuccess] = useState(false);
   const { selectedProject, responseStatus, userType }: ProjectState =
@@ -93,15 +93,15 @@ export default function Auditor() {
       (u: userInterface) =>
         u.project_role &&
         u.project_role.find(
-          (role: projectRole) => role.roleKey === "project_auditor"
-        )
+          (role: projectRole) => role.roleKey === "project_auditor",
+        ),
     );
 
   selectedProject?.user &&
     selectedProject?.user.map((u: userInterface) => {
       u.project_role &&
         u.project_role.find(
-          (role: projectRole) => role.roleKey === "project_auditor"
+          (role: projectRole) => role.roleKey === "project_auditor",
         );
     });
 

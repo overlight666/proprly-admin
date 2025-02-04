@@ -26,7 +26,7 @@ import {
 
 const SignIn: FC = function () {
   const { isIdle, userData, loginTrigger }: UserState = useSelector(
-    (state: any) => state.user
+    (state: any) => state.user,
   );
   const { setAuthenticated, setUser, setToken } = useContext(AuthContext);
 
@@ -67,7 +67,7 @@ const SignIn: FC = function () {
               "can_add_organization",
               "can_access_leads",
             ],
-          })
+          }),
         );
         gotoPage("organization");
       }

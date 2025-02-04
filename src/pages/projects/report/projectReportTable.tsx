@@ -13,18 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import {
   generateLatestReportReducer,
   getProjectReportReducer,
   getSingleProject,
 } from "../../../store/features/reducers";
-import type {
-  AppState,
-  ProjectDefectData,
-  ProjectReport,
-  ProjectState,
-} from "../../../types";
+import type { AppState, ProjectDefectData, ProjectState } from "../../../types";
 import { resetReport } from "../../../store/features/appSlice";
 import { toast } from "react-toastify";
 DataTable.use(DT);
@@ -32,14 +26,14 @@ const ProjectReportTable = function () {
   const { project_id }: any = useParams();
 
   const { projectReports, selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const [openModal, setOpenModal] = useState(false);
   const [reports, setReports] = useState<any[] | undefined>(undefined);
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<any>([]);
   const { reportGenerated }: AppState = useSelector(
-    (state: any) => state.application
+    (state: any) => state.application,
   );
   const ucword = (str) => {
     return (
@@ -97,7 +91,7 @@ const ProjectReportTable = function () {
         projectReports.defectDescriptions.tableData.map(
           (r: ProjectDefectData) => {
             return [r.srNo, `${r.unitNo}_project_report`, r.lastInspectionDate];
-          }
+          },
         )) ||
       [];
     setReports(rp);
@@ -109,7 +103,7 @@ const ProjectReportTable = function () {
       <DataTable
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         slots={{
-          5: (data: any, row: any) => (
+          5: (_data: any, _row: any) => (
             <Dropdown
               label=""
               dismissOnClick={false}
@@ -177,7 +171,7 @@ const ProjectReportTable = function () {
               color="primary"
               onClick={() => {
                 dispatch(
-                  generateLatestReportReducer(`projectId=${project_id}`)
+                  generateLatestReportReducer(`projectId=${project_id}`),
                 );
               }}
             >
@@ -187,7 +181,7 @@ const ProjectReportTable = function () {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              3: (data: any, row: any) => (
+              3: (_data: any, _row: any) => (
                 <Button color="gray">Download</Button>
               ),
             }}

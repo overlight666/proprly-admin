@@ -80,7 +80,7 @@ export const appSlice = createSlice({
         if (state.openProjects && state.openProjects.length > 0) {
           if (state.openProjects.find((e) => e == action.payload)) {
             state.openProjects = state.openProjects.filter(
-              (e) => e != action.payload
+              (e) => e != action.payload,
             );
           } else {
             state.openProjects = [...state.openProjects, action.payload];
@@ -236,7 +236,7 @@ export const appSlice = createSlice({
       getAllDefectResolutionByPropertyReducer.pending,
       (state) => {
         state.propertyDefectSubmissions = undefined;
-      }
+      },
     );
     builder.addCase(
       getAllDefectResolutionByPropertyReducer.fulfilled,
@@ -245,20 +245,20 @@ export const appSlice = createSlice({
           action.payload && action.payload.data
             ? action.payload.data
             : action.payload;
-      }
+      },
     );
     builder.addCase(
       getAllDefectResolutionByPropertyReducer.rejected,
       (state) => {
         state.propertyDefectSubmissions = undefined;
-      }
+      },
     );
 
     builder.addCase(
       getAllDefectResolutionByCommonAreaReducer.pending,
       (state) => {
         state.commonAreaDefectSubmissions = undefined;
-      }
+      },
     );
     builder.addCase(
       getAllDefectResolutionByCommonAreaReducer.fulfilled,
@@ -267,13 +267,13 @@ export const appSlice = createSlice({
           action.payload && action.payload.data
             ? action.payload.data
             : action.payload;
-      }
+      },
     );
     builder.addCase(
       getAllDefectResolutionByCommonAreaReducer.rejected,
       (state) => {
         state.commonAreaDefectSubmissions = undefined;
-      }
+      },
     );
 
     builder.addCase(getDashboardProjectReducer.pending, (state) => {
@@ -299,7 +299,7 @@ export const appSlice = createSlice({
           action.payload && action.payload.data
             ? action.payload.data
             : action.payload;
-      }
+      },
     );
     builder.addCase(getDashboardOrganizationReducer.rejected, (state) => {
       state.organizationDashboard = undefined;

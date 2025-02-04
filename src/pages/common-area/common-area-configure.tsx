@@ -10,22 +10,17 @@ import { useEffect, useState } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 // import { BsSliders2Vertical } from "react-icons/bs";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import CommonAreaLocationMappingTable from "../../components/commonAreaLocationMappingTable";
-import { Button } from "flowbite-react";
 import type { ProjectState } from "../../types";
 import { getCommonAreaReducer } from "../../store/features/reducers";
 import DataTable from "datatables.net-dt";
-import {
-  reloadCommonAreaTable,
-  updateCommonAreaTab,
-} from "../../store/features/projectSlice";
+import { reloadCommonAreaTable } from "../../store/features/projectSlice";
 import { toast } from "react-toastify";
 
-const CommonAreaConfigure = function ({ isConfigured }: any) {
+const CommonAreaConfigure = function ({}: any) {
   const {
     commonAreaItem,
     commonAreaConfig,
@@ -36,15 +31,14 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
     commonAreaBasementProcess,
   }: ProjectState = useSelector((state: any) => state.project);
   const { common_area_id } = useParams();
-  const [showCard1, setShowCard1] = useState(true);
+  const [showCard1, _setShowCard1] = useState(true);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isTowerConfigured, setIsTowerConfigured] = useState<any>(false);
-  const [isBasementConfigured, setIsBasementConfigured] = useState<any>(false);
 
   useEffect(() => {
     dispatch(
-      getCommonAreaReducer(common_area_id ? common_area_id : commonAreaItem?.id)
+      getCommonAreaReducer(
+        common_area_id ? common_area_id : commonAreaItem?.id,
+      ),
     );
     dispatch(reloadCommonAreaTable(false));
     // }
@@ -62,8 +56,8 @@ const CommonAreaConfigure = function ({ isConfigured }: any) {
     ) {
       dispatch(
         getCommonAreaReducer(
-          common_area_id ? common_area_id : commonAreaItem?.id
-        )
+          common_area_id ? common_area_id : commonAreaItem?.id,
+        ),
       );
       dispatch(reloadCommonAreaTable(false));
       setTimeout(() => {

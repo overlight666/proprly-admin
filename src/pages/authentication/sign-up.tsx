@@ -11,7 +11,7 @@ import PublicNav from "../../components/public-nav";
 import "react-phone-input-2/lib/style.css";
 import RegistrationStep1 from "../../components/registration-components/step1";
 import RegistrationStep2 from "../../components/registration-components/step2";
-import RegistrationStep3 from "../../components/registration-components/step3";
+// import RegistrationStep3 from "../../components/registration-components/step3";
 import RegistrationStep4 from "../../components/registration-components/step4";
 import RegistrationStep5 from "../../components/registration-components/step5";
 import { type OtpType, type leadRegistration } from "../../apis";
@@ -31,10 +31,10 @@ import {
 
 const SignUpPage: FC = function () {
   const { isIdle, loading, leadData }: LeadState = useSelector(
-    (state: any) => state.lead
+    (state: any) => state.lead,
   );
   const { otpResponse, verifying, resendResponse }: OtpState = useSelector(
-    (state: any) => state.otpVerifier
+    (state: any) => state.otpVerifier,
   );
   const [isTriggered, setIsTriggered] = useState<boolean>(false);
   const [header, setHeader] = useState("Lets get started");

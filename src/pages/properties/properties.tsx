@@ -37,16 +37,16 @@ const Properties: FC = function () {
   const { project_id }: any = useParams();
   // const didInit = false;
   const { propertyData, isIdle }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const { propertyTab }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const [selected, setSelected] = useState<any>([]);
   const [openModal, setOpenModal] = useState(false);
@@ -57,7 +57,7 @@ const Properties: FC = function () {
   const uploadProperty = () => {
     if (uploadType === "single") {
       navigate(
-        `/organization/${selectedOrganization?.id}/project/${project_id}/properties/new`
+        `/organization/${selectedOrganization?.id}/project/${project_id}/properties/new`,
       );
     }
   };

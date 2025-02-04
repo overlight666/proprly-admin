@@ -34,29 +34,29 @@ export const RescheduleAppointmentModal = function (props: any) {
   const [confirmModal, setConfirmModal] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
   const { appointmentResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
 
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment(appointmentData && appointmentData.appointmentDate).format(
-      "MMMM"
+      "MMMM",
     )} ${moment(appointmentData && appointmentData.appointmentDate).format(
-      "DD"
+      "DD",
     )}, ${moment(appointmentData && appointmentData.appointmentDate).format(
-      "YYYY"
-    )} `
+      "YYYY",
+    )} `,
   );
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
-    undefined
+    undefined,
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<any>(
     `${moment(
       appointmentData && appointmentData.startDate,
-      "YYYY-MM-DD h:mm a"
+      "YYYY-MM-DD h:mm a",
     ).format("HH:mm")}_${moment(
       appointmentData && appointmentData.endDate,
-      "YYYY-MM-DD h:mm a"
-    ).format("HH:mm")}`
+      "YYYY-MM-DD h:mm a",
+    ).format("HH:mm")}`,
   );
   const dispatch = useDispatch();
 
@@ -97,21 +97,21 @@ export const RescheduleAppointmentModal = function (props: any) {
   useEffect(() => {
     setAppointmentDate(
       `${moment(appointmentData && appointmentData.appointmentDate).format(
-        "MMMM"
+        "MMMM",
       )} ${moment(appointmentData && appointmentData.appointmentDate).format(
-        "DD"
+        "DD",
       )}, ${moment(appointmentData && appointmentData.appointmentDate).format(
-        "YYYY"
-      )} `
+        "YYYY",
+      )} `,
     );
     setSelectedTimeSlot(
       `${moment(
         appointmentData && appointmentData.startDate,
-        "YYYY-MM-DD h:mm a"
+        "YYYY-MM-DD h:mm a",
       ).format("HH:mm")}_${moment(
         appointmentData && appointmentData.endDate,
-        "YYYY-MM-DD h:mm a"
-      ).format("HH:mm")}`
+        "YYYY-MM-DD h:mm a",
+      ).format("HH:mm")}`,
     );
   }, [appointmentData]);
 
@@ -190,7 +190,7 @@ export const RescheduleAppointmentModal = function (props: any) {
                 id="propertyStatus"
                 name="propertyStatus"
                 value={getStatus(
-                  appointmentData && appointmentData.propertyStatus
+                  appointmentData && appointmentData.propertyStatus,
                 )}
                 placeholder="propertyStatus"
               />
@@ -222,8 +222,8 @@ export const RescheduleAppointmentModal = function (props: any) {
                 onSelectedDateChanged={(e) =>
                   setAppointmentDate(
                     `${moment(e).format("MMMM")} ${moment(e).format(
-                      "DD"
-                    )}, ${moment(e).format("YYYY")} `
+                      "DD",
+                    )}, ${moment(e).format("YYYY")} `,
                   )
                 }
                 minDate={
@@ -253,7 +253,7 @@ export const RescheduleAppointmentModal = function (props: any) {
                           {time.value}
                         </option>
                       );
-                    }
+                    },
                   )}
               </select>
             </div>

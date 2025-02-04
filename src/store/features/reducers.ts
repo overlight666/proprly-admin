@@ -84,7 +84,7 @@ export const registerLead: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const registerOrg: any = createAsyncThunk(
@@ -97,7 +97,7 @@ export const registerOrg: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const updateOrg: any = createAsyncThunk(
@@ -110,7 +110,7 @@ export const updateOrg: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const registerProject: any = createAsyncThunk(
@@ -123,7 +123,7 @@ export const registerProject: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const registerProperty: any = createAsyncThunk(
@@ -136,7 +136,7 @@ export const registerProperty: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const registerBulkProperty: any = createAsyncThunk(
@@ -149,7 +149,7 @@ export const registerBulkProperty: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getOneOrg: any = createAsyncThunk("getOneOrg", async (id: any) => {
@@ -172,7 +172,7 @@ export const addOrgUser: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getProperties: any = createAsyncThunk(
@@ -185,7 +185,7 @@ export const getProperties: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getProjects: any = createAsyncThunk(
@@ -198,7 +198,7 @@ export const getProjects: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getSingleProject: any = createAsyncThunk(
@@ -211,7 +211,7 @@ export const getSingleProject: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllDefectResolutionReducer: any = createAsyncThunk(
@@ -224,7 +224,7 @@ export const getAllDefectResolutionReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getDefectResolutionByIdReducer: any = createAsyncThunk(
@@ -237,7 +237,7 @@ export const getDefectResolutionByIdReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getOrganizations: any = createAsyncThunk(
@@ -250,7 +250,7 @@ export const getOrganizations: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const uploadImageFile: any = createAsyncThunk(
@@ -263,7 +263,7 @@ export const uploadImageFile: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const uploadDocument: any = createAsyncThunk(
@@ -276,7 +276,7 @@ export const uploadDocument: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const postWarranties: any = createAsyncThunk(
@@ -289,7 +289,7 @@ export const postWarranties: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const postWarrantyFiles: any = createAsyncThunk(
@@ -302,7 +302,7 @@ export const postWarrantyFiles: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const putWarrantyFiles: any = createAsyncThunk(
@@ -315,7 +315,7 @@ export const putWarrantyFiles: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const patchProject: any = createAsyncThunk(
@@ -328,7 +328,7 @@ export const patchProject: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const patchProperty: any = createAsyncThunk(
@@ -341,7 +341,7 @@ export const patchProperty: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const attachPropertyUserReducer: any = createAsyncThunk(
@@ -354,7 +354,7 @@ export const attachPropertyUserReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getTowersReducer: any = createAsyncThunk(
@@ -367,7 +367,7 @@ export const getTowersReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const postTower: any = createAsyncThunk(
@@ -380,7 +380,7 @@ export const postTower: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const postDefectCode: any = createAsyncThunk(
@@ -393,7 +393,7 @@ export const postDefectCode: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const VerifyOtp: any = createAsyncThunk("postOtp", async (data: any) => {
@@ -416,7 +416,7 @@ export const resendOtpVerify: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const loginUser: any = createAsyncThunk(
@@ -433,7 +433,7 @@ export const loginUser: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllBuilders: any = createAsyncThunk(
@@ -446,7 +446,7 @@ export const getAllBuilders: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllLeads: any = createAsyncThunk("getAllLeads", async () => {
@@ -469,7 +469,7 @@ export const getAllRegions: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllCountries: any = createAsyncThunk(
@@ -482,7 +482,7 @@ export const getAllCountries: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getSingleProperty: any = createAsyncThunk(
@@ -495,7 +495,7 @@ export const getSingleProperty: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 export const getGlobalConfig: any = createAsyncThunk(
   "getGlobalConfig",
@@ -507,7 +507,7 @@ export const getGlobalConfig: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 export const getDefectCodeListByProject: any = createAsyncThunk(
   "getAllDefectCodeByProjectId",
@@ -519,7 +519,7 @@ export const getDefectCodeListByProject: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getTradeCodeListByProject: any = createAsyncThunk(
@@ -532,7 +532,7 @@ export const getTradeCodeListByProject: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 export const postTradeCode: any = createAsyncThunk(
   "postTradeCode",
@@ -544,7 +544,7 @@ export const postTradeCode: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 export const getChecklistZonesReducer: any = createAsyncThunk(
   "getChecklistZones",
@@ -556,7 +556,7 @@ export const getChecklistZonesReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getChecklistElementReducer: any = createAsyncThunk(
@@ -569,7 +569,7 @@ export const getChecklistElementReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllChecklistReducer: any = createAsyncThunk(
@@ -582,7 +582,7 @@ export const getAllChecklistReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllCommonAreaReducer: any = createAsyncThunk(
@@ -595,7 +595,7 @@ export const getAllCommonAreaReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getCommonAreaByProjectReducer: any = createAsyncThunk(
@@ -608,7 +608,7 @@ export const getCommonAreaByProjectReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getCommonAreaByProjectArrayReducer: any = createAsyncThunk(
@@ -621,7 +621,7 @@ export const getCommonAreaByProjectArrayReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const listUserByRoleReducer: any = createAsyncThunk(
@@ -637,7 +637,7 @@ export const listUserByRoleReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const createProjectUserReducer: any = createAsyncThunk(
@@ -650,7 +650,7 @@ export const createProjectUserReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const createCommonAreaReducer: any = createAsyncThunk(
@@ -663,7 +663,7 @@ export const createCommonAreaReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getCommonAreaReducer: any = createAsyncThunk(
@@ -676,7 +676,7 @@ export const getCommonAreaReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const addCommonAreaBasementReducer: any = createAsyncThunk(
@@ -689,7 +689,7 @@ export const addCommonAreaBasementReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const addCommonAreaTowerReducer: any = createAsyncThunk(
@@ -702,7 +702,7 @@ export const addCommonAreaTowerReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const submitFeedbackReducer: any = createAsyncThunk(
@@ -715,7 +715,7 @@ export const submitFeedbackReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const bookAppointmentReducer: any = createAsyncThunk(
@@ -728,7 +728,7 @@ export const bookAppointmentReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getTimeSlotByProjectReducer: any = createAsyncThunk(
@@ -741,7 +741,7 @@ export const getTimeSlotByProjectReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const updateTimeSlotsReducer: any = createAsyncThunk(
@@ -754,7 +754,7 @@ export const updateTimeSlotsReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getPropertyReportsReducer: any = createAsyncThunk(
@@ -767,7 +767,7 @@ export const getPropertyReportsReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getCommonAreaReportsReducer: any = createAsyncThunk(
@@ -780,7 +780,7 @@ export const getCommonAreaReportsReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getProjectAppointmentsReducer: any = createAsyncThunk(
@@ -793,7 +793,7 @@ export const getProjectAppointmentsReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const rescheduleAppointmentReducer: any = createAsyncThunk(
@@ -806,7 +806,7 @@ export const rescheduleAppointmentReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const cancelAppointmentReducer: any = createAsyncThunk(
@@ -819,7 +819,7 @@ export const cancelAppointmentReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getOrganizationDashboardReducer: any = createAsyncThunk(
@@ -832,7 +832,7 @@ export const getOrganizationDashboardReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getProjectDashboardReducer: any = createAsyncThunk(
@@ -845,7 +845,7 @@ export const getProjectDashboardReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getNotificationsReducer: any = createAsyncThunk(
@@ -858,7 +858,7 @@ export const getNotificationsReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getNotificationsCountReducer: any = createAsyncThunk(
@@ -871,7 +871,7 @@ export const getNotificationsCountReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllDefectResolutionByPropertyReducer: any = createAsyncThunk(
@@ -884,7 +884,7 @@ export const getAllDefectResolutionByPropertyReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getAllDefectResolutionByCommonAreaReducer: any = createAsyncThunk(
@@ -897,7 +897,7 @@ export const getAllDefectResolutionByCommonAreaReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getDashboardProjectReducer: any = createAsyncThunk(
@@ -910,7 +910,7 @@ export const getDashboardProjectReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getDashboardOrganizationReducer: any = createAsyncThunk(
@@ -923,7 +923,7 @@ export const getDashboardOrganizationReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getProjectReportReducer: any = createAsyncThunk(
@@ -936,7 +936,7 @@ export const getProjectReportReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const getCommonAreaDefectResolutionReducer: any = createAsyncThunk(
@@ -949,7 +949,7 @@ export const getCommonAreaDefectResolutionReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );
 
 export const generateLatestReportReducer: any = createAsyncThunk(
@@ -962,5 +962,5 @@ export const generateLatestReportReducer: any = createAsyncThunk(
     } catch (err) {
       console.error(err);
     }
-  }
+  },
 );

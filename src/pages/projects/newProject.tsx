@@ -81,7 +81,7 @@ const ProjectNewPage: FC = function () {
   //   const navigate = useNavigate();
   const [selectedOrg, setSelectedOrg] = useState<Organization>();
   const { projectTab, config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   //   const gotoPage = (page) => {
   //     navigate(`${page}`);
@@ -118,7 +118,7 @@ const ProjectNewPage: FC = function () {
   const [line3, setLine3] = useState<any>("");
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   const { fileData }: ImageState = useSelector(
-    (state: ReducerTypes) => state.uploads
+    (state: ReducerTypes) => state.uploads,
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -566,7 +566,7 @@ const ProjectNewPage: FC = function () {
                                   {capitalizeFirstLetter(pt.value)}
                                 </option>
                               );
-                            }
+                            },
                           )}
                       </select>
                     </div>
@@ -595,7 +595,7 @@ const ProjectNewPage: FC = function () {
                                   {capitalizeFirstLetter(pt.value)}
                                 </option>
                               );
-                            }
+                            },
                           )}
                       </select>
                     </div>

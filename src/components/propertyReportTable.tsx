@@ -12,21 +12,21 @@ import DT from "datatables.net-dt";
 import { useDispatch, useSelector } from "react-redux";
 import { getPropertyReportsReducer } from "../store/features/reducers";
 import { useParams } from "react-router";
-import type { Report } from "../types";
+// import type { Report } from "../types";
 import { type PropertyState } from "../types";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import moment from "moment";
 import { toast } from "react-toastify";
 DataTable.use(DT);
 const PropertyReportTable = function ({ headerValue }: any) {
   const { project_id }: any = useParams();
   const { propertyReports }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const [reports, setReports] = useState<any>(undefined);
-  const [allReports, setAllReports] = useState<any>(undefined);
+  // const [allReports, setAllReports] = useState<any>(undefined);
   const [reportHistory, setReportHistory] = useState<any>(undefined);
   const [openModal, setOpenModal] = useState(false);
   const [fullReport, setFullReport] = useState<any>({});
@@ -91,7 +91,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
           (y) =>
             y[3] !== ucword("under_construction") &&
             y[3] !== ucword("pre_sales") &&
-            y[0] !== ""
+            y[0] !== "",
         );
       setTableData(filtered || []);
     }
@@ -167,7 +167,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
       <DataTable
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         slots={{
-          4: (data: any, row: any) => (
+          4: (_data: any, row: any) => (
             <Dropdown
               label=""
               dismissOnClick={false}
@@ -256,7 +256,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              5: (data: any, row: any) => (
+              5: (_data: any, row: any) => (
                 <div>
                   <a
                     href={row[5]}

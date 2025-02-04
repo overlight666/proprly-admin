@@ -42,7 +42,7 @@ export const BookAppointmentModal = function (props: any) {
               onClick={() => {
                 dispatch(clearAppointmentResponse());
                 navigate(
-                  `/organization/${id}/project/${project_id}/appointments/new`
+                  `/organization/${id}/project/${project_id}/appointments/new`,
                 );
                 setOpen(false);
               }}

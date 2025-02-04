@@ -26,7 +26,7 @@ import {
 
 const SignIn: FC = function () {
   const { isIdle, userData, loginTrigger }: UserState = useSelector(
-    (state: any) => state.user
+    (state: any) => state.user,
   );
   const { setAuthenticated, setUser, setToken } = useContext(AuthContext);
 
@@ -59,7 +59,7 @@ const SignIn: FC = function () {
             ...userData.user,
             userType: "builder",
             permissions: ["can_view_organization"],
-          })
+          }),
         );
         gotoPage("organization");
       }

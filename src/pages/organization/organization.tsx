@@ -25,11 +25,11 @@ const OrganizationPage: FC = function () {
   const dispatch = useDispatch();
   // let didInit = false;
   const { orgList, isIdle }: OrgState = useSelector(
-    (state: ReducerTypes) => state.organization
+    (state: ReducerTypes) => state.organization,
   );
 
   const { isGrid }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const navigate = useNavigate();
   const gotoPage = (page) => {

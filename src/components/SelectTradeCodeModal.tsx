@@ -17,7 +17,7 @@ const SelectTradeCode = function ({
   isSuccess,
 }: any) {
   const { tradeCodeList }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const [selected, setSelected] = useState([]);
   const [options, setOptions] = useState<any>([]);

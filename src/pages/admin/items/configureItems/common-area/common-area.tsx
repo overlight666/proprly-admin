@@ -15,7 +15,7 @@ import type { ProjectState, FullCommonArea } from "../../../../../types";
 
 export default function CommonAreaItems({ openModal, setOpenModal }: any) {
   const { allCommonArea, selectedCommonArea }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const dispatch = useDispatch();
   const [zone, setZone] = useState("");

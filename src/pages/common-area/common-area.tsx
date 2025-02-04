@@ -40,11 +40,11 @@ const CommonArea: FC = function () {
   const { project_id, common_area_id }: any = useParams();
   // let didInit = false;
   const { propertyData, isIdle }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
 
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const [isConfigured, setIsConfigured] = useState(false);
@@ -65,7 +65,7 @@ const CommonArea: FC = function () {
   const uploadProperty = () => {
     if (uploadType === "single") {
       navigate(
-        `/organization/${selectedOrganization?.id}/project/${project_id}/properties/new`
+        `/organization/${selectedOrganization?.id}/project/${project_id}/properties/new`,
       );
     }
   };
@@ -82,8 +82,8 @@ const CommonArea: FC = function () {
     if (commonAreaItem) {
       dispatch(
         getCommonAreaReducer(
-          common_area_id ? common_area_id : commonAreaItem?.id
-        )
+          common_area_id ? common_area_id : commonAreaItem?.id,
+        ),
       );
     } else {
       dispatch(clearCommonAreaConfig());
@@ -210,13 +210,13 @@ const CommonArea: FC = function () {
       const configureTowerCount =
         commonAreaConfig &&
         commonAreaConfig?.projectTowers.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
+          (o) => o.commonAreaConfigurationStatus == "Configured",
         );
 
       const configureBasementCount =
         commonAreaConfig &&
         commonAreaConfig?.projectBasements.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
+          (o) => o.commonAreaConfigurationStatus == "Configured",
         );
 
       const isBasementConfigured =
@@ -308,7 +308,7 @@ const CommonArea: FC = function () {
                 className="col-span-2 w-[200px]"
                 onClick={() => {
                   navigate(
-                    `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`
+                    `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`,
                   );
                 }}
               >

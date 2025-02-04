@@ -13,7 +13,7 @@ import type { ProjectState, FullElements } from "../../../../../types";
 
 export default function ElementItems({ openModal, setOpenModal }: any) {
   const { selectedZone, selectedElement }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const dispatch = useDispatch();
   const [switch1, setSwitch1] = useState(false);

@@ -26,7 +26,7 @@ export const LeadConfirmModal = function (props: any) {
           toast.info("Lead successfully converted!");
         } else {
           toast.error(
-            "There was an error during the process, please contact admin"
+            "There was an error during the process, please contact admin",
           );
         }
       }

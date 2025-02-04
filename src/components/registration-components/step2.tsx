@@ -10,7 +10,7 @@ import type { AppState } from "../../types";
 import { getAllCountries } from "../../store/features/reducers";
 const RegistrationStep2 = function (props: UserRegistration) {
   const { countries }: AppState = useSelector(
-    (state: any) => state.application
+    (state: any) => state.application,
   );
   const { organization, nextStep, handleInputChange, loading, country } = props;
   const [options, setOptions] = useState<any>([]);
@@ -24,7 +24,7 @@ const RegistrationStep2 = function (props: UserRegistration) {
   useEffect(() => {
     if (country) {
       const tz = countries.find(
-        (obj) => obj.countryCode.toLowerCase() === country.toLowerCase()
+        (obj) => obj.countryCode.toLowerCase() === country.toLowerCase(),
       )?.timezone;
       const ntz =
         tz &&

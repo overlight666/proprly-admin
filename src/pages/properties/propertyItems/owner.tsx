@@ -15,10 +15,10 @@ export default function Owner({ attachedOwner, attachOwner, addOwner }: any) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedOwner, setSelectedOwner] = useState<any>();
   const { propertyOwnerList }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
   const { project_id }: any = useParams();
   // let didInit = false;

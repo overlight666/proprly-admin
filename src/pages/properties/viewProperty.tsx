@@ -50,7 +50,7 @@ const ViewProperty: FC = function () {
   const { uploadForm, progress } = useUploadForm();
   const { id, project_id, property_id }: any = useParams();
   const { warrantyData }: ImageState = useSelector(
-    (state: any) => state.uploads
+    (state: any) => state.uploads,
   );
 
   const [ownerList, setOwnerList] = useState<any>([]);
@@ -60,14 +60,14 @@ const ViewProperty: FC = function () {
     groups: [],
   });
   const { selectedProperty, attachedUser }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const [errors, setErrors] = useState<any>([]);
   const [numFloors, setNumFloors] = useState<any>(0);
   const [selectedTower, setSelectedTower] = useState<any>(undefined);
   const [selectedFloor, setSelectedFloor] = useState<any>(undefined);
   const { projectTowers }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const addOwner = (name, email, mobile) => {
@@ -117,11 +117,11 @@ const ViewProperty: FC = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const { selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   // let isInit = false;
@@ -166,7 +166,7 @@ const ViewProperty: FC = function () {
   useEffect(() => {
     if (towerOptions) {
       setSelectedTower(
-        towerOptions.find((t) => t.value === formData.projectTowerId)
+        towerOptions.find((t) => t.value === formData.projectTowerId),
       );
     }
   });
@@ -229,7 +229,7 @@ const ViewProperty: FC = function () {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group
+          (obj) => obj.group === warrantyData.group,
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -270,7 +270,7 @@ const ViewProperty: FC = function () {
           uploadedWarranties &&
           uploadedWarranties.groups &&
           uploadedWarranties.groups.find(
-            (obj) => obj.group === warranty?.group
+            (obj) => obj.group === warranty?.group,
           );
         if (!warrant) {
           uploadedWarranties.groups.push({
@@ -292,7 +292,7 @@ const ViewProperty: FC = function () {
                 obj.files = [...new Set(arr)];
                 obj.data = [
                   ...new Map(
-                    arr1.map((item: any) => [item["id"], item])
+                    arr1.map((item: any) => [item["id"], item]),
                   ).values(),
                 ];
               }
@@ -371,7 +371,8 @@ const ViewProperty: FC = function () {
                         uploadedWarranties.groups &&
                         uploadedWarranties.groups.length &&
                         uploadedWarranties.groups.filter(
-                          (uploaded) => !existingGroups.includes(uploaded.group)
+                          (uploaded) =>
+                            !existingGroups.includes(uploaded.group),
                         );
 
                       const oldGroups =
@@ -379,13 +380,13 @@ const ViewProperty: FC = function () {
                         uploadedWarranties.groups &&
                         uploadedWarranties.groups.length &&
                         uploadedWarranties.groups.filter((uploaded) =>
-                          existingGroups.includes(uploaded.group)
+                          existingGroups.includes(uploaded.group),
                         );
                       dispatch(
                         postWarrantyFiles({
                           propertyId: property_id,
                           groups: newGroups,
-                        })
+                        }),
                       );
                       oldGroups &&
                         oldGroups.map((p) => {
@@ -405,7 +406,7 @@ const ViewProperty: FC = function () {
                       toast.info("Property has been updated!");
                       setTimeout(() => {
                         navigate(
-                          `/organization/${id}/project/${project_id}/properties`
+                          `/organization/${id}/project/${project_id}/properties`,
                         );
                       }, 2000);
                     } else {
@@ -472,7 +473,7 @@ const ViewProperty: FC = function () {
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string
+    group: string,
   ) => {
     if (!event.target.files) {
       return;

@@ -5,8 +5,8 @@ import { Button } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { AddDefectCodeModal } from "../modals/addDefectCodeModal";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import type { DefectCode, ProjectState } from "../../../types";
 import DataTable from "datatables.net-dt";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
@@ -14,7 +14,7 @@ import "../../../extension.css";
 
 export default function DefectCodeManagement({ project_id }: any) {
   const { defectCodeList }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const [isOpen, setOpen] = useState(false);
   // let didInit = false;

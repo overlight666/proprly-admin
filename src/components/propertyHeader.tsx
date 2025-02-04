@@ -28,7 +28,6 @@ import {
 } from "../store/features/reducers";
 import { toast } from "react-toastify";
 import { resetBulkResponse } from "../store/features/propertySlice";
-import Warranty from "../pages/properties/propertyItems/warranty";
 import { useUploadForm } from "../apis/hooks";
 import ModalWarranty from "../pages/properties/propertyItems/modalWarranty";
 import { clearWarranty, resetWarranty } from "../store/features/imageSlice";
@@ -42,7 +41,7 @@ const PropertyHeader = function ({ selected }: any) {
   const dispatch = useDispatch();
 
   const { warrantyData, warrantyResponse }: ImageState = useSelector(
-    (state: any) => state.uploads
+    (state: any) => state.uploads,
   );
 
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
@@ -55,15 +54,15 @@ const PropertyHeader = function ({ selected }: any) {
   const [excelData, setExcelData] = useState<any>(null);
 
   const { projectTowers, selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const { selectedProperty, bulkPropertyResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
 
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   useEffect(() => {
@@ -76,7 +75,7 @@ const PropertyHeader = function ({ selected }: any) {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group
+          (obj) => obj.group === warrantyData.group,
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -129,7 +128,7 @@ const PropertyHeader = function ({ selected }: any) {
 
     const result: any[] = [];
     let len = 0;
-    contents.map((value, index) => {
+    contents.map((value, _index) => {
       if (len < value.length) {
         len = value.length;
       }
@@ -152,8 +151,8 @@ const PropertyHeader = function ({ selected }: any) {
     const ws: any = workbook.addWorksheet("Template");
     const lists = workbook.addWorksheet("List");
     const options1 = ["Pre-Settlement", "Handover", "Post-Handover"];
-    const options2 = ["O3", "O4"];
-    const options3 = ["O5", "O6"];
+    // const options2 = ["O3", "O4"];
+    // const options3 = ["O5", "O6"];
 
     // Add data to the worksheet
     ws.addRow([
@@ -172,7 +171,7 @@ const PropertyHeader = function ({ selected }: any) {
       "External Area(m2)",
     ]);
 
-    ws.columns.map((col, index) => (col.width = 18));
+    ws.columns.map((col, _index) => (col.width = 18));
 
     lists.addTable({
       name: "Towers",
@@ -199,7 +198,7 @@ const PropertyHeader = function ({ selected }: any) {
       ncar = nextChar(ncar);
       workbook.definedNames.add(
         `List!$${ncar}2:$${ncar}$100`,
-        o.name.replace(/ /g, "_")
+        o.name.replace(/ /g, "_"),
       );
     });
 
@@ -264,7 +263,7 @@ const PropertyHeader = function ({ selected }: any) {
     const excelUrl = URL.createObjectURL(
       new Blob([excelBlob], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      })
+      }),
     );
 
     const link = document.createElement("a");
@@ -283,7 +282,7 @@ const PropertyHeader = function ({ selected }: any) {
     data &&
       data.map((e: ExcelData) => {
         const validTower = projectTowers.find(
-          (t) => t.name == e.Tower.replace(/_/g, " ")
+          (t) => t.name == e.Tower.replace(/_/g, " "),
         );
 
         if (validTower) {
@@ -349,7 +348,7 @@ const PropertyHeader = function ({ selected }: any) {
       excelData.length &&
       excelData.map((d: ExcelData) => {
         const tower = projectTowers.find(
-          (t) => t.name == d.Tower.replace(/_/g, " ")
+          (t) => t.name == d.Tower.replace(/_/g, " "),
         );
         const floor =
           tower &&
@@ -382,7 +381,7 @@ const PropertyHeader = function ({ selected }: any) {
 
   const handleProgressUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string
+    group: string,
   ) => {
     if (!event.target.files) {
       return;
@@ -625,7 +624,7 @@ const PropertyHeader = function ({ selected }: any) {
                   postWarrantyFiles({
                     propertyIds: selected,
                     ...uploadedWarranties,
-                  })
+                  }),
                 );
               }}
               disabled={isUploding}

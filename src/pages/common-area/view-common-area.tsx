@@ -9,58 +9,30 @@
 import type { ChangeEvent } from "react";
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import {
-  Breadcrumb,
-  Button,
-  Label,
-  Modal,
-  TextInput,
-  Select as Select2,
-  Dropdown,
-} from "flowbite-react";
-import { HiHome, HiPlus } from "react-icons/hi";
+import { Breadcrumb, Button } from "flowbite-react";
+import { HiHome } from "react-icons/hi";
 import { FaAngleDown, FaAngleUp, FaChevronLeft } from "react-icons/fa";
-import { GoPlus } from "react-icons/go";
 import ErrorHandler from "../../components/error";
 import { useDispatch, useSelector } from "react-redux";
 import type {
-  AppState,
   ImageState,
-  LeadState,
   OrgState,
   ProjectState,
-  Timezone,
-  UserState,
   WarrantyInterface,
 } from "../../types";
 import {
   createCommonAreaReducer,
-  getAllBuilders,
-  getAllRegions,
   getCommonAreaByProjectReducer,
-  getCommonAreaReducer,
-  postWarranties,
   postWarrantyFiles,
-  registerOrg,
-  uploadImageFile,
 } from "../../store/features/reducers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { RiCloseCircleFill } from "react-icons/ri";
-import {
-  clear,
-  clearWarranty,
-  resetWarranty,
-} from "../../store/features/imageSlice";
-import Select from "react-select";
-import { BsThreeDots } from "react-icons/bs";
+import { clearWarranty, resetWarranty } from "../../store/features/imageSlice";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { ConfirmModal } from "../../components/modals/confirmModal";
 import CommonAreaInformation from "./items/common-area-information";
 import StrataInformation from "./items/strata-information";
 import StrataWarrantyInformation from "./items/warranty-information";
-import StrataUploads from "./items/strata-uploads";
 import {
   clearCommonAreaResponse,
   updateCommonAreaTab,
@@ -74,17 +46,17 @@ import CommonAreaReportTable from "../../components/commonAreaReportTable";
 import CommonAreaDefectResolution from "./items/common-area-defect-resolution";
 
 const CommonAreaViewPage: FC = function () {
-  const { project_id, common_area_id }: any = useParams();
+  const { project_id }: any = useParams();
   const { uploadForm, progress } = useUploadForm();
   const [uploadedWarranties, setUploadedWarranties] = useState<any>({
     groups: [],
   });
-  const [existingGroups, setExistingGroups] = useState<any>([]);
+  const [_existingGroups, setExistingGroups] = useState<any>([]);
   const [status, setStatus] = useState<any>("");
   const [lotNo, setLotNo] = useState<any>("");
-  const [idHandler, setIdHandler] = useState<any>();
+  const [_idHandler, setIdHandler] = useState<any>();
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const [headerValue, setHeaderValue] = useState("all");
   const {
@@ -96,12 +68,8 @@ const CommonAreaViewPage: FC = function () {
     commonAreaConfig,
   }: ProjectState = useSelector((state: any) => state.project);
 
-  const {
-    warrantyData,
-    warrantyResponse,
-    uploadDone,
-    warrantyResponseStatus,
-  }: ImageState = useSelector((state: any) => state.uploads);
+  const { warrantyData, warrantyResponse, warrantyResponseStatus }: ImageState =
+    useSelector((state: any) => state.uploads);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -109,7 +77,6 @@ const CommonAreaViewPage: FC = function () {
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [showCard3, setShowCard3] = useState(true);
-  const [showCard4, setShowCard4] = useState(true);
   const [isConfigured, setIsConfigured] = useState(false);
   // let isInit = false;
   let isWarrantyInit = false;
@@ -159,7 +126,7 @@ const CommonAreaViewPage: FC = function () {
           postWarrantyFiles({
             commonAreaId: commonAreaId,
             ...uploadedWarranties,
-          })
+          }),
         );
       }
     }
@@ -178,7 +145,7 @@ const CommonAreaViewPage: FC = function () {
       } else {
         dispatch(getCommonAreaByProjectReducer(project_id));
         toast.warning(
-          "New Common Area has been registered but warranties is not fully uploaded"
+          "New Common Area has been registered but warranties is not fully uploaded",
         );
         // setTimeout(() => {
         //   navigate(
@@ -196,7 +163,7 @@ const CommonAreaViewPage: FC = function () {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group
+          (obj) => obj.group === warrantyData.group,
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -237,7 +204,7 @@ const CommonAreaViewPage: FC = function () {
           uploadedWarranties &&
           uploadedWarranties.groups &&
           uploadedWarranties.groups.find(
-            (obj) => obj.group === warranty?.group
+            (obj) => obj.group === warranty?.group,
           );
         if (!warrant) {
           uploadedWarranties.groups.push({
@@ -259,7 +226,7 @@ const CommonAreaViewPage: FC = function () {
                 obj.files = [...new Set(arr)];
                 obj.data = [
                   ...new Map(
-                    arr1.map((item: any) => [item["id"], item])
+                    arr1.map((item: any) => [item["id"], item]),
                   ).values(),
                 ];
               }
@@ -283,13 +250,13 @@ const CommonAreaViewPage: FC = function () {
       const configureTowerCount =
         commonAreaConfig &&
         commonAreaConfig?.projectTowers.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
+          (o) => o.commonAreaConfigurationStatus == "Configured",
         );
 
       const configureBasementCount =
         commonAreaConfig &&
         commonAreaConfig?.projectBasements.filter(
-          (o) => o.commonAreaConfigurationStatus == "Configured"
+          (o) => o.commonAreaConfigurationStatus == "Configured",
         );
 
       const isBasementConfigured =
@@ -307,7 +274,7 @@ const CommonAreaViewPage: FC = function () {
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string
+    group: string,
   ) => {
     if (!event.target.files) {
       return;

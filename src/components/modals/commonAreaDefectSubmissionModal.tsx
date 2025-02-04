@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Badge, Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import type {
   AppState,
@@ -14,7 +14,6 @@ import type {
   ReducerTypes,
   Roles,
   userData,
-  UserState,
 } from "../../types";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -34,29 +33,12 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
   } = props;
   const { defect }: PropertyState = useSelector((state: any) => state.property);
   const [showCard1, setShowCard1] = useState(true);
-  const [showCard2, setShowCard2] = useState(false);
   const [showCard3, setShowCard3] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState("");
   const { config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
-  const getStatus = (value) => {
-    let val = "";
-    try {
-      val =
-        value &&
-        value
-          .replace("_", " ")
-          .toLowerCase()
-          .replace(/\b[a-z]/g, function (letter) {
-            return letter.toUpperCase();
-          });
-    } catch (error) {
-      val = "";
-    }
-    return val;
-  };
 
   const textColoring = (defectSubStatus, hasBg) => {
     if (
@@ -95,6 +77,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
+    return undefined;
   };
 
   const getIcons = (defectSubStatus) => {
@@ -218,6 +201,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
         </svg>
       );
     }
+    return undefined;
   };
 
   return (
@@ -336,7 +320,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                               config?.roles && config.roles.length > 0
                                 ? config.roles.find(
                                     (k: Roles) =>
-                                      k.id == defect?.submittedUserRoleId
+                                      k.id == defect?.submittedUserRoleId,
                                   )?.roleName
                                 : ""
                             }
@@ -351,7 +335,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                             id="date"
                             name="date"
                             value={moment(defect?.createdAt).format(
-                              "DD-MM-YYYY"
+                              "DD-MM-YYYY",
                             )}
                             placeholder="Enter date"
                             required
@@ -550,7 +534,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                                   {config &&
                                     config?.roles &&
                                     config.roles.find(
-                                      (c) => c.id == activity?.loggedUserRoleId
+                                      (c) => c.id == activity?.loggedUserRoleId,
                                     )?.roleName}
                                 </span>
                                 <div className="flex">
@@ -558,7 +542,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                                     className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
                                   ${textColoring(
                                     activity.defectSubStatus,
-                                    true
+                                    true,
                                   )}
                                   `}
                                   >
@@ -604,7 +588,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                                 )}
                                 <span className="text-[12px]">
                                   {moment(activity.createdAt).format(
-                                    "MMM DD, YYYY h:mm a"
+                                    "MMM DD, YYYY h:mm a",
                                   )}
                                 </span>
                               </div>

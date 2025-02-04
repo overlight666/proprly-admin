@@ -8,30 +8,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useEffect, useState, type FC } from "react";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Checkbox, Label } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
-import ErrorHandler from "../../components/error";
 
-import { FaChevronLeft } from "react-icons/fa6";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import type { StylesConfig } from "react-select";
-import Select from "react-select";
 import type { AppState } from "../../types";
-import {
-  type OrgState,
-  type ProjectState,
-  type PropertyState,
-} from "../../types";
 import { useNavigate, useParams } from "react-router";
-import { duration } from "moment";
 import {
   getTimeSlotByProjectReducer,
   updateTimeSlotsReducer,
 } from "../../store/features/reducers";
 import { clearTImeSlot } from "../../store/features/appSlice";
+import { Button, Checkbox, Label } from "flowbite-react";
 
 export interface AppointmentType {
   propertyId?: number;
@@ -44,59 +32,59 @@ export interface AppointmentType {
   tradeCodeId?: number;
 }
 
-const colourStyles: StylesConfig<any, true> = {
-  control: (styles) => ({ ...styles, backgroundColor: "white" }),
-  multiValue: (styles, { data }) => {
-    const color = data.color;
-    return {
-      ...styles,
-    };
-  },
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-  }),
-  multiValueRemove: (styles, { data }) => ({
-    ...styles,
-    ":hover": {
-      backgroundColor: data.color,
-      color: "white",
-    },
-  }),
-};
+// const colourStyles: StylesConfig<any, true> = {
+//   control: (styles) => ({ ...styles, backgroundColor: "white" }),
+//   multiValue: (styles, { data }) => {
+//     const color = data.color;
+//     return {
+//       ...styles,
+//     };
+//   },
+//   multiValueLabel: (styles, { data }) => ({
+//     ...styles,
+//   }),
+//   multiValueRemove: (styles, { data }) => ({
+//     ...styles,
+//     ":hover": {
+//       backgroundColor: data.color,
+//       color: "white",
+//     },
+//   }),
+// };
 
 const TimeSlots: FC = function () {
   const { project_id }: any = useParams();
-  const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
-  );
-  const { selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
-  const { appointmentResponse }: PropertyState = useSelector(
-    (state: any) => state.property
-  );
+  // const { selectedOrganization }: OrgState = useSelector(
+  //   (state: any) => state.organization
+  // );
+  // const { selectedProject }: ProjectState = useSelector(
+  //   (state: any) => state.project
+  // );
+  // const { appointmentResponse }: PropertyState = useSelector(
+  //   (state: any) => state.property
+  // );
 
   const { timeslotResponse, timeslot }: AppState = useSelector(
-    (state: any) => state.application
+    (state: any) => state.application,
   );
 
-  const options: any = [
-    { value: "monday", label: "Monday" },
-    { value: "tuesday", label: "Tuesday" },
-    { value: "wednesday", label: "Wednesday" },
-    { value: "thursday", label: "Thursday" },
-    { value: "friday", label: "Friday" },
-  ];
+  // const options: any = [
+  //   { value: "monday", label: "Monday" },
+  //   { value: "tuesday", label: "Tuesday" },
+  //   { value: "wednesday", label: "Wednesday" },
+  //   { value: "thursday", label: "Thursday" },
+  //   { value: "friday", label: "Friday" },
+  // ];
 
   const [timeSlotStart, setTimeSlotStart] = useState("09:00");
   const [timeSlotEnd, setTimeSlotEnd] = useState("17:00");
-  const [slotSelected, setSlotSelected] = useState("1hour");
-  const [daySelected, setDaySelected] = useState<any[]>(options);
+  // const [slotSelected, setSlotSelected] = useState("1hour");
+  // const [daySelected, setDaySelected] = useState<any[]>(options);
   const [daySelected2, setDaySelected2] = useState<any[]>([]);
-  const [slots, setSlots] = useState<any>([]);
+  // const [slots, setSlots] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [errors, setErrors] = useState<any>([]);
+  // const [errors, setErrors] = useState<any>([]);
 
   useEffect(() => {
     dispatch(getTimeSlotByProjectReducer(project_id));
@@ -183,7 +171,7 @@ const TimeSlots: FC = function () {
             }
             return e;
           })
-        : []
+        : [],
     );
   };
 

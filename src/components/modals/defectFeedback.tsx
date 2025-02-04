@@ -5,31 +5,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Badge,
-  Button,
-  FileInput,
-  Label,
-  Modal,
-  Table,
-  Textarea,
-  TextInput,
-} from "flowbite-react";
+import { Button, FileInput, Label, Modal, Textarea } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
-import type {
-  AppState,
-  ImageState,
-  PropertyState,
-  ReducerTypes,
-  Roles,
-  userData,
-  UserState,
-} from "../../types";
-import { AiOutlineClose } from "react-icons/ai";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import type { ImageState, PropertyState } from "../../types";
 import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import {
   submitFeedbackReducer,
   uploadImageFile,
@@ -51,10 +31,10 @@ interface FeedbackData {
 export const DefectFeedbackModal = function (props: any) {
   const { isOpen, setOpen, title, defectId, feedback } = props;
   const { imageData, isIdle }: ImageState = useSelector(
-    (state: any) => state.uploads
+    (state: any) => state.uploads,
   );
   const { feedbackResponse }: PropertyState = useSelector(
-    (state: any) => state.property
+    (state: any) => state.property,
   );
   const [imgs, setImgs] = useState<any>([]);
   const [comment, setComment] = useState("");

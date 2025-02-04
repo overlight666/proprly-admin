@@ -11,19 +11,11 @@ import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { Button, Dropdown, Modal } from "flowbite-react";
-import { BsThreeDots } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import {
   getProjectReportReducer,
   getSingleProject,
 } from "../../../store/features/reducers";
-import type {
-  AppState,
-  ProjectDefectData,
-  ProjectReport,
-  ProjectState,
-} from "../../../types";
+import type { AppState, ProjectState } from "../../../types";
 import moment from "moment";
 import { resetReport } from "../../../store/features/appSlice";
 import { toast } from "react-toastify";
@@ -31,28 +23,16 @@ DataTable.use(DT);
 const ProjectReportTableNew = function () {
   const { project_id }: any = useParams();
 
-  const { projectReports, selectedProject }: ProjectState = useSelector(
-    (state: any) => state.project
+  const { selectedProject }: ProjectState = useSelector(
+    (state: any) => state.project,
   );
 
   const { reportGenerated }: AppState = useSelector(
-    (state: any) => state.application
+    (state: any) => state.application,
   );
 
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState<any>([]);
-  const ucword = (str) => {
-    return (
-      (str &&
-        str
-          .replace(/_/g, " ")
-          .toLowerCase()
-          .replace(/\b[a-z]/g, function (letter) {
-            return letter.toUpperCase();
-          })) ||
-      ""
-    );
-  };
 
   useEffect(() => {
     if (!selectedProject) {
@@ -69,7 +49,7 @@ const ProjectReportTableNew = function () {
         return [
           rep.id,
           `${selectedProject.name}_${moment(rep.createdAt).format(
-            "YYYY-DD-MM_HH_ss"
+            "YYYY-DD-MM_HH_ss",
           )}`,
           moment(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
           rep.reportUrl,
@@ -94,7 +74,7 @@ const ProjectReportTableNew = function () {
       <DataTable
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         slots={{
-          3: (data: any, row: any) => (
+          3: (_data: any, row: any) => (
             <div>
               <a
                 href={row[3]}

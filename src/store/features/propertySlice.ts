@@ -169,7 +169,7 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.isIdle = true;
-      }
+      },
     );
     builder.addCase(getAllDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
@@ -189,7 +189,7 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.isIdle = true;
-      }
+      },
     );
     builder.addCase(getCommonAreaDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
@@ -208,7 +208,7 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         // state.loadingDefect = false;
-      }
+      },
     );
     builder.addCase(getDefectResolutionByIdReducer.rejected, (state) => {
       // state.loadingDefect = false;

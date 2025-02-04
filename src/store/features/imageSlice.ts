@@ -47,12 +47,12 @@ export const imageSlice = createSlice({
       const oldProg =
         state.uploadProgress &&
         state.uploadProgress.filter(
-          (f) => f.fileName !== action.payload.fileName
+          (f) => f.fileName !== action.payload.fileName,
         );
       let newProg =
         state.uploadProgress &&
         state.uploadProgress.find(
-          (f) => f.fileName === action.payload.fileName
+          (f) => f.fileName === action.payload.fileName,
         );
       if (newProg) {
         newProg.progress = action.payload.progress;

@@ -14,10 +14,10 @@ export default function StrataInformation() {
   const { project_id }: any = useParams();
   const dispatch = useDispatch();
   const { projectStrata }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user
+    (state: ReducerTypes) => state.user,
   );
   useEffect(() => {
     const params = {

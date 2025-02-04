@@ -71,6 +71,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
+    return undefined;
   };
 
   const getIcons = (defectSubStatus) => {
@@ -194,6 +195,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
         </svg>
       );
     }
+    return undefined;
   };
 
   const truncateString = (string = "", maxLength = 25) =>
@@ -227,7 +229,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
         <div
           className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
             def.subStatus,
-            true
+            true,
           )}`}
         >
           <div className="mt-[10px] flex h-full align-top">
@@ -247,7 +249,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
             {(getLength(
               `${def && def.defectCode && def.defectCode.defectCode}, ${
                 def && def.defectCode && def.defectCode.defectName
-              }`
+              }`,
             ) > 25 && (
               <div className="inline-block">
                 <Tooltip
@@ -258,7 +260,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
                   {truncateString(
                     `${def && def.defectCode && def.defectCode.defectCode}, ${
                       def && def.defectCode && def.defectCode.defectName
-                    }`
+                    }`,
                   )}
                 </Tooltip>
               </div>
@@ -266,7 +268,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
               truncateString(
                 `${def && def.defectCode && def.defectCode.defectCode}, ${
                   def && def.defectCode && def.defectCode.defectName
-                }`
+                }`,
               )}
           </span>
         </span>

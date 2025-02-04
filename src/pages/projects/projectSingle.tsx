@@ -84,7 +84,7 @@ type towerType = {
 const ProjectSingle: FC = function () {
   const { id, project_id }: any = useParams();
   const { orgList, selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const navigate = useNavigate();
   const { userData }: UserState = useSelector((state: any) => state.user);
@@ -103,7 +103,7 @@ const ProjectSingle: FC = function () {
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
   const { projectTabMain, config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
@@ -119,7 +119,7 @@ const ProjectSingle: FC = function () {
   // let didInit = false;
   // let didLoad = false;
   const { fileData }: ImageState = useSelector(
-    (state: ReducerTypes) => state.uploads
+    (state: ReducerTypes) => state.uploads,
   );
 
   useEffect(() => {
@@ -300,7 +300,7 @@ const ProjectSingle: FC = function () {
     }
     if (!selectedProject) {
       toast.error(
-        "There was an error in adding your tower!, create a project first!"
+        "There was an error in adding your tower!, create a project first!",
       );
       valid = false;
     }
@@ -772,7 +772,7 @@ const ProjectSingle: FC = function () {
                                     {capitalizeFirstLetter(pt.value)}
                                   </option>
                                 );
-                              }
+                              },
                             )}
                         </select>
                       </div>
@@ -803,7 +803,7 @@ const ProjectSingle: FC = function () {
                                     {capitalizeFirstLetter(pt.value)}
                                   </option>
                                 );
-                              }
+                              },
                             )}
                         </select>
                       </div>

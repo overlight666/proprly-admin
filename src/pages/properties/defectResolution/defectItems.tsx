@@ -17,7 +17,7 @@ interface paramstype {
 }
 export const DefectItem = function ({ def, setOpen }: paramstype) {
   const dispatch = useDispatch();
-  const getStatus = (value) => {
+  const getStatus = (value: string) => {
     let val = "";
     try {
       val =
@@ -25,7 +25,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         value
           .replace("_", " ")
           .toLowerCase()
-          .replace(/\b[a-z]/g, function (letter) {
+          .replace(/\b[a-z]/g, function (letter: string) {
             return letter.toUpperCase();
           });
     } catch (error) {
@@ -34,7 +34,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
     return val;
   };
 
-  const textColoring = (defectSubStatus, hasBg) => {
+  const textColoring = (defectSubStatus: string, hasBg: boolean) => {
     if (
       defectSubStatus == "Tradesman to be organised" ||
       defectSubStatus == "Materials & Tradesman to be organised" ||
@@ -71,9 +71,10 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
+    return undefined;
   };
 
-  const getIcons = (defectSubStatus) => {
+  const getIcons = (defectSubStatus: string) => {
     if (
       defectSubStatus == "Tradesman to be organised" ||
       defectSubStatus == "Materials & Tradesman to be organised" ||
@@ -194,12 +195,13 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         </svg>
       );
     }
+    return undefined;
   };
 
   const truncateString = (string = "", maxLength = 25) =>
     string.length > maxLength ? `${string.substring(0, maxLength)}…` : string;
 
-  const getLength = (str) => str.length;
+  const getLength = (str: string | any[]) => str.length;
 
   return (
     <div
@@ -227,7 +229,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         <div
           className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
             def.subStatus,
-            true
+            true,
           )}`}
         >
           <div className="mt-[10px] flex h-full align-top">
@@ -246,7 +248,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
             {(getLength(
               `${def && def.defectCode && def.defectCode.defectCode}, ${
                 def && def.defectCode && def.defectCode.defectName
-              }`
+              }`,
             ) > 25 && (
               <div className="inline-block">
                 <Tooltip
@@ -257,7 +259,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
                   {truncateString(
                     `${def && def.defectCode && def.defectCode.defectCode}, ${
                       def && def.defectCode && def.defectCode.defectName
-                    }`
+                    }`,
                   )}
                 </Tooltip>
               </div>
@@ -265,7 +267,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
               truncateString(
                 `${def && def.defectCode && def.defectCode.defectCode}, ${
                   def && def.defectCode && def.defectCode.defectName
-                }`
+                }`,
               )}
           </span>
         </span>
@@ -275,7 +277,7 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
             {def.property.projectTower &&
               def.property.projectTower.floorList &&
               def.property.projectTower.floorList.find(
-                (f) => f.key == def.property.floor
+                (f) => f.key == def.property.floor,
               )?.value}
           </span>
         </span>

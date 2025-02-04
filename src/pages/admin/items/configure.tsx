@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Accordion, Button } from "flowbite-react";
-import DefectCodeManagement from "./configureItems/codeManagement";
-import TradeMapping from "./configureItems/tradeMapping";
-import PropertyChecklist from "./configureItems/propertyChecklist";
-import CommonArea from "./configureItems/commonArea";
 
 import { useDispatch } from "react-redux";
 import { updateProjectTabMain } from "../../../store/features/appSlice";
 
-export default function ConfigureAccordion({ project_id }: any) {
+export default function ConfigureAccordion({}: any) {
   const dispatch = useDispatch();
   return (
     <div>

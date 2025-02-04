@@ -8,7 +8,7 @@ import type { ProjectState, FullDefectCode } from "../../../../../types";
 
 export default function DefectsItems({ openModal, setOpenModal }: any) {
   const { selectedElement }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
 
   const addDefect = () => {
@@ -36,7 +36,7 @@ export default function DefectsItems({ openModal, setOpenModal }: any) {
                   <BsX />
                 </div>
               );
-            }
+            },
           )
         ) : selectedElement?.defectCode &&
           selectedElement?.defectCode.length === 0 ? (

@@ -51,7 +51,7 @@ import { Label } from "flowbite-react";
 const MasterConfiguration: FC = function () {
   const { id, project_id }: any = useParams();
   const { orgList, selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const {
@@ -67,7 +67,7 @@ const MasterConfiguration: FC = function () {
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
   const { masterTab }: AppState = useSelector(
-    (state: ReducerTypes) => state.application
+    (state: ReducerTypes) => state.application,
   );
 
   const [isUpdate, setIsUpdate] = useState(false);

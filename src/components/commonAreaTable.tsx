@@ -18,7 +18,7 @@ import { resetWarranty } from "../store/features/imageSlice";
 const CommonAreaTable = function () {
   const { id, project_id }: any = useParams();
   const { commonAreaItem }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ const CommonAreaTable = function () {
                         onClick={() => {
                           dispatch(resetWarranty());
                           navigate(
-                            `/organization/${id}/project/${project_id}/common-area/${commonAreaItem.id}`
+                            `/organization/${id}/project/${project_id}/common-area/${commonAreaItem.id}`,
                           );
                         }}
                       >

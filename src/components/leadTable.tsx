@@ -23,7 +23,7 @@ const LeadTable = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { leadList }: LeadState = useSelector(
-    (state: ReducerTypes) => state.lead
+    (state: ReducerTypes) => state.lead,
   );
 
   useEffect(() => {

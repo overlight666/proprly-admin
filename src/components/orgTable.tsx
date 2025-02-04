@@ -20,7 +20,7 @@ const OrgTable = function () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orgList }: OrgState = useSelector(
-    (state: ReducerTypes) => state.organization
+    (state: ReducerTypes) => state.organization,
   );
 
   useEffect(() => {

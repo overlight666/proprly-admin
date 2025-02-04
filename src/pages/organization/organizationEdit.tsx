@@ -32,14 +32,12 @@ import type {
   OrgState,
   Regions,
   Timezone,
-  UserState,
 } from "../../types";
 import {
   addOrgUser,
   getAllBuilders,
   getAllRegions,
   getOneOrg,
-  registerOrg,
   updateOrg,
   uploadImageFile,
 } from "../../store/features/reducers";
@@ -68,17 +66,17 @@ type organization = {
 };
 const OrganizationEdit: FC = function () {
   const { builderList, loadingBuilders }: LeadState = useSelector(
-    (state: any) => state.lead
+    (state: any) => state.lead,
   );
   const { selectedOrganization, isUpdated }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [_password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>([]);
   const [selectedBuilder, setSelectedBuilder] = useState("");
   const [tempBuilders, setTempBuilder] = useState<any>([]);
@@ -87,13 +85,13 @@ const OrganizationEdit: FC = function () {
   const [timezoneOption, setTimezoneOptions] = useState<any>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country>();
   const { isIdle, loading, orgData }: OrgState = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const { regions }: AppState = useSelector((state: any) => state.application);
 
   const myImage: ImageState = useSelector((state: any) => state.uploads);
-  const [isTriggered, setIsTriggered] = useState<boolean>(false);
+  const [isTriggered, _setIsTriggered] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //   const [file, setFile] = useState<any>(undefined);
@@ -164,7 +162,7 @@ const OrganizationEdit: FC = function () {
   useEffect(() => {
     if (options) {
       setSelectedCountry(
-        options.find((options: Regions) => options.id === formData.regionId)
+        options.find((options: Regions) => options.id === formData.regionId),
       );
     }
   }, [options]);
@@ -205,7 +203,7 @@ const OrganizationEdit: FC = function () {
   useEffect(() => {
     if (orgData && orgData.name === "error") {
       toast.error(
-        "We encountered some errors during the process, please contact admin"
+        "We encountered some errors during the process, please contact admin",
       );
       dispatch(clear());
       setTimeout(() => {
@@ -376,7 +374,7 @@ const OrganizationEdit: FC = function () {
   const handleConfirm = () => {
     setIsProcess(true);
     const newList = selectedBuilderList.filter(
-      (o) => o.email !== selectedObj.email
+      (o) => o.email !== selectedObj.email,
     );
     setSelectedBuilderList(newList);
     setSelectedObj(false);
@@ -484,7 +482,7 @@ const OrganizationEdit: FC = function () {
                       options={timezoneOption}
                       isSearchable={true}
                       defaultValue={timezoneOption.find(
-                        (tz: Timezone) => tz.id === formData.timezoneId
+                        (tz: Timezone) => tz.id === formData.timezoneId,
                       )}
                       onChange={(event: any) =>
                         handleInputChange({
@@ -497,7 +495,7 @@ const OrganizationEdit: FC = function () {
                       id="timezone"
                       name="timezone"
                       value={timezoneOption.find(
-                        (tz: Timezone) => tz.id === formData.timezoneId
+                        (tz: Timezone) => tz.id === formData.timezoneId,
                       )}
                     />
                   </div>

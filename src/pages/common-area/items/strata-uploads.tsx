@@ -26,7 +26,7 @@ export default function StrataUploads({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "inspection_test_plans"
+                (g) => g.group === "inspection_test_plans",
               )?.data
             }
           />
@@ -47,7 +47,7 @@ export default function StrataUploads({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "pre_settlement_inspection_report"
+                (g) => g.group === "pre_settlement_inspection_report",
               )?.data
             }
           />
@@ -65,7 +65,7 @@ export default function StrataUploads({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "handover_inspection_report"
+                (g) => g.group === "handover_inspection_report",
               )?.data
             }
           />
@@ -83,7 +83,7 @@ export default function StrataUploads({
               uploadedWarranties &&
               uploadedWarranties.groups &&
               uploadedWarranties.groups.find(
-                (g) => g.group === "miscellaneous_report"
+                (g) => g.group === "miscellaneous_report",
               )?.data
             }
           />

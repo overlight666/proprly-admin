@@ -74,7 +74,7 @@ export default function CAElementItems({ openModal, setOpenModal }: any) {
                   )}
                 </>
               );
-            }
+            },
           )) || <span>Select a common area</span>}
 
         <Button className="absolute bottom-1 my-5 ml-3 w-[150px]">

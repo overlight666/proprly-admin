@@ -10,13 +10,8 @@ import { useEffect, useState } from "react";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getCommonAreaByProjectReducer,
-  getCommonAreaReportsReducer,
-  getPropertyReportsReducer,
-} from "../store/features/reducers";
+import { getCommonAreaReportsReducer } from "../store/features/reducers";
 import { useParams } from "react-router";
-import type { ProjectState, Report } from "../types";
 import { type PropertyState } from "../types";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
@@ -24,13 +19,12 @@ import moment from "moment";
 import { toast } from "react-toastify";
 DataTable.use(DT);
 const CommonAreaReportTable = function ({ headerValue }: any) {
-  const { project_id, common_area_id }: any = useParams();
-  const { commonAreaReports, selectedProperty }: PropertyState = useSelector(
-    (state: any) => state.property
+  const { project_id }: any = useParams();
+  const { commonAreaReports }: PropertyState = useSelector(
+    (state: any) => state.property,
   );
 
   const [reports, setReports] = useState<any>(undefined);
-  const [allReports, setAllReports] = useState<any>(undefined);
   const [reportHistory, setReportHistory] = useState<any>(undefined);
   const [openModal, setOpenModal] = useState(false);
   const [fullReport, setFullReport] = useState<any>({});
@@ -87,7 +81,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
           (y) =>
             y[3] !== ucword("under_construction") &&
             y[3] !== ucword("pre_sales") &&
-            y[0] !== ""
+            y[0] !== "",
         );
       setTableData(filtered || []);
     }
@@ -149,7 +143,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
       <DataTable
         className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
         slots={{
-          2: (data: any, row: any) => (
+          2: (_data: any, row: any) => (
             <Dropdown
               label=""
               dismissOnClick={false}
@@ -183,7 +177,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
                       href={fullReport.reportUrl}
                       target="_blank"
                       download={`Unit_${row[0]}_Lot_${resetUCWords(
-                        row[1]
+                        row[1],
                       )}}.pdf`}
                     >
                       Export Full Report
@@ -234,7 +228,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              2: (data: any, row: any) => (
+              2: (_data: any, row: any) => (
                 <div>
                   <a
                     href={row[2]}

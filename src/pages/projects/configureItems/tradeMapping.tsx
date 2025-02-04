@@ -13,7 +13,7 @@ import "../../../extension.css";
 
 export default function TradeMapping({ project_id }: any) {
   const { tradeCodeList, defectCodeList }: ProjectState = useSelector(
-    (state: any) => state.project
+    (state: any) => state.project,
   );
   // let didInit = false;
   useEffect(() => {
