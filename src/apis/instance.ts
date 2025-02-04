@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 import axios from "axios";
-const baseUrl = "https://api-dev.proprly.tech";
+const baseUrl =  import.meta.env["VITE_API_URL"] ||"https://api-dev.proprly.tech";
 
 const api = axios.create({
   baseURL: baseUrl,
