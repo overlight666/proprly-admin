@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { clearAppointmentResponse } from "../../store/features/propertySlice";
 import { useDispatch } from "react-redux";
+import { setAppointmentType } from "../../store/features/appSlice";
 
 export const BookAppointmentModal = function (props: any) {
   const { isOpen, setOpen } = props;
@@ -29,8 +30,8 @@ export const BookAppointmentModal = function (props: any) {
                 onChange={(e) => setUploadType(e.target.value)}
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               >
-                <option value="single">Inspection Appointment</option>
-                <option value="single">Defect Appointment</option>
+                <option value="inspection">Inspection Appointment</option>
+                <option value="defect">Defect Appointment</option>
               </select>
             </div>
           </div>
@@ -41,6 +42,7 @@ export const BookAppointmentModal = function (props: any) {
               color="primary"
               onClick={() => {
                 dispatch(clearAppointmentResponse());
+                dispatch(setAppointmentType(uploadType));
                 navigate(
                   `/organization/${id}/project/${project_id}/appointments/new`,
                 );

@@ -182,7 +182,6 @@ const Appointments: FC = function () {
   };
 
   const getItemContent = (item) => {
-    console.log(item);
     return item.property
       ? `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
           "h:mm A",
@@ -380,35 +379,42 @@ const Appointments: FC = function () {
                                     </div>
                                   ),
                               )}
-                            {data && data.length > 2 && (
-                              <Dropdown
-                                label=""
-                                dismissOnClick={false}
-                                renderTrigger={() => (
-                                  <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
-                                    <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                                    <span className="text-blue-600">
-                                      + {data.length - 3}
-                                    </span>
-                                  </div>
-                                )}
-                              >
-                                {data.map(
-                                  (item: any, index) =>
-                                    index > 2 && (
-                                      <Dropdown.Item
-                                        key={index}
-                                        onClick={() => {
-                                          setAppointmentData(item);
-                                          setRescheduleModal(true);
-                                        }}
-                                      >
-                                        {item.title}
-                                      </Dropdown.Item>
-                                    ),
-                                )}
-                              </Dropdown>
-                            )}
+                            {data &&
+                              data.filter((e: any) => e.title !== "highlight")
+                                .length > 2 && (
+                                <Dropdown
+                                  label=""
+                                  dismissOnClick={false}
+                                  renderTrigger={() => (
+                                    <div className="flex items-center gap-2 rounded-full bg-blue-100 p-1 px-3">
+                                      <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                                      <span className="text-blue-600">
+                                        +{" "}
+                                        {data.filter(
+                                          (e: any) => e.title !== "highlight"
+                                        ).length - 3}
+                                      </span>
+                                    </div>
+                                  )}
+                                >
+                                  {data
+                                    .filter((e: any) => e.title !== "highlight")
+                                    .map(
+                                      (item: any, index) =>
+                                        index > 2 && (
+                                          <Dropdown.Item
+                                            key={index}
+                                            onClick={() => {
+                                              setAppointmentData(item);
+                                              setRescheduleModal(true);
+                                            }}
+                                          >
+                                            {item.title}
+                                          </Dropdown.Item>
+                                        )
+                                    )}
+                                </Dropdown>
+                              )}
                           </div>
                         );
                       }}
