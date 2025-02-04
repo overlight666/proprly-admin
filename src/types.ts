@@ -83,6 +83,7 @@ export interface AppState {
   commonAreaDefectSubmissions: DefectSumissionType[] | undefined;
   projectDashboard: DashboardData | undefined;
   organizationDashboard: DashboardData | undefined;
+  appointmentType: string;
 }
 
 export interface DefectsData {

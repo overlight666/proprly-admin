@@ -33,6 +33,7 @@ import {
   getCommonAreaByProjectArrayReducer,
   getProperties,
   getTimeSlotByProjectReducer,
+  getTradeCodeListByProject,
   listUserByRoleReducer,
 } from "../../store/features/reducers";
 import moment from "moment";
@@ -53,15 +54,14 @@ const AddAppointment: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
-  const { selectedProject, commonAreaArray }: ProjectState = useSelector(
-    (state: any) => state.project
-  );
+  const { selectedProject, commonAreaArray, tradeCodeList }: ProjectState =
+    useSelector((state: any) => state.project);
   const { propertyData, appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
   const { timeslot }: AppState = useSelector((state: any) => state.application);
 
-  const { projectAuditors }: AppState = useSelector(
+  const { projectAuditors, appointmentType }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
 
@@ -83,9 +83,15 @@ const AddAppointment: FC = function () {
   const [selectedAuditor, setSelectedAuditor] = useState<userData | undefined>(
     undefined
   );
+  const [userSelected, setUserSelected] = useState("auditor");
   const [description, setDescription] = useState("");
-  const [appointmentType, setInspectionType] = useState("inspection");
+  const [appointmentTypeValue, setInspectionType] = useState(
+    appointmentType || "inspection"
+  );
   const [inspectionStatus, setInspectionStatus] = useState("");
+  const [subContractorList, setSubContractorList] = useState<any>([]);
+  const [selectedTradeCategory, setSelectedTradeCategory] = useState<any>("");
+  const [selectedSubContractor, setSelectedSubContractor] = useState<any>("");
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
       "YYYY"
@@ -120,6 +126,10 @@ const AddAppointment: FC = function () {
     } else {
       dispatch(getCommonAreaByProjectArrayReducer(project_id));
     }
+  };
+
+  const userHandler = (e) => {
+    setUserSelected(e);
   };
 
   const optionItem = (): any => {
@@ -166,6 +176,44 @@ const AddAppointment: FC = function () {
     callback(optionItem2());
   };
 
+  const tradeCategoryOptions = (): any => {
+    return (
+      tradeCodeList &&
+      tradeCodeList.length > 0 &&
+      tradeCodeList.map((e) => {
+        return { ...e, label: e.tradeName, value: e.id };
+      })
+    );
+  };
+
+  // const subContractorOptions = (): any => {
+  //   const tcR =
+  //     selectedProject &&
+  //     selectedProject.user &&
+  //     selectedProject.user.length > 0 &&
+  //     selectedProject.user.filter(
+  //       (e: any) =>
+  //         e.project_role &&
+  //         e.project_role[0].roleKey === "project_sub_contractor" &&
+  //         e.tradeCodes &&
+  //         e.tradeCodes.length > 0 &&
+  //         e.tradeCodes.find(
+  //           (tc) => tc.tradeCode === selectedTradeCategory.tradeCode
+  //         )
+  //     );
+  //   return (
+  //     tcR &&
+  //     tcR.length > 0 &&
+  //     tcR.map((u) => {
+  //       return {
+  //         ...u,
+  //         label: u.fullName,
+  //         value: u.id,
+  //       };
+  //     })
+  //   );
+  // };
+
   const loadAuditors = (
     inputValue: string,
     callback: (options: any[]) => void
@@ -173,20 +221,44 @@ const AddAppointment: FC = function () {
     callback(auditorItems());
   };
 
+  const loadTradeCategory = (
+    inputValue: string,
+    callback: (options: any[]) => void
+  ) => {
+    callback(tradeCategoryOptions());
+  };
+
+  // const loadSubContractor = (
+  //   inputValue: string,
+  //   callback: (options: any[]) => void
+  // ) => {
+  //   callback(subContractorOptions());
+  // };
+
   const bookAppointment = () => {
     const params: AppointmentType = {
-      type: appointmentType,
+      type: appointmentTypeValue,
       appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
       description: description,
     };
+
     if (chooseValue == "property") {
       params.propertyId = selectedProperty?.id;
-      params.userId = selectedAuditor?.id;
+      params.userId =
+        userSelected === "auditor"
+          ? selectedAuditor?.id
+          : selectedSubContractor;
     }
     if (chooseValue == "common-area") {
       params.commonAreaId = selectedCommonArea?.id;
-      params.userId = selectedAuditor?.id;
+      params.userId =
+        userSelected === "auditor"
+          ? selectedAuditor?.id
+          : selectedSubContractor;
+    }
+    if (userSelected === "sub-contractor") {
+      params.tradeCodeId = selectedTradeCategory?.id;
     }
     dispatch(bookAppointmentReducer(params));
   };
@@ -194,6 +266,14 @@ const AddAppointment: FC = function () {
   useEffect(() => {
     if (appointmentResponse && appointmentResponse.error) {
       toast.warning(appointmentResponse.error);
+    } else if (
+      appointmentResponse &&
+      appointmentResponse.messages &&
+      appointmentResponse.messages.length > 0
+    ) {
+      appointmentResponse.messages.map((m: any) => {
+        toast.error(m.message || "Unknown Error");
+      });
     } else if (appointmentResponse && !appointmentResponse.error) {
       toast.info("Appointment successfully added");
       dispatch(clearAppointmentResponse());
@@ -212,6 +292,48 @@ const AddAppointment: FC = function () {
       setCurrentTimeSlots(slots);
     }
   }, [timeslot]);
+
+  useEffect(() => {
+    dispatch(getTradeCodeListByProject(project_id));
+  }, []);
+
+  useEffect(() => {
+    const tcR =
+      selectedProject &&
+      selectedProject.user &&
+      selectedProject.user.length > 0 &&
+      selectedProject.user.filter(
+        (e: any) =>
+          e.project_role &&
+          e.project_role[0].roleKey === "project_sub_contractor" &&
+          e.tradeCodes &&
+          e.tradeCodes.length > 0 &&
+          e.tradeCodes.find(
+            (tc) => tc.tradeCode === selectedTradeCategory.tradeCode
+          )
+      );
+    const list =
+      (tcR &&
+        tcR.length > 0 &&
+        tcR.map((u) => {
+          return {
+            ...u,
+            label: u.fullName,
+            value: u.id,
+          };
+        })) ||
+      [];
+    setSubContractorList(list);
+  }, [selectedTradeCategory]);
+  // useEffect(() => {
+  //   const o =
+  //     tradeCodeList &&
+  //     tradeCodeList.length > 0 &&
+  //     tradeCodeList.map((e) => {
+  //       return { label: e.tradeName, value: e.id };
+  //     });
+  //   setOptions(o);
+  // }, [tradeCodeList]);
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -362,7 +484,7 @@ const AddAppointment: FC = function () {
                     <select
                       id="appointmentType"
                       name="appointmentType"
-                      value={appointmentType}
+                      value={appointmentTypeValue}
                       onChange={(e) => setInspectionType(e.target.value)}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
@@ -432,24 +554,99 @@ const AddAppointment: FC = function () {
                       placeholder="Write a description"
                     ></textarea>
                   </div>
-                  <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
-                    <Label htmlFor="organization">
-                      Auditor
-                      <span className="text-[red]">*</span>
-                    </Label>
-                    <AsyncSelect
-                      cacheOptions
-                      loadOptions={loadAuditors}
-                      defaultOptions
-                      onChange={(e) => setSelectedAuditor(e)}
-                    />
+                  <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
+                    <fieldset className="flex flex-row gap-4">
+                      <span>Choose:</span>
+                      <div className="flex items-center gap-2">
+                        <Radio
+                          id="auditor"
+                          name="user"
+                          value="auditor"
+                          checked={userSelected == "auditor"}
+                          onChange={(e) => {
+                            userHandler(e.target.value);
+                          }}
+                        />
+                        <Label htmlFor="choose">Auditor</Label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Radio
+                          id="subContractor"
+                          name="user"
+                          value="sub-contractor"
+                          checked={userSelected == "sub-contractor"}
+                          onChange={(e) => {
+                            userHandler(e.target.value);
+                          }}
+                        />
+                        <Label htmlFor="choose">Sub-Contractor</Label>
+                      </div>
+                    </fieldset>
                   </div>
+                  {(userSelected === "auditor" && (
+                    <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
+                      <Label htmlFor="organization">
+                        Auditor
+                        <span className="text-[red]">*</span>
+                      </Label>
+                      <AsyncSelect
+                        cacheOptions
+                        loadOptions={loadAuditors}
+                        defaultOptions
+                        onChange={(e) => setSelectedAuditor(e)}
+                      />
+                    </div>
+                  )) || (
+                    <>
+                      <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
+                        <Label htmlFor="organization">
+                          Trade Category
+                          <span className="text-[red]">*</span>
+                        </Label>
+                        <AsyncSelect
+                          cacheOptions
+                          loadOptions={loadTradeCategory}
+                          defaultOptions
+                          onChange={(e) => setSelectedTradeCategory(e)}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
+                        <Label htmlFor="organization">
+                          Sub Contractor
+                          <span className="text-[red]">*</span>
+                        </Label>
+                        <select
+                          id="subContractor"
+                          name="subContractor"
+                          value={selectedSubContractor}
+                          onChange={(e) =>
+                            setSelectedSubContractor(e.target.value)
+                          }
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                          <option value="" selected disabled>
+                            Please Select
+                          </option>
+                          {subContractorList &&
+                            subContractorList.length > 0 &&
+                            subContractorList.map((u, index) => {
+                              return (
+                                <option key={index} value={u.id}>
+                                  {u.fullName}
+                                </option>
+                              );
+                            })}
+                        </select>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             )}
           </div>
           <div
-            className="flex !w-full items-center justify-between border-b-[1px]"
+            className="flex !w-full items-center justify-between border-b-[1px] pt-[20px]"
             onClick={() => setShowCard2(!showCard2)}
           >
             <h1 className="font-bold">
@@ -536,12 +733,14 @@ const AddAppointment: FC = function () {
               className="mx-1"
               color="primary"
               onClick={() => bookAppointment()}
-              disabled={
-                (chooseValue == "property" && !selectedProperty) ||
-                (chooseValue != "property" && !selectedCommonArea) ||
-                !description ||
-                (chooseValue == "property" && !selectedAuditor)
-              }
+              disabled={!description}
+              // disabled={
+              //   (chooseValue == "property" && !selectedProperty) ||
+              //   (chooseValue != "property" && !selectedCommonArea) ||
+              //   !description ||
+              //   (chooseValue == "property" && !selectedAuditor) ||
+              //   !selectedSubContractor
+              // }
             >
               Book Appointment
             </Button>

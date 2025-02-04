@@ -47,6 +47,7 @@ const initialState: AppState = {
   projectDashboard: undefined,
   organizationDashboard: undefined,
   reportGenerated: false,
+  appointmentType: "",
 };
 
 const mapDays = {
@@ -69,6 +70,9 @@ export const appSlice = createSlice({
     },
     updateGrid: (state, action) => {
       state.isGrid = action.payload;
+    },
+    setAppointmentType: (state, action) => {
+      state.appointmentType = action.payload;
     },
     updateProjectOpen: (state, action) => {
       if (
@@ -332,6 +336,7 @@ export const {
   clearProjectOpen,
   updateMasterTab,
   resetReport,
+  setAppointmentType,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
