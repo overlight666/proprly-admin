@@ -194,7 +194,7 @@ const Appointments: FC = function () {
           "h:mm A"
         )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
           "h:mm A"
-        )} Common Area ${
+        )} Common Area CA Lot No. ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`;
   };
@@ -409,7 +409,18 @@ const Appointments: FC = function () {
                                               setRescheduleModal(true);
                                             }}
                                           >
-                                            {item.title}
+                                            <span
+                                              className={
+                                                item && item.status == "booked"
+                                                  ? "text-blue-600"
+                                                  : item &&
+                                                    item.status == "canceled"
+                                                  ? "text-red-600 line-through"
+                                                  : "text-green-600"
+                                              }
+                                            >
+                                              {getItemContent(item)}
+                                            </span>
                                           </Dropdown.Item>
                                         )
                                     )}

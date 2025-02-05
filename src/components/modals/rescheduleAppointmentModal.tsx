@@ -35,6 +35,7 @@ export const RescheduleAppointmentModal = function (props: any) {
   const [confirmModal, setConfirmModal] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
   const [isCommonArea, setIsCommonArea] = useState(false);
+  const [rescheduling, setRescheduling] = useState(false);
   const { appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
@@ -127,6 +128,7 @@ export const RescheduleAppointmentModal = function (props: any) {
       appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
     };
+    setRescheduling(true);
     dispatch(rescheduleAppointmentReducer(params));
   };
 
@@ -135,14 +137,23 @@ export const RescheduleAppointmentModal = function (props: any) {
       toast.warning(appointmentResponse.error);
     } else if (appointmentResponse && !appointmentResponse.error) {
       if (isCancel) {
-        toast.info("Appointment successfully cancelled");
+        if (isCommonArea) {
+          toast.info("Successfully Cancelled Common Area Appointment");
+        } else {
+          toast.info("Successfully Cancelled Property Appointment");
+        }
         setIsCancel(false);
       } else {
-        toast.info("Appointment successfully rescheduled");
+        if (isCommonArea) {
+          toast.info("Successfully Re-schedule Common Area Appointment");
+        } else {
+          toast.info("Successfully Re-schedule Property Appointment");
+        }
       }
 
       dispatch(clearAppointmentResponse());
       dispatch(setRefreshAppontments(true));
+      setRescheduling(false);
       setOpen(false);
     }
   }, [appointmentResponse]);
@@ -176,7 +187,13 @@ export const RescheduleAppointmentModal = function (props: any) {
           <strong>
             {appointmentData?.status == "canceled"
               ? "View Cancelled"
-              : "Re-Schedule Appointment"}
+              : isCancel
+              ? isCommonArea
+                ? "Cancel Common Area Appointment"
+                : "Cancel Property Appointment Appointment"
+              : isCommonArea
+              ? "Re-schedule Common Area Appointment"
+              : "Re-schedule Property Appointment"}
           </strong>
         </Modal.Header>
         <Modal.Body>
@@ -336,6 +353,7 @@ export const RescheduleAppointmentModal = function (props: any) {
           {appointmentData?.status != "canceled" && (
             <div className="flex items-center gap-x-3">
               <Button
+                disabled={rescheduling}
                 color="primary"
                 onClick={() => {
                   rescheduleAppointment();
