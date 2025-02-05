@@ -381,12 +381,15 @@ const ViewProperty: FC = function () {
                         uploadedWarranties.groups.filter((uploaded) =>
                           existingGroups.includes(uploaded.group)
                         );
-                      dispatch(
-                        postWarrantyFiles({
-                          propertyId: property_id,
-                          groups: newGroups,
-                        })
-                      );
+                      if (newGroups) {
+                        dispatch(
+                          postWarrantyFiles({
+                            propertyId: property_id,
+                            groups: newGroups,
+                          })
+                        );
+                      }
+
                       oldGroups &&
                         oldGroups.map((p) => {
                           const params = {
