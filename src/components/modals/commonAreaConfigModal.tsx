@@ -2,7 +2,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Modal, Button, Dropdown, Checkbox, Label } from "flowbite-react";
+import {
+  Modal,
+  Button,
+  Dropdown,
+  Checkbox,
+  Label,
+  Spinner,
+} from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -469,15 +476,23 @@ export const CommonAreaConfigModal = function (props: any) {
                 </div>
               </div>
             )) || (
-            <div role="status" className="max-w-sm animate-pulse">
-              <div className="mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <div className="mb-2.5 h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <div className="mb-2.5 h-2 max-w-[330px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <div className="mb-2.5 h-2 max-w-[300px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <div className="h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
-              <span className="sr-only">Loading...</span>
+            <div className="flex w-full items-center justify-center gap-5">
+              <Spinner
+                aria-label="Center-aligned spinner example"
+                size="xl"
+                color="success"
+              />
             </div>
+            // <div role="status" className="max-w-sm animate-pulse">
+
+            //  <div className="mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <div className="mb-2.5 h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <div className="mb-2.5 h-2 max-w-[330px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <div className="mb-2.5 h-2 max-w-[300px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <div className="h-2 max-w-[360px] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            //   <span className="sr-only">Loading...</span>
+            // </div>
           )}
         </Modal.Body>
         <Modal.Footer>
