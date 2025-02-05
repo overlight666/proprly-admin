@@ -20,10 +20,11 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import {
   cancelAppointmentReducer,
+  getCommonAreaReducer,
   getTimeSlotByProjectReducer,
   rescheduleAppointmentReducer,
 } from "../../store/features/reducers";
-import type { AppState, PropertyState } from "../../types";
+import type { AppState, ProjectState, PropertyState } from "../../types";
 import { toast } from "react-toastify";
 import { ConfirmModal } from "./confirmModal";
 
@@ -33,8 +34,13 @@ export const RescheduleAppointmentModal = function (props: any) {
   const { timeslot }: AppState = useSelector((state: any) => state.application);
   const [confirmModal, setConfirmModal] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
+  const [isCommonArea, setIsCommonArea] = useState(false);
   const { appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
+  );
+
+  const { commonAreaConfig }: ProjectState = useSelector(
+    (state: any) => state.project
   );
 
   const [appointmentDate, setAppointmentDate] = useState(
@@ -150,6 +156,18 @@ export const RescheduleAppointmentModal = function (props: any) {
       dispatch(cancelAppointmentReducer(params));
     }
   };
+  useEffect(() => {
+    if (
+      appointmentData &&
+      !appointmentData.property &&
+      appointmentData.commonAreaId
+    ) {
+      setIsCommonArea(true);
+      dispatch(getCommonAreaReducer(appointmentData.commonAreaId));
+    } else {
+      setIsCommonArea(false);
+    }
+  }, [appointmentData]);
 
   return (
     <>
@@ -165,7 +183,7 @@ export const RescheduleAppointmentModal = function (props: any) {
           <div className="max-h-[600px] space-y-6">
             <div className="grid grid-cols-1 gap-y-2">
               <Label htmlFor="organization">
-                Unit No.
+                {isCommonArea ? "CA Lot No." : "Unit No."}
                 <span className="text-[red]">*</span>
               </Label>
               <TextInput
@@ -173,16 +191,18 @@ export const RescheduleAppointmentModal = function (props: any) {
                 id="unitNo"
                 name="unitNo"
                 value={
-                  appointmentData &&
-                  appointmentData.property &&
-                  appointmentData.property.unitNo
+                  isCommonArea
+                    ? commonAreaConfig && commonAreaConfig.lotNo
+                    : appointmentData &&
+                      appointmentData.property &&
+                      appointmentData.property.unitNo
                 }
                 placeholder="Unit No"
               />
             </div>
             <div className="grid grid-cols-1 gap-y-2">
               <Label htmlFor="organization">
-                Property Status
+                {isCommonArea ? "CA Status" : "Property Status"}
                 <span className="text-[red]">*</span>
               </Label>
               <TextInput
@@ -190,14 +210,16 @@ export const RescheduleAppointmentModal = function (props: any) {
                 id="propertyStatus"
                 name="propertyStatus"
                 value={getStatus(
-                  appointmentData && appointmentData.propertyStatus
+                  isCommonArea
+                    ? commonAreaConfig && commonAreaConfig.status
+                    : appointmentData && appointmentData.propertyStatus
                 )}
                 placeholder="propertyStatus"
               />
             </div>
             <div className="grid grid-cols-1 gap-y-2 ">
               <Label htmlFor="organization">
-                Property Type
+                {isCommonArea ? "CA Type" : "Property Type"}
                 <span className="text-[red]">*</span>
               </Label>
               <TextInput
