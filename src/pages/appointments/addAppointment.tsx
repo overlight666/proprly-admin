@@ -705,7 +705,8 @@ const AddAppointment: FC = function () {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedProperty &&
+                    {(chooseValue === "property" &&
+                      selectedProperty &&
                       selectedProperty.user &&
                       selectedProperty.user.map((u, index) => {
                         return (
@@ -723,7 +724,36 @@ const AddAppointment: FC = function () {
                             <td className="px-6 py-4">{u.email}</td>
                           </tr>
                         );
-                      })}
+                      })) ||
+                      (selectedProject &&
+                        selectedProject.user &&
+                        selectedProject.user.length > 0 &&
+                        selectedProject.user
+                          .filter(
+                            (u) =>
+                              u.project_role &&
+                              u.project_role.length > 0 &&
+                              u.project_role.find(
+                                (f) => f.roleKey === "project_strata"
+                              )
+                          )
+                          .map((d, index) => {
+                            return (
+                              <tr
+                                key={index}
+                                className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                              >
+                                <th
+                                  scope="row"
+                                  className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                >
+                                  {d.fullName}
+                                </th>
+                                <td className="px-6 py-4">{d.mobile}</td>
+                                <td className="px-6 py-4">{d.email}</td>
+                              </tr>
+                            );
+                          }))}
                   </tbody>
                 </table>
               </div>
