@@ -274,7 +274,17 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
               3: (data: any, row: any) => (
-                <Button color="gray">Download</Button>
+                <div>
+                  <a
+                    href={row[3]}
+                    target="_blank"
+                    download={`${row[2]}.pdf`}
+                    rel="noreferrer"
+                    className="flex items-center justify-center rounded-md p-3 shadow-md"
+                  >
+                    Download
+                  </a>
+                </div>
               ),
             }}
             data={reportHistory}
