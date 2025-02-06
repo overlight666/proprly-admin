@@ -31,7 +31,7 @@ const Dashboard: FC = function () {
   const dispatch = useDispatch();
   const { id }: any = useParams();
   const { commonAreaItem }: ProjectState = useSelector(
-    (state: any) => state.project,
+    (state: any) => state.project
   );
   const { defect }: PropertyState = useSelector((state: any) => state.property);
   const [showOnly2, setShowOnly2] = useState("all");
@@ -45,7 +45,7 @@ const Dashboard: FC = function () {
   const [defectId, setDefectId] = useState<any>();
 
   const { notifications, organizationDashboard }: AppState = useSelector(
-    (state: ReducerTypes) => state.application,
+    (state: ReducerTypes) => state.application
   );
 
   useEffect(() => {
@@ -289,7 +289,10 @@ const Dashboard: FC = function () {
                           <div className="font-semibold text-gray-900 dark:text-white">
                             {notif.title}
                             <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
-                              {moment(notif.createdAt, "YYYYMMDD").fromNow()}
+                              {moment
+                                .utc(notif.createdAt, "YYYYMMDD")
+                                .local()
+                                .fromNow()}
                             </div>
                           </div>
                         </Timeline.Time>
@@ -346,10 +349,10 @@ const Dashboard: FC = function () {
                               Date:{" "}
                               <span className="text-gray-600">
                                 {" "}
-                                {moment(
-                                  notif.createdAt,
-                                  "YYYY-MM-DD h:mm:ss a",
-                                ).format("MMM Do, YYYY h:mm:ss a")}
+                                {moment
+                                  .utc(notif.createdAt, "YYYY-MM-DD h:mm:ss a")
+                                  .local()
+                                  .format("MMM Do, YYYY h:mm:ss a")}
                               </span>
                             </span>
                           </div>
@@ -456,9 +459,7 @@ const Dashboard: FC = function () {
             {(checkIsValid(
               organizationDashboard &&
                 organizationDashboard.propertyDefectsByStatusAndTrade &&
-                organizationDashboard.propertyDefectsByStatusAndTrade[
-                  showOnly3
-                ],
+                organizationDashboard.propertyDefectsByStatusAndTrade[showOnly3]
             ) && (
               <AcquisitionChart
                 data={
@@ -567,7 +568,7 @@ const Dashboard: FC = function () {
                 organizationDashboard.commonAreaDefectsByStatusAndTrade &&
                 organizationDashboard.commonAreaDefectsByStatusAndTrade[
                   showOnly2
-                ],
+                ]
             ) && (
               <AcquisitionChart
                 data={
@@ -705,7 +706,7 @@ const Defects = function (props: P) {
                             organizationDashboard.defectsByProperty.pending,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -738,7 +739,7 @@ const Defects = function (props: P) {
                             organizationDashboard?.defectsByCommonArea.pending,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -781,7 +782,7 @@ const Defects = function (props: P) {
                               .in_progress,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -816,7 +817,7 @@ const Defects = function (props: P) {
                               .in_progress,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -858,7 +859,7 @@ const Defects = function (props: P) {
                             organizationDashboard?.defectsByProperty.resolved,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -891,7 +892,7 @@ const Defects = function (props: P) {
                             organizationDashboard?.defectsByCommonArea.resolved,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -933,7 +934,7 @@ const Defects = function (props: P) {
                             organizationDashboard?.defectsByProperty.disputed,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
@@ -966,7 +967,7 @@ const Defects = function (props: P) {
                             organizationDashboard?.defectsByCommonArea.disputed,
                           organizationDashboard &&
                             organizationDashboard.totalDefects &&
-                            organizationDashboard.totalDefects.total,
+                            organizationDashboard.totalDefects.total
                         ),
                       }}
                     >
