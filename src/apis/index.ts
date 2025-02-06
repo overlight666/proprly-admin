@@ -705,6 +705,20 @@ export const getTimeSlotByProject = async (id: any) => {
       return error && error.response && error.response.data;
     });
 };
+export const getTimeSlotByDate = async (param: any) => {
+  return api
+    .get(`/project/${param.projectId}/appointment-config`, {
+      params: {
+        date: param.appointmentDate, // Encode date
+      },
+    })
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
 
 export const updateTimeSlots = async (params: any) => {
   return api

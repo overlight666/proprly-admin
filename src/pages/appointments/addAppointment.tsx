@@ -32,6 +32,7 @@ import {
   bookAppointmentReducer,
   getCommonAreaByProjectArrayReducer,
   getProperties,
+  getTimeSlotByDateReducer,
   getTimeSlotByProjectReducer,
   getTradeCodeListByProject,
   listUserByRoleReducer,
@@ -48,6 +49,10 @@ export interface AppointmentType {
   description: string;
   userId?: number;
   tradeCodeId?: number;
+}
+interface TimeSlotParams {
+  projectId: number;
+  appointmentDate: string;
 }
 
 const AddAppointment: FC = function () {
@@ -80,6 +85,7 @@ const AddAppointment: FC = function () {
   const [selectedCommonArea, setSelectedCommonArea] = useState<
     commonAreaItemType | undefined
   >(undefined);
+
   const [selectedAuditor, setSelectedAuditor] = useState<userData | undefined>(
     undefined
   );
@@ -92,11 +98,9 @@ const AddAppointment: FC = function () {
   const [subContractorList, setSubContractorList] = useState<any>([]);
   const [selectedTradeCategory, setSelectedTradeCategory] = useState<any>("");
   const [selectedSubContractor, setSelectedSubContractor] = useState<any>("");
-  const [appointmentDate, setAppointmentDate] = useState(
-    `${moment.utc().local().format("MMMM")} ${moment
-      .utc()
-      .format("DD")}, ${moment.utc().local().format("YYYY")} `
-  );
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // ✅ Fix Type
+  const [appointmentDate, setAppointmentDate] = useState<string>(""); // Ensure correct type
+
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
@@ -108,6 +112,7 @@ const AddAppointment: FC = function () {
   useEffect(() => {
     // if (!didInit) {
     dispatch(getProperties(project_id));
+    calenderDateChange(moment().toDate());
     dispatch(getTimeSlotByProjectReducer(project_id));
     const params = {
       id: project_id,
@@ -167,6 +172,29 @@ const AddAppointment: FC = function () {
     callback: (options: any[]) => void
   ) => {
     callback(optionItem());
+  };
+
+  const calenderDateChange = (e) => {
+    // ✅ Ensure date is always valid (use today if `e` is missing)
+    const formattedDate = e
+      ? moment(e).format("YYYY-MM-DD")
+      : moment().format("YYYY-MM-DD");
+
+    // ✅ Always allow the first-time call (if selectedDate is null) OR when date changes
+    if (selectedDate === null || formattedDate !== selectedDate) {
+      setAppointmentDate(moment(formattedDate).format("MMMM DD, YYYY")); // Update displayed date
+      setSelectedDate(formattedDate); // ✅ Set selected date after first call
+
+      const params: TimeSlotParams = {
+        projectId: project_id,
+        appointmentDate: moment(formattedDate).format("YYYY/DD/MM"),
+      };
+
+      console.log("Dispatching with params:", params);
+
+      // Dispatch API call with updated date
+      dispatch(getTimeSlotByDateReducer(params));
+    }
   };
 
   const loadOptions2 = (
@@ -286,15 +314,12 @@ const AddAppointment: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment.utc().format("dddd");
-      const slots =
-        timeslot.length > 0 &&
-        timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
-      setCurrentTimeSlots(slots);
+      setCurrentTimeSlots(timeslot);
     }
   }, [timeslot]);
 
   useEffect(() => {
+    calenderDateChange(moment().toDate()); // Converts to a JS Date object
     dispatch(getTradeCodeListByProject(project_id));
   }, []);
 
@@ -499,16 +524,7 @@ const AddAppointment: FC = function () {
                     </Label>
                     <Datepicker
                       value={appointmentDate}
-                      onSelectedDateChanged={(e) =>
-                        setAppointmentDate(
-                          `${moment.utc(e).local().format("MMMM")} ${moment
-                            .utc(e)
-                            .format("DD")}, ${moment
-                            .utc(e)
-                            .local()
-                            .format("YYYY")} `
-                        )
-                      }
+                      onSelectedDateChanged={calenderDateChange}
                       minDate={
                         new Date(
                           moment.utc().local().year(),

@@ -13,6 +13,7 @@ import {
   getGlobalConfig,
   getNotificationsCountReducer,
   getNotificationsReducer,
+  getTimeSlotByDateReducer,
   getTimeSlotByProjectReducer,
   listUserByRoleReducer,
   updateTimeSlotsReducer,
@@ -197,6 +198,16 @@ export const appSlice = createSlice({
         });
     });
     builder.addCase(getTimeSlotByProjectReducer.rejected, (state) => {
+      state.timeslot = undefined;
+    });
+    // ✅ Handle time slots by date (Fix)
+    builder.addCase(getTimeSlotByDateReducer.pending, (state) => {
+      state.timeslot = undefined;
+    });
+    builder.addCase(getTimeSlotByDateReducer.fulfilled, (state, action) => {
+      state.timeslot = action.payload; // ✅ Store the API response
+    });
+    builder.addCase(getTimeSlotByDateReducer.rejected, (state) => {
       state.timeslot = undefined;
     });
     //update timeslots

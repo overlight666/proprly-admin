@@ -48,6 +48,7 @@ import {
   getPropertyReports,
   getPropertyReportsHistory,
   getRegions,
+  getTimeSlotByDate,
   getTimeSlotByProject,
   getTowers,
   listOfBuilders,
@@ -745,6 +746,18 @@ export const getTimeSlotByProjectReducer: any = createAsyncThunk(
   },
 );
 
+export const getTimeSlotByDateReducer: any = createAsyncThunk(
+  "getTimeSlotByDateReducer",
+  async (param: any) => {
+    try {
+      const response = await getTimeSlotByDate(param);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const updateTimeSlotsReducer: any = createAsyncThunk(
   "updateTimeSlots",
   async (data: any) => {
