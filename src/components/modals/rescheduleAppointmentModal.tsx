@@ -184,7 +184,7 @@ export const RescheduleAppointmentModal = function (props: any) {
         <Modal.Header>
           <strong>
             {appointmentData?.status == "canceled"
-              ? "View Cancelled"
+              ? "View Cancelled Appointment"
               : isCancel
               ? isCommonArea
                 ? "Cancel Common Area Appointment"
