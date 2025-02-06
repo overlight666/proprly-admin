@@ -168,7 +168,7 @@ const AddAppointment: FC = function () {
   };
 
   const loadOptions = (
-    inputValue: string,
+    _inputValue: string,
     callback: (options: any[]) => void
   ) => {
     callback(optionItem());
@@ -198,7 +198,7 @@ const AddAppointment: FC = function () {
   };
 
   const loadOptions2 = (
-    inputValue: string,
+    _inputValue: string,
     callback: (options: any[]) => void
   ) => {
     callback(optionItem2());
@@ -243,14 +243,14 @@ const AddAppointment: FC = function () {
   // };
 
   const loadAuditors = (
-    inputValue: string,
+    _inputValue: string,
     callback: (options: any[]) => void
   ) => {
     callback(auditorItems());
   };
 
   const loadTradeCategory = (
-    inputValue: string,
+    _inputValue: string,
     callback: (options: any[]) => void
   ) => {
     callback(tradeCategoryOptions());

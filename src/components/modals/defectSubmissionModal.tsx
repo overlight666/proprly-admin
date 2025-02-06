@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Badge, Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import type {
   AppState,
@@ -14,7 +14,6 @@ import type {
   ReducerTypes,
   Roles,
   userData,
-  UserState,
 } from "../../types";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -95,6 +94,7 @@ export const DefectSubmissionModal = function (props: any) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
+    return null;
   };
 
   const getIcons = (defectSubStatus) => {
@@ -218,6 +218,7 @@ export const DefectSubmissionModal = function (props: any) {
         </svg>
       );
     }
+    return null;
   };
 
   return (

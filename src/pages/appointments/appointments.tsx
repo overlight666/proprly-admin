@@ -621,7 +621,7 @@ const Appointments: FC = function () {
                     <div className="flex w-full flex-col">
                       {viewAllData &&
                         viewAllData.length > 0 &&
-                        viewAllData.map((v, index) => {
+                        viewAllData.map((_v, index) => {
                           return (
                             <AppointmentCard
                               key={index}

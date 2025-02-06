@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Badge, Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import type {
   AppState,
@@ -14,7 +14,6 @@ import type {
   ReducerTypes,
   Roles,
   userData,
-  UserState,
 } from "../../types";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -34,31 +33,14 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
   } = props;
   const { defect }: PropertyState = useSelector((state: any) => state.property);
   const [showCard1, setShowCard1] = useState(true);
-  const [showCard2, setShowCard2] = useState(false);
   const [showCard3, setShowCard3] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState("");
   const { config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
-  const getStatus = (value) => {
-    let val = "";
-    try {
-      val =
-        value &&
-        value
-          .replace("_", " ")
-          .toLowerCase()
-          .replace(/\b[a-z]/g, function (letter) {
-            return letter.toUpperCase();
-          });
-    } catch (error) {
-      val = "";
-    }
-    return val;
-  };
 
-  const textColoring = (defectSubStatus, hasBg) => {
+  const textColoring = (defectSubStatus: any, hasBg: any) => {
     if (
       defectSubStatus == "Tradesman to be organised" ||
       defectSubStatus == "Materials & Tradesman to be organised" ||
@@ -95,6 +77,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
+    return null;
   };
 
   const getIcons = (defectSubStatus) => {
@@ -218,6 +201,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
         </svg>
       );
     }
+    return null;
   };
 
   return (

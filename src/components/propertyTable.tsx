@@ -18,7 +18,6 @@ import "../extension.css";
 import { toast } from "react-toastify";
 import {
   generateLatestReportReducer,
-  getPropertyReportsHistoryReducer,
   getSingleProperty,
 } from "../store/features/reducers";
 import moment from "moment";
@@ -37,7 +36,6 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
   const [reportHistory, setReportHistory] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isAll, setIsAll] = useState(false);
 
   const getStatus = (value) => {
     let val = "";
@@ -187,7 +185,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         name={props?.id}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
-                        onChange={(e) =>
+                        onChange={() =>
                           getSelected(props.id, props.warrantyStatus)
                         }
                       />
@@ -308,7 +306,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              3: (data: any, row: any) => (
+              3: (_data: any, row: any) => (
                 <div>
                   <a
                     href={row[3]}
