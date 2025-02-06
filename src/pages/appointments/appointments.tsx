@@ -122,18 +122,24 @@ const Appointments: FC = function () {
     setEvents(
       (projectAppointments &&
         projectAppointments.length > 0 &&
-        projectAppointments.map((o) => {
-          return {
-            title: `${moment
-              .utc(o.startDate, "YYYY-MM-DD h:mm a")
-              .local()
-              .format("h:mm A")} ${o.type}`,
-            date: new Date(
-              moment.utc(o.startDate, "YYYY-MM-DD h:mm a").local().toString()
-            ),
-            ...o,
-          };
-        })) ||
+        projectAppointments
+          .map((o) => {
+            return {
+              title: `${moment
+                .utc(o.startDate, "YYYY-MM-DD h:mm a")
+                .local()
+                .format("h:mm A")} ${o.type}`,
+              date: new Date(
+                moment.utc(o.startDate, "YYYY-MM-DD h:mm a").local().toString()
+              ),
+              ...o,
+            };
+          })
+          .sort(function (a: any, b: any) {
+            var c: any = new Date(a.startDate);
+            var d: any = new Date(b.startDate);
+            return c - d;
+          })) ||
         []
     );
   }, [projectAppointments, currentDate]);
