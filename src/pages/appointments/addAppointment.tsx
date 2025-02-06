@@ -555,35 +555,37 @@ const AddAppointment: FC = function () {
                       placeholder="Write a description"
                     ></textarea>
                   </div>
-                  <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
-                    <fieldset className="flex flex-row gap-4">
-                      <span>Choose:</span>
-                      <div className="flex items-center gap-2">
-                        <Radio
-                          id="auditor"
-                          name="user"
-                          value="auditor"
-                          checked={userSelected == "auditor"}
-                          onChange={(e) => {
-                            userHandler(e.target.value);
-                          }}
-                        />
-                        <Label htmlFor="choose">Auditor</Label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Radio
-                          id="subContractor"
-                          name="user"
-                          value="sub-contractor"
-                          checked={userSelected == "sub-contractor"}
-                          onChange={(e) => {
-                            userHandler(e.target.value);
-                          }}
-                        />
-                        <Label htmlFor="choose">Sub-Contractor</Label>
-                      </div>
-                    </fieldset>
-                  </div>
+                  {appointmentTypeValue === "defect" && (
+                    <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
+                      <fieldset className="flex flex-row gap-4">
+                        <span>Choose:</span>
+                        <div className="flex items-center gap-2">
+                          <Radio
+                            id="auditor"
+                            name="user"
+                            value="auditor"
+                            checked={userSelected == "auditor"}
+                            onChange={(e) => {
+                              userHandler(e.target.value);
+                            }}
+                          />
+                          <Label htmlFor="choose">Auditor</Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Radio
+                            id="subContractor"
+                            name="user"
+                            value="sub-contractor"
+                            checked={userSelected == "sub-contractor"}
+                            onChange={(e) => {
+                              userHandler(e.target.value);
+                            }}
+                          />
+                          <Label htmlFor="choose">Sub-Contractor</Label>
+                        </div>
+                      </fieldset>
+                    </div>
+                  )}
                   {(userSelected === "auditor" && (
                     <div className="grid grid-cols-1 gap-y-2 pt-[10px]">
                       <Label htmlFor="organization">

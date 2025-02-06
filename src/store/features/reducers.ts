@@ -46,6 +46,7 @@ import {
   getprojects,
   getProperty,
   getPropertyReports,
+  getPropertyReportsHistory,
   getRegions,
   getTimeSlotByProject,
   getTowers,
@@ -770,6 +771,18 @@ export const getPropertyReportsReducer: any = createAsyncThunk(
   }
 );
 
+export const getPropertyReportsHistoryReducer: any = createAsyncThunk(
+  "getPropertyReportsHistoryReducer",
+  async (id: any) => {
+    try {
+      const response = await getPropertyReportsHistory(id);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 export const getCommonAreaReportsReducer: any = createAsyncThunk(
   "getCommonAreaReportsReducer",
   async (id: any) => {

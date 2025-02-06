@@ -229,14 +229,16 @@ export const RescheduleAppointmentModal = function (props: any) {
                 value={getStatus(
                   isCommonArea
                     ? commonAreaConfig && commonAreaConfig.status
-                    : appointmentData && appointmentData.propertyStatus
+                    : appointmentData &&
+                        appointmentData.property &&
+                        appointmentData.property.status
                 )}
                 placeholder="propertyStatus"
               />
             </div>
             <div className="grid grid-cols-1 gap-y-2 ">
               <Label htmlFor="organization">
-                {isCommonArea ? "CA Type" : "Property Type"}
+                Appointment Type
                 <span className="text-[red]">*</span>
               </Label>
               <TextInput

@@ -728,6 +728,17 @@ export const getPropertyReports = async (id: any) => {
     });
 };
 
+export const getPropertyReportsHistory = async (id: any) => {
+  return api
+    .get(`/property/${id}/property_reports`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
 export const getCommonAreaReports = async (id: any) => {
   return api
     .get(`/project/${id}/common_area_reports`)
