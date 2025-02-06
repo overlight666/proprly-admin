@@ -161,7 +161,10 @@ const NotificationBellDropdown: FC = function () {
                     <div className="font-semibold text-gray-900 dark:text-white">
                       {notif.title}
                       <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
-                        {moment.utc(notif.createdAt, "YYYYMMDD").fromNow()}
+                        {moment
+                          .utc(notif.createdAt, "YYYYMMDD")
+                          .local()
+                          .fromNow()}
                       </div>
                     </div>
                     <span
@@ -177,6 +180,7 @@ const NotificationBellDropdown: FC = function () {
                           {" "}
                           {moment
                             .utc(notif.createdAt, "YYYY-MM-DD h:mm:ss a")
+                            .local()
                             .format("MMM Do, YYYY h:mm:ss a")}
                         </span>
                       </span>

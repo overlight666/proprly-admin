@@ -47,10 +47,13 @@ export const RescheduleAppointmentModal = function (props: any) {
   const [appointmentDate, setAppointmentDate] = useState(
     `${moment
       .utc(appointmentData && appointmentData.appointmentDate)
+      .local()
       .format("MMMM")} ${moment
       .utc(appointmentData && appointmentData.appointmentDate)
+      .local()
       .format("DD")}, ${moment
       .utc(appointmentData && appointmentData.appointmentDate)
+      .local()
       .format("YYYY")} `
   );
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
@@ -59,8 +62,10 @@ export const RescheduleAppointmentModal = function (props: any) {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<any>(
     `${moment
       .utc(appointmentData && appointmentData.startDate, "YYYY-MM-DD h:mm a")
+      .local()
       .format("HH:mm")}_${moment
       .utc(appointmentData && appointmentData.endDate, "YYYY-MM-DD h:mm a")
+      .local()
       .format("HH:mm")}`
   );
   const dispatch = useDispatch();
@@ -91,7 +96,7 @@ export const RescheduleAppointmentModal = function (props: any) {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment.utc().format("dddd");
+      const currentDay = moment.utc().local().format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -103,17 +108,22 @@ export const RescheduleAppointmentModal = function (props: any) {
     setAppointmentDate(
       `${moment
         .utc(appointmentData && appointmentData.appointmentDate)
+        .local()
         .format("MMMM")} ${moment
         .utc(appointmentData && appointmentData.appointmentDate)
+        .local()
         .format("DD")}, ${moment
         .utc(appointmentData && appointmentData.appointmentDate)
+        .local()
         .format("YYYY")} `
     );
     setSelectedTimeSlot(
       `${moment
         .utc(appointmentData && appointmentData.startDate, "YYYY-MM-DD h:mm a")
+        .local()
         .format("HH:mm")}_${moment
         .utc(appointmentData && appointmentData.endDate, "YYYY-MM-DD h:mm a")
+        .local()
         .format("HH:mm")}`
     );
   }, [appointmentData]);
@@ -121,7 +131,7 @@ export const RescheduleAppointmentModal = function (props: any) {
   const rescheduleAppointment = () => {
     const params = {
       id: appointmentData && appointmentData.id,
-      appointmentDate: moment.utc(appointmentDate).format("YYYY/DD/MM"),
+      appointmentDate: moment.utc(appointmentDate).local().format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
     };
     setRescheduling(true);
@@ -260,16 +270,16 @@ export const RescheduleAppointmentModal = function (props: any) {
                 value={appointmentDate}
                 onSelectedDateChanged={(e) =>
                   setAppointmentDate(
-                    `${moment.utc(e).format("MMMM")} ${moment
+                    `${moment.utc(e).local().format("MMMM")} ${moment
                       .utc(e)
-                      .format("DD")}, ${moment.utc(e).format("YYYY")} `
+                      .format("DD")}, ${moment.utc(e).local().format("YYYY")} `
                   )
                 }
                 minDate={
                   new Date(
-                    moment.utc().year(),
-                    moment.utc().month(),
-                    moment.utc().date()
+                    moment.utc().local().year(),
+                    moment.utc().local().month(),
+                    moment.utc().local().date()
                   )
                 }
               />

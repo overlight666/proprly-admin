@@ -70,8 +70,9 @@ const ProjectReportTableNew = function () {
           rep.id,
           `${selectedProject.name}_${moment
             .utc(rep.createdAt)
+            .local()
             .format("YYYY-DD-MM_HH_ss")}`,
-          moment.utc(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
+          moment.utc(rep.createdAt).local().format("YYYY-DD-MM HH:mm:ss"),
           rep.reportUrl,
         ];
       });

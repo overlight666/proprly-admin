@@ -297,7 +297,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
           {def.userRole && def.userRole.roleName ? def.userRole.roleName : ""}
         </span>
         <span className="w-[30%] text-[14px] font-semibold ">
-          {moment.utc(def.createdAt).format("DD MMM YY")}
+          {moment.utc(def.createdAt).local().format("DD MMM YY")}
         </span>
       </div>
     </div>
