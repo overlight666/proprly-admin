@@ -4,23 +4,29 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import type { Property } from "../types";
-import { useState } from "react";
+import type { Property, PropertyState } from "../types";
+import { useEffect, useState } from "react";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProperty } from "../store/features/propertySlice";
 // import OrgTableData from "./datatable/orgtable";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import "../extension.css";
 import { toast } from "react-toastify";
+import { getPropertyReportsHistoryReducer } from "../store/features/reducers";
+import moment from "moment";
 DataTable.use(DT);
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
+  const { propertyReportsHistory }: PropertyState = useSelector(
+    (state: any) => state.property
+  );
   const [openModal, setOpenModal] = useState(false);
-  const [reports, _setReports] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [reportHistory, setReportHistory] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const [isAll, setIsAll] = useState(false);
@@ -43,7 +49,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
   };
 
   const openReportHistory = (proj: any) => {
-    console.log(proj);
+    dispatch(getPropertyReportsHistoryReducer(proj.id));
     setOpenModal(true);
   };
 
@@ -80,6 +86,35 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
     }
   };
 
+  // useEffect(() => {
+  //   if (propertyReportsHistory) {
+  //     const rep =
+  //       propertyReportsHistory &&
+  //       propertyReportsHistory.length > 0 &&
+  //       propertyReportsHistory.filter(
+  //         (r) => r.key !== "under_construction" && r.key !== "pre_sales"
+  //         // Object.keys(r.latestReport).length !== 0
+  //       );
+
+  //     const filtered =
+  //       (rep &&
+  //         rep.length > 0 &&
+  //         rep.map((his: any) => {
+  //           return [
+  //             his.id,
+  //             `${selectProperty.name}_${moment(his.createdAt).format(
+  //               "YYYY-DD-MM_HH_ss"
+  //             )}`,
+  //             moment(his.createdAt).format("YYYY-DD-MM HH:mm:ss"),
+  //             his.latestReport.reportUrl,
+  //           ];
+  //         })) ||
+  //       [];
+  //     console.log(rep);
+  //     // setReportHistory(filtered);
+  //   }
+  // }, [propertyReportsHistory]);
+  // console.log(reportHistory);
   return (
     <>
       <table
@@ -178,7 +213,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                     {`${props.projectTower && props.projectTower.name}, ${
                       props.projectTower &&
                       props.projectTower.floorList.find(
-                        (f) => f.key == props.floor,
+                        (f) => f.key == props.floor
                       )?.value
                     }`}
                   </th>
@@ -216,7 +251,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         onClick={() => {
                           dispatch(selectProperty(undefined));
                           navigate(
-                            `/organization/${id}/project/${project_id}/properties/${props.id}`,
+                            `/organization/${id}/project/${project_id}/properties/${props.id}`
                           );
                         }}
                       >

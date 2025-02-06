@@ -13,6 +13,7 @@ import {
   getCommonAreaReportsReducer,
   getDefectResolutionByIdReducer,
   getProperties,
+  getPropertyReportsHistoryReducer,
   getPropertyReportsReducer,
   getSingleProperty,
   patchProperty,
@@ -40,6 +41,7 @@ const initialState: PropertyState = {
   appointmentRefresh: false,
   bulkPropertyResponse: undefined,
   commonAreaDefectSubmissions: undefined,
+  propertyReportsHistory: undefined,
 };
 
 export const propertySlice = createSlice({
@@ -290,6 +292,24 @@ export const propertySlice = createSlice({
     });
     builder.addCase(getPropertyReportsReducer.rejected, (state) => {
       state.propertyReports = undefined;
+    });
+
+    // property report history
+
+    builder.addCase(getPropertyReportsHistoryReducer.pending, (state) => {
+      state.propertyReportsHistory = undefined;
+    });
+    builder.addCase(
+      getPropertyReportsHistoryReducer.fulfilled,
+      (state, action) => {
+        state.propertyReportsHistory =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getPropertyReportsHistoryReducer.rejected, (state) => {
+      state.propertyReportsHistory = undefined;
     });
     //common Area reports
     builder.addCase(getCommonAreaReportsReducer.pending, (state) => {
