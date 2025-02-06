@@ -135,6 +135,7 @@ export const RescheduleAppointmentModal = function (props: any) {
   useEffect(() => {
     if (appointmentResponse && appointmentResponse.error) {
       toast.warning(appointmentResponse.error);
+      dispatch(clearAppointmentResponse());
     } else if (appointmentResponse && !appointmentResponse.error) {
       if (isCancel) {
         if (isCommonArea) {
