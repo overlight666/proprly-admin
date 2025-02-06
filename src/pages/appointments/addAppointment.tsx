@@ -93,9 +93,9 @@ const AddAppointment: FC = function () {
   const [selectedTradeCategory, setSelectedTradeCategory] = useState<any>("");
   const [selectedSubContractor, setSelectedSubContractor] = useState<any>("");
   const [appointmentDate, setAppointmentDate] = useState(
-    `${moment.utc().format("MMMM")} ${moment.utc().format("DD")}, ${moment
+    `${moment.utc().local().format("MMMM")} ${moment
       .utc()
-      .format("YYYY")} `
+      .format("DD")}, ${moment.utc().local().format("YYYY")} `
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
@@ -501,16 +501,19 @@ const AddAppointment: FC = function () {
                       value={appointmentDate}
                       onSelectedDateChanged={(e) =>
                         setAppointmentDate(
-                          `${moment.utc(e).format("MMMM")} ${moment
+                          `${moment.utc(e).local().format("MMMM")} ${moment
                             .utc(e)
-                            .format("DD")}, ${moment.utc(e).format("YYYY")} `
+                            .format("DD")}, ${moment
+                            .utc(e)
+                            .local()
+                            .format("YYYY")} `
                         )
                       }
                       minDate={
                         new Date(
-                          moment.utc().year(),
-                          moment.utc().month(),
-                          moment.utc().date()
+                          moment.utc().local().year(),
+                          moment.utc().local().month(),
+                          moment.utc().local().date()
                         )
                       }
                     />

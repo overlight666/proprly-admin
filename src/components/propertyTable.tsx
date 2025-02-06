@@ -4,7 +4,7 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import type { Property, PropertyState } from "../types";
+import type { AppState, Property, PropertyState } from "../types";
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
@@ -17,15 +17,21 @@ import DT from "datatables.net-dt";
 import "../extension.css";
 import { toast } from "react-toastify";
 import {
+  generateLatestReportReducer,
   getPropertyReportsHistoryReducer,
   getSingleProperty,
 } from "../store/features/reducers";
 import moment from "moment";
+import { HiPlus } from "react-icons/hi";
+import { resetReport } from "../store/features/appSlice";
 DataTable.use(DT);
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
   const { selectedProperty }: PropertyState = useSelector(
     (state: any) => state.property
+  );
+  const { reportGenerated }: AppState = useSelector(
+    (state: any) => state.application
   );
   const [openModal, setOpenModal] = useState(false);
   const [reportHistory, setReportHistory] = useState<any>([]);
@@ -98,16 +104,24 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
         selectedProperty.report.map((rep) => {
           return [
             rep.id,
-            `${selectedProperty.name}_${moment
-              .utc(rep.createdAt)
-              .format("YYYY-DD-MM_HH_ss")}`,
-            moment.utc(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
+            `UnitNo-${selectedProperty.unitNo}_LotNo-${
+              selectedProperty.lotNo
+            }_${moment.utc(rep.createdAt).local().format("YYYY-DD-MM_HH_ss")}`,
+            moment.utc(rep.createdAt).local().format("YYYY-DD-MM HH:mm:ss"),
             rep.reportUrl,
           ];
         });
       setReportHistory(p);
     }
   }, [selectedProperty]);
+
+  console.log(selectedProperty);
+  useEffect(() => {
+    if (reportGenerated) {
+      dispatch(resetReport());
+      toast.info("New report has been generated!");
+    }
+  }, [reportGenerated]);
 
   return (
     <>
@@ -268,8 +282,29 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
         </tbody>
       </table>
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="7xl">
-        <Modal.Header>Property Report History</Modal.Header>
+        <Modal.Header></Modal.Header>
         <Modal.Body className="max-h-[500px]">
+          <div className="flex w-full items-center justify-between">
+            <h1 className="text-[25px]">Property Report History</h1>
+            <div>
+              <Button
+                onClick={() => {
+                  dispatch(
+                    generateLatestReportReducer(
+                      `propertyId=${selectedProperty?.id}`
+                    )
+                  );
+                }}
+                className="col-span-2 w-[100%]"
+              >
+                <div className="flex items-center gap-x-2 text-xs">
+                  <HiPlus />
+                  Generate Latest Report
+                </div>
+              </Button>
+            </div>
+          </div>
+
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{

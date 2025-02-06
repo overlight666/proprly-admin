@@ -352,6 +352,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                             name="date"
                             value={moment
                               .utc(defect?.createdAt)
+                              .local()
                               .format("DD-MM-YYYY")}
                             placeholder="Enter date"
                             required
@@ -605,6 +606,7 @@ export const CommonAreaDefectSubmittionModal = function (props: any) {
                                 <span className="text-[12px]">
                                   {moment
                                     .utc(activity.createdAt)
+                                    .local()
                                     .format("MMM DD, YYYY h:mm a")}
                                 </span>
                               </div>
