@@ -31,7 +31,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
   const [reportHistory, setReportHistory] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const [isAll, setIsAll] = useState(false);
+  const [isAll, setIsAll] = useState(false);
 
   const getStatus = (value) => {
     let val = "";
@@ -173,7 +173,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                         name={props?.id}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
-                        onChange={(_e) =>
+                        onChange={(e) =>
                           getSelected(props.id, props.warrantyStatus)
                         }
                       />
@@ -273,8 +273,18 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
           <DataTable
             className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400"
             slots={{
-              3: (_data: any, _row: any) => (
-                <Button color="gray">Download</Button>
+              3: (data: any, row: any) => (
+                <div>
+                  <a
+                    href={row[3]}
+                    target="_blank"
+                    download={`${row[2]}.pdf`}
+                    rel="noreferrer"
+                    className="flex items-center justify-center rounded-md p-3 shadow-md"
+                  >
+                    Download
+                  </a>
+                </div>
               ),
             }}
             data={reportHistory}
