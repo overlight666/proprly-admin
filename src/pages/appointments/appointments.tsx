@@ -198,7 +198,7 @@ const Appointments: FC = function () {
           .utc(item.startDate, "YYYY-MM-DD h:mm a")
           .format("h:mm A")} to ${moment
           .utc(item.endDate, "YYYY-MM-DD h:mm a")
-          .format("h:mm A")} Common Area CA Lot No. ${
+          .format("h:mm A")} Common Area ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`;
   };
