@@ -16,7 +16,7 @@ const AppointmentHeader = function ({
   setFilterBy,
 }: any) {
   const { isCalendarView }: AppState = useSelector(
-    (state: ReducerTypes) => state.application,
+    (state: ReducerTypes) => state.application
   );
   const dispatch = useDispatch();
 
@@ -28,9 +28,9 @@ const AppointmentHeader = function ({
             value={currentDate}
             onSelectedDateChanged={(e) =>
               setCurrentDate(
-                `${moment(e).format("MMMM")} ${moment(e).format(
-                  "DD",
-                )}, ${moment(e).format("YYYY")} `,
+                `${moment.utc(e).format("MMMM")} ${moment
+                  .utc(e)
+                  .format("DD")}, ${moment.utc(e).format("YYYY")} `
               )
             }
           />

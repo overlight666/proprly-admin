@@ -82,7 +82,7 @@ const Appointments: FC = function () {
   const [startKey, setStartKey] = useState<any>(undefined);
   const [filterBy, setFilterBy] = useState("all");
   const [currentDate, setCurrentDate] = useState(
-    moment().format("MMMM DD, YYYY")
+    moment.utc().format("MMMM DD, YYYY")
   );
 
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ const Appointments: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment(currentDate).format("dddd");
+      const currentDay = moment.utc(currentDate).format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -124,10 +124,12 @@ const Appointments: FC = function () {
         projectAppointments.length > 0 &&
         projectAppointments.map((o) => {
           return {
-            title: `${moment(o.startDate, "YYYY-MM-DD h:mm a").format(
-              "h:mm A"
-            )} ${o.type}`,
-            date: new Date(moment(o.startDate, "YYYY-MM-DD h:mm a").toString()),
+            title: `${moment
+              .utc(o.startDate, "YYYY-MM-DD h:mm a")
+              .format("h:mm A")} ${o.type}`,
+            date: new Date(
+              moment.utc(o.startDate, "YYYY-MM-DD h:mm a").toString()
+            ),
             ...o,
           };
         })) ||
@@ -142,9 +144,10 @@ const Appointments: FC = function () {
         events.length &&
         events.filter(
           (e: any) =>
-            moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
-              "YYYY-MM-DD"
-            ) == moment(currentDate).format("YYYY-MM-DD")
+            moment
+              .utc(e.appointmentDate, "YYYY-MM-DD h:mm a")
+              .format("YYYY-MM-DD") ==
+            moment.utc(currentDate).format("YYYY-MM-DD")
         )
     );
   }, [events]);
@@ -183,18 +186,19 @@ const Appointments: FC = function () {
 
   const getItemContent = (item) => {
     return item.property
-      ? `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
-        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
-        )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
+      ? `${moment
+          .utc(item.startDate, "YYYY-MM-DD h:mm a")
+          .format("h:mm A")} to ${moment
+          .utc(item.endDate, "YYYY-MM-DD h:mm a")
+          .format("h:mm A")} Unit no. ${item.property?.unitNo} Lot no. ${item
+          .property?.lotNo}, ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`
-      : `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
-        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
-          "h:mm A"
-        )} Common Area CA Lot No. ${
+      : `${moment
+          .utc(item.startDate, "YYYY-MM-DD h:mm a")
+          .format("h:mm A")} to ${moment
+          .utc(item.endDate, "YYYY-MM-DD h:mm a")
+          .format("h:mm A")} Common Area CA Lot No. ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`;
   };
@@ -315,10 +319,9 @@ const Appointments: FC = function () {
                             {
                               title: "highlight",
                               date: new Date(
-                                moment(
-                                  new Date(),
-                                  "YYYY-MM-DD h:mm a"
-                                ).toString()
+                                moment
+                                  .utc(new Date(), "YYYY-MM-DD h:mm a")
+                                  .toString()
                               ),
                             },
                           ]
@@ -460,7 +463,7 @@ const Appointments: FC = function () {
                               {(startKey && startKey == t.key && (
                                 <div className="flex w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                                   <span className="text-[18px] font-medium">
-                                    {moment(currentDate).format("DD MMM")}
+                                    {moment.utc(currentDate).format("DD MMM")}
                                   </span>
                                 </div>
                               )) || (
@@ -568,7 +571,7 @@ const Appointments: FC = function () {
                   <div className="flex w-[25%] flex-row">
                     <div className="flex h-[150px] w-[40%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                       <span className="text-[18px] font-medium">
-                        {moment(currentDate).format("DD MMM")}
+                        {moment.utc(currentDate).format("DD MMM")}
                       </span>
                     </div>
                     <div className="flex h-[150px] w-[60%] items-center justify-center gap-2">

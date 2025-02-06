@@ -52,12 +52,12 @@ export interface AppointmentType {
 
 const AddAppointment: FC = function () {
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization,
+    (state: any) => state.organization
   );
   const { selectedProject, commonAreaArray, tradeCodeList }: ProjectState =
     useSelector((state: any) => state.project);
   const { propertyData, appointmentResponse }: PropertyState = useSelector(
-    (state: any) => state.property,
+    (state: any) => state.property
   );
   const { timeslot }: AppState = useSelector((state: any) => state.application);
 
@@ -66,7 +66,7 @@ const AddAppointment: FC = function () {
   );
 
   const { userData }: UserState = useSelector(
-    (state: ReducerTypes) => state.user,
+    (state: ReducerTypes) => state.user
   );
 
   const { project_id }: any = useParams();
@@ -81,7 +81,7 @@ const AddAppointment: FC = function () {
     commonAreaItemType | undefined
   >(undefined);
   const [selectedAuditor, setSelectedAuditor] = useState<userData | undefined>(
-    undefined,
+    undefined
   );
   const [userSelected, setUserSelected] = useState("auditor");
   const [description, setDescription] = useState("");
@@ -93,14 +93,14 @@ const AddAppointment: FC = function () {
   const [selectedTradeCategory, setSelectedTradeCategory] = useState<any>("");
   const [selectedSubContractor, setSelectedSubContractor] = useState<any>("");
   const [appointmentDate, setAppointmentDate] = useState(
-    `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
-      "YYYY",
-    )} `,
+    `${moment.utc().format("MMMM")} ${moment.utc().format("DD")}, ${moment
+      .utc()
+      .format("YYYY")} `
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
-    undefined,
+    undefined
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
   // let didInit = false;
@@ -163,15 +163,15 @@ const AddAppointment: FC = function () {
   };
 
   const loadOptions = (
-    _inputValue: string,
-    callback: (options: any[]) => void,
+    inputValue: string,
+    callback: (options: any[]) => void
   ) => {
     callback(optionItem());
   };
 
   const loadOptions2 = (
-    _inputValue: string,
-    callback: (options: any[]) => void,
+    inputValue: string,
+    callback: (options: any[]) => void
   ) => {
     callback(optionItem2());
   };
@@ -215,8 +215,8 @@ const AddAppointment: FC = function () {
   // };
 
   const loadAuditors = (
-    _inputValue: string,
-    callback: (options: any[]) => void,
+    inputValue: string,
+    callback: (options: any[]) => void
   ) => {
     callback(auditorItems());
   };
@@ -238,7 +238,7 @@ const AddAppointment: FC = function () {
   const bookAppointment = () => {
     const params: AppointmentType = {
       type: appointmentTypeValue,
-      appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
+      appointmentDate: moment.utc(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
       description: description,
     };
@@ -286,7 +286,7 @@ const AddAppointment: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment().format("dddd");
+      const currentDay = moment.utc().format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -501,16 +501,16 @@ const AddAppointment: FC = function () {
                       value={appointmentDate}
                       onSelectedDateChanged={(e) =>
                         setAppointmentDate(
-                          `${moment(e).format("MMMM")} ${moment(e).format(
-                            "DD",
-                          )}, ${moment(e).format("YYYY")} `,
+                          `${moment.utc(e).format("MMMM")} ${moment
+                            .utc(e)
+                            .format("DD")}, ${moment.utc(e).format("YYYY")} `
                         )
                       }
                       minDate={
                         new Date(
-                          moment().year(),
-                          moment().month(),
-                          moment().date(),
+                          moment.utc().year(),
+                          moment.utc().month(),
+                          moment.utc().date()
                         )
                       }
                     />
@@ -537,7 +537,7 @@ const AddAppointment: FC = function () {
                                 {time.value}
                               </option>
                             );
-                          },
+                          }
                         )}
                     </select>
                   </div>

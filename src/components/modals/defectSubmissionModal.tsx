@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Label, Modal, Table, TextInput } from "flowbite-react";
+import { Badge, Button, Label, Modal, Table, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import type {
   AppState,
@@ -14,6 +14,7 @@ import type {
   ReducerTypes,
   Roles,
   userData,
+  UserState,
 } from "../../types";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -38,7 +39,7 @@ export const DefectSubmissionModal = function (props: any) {
   const [showImage, setShowImage] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState("");
   const { config }: AppState = useSelector(
-    (state: ReducerTypes) => state.application,
+    (state: ReducerTypes) => state.application
   );
   const getStatus = (value) => {
     let val = "";
@@ -94,7 +95,6 @@ export const DefectSubmissionModal = function (props: any) {
     ) {
       return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
     }
-    return undefined;
   };
 
   const getIcons = (defectSubStatus) => {
@@ -218,7 +218,6 @@ export const DefectSubmissionModal = function (props: any) {
         </svg>
       );
     }
-    return undefined;
   };
 
   return (
@@ -337,7 +336,7 @@ export const DefectSubmissionModal = function (props: any) {
                               config?.roles && config.roles.length > 0
                                 ? config.roles.find(
                                     (k: Roles) =>
-                                      k.id == defect?.submittedUserRoleId,
+                                      k.id == defect?.submittedUserRoleId
                                   )?.roleName
                                 : ""
                             }
@@ -351,9 +350,9 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="date"
                             name="date"
-                            value={moment(defect?.createdAt).format(
-                              "DD-MM-YYYY",
-                            )}
+                            value={moment
+                              .utc(defect?.createdAt)
+                              .format("DD-MM-YYYY")}
                             placeholder="Enter date"
                             required
                           />
@@ -668,7 +667,7 @@ export const DefectSubmissionModal = function (props: any) {
                                   {config &&
                                     config?.roles &&
                                     config.roles.find(
-                                      (c) => c.id == activity?.loggedUserRoleId,
+                                      (c) => c.id == activity?.loggedUserRoleId
                                     )?.roleName}
                                 </span>
                                 <div className="flex">
@@ -676,7 +675,7 @@ export const DefectSubmissionModal = function (props: any) {
                                     className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
                                   ${textColoring(
                                     activity.defectSubStatus,
-                                    true,
+                                    true
                                   )}
                                   `}
                                   >
@@ -721,9 +720,9 @@ export const DefectSubmissionModal = function (props: any) {
                                   </span>
                                 )}
                                 <span className="text-[12px]">
-                                  {moment(activity.createdAt).format(
-                                    "MMM DD, YYYY h:mm a",
-                                  )}
+                                  {moment
+                                    .utc(activity.createdAt)
+                                    .format("MMM DD, YYYY h:mm a")}
                                 </span>
                               </div>
                             </div>

@@ -102,7 +102,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
           rep.reports.map((r: any) => {
             return [
               r.lotNo,
-              moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+              moment.utc(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
               r.reportUrl,
             ];
           })) ||
@@ -129,7 +129,7 @@ const CommonAreaReportTable = function ({ headerValue }: any) {
         rep.reports.map((r: any) => {
           return [
             r.lotNo,
-            moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+            moment.utc(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
             r.reportUrl,
           ];
         })) ||
