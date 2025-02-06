@@ -838,6 +838,7 @@ export interface Property {
   externalArea: any;
   status: string;
   user?: userData[];
+  report: ReportDetails[];
   project?: Project;
   projectTower?: TowerData;
   warranty?: WarrantyInterface[];
