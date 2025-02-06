@@ -16,16 +16,18 @@ import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
 import "../extension.css";
 import { toast } from "react-toastify";
-import { getPropertyReportsHistoryReducer } from "../store/features/reducers";
+import {
+  getPropertyReportsHistoryReducer,
+  getSingleProperty,
+} from "../store/features/reducers";
 import moment from "moment";
 DataTable.use(DT);
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
-  const { propertyReportsHistory }: PropertyState = useSelector(
+  const { selectedProperty }: PropertyState = useSelector(
     (state: any) => state.property
   );
   const [openModal, setOpenModal] = useState(false);
-  const [reports, setReports] = useState([]);
   const [reportHistory, setReportHistory] = useState<any>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,7 +51,8 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
   };
 
   const openReportHistory = (proj: any) => {
-    dispatch(getPropertyReportsHistoryReducer(proj.id));
+    // dispatch(getPropertyReportsHistoryReducer(proj.id));
+    dispatch(getSingleProperty(proj.id));
     setOpenModal(true);
   };
 
@@ -85,36 +88,27 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
       toast.warning("This property has already warranty files uploaded.");
     }
   };
+  useEffect(() => {
+    setReportHistory([]);
+    if (selectedProperty) {
+      const p =
+        selectedProperty &&
+        selectedProperty.report &&
+        selectedProperty.report.length > 0 &&
+        selectedProperty.report.map((rep) => {
+          return [
+            rep.id,
+            `${selectedProperty.name}_${moment(rep.createdAt).format(
+              "YYYY-DD-MM_HH_ss"
+            )}`,
+            moment(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
+            rep.reportUrl,
+          ];
+        });
+      setReportHistory(p);
+    }
+  }, [selectedProperty]);
 
-  // useEffect(() => {
-  //   if (propertyReportsHistory) {
-  //     const rep =
-  //       propertyReportsHistory &&
-  //       propertyReportsHistory.length > 0 &&
-  //       propertyReportsHistory.filter(
-  //         (r) => r.key !== "under_construction" && r.key !== "pre_sales"
-  //         // Object.keys(r.latestReport).length !== 0
-  //       );
-
-  //     const filtered =
-  //       (rep &&
-  //         rep.length > 0 &&
-  //         rep.map((his: any) => {
-  //           return [
-  //             his.id,
-  //             `${selectProperty.name}_${moment(his.createdAt).format(
-  //               "YYYY-DD-MM_HH_ss"
-  //             )}`,
-  //             moment(his.createdAt).format("YYYY-DD-MM HH:mm:ss"),
-  //             his.latestReport.reportUrl,
-  //           ];
-  //         })) ||
-  //       [];
-  //     console.log(rep);
-  //     // setReportHistory(filtered);
-  //   }
-  // }, [propertyReportsHistory]);
-  // console.log(reportHistory);
   return (
     <>
       <table
@@ -283,7 +277,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
                 <Button color="gray">Download</Button>
               ),
             }}
-            data={reports || []}
+            data={reportHistory}
             options={{
               destroy: true,
               paging: false,
