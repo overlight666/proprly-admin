@@ -45,25 +45,23 @@ export const RescheduleAppointmentModal = function (props: any) {
   );
 
   const [appointmentDate, setAppointmentDate] = useState(
-    `${moment(appointmentData && appointmentData.appointmentDate).format(
-      "MMMM"
-    )} ${moment(appointmentData && appointmentData.appointmentDate).format(
-      "DD"
-    )}, ${moment(appointmentData && appointmentData.appointmentDate).format(
-      "YYYY"
-    )} `
+    `${moment
+      .utc(appointmentData && appointmentData.appointmentDate)
+      .format("MMMM")} ${moment
+      .utc(appointmentData && appointmentData.appointmentDate)
+      .format("DD")}, ${moment
+      .utc(appointmentData && appointmentData.appointmentDate)
+      .format("YYYY")} `
   );
   const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
     undefined
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<any>(
-    `${moment(
-      appointmentData && appointmentData.startDate,
-      "YYYY-MM-DD h:mm a"
-    ).format("HH:mm")}_${moment(
-      appointmentData && appointmentData.endDate,
-      "YYYY-MM-DD h:mm a"
-    ).format("HH:mm")}`
+    `${moment
+      .utc(appointmentData && appointmentData.startDate, "YYYY-MM-DD h:mm a")
+      .format("HH:mm")}_${moment
+      .utc(appointmentData && appointmentData.endDate, "YYYY-MM-DD h:mm a")
+      .format("HH:mm")}`
   );
   const dispatch = useDispatch();
 
@@ -93,7 +91,7 @@ export const RescheduleAppointmentModal = function (props: any) {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment().format("dddd");
+      const currentDay = moment.utc().format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -103,29 +101,27 @@ export const RescheduleAppointmentModal = function (props: any) {
 
   useEffect(() => {
     setAppointmentDate(
-      `${moment(appointmentData && appointmentData.appointmentDate).format(
-        "MMMM"
-      )} ${moment(appointmentData && appointmentData.appointmentDate).format(
-        "DD"
-      )}, ${moment(appointmentData && appointmentData.appointmentDate).format(
-        "YYYY"
-      )} `
+      `${moment
+        .utc(appointmentData && appointmentData.appointmentDate)
+        .format("MMMM")} ${moment
+        .utc(appointmentData && appointmentData.appointmentDate)
+        .format("DD")}, ${moment
+        .utc(appointmentData && appointmentData.appointmentDate)
+        .format("YYYY")} `
     );
     setSelectedTimeSlot(
-      `${moment(
-        appointmentData && appointmentData.startDate,
-        "YYYY-MM-DD h:mm a"
-      ).format("HH:mm")}_${moment(
-        appointmentData && appointmentData.endDate,
-        "YYYY-MM-DD h:mm a"
-      ).format("HH:mm")}`
+      `${moment
+        .utc(appointmentData && appointmentData.startDate, "YYYY-MM-DD h:mm a")
+        .format("HH:mm")}_${moment
+        .utc(appointmentData && appointmentData.endDate, "YYYY-MM-DD h:mm a")
+        .format("HH:mm")}`
     );
   }, [appointmentData]);
 
   const rescheduleAppointment = () => {
     const params = {
       id: appointmentData && appointmentData.id,
-      appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
+      appointmentDate: moment.utc(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
     };
     setRescheduling(true);
@@ -264,13 +260,17 @@ export const RescheduleAppointmentModal = function (props: any) {
                 value={appointmentDate}
                 onSelectedDateChanged={(e) =>
                   setAppointmentDate(
-                    `${moment(e).format("MMMM")} ${moment(e).format(
-                      "DD"
-                    )}, ${moment(e).format("YYYY")} `
+                    `${moment.utc(e).format("MMMM")} ${moment
+                      .utc(e)
+                      .format("DD")}, ${moment.utc(e).format("YYYY")} `
                   )
                 }
                 minDate={
-                  new Date(moment().year(), moment().month(), moment().date())
+                  new Date(
+                    moment.utc().year(),
+                    moment.utc().month(),
+                    moment.utc().date()
+                  )
                 }
               />
             </div>

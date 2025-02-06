@@ -93,9 +93,9 @@ const AddAppointment: FC = function () {
   const [selectedTradeCategory, setSelectedTradeCategory] = useState<any>("");
   const [selectedSubContractor, setSelectedSubContractor] = useState<any>("");
   const [appointmentDate, setAppointmentDate] = useState(
-    `${moment().format("MMMM")} ${moment().format("DD")}, ${moment().format(
-      "YYYY"
-    )} `
+    `${moment.utc().format("MMMM")} ${moment.utc().format("DD")}, ${moment
+      .utc()
+      .format("YYYY")} `
   );
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
@@ -238,7 +238,7 @@ const AddAppointment: FC = function () {
   const bookAppointment = () => {
     const params: AppointmentType = {
       type: appointmentTypeValue,
-      appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
+      appointmentDate: moment.utc(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
       description: description,
     };
@@ -286,7 +286,7 @@ const AddAppointment: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment().format("dddd");
+      const currentDay = moment.utc().format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -501,16 +501,16 @@ const AddAppointment: FC = function () {
                       value={appointmentDate}
                       onSelectedDateChanged={(e) =>
                         setAppointmentDate(
-                          `${moment(e).format("MMMM")} ${moment(e).format(
-                            "DD"
-                          )}, ${moment(e).format("YYYY")} `
+                          `${moment.utc(e).format("MMMM")} ${moment
+                            .utc(e)
+                            .format("DD")}, ${moment.utc(e).format("YYYY")} `
                         )
                       }
                       minDate={
                         new Date(
-                          moment().year(),
-                          moment().month(),
-                          moment().date()
+                          moment.utc().year(),
+                          moment.utc().month(),
+                          moment.utc().date()
                         )
                       }
                     />

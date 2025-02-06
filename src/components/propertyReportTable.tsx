@@ -121,7 +121,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
                 r.owners.length > 0 &&
                 r.owners.map((o) => o.fullName).join(", "),
               ucword(rep.key),
-              moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+              moment.utc(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
               r.reportUrl,
             ];
           })) ||
@@ -153,7 +153,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
               r.owners.length > 0 &&
               r.owners.map((o) => o.fullName).join(", "),
             hval,
-            moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+            moment.utc(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
             r.reportUrl,
           ];
         })) ||

@@ -149,7 +149,7 @@ const LeadTable = function () {
                       </div>
                     </th>
                     <th className="px-6 py-4">
-                      {moment(lead.createdAt).format("DD MMM YYYY")}
+                      {moment.utc(lead.createdAt).format("DD MMM YYYY")}
                     </th>
                     <td className="px-6 py-4">
                       <Dropdown

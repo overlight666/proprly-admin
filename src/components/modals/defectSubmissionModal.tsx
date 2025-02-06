@@ -350,9 +350,9 @@ export const DefectSubmissionModal = function (props: any) {
                             disabled={true}
                             id="date"
                             name="date"
-                            value={moment(defect?.createdAt).format(
-                              "DD-MM-YYYY"
-                            )}
+                            value={moment
+                              .utc(defect?.createdAt)
+                              .format("DD-MM-YYYY")}
                             placeholder="Enter date"
                             required
                           />
@@ -720,9 +720,9 @@ export const DefectSubmissionModal = function (props: any) {
                                   </span>
                                 )}
                                 <span className="text-[12px]">
-                                  {moment(activity.createdAt).format(
-                                    "MMM DD, YYYY h:mm a"
-                                  )}
+                                  {moment
+                                    .utc(activity.createdAt)
+                                    .format("MMM DD, YYYY h:mm a")}
                                 </span>
                               </div>
                             </div>
