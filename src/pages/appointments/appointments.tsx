@@ -146,16 +146,23 @@ const Appointments: FC = function () {
   useEffect(() => {
     setStartKey(undefined);
     setCurrentEvents(
-      events &&
-        events.length &&
-        events.filter(
-          (e: any) =>
-            moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
-              "YYYY-MM-DD"
-            ) == moment(currentDate).format("YYYY-MM-DD")
-        )
+      events && events.length && filterBy == "all"
+        ? events.filter(
+            (e: any) =>
+              moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
+                "YYYY-MM-DD"
+              ) == moment(currentDate).format("YYYY-MM-DD")
+          )
+        : events.filter(
+            (e: any) =>
+              moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
+                "YYYY-MM-DD"
+              ) == moment(currentDate).format("YYYY-MM-DD") &&
+              e.status == filterBy
+          )
     );
-  }, [events]);
+    console.log(filterBy, currentEvents);
+  }, [events, filterBy]);
 
   useEffect(() => {
     let hasKey = false;
@@ -459,6 +466,7 @@ const Appointments: FC = function () {
                   currentDate={currentDate}
                 />
                 <br />
+
                 <div className="flex min-h-[500px] flex-col gap-2">
                   {currentTimeSlots &&
                     currentTimeSlots.appointmentTimeSlotsListAmPm &&
