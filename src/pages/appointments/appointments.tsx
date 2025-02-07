@@ -394,7 +394,7 @@ const Appointments: FC = function () {
                               )}
                             {data &&
                               data.filter((e: any) => e.title !== "highlight")
-                                .length > 2 && (
+                                .length > 3 && (
                                 <Dropdown
                                   label=""
                                   dismissOnClick={false}
