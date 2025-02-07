@@ -68,11 +68,11 @@ const Dashboard: FC = function () {
     }
   }, [defect]);
 
-  const nl2br = (str, replaceMode, isXhtml) => {
-    const breakTag = isXhtml ? "<br />" : "<br>";
-    const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";
-    return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
-  };
+  // const nl2br = (str, replaceMode, isXhtml) => {
+  //   const breakTag = isXhtml ? "<br />" : "<br>";
+  //   const replaceStr = replaceMode ? "$1" + breakTag : "$1" + breakTag + "$2";
+  //   return (str + "").replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+  // };
 
   useEffect(() => {
     const params = {
@@ -309,7 +309,7 @@ const Dashboard: FC = function () {
               Timeline
             </h3>
             <Timeline className="max-h-[500px] overflow-auto">
-              {notifications &&
+              {(notifications &&
                 notifications.length > 0 &&
                 notifications.map((notif, index) => {
                   return (
@@ -318,26 +318,65 @@ const Dashboard: FC = function () {
                       <Timeline.Content>
                         <Timeline.Time>
                           <div className="font-semibold text-gray-900 dark:text-white">
-                            {notif.title}
-                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
+                            <span className="text-[16px]">{notif.title}</span>
+                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 !text-[10px] font-medium text-primary-700 dark:text-primary-400">
                               {moment
-                                .utc(notif.createdAt, "YYYYMMDD  hh:mm")
+                                .utc(notif.createdAt, "YYYYMMDD hh:mm")
                                 .local()
                                 .fromNow()}
                             </div>
                           </div>
                         </Timeline.Time>
                         <Timeline.Title>
-                          <span
+                          {/* <span
                             className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
                             dangerouslySetInnerHTML={{
                               __html: nl2br(notif.body, true, true),
                             }}
-                          ></span>
+                          ></span> */}
                         </Timeline.Title>
                         <Timeline.Body>
-                          <div className="text-sm">
-                            <span className="text-sm text-primary-700">
+                          <div className="flex flex-col !text-[16px] ">
+                            <span className="text-black">
+                              Project: {notif.bodyWeb && notif.bodyWeb.Project}
+                            </span>
+                            <div className="flex">
+                              {notif.bodyWeb && notif.bodyWeb.UnitNo && (
+                                <>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Unit no.
+                                    </span>
+                                    {notif.bodyWeb.UnitNo}
+                                  </span>{" "}
+                                  <div className="mx-[2px]">|</div>
+                                </>
+                              )}
+                              {notif.bodyWeb && notif.bodyWeb.Zone && (
+                                <>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Zone:{" "}
+                                    </span>
+                                    {notif.bodyWeb.Zone}
+                                  </span>
+                                </>
+                              )}
+                              {notif.bodyWeb && notif.bodyWeb.Element && (
+                                <>
+                                  <div className="mx-[2px]">|</div>
+                                  <span>
+                                    <span className="text-blue-600">
+                                      Element:{" "}
+                                    </span>
+                                    {notif.bodyWeb.Element}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-[16px] text-primary-700">
                               Date:{" "}
                               <span className="text-gray-600">
                                 {" "}
@@ -364,7 +403,7 @@ const Dashboard: FC = function () {
                       </Timeline.Content>
                     </Timeline.Item>
                   );
-                })}
+                })) || <span>No data available</span>}
             </Timeline>
           </div>
           <Defects projectDashboard={projectDashboard} />

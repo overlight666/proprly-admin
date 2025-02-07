@@ -278,7 +278,7 @@ const Dashboard: FC = function () {
               Timeline
             </h3>
             <Timeline className="max-h-[500px] overflow-auto">
-              {notifications &&
+              {(notifications &&
                 notifications.length > 0 &&
                 notifications.map((notif, index) => {
                   return (
@@ -287,8 +287,8 @@ const Dashboard: FC = function () {
                       <Timeline.Content>
                         <Timeline.Time>
                           <div className="font-semibold text-gray-900 dark:text-white">
-                            {notif.title}
-                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
+                            <span className="text-[16px]">{notif.title}</span>
+                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 !text-[10px] font-medium text-primary-700 dark:text-primary-400">
                               {moment
                                 .utc(notif.createdAt, "YYYYMMDD hh:mm")
                                 .local()
@@ -305,8 +305,8 @@ const Dashboard: FC = function () {
                           ></span> */}
                         </Timeline.Title>
                         <Timeline.Body>
-                          <div className="flex flex-col ">
-                            <span className="text-sm text-black">
+                          <div className="flex flex-col !text-[16px] ">
+                            <span className="text-black">
                               Project: {notif.bodyWeb && notif.bodyWeb.Project}
                             </span>
                             <div className="flex">
@@ -345,7 +345,7 @@ const Dashboard: FC = function () {
                             </div>
                           </div>
                           <div>
-                            <span className="text-sm text-primary-700">
+                            <span className="text-[16px] text-primary-700">
                               Date:{" "}
                               <span className="text-gray-600">
                                 {" "}
@@ -372,7 +372,7 @@ const Dashboard: FC = function () {
                       </Timeline.Content>
                     </Timeline.Item>
                   );
-                })}
+                })) || <span>No data available</span>}
             </Timeline>
           </div>
           <Defects organizationDashboard={organizationDashboard} />
