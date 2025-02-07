@@ -320,7 +320,10 @@ const Dashboard: FC = function () {
                           <div className="font-semibold text-gray-900 dark:text-white">
                             {notif.title}
                             <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 text-xs font-medium text-primary-700 dark:text-primary-400">
-                              {moment(notif.createdAt, "YYYYMMDD").fromNow()}
+                              {moment
+                                .utc(notif.createdAt, "YYYYMMDD  hh:mm")
+                                .local()
+                                .fromNow()}
                             </div>
                           </div>
                         </Timeline.Time>

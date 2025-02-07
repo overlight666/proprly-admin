@@ -474,9 +474,7 @@ const Appointments: FC = function () {
                                     {moment(currentDate).format("DD MMM")}
                                   </span>
                                 </div>
-                              )) || (
-                                <div className="w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700"></div>
-                              )}
+                              )) || <div className="w-[10%]"></div>}
                               <div className="flex w-[15%] items-center justify-center gap-2">
                                 <svg
                                   width="12"
@@ -713,9 +711,9 @@ const AppointmentCard = function ({
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-[14px] text-gray-600">Property Status</span>
+          <span className="text-[14px] text-gray-600">Status</span>
           <span className="text-[14px] font-medium">
-            {thisEvent && getStatus(thisEvent.propertyStatus)}
+            {thisEvent && getStatus(thisEvent.propertyAndCommonAreaStatus)}
           </span>
         </div>
       </div>
