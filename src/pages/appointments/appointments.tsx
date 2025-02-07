@@ -194,23 +194,18 @@ const Appointments: FC = function () {
 
   const getItemContent = (item) => {
     return item.property
-      ? `${moment
-          .utc(item.startDate, "YYYY-MM-DD h:mm a")
-          .local()
-          .format("h:mm A")} to ${moment
-          .utc(item.endDate, "YYYY-MM-DD h:mm a")
-          .local()
-          .format("h:mm A")} Unit no. ${item.property?.unitNo} Lot no. ${item
-          .property?.lotNo}, ${
+      ? `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} Unit no. ${item.property?.unitNo} Lot no. ${item.property?.lotNo}, ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`
-      : `${moment
-          .utc(item.startDate, "YYYY-MM-DD h:mm a")
-          .local()
-          .format("h:mm A")} to ${moment
-          .utc(item.endDate, "YYYY-MM-DD h:mm a")
-          .local()
-          .format("h:mm A")} Common Area ${
+      : `${moment(item.startDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} to ${moment(item.endDate, "YYYY-MM-DD h:mm a").format(
+          "h:mm A"
+        )} Common Area ${
           item.type == "inspection" ? "Inspection" : "Defect"
         } appointment`;
   };

@@ -213,7 +213,6 @@ const AddAppointment: FC = function () {
       })
     );
   };
-
   // const subContractorOptions = (): any => {
   //   const tcR =
   //     selectedProject &&
@@ -314,7 +313,11 @@ const AddAppointment: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      setCurrentTimeSlots(timeslot);
+      const currentDay = moment.utc().format("dddd");
+      const slots =
+        timeslot.length > 0 &&
+        timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
+      setCurrentTimeSlots(slots);
     }
   }, [timeslot]);
 
