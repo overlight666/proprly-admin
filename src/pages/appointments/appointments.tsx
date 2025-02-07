@@ -129,7 +129,7 @@ const Appointments: FC = function () {
                 "h:mm A"
               )} ${o.type}`,
               date: new Date(
-                moment.utc(o.startDate, "YYYY-MM-DD h:mm a").local().toString()
+                moment(o.startDate, "YYYY-MM-DD h:mm a").toString()
               ),
               ...o,
             };

@@ -64,7 +64,9 @@ const AddAppointment: FC = function () {
   const { propertyData, appointmentResponse }: PropertyState = useSelector(
     (state: any) => state.property
   );
-  const { timeslot }: AppState = useSelector((state: any) => state.application);
+  const { timeslot, remainingTimeslot }: AppState = useSelector(
+    (state: any) => state.application
+  );
 
   const { projectAuditors, appointmentType }: AppState = useSelector(
     (state: ReducerTypes) => state.application
@@ -315,6 +317,7 @@ const AddAppointment: FC = function () {
     if (timeslot) {
       const currentDay = moment.utc().format("dddd");
       const slots =
+        timeslot &&
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
       setCurrentTimeSlots(slots);
@@ -363,7 +366,6 @@ const AddAppointment: FC = function () {
   //     });
   //   setOptions(o);
   // }, [tradeCodeList]);
-
   return (
     <NavbarSidebarLayout isFooter={false}>
       <ToastContainer position="bottom-right" />
@@ -549,10 +551,17 @@ const AddAppointment: FC = function () {
                       onChange={(e) => setSelectedTimeSlot(e.target.value)}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
-                      <option value="">Please Select</option>
-                      {currentTimeSlots &&
-                        currentTimeSlots.appointmentTimeSlotsListAmPm &&
-                        currentTimeSlots.appointmentTimeSlotsListAmPm.map(
+                      {remainingTimeslot &&
+                        remainingTimeslot.appointmentTimeSlotsListAmPm.length >
+                          0 && (
+                          <option value="" disabled selected>
+                            Please Select
+                          </option>
+                        )}
+                      {(remainingTimeslot &&
+                        remainingTimeslot.appointmentTimeSlotsListAmPm.length >
+                          1 &&
+                        remainingTimeslot.appointmentTimeSlotsListAmPm.map(
                           (time, index) => {
                             return (
                               <option key={index} value={time.key}>
@@ -560,7 +569,11 @@ const AddAppointment: FC = function () {
                               </option>
                             );
                           }
-                        )}
+                        )) || (
+                        <option value="" disabled>
+                          No available timeslot
+                        </option>
+                      )}
                     </select>
                   </div>
                   <div className="grid grid-cols-1 gap-y-2 pt-[20px]">

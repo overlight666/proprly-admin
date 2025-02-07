@@ -74,6 +74,7 @@ export interface AppState {
   projectStrata: userInterface[];
   propertyOwnerList: userInterface[];
   timeslot: Timeslot[] | undefined;
+  remainingTimeslot: Timeslot | undefined;
   timeslotResponse: any | undefined;
   isCalendarView: boolean;
   openProjects: any[];

@@ -38,6 +38,7 @@ const initialState: AppState = {
   projectStrata: [],
   propertyOwnerList: [],
   timeslot: [],
+  remainingTimeslot: undefined,
   timeslotResponse: undefined,
   isCalendarView: true,
   openProjects: [],
@@ -202,13 +203,13 @@ export const appSlice = createSlice({
     });
     // ✅ Handle time slots by date (Fix)
     builder.addCase(getTimeSlotByDateReducer.pending, (state) => {
-      state.timeslot = undefined;
+      state.remainingTimeslot = undefined;
     });
     builder.addCase(getTimeSlotByDateReducer.fulfilled, (state, action) => {
-      state.timeslot = action.payload; // ✅ Store the API response
+      state.remainingTimeslot = action.payload; // ✅ Store the API response
     });
     builder.addCase(getTimeSlotByDateReducer.rejected, (state) => {
-      state.timeslot = undefined;
+      state.remainingTimeslot = undefined;
     });
     //update timeslots
     builder.addCase(updateTimeSlotsReducer.pending, (state) => {
