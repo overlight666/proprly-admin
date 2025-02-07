@@ -125,10 +125,9 @@ const Appointments: FC = function () {
         projectAppointments
           .map((o) => {
             return {
-              title: `${moment
-                .utc(o.startDate, "YYYY-MM-DD h:mm a")
-                .local()
-                .format("h:mm A")} ${o.type}`,
+              title: `${moment(o.startDate, "YYYY-MM-DD h:mm a").format(
+                "h:mm A"
+              )} ${o.type}`,
               date: new Date(
                 moment.utc(o.startDate, "YYYY-MM-DD h:mm a").local().toString()
               ),
@@ -329,10 +328,10 @@ const Appointments: FC = function () {
                             {
                               title: "highlight",
                               date: new Date(
-                                moment
-                                  .utc(new Date(), "YYYY-MM-DD h:mm a")
-                                  .local()
-                                  .toString()
+                                moment(
+                                  new Date(),
+                                  "YYYY-MM-DD h:mm a"
+                                ).toString()
                               ),
                             },
                           ]
