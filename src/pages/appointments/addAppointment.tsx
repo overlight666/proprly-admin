@@ -105,7 +105,7 @@ const AddAppointment: FC = function () {
 
   const [showCard1, setShowCard1] = useState(true);
   const [showCard2, setShowCard2] = useState(true);
-  const [currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
+  const [_currentTimeSlots, setCurrentTimeSlots] = useState<any | undefined>(
     undefined
   );
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
