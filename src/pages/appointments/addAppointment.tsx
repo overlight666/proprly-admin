@@ -267,7 +267,7 @@ const AddAppointment: FC = function () {
   const bookAppointment = () => {
     const params: AppointmentType = {
       type: appointmentTypeValue,
-      appointmentDate: moment.utc(appointmentDate).format("YYYY/DD/MM"),
+      appointmentDate: moment(appointmentDate).format("YYYY/DD/MM"),
       appointmentTimeslot: selectedTimeSlot,
       description: description,
     };
@@ -315,7 +315,7 @@ const AddAppointment: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment.utc().format("dddd");
+      const currentDay = moment().format("dddd");
       const slots =
         timeslot &&
         timeslot.length > 0 &&
@@ -532,9 +532,9 @@ const AddAppointment: FC = function () {
                       onSelectedDateChanged={calenderDateChange}
                       minDate={
                         new Date(
-                          moment.utc().local().year(),
-                          moment.utc().local().month(),
-                          moment.utc().local().date()
+                          moment().year(),
+                          moment().month(),
+                          moment().date()
                         )
                       }
                     />

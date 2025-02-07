@@ -229,7 +229,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
         <div
           className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
             def.subStatus,
-            true,
+            true
           )}`}
         >
           <div className="mt-[10px] flex h-full align-top">
@@ -249,7 +249,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
             {(getLength(
               `${def && def.defectCode && def.defectCode.defectCode}, ${
                 def && def.defectCode && def.defectCode.defectName
-              }`,
+              }`
             ) > 25 && (
               <div className="inline-block">
                 <Tooltip
@@ -260,7 +260,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
                   {truncateString(
                     `${def && def.defectCode && def.defectCode.defectCode}, ${
                       def && def.defectCode && def.defectCode.defectName
-                    }`,
+                    }`
                   )}
                 </Tooltip>
               </div>
@@ -268,7 +268,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
               truncateString(
                 `${def && def.defectCode && def.defectCode.defectCode}, ${
                   def && def.defectCode && def.defectCode.defectName
-                }`,
+                }`
               )}
           </span>
         </span>
@@ -297,7 +297,7 @@ export const CommonAreaDefectItem = function ({ def, setOpen }: paramstype) {
           {def.userRole && def.userRole.roleName ? def.userRole.roleName : ""}
         </span>
         <span className="w-[30%] text-[14px] font-semibold ">
-          {moment.utc(def.createdAt).local().format("DD MMM YY")}
+          {moment(def.createdAt).format("DD MMM YY")}
         </span>
       </div>
     </div>

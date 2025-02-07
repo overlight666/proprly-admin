@@ -23,7 +23,7 @@ const LeadTable = function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { leadList }: LeadState = useSelector(
-    (state: ReducerTypes) => state.lead,
+    (state: ReducerTypes) => state.lead
   );
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const LeadTable = function () {
                       </div>
                     </th>
                     <th className="px-6 py-4">
-                      {moment.utc(lead.createdAt).local().format("DD MMM YYYY")}
+                      {moment(lead.createdAt).local().format("DD MMM YYYY")}
                     </th>
                     <td className="px-6 py-4">
                       <Dropdown

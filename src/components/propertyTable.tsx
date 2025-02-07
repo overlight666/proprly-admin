@@ -104,8 +104,8 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
             rep.id,
             `UnitNo-${selectedProperty.unitNo}_LotNo-${
               selectedProperty.lotNo
-            }_${moment.utc(rep.createdAt).local().format("YYYY-DD-MM_HH_ss")}`,
-            moment.utc(rep.createdAt).local().format("YYYY-DD-MM HH:mm:ss"),
+            }_${moment(rep.createdAt).format("YYYY-DD-MM_HH_ss")}`,
+            moment(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
             rep.reportUrl,
           ];
         });

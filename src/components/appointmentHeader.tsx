@@ -28,9 +28,9 @@ const AppointmentHeader = function ({
             value={currentDate}
             onSelectedDateChanged={(e) =>
               setCurrentDate(
-                `${moment.utc(e).format("MMMM")} ${moment
-                  .utc(e)
-                  .format("DD")}, ${moment.utc(e).format("YYYY")} `
+                `${moment(e).format("MMMM")} ${moment(e).format(
+                  "DD"
+                )}, ${moment(e).format("YYYY")} `
               )
             }
           />

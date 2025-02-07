@@ -82,7 +82,7 @@ const Appointments: FC = function () {
   const [startKey, setStartKey] = useState<any>(undefined);
   const [filterBy, setFilterBy] = useState("all");
   const [currentDate, setCurrentDate] = useState(
-    moment.utc().local().format("MMMM DD, YYYY")
+    moment().format("MMMM DD, YYYY")
   );
 
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ const Appointments: FC = function () {
 
   useEffect(() => {
     if (timeslot) {
-      const currentDay = moment.utc(currentDate).local().format("dddd");
+      const currentDay = moment(currentDate).format("dddd");
       const slots =
         timeslot.length > 0 &&
         timeslot.find((m) => m.day.toLowerCase() == currentDay.toLowerCase());
@@ -150,11 +150,9 @@ const Appointments: FC = function () {
         events.length &&
         events.filter(
           (e: any) =>
-            moment
-              .utc(e.appointmentDate, "YYYY-MM-DD h:mm a")
-              .local()
-              .format("YYYY-MM-DD") ==
-            moment.utc(currentDate).local().format("YYYY-MM-DD")
+            moment(e.appointmentDate, "YYYY-MM-DD h:mm a").format(
+              "YYYY-MM-DD"
+            ) == moment(currentDate).format("YYYY-MM-DD")
         )
     );
   }, [events]);
@@ -473,10 +471,7 @@ const Appointments: FC = function () {
                               {(startKey && startKey == t.key && (
                                 <div className="flex w-[10%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                                   <span className="text-[18px] font-medium">
-                                    {moment
-                                      .utc(currentDate)
-                                      .local()
-                                      .format("DD MMM")}
+                                    {moment(currentDate).format("DD MMM")}
                                   </span>
                                 </div>
                               )) || (
@@ -584,7 +579,7 @@ const Appointments: FC = function () {
                   <div className="flex w-[25%] flex-row">
                     <div className="flex h-[150px] w-[40%] items-center justify-center rounded-md bg-blue-50 text-blue-700">
                       <span className="text-[18px] font-medium">
-                        {moment.utc(currentDate).local().format("DD MMM")}
+                        {moment(currentDate).format("DD MMM")}
                       </span>
                     </div>
                     <div className="flex h-[150px] w-[60%] items-center justify-center gap-2">
