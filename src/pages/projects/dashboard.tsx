@@ -38,6 +38,7 @@ const Dashboard: FC = function () {
   );
   const [showOnly, setShowOnly] = useState("all");
   const [showOnly2, setShowOnly2] = useState("all");
+  const [timelineFilter, setTimelineFilter] = useState("all");
   const { notifications, projectDashboard }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
@@ -308,102 +309,136 @@ const Dashboard: FC = function () {
             <h3 className="my-5 text-xl font-bold leading-none text-gray-900 dark:text-white">
               Timeline
             </h3>
+            <fieldset className="my-5 flex flex-row items-center gap-4">
+              <span className="text-[14px]">Show only:</span>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="all"
+                  name="timeline"
+                  value={timelineFilter}
+                  onChange={(e) => setTimelineFilter(e.target.id)}
+                  defaultChecked
+                />
+                <Label htmlFor="all">All</Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="need_action"
+                  name="timeline"
+                  value={timelineFilter}
+                  onChange={(e) => setTimelineFilter(e.target.id)}
+                />
+                <Label htmlFor="need_action">Needs Action</Label>
+              </div>
+            </fieldset>
             <Timeline className="max-h-[500px] overflow-auto">
               {(notifications &&
                 notifications.length > 0 &&
-                notifications.map((notif, index) => {
-                  return (
-                    <Timeline.Item key={index}>
-                      <Timeline.Point icon={HiCalendar} />
-                      <Timeline.Content>
-                        <Timeline.Time>
-                          <div className="font-semibold text-gray-900 dark:text-white">
-                            <span className="text-[16px]">{notif.title}</span>
-                            <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 !text-[10px] font-medium text-primary-700 dark:text-primary-400">
-                              {moment
-                                .utc(notif.createdAt, "YYYYMMDD hh:mm")
-                                .local()
-                                .fromNow()}
+                notifications
+                  .filter((notif) =>
+                    timelineFilter === "need_action"
+                      ? notif.title.toLowerCase() ===
+                          "pending admin feedback" ||
+                        notif.title.toLowerCase() === "pending admin approval"
+                      : notif
+                  )
+                  .map((notif, index) => {
+                    return (
+                      <Timeline.Item key={index}>
+                        <Timeline.Point icon={HiCalendar} />
+                        <Timeline.Content>
+                          <Timeline.Time>
+                            <div className="font-semibold text-gray-900 dark:text-white">
+                              <span className="text-[16px]">{notif.title}</span>
+                              <div className="ml-5 inline-block rounded-md bg-blue-100 p-1 !text-[10px] font-medium text-primary-700 dark:text-primary-400">
+                                {moment
+                                  .utc(notif.createdAt, "YYYYMMDD hh:mm")
+                                  .local()
+                                  .fromNow()}
+                              </div>
                             </div>
-                          </div>
-                        </Timeline.Time>
-                        <Timeline.Title>
-                          {/* <span
+                          </Timeline.Time>
+                          <Timeline.Title>
+                            {/* <span
                             className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
                             dangerouslySetInnerHTML={{
                               __html: nl2br(notif.body, true, true),
                             }}
                           ></span> */}
-                        </Timeline.Title>
-                        <Timeline.Body>
-                          <div className="flex flex-col !text-[16px] ">
-                            <span className="text-black">
-                              Project: {notif.bodyWeb && notif.bodyWeb.Project}
-                            </span>
-                            <div className="flex">
-                              {notif.bodyWeb && notif.bodyWeb.UnitNo && (
-                                <>
-                                  <span>
-                                    <span className="text-blue-600">
-                                      Unit no.
-                                    </span>
-                                    {notif.bodyWeb.UnitNo}
-                                  </span>{" "}
-                                  <div className="mx-[2px]">|</div>
-                                </>
-                              )}
-                              {notif.bodyWeb && notif.bodyWeb.Zone && (
-                                <>
-                                  <span>
-                                    <span className="text-blue-600">
-                                      Zone:{" "}
-                                    </span>
-                                    {notif.bodyWeb.Zone}
-                                  </span>
-                                </>
-                              )}
-                              {notif.bodyWeb && notif.bodyWeb.Element && (
-                                <>
-                                  <div className="mx-[2px]">|</div>
-                                  <span>
-                                    <span className="text-blue-600">
-                                      Element:{" "}
-                                    </span>
-                                    {notif.bodyWeb.Element}
-                                  </span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-[16px] text-primary-700">
-                              Date:{" "}
-                              <span className="text-gray-600">
-                                {" "}
-                                {moment
-                                  .utc(notif.createdAt, "YYYY-MM-DD h:mm:ss a")
-                                  .local()
-                                  .format("MMM Do, YYYY h:mm:ss a")}
+                          </Timeline.Title>
+                          <Timeline.Body>
+                            <div className="flex flex-col !text-[16px] ">
+                              <span className="text-black">
+                                Project:{" "}
+                                {notif.bodyWeb && notif.bodyWeb.Project}
                               </span>
-                            </span>
-                          </div>
-                        </Timeline.Body>
-                        {(notif.title.toLowerCase() ==
-                          "pending admin feedback" ||
-                          notif.title.toLowerCase() ==
-                            "pending admin approval") && (
-                          <Button
-                            color="gray"
-                            onClick={() => NeedAction(notif.data.id)}
-                          >
-                            <MdBrokenImage className="mr-2 h-3 w-3" />
-                            Needs Action
-                          </Button>
-                        )}
-                      </Timeline.Content>
-                    </Timeline.Item>
-                  );
-                })) || <span>No data available</span>}
+                              <div className="flex">
+                                {notif.bodyWeb && notif.bodyWeb.UnitNo && (
+                                  <>
+                                    <span>
+                                      <span className="text-blue-600">
+                                        Unit no.
+                                      </span>
+                                      {notif.bodyWeb.UnitNo}
+                                    </span>{" "}
+                                    <div className="mx-[2px]">|</div>
+                                  </>
+                                )}
+                                {notif.bodyWeb && notif.bodyWeb.Zone && (
+                                  <>
+                                    <span>
+                                      <span className="text-blue-600">
+                                        Zone:{" "}
+                                      </span>
+                                      {notif.bodyWeb.Zone}
+                                    </span>
+                                  </>
+                                )}
+                                {notif.bodyWeb && notif.bodyWeb.Element && (
+                                  <>
+                                    <div className="mx-[2px]">|</div>
+                                    <span>
+                                      <span className="text-blue-600">
+                                        Element:{" "}
+                                      </span>
+                                      {notif.bodyWeb.Element}
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-[16px] text-primary-700">
+                                Date:{" "}
+                                <span className="text-gray-600">
+                                  {" "}
+                                  {moment
+                                    .utc(
+                                      notif.createdAt,
+                                      "YYYY-MM-DD h:mm:ss a"
+                                    )
+                                    .local()
+                                    .format("MMM Do, YYYY h:mm:ss a")}
+                                </span>
+                              </span>
+                            </div>
+                          </Timeline.Body>
+                          {(notif.title.toLowerCase() ==
+                            "pending admin feedback" ||
+                            notif.title.toLowerCase() ==
+                              "pending admin approval") && (
+                            <Button
+                              color="gray"
+                              onClick={() => NeedAction(notif.data.id)}
+                            >
+                              <MdBrokenImage className="mr-2 h-3 w-3" />
+                              Needs Action
+                            </Button>
+                          )}
+                        </Timeline.Content>
+                      </Timeline.Item>
+                    );
+                  })) || <span>No data available</span>}
             </Timeline>
           </div>
           <Defects projectDashboard={projectDashboard} />
