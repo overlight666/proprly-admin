@@ -552,6 +552,7 @@ const AddAppointment: FC = function () {
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     >
                       {remainingTimeslot &&
+                        remainingTimeslot.appointmentTimeSlotsListAmPm &&
                         remainingTimeslot.appointmentTimeSlotsListAmPm.length >
                           0 && (
                           <option value="" disabled selected>
@@ -559,6 +560,7 @@ const AddAppointment: FC = function () {
                           </option>
                         )}
                       {(remainingTimeslot &&
+                        remainingTimeslot.appointmentTimeSlotsListAmPm &&
                         remainingTimeslot.appointmentTimeSlotsListAmPm.length >
                           1 &&
                         remainingTimeslot.appointmentTimeSlotsListAmPm.map(
