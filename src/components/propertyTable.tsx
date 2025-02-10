@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import type { AppState, Property, PropertyState } from "../types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
@@ -14,6 +14,8 @@ import { selectProperty } from "../store/features/propertySlice";
 // import OrgTableData from "./datatable/orgtable";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
+import "datatables.net-select-dt";
+import "datatables.net-responsive-dt";
 import "../extension.css";
 import { toast } from "react-toastify";
 import {
@@ -24,6 +26,7 @@ import moment from "moment";
 import { HiPlus } from "react-icons/hi";
 import { resetReport } from "../store/features/appSlice";
 DataTable.use(DT);
+
 const PropertyTable = function ({ properties, selected, setSelected }) {
   const { id, project_id }: any = useParams();
   const { selectedProperty }: PropertyState = useSelector(
@@ -113,13 +116,36 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
     }
   }, [selectedProperty]);
 
-  console.log(selectedProperty);
   useEffect(() => {
     if (reportGenerated) {
       dispatch(resetReport());
       toast.info("New report has been generated!");
     }
   }, [reportGenerated]);
+
+  useEffect(() => {
+    try {
+      if (!DT.isDataTable("#organization-property-table")) {
+        new DT("#organization-property-table", {
+          paging: true,
+          searching: false,
+          layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: {
+              pageLength: {
+                text: "Showing _START_-_END_ of _TOTAL_ Rows _MENU_",
+              },
+            },
+            bottomEnd: "paging",
+          },
+          order: [[1, "asc"]],
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [properties]);
 
   return (
     <>
@@ -279,6 +305,7 @@ const PropertyTable = function ({ properties, selected, setSelected }) {
             })}
         </tbody>
       </table>
+
       <Modal show={openModal} onClose={() => setOpenModal(false)} size="7xl">
         <Modal.Header></Modal.Header>
         <Modal.Body className="max-h-[500px]">

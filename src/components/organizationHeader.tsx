@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { BsListTask } from "react-icons/bs";
@@ -13,7 +14,7 @@ import type { AppState, ReducerTypes } from "../types";
 import { clear } from "../store/features/imageSlice";
 const OrganizationHeader = function (props: any) {
   const { isGrid }: AppState = useSelector(
-    (state: ReducerTypes) => state.application,
+    (state: ReducerTypes) => state.application
   );
 
   const { canAddOrg, canTransformTable } = props;
@@ -69,7 +70,7 @@ const OrganizationHeader = function (props: any) {
             Filter
           </div>
         </Button>
-        <Button
+        {/* <Button
           // onClick={() => gotoPage("/organization/new")}
           color="gray"
           className="mx-1"
@@ -78,7 +79,7 @@ const OrganizationHeader = function (props: any) {
             <TbFileExport />
             Export CSV
           </div>
-        </Button>
+        </Button> */}
         {canTransformTable && (
           <>
             <Button

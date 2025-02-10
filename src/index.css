@@ -200,3 +200,7 @@ table tr th.dt-type-numeric {
 .dropdown-content {
   position: absolute;
 }
+
+.rc-justify-end {
+  justify-content: flex-start !important;
+}

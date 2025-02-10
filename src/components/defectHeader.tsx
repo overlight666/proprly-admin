@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
@@ -35,7 +36,7 @@ const DefectHeader = function () {
               Filter
             </div>
           </Button>
-          <Button
+          {/* <Button
             // onClick={() => gotoPage("/organization/new")}
             color="gray"
             className="mx-1"
@@ -44,7 +45,7 @@ const DefectHeader = function () {
               <TbFileExport />
               Export CSV
             </div>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <fieldset className="mb-10 flex flex-row items-center gap-10 px-5">

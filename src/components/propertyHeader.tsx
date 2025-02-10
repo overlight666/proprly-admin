@@ -453,7 +453,7 @@ const PropertyHeader = function ({ selected }: any) {
           </button>
         </div>
         <div className="col-span-4 flex items-center">
-          <Button
+          {/* <Button
             // onClick={() => gotoPage("/organization/new")}
             color="gray"
             className="mx-1"
@@ -462,7 +462,7 @@ const PropertyHeader = function ({ selected }: any) {
               <TbFileExport />
               Export CSV
             </div>
-          </Button>
+          </Button> */}
           <Button
             onClick={() => {
               if (selected && selected.length > 1) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
 import { TbFileExport } from "react-icons/tb";
@@ -38,7 +39,7 @@ const ProjectHeader = function () {
           </button>
         </div>
         <div className="col-span-4 flex items-center">
-          <Button
+          {/* <Button
             // onClick={() => gotoPage("/organization/new")}
             color="gray"
             className="mx-1"
@@ -47,7 +48,7 @@ const ProjectHeader = function () {
               <TbFileExport />
               Export CSV
             </div>
-          </Button>
+          </Button> */}
         </div>
         <Button
           onClick={() => {

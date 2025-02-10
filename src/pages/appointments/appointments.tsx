@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -28,12 +29,13 @@ import {
   getTimeSlotByProjectReducer,
 } from "../../store/features/reducers";
 
-import { startOfMonth } from "date-fns";
+import { addMonths, format, getYear, startOfMonth, subMonths } from "date-fns";
 import {
   MonthlyBody,
   MonthlyDay,
   MonthlyCalendar,
-  MonthlyNav,
+  // MonthlyNav,
+  useMonthlyCalendar,
   // DefaultMonthlyEventItem,
 } from "@zach.codes/react-calendar";
 import type { EventType } from "react-hook-form";
@@ -243,7 +245,7 @@ const Appointments: FC = function () {
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
             {appointmentTab === 2
               ? "Manage Time-Slots for Appointments"
-              : "Manage"}
+              : "Manage Appointments"}
           </h1>
         </div>
 
@@ -729,4 +731,61 @@ const AppointmentCard = function ({
   );
 };
 
+const MonthlyNav = () => {
+  const { currentMonth, onCurrentMonthChange } = useMonthlyCalendar();
+
+  return (
+    <div className="mb-4 flex items-center justify-start gap-0">
+      <button
+        onClick={() => onCurrentMonthChange(subMonths(currentMonth, 1))}
+        type="button"
+        className="rounded-l-md border-r border-gray-100 bg-gray-800 px-3 py-2 text-white hover:bg-primary-700 hover:text-white"
+      >
+        <div className="flex flex-row align-middle">
+          <svg
+            className="mr-2 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <p className="ml-2">Prev</p>
+        </div>
+      </button>
+
+      <div className="w-32 bg-gray-800 px-3 py-2 text-center text-white">
+        {format(
+          currentMonth,
+          getYear(currentMonth) === getYear(new Date()) ? "LLLL" : "LLLL yyyy"
+        )}
+      </div>
+      <button
+        onClick={() => onCurrentMonthChange(addMonths(currentMonth, 1))}
+        type="button"
+        className="rounded-r-md border-l border-gray-200 bg-gray-800 px-3 py-2 text-white hover:bg-primary-700 hover:text-white"
+      >
+        <div className="flex flex-row align-middle">
+          <span className="mr-2">Next</span>
+          <svg
+            className="ml-2 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+        </div>
+      </button>
+    </div>
+  );
+};
 export default Appointments;

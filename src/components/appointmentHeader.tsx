@@ -25,6 +25,7 @@ const AppointmentHeader = function ({
       <div className="mt-5 grid w-full grid-cols-7 gap-2">
         <div className="flex items-center">
           <Datepicker
+            disabled={isCalendarView}
             value={currentDate}
             onSelectedDateChanged={(e) =>
               setCurrentDate(

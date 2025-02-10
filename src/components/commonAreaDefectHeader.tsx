@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prettier/prettier */
-import { TbFileExport } from "react-icons/tb";
+// import { TbFileExport } from "react-icons/tb";
 
 import { Button, Label, Radio } from "flowbite-react";
 
@@ -35,7 +35,7 @@ const CommonAreaDefectHeader = function () {
               Filter
             </div>
           </Button>
-          <Button
+          {/* <Button
             // onClick={() => gotoPage("/organization/new")}
             color="gray"
             className="mx-1"
@@ -44,7 +44,7 @@ const CommonAreaDefectHeader = function () {
               <TbFileExport />
               Export CSV
             </div>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <fieldset className="mb-10 flex flex-row items-center gap-10 px-5">
