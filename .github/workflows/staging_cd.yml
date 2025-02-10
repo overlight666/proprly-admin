@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - staging
+      - dev
 jobs:
   build-and-deploy:
     name: Build and Deploy
