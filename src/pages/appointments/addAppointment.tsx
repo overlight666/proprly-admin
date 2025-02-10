@@ -295,6 +295,7 @@ const AddAppointment: FC = function () {
   useEffect(() => {
     if (appointmentResponse && appointmentResponse.error) {
       toast.warning(appointmentResponse.error);
+      dispatch(clearAppointmentResponse());
     } else if (
       appointmentResponse &&
       appointmentResponse.messages &&
