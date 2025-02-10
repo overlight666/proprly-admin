@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import type { AppState, Property, PropertyState } from "../types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
