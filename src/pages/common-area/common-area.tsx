@@ -7,9 +7,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, type FC } from "react";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Button, Label, Modal } from "flowbite-react";
-import { HiHome, HiPlus } from "react-icons/hi";
+import { Button, Label, Modal } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { OrgState, ProjectState, PropertyState } from "../../types";
 import { ToastContainer } from "react-toastify";
@@ -26,7 +24,7 @@ import {
   clearCommonAreaConfig,
   updateCommonAreaTab,
 } from "../../store/features/projectSlice";
-import { FaChevronLeft } from "react-icons/fa";
+
 import CommonAreaConfigure from "./common-area-configure";
 import DataTable from "datatables.net-dt";
 import { MdBugReport } from "react-icons/md";
@@ -49,13 +47,8 @@ const CommonArea: FC = function () {
 
   const [isConfigured, setIsConfigured] = useState(false);
 
-  const {
-    selectedProject,
-    commonAreaTab,
-    commonAreaItem,
-    commonAreaIdle,
-    commonAreaConfig,
-  }: ProjectState = useSelector((state: any) => state.project);
+  const { commonAreaTab, commonAreaItem, commonAreaConfig }: ProjectState =
+    useSelector((state: any) => state.project);
   const [openModal, setOpenModal] = useState(false);
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();

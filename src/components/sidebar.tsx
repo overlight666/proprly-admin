@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
-import { Button, Dropdown, Sidebar, Spinner, TextInput } from "flowbite-react";
+import { Dropdown, Sidebar, Spinner, TextInput } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 // import { RiOrganizationChart } from "react-icons/ri";
@@ -48,9 +48,7 @@ import {
   useParams,
 } from "react-router-dom";
 import {
-  FaCaretDown,
   // FaCaretLeft,
-  FaCaretRight,
   FaRegFolder,
   FaRegFolderOpen,
 } from "react-icons/fa";
@@ -62,14 +60,6 @@ import {
 } from "../store/features/appSlice";
 // import { BsCaretDown, BsCaretLeft } from "react-icons/bs";
 import { getGlobalConfig } from "../store/features/reducers";
-import {
-  clearCommonAreaItem,
-  clearCommonAreaResponse,
-} from "../store/features/projectSlice";
-import {
-  clearPropertyData,
-  // clearPropertyResponse,
-} from "../store/features/propertySlice";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import { setSelectedOrganization } from "../store/features/organizationSlice";
 
