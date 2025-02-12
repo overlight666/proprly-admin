@@ -26,6 +26,7 @@ const initialState: AppState = {
   masterTab: 1,
   projectTab: 1,
   projectTabMain: 0,
+  editProjectTab: 1,
   propertyTab: 1,
   orgTab: 1,
   appointmentTab: 1,
@@ -108,6 +109,9 @@ export const appSlice = createSlice({
     },
     updateProjectTabMain: (state, action) => {
       state.projectTabMain = action.payload;
+    },
+    updateEditProjectTabMain: (state, action) => {
+      state.editProjectTab = action.payload;
     },
     updateMasterTab: (state, action) => {
       state.masterTab = action.payload;
@@ -340,6 +344,7 @@ export const {
   updateOrgTab,
   updatePropertyTab,
   updateProjectTabMain,
+  updateEditProjectTabMain,
   updateAppointmentTab,
   clearConfig,
   clearTImeSlot,

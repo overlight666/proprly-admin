@@ -62,6 +62,7 @@ export interface AppState {
   masterTab: number;
   projectTab: number;
   projectTabMain: number;
+  editProjectTab: number;
   orgTab: number;
   propertyTab: number;
   regions: Regions[];
