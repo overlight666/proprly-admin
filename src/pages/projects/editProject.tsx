@@ -32,7 +32,7 @@ import type {
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router";
-import { updateProjectTabMain } from "../../store/features/appSlice";
+import { updateEditProjectTabMain } from "../../store/features/appSlice";
 import {
   postTower,
   // getTowersReducer,
@@ -59,8 +59,7 @@ import {
 } from "../../store/features/projectSlice";
 import { setSelectedOrganization } from "../../store/features/organizationSlice";
 import { BsSliders2Vertical } from "react-icons/bs";
-import ConfigureAccordion from "./configure";
-import ConfigureAccordionUser from "./userItems/configure";
+
 import {
   FaAngleDown,
   FaAngleRight,
@@ -70,15 +69,6 @@ import {
 import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
-import Dashboard from "./dashboard";
-import ProjectReportTableNew from "./report/projectReportTableNew";
-import PropertyHeaderReport from "../../components/propertyHeaderReport";
-import Properties from "../properties/properties";
-import CommonArea from "../common-area/common-area";
-import { MdBugReport } from "react-icons/md";
-import DefectHeader from "../../components/defectHeader";
-import DefectResolution from "../properties/defectResolution/defectResolution";
-import Appointments from "../appointments/appointments";
 
 type towerType = {
   levels?: string;
@@ -87,7 +77,7 @@ type towerType = {
   numFloors: string;
 };
 
-const ProjectSingle: FC = function () {
+const EditProject: FC = function () {
   const { id, project_id }: any = useParams();
   const { orgList, selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
@@ -108,7 +98,7 @@ const ProjectSingle: FC = function () {
   const [searchAddress, setSearchAddress] = useState(false);
   const [errors, setErrors] = useState<any>([]);
   const dispatch = useDispatch();
-  const { projectTabMain, config }: AppState = useSelector(
+  const { editProjectTab, config }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
   const [showCard1, setShowCard1] = useState(true);
@@ -154,7 +144,7 @@ const ProjectSingle: FC = function () {
       dispatch(getSingleProject(project_id));
       dispatch(setResponseStatus(""));
       toast.info("Project updated");
-      dispatch(updateProjectTabMain(0));
+      dispatch(updateEditProjectTabMain(0));
     }
   }, [responseStatus]);
 
@@ -281,7 +271,7 @@ const ProjectSingle: FC = function () {
       }
       if (projectResponse && projectResponse.id) {
         if (!isUpdate) {
-          dispatch(updateProjectTabMain(2));
+          dispatch(updateEditProjectTabMain(2));
         }
         setIsUpdate(false);
         dispatch(clearTrigger());
@@ -444,23 +434,15 @@ const ProjectSingle: FC = function () {
                 {selectedProject && selectedProject?.name}
               </Breadcrumb.Item>
               <Breadcrumb.Item>
-                {projectTabMain == 0
+                {editProjectTab == 0
                   ? "Dashboard"
-                  : projectTabMain == 6
-                  ? "Properties"
-                  : projectTabMain == 7
-                  ? "Common Areas"
-                  : projectTabMain == 8
-                  ? "Defect Resolution"
-                  : projectTabMain == 9
-                  ? "Appointments"
-                  : projectTabMain == 1
+                  : editProjectTab == 1
                   ? "Project Information"
-                  : projectTabMain == 2
+                  : editProjectTab == 2
                   ? "Tower/Basement"
-                  : projectTabMain == 3
+                  : editProjectTab == 3
                   ? "Configure"
-                  : projectTabMain == 4
+                  : editProjectTab == 4
                   ? "Users"
                   : "Reports"}
               </Breadcrumb.Item>
@@ -507,178 +489,87 @@ const ProjectSingle: FC = function () {
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(0))}
+                onClick={() => dispatch(updateEditProjectTabMain(1))}
                 className={
-                  projectTabMain === 0
+                  editProjectTab === 1
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
               >
                 <svg
                   className={
-                    projectTabMain === 0
+                    editProjectTab === 1
                       ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                       : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                   }
                   width="14"
-                  height="13"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.7034 1.25H1.29597C0.902212 1.25 0.583008 1.58579 0.583008 2V11C0.583008 11.4142 0.902212 11.75 1.29597 11.75H12.7034C13.0971 11.75 13.4163 11.4142 13.4163 11V2C13.4163 1.58579 13.0971 1.25 12.7034 1.25Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M9.13856 1.25V11.75M4.86079 1.25V11.75M1.29597 1.25H12.7034C13.0971 1.25 13.4163 1.58579 13.4163 2V11C13.4163 11.4142 13.0971 11.75 12.7034 11.75H1.29597C0.902212 11.75 0.583008 11.4142 0.583008 11V2C0.583008 1.58579 0.902212 1.25 1.29597 1.25Z"
-                    stroke={projectTabMain === 0 ? `#1A56DB` : `#6B7280`}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Dashboard
-              </a>
-            </li>
-            <li className="me-2">
-              <a
-                href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(6))}
-                className={
-                  projectTabMain === 6
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
-                }
-              >
-                <svg
-                  className="me-2 h-4 w-4"
-                  width="15"
                   height="15"
-                  viewBox="0 0 20 20"
-                  fill="none"
+                  viewBox="0 0 14 15"
+                  fill={editProjectTab === 1 ? `#1A56DB` : `#6B7280`}
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M15.8335 11.6667V6.25L11.6668 3.33333L7.50016 6.25V7.5H5.8335V5.41667L11.6668 1.25L17.5002 5.41667V11.6667H15.8335ZM12.0835 6.66667H12.9168V5.83333H12.0835V6.66667ZM10.4168 6.66667H11.2502V5.83333H10.4168V6.66667ZM12.0835 8.33333H12.9168V7.5H12.0835V8.33333ZM10.4168 8.33333H11.2502V7.5H10.4168V8.33333ZM5.8335 15.4167L11.6252 17L16.5835 15.4583C16.5141 15.3333 16.4134 15.2257 16.2814 15.1354C16.1495 15.0451 16.0002 15 15.8335 15H11.6252C11.2502 15 10.9516 14.9861 10.7293 14.9583C10.5071 14.9306 10.2779 14.875 10.0418 14.7917L8.10433 14.1458L8.56266 12.5208L10.2502 13.0833C10.4863 13.1528 10.7641 13.2083 11.0835 13.25C11.4029 13.2917 11.8752 13.3194 12.5002 13.3333C12.5002 13.1806 12.455 13.0347 12.3647 12.8958C12.2745 12.7569 12.1668 12.6667 12.0418 12.625L7.16683 10.8333H5.8335V15.4167ZM0.833496 18.3333V9.16667H7.16683C7.26405 9.16667 7.36127 9.17708 7.4585 9.19792C7.55572 9.21875 7.646 9.24306 7.72933 9.27083L12.6252 11.0833C13.0835 11.25 13.455 11.5417 13.7397 11.9583C14.0245 12.375 14.1668 12.8333 14.1668 13.3333H15.8335C16.5279 13.3333 17.1182 13.5625 17.6043 14.0208C18.0904 14.4792 18.3335 15.0833 18.3335 15.8333V16.6667L11.6668 18.75L5.8335 17.125V18.3333H0.833496ZM2.50016 16.6667H4.16683V10.8333H2.50016V16.6667Z"
-                    fill="#1E429F"
+                    className="me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                    d="M13.8868 6.39864C13.8233 6.29909 13.7364 6.21729 13.6341 6.16064C13.5317 6.10399 13.4171 6.07429 13.3006 6.07424H12.59V5.36127C12.59 4.98309 12.4426 4.62041 12.1803 4.35299C11.9179 4.08558 11.5621 3.93535 11.1911 3.93535H8.00374L6.32507 1.65387C6.19443 1.47714 6.0254 1.33367 5.83123 1.23471C5.63707 1.13575 5.42305 1.08399 5.20596 1.0835H1.39889C1.02788 1.0835 0.672067 1.23373 0.409725 1.50114C0.147382 1.76855 0 2.13124 0 2.50942V12.4909C0 12.8691 0.147382 13.2318 0.409725 13.4992C0.672067 13.7666 1.02788 13.9168 1.39889 13.9168H10.5029C10.6382 13.9168 10.7706 13.8768 10.8841 13.8017C10.9976 13.7265 11.0872 13.6194 11.1421 13.4933L13.9399 7.07666C13.9872 6.96808 14.0071 6.84918 13.9978 6.73077C13.9885 6.61236 13.9503 6.49819 13.8868 6.39864ZM5.20596 2.50942L7.09446 5.07609C7.15961 5.16464 7.24409 5.23651 7.34121 5.286C7.43834 5.3355 7.54543 5.36127 7.65402 5.36127H11.1911V6.07424H3.49722C3.36189 6.07422 3.22946 6.11422 3.11599 6.18939C3.00251 6.26456 2.91287 6.37167 2.85793 6.49774L1.39889 9.84367V2.50942H5.20596ZM10.0482 12.4909H1.77589L3.95116 7.50016H12.2242L10.0482 12.4909Z"
                   />
                 </svg>
-                Properties
+                Project Information
               </a>
             </li>
             <li className="me-2">
               <a
                 href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(7))}
+                onClick={() => dispatch(updateEditProjectTabMain(2))}
                 className={
-                  projectTabMain === 7
+                  editProjectTab === 2
                     ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                     : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                 }
+                aria-current="page"
               >
                 <svg
-                  className="me-2 h-4 w-4"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
+                  className={
+                    editProjectTab === 2
+                      ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
+                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
+                  }
+                  width="9"
+                  height="19"
+                  viewBox="0 0 9 19"
+                  fill={editProjectTab === 2 ? `#1A56DB` : `#6B7280`}
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M4.16667 17.5C3.70833 17.5 3.31597 17.3368 2.98958 17.0104C2.66319 16.684 2.5 16.2917 2.5 15.8333V4.16667C2.5 3.70833 2.66319 3.31597 2.98958 2.98958C3.31597 2.66319 3.70833 2.5 4.16667 2.5H15.8333C16.2917 2.5 16.684 2.66319 17.0104 2.98958C17.3368 3.31597 17.5 3.70833 17.5 4.16667V15.8333C17.5 16.2917 17.3368 16.684 17.0104 17.0104C16.684 17.3368 16.2917 17.5 15.8333 17.5H4.16667ZM4.16667 15.8333H15.8333V4.16667H4.16667V15.8333Z"
-                    fill="#1E429F"
-                  />
+                  <path d="M7.01783 16.7832C6.82783 16.7832 6.70117 16.9099 6.70117 17.0999C6.70117 17.2899 6.82783 17.4165 7.01783 17.4165C7.20783 17.4165 7.33448 17.2899 7.33448 17.0999C7.33448 16.9099 7.20783 16.7832 7.01783 16.7832Z" />
+                  <path d="M8.82263 4.81335L4.80098 1.41038V0.316654C4.80098 0.126654 4.67432 0 4.48433 0C4.29433 0 4.16767 0.126654 4.16767 0.316654V1.43717L0.17767 4.81331C0.0826705 4.90831 0.0510163 5.03496 0.0826706 5.16165C0.114325 5.28835 0.241017 5.38331 0.367671 5.38331H0.684325V6.33331C0.684325 6.52331 0.810979 6.64996 1.00098 6.64996H1.31763V15.2H1.00098C0.842634 15.2 0.715979 15.3266 0.684325 15.485L0.367671 18.6516C0.367671 18.7466 0.399325 18.8416 0.462671 18.905C0.494325 18.9683 0.589325 19 0.684325 19H8.28432C8.37932 19 8.47432 18.9683 8.50598 18.905C8.56932 18.8416 8.60098 18.7466 8.60098 18.6516L8.28432 15.485C8.25267 15.3266 8.12598 15.2 7.96767 15.2H7.65102V6.65H7.96767C8.15767 6.65 8.28432 6.52335 8.28432 6.33335V5.38335H8.60098C8.72763 5.38335 8.85433 5.28835 8.91763 5.16169C8.94929 5.035 8.91763 4.90835 8.82263 4.81335ZM4.48429 1.995L7.71429 4.75H1.22263L4.48429 1.995ZM7.93598 18.3667H1.03263L1.28598 15.8333H1.63432H7.33432H7.68267L7.93598 18.3667ZM7.01763 10.7667H6.38429C6.19429 10.7667 6.06763 10.8933 6.06763 11.0833C6.06763 11.2733 6.19429 11.4 6.38429 11.4H7.01763V15.2H1.95098V14.25H2.58432C2.77432 14.25 2.90098 14.1233 2.90098 13.9333C2.90098 13.7433 2.77432 13.6167 2.58432 13.6167H1.95098V8.23335H2.58432C2.77432 8.23335 2.90098 8.10669 2.90098 7.91669C2.90098 7.72669 2.77432 7.60004 2.58432 7.60004H1.95098V6.65004H7.01763V10.7667ZM7.65098 6.01665H7.33432H1.63432H1.31767V5.38331H7.65102L7.65098 6.01665Z" />
+                  <path d="M5.75083 16.7832H3.85083C3.66083 16.7832 3.53418 16.9099 3.53418 17.0999C3.53418 17.2899 3.66083 17.4165 3.85083 17.4165H5.75083C5.94083 17.4165 6.06749 17.2899 6.06749 17.0999C6.06749 16.9099 5.94083 16.7832 5.75083 16.7832Z" />
+                  <path d="M2.58428 16.7832H1.95093C1.76093 16.7832 1.63428 16.9099 1.63428 17.0999C1.63428 17.2899 1.76093 17.4165 1.95093 17.4165H2.58428C2.77428 17.4165 2.90093 17.2899 2.90093 17.0999C2.90097 16.9099 2.77428 16.7832 2.58428 16.7832Z" />
+                  <path d="M3.85087 10.4501H5.11753C5.30753 10.4501 5.43418 10.3234 5.43418 10.1334V8.5501C5.43418 8.01175 5.02253 7.6001 4.48418 7.6001C3.94583 7.6001 3.53418 8.01175 3.53418 8.5501V10.1334C3.53418 10.3234 3.66087 10.4501 3.85087 10.4501ZM4.16752 8.5501C4.16752 8.3601 4.29418 8.23344 4.48418 8.23344C4.67418 8.23344 4.80083 8.3601 4.80083 8.5501V9.81675H4.16752V8.5501Z" />
+                  <path d="M3.85087 14.2499H5.11753C5.30753 14.2499 5.43418 14.1232 5.43418 13.9332V12.3499C5.43418 11.8116 5.02253 11.3999 4.48418 11.3999C3.94583 11.3999 3.53418 11.8116 3.53418 12.3499V13.9332C3.53418 14.1232 3.66087 14.2499 3.85087 14.2499ZM4.16752 12.3499C4.16752 12.1599 4.29418 12.0332 4.48418 12.0332C4.67418 12.0332 4.80083 12.1599 4.80083 12.3499V13.6166H4.16752V12.3499Z" />
                 </svg>
-                Common Areas
+                Tower/Basement
               </a>
             </li>
-            <li className="me-2">
-              <a
-                href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(8))}
-                className={
-                  projectTabMain === 8
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
-                }
-              >
-                <MdBugReport className="mr-[5px]" size={20} />
-                Defect Resolution
-              </a>
-            </li>
-            <li className="me-2">
-              <a
-                href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(9))}
-                className={
-                  projectTabMain === 9
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
-                }
-              >
-                <svg
-                  className="me-2 h-4 w-4"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M14.4 1.6H12.8V0.8C12.8 0.587827 12.7157 0.384344 12.5657 0.234315C12.4157 0.0842854 12.2122 0 12 0C11.7878 0 11.5843 0.0842854 11.4343 0.234315C11.2843 0.384344 11.2 0.587827 11.2 0.8V1.6H8.8V0.8C8.8 0.587827 8.71571 0.384344 8.56569 0.234315C8.41566 0.0842854 8.21217 0 8 0C7.78783 0 7.58434 0.0842854 7.43431 0.234315C7.28429 0.384344 7.2 0.587827 7.2 0.8V1.6H4.8V0.8C4.8 0.587827 4.71571 0.384344 4.56569 0.234315C4.41566 0.0842854 4.21217 0 4 0C3.78783 0 3.58434 0.0842854 3.43431 0.234315C3.28429 0.384344 3.2 0.587827 3.2 0.8V1.6H1.6C1.17565 1.6 0.768687 1.76857 0.468629 2.06863C0.168571 2.36869 0 2.77565 0 3.2V14.4C0 14.8243 0.168571 15.2313 0.468629 15.5314C0.768687 15.8314 1.17565 16 1.6 16H14.4C14.8243 16 15.2313 15.8314 15.5314 15.5314C15.8314 15.2313 16 14.8243 16 14.4V3.2C16 2.77565 15.8314 2.36869 15.5314 2.06863C15.2313 1.76857 14.8243 1.6 14.4 1.6ZM3.2 3.2C3.2 3.41217 3.28429 3.61566 3.43431 3.76569C3.58434 3.91571 3.78783 4 4 4C4.21217 4 4.41566 3.91571 4.56569 3.76569C4.71571 3.61566 4.8 3.41217 4.8 3.2H7.2C7.2 3.41217 7.28429 3.61566 7.43431 3.76569C7.58434 3.91571 7.78783 4 8 4C8.21217 4 8.41566 3.91571 8.56569 3.76569C8.71571 3.61566 8.8 3.41217 8.8 3.2H11.2C11.2 3.41217 11.2843 3.61566 11.4343 3.76569C11.5843 3.91571 11.7878 4 12 4C12.2122 4 12.4157 3.91571 12.5657 3.76569C12.7157 3.61566 12.8 3.41217 12.8 3.2H14.4V4.8H1.6V3.2H3.2ZM1.6 14.4V6.4H14.4V14.4H1.6Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M4.4 8H3.6C3.37909 8 3.2 8.17909 3.2 8.4V9.2C3.2 9.42091 3.37909 9.6 3.6 9.6H4.4C4.62091 9.6 4.8 9.42091 4.8 9.2V8.4C4.8 8.17909 4.62091 8 4.4 8Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M4.4 11.2H3.6C3.37909 11.2 3.2 11.3791 3.2 11.6V12.4C3.2 12.6209 3.37909 12.8 3.6 12.8H4.4C4.62091 12.8 4.8 12.6209 4.8 12.4V11.6C4.8 11.3791 4.62091 11.2 4.4 11.2Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M8.4 8H7.6C7.37909 8 7.2 8.17909 7.2 8.4V9.2C7.2 9.42091 7.37909 9.6 7.6 9.6H8.4C8.62091 9.6 8.8 9.42091 8.8 9.2V8.4C8.8 8.17909 8.62091 8 8.4 8Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M8.4 11.2H7.6C7.37909 11.2 7.2 11.3791 7.2 11.6V12.4C7.2 12.6209 7.37909 12.8 7.6 12.8H8.4C8.62091 12.8 8.8 12.6209 8.8 12.4V11.6C8.8 11.3791 8.62091 11.2 8.4 11.2Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M12.4 8H11.6C11.3791 8 11.2 8.17909 11.2 8.4V9.2C11.2 9.42091 11.3791 9.6 11.6 9.6H12.4C12.6209 9.6 12.8 9.42091 12.8 9.2V8.4C12.8 8.17909 12.6209 8 12.4 8Z"
-                    fill="#1E429F"
-                  />
-                  <path
-                    d="M12.4 11.2H11.6C11.3791 11.2 11.2 11.3791 11.2 11.6V12.4C11.2 12.6209 11.3791 12.8 11.6 12.8H12.4C12.6209 12.8 12.8 12.6209 12.8 12.4V11.6C12.8 11.3791 12.6209 11.2 12.4 11.2Z"
-                    fill="#1E429F"
-                  />
-                </svg>
-                Appointments
-              </a>
-            </li>
-
             {userData.user?.userType === "admin" && (
               <li className="me-2">
                 <a
                   href="javascript:void(0)"
-                  onClick={() => dispatch(updateProjectTabMain(3))}
+                  onClick={() => dispatch(updateEditProjectTabMain(3))}
                   className={
-                    projectTabMain === 3
+                    editProjectTab === 3
                       ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
                       : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
                   }
                 >
                   <svg
                     className={
-                      projectTabMain === 3
+                      editProjectTab === 3
                         ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
                         : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
                     }
                     width="14"
                     height="15"
                     viewBox="0 0 14 15"
-                    fill={projectTabMain === 3 ? `#1A56DB` : `#6B7280`}
+                    fill={editProjectTab === 3 ? `#1A56DB` : `#6B7280`}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path d="M3.53122 8.4968V1.2C3.53122 1.01435 3.45813 0.836301 3.32804 0.705025C3.19794 0.57375 3.02148 0.5 2.8375 0.5C2.65351 0.5 2.47706 0.57375 2.34696 0.705025C2.21686 0.836301 2.14377 1.01435 2.14377 1.2V8.4968C1.69092 8.64221 1.29566 8.92922 1.01517 9.31631C0.734678 9.70339 0.583496 10.1705 0.583496 10.65C0.583496 11.1295 0.734678 11.5966 1.01517 11.9837C1.29566 12.3708 1.69092 12.6578 2.14377 12.8032V13.8C2.14377 13.9857 2.21686 14.1637 2.34696 14.295C2.47706 14.4263 2.65351 14.5 2.8375 14.5C3.02148 14.5 3.19794 14.4263 3.32804 14.295C3.45813 14.1637 3.53122 13.9857 3.53122 13.8V12.8032C3.98407 12.6578 4.37933 12.3708 4.65982 11.9837C4.94032 11.5966 5.0915 11.1295 5.0915 10.65C5.0915 10.1705 4.94032 9.70339 4.65982 9.31631C4.37933 8.92922 3.98407 8.64221 3.53122 8.4968ZM2.8375 11.525C2.66599 11.525 2.49833 11.4737 2.35573 11.3775C2.21313 11.2814 2.10198 11.1447 2.03635 10.9848C1.97071 10.825 1.95354 10.649 1.987 10.4793C2.02046 10.3096 2.10305 10.1537 2.22432 10.0313C2.3456 9.90891 2.50011 9.82557 2.66832 9.79181C2.83653 9.75805 3.01089 9.77538 3.16934 9.84161C3.3278 9.90783 3.46323 10.02 3.55851 10.1639C3.6538 10.3078 3.70466 10.4769 3.70466 10.65C3.70429 10.882 3.61281 11.1043 3.45027 11.2683C3.28772 11.4323 3.06737 11.5246 2.8375 11.525Z" />
@@ -689,86 +580,9 @@ const ProjectSingle: FC = function () {
                 </a>
               </li>
             )}
-            <li className="me-2">
-              <a
-                href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(4))}
-                className={
-                  projectTabMain === 4
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
-                }
-              >
-                <svg
-                  className={
-                    projectTabMain === 4
-                      ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
-                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
-                  }
-                  width="14"
-                  height="15"
-                  viewBox="0 0 14 15"
-                  fill={projectTabMain === 4 ? `#1A56DB` : `#6B7280`}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5.593 13.9879C5.36294 13.7471 5.20174 13.444 5.12754 13.1126C5.05334 12.7813 5.06909 12.4348 5.173 12.1123C4.88127 11.9613 4.63565 11.7282 4.46376 11.4392C4.29187 11.1502 4.20053 10.8169 4.2 10.4767V9.74516C4.20001 9.4047 4.29096 9.07101 4.46262 8.78164C4.63427 8.49228 4.87981 8.25873 5.1716 8.1073C5.157 8.04432 5.14556 7.98059 5.1373 7.91637H3.5C2.57208 7.91753 1.68249 8.30326 1.02635 8.98893C0.370217 9.67461 0.0011115 10.6043 0 11.5739V13.7685C0 13.9625 0.0737498 14.1486 0.205025 14.2857C0.336301 14.4229 0.514348 14.5 0.7 14.5H6.0809L5.593 13.9879Z" />
-                  <path d="M13.65 9.3794H12.866C12.787 9.0196 12.65 8.67649 12.4607 8.36479L13.0207 7.78324C13.0863 7.71465 13.1232 7.62163 13.1232 7.52465C13.1232 7.42766 13.0863 7.33464 13.0207 7.26606L12.5258 6.74887C12.4602 6.68031 12.3712 6.64179 12.2784 6.64179C12.1855 6.64179 12.0965 6.68031 12.0309 6.74887L11.4744 7.33409C11.1753 7.13464 10.8457 6.99016 10.5 6.90688V6.08759C10.5 5.99058 10.4631 5.89755 10.3975 5.82896C10.3318 5.76036 10.2428 5.72183 10.15 5.72183H9.45C9.35717 5.72183 9.26815 5.76036 9.20251 5.82896C9.13687 5.89755 9.1 5.99058 9.1 6.08759V6.90688C8.7557 6.98942 8.42737 7.13265 8.1291 7.33043L7.5726 6.74887C7.50697 6.68031 7.41796 6.64179 7.32515 6.64179C7.23234 6.64179 7.14333 6.68031 7.0777 6.74887L6.5828 7.26606C6.51719 7.33464 6.48032 7.42766 6.48032 7.52465C6.48032 7.62163 6.51719 7.71465 6.5828 7.78324L7.1428 8.36845C6.95268 8.67878 6.81444 9.02064 6.734 9.3794H5.95C5.85717 9.3794 5.76815 9.41794 5.70251 9.48653C5.63687 9.55512 5.6 9.64815 5.6 9.74516V10.4767C5.6 10.5737 5.63687 10.6667 5.70251 10.7353C5.76815 10.8039 5.85717 10.8424 5.95 10.8424H6.734C6.81298 11.2022 6.95004 11.5453 7.1393 11.857L6.5828 12.4386C6.51719 12.5072 6.48032 12.6002 6.48032 12.6972C6.48032 12.7942 6.51719 12.8872 6.5828 12.9558L7.0777 13.473C7.14333 13.5415 7.23234 13.58 7.32515 13.58C7.41796 13.58 7.50697 13.5415 7.5726 13.473L8.1326 12.8877C8.42956 13.0864 8.75669 13.2309 9.1 13.3149V14.1342C9.1 14.2312 9.13687 14.3243 9.20251 14.3929C9.26815 14.4615 9.35717 14.5 9.45 14.5H10.15C10.2428 14.5 10.3318 14.4615 10.3975 14.3929C10.4631 14.3243 10.5 14.2312 10.5 14.1342V13.3149C10.8443 13.2324 11.1726 13.0892 11.4709 12.8914L12.0274 13.4766C12.093 13.5452 12.182 13.5837 12.2748 13.5837C12.3677 13.5837 12.4567 13.5452 12.5223 13.4766L13.0172 12.9594C13.0828 12.8908 13.1197 12.7978 13.1197 12.7008C13.1197 12.6039 13.0828 12.5108 13.0172 12.4423L12.4572 11.8607C12.648 11.5481 12.7863 11.2037 12.866 10.8424H13.65C13.7428 10.8424 13.8318 10.8039 13.8975 10.7353C13.9631 10.6667 14 10.5737 14 10.4767V9.74516C14 9.64815 13.9631 9.55512 13.8975 9.48653C13.8318 9.41794 13.7428 9.3794 13.65 9.3794ZM9.8 11.9397C9.45388 11.9397 9.11554 11.8324 8.82775 11.6315C8.53997 11.4305 8.31566 11.1449 8.18321 10.8108C8.05076 10.4766 8.0161 10.1089 8.08363 9.75414C8.15115 9.39939 8.31782 9.07353 8.56256 8.81777C8.8073 8.56201 9.11912 8.38783 9.45859 8.31727C9.79806 8.2467 10.1499 8.28292 10.4697 8.42134C10.7895 8.55975 11.0628 8.79415 11.2551 9.0949C11.4474 9.39564 11.55 9.74922 11.55 10.1109C11.55 10.5959 11.3656 11.0611 11.0374 11.4041C10.7092 11.747 10.2641 11.9397 9.8 11.9397Z" />
-                  <path d="M9.8 10.8424C10.1866 10.8424 10.5 10.5149 10.5 10.1109C10.5 9.70691 10.1866 9.3794 9.8 9.3794C9.4134 9.3794 9.1 9.70691 9.1 10.1109C9.1 10.5149 9.4134 10.8424 9.8 10.8424Z" />
-                  <path d="M5.124 7.12414C5.19608 6.78616 5.35876 6.47661 5.593 6.23169L6.09 5.71451C6.25217 5.54418 6.44505 5.40916 6.65748 5.31724C6.86991 5.22533 7.09768 5.17836 7.3276 5.17904C7.3675 5.17904 7.4067 5.18636 7.4459 5.18855C7.73398 4.50446 7.79434 3.7392 7.61732 3.01505C7.4403 2.2909 7.03612 1.64965 6.46937 1.19376C5.90262 0.737867 5.206 0.493649 4.49082 0.500126C3.77564 0.506602 3.08317 0.763398 2.52406 1.22948C1.96496 1.69557 1.57147 2.34404 1.40649 3.07129C1.24151 3.79854 1.31454 4.56259 1.61392 5.24136C1.91331 5.92014 2.42176 6.47446 3.05805 6.81576C3.69433 7.15705 4.42172 7.26563 5.124 7.12414Z" />
-                </svg>
-                Users
-              </a>
-            </li>
-            <li className="me-2">
-              <a
-                href="javascript:void(0)"
-                onClick={() => dispatch(updateProjectTabMain(5))}
-                className={
-                  projectTabMain === 5
-                    ? `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500`
-                    : `group inline-flex items-center justify-center rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300`
-                }
-              >
-                <svg
-                  className={
-                    projectTabMain === 5
-                      ? `me-2 h-4 w-4 text-blue-600 dark:text-blue-500`
-                      : `me-2 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300`
-                  }
-                  width="14"
-                  height="15"
-                  viewBox="0 0 14 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4.2 13.1H1.4V2.6H3.5V3.3C3.1136 3.3 2.8 3.6136 2.8 4C2.8 4.3864 3.1136 4.7 3.5 4.7H5.4306L6.8306 3.3H4.9V1.9H7V3.1453C7.3864 2.7974 7.8764 2.6 8.4 2.6H11.9C11.9 1.8279 11.2721 1.2 10.5 1.2H8.2054C7.9625 0.7835 7.5159 0.5 7 0.5H4.9C4.3841 0.5 3.9375 0.7835 3.6946 1.2H1.4C0.6279 1.2 0 1.8279 0 2.6V13.1C0 13.8721 0.6279 14.5 1.4 14.5H4.2C4.3225 14.5 4.4317 14.4601 4.5318 14.4048C4.3274 14.0135 4.2 13.5739 4.2 13.1Z"
-                    fill={projectTabMain === 5 ? `#1A56DB` : `#6B7280`}
-                  />
-                  <path
-                    d="M12.6469 4H8.4C8.2145 4 8.036 4.0735 7.9051 4.2051L5.8051 6.3051C5.6735 6.436 5.6 6.6145 5.6 6.8V13.1C5.6 13.8721 6.2069 14.5 6.9531 14.5H12.6469C13.3931 14.5 14 13.8721 14 13.1V5.4C14 4.6279 13.3931 4 12.6469 4ZM8.4 5.6898V6.8H7.2898L8.4 5.6898ZM7 13.1V8.2H9.1C9.4864 8.2 9.8 7.8864 9.8 7.5V5.3937L12.5965 5.3818C12.5965 5.3818 12.6 5.3874 12.6 5.4L12.6469 13.1H7Z"
-                    fill={projectTabMain === 5 ? `#1A56DB` : `#6B7280`}
-                  />
-                </svg>
-                Reports
-              </a>
-            </li>
           </ul>
         </div>
-        {projectTabMain === 1 && !selectedProject && (
-          <div className="col-span-full p-5">
-            <div className={`mt-5 h-[200px] w-full overflow-hidden`}>
-              <img
-                className="h-[200px] w-full object-fill"
-                src={`${selectedOrganization?.image.url}`}
-                alt=""
-              />
-            </div>
-          </div>
-        )}
-        {projectTabMain === 0 && <Dashboard />}
-
-        {projectTabMain === 1 ? (
+        {editProjectTab === 1 ? (
           !selectedProject ? (
             <div className="flex w-full flex-col items-center justify-center !bg-transparent p-20">
               <span className="text-gray-600">
@@ -777,7 +591,7 @@ const ProjectSingle: FC = function () {
               </span>
               <Button
                 onClick={() => {
-                  dispatch(updateProjectTabMain(3));
+                  dispatch(updateEditProjectTabMain(3));
                 }}
                 className="mt-7 w-[200px]"
               >
@@ -1106,7 +920,7 @@ const ProjectSingle: FC = function () {
                 <Button
                   className="mx-1"
                   onClick={() => {
-                    dispatch(updateProjectTabMain(0));
+                    dispatch(updateEditProjectTabMain(0));
                   }}
                   color="gray"
                 >
@@ -1115,7 +929,7 @@ const ProjectSingle: FC = function () {
               </div>
             </div>
           )
-        ) : projectTabMain === 2 ? (
+        ) : editProjectTab === 2 ? (
           <div className="flex w-full flex-col">
             <div className="flex w-full items-center justify-between border-b-[1px]">
               <h1 className="font-bold">Tower/Basement Information</h1>
@@ -1179,7 +993,7 @@ const ProjectSingle: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        // dispatch(updateProjectTabMain(3));
+                        // dispatch(updateEditProjectTabMain(3));
                         // toast.info("Project Updated");
                         updateProject();
                       }}
@@ -1190,7 +1004,7 @@ const ProjectSingle: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        dispatch(updateProjectTabMain(0));
+                        dispatch(updateEditProjectTabMain(0));
                       }}
                       color="gray"
                     >
@@ -1201,26 +1015,6 @@ const ProjectSingle: FC = function () {
               </div>
             </div>
           </div>
-        ) : projectTabMain === 3 ? (
-          <ConfigureAccordion project_id={project_id} />
-        ) : projectTabMain === 4 ? (
-          <ConfigureAccordionUser />
-        ) : projectTabMain === 5 ? (
-          <>
-            <PropertyHeaderReport />
-            <ProjectReportTableNew />
-          </>
-        ) : projectTabMain === 6 ? (
-          <Properties />
-        ) : projectTabMain === 7 ? (
-          <CommonArea />
-        ) : projectTabMain === 8 ? (
-          <div className="flex w-full flex-col  !bg-transparent">
-            <DefectHeader />
-            <DefectResolution />
-          </div>
-        ) : projectTabMain === 9 ? (
-          <Appointments />
         ) : (
           <></>
         )}
@@ -1268,4 +1062,4 @@ const ProjectSingle: FC = function () {
   );
 };
 
-export default ProjectSingle;
+export default EditProject;

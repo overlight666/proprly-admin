@@ -8,13 +8,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useEffect, useState, type FC } from "react";
-import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import { Breadcrumb, Dropdown, Tooltip } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
+
+import { Dropdown, Tooltip } from "flowbite-react";
+
 import { useDispatch, useSelector } from "react-redux";
 import type {
   AppState,
-  OrgState,
   ProjectState,
   PropertyState,
   ReducerTypes,
@@ -53,9 +52,6 @@ const Appointments: FC = function () {
   const { project_id } = useParams();
   const [currentMonth, setCurrentMonth] = useState<Date>(
     startOfMonth(new Date())
-  );
-  const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization
   );
   const { appointmentTab, isCalendarView, timeslot }: AppState = useSelector(
     (state: ReducerTypes) => state.application
@@ -163,7 +159,6 @@ const Appointments: FC = function () {
               e.status == filterBy
           )
     );
-    console.log(filterBy, currentEvents);
   }, [events, filterBy]);
 
   useEffect(() => {
@@ -217,38 +212,9 @@ const Appointments: FC = function () {
   };
 
   return (
-    <NavbarSidebarLayout isFooter={false}>
+    <>
       <ToastContainer position="bottom-right" />
-      <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 pt-6 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
-        <div className="col-span-full">
-          <Breadcrumb className="mb-4">
-            <Breadcrumb.Item href="/organization">
-              <div className="flex items-center gap-x-3">
-                <HiHome className="text-xl" />
-                <span className="dark:text-white">Organizations</span>
-              </div>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item href={`/organization/${selectedOrganization?.id}`}>
-              {selectedOrganization?.name}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              href={`/organization/${selectedOrganization?.id}/project/${selectedProject?.id}`}
-            >
-              {selectedProject?.name}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              href={`/organization/${selectedOrganization?.id}/project/${selectedProject?.id}/appointments`}
-            >
-              Appointments
-            </Breadcrumb.Item>
-          </Breadcrumb>
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-            {appointmentTab === 2
-              ? "Manage Time-Slots for Appointments"
-              : "Manage Appointments"}
-          </h1>
-        </div>
-
+      <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
         <div className="border-b border-gray-200 dark:border-gray-700">
           <ul className="-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500 dark:text-gray-400">
             <li className="me-2">
@@ -656,7 +622,7 @@ const Appointments: FC = function () {
         setOpen={setRescheduleModal}
         appointmentData={appointmentData}
       />
-    </NavbarSidebarLayout>
+    </>
   );
 };
 

@@ -49,6 +49,7 @@ import CommonAreaViewPage from "./pages/common-area/view-common-area";
 import CommonArea from "./pages/common-area/common-area";
 import AddAppointment from "./pages/appointments/addAppointment";
 import MasterConfiguration from "./pages/admin/master-configuration";
+import EditProject from "./pages/projects/editProject";
 
 const App: FC = function () {
   return (
@@ -116,6 +117,14 @@ const App: FC = function () {
               element={
                 <PrivateRoutes>
                   <ProjectSingle />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/organization/:id/project/:project_id/edit"
+              element={
+                <PrivateRoutes>
+                  <EditProject />
                 </PrivateRoutes>
               }
             />

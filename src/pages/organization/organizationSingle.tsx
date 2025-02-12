@@ -32,13 +32,13 @@ import { FaChevronLeft } from "react-icons/fa";
 
 const OrganizationSingle: FC = function () {
   const { orgList, selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization,
+    (state: any) => state.organization
   );
   const { orgTab }: AppState = useSelector(
-    (state: ReducerTypes) => state.application,
+    (state: ReducerTypes) => state.application
   );
   const { projectList, loadedProject }: ProjectState = useSelector(
-    (state: any) => state.project,
+    (state: any) => state.project
   );
   // let didInit = false;
   const { id }: any = useParams();

@@ -62,26 +62,26 @@ const DefectHeader = function () {
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="germany" name="countries" value="Germany" />
-          <Label htmlFor="germany" className="text-[14px]">
+          <Radio id="owner" name="countries" value="Germany" />
+          <Label htmlFor="owner" className="text-[14px]">
             Owner Defects
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain" className="text-[14px]">
+          <Radio id="auditor" name="countries" value="Spain" />
+          <Label htmlFor="auditor" className="text-[14px]">
             Auditor Defects
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain" className="text-[14px]">
+          <Radio id="strata" name="countries" value="Spain" />
+          <Label htmlFor="strata" className="text-[14px]">
             Strata Defects
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="spain" name="countries" value="Spain" />
-          <Label htmlFor="spain" className="text-[14px]">
+          <Radio id="tenant" name="countries" value="Spain" />
+          <Label htmlFor="tenant" className="text-[14px]">
             Tenant Defects
           </Label>
         </div>
