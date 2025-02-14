@@ -27,11 +27,6 @@ import {
 
 import CommonAreaConfigure from "./common-area-configure";
 import DataTable from "datatables.net-dt";
-import { MdBugReport } from "react-icons/md";
-import CommonAreaReportTable from "../../components/commonAreaReportTable";
-import CommonAreaHeader from "../../components/commonAreaHeader";
-import CommonAreaDefectHeader from "../../components/commonAreaDefectHeader";
-import CommonAreaDefectResolution from "./items/common-area-defect-resolution";
 // import DataTable from "datatables.net-dt";
 
 const CommonArea: FC = function () {
@@ -53,7 +48,6 @@ const CommonArea: FC = function () {
   const [uploadType, setUploadType] = useState("single");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [headerValue, setHeaderValue] = useState("all");
   // const [isComplete, setIsComplete] = useState(false);
   const uploadProperty = () => {
     if (uploadType === "single") {
