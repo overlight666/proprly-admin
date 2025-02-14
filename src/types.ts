@@ -86,6 +86,8 @@ export interface AppState {
   projectDashboard: DashboardData | undefined;
   organizationDashboard: DashboardData | undefined;
   appointmentType: string;
+  selectedNotification: NotificationType | undefined;
+  notificationRead: boolean;
 }
 
 export interface DefectsData {
@@ -165,12 +167,14 @@ export interface NotificationType {
   createdAt: string;
   updatedAt: string;
   bodyWeb: BodyWeb;
+  property: Property;
 }
 export interface BodyWeb {
   Project: string;
   Zone: string;
   Element: string;
   unitNo: string;
+  appointmentDate: string;
 }
 export interface NotificationDataType {
   screen: string;

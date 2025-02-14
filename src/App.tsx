@@ -50,6 +50,8 @@ import CommonArea from "./pages/common-area/common-area";
 import AddAppointment from "./pages/appointments/addAppointment";
 import MasterConfiguration from "./pages/admin/master-configuration";
 import EditProject from "./pages/projects/editProject";
+import NotificationPage from "./pages/notifications/notification";
+import NotificationView from "./pages/notifications/notificationView";
 
 const App: FC = function () {
   return (
@@ -200,6 +202,22 @@ const App: FC = function () {
                 </PrivateRoutes>
               }
             />
+            <Route
+              path="/notifications"
+              element={
+                <PrivateRoutes>
+                  <NotificationPage />
+                </PrivateRoutes>
+              }
+            />
+            <Route
+              path="/notifications/view"
+              element={
+                <PrivateRoutes>
+                  <NotificationView />
+                </PrivateRoutes>
+              }
+            />
           </Route>
           <Route
             element={
@@ -239,6 +257,7 @@ const App: FC = function () {
               }
             />
           </Route>
+          {/* <Route path="/notifications" element={<NotificationPage />} /> */}
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />

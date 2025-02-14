@@ -830,6 +830,17 @@ export const getNotifications = async () => {
     });
 };
 
+export const readNotification = async (id: any) => {
+  return api
+    .patch(`/notifications/${id}/read?forAdmin=true`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
 export const getNotificationsCount = async () => {
   return api
     .get(`/notifications/count`)

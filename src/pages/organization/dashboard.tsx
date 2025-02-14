@@ -352,12 +352,12 @@ const Dashboard: FC = function () {
                                       </span>
                                       {notif.bodyWeb.unitNo}
                                     </span>{" "}
-                                    <div className="mx-[2px]">|</div>
                                   </>
                                 )}
                                 {notif.bodyWeb && notif.bodyWeb.Zone && (
                                   <>
                                     <span>
+                                      <div className="mx-[2px]">|</div>
                                       <span className="text-blue-600">
                                         Zone:{" "}
                                       </span>
@@ -376,6 +376,18 @@ const Dashboard: FC = function () {
                                     </span>
                                   </>
                                 )}
+                                {notif.bodyWeb &&
+                                  notif.bodyWeb.appointmentDate && (
+                                    <>
+                                      <div className="mx-[2px]">|</div>
+                                      <span>
+                                        <span className="text-blue-600">
+                                          Appointment Date:{" "}
+                                        </span>
+                                        {notif.bodyWeb.appointmentDate}
+                                      </span>
+                                    </>
+                                  )}
                               </div>
                             </div>
                             <div>
