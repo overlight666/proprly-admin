@@ -86,11 +86,12 @@ export const appSlice = createSlice({
       } else {
         if (state.openProjects && state.openProjects.length > 0) {
           if (state.openProjects.find((e) => e == action.payload)) {
-            state.openProjects = state.openProjects.filter(
-              (e) => e != action.payload
-            );
+            // state.openProjects = state.openProjects.filter(
+            //   (e) => e != action.payload
+            // );
           } else {
-            state.openProjects = [...state.openProjects, action.payload];
+            // state.openProjects = [...state.openProjects, action.payload];
+            state.openProjects = [action.payload];
           }
         }
       }
