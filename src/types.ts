@@ -170,7 +170,7 @@ export interface BodyWeb {
   Project: string;
   Zone: string;
   Element: string;
-  UnitNo: string;
+  unitNo: string;
 }
 export interface NotificationDataType {
   screen: string;

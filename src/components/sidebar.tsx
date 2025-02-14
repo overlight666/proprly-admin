@@ -201,6 +201,9 @@ const ExampleSidebar: FC = function () {
                       "can_access_leads"
                     ) && (
                       <Sidebar.Item
+                        onClick={() => {
+                          dispatch(clearProjectOpen());
+                        }}
                         href="/signup-leads"
                         key={"signup-leads"}
                         className={
@@ -218,6 +221,9 @@ const ExampleSidebar: FC = function () {
                       "can_access_leads"
                     ) && (
                       <Sidebar.Item
+                        onClick={() => {
+                          dispatch(clearProjectOpen());
+                        }}
                         href="/master-configurations"
                         key={"master-configurations"}
                         className={
@@ -235,6 +241,9 @@ const ExampleSidebar: FC = function () {
                       "can_access_leads"
                     ) && (
                       <Sidebar.Item
+                        onClick={() => {
+                          dispatch(clearProjectOpen());
+                        }}
                         href="/support-tickets"
                         key={"support-tickets"}
                         className={
@@ -253,6 +262,9 @@ const ExampleSidebar: FC = function () {
                   selectedOrganization && (
                     <>
                       <Sidebar.Item
+                        onClick={() => {
+                          dispatch(clearProjectOpen());
+                        }}
                         href={`/organization/${selectedOrganization.id}`}
                         className={`text-[14px] ${
                           currentRoute == "/organization/:id" && "bg-gray-200"

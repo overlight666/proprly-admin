@@ -373,13 +373,13 @@ const Dashboard: FC = function () {
                                 {notif.bodyWeb && notif.bodyWeb.Project}
                               </span>
                               <div className="flex">
-                                {notif.bodyWeb && notif.bodyWeb.UnitNo && (
+                                {notif.bodyWeb && notif.bodyWeb.unitNo && (
                                   <>
                                     <span>
                                       <span className="text-blue-600">
                                         Unit no.
                                       </span>
-                                      {notif.bodyWeb.UnitNo}
+                                      {notif.bodyWeb.unitNo}
                                     </span>{" "}
                                     <div className="mx-[2px]">|</div>
                                   </>

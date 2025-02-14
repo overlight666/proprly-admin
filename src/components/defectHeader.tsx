@@ -6,7 +6,8 @@
 import { Button, Label, Radio } from "flowbite-react";
 
 import { BsListTask } from "react-icons/bs";
-const DefectHeader = function () {
+const DefectHeader = function (props: any) {
+  const { defectType, setDefectType } = props;
   return (
     <>
       <div className="my-5 grid w-full grid-cols-9 gap-2 px-5">
@@ -52,37 +53,26 @@ const DefectHeader = function () {
         <span className="text-[14px]">Show only:</span>
         <div className="flex items-center gap-2">
           <Radio
-            id="united-state"
+            id="properties"
             name="countries"
-            value="USA"
-            defaultChecked
+            value="properties"
+            checked={defectType == "properties"}
+            onChange={(e) => setDefectType(e.target.value)}
           />
-          <Label htmlFor="united-state" className="text-[14px]">
-            All
+          <Label htmlFor="properties" className="text-[14px]">
+            Property Defects
           </Label>
         </div>
         <div className="flex items-center gap-2">
-          <Radio id="owner" name="countries" value="Germany" />
-          <Label htmlFor="owner" className="text-[14px]">
-            Owner Defects
-          </Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="auditor" name="countries" value="Spain" />
-          <Label htmlFor="auditor" className="text-[14px]">
-            Auditor Defects
-          </Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="strata" name="countries" value="Spain" />
-          <Label htmlFor="strata" className="text-[14px]">
-            Strata Defects
-          </Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="tenant" name="countries" value="Spain" />
-          <Label htmlFor="tenant" className="text-[14px]">
-            Tenant Defects
+          <Radio
+            id="common-area"
+            name="countries"
+            value="common-area"
+            checked={defectType == "common-area"}
+            onChange={(e) => setDefectType(e.target.value)}
+          />
+          <Label htmlFor="common-area" className="text-[14px]">
+            Common Area Defects
           </Label>
         </div>
       </fieldset>

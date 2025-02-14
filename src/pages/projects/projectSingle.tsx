@@ -71,14 +71,14 @@ import { clear, clearFile } from "../../store/features/imageSlice";
 import { RiCloseCircleFill } from "react-icons/ri";
 import Upload from "./uploadItems/upload";
 import Dashboard from "./dashboard";
-import ProjectReportTableNew from "./report/projectReportTableNew";
-import PropertyHeaderReport from "../../components/propertyHeaderReport";
 import Properties from "../properties/properties";
 import CommonArea from "../common-area/common-area";
 import { MdBugReport } from "react-icons/md";
 import DefectHeader from "../../components/defectHeader";
 import DefectResolution from "../properties/defectResolution/defectResolution";
 import Appointments from "../appointments/appointments";
+import ConfigureAccordionReports from "./report/reportParent";
+import CommonAreaDefectResolution from "../common-area/items/common-area-defect-resolution";
 
 type towerType = {
   levels?: string;
@@ -120,6 +120,7 @@ const ProjectSingle: FC = function () {
   const [line1, setLine1] = useState<any>("");
   const [line2, setLine2] = useState<any>("");
   const [line3, setLine3] = useState<any>("");
+  const [defectType, setDefectType] = useState<any>("properties");
   const [firstLoad, setFirstLoad] = useState(true);
   const myImage: ImageState = useSelector((state: any) => state.uploads);
   // let didInit = false;
@@ -1206,18 +1207,22 @@ const ProjectSingle: FC = function () {
         ) : projectTabMain === 4 ? (
           <ConfigureAccordionUser />
         ) : projectTabMain === 5 ? (
-          <>
-            <PropertyHeaderReport />
-            <ProjectReportTableNew />
-          </>
+          <ConfigureAccordionReports />
         ) : projectTabMain === 6 ? (
           <Properties />
         ) : projectTabMain === 7 ? (
           <CommonArea />
         ) : projectTabMain === 8 ? (
           <div className="flex w-full flex-col  !bg-transparent">
-            <DefectHeader />
-            <DefectResolution />
+            <DefectHeader
+              setDefectType={setDefectType}
+              defectType={defectType}
+            />
+            {defectType == "properties" ? (
+              <DefectResolution />
+            ) : (
+              <CommonAreaDefectResolution />
+            )}
           </div>
         ) : projectTabMain === 9 ? (
           <Appointments />
