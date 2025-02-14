@@ -16,6 +16,7 @@ import {
   getTimeSlotByDateReducer,
   getTimeSlotByProjectReducer,
   listUserByRoleReducer,
+  readNotificationReducer,
   updateTimeSlotsReducer,
 } from "./reducers";
 
@@ -51,6 +52,8 @@ const initialState: AppState = {
   organizationDashboard: undefined,
   reportGenerated: false,
   appointmentType: "",
+  selectedNotification: undefined,
+  notificationRead: false,
 };
 
 const mapDays = {
@@ -68,6 +71,9 @@ export const appSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    selectNotification: (state, action) => {
+      state.selectedNotification = action.payload;
+    },
     resetReport: (state) => {
       state.reportGenerated = false;
     },
@@ -336,6 +342,16 @@ export const appSlice = createSlice({
     builder.addCase(generateLatestReportReducer.rejected, (state) => {
       state.reportGenerated = false;
     });
+    // read notification
+    builder.addCase(readNotificationReducer.pending, (state) => {
+      state.notificationRead = false;
+    });
+    builder.addCase(readNotificationReducer.fulfilled, (state) => {
+      state.notificationRead = true;
+    });
+    builder.addCase(readNotificationReducer.rejected, (state) => {
+      state.notificationRead = false;
+    });
   },
 });
 
@@ -355,6 +371,7 @@ export const {
   updateMasterTab,
   resetReport,
   setAppointmentType,
+  selectNotification,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

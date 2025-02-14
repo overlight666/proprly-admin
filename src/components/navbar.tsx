@@ -36,7 +36,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/features/userSlice";
 import type { AppState, ReducerTypes, UserState } from "../types";
 import userImage from "../../public/images/users/neil-sims.png";
-import { clearConfig } from "../store/features/appSlice";
+import { clearConfig, selectNotification } from "../store/features/appSlice";
 import {
   getNotificationsCountReducer,
   getNotificationsReducer,
@@ -154,7 +154,8 @@ const NotificationBellDropdown: FC = function () {
               return (
                 <a
                   key={index}
-                  href="#"
+                  onClick={() => dispatch(selectNotification(notif))}
+                  href="/notifications/view"
                   className="flex border-y px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600"
                 >
                   <div className="w-full pl-3">
@@ -167,12 +168,54 @@ const NotificationBellDropdown: FC = function () {
                           .fromNow()}
                       </div>
                     </div>
-                    <span
-                      className=" mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400"
-                      dangerouslySetInnerHTML={{
-                        __html: nl2br(notif.body, true, true),
-                      }}
-                    ></span>
+                    <div className="flex flex-col !text-sm ">
+                      <span className="text-black">
+                        Project: {notif.bodyWeb && notif.bodyWeb.Project}
+                      </span>
+                      <div className="flex flex-row">
+                        <div className="flex">
+                          {notif.bodyWeb && notif.bodyWeb.unitNo && (
+                            <>
+                              <span>
+                                <span className="text-blue-600">Unit no.</span>
+                                {notif.bodyWeb.unitNo}
+                              </span>{" "}
+                            </>
+                          )}
+                          {notif.bodyWeb && notif.bodyWeb.Zone && (
+                            <>
+                              <div className="mx-[2px]">|</div>
+                              <span>
+                                <span className="text-blue-600">Zone: </span>
+                                {notif.bodyWeb.Zone}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <div className="flex">
+                          {notif.bodyWeb && notif.bodyWeb.Element && (
+                            <>
+                              <div className="mx-[2px]">|</div>
+                              <span>
+                                <span className="text-blue-600">Element: </span>
+                                {notif.bodyWeb.Element}
+                              </span>
+                            </>
+                          )}
+                          {notif.bodyWeb && notif.bodyWeb.appointmentDate && (
+                            <>
+                              <div className="mx-[2px]">|</div>
+                              <span>
+                                <span className="text-blue-600">
+                                  Appointment Date:{" "}
+                                </span>
+                                {notif.bodyWeb.appointmentDate}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                     <div className="text-sm">
                       <span className="text-primary-700">
                         Date:{" "}
