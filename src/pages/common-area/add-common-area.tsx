@@ -46,7 +46,7 @@ const CommonAreaNewPage: FC = function () {
   const [lotNo, setLotNo] = useState<any>("");
   const [idHandler, setIdHandler] = useState<any>();
   const { selectedOrganization }: OrgState = useSelector(
-    (state: any) => state.organization,
+    (state: any) => state.organization
   );
   const {
     selectedProject,
@@ -96,7 +96,7 @@ const CommonAreaNewPage: FC = function () {
         // setTimeout(() => {
         dispatch(reloadCommonAreaTable(true));
         navigate(
-          `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`,
+          `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${commonAreaId}`
         );
         // }, 1000);
       } else {
@@ -104,7 +104,7 @@ const CommonAreaNewPage: FC = function () {
           postWarrantyFiles({
             commonAreaId: commonAreaId,
             ...uploadedWarranties,
-          }),
+          })
         );
       }
     }
@@ -117,17 +117,17 @@ const CommonAreaNewPage: FC = function () {
         dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`,
+            `/organization/${selectedOrganization?.id}/project/${project_id}`
           );
         }, 1000);
       } else {
         toast.warning(
-          "New Common Area has been registered but warranties is not fully uploaded",
+          "New Common Area has been registered but warranties is not fully uploaded"
         );
         dispatch(updateCommonAreaTab(2));
         setTimeout(() => {
           navigate(
-            `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/${idHandler}`,
+            `/organization/${selectedOrganization?.id}/project/${project_id}`
           );
         }, 1000);
       }
@@ -141,7 +141,7 @@ const CommonAreaNewPage: FC = function () {
         uploadedWarranties &&
         uploadedWarranties.groups &&
         uploadedWarranties.groups.find(
-          (obj) => obj.group === warrantyData.group,
+          (obj) => obj.group === warrantyData.group
         );
       if (!warrant) {
         uploadedWarranties.groups.push({
@@ -170,7 +170,7 @@ const CommonAreaNewPage: FC = function () {
 
   const handleUpload = async (
     event: ChangeEvent<HTMLInputElement>,
-    group: string,
+    group: string
   ) => {
     if (!event.target.files) {
       return;
