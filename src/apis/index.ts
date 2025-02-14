@@ -575,7 +575,7 @@ export const getAllDefectResolution = async (params: any) => {
     .get(
       `/admin/defect-submissions?projectId=${params.projectId}&status=${
         params.status ? params.status : ""
-      }`,
+      }`
     )
     .then((response) => {
       return response && response.data;
@@ -821,7 +821,7 @@ export const getProjectDashboard = async (params: any) => {
 
 export const getNotifications = async () => {
   return api
-    .get(`/notifications`)
+    .get(`/notifications?forAdmin=true`)
     .then((response) => {
       return response && response.data ? response.data : response;
     })

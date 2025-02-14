@@ -27,6 +27,7 @@ import {
 
 import CommonAreaConfigure from "./common-area-configure";
 import DataTable from "datatables.net-dt";
+import { HiPlus } from "react-icons/hi";
 // import DataTable from "datatables.net-dt";
 
 const CommonArea: FC = function () {
@@ -97,96 +98,6 @@ const CommonArea: FC = function () {
     }
   });
 
-  // useEffect(() => {
-  //   let flagger: any = true;
-  //   if (commonAreaConfig) {
-  //     commonAreaConfig &&
-  //       commonAreaConfig.projectBasements &&
-  //       commonAreaConfig.projectBasements.length > 0 &&
-  //       commonAreaConfig.projectBasements.map((o) => {
-  //         if (o.commonAreaConfigurationStatus == "Pending") {
-  //           flagger = false;
-  //         }
-  //       });
-  //     commonAreaConfig &&
-  //       commonAreaConfig.projectTowers &&
-  //       commonAreaConfig.projectTowers.length &&
-  //       commonAreaConfig.projectTowers.map((t) => {
-  //         t &&
-  //           t.floors &&
-  //           t.floors.map((f) => {
-  //             if (f && !f.configuration) {
-  //               flagger = false;
-  //             }
-  //           });
-  //       });
-  //   } else {
-  //     flagger = false;
-  //   }
-  //   setIsComplete(flagger);
-  // }, [commonAreaConfig]);
-
-  // useEffect(() => {
-  //   if (commonAreaConfig) {
-  //     let isTowerConfigured = false;
-  //     let isBasementConfigured = false;
-  //     if (commonAreaConfig.projectTowers && commonAreaConfig.projectBasements) {
-  //       let isPending = false;
-  //       let isConfigured = false;
-  //       let isInProgress = false;
-
-  //       let isPending2 = false;
-  //       let isConfigured2 = false;
-  //       let isInProgress2 = false;
-  //       commonAreaConfig.projectTowers &&
-  //         commonAreaConfig.projectTowers.map((pt) => {
-  //           if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-  //             isPending = true;
-  //           }
-  //           if (
-  //             pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-  //           ) {
-  //             isInProgress = true;
-  //           }
-  //           if (
-  //             pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-  //           ) {
-  //             isConfigured = true;
-  //           }
-  //         });
-
-  //       commonAreaConfig.projectBasements &&
-  //         commonAreaConfig.projectBasements.map((pt) => {
-  //           if (pt.commonAreaConfigurationStatus.toLowerCase() == "pending") {
-  //             isPending2 = true;
-  //           }
-  //           if (
-  //             pt.commonAreaConfigurationStatus.toLowerCase() == "in progress"
-  //           ) {
-  //             isInProgress2 = true;
-  //           }
-  //           if (
-  //             pt.commonAreaConfigurationStatus.toLowerCase() == "configured"
-  //           ) {
-  //             isConfigured2 = true;
-  //           }
-  //         });
-
-  //       if (!isPending && !isInProgress && isConfigured) {
-  //         isTowerConfigured = true;
-  //       }
-  //       if (!isPending2 && !isInProgress2 && isConfigured2) {
-  //         isBasementConfigured = true;
-  //       }
-  //       if (isTowerConfigured && isBasementConfigured) {
-  //         setIsConfigured(true);
-  //       } else {
-  //         setIsConfigured(false);
-  //       }
-  //     }
-  //   }
-  // }, [commonAreaConfig]);
-
   useEffect(() => {
     if (
       commonAreaConfig &&
@@ -246,7 +157,7 @@ const CommonArea: FC = function () {
         </div>
       )}
       <div className="mb-6 grid grid-cols-1 gap-y-6 bg-[#ffffff] px-4 dark:border-gray-700 dark:bg-gray-900 xl:gap-4">
-        <div className="flex w-full flex-row">
+        <div className="flex w-full flex-row items-center justify-between">
           <div className="border-b border-gray-200 dark:border-gray-700">
             <ul className="-mb-px flex flex-wrap text-center text-sm font-medium text-gray-500 dark:text-gray-400">
               <li className="me-2">
@@ -313,7 +224,25 @@ const CommonArea: FC = function () {
               </li>
             </ul>
           </div>
+          <div>
+            {!commonAreaItem && (
+              <Button
+                className="col-span-2 w-[200px]"
+                onClick={() => {
+                  navigate(
+                    `/organization/${selectedOrganization?.id}/project/${project_id}/common-area/new`
+                  );
+                }}
+              >
+                <div className="flex items-center justify-center gap-x-2 text-xs">
+                  <HiPlus />
+                  Add Common Area
+                </div>
+              </Button>
+            )}
+          </div>
         </div>
+
         {!propertyData ? (
           <></>
         ) : (
