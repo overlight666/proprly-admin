@@ -44,7 +44,7 @@ const CommonAreaNewPage: FC = function () {
   });
   const [status, setStatus] = useState<any>("");
   const [lotNo, setLotNo] = useState<any>("");
-  const [idHandler, setIdHandler] = useState<any>();
+  const [_idHandler, setIdHandler] = useState<any>();
   const { selectedOrganization }: OrgState = useSelector(
     (state: any) => state.organization
   );
