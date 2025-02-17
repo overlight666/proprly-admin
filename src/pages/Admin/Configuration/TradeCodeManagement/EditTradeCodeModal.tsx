@@ -1,4 +1,3 @@
-/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
 import { useEffect, useState } from "react";
@@ -96,15 +95,18 @@ export default function EditTradeCodeModal({
               <MultiSelect
                 label=""
                 hasLabel={false}
-                options={[...defectCodeList, ...tradeCode?.defectCode]?.map(
-                  (defect: any) => {
-                    return {
-                      text: `${defect.defectCode} - ${defect.defectName}`,
-                      value: defect.id,
-                      selected: false,
-                    };
-                  }
-                )}
+                options={[
+                  ...((defectCodeList?.length > 0 && defectCodeList) || []),
+                  ...((tradeCode?.defectCode.length > 0 &&
+                    tradeCode?.defectCode) ||
+                    []),
+                ]?.map((defect: any) => {
+                  return {
+                    text: `${defect.defectCode} - ${defect.defectName}`,
+                    value: defect.id,
+                    selected: false,
+                  };
+                })}
                 defaultSelected={tradeCode?.defectCode?.map(
                   (codes) => codes.id
                 )}
