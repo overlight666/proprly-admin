@@ -162,6 +162,7 @@ export const propertySlice = createSlice({
 
     builder.addCase(getAllDefectResolutionReducer.pending, (state) => {
       state.isIdle = false;
+      state.defectSubmissions = undefined;
     });
     builder.addCase(
       getAllDefectResolutionReducer.fulfilled,
@@ -171,10 +172,11 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.isIdle = true;
-      },
+      }
     );
     builder.addCase(getAllDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
+      state.defectSubmissions = undefined;
     });
 
     //common area
@@ -191,7 +193,7 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.isIdle = true;
-      },
+      }
     );
     builder.addCase(getCommonAreaDefectResolutionReducer.rejected, (state) => {
       state.isIdle = true;
@@ -210,7 +212,7 @@ export const propertySlice = createSlice({
             ? action.payload.data
             : action.payload;
         // state.loadingDefect = false;
-      },
+      }
     );
     builder.addCase(getDefectResolutionByIdReducer.rejected, (state) => {
       // state.loadingDefect = false;
