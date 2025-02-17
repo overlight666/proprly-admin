@@ -144,7 +144,7 @@ const EditProject: FC = function () {
       dispatch(getSingleProject(project_id));
       dispatch(setResponseStatus(""));
       toast.info("Project updated");
-      dispatch(updateEditProjectTabMain(0));
+      dispatch(updateEditProjectTabMain(1));
     }
   }, [responseStatus]);
 
@@ -920,7 +920,7 @@ const EditProject: FC = function () {
                 <Button
                   className="mx-1"
                   onClick={() => {
-                    dispatch(updateEditProjectTabMain(0));
+                    dispatch(updateEditProjectTabMain(1));
                   }}
                   color="gray"
                 >
@@ -1004,7 +1004,7 @@ const EditProject: FC = function () {
                     <Button
                       className="mx-1"
                       onClick={() => {
-                        dispatch(updateEditProjectTabMain(0));
+                        dispatch(updateEditProjectTabMain(1));
                       }}
                       color="gray"
                     >
