@@ -80,6 +80,8 @@ export interface AppState {
   isCalendarView: boolean;
   openProjects: any[];
   notifications: NotificationType[] | undefined;
+  orgNotifications: NotificationType[] | undefined;
+  projectNotifications: NotificationType[] | undefined;
   notificationsCount: NotificationCountType | undefined;
   propertyDefectSubmissions: DefectSumissionType[] | undefined;
   commonAreaDefectSubmissions: DefectSumissionType[] | undefined;

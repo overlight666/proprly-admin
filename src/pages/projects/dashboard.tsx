@@ -13,6 +13,7 @@ import {
   getCommonAreaByProjectReducer,
   getDashboardProjectReducer,
   getDefectResolutionByIdReducer,
+  getNotificationsByProjectReducer,
   getProjectDashboardReducer,
 } from "../../store/features/reducers";
 import type {
@@ -39,7 +40,7 @@ const Dashboard: FC = function () {
   const [showOnly, setShowOnly] = useState("all");
   const [showOnly2, setShowOnly2] = useState("all");
   const [timelineFilter, setTimelineFilter] = useState("all");
-  const { notifications, projectDashboard }: AppState = useSelector(
+  const { projectNotifications, projectDashboard }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
 
@@ -84,6 +85,7 @@ const Dashboard: FC = function () {
     dispatch(getAllDefectResolutionByPropertyReducer(project_id));
     dispatch(getCommonAreaByProjectReducer(project_id));
     dispatch(getDashboardProjectReducer(params));
+    dispatch(getNotificationsByProjectReducer(project_id));
   }, []);
 
   useEffect(() => {
@@ -332,9 +334,9 @@ const Dashboard: FC = function () {
               </div>
             </fieldset>
             <Timeline className="max-h-[500px] overflow-auto">
-              {(notifications &&
-                notifications.length > 0 &&
-                notifications
+              {(projectNotifications &&
+                projectNotifications.length > 0 &&
+                projectNotifications
                   .filter((notif) =>
                     timelineFilter === "need_action"
                       ? notif.title.toLowerCase() ===
