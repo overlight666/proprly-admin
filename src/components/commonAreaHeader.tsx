@@ -3,7 +3,7 @@
 
 import { Label, Radio } from "flowbite-react";
 
-const CommonAreaHeader = function ({ setHeaderValue }: any) {
+const CommonAreaHeader = function ({ setHeaderValue2, headerValue2 }: any) {
   return (
     <>
       <div className="my-5 grid w-full grid-cols-9 gap-2 px-5">
@@ -28,10 +28,10 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <div className="flex items-center gap-2">
           <Radio
             id="all"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="all"
-            defaultChecked
-            onChange={(e) => setHeaderValue(e.target.value)}
+            checked={headerValue2 === "all"}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="all" className="text-[14px]">
             All
@@ -40,9 +40,9 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         {/* <div className="flex items-center gap-2">
           <Radio
             id="under_construction"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="under_construction"
-            onChange={(e) => setHeaderValue(e.target.value)}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="under_construction" className="text-[14px]">
             Under-Construction
@@ -51,9 +51,10 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <div className="flex items-center gap-2">
           <Radio
             id="pre_settlement"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="pre_settlement"
-            onChange={(e) => setHeaderValue(e.target.value)}
+            checked={headerValue2 === "pre_settlement"}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="pre_settlement" className="text-[14px]">
             Pre-Settlement
@@ -62,9 +63,10 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <div className="flex items-center gap-2">
           <Radio
             id="general"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="general"
-            onChange={(e) => setHeaderValue(e.target.value)}
+            checked={headerValue2 === "general"}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="general" className="text-[14px]">
             General
@@ -74,9 +76,10 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <div className="flex items-center gap-2">
           <Radio
             id="handover"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="handover"
-            onChange={(e) => setHeaderValue(e.target.value)}
+            checked={headerValue2 === "handover"}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="handover" className="text-[14px]">
             Handover
@@ -85,9 +88,10 @@ const CommonAreaHeader = function ({ setHeaderValue }: any) {
         <div className="flex items-center gap-2">
           <Radio
             id="post_handover"
-            name="propertyHeader"
+            name="commonAreaHeader"
             value="post_handover"
-            onChange={(e) => setHeaderValue(e.target.value)}
+            checked={headerValue2 === "post_handover"}
+            onChange={(e) => setHeaderValue2(e.target.value)}
           />
           <Label htmlFor="post_handover" className="text-[14px]">
             Post-Handover
