@@ -12,6 +12,7 @@ import {
   getAllDefectResolutionByCommonAreaReducer,
   getDashboardOrganizationReducer,
   getDefectResolutionByIdReducer,
+  getNotificationsByOrganizationReducer,
 } from "../../store/features/reducers";
 import type {
   AppState,
@@ -47,12 +48,13 @@ const Dashboard: FC = function () {
   const [feedback, setFeedback] = useState("");
   const [defectId, setDefectId] = useState<any>();
 
-  const { notifications, organizationDashboard }: AppState = useSelector(
+  const { orgNotifications, organizationDashboard }: AppState = useSelector(
     (state: ReducerTypes) => state.application
   );
 
   useEffect(() => {
     dispatch(getDashboardOrganizationReducer(id));
+    dispatch(getNotificationsByOrganizationReducer(id));
   }, []);
 
   useEffect(() => {
@@ -303,9 +305,9 @@ const Dashboard: FC = function () {
               </div>
             </fieldset>
             <Timeline className="max-h-[500px] overflow-auto">
-              {(notifications &&
-                notifications.length > 0 &&
-                notifications
+              {(orgNotifications &&
+                orgNotifications.length > 0 &&
+                orgNotifications
                   .filter((notif) =>
                     timelineFilter === "need_action"
                       ? notif.title.toLowerCase() ===

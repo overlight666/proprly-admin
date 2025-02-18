@@ -11,6 +11,8 @@ import {
   getDashboardOrganizationReducer,
   getDashboardProjectReducer,
   getGlobalConfig,
+  getNotificationsByOrganizationReducer,
+  getNotificationsByProjectReducer,
   getNotificationsCountReducer,
   getNotificationsReducer,
   getTimeSlotByDateReducer,
@@ -45,6 +47,8 @@ const initialState: AppState = {
   isCalendarView: true,
   openProjects: [],
   notifications: undefined,
+  orgNotifications: undefined,
+  projectNotifications: undefined,
   notificationsCount: undefined,
   propertyDefectSubmissions: undefined,
   commonAreaDefectSubmissions: undefined,
@@ -244,6 +248,38 @@ export const appSlice = createSlice({
     });
     builder.addCase(getNotificationsReducer.rejected, (state) => {
       state.notifications = undefined;
+    });
+    //get notifications by org
+    builder.addCase(getNotificationsByOrganizationReducer.pending, (state) => {
+      state.orgNotifications = undefined;
+    });
+    builder.addCase(
+      getNotificationsByOrganizationReducer.fulfilled,
+      (state, action) => {
+        state.orgNotifications =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getNotificationsByOrganizationReducer.rejected, (state) => {
+      state.orgNotifications = undefined;
+    });
+    //get notifications by project
+    builder.addCase(getNotificationsByProjectReducer.pending, (state) => {
+      state.projectNotifications = undefined;
+    });
+    builder.addCase(
+      getNotificationsByProjectReducer.fulfilled,
+      (state, action) => {
+        state.projectNotifications =
+          action.payload && action.payload.data
+            ? action.payload.data
+            : action.payload;
+      }
+    );
+    builder.addCase(getNotificationsByProjectReducer.rejected, (state) => {
+      state.projectNotifications = undefined;
     });
     //get notifications count
     builder.addCase(getNotificationsCountReducer.pending, (state) => {

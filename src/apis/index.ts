@@ -830,6 +830,28 @@ export const getNotifications = async () => {
     });
 };
 
+export const getNotificationsByOrg = async (id: any) => {
+  return api
+    .get(`/notifications?forAdmin=true&organizationId=${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
+export const getNotificationsByProject = async (id: any) => {
+  return api
+    .get(`/notifications?forAdmin=true&projectId=${id}`)
+    .then((response) => {
+      return response && response.data ? response.data : response;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
 export const readNotification = async (id: any) => {
   return api
     .patch(`/notifications/${id}/read?forAdmin=true`)
