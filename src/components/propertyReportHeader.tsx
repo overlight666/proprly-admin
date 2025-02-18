@@ -3,7 +3,7 @@
 
 import { Label, Radio } from "flowbite-react";
 
-const PropertyReportHeader = function ({ setHeaderValue }: any) {
+const PropertyReportHeader = function ({ setHeaderValue, headerValue }: any) {
   return (
     <>
       <div className="my-5 grid w-full grid-cols-9 gap-2 px-5">
@@ -30,7 +30,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             id="all"
             name="propertyHeader"
             value="all"
-            defaultChecked
+            checked={headerValue === "all"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
           <Label htmlFor="all" className="text-[14px]">
@@ -53,6 +53,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             id="pre_settlement"
             name="propertyHeader"
             value="pre_settlement"
+            checked={headerValue === "pre_settlement"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
           <Label htmlFor="pre_settlement" className="text-[14px]">
@@ -64,6 +65,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             id="general"
             name="propertyHeader"
             value="general"
+            checked={headerValue === "general"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
           <Label htmlFor="general" className="text-[14px]">
@@ -76,6 +78,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             id="handover"
             name="propertyHeader"
             value="handover"
+            checked={headerValue === "handover"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
           <Label htmlFor="handover" className="text-[14px]">
@@ -87,6 +90,7 @@ const PropertyReportHeader = function ({ setHeaderValue }: any) {
             id="post_handover"
             name="propertyHeader"
             value="post_handover"
+            checked={headerValue === "post_handover"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
           <Label htmlFor="post_handover" className="text-[14px]">

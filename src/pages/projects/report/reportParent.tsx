@@ -24,14 +24,20 @@ export default function ConfigureAccordionReports() {
         <Accordion.Panel>
           <Accordion.Title>Property Reports</Accordion.Title>
           <Accordion.Content>
-            <PropertyReportHeader setHeaderValue={setHeaderValue} />
+            <PropertyReportHeader
+              setHeaderValue={setHeaderValue}
+              headerValue={headerValue}
+            />
             <PropertyReportTable headerValue={headerValue} />
           </Accordion.Content>
         </Accordion.Panel>
         <Accordion.Panel>
           <Accordion.Title>Common Area Reports</Accordion.Title>
           <Accordion.Content>
-            <CommonAreaHeader setHeaderValue={setHeaderValue2} />
+            <CommonAreaHeader
+              setHeaderValue2={setHeaderValue2}
+              headerValue2={headerValue2}
+            />
             <CommonAreaReportTable headerValue={headerValue2} />
           </Accordion.Content>
         </Accordion.Panel>
