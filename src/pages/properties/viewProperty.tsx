@@ -407,9 +407,7 @@ const ViewProperty: FC = function () {
                         });
                       toast.info("Property has been updated!");
                       setTimeout(() => {
-                        navigate(
-                          `/organization/${id}/project/${project_id}/properties`
-                        );
+                        navigate(`/organization/${id}/project/${project_id}`);
                       }, 2000);
                     } else {
                       setErrors((oldArray) => [
@@ -643,6 +641,10 @@ const ViewProperty: FC = function () {
                     </option>
                     <option value="handover">Handover</option>
                     <option value="post_handover">Post-Handover</option>
+                    <option value="pre_sales">Presales</option>
+                    <option value="under_construction">
+                      Under-Construction
+                    </option>
                   </select>
                 </div>
               </div>
@@ -924,7 +926,7 @@ const ViewProperty: FC = function () {
           <Button
             className="mx-1"
             onClick={() => {
-              navigate(`/organization/${id}/project/${project_id}/properties`);
+              navigate(`/organization/${id}/project/${project_id}`);
             }}
             color="gray"
           >

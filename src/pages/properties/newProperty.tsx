@@ -201,6 +201,8 @@ const AddProperty: FC = function () {
     { value: "pre_settlement", label: "Pre-Settlement" },
     { value: "handover", label: "Handover" },
     { value: "post_handover", label: "Post-Handover" },
+    { value: "pre_sales", label: "Presales" },
+    { value: "under_construction", label: "Under-Construction" },
   ];
 
   const [showCard1, setShowCard1] = useState(true);
