@@ -43,6 +43,7 @@ const NotificationView: FC = function () {
     );
   }, []);
 
+  console.log(selectedNotification);
   return (
     <NavbarSidebarLayout isFooter={false}>
       <Menu />
@@ -110,7 +111,9 @@ const NotificationView: FC = function () {
                 )}
             </div>
           </div>
-          <h1 className="my-5 font-bold">Property Information</h1>
+          <h1 className="my-5 font-bold">
+            {selectedNotification?.property && "Property Information"}
+          </h1>
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-5">
               {selectedNotification?.property &&

@@ -260,7 +260,7 @@ const NotificationBellDropdown: FC = function () {
           </a> */}
         </div>
         <a
-          href="#"
+          href="/notifications"
           className="block rounded-b-xl bg-gray-50 py-2 text-center text-base font-normal text-gray-900 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline"
         >
           <div className="inline-flex items-center gap-x-2">
