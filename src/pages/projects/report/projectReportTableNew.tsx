@@ -48,9 +48,7 @@ const ProjectReportTableNew = function () {
       selectedProject.report.map((rep) => {
         return [
           rep.id,
-          `${selectedProject.name}_${moment(rep.createdAt).format(
-            "YYYY-DD-MM_HH_ss"
-          )}`,
+          rep.reportName,
           moment(rep.createdAt).format("YYYY-DD-MM HH:mm:ss"),
           rep.reportUrl,
         ];

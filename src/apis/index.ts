@@ -651,6 +651,17 @@ export const getCommonArea = async (id: any) => {
     });
 };
 
+export const updateCommonArea = async (params: any) => {
+  return api
+    .put(`/common_area/${params.projectId}`, params)
+    .then((response) => {
+      return response && response.data;
+    })
+    .catch((error) => {
+      return error && error.response && error.response.data;
+    });
+};
+
 export const addCommonAreaBasement = async (params: any) => {
   return api
     .post(`/common_area/basement/common_area_category`, params)
@@ -854,7 +865,7 @@ export const getNotificationsByProject = async (id: any) => {
 
 export const readNotification = async (id: any) => {
   return api
-    .patch(`/notifications/${id}/read?forAdmin=true`)
+    .put(`/notifications/${id}/read?forAdmin=true`)
     .then((response) => {
       return response && response.data ? response.data : response;
     })

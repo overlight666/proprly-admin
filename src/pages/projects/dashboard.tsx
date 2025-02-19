@@ -379,7 +379,7 @@ const Dashboard: FC = function () {
                                   <>
                                     <span>
                                       <span className="text-blue-600">
-                                        Unit no.
+                                        Unit no:
                                       </span>
                                       {notif.bodyWeb.unitNo}
                                     </span>{" "}

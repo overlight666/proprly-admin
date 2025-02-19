@@ -162,6 +162,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
     setOpenModal(true);
   };
 
+  console.log(propertyReports);
   return (
     <>
       <DataTable

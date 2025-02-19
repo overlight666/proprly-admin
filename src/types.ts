@@ -424,6 +424,7 @@ export interface ReportDetails {
   propertyId: any;
   reportFor: any;
   reportUrl: string;
+  reportName: string;
   stage: any;
   updatedAt: string;
 }

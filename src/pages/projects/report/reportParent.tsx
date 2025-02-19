@@ -22,7 +22,7 @@ export default function ConfigureAccordionReports() {
           </Accordion.Content>
         </Accordion.Panel>
         <Accordion.Panel>
-          <Accordion.Title>Property Reports</Accordion.Title>
+          <Accordion.Title>Property Inspection Reports</Accordion.Title>
           <Accordion.Content>
             <PropertyReportHeader
               setHeaderValue={setHeaderValue}
@@ -32,7 +32,7 @@ export default function ConfigureAccordionReports() {
           </Accordion.Content>
         </Accordion.Panel>
         <Accordion.Panel>
-          <Accordion.Title>Common Area Reports</Accordion.Title>
+          <Accordion.Title>Common Area Inspection Reports</Accordion.Title>
           <Accordion.Content>
             <CommonAreaHeader
               setHeaderValue2={setHeaderValue2}

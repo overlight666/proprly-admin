@@ -28,6 +28,7 @@ import {
   postTower,
   postTradeCode,
   registerProject,
+  updateCommonAreaReducer,
 } from "./reducers";
 import type {
   FullChecklist,
@@ -131,13 +132,13 @@ export const projectSlice = createSlice({
     },
     selectCommonArea: (
       state,
-      action: PayloadAction<FullChecklist | undefined>,
+      action: PayloadAction<FullChecklist | undefined>
     ) => {
       state.selectedCommonArea = action.payload;
     },
     selectCommonAreaElement: (
       state,
-      action: PayloadAction<FullElements | undefined>,
+      action: PayloadAction<FullElements | undefined>
     ) => {
       state.selectedCommonAreaElement = action.payload;
     },
@@ -374,7 +375,7 @@ export const projectSlice = createSlice({
             ? action.payload.data[0]
             : action.payload[0];
         state.commonAreaIdle = true;
-      },
+      }
     );
     builder.addCase(getCommonAreaByProjectReducer.rejected, (state) => {
       state.commonAreaItem = undefined;
@@ -393,7 +394,7 @@ export const projectSlice = createSlice({
             ? action.payload.data
             : action.payload;
         state.commonAreaIdle = true;
-      },
+      }
     );
     builder.addCase(getCommonAreaByProjectArrayReducer.rejected, (state) => {
       state.commonAreaArray = undefined;
@@ -425,6 +426,20 @@ export const projectSlice = createSlice({
           : action.payload;
     });
     builder.addCase(createCommonAreaReducer.rejected, (state) => {
+      state.commonAreaIdle = true;
+    });
+    //update common area
+    builder.addCase(updateCommonAreaReducer.pending, (state) => {
+      state.commonAreaIdle = false;
+    });
+    builder.addCase(updateCommonAreaReducer.fulfilled, (state, action) => {
+      state.commonAreaIdle = true;
+      state.commonAreaResponse =
+        action.payload && action.payload.data
+          ? action.payload.data
+          : action.payload;
+    });
+    builder.addCase(updateCommonAreaReducer.rejected, (state) => {
       state.commonAreaIdle = true;
     });
     //get common area
@@ -488,7 +503,7 @@ export const projectSlice = createSlice({
           action.payload && action.payload.data
             ? action.payload.data
             : action.payload;
-      },
+      }
     );
     builder.addCase(getProjectAppointmentsReducer.rejected, (state) => {
       state.projectAppointments = undefined;

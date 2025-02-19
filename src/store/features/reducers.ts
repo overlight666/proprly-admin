@@ -67,6 +67,7 @@ import {
   resendOTP,
   signupLead,
   submitFeedback,
+  updateCommonArea,
   updateOrganization,
   updateProject,
   updateProperty,
@@ -663,6 +664,19 @@ export const createCommonAreaReducer: any = createAsyncThunk(
   async (data: any) => {
     try {
       const response = await createCommonArea(data);
+      // If you want to get something back
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const updateCommonAreaReducer: any = createAsyncThunk(
+  "updateCommonAreaReducer",
+  async (data: any) => {
+    try {
+      const response = await updateCommonArea(data);
       // If you want to get something back
       return response;
     } catch (err) {
