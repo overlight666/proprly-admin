@@ -47,42 +47,62 @@ const PropertyReportTable = function ({ headerValue }: any) {
   };
 
   useEffect(() => {
+    console.log(reports)
     if (headerValue !== "all" && reports) {
-      if (reports && reports.lotNo) {
-        const reps =
-          (reports && [
-            reports.lotNo ? reports.lotNo : "",
-            reports.unitNo ? reports.unitNo : "",
-            reports.owners &&
-              reports.owners.length > 0 &&
-              reports.owners.map((o) => o.fullName).join(", "),
-            ucword(headerValue),
-            reports.reportUrl ? reports.reportUrl : "",
-          ]) ||
-          [];
-        setTableData([reps]);
+      if (reports && reports.length > 0) {
+        const reps: any = []
+        // (reports && [
+        //   reports.lotNo ? reports.lotNo : "",
+        //   reports.unitNo ? reports.unitNo : "",
+        //   reports.owners &&
+        //     reports.owners.length > 0 &&
+        //     reports.owners.map((o) => o.fullName).join(", "),
+        //   ucword(headerValue),
+        //   reports.reportUrl ? reports.reportUrl : "",
+        // ]) ||
+        // [];
+
+        reports.forEach((rx) => {
+          reps.push([
+            rx.lotNo || "",
+            rx.unitNo || "",
+            rx.owners.map((o) => o.fullName).join(", "),
+            ucword(rx.key),
+            rx.reportUrl || "",
+          ])
+        })
+        setTableData(reps);
       } else {
         setTableData([]);
       }
     } else {
-      const allrep =
-        propertyReports &&
+      const allrep: any = []
+      propertyReports &&
         propertyReports.length > 0 &&
-        propertyReports.map((x) => {
-          return [
-            (x.latestReport && x.latestReport.lotNo && x.latestReport.lotNo) ||
-              "",
-            (x.latestReport &&
-              x.latestReport.unitNo &&
-              x.latestReport.unitNo) ||
-              "",
-            x.latestReport &&
-              x.latestReport.owners &&
-              x.latestReport.owners.length > 0 &&
-              x.latestReport.owners.map((o) => o.fullName).join(", "),
-            ucword(x.key),
-            (x.latestReport && x.latestReport.reportUrl) || "",
-          ];
+        propertyReports.forEach((x) => {
+          x.reports.forEach(rx => {
+            allrep.push([
+              rx.lotNo || "",
+              rx.unitNo || "",
+              rx.owners.map((o) => o.fullName).join(", "),
+              ucword(x.key),
+              rx.reportUrl || "",
+            ])
+          })
+          // return [
+          //   (x.latestReport && x.latestReport.lotNo && x.latestReport.lotNo) ||
+          //     "",
+          //   (x.latestReport &&
+          //     x.latestReport.unitNo &&
+          //     x.latestReport.unitNo) ||
+          //     "",
+          //   x.latestReport &&
+          //     x.latestReport.owners &&
+          //     x.latestReport.owners.length > 0 &&
+          //     x.latestReport.owners.map((o) => o.fullName).join(", "),
+          //   ucword(x.key),
+          //   (x.latestReport && x.latestReport.reportUrl) || "",
+          // ];
         });
       const filtered =
         allrep &&
@@ -108,7 +128,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
         propertyReports &&
         propertyReports.length > 0 &&
         propertyReports.find((o) => o.key == headerValue);
-      setReports(rep && rep.latestReport ? rep.latestReport : []);
+      setReports(rep && rep.reports ? rep.reports : []);
       const repHistory =
         (rep &&
           rep.reports &&

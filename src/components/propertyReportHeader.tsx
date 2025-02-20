@@ -50,50 +50,50 @@ const PropertyReportHeader = function ({ setHeaderValue, headerValue }: any) {
         </div> */}
         <div className="flex items-center gap-2">
           <Radio
-            id="pre_settlement"
+            id="pre_settlement_inspection"
             name="propertyHeader"
-            value="pre_settlement"
-            checked={headerValue === "pre_settlement"}
+            value="pre_settlement_inspection"
+            checked={headerValue === "pre_settlement_inspection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="pre_settlement" className="text-[14px]">
+          <Label htmlFor="pre_settlement_inspection" className="text-[14px]">
             Pre-Settlement
           </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio
-            id="general"
+            id="pre_settlement_general_isnpection"
             name="propertyHeader"
-            value="general"
-            checked={headerValue === "general"}
+            value="pre_settlement_general_isnpection"
+            checked={headerValue === "pre_settlement_general_isnpection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="general" className="text-[14px]">
+          <Label htmlFor="pre_settlement_general_isnpection" className="text-[14px]">
             General
           </Label>
         </div>
 
         <div className="flex items-center gap-2">
           <Radio
-            id="handover"
+            id="handover_isnpection"
             name="propertyHeader"
-            value="handover"
-            checked={headerValue === "handover"}
+            value="handover_isnpection"
+            checked={headerValue === "handover_isnpection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="handover" className="text-[14px]">
+          <Label htmlFor="handover_isnpection" className="text-[14px]">
             Handover
           </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio
-            id="post_handover"
+            id="post_handover_isnpection"
             name="propertyHeader"
-            value="post_handover"
-            checked={headerValue === "post_handover"}
+            value="post_handover_isnpection"
+            checked={headerValue === "post_handover_isnpection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="post_handover" className="text-[14px]">
+          <Label htmlFor="post_handover_isnpection" className="text-[14px]">
             Post-Handover
           </Label>
         </div>
