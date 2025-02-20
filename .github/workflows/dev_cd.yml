@@ -1,4 +1,4 @@
-name: Continous Deployment [Staging]
+name: Continous Deployment [Dev]
 on:
   push:
     branches:
