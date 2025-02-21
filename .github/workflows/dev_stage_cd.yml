@@ -1,0 +1,51 @@
+name: Continous Deployment [Dev]
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  build-and-deploy-dev:
+    name: Build and Deploy Dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands on remote server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROPRLY_DEV_SERVER_HOST }}
+          username: ${{ secrets.PROPRLY_DEV_SERVER_USER }}
+          key: ${{ secrets.PROPRLY_DEV_SERVER_KEY }}
+          port: ${{ secrets.PROPRLY_DEV_SERVER_PORT }}
+          script_stop: true
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd proprly-admin
+            git fetch
+            git reset --hard origin/dev
+            git pull origin dev
+            npm install
+            npm run build
+            pm2 restart proprly-admin-dev
+            
+  build-and-deploy-staging:
+     name: Build and Deploy Stage
+     runs-on: ubuntu-latest
+     steps:
+      - name: executing remote ssh commands on remote server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROPRLY_DEV_SERVER_HOST }}
+          username: ${{ secrets.PROPRLY_DEV_SERVER_USER }}
+          key: ${{ secrets.PROPRLY_DEV_SERVER_KEY }}
+          port: ${{ secrets.PROPRLY_DEV_SERVER_PORT }}
+          script_stop: true
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd proprly-admin-staging
+            git fetch
+            git reset --hard origin/dev
+            git pull origin dev
+            npm install
+            npm run build
+            pm2 restart proprly-admin-staging
