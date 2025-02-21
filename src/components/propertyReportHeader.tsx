@@ -62,38 +62,41 @@ const PropertyReportHeader = function ({ setHeaderValue, headerValue }: any) {
         </div>
         <div className="flex items-center gap-2">
           <Radio
-            id="pre_settlement_general_isnpection"
+            id="pre_settlement_general_inspection"
             name="propertyHeader"
-            value="pre_settlement_general_isnpection"
-            checked={headerValue === "pre_settlement_general_isnpection"}
+            value="pre_settlement_general_inspection"
+            checked={headerValue === "pre_settlement_general_inspection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="pre_settlement_general_isnpection" className="text-[14px]">
+          <Label
+            htmlFor="pre_settlement_general_inspection"
+            className="text-[14px]"
+          >
             General
           </Label>
         </div>
 
         <div className="flex items-center gap-2">
           <Radio
-            id="handover_isnpection"
+            id="handover_inspection"
             name="propertyHeader"
-            value="handover_isnpection"
-            checked={headerValue === "handover_isnpection"}
+            value="handover_inspection"
+            checked={headerValue === "handover_inspection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="handover_isnpection" className="text-[14px]">
+          <Label htmlFor="handover_inspection" className="text-[14px]">
             Handover
           </Label>
         </div>
         <div className="flex items-center gap-2">
           <Radio
-            id="post_handover_isnpection"
+            id="post_handover_inspection"
             name="propertyHeader"
-            value="post_handover_isnpection"
-            checked={headerValue === "post_handover_isnpection"}
+            value="post_handover_inspection"
+            checked={headerValue === "post_handover_inspection"}
             onChange={(e) => setHeaderValue(e.target.value)}
           />
-          <Label htmlFor="post_handover_isnpection" className="text-[14px]">
+          <Label htmlFor="post_handover_inspection" className="text-[14px]">
             Post-Handover
           </Label>
         </div>
