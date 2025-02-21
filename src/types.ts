@@ -722,6 +722,7 @@ export interface DefectSumissionType {
   updatedAt: string;
   images: ImageType[];
   defectCode: DefectCode;
+  tradeCode: TradeCode;
   checklistElement: ChecklistElementType;
   checklistZone: CheckListZoneType;
   checklistSubElement: CheckListSubElementType;

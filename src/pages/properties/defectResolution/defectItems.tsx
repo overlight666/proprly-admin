@@ -239,8 +239,44 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
         </div>
       </div>
       <div className="mt-2 flex flex-col">
+        
+        {
+          def?.stage === 'under_construction' ? <>
+          <span className="text-[14px] font-semibold">
+          {`Unit ${def?.property?.unitNo}`}
+        </span>
+           <span className="text-[14px] text-gray-400">
+          Trade Code:{" "}
+          <span className="font-semibold text-black">
+            {(getLength(
+              `${def && def.tradeCode && def.tradeCode.tradeCode}, ${
+                def && def.tradeCode && def.tradeCode.tradeName
+              }`
+            ) > 25 && (
+              <div className="inline-block">
+                <Tooltip
+                  content={`${
+                    def && def.tradeCode && def.tradeCode.tradeCode
+                  }, ${def && def.tradeCode && def.tradeCode.tradeName}`}
+                >
+                  {truncateString(
+                    `${def && def.tradeCode && def.tradeCode.tradeCode}, ${
+                      def && def.tradeCode && def.tradeCode.tradeName
+                    }`
+                  )}
+                </Tooltip>
+              </div>
+            )) ||
+              truncateString(
+                `${def && def.tradeCode && def.tradeCode.tradeCode}, ${
+                  def && def.tradeCode && def.tradeCode.tradeName
+                }`
+              )}
+          </span>
+        </span></> : 
+        <> 
         <span className="text-[14px] font-semibold">
-          {`Unit ${def.property.unitNo}, ${def.checklistZone.name} - ${def.checklistElement?.name}`}
+          {`Unit ${def?.property?.unitNo}, ${def?.checklistZone?.name} - ${def.checklistElement?.name}`}
         </span>
         <span className="text-[14px] text-gray-400">
           Defect Code:{" "}
@@ -271,6 +307,9 @@ export const DefectItem = function ({ def, setOpen }: paramstype) {
               )}
           </span>
         </span>
+        </>
+        }
+       
         <span className="text-[14px] text-gray-400">
           {def.property.projectTower?.name}:{" "}
           <span className="font-semibold text-black">
