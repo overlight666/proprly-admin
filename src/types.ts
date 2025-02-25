@@ -680,7 +680,9 @@ export interface PropertyState {
 }
 
 export interface PropertyReport {
+  isGeneral: boolean;
   key: string;
+  stage: string;
   value: string;
   nextStatus: any[];
   reports: Report[];

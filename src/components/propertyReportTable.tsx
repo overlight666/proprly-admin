@@ -47,10 +47,9 @@ const PropertyReportTable = function ({ headerValue }: any) {
   };
 
   useEffect(() => {
-    console.log(reports)
     if (headerValue !== "all" && reports) {
       if (reports && reports.length > 0) {
-        const reps: any = []
+        const reps: any = [];
         // (reports && [
         //   reports.lotNo ? reports.lotNo : "",
         //   reports.unitNo ? reports.unitNo : "",
@@ -69,26 +68,26 @@ const PropertyReportTable = function ({ headerValue }: any) {
             rx.owners.map((o) => o.fullName).join(", "),
             ucword(rx.key),
             rx.reportUrl || "",
-          ])
-        })
+          ]);
+        });
         setTableData(reps);
       } else {
         setTableData([]);
       }
     } else {
-      const allrep: any = []
+      const allrep: any = [];
       propertyReports &&
         propertyReports.length > 0 &&
         propertyReports.forEach((x) => {
-          x.reports.forEach(rx => {
+          x.reports.forEach((rx) => {
             allrep.push([
               rx.lotNo || "",
               rx.unitNo || "",
               rx.owners.map((o) => o.fullName).join(", "),
-              ucword(x.key),
+              ucword(x.stage),
               rx.reportUrl || "",
-            ])
-          })
+            ]);
+          });
           // return [
           //   (x.latestReport && x.latestReport.lotNo && x.latestReport.lotNo) ||
           //     "",
@@ -127,8 +126,23 @@ const PropertyReportTable = function ({ headerValue }: any) {
       const rep: any =
         propertyReports &&
         propertyReports.length > 0 &&
-        propertyReports.find((o) => o.key == headerValue);
-      setReports(rep && rep.reports ? rep.reports : []);
+        propertyReports.find((o) =>
+          headerValue === "general" ? o.isGeneral : o.key == headerValue
+        );
+
+      const grep = rep && rep.reports && rep.reports;
+      const grepKey =
+        grep &&
+        grep.length > 0 &&
+        grep.map((o) => {
+          return {
+            key: rep.value,
+            ...o,
+          };
+        });
+
+      setReports(grepKey ? grepKey : []);
+
       const repHistory =
         (rep &&
           rep.reports &&
@@ -140,7 +154,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
               r.owners &&
                 r.owners.length > 0 &&
                 r.owners.map((o) => o.fullName).join(", "),
-              ucword(rep.key),
+              ucword(rep.stage),
               moment(r.createdAt).format("YYYY-DD-MM hh:mm:ss"),
               r.reportUrl,
             ];
@@ -160,7 +174,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
       propertyReports &&
       propertyReports.length > 0 &&
       propertyReports.find((o) => o.key == resetUCWords(hval));
-    setReports(rep && rep.latestReport ? rep.latestReport : []);
+    // setReports(rep && rep.latestReport ? rep.latestReport : []);
     const repHistory =
       (rep &&
         rep.reports &&
@@ -182,7 +196,6 @@ const PropertyReportTable = function ({ headerValue }: any) {
     setOpenModal(true);
   };
 
-  console.log(propertyReports);
   return (
     <>
       <DataTable
@@ -210,28 +223,31 @@ const PropertyReportTable = function ({ headerValue }: any) {
               </Dropdown.Item>
               <Dropdown.Item onClick={() => generateReportHistory(row[3])}>
                 {row[3] === ucword("general") ||
+                row[3].toLowerCase() == "general inspection" ||
                 row[3] === ucword("post_handover")
                   ? "Report History"
                   : "Trade Reports"}
               </Dropdown.Item>
-              {row[3] === ucword("general") ||
-                (row[3] === ucword("post_handover") &&
-                  ((fullReport && fullReport.reportUrl && (
-                    <Dropdown.Item
-                      as="a"
-                      href={fullReport.reportUrl}
-                      target="_blank"
-                      download={`Unit_${row[0]}_Lot_${row[1]}_${row[3]}.pdf`}
-                    >
-                      Export Full Report
-                    </Dropdown.Item>
-                  )) || (
-                    <Dropdown.Item
-                      onClick={() => toast.warning("No report generated")}
-                    >
-                      Export Full Report
-                    </Dropdown.Item>
-                  )))}
+              {(row[3] === ucword("general") ||
+                row[3].toLowerCase() == "general inspection" ||
+                row[3] === ucword("post_handover")) &&
+              fullReport &&
+              fullReport.reportUrl ? (
+                <Dropdown.Item
+                  as="a"
+                  href={fullReport.reportUrl}
+                  target="_blank"
+                  download={`Unit_${row[0]}_Lot_${row[1]}_${row[3]}.pdf`}
+                >
+                  Export Full Report
+                </Dropdown.Item>
+              ) : (
+                <Dropdown.Item
+                  onClick={() => toast.warning("No report generated")}
+                >
+                  Export Full Report
+                </Dropdown.Item>
+              )}
             </Dropdown>
           ),
         }}

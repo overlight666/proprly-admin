@@ -408,7 +408,7 @@ const Dashboard: FC = function () {
                               </span>
                             </div>
                           </Timeline.Body>
-                          {(notif.title.toLowerCase() ==
+                          {((notif.title.toLowerCase() ==
                             "pending admin feedback" ||
                             notif.title.toLowerCase() ==
                               "pending admin approval") && (
@@ -418,6 +418,14 @@ const Dashboard: FC = function () {
                             >
                               <MdBrokenImage className="mr-2 h-3 w-3" />
                               Needs Action
+                            </Button>
+                          )) || (
+                            <Button
+                              color="gray"
+                              onClick={() => NeedAction(notif.data.id)}
+                            >
+                              <MdBrokenImage className="mr-2 h-3 w-3" />
+                              View Details
                             </Button>
                           )}
                         </Timeline.Content>
