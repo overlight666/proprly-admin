@@ -83,7 +83,7 @@ const PropertyReportTable = function ({ headerValue }: any) {
             allrep.push([
               rx.lotNo || "",
               rx.unitNo || "",
-              rx.owners.map((o) => o.fullName).join(", "),
+              rx.owners?.map((o) => o.fullName).join(", "),
               ucword(x.stage),
               rx.reportUrl || "",
             ]);
