@@ -1,75 +1,83 @@
-import type { PropsWithChildren } from "react";
-import { createContext, useContext, useEffect, useState } from "react";
-import isBrowser from "../helpers/is-browser";
-import isSmallScreen from "../helpers/is-small-screen";
+import { createContext, useContext, useState, useEffect } from "react";
 
-interface SidebarContextProps {
-  isOpenOnSmallScreens: boolean;
-  isPageWithSidebar: boolean;
-  // eslint-disable-next-line no-unused-vars
-  setOpenOnSmallScreens: (isOpen: boolean) => void;
-}
+type SidebarContextType = {
+  isExpanded: boolean;
+  isMobileOpen: boolean;
+  isHovered: boolean;
+  activeItem: string | null;
+  openSubmenu: string | null;
+  toggleSidebar: () => void;
+  toggleMobileSidebar: () => void;
+  setIsHovered: (isHovered: boolean) => void;
+  setActiveItem: (item: string | null) => void;
+  toggleSubmenu: (item: string) => void;
+};
 
-const SidebarContext = createContext<SidebarContextProps>(undefined!);
+const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-export function SidebarProvider({ children }: PropsWithChildren) {
-  const location = isBrowser() ? window.location.pathname : "/";
-  const [isOpen, setOpen] = useState(
-    isBrowser()
-      ? window.localStorage.getItem("isSidebarOpen") === "true"
-      : false,
-  );
+export const useSidebar = () => {
+  const context = useContext(SidebarContext);
+  if (!context) {
+    throw new Error("useSidebar must be used within a SidebarProvider");
+  }
+  return context;
+};
 
-  // Save latest state to localStorage
+export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+
   useEffect(() => {
-    window.localStorage.setItem("isSidebarOpen", isOpen.toString());
-  }, [isOpen]);
-
-  // Close Sidebar on page change on mobile
-  useEffect(() => {
-    if (isSmallScreen()) {
-      setOpen(false);
-    }
-  }, [location]);
-
-  // Close Sidebar on mobile tap inside main content
-  useEffect(() => {
-    function handleMobileTapInsideMain(event: MouseEvent) {
-      const main = document.querySelector("main");
-      const isClickInsideMain = main?.contains(event.target as Node);
-
-      if (isSmallScreen() && isClickInsideMain) {
-        setOpen(false);
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsMobileOpen(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleMobileTapInsideMain);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      document.removeEventListener("mousedown", handleMobileTapInsideMain);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const toggleSidebar = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
+  const toggleMobileSidebar = () => {
+    setIsMobileOpen((prev) => !prev);
+  };
+
+  const toggleSubmenu = (item: string) => {
+    setOpenSubmenu((prev) => (prev === item ? null : item));
+  };
 
   return (
     <SidebarContext.Provider
       value={{
-        isOpenOnSmallScreens: isOpen,
-        isPageWithSidebar: true,
-        setOpenOnSmallScreens: setOpen,
+        isExpanded: isMobile ? false : isExpanded,
+        isMobileOpen,
+        isHovered,
+        activeItem,
+        openSubmenu,
+        toggleSidebar,
+        toggleMobileSidebar,
+        setIsHovered,
+        setActiveItem,
+        toggleSubmenu,
       }}
     >
       {children}
     </SidebarContext.Provider>
   );
-}
-
-export function useSidebarContext(): SidebarContextProps {
-  const context = useContext(SidebarContext);
-
-  if (typeof context === "undefined") {
-    throw new Error(
-      "useSidebarContext should be used within the SidebarContext provider!",
-    );
-  }
-
-  return context;
-}
+};

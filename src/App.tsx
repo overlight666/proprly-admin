@@ -1,301 +1,133 @@
-/* eslint-disable prettier/prettier */
-import { type FC } from "react";
-import { Routes, Route } from "react-router";
-// import DashboardPage from "./pages";
-import ForgotPasswordPage from "./pages/authentication/forgot-password";
-import ProfileLockPage from "./pages/authentication/profile-lock";
-import ResetPasswordPage from "./pages/authentication/reset-password";
-import SignInPage from "./pages/authentication/sign-in";
-import SignInPageAdmin from "./pages/authentication/sign-in-admin";
-import SignUpPage from "./pages/authentication/sign-up";
-import EcommerceBillingPage from "./pages/e-commerce/billing";
-import EcommerceInvoicePage from "./pages/e-commerce/invoice";
-import EcommerceProductsPage from "./pages/e-commerce/products";
-import KanbanPage from "./pages/kanban";
-import MailingComposePage from "./pages/mailing/compose";
-import MailingInboxPage from "./pages/mailing/inbox";
-import MailingReadPage from "./pages/mailing/read";
-import MailingReplyPage from "./pages/mailing/reply";
-import NotFoundPage from "./pages/pages/404";
-import ServerErrorPage from "./pages/pages/500";
-import MaintenancePage from "./pages/pages/maintenance";
-import PricingPage from "./pages/pages/pricing";
-import UserFeedPage from "./pages/users/feed";
-import UserListPage from "./pages/users/list";
-import UserProfilePage from "./pages/users/profile";
-import UserSettingsPage from "./pages/users/settings";
-import FlowbiteWrapper from "./components/flowbite-wrapper";
-import PrivateRoutes from "./hooks/ProtectedRoute";
-import { AuthProvider } from "./hooks/authProvider";
-import OrganizationPage from "./pages/organization/organization";
-import OrganizationNewPage from "./pages/organization/newOrganization";
-import OrganizationSingle from "./pages/organization/organizationSingle";
-import ProjectNewPage from "./pages/projects/newProject";
-import Authorization from "./hooks/Authorization";
-import PERMISSIONS from "./helpers/permission";
-import PublicRoute from "./hooks/publicRoute";
-import ProjectSingle from "./pages/projects/projectSingle";
-import SignupLeads from "./pages/admin/sign-up-leads";
-import ViewSignupLead from "./pages/admin/view-leads";
-import Properties from "./pages/properties/properties";
-import AddProperty from "./pages/properties/newProperty";
-import ViewProperty from "./pages/properties/viewProperty";
-import Appointments from "./pages/appointments/appointments";
-import OrganizationEdit from "./pages/organization/organizationEdit";
-// import CommonArea from "./pages/common-area/common-area";
-import CommonAreaNewPage from "./pages/common-area/add-common-area";
-import CommonAreaConfigure from "./pages/common-area/common-area-configure";
-import CommonAreaViewPage from "./pages/common-area/view-common-area";
-import CommonArea from "./pages/common-area/common-area";
-import AddAppointment from "./pages/appointments/addAppointment";
-import MasterConfiguration from "./pages/admin/master-configuration";
-import EditProject from "./pages/projects/editProject";
-import NotificationPage from "./pages/notifications/notification";
-import NotificationView from "./pages/notifications/notificationView";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+import SignIn from "./pages/AuthPages/SignIn";
+import SignUp from "./pages/AuthPages/SignUp";
+import NotFound from "./pages/OtherPage/NotFound";
+import AppLayout from "./layout/AppLayout";
+import { ScrollToTop } from "./components/common/ScrollToTop";
+import PrivateRoute from "./_components/PrivateRoute";
+import Organization from "./pages/Organizations/Organization";
+import AddOrganization from "./pages/Organizations/AddOrganization";
+import { Tooltip } from "react-tooltip";
+import SelectedOrganization from "./pages/Organizations/SelectedOrganization";
+import SelectedProject from "./pages/Projects/SelectedProject";
+import AddProject from "./pages/Projects/AddProject";
+import EditProject from "./pages/Projects/EditProject";
+import AddProperty from "./pages/Properties/AddProperty";
+import EditProperty from "./pages/Properties/EditProperty";
 
-const App: FC = function () {
+export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
-        <Route element={<FlowbiteWrapper />}>
-          <Route element={<PublicRoute />}>
-            <Route path="/" element={<SignInPage />} index />
-            <Route path="/admin" element={<SignInPageAdmin />} />
-            <Route path="/sign-in" element={<SignInPage />} />
-          </Route>
+    <>
+      <Router>
+        <ScrollToTop />
+        <Tooltip
+          id="tooltip"
+          style={{
+            zIndex: 99999,
+          }}
+        />
+        <Routes>
+          {/* Dashboard Layout */}
+          <Route element={<AppLayout />}>
+            <Route
+              index
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Organization />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            element={
-              <Authorization
-                permissions={[
-                  PERMISSIONS.CAN_VIEW_ORG,
-                  PERMISSIONS.CAN_ADD_ORG,
-                ]}
-              />
-            }
-          >
             <Route
-              path="/organization"
-              element={
-                <PrivateRoutes>
-                  <OrganizationPage />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id"
-              element={
-                <PrivateRoutes>
-                  <OrganizationSingle />
-                </PrivateRoutes>
-              }
-            />
-            <Route
+              index
               path="/organization/new"
               element={
-                <PrivateRoutes>
-                  <OrganizationNewPage />
-                </PrivateRoutes>
+                <PrivateRoute>
+                  <AddOrganization />
+                </PrivateRoute>
               }
             />
             <Route
-              path="/organization/:id/new"
+              index
+              path="/organization/edit"
               element={
-                <PrivateRoutes>
-                  <ProjectNewPage />
-                </PrivateRoutes>
+                <PrivateRoute>
+                  <AddOrganization />
+                </PrivateRoute>
               }
             />
+
             <Route
-              path="/organization/:id/edit"
+              index
+              path="/organization/:id"
               element={
-                <PrivateRoutes>
-                  <OrganizationEdit />
-                </PrivateRoutes>
+                <PrivateRoute>
+                  <SelectedOrganization />
+                </PrivateRoute>
               }
             />
+
             <Route
+              index
               path="/organization/:id/project/:project_id"
               element={
-                <PrivateRoutes>
-                  <ProjectSingle />
-                </PrivateRoutes>
+                <PrivateRoute>
+                  <SelectedProject />
+                </PrivateRoute>
               }
             />
+
             <Route
+              index
+              path="/organization/:id/project/new"
+              element={
+                <PrivateRoute>
+                  <AddProject />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
               path="/organization/:id/project/:project_id/edit"
               element={
-                <PrivateRoutes>
+                <PrivateRoute>
                   <EditProject />
-                </PrivateRoutes>
+                </PrivateRoute>
               }
             />
+
             <Route
-              path="/organization/:id/project/:project_id/properties/new"
+              index
+              path="/organization/:id/project/:project_id/property/new"
               element={
-                <PrivateRoutes>
+                <PrivateRoute>
                   <AddProperty />
-                </PrivateRoutes>
+                </PrivateRoute>
               }
             />
-            <Route
-              path="/organization/:id/project/:project_id/properties/:property_id"
-              element={
-                <PrivateRoutes>
-                  <ViewProperty />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/common-area"
-              element={
-                <PrivateRoutes>
-                  <CommonArea />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/common-area/:common_area_id/configure"
-              element={
-                <PrivateRoutes>
-                  <CommonAreaConfigure />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/common-area/:common_area_id"
-              element={
-                <PrivateRoutes>
-                  <CommonAreaViewPage />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/common-area/new"
-              element={
-                <PrivateRoutes>
-                  <CommonAreaNewPage />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/appointments"
-              element={
-                <PrivateRoutes>
-                  <Appointments />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/appointments/new"
-              element={
-                <PrivateRoutes>
-                  <AddAppointment />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/organization/:id/project/:project_id/properties"
-              element={
-                <PrivateRoutes>
-                  <Properties />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={
-                <PrivateRoutes>
-                  <NotificationPage />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/notifications/view"
-              element={
-                <PrivateRoutes>
-                  <NotificationView />
-                </PrivateRoutes>
-              }
-            />
-          </Route>
-          <Route
-            element={
-              <Authorization permissions={[PERMISSIONS.CAN_ACCESS_LEADS]} />
-            }
-          >
-            <Route
-              path="/signup-leads"
-              element={
-                <PrivateRoutes>
-                  <SignupLeads />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/signup-leads/view"
-              element={
-                <PrivateRoutes>
-                  <ViewSignupLead />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/master-configurations"
-              element={
-                <PrivateRoutes>
-                  <MasterConfiguration />
-                </PrivateRoutes>
-              }
-            />
-            <Route
-              path="/support-tickets"
-              element={
-                <PrivateRoutes>
-                  <MailingInboxPage />
-                </PrivateRoutes>
-              }
-            />
-          </Route>
-          {/* <Route path="/notifications" element={<NotificationPage />} /> */}
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/mailing/compose" element={<MailingComposePage />} />
-          <Route path="/mailing/inbox" element={<MailingInboxPage />} />
-          <Route path="/mailing/read" element={<MailingReadPage />} />
-          <Route path="/mailing/reply" element={<MailingReplyPage />} />
-          <Route path="/kanban" element={<KanbanPage />} />
-          <Route path="/pages/pricing" element={<PricingPage />} />
-          <Route path="/pages/maintenance" element={<MaintenancePage />} />
-          <Route path="/pages/404" element={<NotFoundPage />} />
-          <Route path="/pages/500" element={<ServerErrorPage />} />
 
-          <Route path="/authentication/sign-up" element={<SignUpPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route
-            path="/authentication/profile-lock"
-            element={<ProfileLockPage />}
-          />
-          <Route
-            path="/e-commerce/billing"
-            element={<EcommerceBillingPage />}
-          />
-          <Route
-            path="/e-commerce/invoice"
-            element={<EcommerceInvoicePage />}
-          />
-          <Route
-            path="/e-commerce/products"
-            element={<EcommerceProductsPage />}
-          />
-          <Route path="/users/feed" element={<UserFeedPage />} />
-          <Route path="/users/list" element={<UserListPage />} />
-          <Route path="/users/profile" element={<UserProfilePage />} />
-          <Route path="/users/settings" element={<UserSettingsPage />} />
-        </Route>
-      </Routes>
-    </AuthProvider>
+            <Route
+              index
+              path="/organization/:id/project/:project_id/property/:property_id"
+              element={
+                <PrivateRoute>
+                  <EditProperty />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+
+          {/* Auth Layout */}
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signin/admin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          {/* Fallback Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </>
   );
-};
-
-export default App;
+}
