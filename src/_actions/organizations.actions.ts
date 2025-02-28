@@ -9,6 +9,7 @@ import {
   organizationOutlineAtom,
   organizationPropertyOwnerAtom,
   organizationsAtom,
+  organizationsBuilderAtom,
   organizationTimelineAtom,
   regionAtom,
   selectedOrgAtom,
@@ -29,6 +30,7 @@ function useOrganization() {
   const setOrganizationTimeline = useSetRecoilState(organizationTimelineAtom);
   const setDefectSubmission = useSetRecoilState(organizationDefectAtom);
   const setOrgOwners = useSetRecoilState(organizationPropertyOwnerAtom);
+  const setOrganizationBuilder = useSetRecoilState(organizationsBuilderAtom);
 
   const persist = usePersistor();
 
@@ -44,7 +46,20 @@ function useOrganization() {
     getDashboardStats,
     getTimeline,
     getDefectSubmission,
+    attachBuilder,
   };
+
+  function attachBuilder(id: any, params: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/organizations/${id}/user`, params)
+      .then((response: any) => {
+        if (response) {
+          setOrganizationBuilder(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
 
   function getOrgPropertyOwners(id: any) {
     return fetchWrapper

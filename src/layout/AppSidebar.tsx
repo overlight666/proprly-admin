@@ -238,7 +238,7 @@ const AppSidebar: React.FC = () => {
       ];
       setNavItems(navItemsHolder);
     } else {
-      if (selectedOrganization) {
+      if (selectedOrganization && id) {
         setShowProjects(true);
         setNavItems([]);
         const navItemsHolder: NavItem[] = [
@@ -255,7 +255,7 @@ const AppSidebar: React.FC = () => {
         setNavItems([]);
       }
     }
-  }, [currentRoute, selectedOrganization]);
+  }, [currentRoute, selectedOrganization, id]);
 
   useEffect(() => {
     if (projects) {

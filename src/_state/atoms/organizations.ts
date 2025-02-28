@@ -54,7 +54,13 @@ const organizationPropertyOwnerAtom = atom<userInterface[]>({
   default: undefined,
 });
 
+const organizationsBuilderAtom = atom<any>({
+  key: "organizationsBuilderAtom",
+  default: undefined,
+});
+
 export {
+  organizationsBuilderAtom,
   organizationDefectAtom,
   organizationsAtom,
   organizationOutlineAtom,

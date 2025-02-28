@@ -10,6 +10,7 @@ import { BoxIcon, DocsIcon, DownloadIcon, ListIcon } from "../../../icons";
 import { useModal } from "../../../hooks/useModal";
 import { toast } from "react-toastify";
 import PropertyTradeReportModal from "./PropertyReportsModal";
+import { ucword } from "../../../_helpers";
 
 export default function PropertyReportsTable({ tableRef, headerValue }: any) {
   const [tableData, setTableData] = useState<any[]>([]);
@@ -34,7 +35,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
           });
           arr = [...arr, ...mer];
         });
-        console.log(arr);
+
         const filteredData = arr?.map((obj: any) => {
           return [
             obj?.unitNo,
@@ -46,46 +47,19 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
         });
         setTableData(filteredData || []);
       } else {
-        if (headerValue !== "pre_settlement_general_inspection") {
-          const getFiltered = propertReports?.find(
-            (report: any) => report.key == headerValue
-          );
-          const filteredData = getFiltered?.reports?.map((obj: any) => {
-            return [
-              obj?.unitNo,
-              obj?.lotNo,
-              obj?.owners.map((o: any) => o.fullName).join(", "),
-              getFiltered?.value,
-              { headerValue: headerValue, ...obj },
-            ];
-          });
-          setTableData(filteredData || []);
-        } else {
-          const getFiltered = propertReports?.filter(
-            (report: any) => report?.isGeneral == true
-          );
-          let arr: any = [];
-          getFiltered?.map((mr: any) => {
-            const mer = mr?.reports?.map((r: any) => {
-              return {
-                value: mr.value,
-                ...r,
-              };
-            });
-            arr = [...arr, ...mer];
-          });
-          console.log(arr);
-          const filteredData = arr?.map((obj: any) => {
-            return [
-              obj?.unitNo,
-              obj?.lotNo,
-              obj?.owners.map((o: any) => o.fullName).join(", "),
-              obj?.value,
-              { headerValue: headerValue, ...obj },
-            ];
-          });
-          setTableData(filteredData || []);
-        }
+        const getFiltered = propertReports?.find(
+          (report: any) => report.key == headerValue
+        );
+        const filteredData = getFiltered?.reports?.map((obj: any) => {
+          return [
+            obj?.unitNo,
+            obj?.lotNo,
+            obj?.owners.map((o: any) => o.fullName).join(", "),
+            getFiltered?.value,
+            { headerValue: headerValue, ...obj, value: getFiltered?.value },
+          ];
+        });
+        setTableData(filteredData || []);
       }
     }
   }, [propertReports, headerValue]);
@@ -132,11 +106,10 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
             4: (_data: any, _row: any) => (
               <>
                 <div className="flex flex-row gap-4">
-                  {(_data?.headerValue == "pre_settlement_inspection" ||
-                    _data?.headerValue == "handover_inspection" ||
-                    _data?.headerValue == "pre_settlement_general_inspection" ||
-                    _data?.headerValue == "all" ||
-                    _data?.headerValue == "post_handover_inspection") && (
+                  {(_data?.value == "Pre-settlement Inspection" ||
+                    _data?.value == "Handover Inspection" ||
+                    _data?.value == "General Inspection" ||
+                    _data?.value == "Post-handover Inspection") && (
                     <a
                       href={_data?.reportUrl}
                       target="_blank"
@@ -157,14 +130,15 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       />
                     </a>
                   )}
-                  {(_data?.headerValue == "pre_settlement_inspection" ||
-                    _data?.headerValue == "handover_inspection" ||
-                    _data?.headerValue == "all") && (
+                  {(_data?.value == "Pre-settlement Inspection" ||
+                    _data?.value == "Handover Inspection" ||
+                    _data?.value == "General Inspection" ||
+                    _data?.value == "Post-handover Inspection") && (
                     <DocsIcon
                       onClick={() => {
                         setCommonAreaHolder(_row[3]?.reports);
                         openModal();
-                        setModalTitle("Common Area Trade Report History");
+                        setModalTitle("Trade Report History");
                       }}
                       className="size-5 text-white cursor-pointer"
                       data-tooltip-id="tooltip"
@@ -172,14 +146,28 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       data-tooltip-place="top"
                     />
                   )}
-                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
-                    _data?.headerValue == "all" ||
-                    _data?.headerValue == "post_handover_inspection") && (
+                  {(_data?.value == "General Inspection" ||
+                    _data?.value == "Post-handover Inspection") && (
                     <ListIcon
                       onClick={() => {
-                        setCommonAreaHolder(_data?.fullReports);
+                        setCommonAreaHolder(
+                          _data?.propetyReports?.find(
+                            (pf: any) =>
+                              pf.key ==
+                              (_data?.value == "Post-handover Inspection"
+                                ? "post_handover_inspection"
+                                : "pre_settlement_general_inspection")
+                          ).reports
+                        );
                         openModal();
-                        setModalTitle("Common Area Report History");
+
+                        setModalTitle(
+                          `${
+                            _data.value
+                              ? _data.value
+                              : ucword(_data.headerValue)
+                          } Report History`
+                        );
                       }}
                       className="size-5 text-green-700 cursor-pointer"
                       data-tooltip-id="tooltip"
@@ -187,9 +175,8 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       data-tooltip-place="top"
                     />
                   )}
-                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
-                    _data?.headerValue == "all" ||
-                    _data?.headerValue == "post_handover_inspection") && (
+                  {(_data?.value == "General Inspection" ||
+                    _data?.value == "Post-handover Inspection") && (
                     <a
                       href={_data?.fullReport?.reportUrl}
                       onClick={() => {

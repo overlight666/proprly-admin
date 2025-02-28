@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { dropZoneAtom } from "../../_state/atoms/dropzone";
 import { useLocation } from "react-router";
 import Select2 from "../../components/form/Select2";
+import { useParams } from "react-router";
 
 export default function AddOrganization() {
   const orgAction = useOrganization();
@@ -43,7 +44,6 @@ export default function AddOrganization() {
   const uploadedImage = useRecoilValue(dropZoneAtom);
   const selectedOrganization = useRecoilValue(selectedOrgAtom);
   const setImage = useSetRecoilState(dropZoneAtom);
-
   const navigate = useNavigate();
   const props: any = useLocation();
   const query = new URLSearchParams(props.search);
@@ -103,6 +103,7 @@ export default function AddOrganization() {
           label: obj.fullName,
         };
       });
+
       setListBuilders(builderHandler);
     }
   }, [builders]);
@@ -134,7 +135,14 @@ export default function AddOrganization() {
     const builderHandler = JSON.parse(attachBuilder);
 
     if (!selectedBuilders.find((o: any) => o.email === builderHandler.email)) {
-      setSelectedBuilders((oldArray: any) => [...oldArray, builderHandler]);
+      const params = {
+        id: builderHandler?.id,
+        roleId: 1,
+      };
+      orgAction.attachBuilder(query.get("id"), params).then(() => {
+        orgAction.getSelectedOrganization(query.get("id"));
+      });
+      // setSelectedBuilders((oldArray: any) => [...oldArray, builderHandler]);
     } else {
       toast.warning("Builder already exist");
     }
@@ -211,7 +219,7 @@ export default function AddOrganization() {
       });
       setSelectedBuilders(uniqueBuilders);
 
-      const builderHandler = uniqueBuilders.map((obj: any) => {
+      const builderHandler = builders.map((obj: any) => {
         return {
           value: JSON.stringify(obj),
           label: obj.fullName,

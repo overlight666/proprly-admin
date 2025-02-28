@@ -4,7 +4,7 @@ import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useEffect, useState } from "react";
-import { DownloadIcon } from "../../../icons";
+import { DocsIcon, DownloadIcon } from "../../../icons";
 import moment from "moment";
 export default function PropertyTradeReportModal({
   isOpen,
@@ -12,7 +12,10 @@ export default function PropertyTradeReportModal({
   reports,
   title,
 }: any) {
+  // const [modalTitle, setModalTitle] = useState("");
+
   const [tableData, setTableData] = useState<any>([]);
+  // const [commonAreaHolder, setCommonAreaHolder] = useState<any>(undefined);
   useEffect(() => {
     const filteredReports = reports?.map((rep: any, index: any) => {
       return [
@@ -27,6 +30,12 @@ export default function PropertyTradeReportModal({
 
   return (
     <>
+      {/* <PropertyTradeReportModal
+        closeModal={innerModal.closeModal}
+        isOpen={innerModal.isOpen}
+        reports={commonAreaHolder}
+        title={modalTitle}
+      /> */}
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
@@ -83,6 +92,17 @@ export default function PropertyTradeReportModal({
                       data-tooltip-place="top"
                     />
                   </a>
+                  {/* <DocsIcon
+                    onClick={() => {
+                      setCommonAreaHolder(_row[3]?.reports);
+                      innerModal.openModal();
+                      setModalTitle("Trade Report History");
+                    }}
+                    className="size-5 text-white cursor-pointer"
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Trade Reports"
+                    data-tooltip-place="top"
+                  /> */}
                 </div>
               ),
             }}
@@ -99,7 +119,7 @@ export default function PropertyTradeReportModal({
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  CA Lot No
+                  Unit No
                 </th>
                 <th
                   scope="col"
