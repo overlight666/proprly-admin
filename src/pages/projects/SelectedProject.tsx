@@ -39,7 +39,7 @@ import DefectResolution from "../DefectResolution/DefectResolution";
 import { Reports } from "../Reports/Reports";
 
 import { Users } from "../users/Users";
-import Appointments from "../Appointments/Appointments";
+import Appointments from "../Appointments";
 
 export default function SelectedProject() {
   const { id, project_id }: any = useParams();
