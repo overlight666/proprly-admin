@@ -6,5 +6,8 @@
   ],
   "compilerOptions": {
     "forceConsistentCasingInFileNames": false
+  },
+  "server": {
+    "allowedHosts": ["admin-dev.proprly.tech", "admin-staging.proprly.tech"]
   }
 }
