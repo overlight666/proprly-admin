@@ -11,9 +11,9 @@ import { Tooltip } from "react-tooltip";
 import SelectedOrganization from "./pages/Organizations/SelectedOrganization";
 import SelectedProject from "./pages/Projects/SelectedProject";
 import AddProject from "./pages/Projects/AddProject";
-import EditProject from "./pages/Projects/EditProject";
-import AddProperty from "./pages/Properties/AddProperty";
-import EditProperty from "./pages/Properties/EditProperty";
+import EditProject from "./pages/Projects/editProject";
+import AddProperty from "./pages/properties/AddProperty";
+import EditProperty from "./pages/properties/EditProperty";
 
 export default function App() {
   return (

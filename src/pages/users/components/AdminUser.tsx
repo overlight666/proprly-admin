@@ -6,14 +6,14 @@ import Select2 from "../../../components/form/Select2";
 import Button from "../../../components/ui/button/Button";
 import { useModal } from "../../../hooks/useModal";
 import { PlusIcon } from "../../../icons";
-import UserTable from "./UserTable";
 import { toast } from "react-toastify";
 import { projectRole, userInterface } from "../../../_types";
-import AddUserModal from "./AddUserModal";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
 import { projectAdminUsersAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import AddUserModal from "./AddUserModal";
+import UserTable from "./UserTable";
 
 export const AdminUser = () => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);

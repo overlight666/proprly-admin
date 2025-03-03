@@ -19,8 +19,8 @@ import { useParams } from "react-router";
 import moment from "moment";
 import { toast } from "react-toastify";
 import Checkbox from "../../../components/form/input/Checkbox";
-import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
 import { useModal } from "../../../hooks/useModal";
+import ExportPropertyReportModal from "../../properties/components/ExportPropertyReportModal";
 DataTable.use(DT);
 
 // Define the table data using the interface

@@ -28,7 +28,6 @@ import { toast } from "react-toastify";
 import { dropZoneAtom } from "../../_state/atoms/dropzone";
 import { useLocation } from "react-router";
 import Select2 from "../../components/form/Select2";
-import { useParams } from "react-router";
 
 export default function AddOrganization() {
   const orgAction = useOrganization();
