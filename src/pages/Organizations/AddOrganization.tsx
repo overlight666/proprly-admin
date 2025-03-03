@@ -219,7 +219,7 @@ export default function AddOrganization() {
       });
       setSelectedBuilders(uniqueBuilders);
 
-      const builderHandler = builders.map((obj: any) => {
+      const builderHandler = builders?.map((obj: any) => {
         return {
           value: JSON.stringify(obj),
           label: obj.fullName,
