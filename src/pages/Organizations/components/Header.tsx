@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Input from "../../../components/form/input/InputField";
 import { GridIcon, PlusIcon, SearchIcon, TableIcon } from "../../../icons";
 import Button from "../../../components/ui/button/Button";
@@ -6,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { organizationOutlineAtom } from "../../../_state/atoms/organizations";
 import { useOrganization } from "../../../_actions/organizations.actions";
 import { useNavigate } from "react-router";
+import React from "react";
 
 export default function OrganizationHeader() {
   const selectedOutline = useRecoilValue(organizationOutlineAtom);

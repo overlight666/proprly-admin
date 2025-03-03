@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { useRecoilValue } from "recoil";
 import { allNotificationsAtom } from "../../_state";
 import moment from "moment";
-
+import React from "react";
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);

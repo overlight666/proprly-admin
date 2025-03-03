@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 
 import { TableCell } from "../../../components/ui/table";
+import React from "react";
 
 DataTable.use(DT);
 

@@ -23,7 +23,7 @@ import Button from "../../../components/ui/button/Button";
 import { toast } from "react-toastify";
 import { ucword } from "../../../_helpers";
 DataTable.use(DT);
-
+import React from "react";
 // Define the table data using the interface
 
 export default function LocationMappingTable() {

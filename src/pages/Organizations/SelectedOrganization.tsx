@@ -23,6 +23,7 @@ import DefectResolutionModal from "../../_components/DefectResolutionModal";
 import ProjectTable from "./components/ProjectTable";
 import ProjectTableHeader from "./components/ProjectHeader";
 import { selectedProjectAtom } from "../../_state";
+import React from "react";
 
 export default function SelectedOrganization() {
   const { id }: any = useParams();

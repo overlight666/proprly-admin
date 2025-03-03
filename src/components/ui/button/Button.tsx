@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react";
-
+import React from "react";
 interface ButtonProps {
   children?: ReactNode; // Button text or content
   size?: "sm" | "md"; // Button size

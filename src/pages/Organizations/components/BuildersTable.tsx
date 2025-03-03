@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/ui/table";
+import React from "react";
 import { TrashBinIcon } from "../../../icons";
 
 export default function BuilderTable({ selectedBuilders, removeBuilder }: any) {

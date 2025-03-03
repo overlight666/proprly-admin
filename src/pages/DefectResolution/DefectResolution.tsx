@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
 
 import { useEffect, useState } from "react";
 import Radio from "../../components/form/input/Radio";
@@ -12,7 +10,7 @@ import { defectResolutionAtom } from "../../_state/atoms/defectResolution";
 import { DefectSumissionType } from "../../_types";
 import DefectItem from "./components/DefectBox";
 import DefectHeader from "./components/DefectHeader";
-
+import React from "react";
 // Define the table data using the interface
 
 export default function DefectResolution() {

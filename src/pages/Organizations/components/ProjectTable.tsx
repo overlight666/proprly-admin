@@ -6,7 +6,7 @@ import DT from "datatables.net-dt";
 import { useEffect, useState } from "react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-
+import React from "react";
 import { useNavigate } from "react-router";
 import { Project } from "../../../_types";
 import { useRecoilValue } from "recoil";

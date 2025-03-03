@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
 
 import { useRecoilValue } from "recoil";
 import {
@@ -26,7 +24,7 @@ import { GearIcon, HomeIcon } from "../../icons";
 import LocationMappingTable from "./components/LocationMappingBasementTable";
 import LocationMappingTowerTable from "./components/LocationMappingTowerTable";
 // Define the table data using the interface
-
+import React from "react";
 export default function CommonArea() {
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
   const selectedProject = useRecoilValue(selectedProjectAtom);

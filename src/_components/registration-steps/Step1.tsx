@@ -11,7 +11,7 @@ import Input from "../../components/form/input/InputField";
 import Label from "../../components/form/Label";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-
+import React from "react";
 export default function Step1({ onSubmitStep1, setMobileNumber }: any) {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);

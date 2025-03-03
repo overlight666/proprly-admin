@@ -36,6 +36,7 @@ import { useModal } from "../../hooks/useModal";
 import OwnerTable from "./components/OwnerTable";
 import AddOwnerModal from "./components/AddOwnerModal";
 import FileUploader from "../../_components/ImageUploader";
+import React from "react";
 
 export default function AddProperty() {
   const selectedOrganization = useRecoilValue(selectedOrgAtom);

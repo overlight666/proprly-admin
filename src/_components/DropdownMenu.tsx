@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MoreDotIcon } from "../icons";
 import { Dropdown } from "../components/ui/dropdown/Dropdown";
 import { DropdownItem } from "../components/ui/dropdown/DropdownItem";
+import React from "react";
 
 export default function DropdownMenu({ items }: any) {
   const [isOpen, setIsOpen] = useState(false);

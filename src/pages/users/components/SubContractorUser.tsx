@@ -19,6 +19,7 @@ import { useProject, useUserActions } from "../../../_actions";
 import UserTradesTable from "./UserTableTrade";
 import AddUserTradesModal from "./AddUserTradesModal";
 import MultiSelect from "../../../components/form/MultiSelect";
+import React from "react";
 
 export const SubContractorUser = () => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);

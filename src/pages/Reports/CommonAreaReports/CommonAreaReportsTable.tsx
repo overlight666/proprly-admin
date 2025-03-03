@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
 import { commonAreaReportsAtom } from "../../../_state";
@@ -10,6 +9,7 @@ import { BoxIcon, DocsIcon, DownloadIcon, ListIcon } from "../../../icons";
 import { useModal } from "../../../hooks/useModal";
 import CommonAreaTradeReportModal from "./TradeReportsModal";
 import { toast } from "react-toastify";
+import React from "react";
 
 export default function CommonAreaReportsTable({ tableRef, headerValue }: any) {
   const [tableData, setTableData] = useState<any[]>([]);

@@ -25,12 +25,12 @@ import Button from "../../components/ui/button/Button";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { ImageType } from "../../_types";
-import TowersTable from "./components/TowersTable";
-import AddTowerModal from "./components/AddTowerModal";
 import { useModal } from "../../hooks/useModal";
 import { useProject } from "../../_actions/projects.actions";
 import { BoxIcon, FolderIcon } from "../../icons";
-
+import React from "react";
+import TowersTable from "./components/Towers/TowersTable";
+import AddTowerModal from "./components/Towers/TowersTable";
 export default function EditProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
   const setUploadResponse = useSetRecoilState(uploadResponseAtom);

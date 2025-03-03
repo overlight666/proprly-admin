@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
 import { selectedProjectAtom } from "../../../_state";
@@ -9,6 +8,7 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { DownloadIcon } from "../../../icons";
 import { TableCell } from "../../../components/ui/table";
+import React from "react";
 
 export default function ProjectReportsTable({ tableRef }: any) {
   const selectedProject = useRecoilValue(selectedProjectAtom);

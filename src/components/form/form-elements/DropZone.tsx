@@ -5,7 +5,7 @@ import { dropZoneAtom } from "../../../_state/atoms/dropzone";
 import ComponentCard from "../../common/ComponentCard";
 import { useDropzone } from "react-dropzone";
 // import Dropzone from "react-dropzone";
-
+import React from "react";
 interface DropType {
   title: string;
   accept?: any;

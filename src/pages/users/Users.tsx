@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Accordion } from "@szhsin/react-accordion";
 import { AccordionItem } from "./components/AccordionItem";
 import { AdminUser } from "./components/AdminUser";
 import { AuditorUser } from "./components/AuditorUser";
 import { StrataUser } from "./components/StrataUser";
 import { SubContractorUser } from "./components/SubContractorUser";
+import React from "react";
 
 export const Users = () => {
   return (

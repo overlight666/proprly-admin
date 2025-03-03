@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
 import { projectStrataAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import React from "react";
 
 export const StrataUser = () => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);

@@ -15,6 +15,7 @@ import { useDefect } from "../_actions/defects.actions";
 import { defectFeedbackAtom } from "../_state/atoms/defects";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import React from "react";
 
 export default function DefectResolutionModal({ isOpen, closeModal }: any) {
   const defect = useRecoilValue(organizationDefectAtom);

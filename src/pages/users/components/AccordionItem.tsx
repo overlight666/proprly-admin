@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AccordionItem as Item } from "@szhsin/react-accordion";
 import { ChevronDownIcon } from "../../../icons";
+import React from "react";
 export const AccordionItem = ({ header, ...rest }: any) => (
   <Item
     {...rest}

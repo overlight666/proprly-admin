@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
@@ -34,6 +34,7 @@ import { useModal } from "../../hooks/useModal";
 import OwnerTable from "./components/OwnerTable";
 import AddOwnerModal from "./components/AddOwnerModal";
 import FileUploader from "../../_components/ImageUploader";
+import React from "react";
 
 export default function EditProperty() {
   const selectedOrganization = useRecoilValue(selectedOrgAtom);

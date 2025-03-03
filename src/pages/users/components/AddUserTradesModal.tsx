@@ -8,6 +8,7 @@ import MultiSelect from "../../../components/form/MultiSelect";
 import { appointmentTradeCodesAtom } from "../../../_state";
 import { useRecoilValue } from "recoil";
 import { toast } from "react-toastify";
+import React from "react";
 
 export default function AddUserTradesModal({
   isOpen,

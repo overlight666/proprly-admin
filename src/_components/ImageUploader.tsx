@@ -3,7 +3,7 @@ import { Key } from "react";
 import Label from "../components/form/Label";
 import FileInput from "../components/form/input/FileInput";
 import ImageProgress from "./ImageProgess";
-
+import React from "react";
 interface UploadTypes {
   title: string;
   removeFile?: any;

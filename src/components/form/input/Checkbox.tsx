@@ -1,5 +1,5 @@
 import clsx from "clsx"; // Install with: npm install clsx
-
+import React from "react";
 interface CheckboxProps {
   label?: string;
   checked?: boolean;

@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Link } from "react-router";
-
+import React from "react";
 export default function Step4() {
   return (
     <div className="p-5 mt-10 flex justify-center flex-col">

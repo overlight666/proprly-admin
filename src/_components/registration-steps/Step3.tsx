@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import OtpInput from "react-otp-input";
-
+import React from "react";
 export default function Step3({ onSubmitStep3, onResend }: any) {
   const [otp, setOtp] = useState("");
   return (

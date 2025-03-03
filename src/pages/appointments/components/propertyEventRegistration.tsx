@@ -24,6 +24,7 @@ import TextArea from "../../../components/form/input/TextArea";
 import Radio from "../../../components/form/input/Radio";
 import { toast } from "react-toastify";
 import { CloseIcon } from "../../../icons";
+import React from "react";
 
 export const PropertyEventRegistration = function ({
   closeModal,

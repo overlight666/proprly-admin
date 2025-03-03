@@ -4,6 +4,7 @@ import { PlusIcon, SearchIcon } from "../../../icons";
 import Button from "../../../components/ui/button/Button";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
+import React from "react";
 
 export default function ProjectTableHeader({ onSearch }: any) {
   const { id } = useParams();

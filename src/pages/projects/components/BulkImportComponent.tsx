@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
@@ -6,8 +5,8 @@ import FileUploader from "../../../_components/ImageUploader";
 import ComponentCard from "../../../components/common/ComponentCard";
 import { useWarrantyAction } from "../../../_actions";
 import { toast } from "react-toastify";
+import React from "react";
 
-/* eslint-disable react-hooks/rules-of-hooks */
 export default function BulkImportComponent({
   selected,
   setShowBulk,

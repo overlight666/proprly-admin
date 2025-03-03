@@ -1,6 +1,5 @@
-import type React from "react";
 import { useEffect, useRef } from "react";
-
+import React from "react";
 interface DropdownProps {
   isOpen: boolean;
   onClose: () => void;

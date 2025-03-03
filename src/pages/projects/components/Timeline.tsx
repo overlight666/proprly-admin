@@ -13,6 +13,7 @@ import Button from "../../../components/ui/button/Button";
 import Radio from "../../../components/form/input/Radio";
 import { useProject } from "../../../_actions/projects.actions";
 import { projectTimelineAtom } from "../../../_state";
+import React from "react";
 
 export default function TimeLine({ openModal }: any) {
   const { project_id }: any = useParams();

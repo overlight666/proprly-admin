@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { OptionType } from "../../_types";
 import { useRecoilValue } from "recoil";
 import { countriesAtom } from "../../_state";
-
+import React from "react";
 export default function Step2({ onSubmitStep2 }: any) {
   const [options, setOption] = useState<OptionType[]>();
   const [timezoneOption, setTimezoneOption] = useState<OptionType[]>();

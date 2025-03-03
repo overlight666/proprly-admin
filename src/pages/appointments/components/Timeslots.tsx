@@ -15,6 +15,7 @@ import { appointmentTimeslotAtom } from "../../../_state";
 import Checkbox from "../../../components/form/input/Checkbox";
 import Label from "../../../components/form/Label";
 import { toast, ToastContentProps } from "react-toastify";
+import React from "react";
 
 export interface AppointmentType {
   propertyId?: number;

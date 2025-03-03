@@ -8,6 +8,7 @@ import { AppWrapper } from "./components/common/PageMeta.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
+import React from "react";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>

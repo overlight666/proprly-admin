@@ -7,7 +7,7 @@ import { authAtom } from "../../_state";
 import { useRecoilValue } from "recoil";
 import { ucword } from "../../_helpers/ucwords";
 import { AuthType } from "../../_types";
-
+import React from "react";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const userActions = useUserActions();

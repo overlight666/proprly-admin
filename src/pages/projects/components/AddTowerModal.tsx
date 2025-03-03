@@ -5,6 +5,7 @@ import Input from "../../../components/form/input/InputField";
 import { useState } from "react";
 import Select2 from "../../../components/form/Select2";
 import { toast } from "react-toastify";
+import React from "react";
 
 export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
   const [name, setName] = useState<any>("");

@@ -5,6 +5,7 @@ import Radio from "../../../components/form/input/Radio";
 import { AlertIcon } from "../../../icons";
 import { useRecoilValue } from "recoil";
 import { projectDashboardAtom } from "../../../_state";
+import React from "react";
 
 export default function Defects() {
   const [selectedValue, setSelectedValue] = useState("all");

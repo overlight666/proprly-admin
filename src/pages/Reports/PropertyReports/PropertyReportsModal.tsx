@@ -6,6 +6,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useEffect, useState } from "react";
 import { DownloadIcon } from "../../../icons";
 import moment from "moment";
+import React from "react";
 export default function PropertyTradeReportModal({
   isOpen,
   closeModal,

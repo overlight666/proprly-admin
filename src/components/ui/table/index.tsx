@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-
+import React from "react";
 // Props for Table
 interface TableProps {
   children: ReactNode; // Table content (thead, tbody, etc.)

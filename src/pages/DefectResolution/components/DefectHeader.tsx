@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Input from "../../../components/form/input/InputField";
 import { SearchIcon } from "../../../icons";
+import React from "react";
 
 export default function DefectHeader() {
   return (

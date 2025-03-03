@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useProperties } from "../../../_actions";
@@ -13,6 +12,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { DownloadIcon } from "../../../icons";
 import { TableCell } from "../../../components/ui/table";
 import { toast } from "react-toastify";
+import React from "react";
 
 export default function ExportPropertyReportModal({
   isOpen,

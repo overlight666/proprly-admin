@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import OrgTable from "./OrgTable";
 import OrganizationHeader from "./components/Header";
 import OrgGrid from "./OrgGrid";
+import React from "react";
 
 export default function Organization() {
   const orglist: any = useRecoilValue(organizationsAtom);

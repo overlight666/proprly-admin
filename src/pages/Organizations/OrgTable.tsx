@@ -9,6 +9,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { TableCell } from "../../components/ui/table";
 import { FolderIcon, PencilIcon } from "../../icons";
 import { useNavigate } from "react-router";
+import React from "react";
 DataTable.use(DT);
 
 // Define the table data using the interface

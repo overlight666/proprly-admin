@@ -6,6 +6,7 @@ import Radio from "../../../components/form/input/Radio";
 import { TaskIcon } from "../../../icons";
 import { TradeVariables } from "../../../_types";
 import { AcquisitionChart } from "./Chart";
+import React from "react";
 
 export default function DefectsChart({
   title,

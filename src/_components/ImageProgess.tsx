@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { PDFIcon, TrashBinIcon } from "../icons";
 import { useUploadForm } from "../_helpers/uploadLoader";
 import { truncateString } from "../_helpers";
-
+import React from "react";
 interface UploadTypes {
   file: File;
   removeThis: any;

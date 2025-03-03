@@ -20,6 +20,7 @@ import Button from "../../components/ui/button/Button";
 import { toast } from "react-toastify";
 import { useAppointments } from "../../_actions";
 import { useParams } from "react-router";
+import React from "react";
 
 interface CalendarEvent extends EventInput {
   extendedProps: {

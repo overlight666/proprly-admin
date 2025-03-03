@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
 
 import moment from "moment";
 import { ucword } from "../../../_helpers";
@@ -9,6 +7,7 @@ import ComponentCard from "../../../components/common/ComponentCard";
 import DefectResolutionModal from "../../../_components/DefectResolutionModal";
 import { useModal } from "../../../hooks/useModal";
 import { useOrganization } from "../../../_actions/organizations.actions";
+import React from "react";
 
 // Define the table data using the interface
 interface DefectItemBox {

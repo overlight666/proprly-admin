@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */
+
 import { useNavigate } from "react-router";
 import { Organization } from "../../_types";
 import ComponentCard from "../../components/common/ComponentCard";
@@ -12,6 +11,7 @@ import {
   PencilIcon,
   TaskIcon,
 } from "../../icons";
+import React from "react";
 // Define the table data using the interface
 
 export default function OrgGrid({ orglist }: any) {

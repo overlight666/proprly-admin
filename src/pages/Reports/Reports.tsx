@@ -8,6 +8,7 @@ import CommonAreaReportsHeader from "./CommonAreaReports/CommonAreaReportsHeader
 import CommonAreaReportsTable from "./CommonAreaReports/CommonAreaReportsTable";
 import PropertyReportsHeader from "./PropertyReports/PropertyReportsHeader";
 import PropertyReportsTable from "./PropertyReports/PropertyReportsTable";
+import React from "react";
 
 export const Reports = () => {
   const tableRefProject = useRef<any>(null);

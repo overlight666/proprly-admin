@@ -14,6 +14,7 @@ import { projectAdminUsersAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
 import AddUserModal from "./AddUserModal";
 import UserTable from "./UserTable";
+import React from "react";
 
 export const AdminUser = () => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);

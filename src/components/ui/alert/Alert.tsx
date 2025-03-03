@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-
+import React from "react";
 interface AlertProps {
   variant: "success" | "error" | "warning" | "info"; // Alert type
   title: string; // Title of the alert

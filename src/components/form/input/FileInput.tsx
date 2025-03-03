@@ -1,5 +1,5 @@
 import { FC } from "react";
-
+import React from "react";
 interface FileInputProps {
   className?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

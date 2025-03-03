@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import Chart from "react-apexcharts";
 export const AcquisitionChart = function ({ data }: any) {
   const themeColor: any = localStorage.getItem("theme");

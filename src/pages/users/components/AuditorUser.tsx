@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
 import { projectAuditorAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import React from "react";
 
 export const AuditorUser = () => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);

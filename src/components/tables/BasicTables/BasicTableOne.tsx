@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-
+import React from "react";
 import Badge from "../../ui/badge/Badge";
 
 interface Order {

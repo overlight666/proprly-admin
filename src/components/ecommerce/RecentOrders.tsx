@@ -6,7 +6,7 @@ import {
   TableRow,
 } from "../ui/table";
 import Badge from "../ui/badge/Badge";
-
+import React from "react";
 // Define the TypeScript interface for the table rows
 interface Product {
   id: number; // Unique identifier for each product

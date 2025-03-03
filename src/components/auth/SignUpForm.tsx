@@ -8,7 +8,7 @@ import { useRegistration } from "../../_actions";
 import { resentOtpAtom, signupLeadsAtom, verifyResultAtom } from "../../_state";
 import { useRecoilValue } from "recoil";
 import Step4 from "../../_components/registration-steps/Step4";
-
+import React from "react";
 export default function SignUpForm() {
   const [step, setStep] = useState(1);
   const [fullName, setFullName] = useState("");

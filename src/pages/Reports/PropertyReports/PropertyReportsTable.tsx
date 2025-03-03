@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
 import { propertyReportsAtom } from "../../../_state";
@@ -11,6 +10,7 @@ import { useModal } from "../../../hooks/useModal";
 import { toast } from "react-toastify";
 import PropertyTradeReportModal from "./PropertyReportsModal";
 import { ucword } from "../../../_helpers";
+import React from "react";
 
 export default function PropertyReportsTable({ tableRef, headerValue }: any) {
   const [tableData, setTableData] = useState<any[]>([]);
