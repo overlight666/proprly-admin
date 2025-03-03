@@ -27,7 +27,7 @@ interface CalendarEvent extends EventInput {
   };
 }
 
-const Appointments: React.FC = () => {
+const Appointments = () => {
   const [showTimeSlots, setShowTimeSlots] = useState(false);
   //   const [eventTitle, setEventTitle] = useState("");
   //   const [eventStartDate, setEventStartDate] = useState("");
