@@ -22,7 +22,7 @@ import { TableCell } from "../../../components/ui/table";
 import Checkbox from "../../../components/form/input/Checkbox";
 import Badge from "../../../components/ui/badge/Badge";
 import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../icons";
-import ExportPropertyReportModal from "../../properties/components/ExportPropertyReportModal";
+import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
 DataTable.use(DT);
 
 // Define the table data using the interface
