@@ -12,7 +12,7 @@ import {
   selectedCommonAreaAtom,
 } from "../_state";
 import { useWarrantyAction } from "./warranty.action";
-
+import { usePersistor } from "../_helpers/persistor";
 export { useCommonArea };
 
 function useCommonArea() {
@@ -24,6 +24,7 @@ function useCommonArea() {
   const setContractor = useSetRecoilState(projectSubContractorAtom);
   const setCommonAreaConfig = useSetRecoilState(commonAreaConfigAtom);
   const setCommonAreaChecklist = useSetRecoilState(commonAreaChecklistAtom);
+  const persist = usePersistor();
   const setCommonAreaCategoryResponse = useSetRecoilState(
     commonAreaCategoryResponseAtom
   );
@@ -133,28 +134,32 @@ function useCommonArea() {
   }
 
   function getProjectStrata(org_id: any) {
-    return fetchWrapper
-      .get(`${baseUrl}/organization/${org_id}/users?roleKey=project_strata`)
-      .then((response: any) => {
-        setStrata(response && response.data ? response.data : response);
-      });
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=project_strata`
+      : `${baseUrl}/organization/${org_id}/users?roleKey=project_strata`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setStrata(response && response.data ? response.data : response);
+    });
   }
 
   function getProjectAuditor(org_id: any) {
-    return fetchWrapper
-      .get(`${baseUrl}/organization/${org_id}/users?roleKey=project_auditor`)
-      .then((response: any) => {
-        setAuditor(response && response.data ? response.data : response);
-      });
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=project_auditor`
+      : `${baseUrl}/organization/${org_id}/users?roleKey=project_auditor`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setAuditor(response && response.data ? response.data : response);
+    });
   }
 
   function getProjectSubContractor(org_id: any) {
-    return fetchWrapper
-      .get(
-        `${baseUrl}/organization/${org_id}/users?roleKey=project_sub_contractor`
-      )
-      .then((response: any) => {
-        setContractor(response && response.data ? response.data : response);
-      });
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=project_sub_contractor`
+      : `${baseUrl}/organization/${org_id}/users?roleKey=project_sub_contractor`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setContractor(response && response.data ? response.data : response);
+    });
   }
 }

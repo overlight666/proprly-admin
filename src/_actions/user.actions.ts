@@ -39,13 +39,15 @@ function useUserActions() {
   };
 
   function getProjectAdminUsers(org_id: any) {
-    return fetchWrapper
-      .get(`${baseUrl}/organization/${org_id}/users?roleKey=project_admin`)
-      .then((response: any) => {
-        setProjectAdminUsers(
-          response && response.data ? response.data : response
-        );
-      });
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=project_admin`
+      : `${baseUrl}/organization/${org_id}/users?roleKey=project_admin`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setProjectAdminUsers(
+        response && response.data ? response.data : response
+      );
+    });
   }
 
   function addUser(project_id: any, params: any) {

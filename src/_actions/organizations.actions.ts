@@ -62,13 +62,15 @@ function useOrganization() {
   }
 
   function getOrgPropertyOwners(id: any) {
-    return fetchWrapper
-      .get(`${baseUrl}/organization/${id}/users?roleKey=property_owner`)
-      .then((response: any) => {
-        if (response) {
-          setOrgOwners(response && response.data ? response.data : response);
-        }
-      });
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=property_owner`
+      : `${baseUrl}/organization/${id}/users?roleKey=property_owner`;
+    return fetchWrapper.get(url).then((response: any) => {
+      if (response) {
+        setOrgOwners(response && response.data ? response.data : response);
+      }
+    });
   }
 
   function getDefectSubmission(id: any, openModal: any) {
@@ -154,7 +156,7 @@ function useOrganization() {
     const isAdmin = persist.getValues("isAdmin");
     const url = isAdmin
       ? `${baseUrl}/users?roleKey=organization_admin`
-      : `${baseUrl}/organization/${id}/users?roleKey=project_admin`;
+      : `${baseUrl}/organization/${id}/users?roleKey=organization_admin`;
     return fetchWrapper.get(url).then((response: any) => {
       if (response) {
         setBuilders(response && response.data ? response.data : response);
