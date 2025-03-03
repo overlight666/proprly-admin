@@ -104,6 +104,7 @@ function useUserActions() {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         persist.putValues("token", user.token);
         persist.putValues("authUser", user);
+        persist.putValues("isAdmin", isAdmin);
         setToken(user.token);
         setAuth(JSON.stringify(user));
         // get return url from location state or default to home page

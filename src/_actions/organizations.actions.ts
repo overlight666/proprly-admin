@@ -150,14 +150,16 @@ function useOrganization() {
       });
   }
 
-  function getBuilders() {
-    return fetchWrapper
-      .get(`${baseUrl}/users?roleKey=organization_admin`)
-      .then((response: any) => {
-        if (response) {
-          setBuilders(response && response.data ? response.data : response);
-        }
-      });
+  function getBuilders(id?: any) {
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=organization_admin`
+      : `${baseUrl}/organization/${id}/users?roleKey=project_admin`;
+    return fetchWrapper.get(url).then((response: any) => {
+      if (response) {
+        setBuilders(response && response.data ? response.data : response);
+      }
+    });
   }
 
   function getRegion() {

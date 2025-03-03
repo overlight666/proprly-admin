@@ -63,7 +63,7 @@ export default function AddOrganization() {
   const hasCode = watch("country");
 
   useEffect(() => {
-    orgAction.getBuilders();
+    orgAction.getBuilders(query.get("id"));
     orgAction.getRegion();
     setImage(undefined);
   }, []);
