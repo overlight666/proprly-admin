@@ -9,12 +9,12 @@ import Organization from "./pages/Organizations/Organization";
 import AddOrganization from "./pages/Organizations/AddOrganization";
 import { Tooltip } from "react-tooltip";
 import SelectedOrganization from "./pages/Organizations/SelectedOrganization";
-import EditProject from "./pages/Projects/components/SubComponents/EditProject";
-import AddProperty from "./pages/Properties/AddProperty";
-import EditProperty from "./pages/Properties/EditProperty";
 import React from "react";
-import AddProject from "./pages/Projects/AddProject";
-import SelectedProject from "./pages/Projects/components/SubComponents/SelectedProject";
+import AddProject from "./pages/Projects/Add/AddProject";
+import EditProperty from "./pages/Properties/Edit/EditProperty";
+import AddProperty from "./pages/Properties/Add/AddProperty";
+import EditProject from "./pages/Projects/Edit/EditProject";
+import SelectedProject from "./pages/Projects/Component/SelectedProject";
 
 export default function App() {
   return (
