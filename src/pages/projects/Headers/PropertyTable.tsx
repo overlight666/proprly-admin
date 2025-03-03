@@ -14,15 +14,15 @@ import { toast } from "react-toastify";
 
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { propertiesAtom } from "../../../../_state";
-import { useModal } from "../../../../hooks/useModal";
-import { Property } from "../../../../_types";
-import { ucword } from "../../../../_helpers";
-import { TableCell } from "../../../../components/ui/table";
-import Checkbox from "../../../../components/form/input/Checkbox";
-import Badge from "../../../../components/ui/badge/Badge";
-import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../../icons";
-import ExportPropertyReportModal from "../../../properties/components/ExportPropertyReportModal";
+import { propertiesAtom } from "../../../_state";
+import { useModal } from "../../../hooks/useModal";
+import { Property } from "../../../_types";
+import { ucword } from "../../../_helpers";
+import { TableCell } from "../../../components/ui/table";
+import Checkbox from "../../../components/form/input/Checkbox";
+import Badge from "../../../components/ui/badge/Badge";
+import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../icons";
+import ExportPropertyReportModal from "../../properties/components/ExportPropertyReportModal";
 DataTable.use(DT);
 
 // Define the table data using the interface

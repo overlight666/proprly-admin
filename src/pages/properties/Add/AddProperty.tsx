@@ -20,7 +20,7 @@ import DropzoneComponent from "../../../components/form/form-elements/DropZone";
 import { dropZoneAtom } from "../../../_state/atoms/dropzone";
 import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
-import BulkTable from "./BulkTable";
+import BulkTable from "../Tables/BulkTable";
 import { useProperties } from "../../../_actions";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";

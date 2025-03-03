@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import moment from "moment";
 import React from "react";
-import { useProject } from "../../../../_actions";
-import { projectTimelineAtom } from "../../../../_state";
+import { useProject } from "../../../_actions";
+import { projectTimelineAtom } from "../../../_state";
 import {
   FolderIcon,
   InfoIcon,
   ShootingStarIcon,
   TimeIcon,
-} from "../../../../icons";
-import Radio from "../../../../components/form/input/Radio";
-import Button from "../../../../components/ui/button/Button";
+} from "../../../icons";
+import Radio from "../../../components/form/input/Radio";
+import Button from "../../../components/ui/button/Button";
 
 export default function TimeLine({ openModal }: any) {
   const { project_id }: any = useParams();

@@ -3,9 +3,9 @@
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import React from "react";
-import { FileIcon, PlusIcon, SearchIcon } from "../../../../icons";
-import Button from "../../../../components/ui/button/Button";
-import Input from "../../../../components/form/input/InputField";
+import { FileIcon, PlusIcon, SearchIcon } from "../../../icons";
+import Button from "../../../components/ui/button/Button";
+import Input from "../../../components/form/input/InputField";
 
 export default function PropertyHeader({
   onSearch,

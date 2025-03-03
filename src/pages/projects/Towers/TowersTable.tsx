@@ -6,8 +6,8 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from "../../../../components/ui/table";
-import { TrashBinIcon } from "../../../../icons";
+} from "../../../components/ui/table";
+import { TrashBinIcon } from "../../../icons";
 
 export default function TowersTable({ towers, removeTower }: any) {
   return (

@@ -1,59 +1,55 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
-import PageMeta from "../../../../components/common/PageMeta";
-import { selectedOrgAtom } from "../../../../_state/atoms/organizations";
-import ComponentCard from "../../../../components/common/ComponentCard";
-import Label from "../../../../components/form/Label";
-import Input from "../../../../components/form/input/InputField";
+import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
+import PageMeta from "../../../components/common/PageMeta";
+import { selectedOrgAtom } from "../../../_state/atoms/organizations";
+import ComponentCard from "../../../components/common/ComponentCard";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
+import Select from "../../../components/form/Select";
+import { globalConfigAtom } from "../../../_state";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import Select from "../../../../components/form/Select";
-import {
-  globalConfigAtom,
-  projectResponseAtom,
-  selectedProjectAtom,
-} from "../../../../_state";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { ucword } from "../../../../_helpers";
-import DropzoneComponent from "../../../../components/form/form-elements/DropZone";
+import { ucword } from "../../../_helpers";
+import DropzoneComponent from "../../../components/form/form-elements/DropZone";
 import {
   dropZoneAtom,
   uploadResponseAtom,
-} from "../../../../_state/atoms/dropzone";
-import FileUploader from "../../../../_components/ImageUploader";
-import { Link } from "react-router";
-import Button from "../../../../components/ui/button/Button";
+} from "../../../_state/atoms/dropzone";
+import FileUploader from "../../../_components/ImageUploader";
+import { Link, useNavigate } from "react-router";
+import Button from "../../../components/ui/button/Button";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { ImageType } from "../../../../_types";
-import { useModal } from "../../../../hooks/useModal";
-import { useProject } from "../../../../_actions/projects.actions";
-import { BoxIcon, FolderIcon } from "../../../../icons";
-import React from "react";
-import TowersTable from "./TowersTable";
-import AddTowerModal from "./TowersTable";
+import { ImageType } from "../../../_types";
 
-export default function EditProject() {
+import { useModal } from "../../../hooks/useModal";
+import { useProject } from "../../../_actions/projects.actions";
+
+import React from "react";
+import AddTowerModal from "../Towers/AddTowerModal";
+import TowersTable from "../Towers/TowersTable";
+
+export default function AddProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
   const setUploadResponse = useSetRecoilState(uploadResponseAtom);
   const selectedOrganization = useRecoilValue(selectedOrgAtom);
-  const selectedProject = useRecoilValue(selectedProjectAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
-
   const [projectTypeOptions, setProjectTypeOptions] = useState<any>([]);
   const [msTypeOptions, setMsTypeOptions] = useState<any>([]);
   const setImage = useSetRecoilState(dropZoneAtom);
   const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
-  const projectResponse = useRecoilValue(projectResponseAtom);
   const uploadedImage = useRecoilValue(dropZoneAtom);
+  const [page, setPage] = useState(1);
   const { isOpen, openModal, closeModal } = useModal();
   const [towers, setTowers] = useState<any[]>([]);
+  const [fieldHolder, setFieldHolder] = useState<any>({});
   const [uploadQueue, setUploadQueue] = useState<any>([]);
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { id, project_id }: any = useParams();
+  const { id } = useParams();
   const projectAction = useProject();
+  const navigate = useNavigate();
 
   const basementOptions: any = [
     {
@@ -87,7 +83,7 @@ export default function EditProject() {
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
 
-  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
+  const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
 
   const validationSchema2 = Yup.object().shape({
@@ -97,10 +93,6 @@ export default function EditProject() {
   const form2 = useForm(formOptions2);
 
   const form2Status = form2.formState;
-
-  useEffect(() => {
-    projectAction.getSelectedProject(project_id);
-  }, [project_id, projectResponse]);
 
   useEffect(() => {
     setImage(undefined);
@@ -145,7 +137,6 @@ export default function EditProject() {
   function onSubmit(props: any) {
     if (uploadedImage) {
       const params = {
-        organizationId: id,
         maintenanceServiceType: props.maintenanceServiceType,
         type: props.type,
         name: props.name,
@@ -153,11 +144,8 @@ export default function EditProject() {
         imageId: uploadedImage.id,
         documents: fileContainer.map((f) => f.id),
       };
-      projectAction
-        .updateProject(params, project_id, toast)
-        .catch((error: any) => {
-          toast.error(error[0].message);
-        });
+      setFieldHolder(params);
+      setPage(2);
     } else {
       toast.warn("Please upload project image");
     }
@@ -172,18 +160,11 @@ export default function EditProject() {
   };
 
   const removeTower = (tower: any) => {
-    projectAction
-      .removeProjectTower(tower.id)
-      .then(() => {
-        const filteredTower: any =
-          towers &&
-          towers.length > 0 &&
-          towers.filter((t) => t.name !== tower.name);
-        setTowers(filteredTower);
-      })
-      .catch((e: any) => {
-        toast.error(e);
-      });
+    const filteredTower: any =
+      towers &&
+      towers.length > 0 &&
+      towers.filter((t) => t.name !== tower.name);
+    setTowers(filteredTower);
   };
 
   const addTower = (name: any, floor: any) => {
@@ -199,111 +180,36 @@ export default function EditProject() {
       toast.error("Please add a tower!");
     } else {
       const params = {
-        organizationId: id,
         numBasementLevels: props.numBasementLevels,
         towers: towers,
+        organizationId: id,
+        ...fieldHolder,
       };
-      const newTower = towers.filter((t) => !t.id);
-      if (newTower && newTower.length > 0) {
-        newTower.map((to) => {
-          const params = {
-            projectId: project_id,
-            ...to,
-          };
-          projectAction.addProjectTower(params);
-        });
-      }
-
-      projectAction
-        .updateProject(params, project_id, toast)
-        .catch((error: any) => {
-          toast.error(error[0].message);
-        });
+      projectAction.addProject(params, navigate).catch((error: any) => {
+        console.log(error);
+        toast.error(error[0].message);
+      });
     }
   }
 
-  const tabsData = [
-    {
-      label: "Project Information",
-      icon: <FolderIcon />,
-    },
-    {
-      label: "Tower/Basement Information",
-      icon: <BoxIcon />,
-    },
-  ];
-
-  useEffect(() => {
-    if (selectedProject) {
-      setValue("type", selectedProject.type);
-      setValue("name", selectedProject.name);
-      setValue(
-        "maintenanceServiceType",
-        selectedProject.maintenanceServiceType
-      );
-      const addressHandling = selectedProject.address.split(",");
-      if (addressHandling.length > 0) {
-        setValue("address0", addressHandling[0]);
-      }
-      if (addressHandling.length > 1) {
-        setValue("address1", addressHandling[1]);
-      }
-      if (addressHandling.length > 2) {
-        setValue("address2", addressHandling[2]);
-      }
-      form2.setValue("numBasementLevels", selectedProject.numBasementLevels);
-      setImage(selectedProject.image);
-      setUploadQueue(selectedProject.documents);
-      setTowers(selectedProject?.projectTower || []);
-      setFileContainer(selectedProject?.documents || []);
-    }
-  }, [selectedProject]);
-
   return (
-    <div className="min-h-screen  overflow-hidden ">
+    <div>
       <AddTowerModal
         isOpen={isOpen}
         closeModal={closeModal}
         addTower={addTower}
       />
-      <PageMeta title="Proprly | Admin" description="Edit Project" />
+      <PageMeta title="Proprly | Admin" description="New Project" />
       <PageBreadcrumb
-        pageTitle="Edit Project"
+        pageTitle="New Project"
         subPath={[
           {
             title: selectedOrganization && selectedOrganization?.name,
             path: `/organization/${selectedOrganization?.id}`,
           },
-          {
-            title: selectedProject && selectedProject?.name,
-            path: `/organization/${selectedOrganization?.id}/project/${selectedProject?.id}`,
-          },
         ]}
       />
-      <div className="flex dark:text-white text-black border-b-[0.1px] border-gray-200 mb-5">
-        {tabsData.map((tab, idx) => {
-          return (
-            <button
-              key={idx}
-              className={`transition-colors duration-300 ${
-                idx == 0 && "rounded-tl-md"
-              } ${
-                idx === activeTabIndex
-                  ? "bg-blue-100 px-6 py-4 text-blue-600"
-                  : "border-transparent hover:border-gray-200 px-6 py-4"
-              }`}
-              // Change the active tab on click.
-              onClick={() => setActiveTabIndex(idx)}
-            >
-              <div className="flex flex-row items-center justify-center gap-2">
-                {tab.icon}
-                {tab.label}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-      {activeTabIndex == 0 && (
+      {page == 1 && (
         <div className="grid grid-cols-1">
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -408,7 +314,7 @@ export default function EditProject() {
           </div>
           <div className="flex w-full flex-row gap-5 mt-10">
             <Link
-              to={`/organization/${id}/project/${project_id}`}
+              to={`/organization/${id}`}
               className="flex items-center justify-center px-3 py-2 rounded-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300"
             >
               Cancel
@@ -423,12 +329,12 @@ export default function EditProject() {
               {isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>
               )}{" "}
-              Update
+              Proceed to Tower/Basement
             </Button>
           </div>
         </div>
       )}
-      {activeTabIndex == 1 && (
+      {page == 2 && (
         <div className="grid grid-cols-1">
           <form
             onSubmit={form2.handleSubmit(onSubmit2)}
@@ -469,12 +375,9 @@ export default function EditProject() {
             </ComponentCard>
           </form>
           <div className="flex w-full flex-row gap-5 mt-10">
-            <Link
-              to={`/organization/${id}/project/${project_id}`}
-              className="flex items-center justify-center px-3 py-2 rounded-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300"
-            >
-              Cancel
-            </Link>
+            <Button size="sm" variant="outline" onClick={() => setPage(1)}>
+              Project Information
+            </Button>
             <Button
               size="sm"
               variant="primary"
@@ -485,7 +388,7 @@ export default function EditProject() {
               {form2Status.isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>
               )}{" "}
-              Update
+              Create Project
             </Button>
           </div>
         </div>
