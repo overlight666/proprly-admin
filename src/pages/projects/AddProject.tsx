@@ -26,6 +26,7 @@ import { useModal } from "../../hooks/useModal";
 import { useProject } from "../../_actions/projects.actions";
 import AddTowerModal from "./components/AddTowerModal";
 import TowersTable from "./components/TowersTable";
+import React from "react";
 
 export default function AddProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
