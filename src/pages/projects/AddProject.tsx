@@ -21,10 +21,11 @@ import Button from "../../components/ui/button/Button";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { ImageType } from "../../_types";
-import TowersTable from "./components/TowersTable";
-import AddTowerModal from "./components/AddTowerModal";
+
 import { useModal } from "../../hooks/useModal";
 import { useProject } from "../../_actions/projects.actions";
+import AddTowerModal from "./components/AddTowerModal";
+import TowersTable from "./components/TowersTable";
 
 export default function AddProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
