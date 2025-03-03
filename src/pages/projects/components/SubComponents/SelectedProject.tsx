@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PageMeta from "../../components/common/PageMeta";
+import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
+import PageMeta from "../../../../components/common/PageMeta";
 import {
   AlertIcon,
   BoltIcon,
@@ -14,32 +14,32 @@ import {
   GroupIcon,
   PencilIcon,
   TaskIcon,
-} from "../../icons";
+} from "../../../../icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { selectedOrgAtom } from "../../_state/atoms/organizations";
+import { selectedOrgAtom } from "../../../../_state/atoms/organizations";
 import { useNavigate, useParams } from "react-router";
-import TimeLine from "./components/Timeline";
-import Defects from "./components/Defects";
-import DefectsChart from "./components/DefectChart";
-import { useModal } from "../../hooks/useModal";
-import DefectResolutionModal from "../../_components/DefectResolutionModal";
-import PropertyTable from "./components/PropertyTable";
+import TimeLine from "../../components/Timeline";
+import Defects from "../../components/Defects";
+import DefectsChart from "../../components/DefectChart";
+import { useModal } from "../../../../hooks/useModal";
+import DefectResolutionModal from "../../../../_components/DefectResolutionModal";
+import PropertyTable from "../../components/PropertyTable";
 import {
   activeTabIndexProjectAtom,
   bulkResponseAtom,
   projectDashboardAtom,
   propertiesAtom,
   selectedProjectAtom,
-} from "../../_state";
-import PropertyHeader from "./components/PropertyHeader";
-import { useProperties } from "../../_actions";
-import BulkImportComponent from "./components/BulkImportComponent";
-import CommonArea from "../CommonAreas/CommonArea";
-import DefectResolution from "../DefectResolution/DefectResolution";
-import { Reports } from "../Reports/Reports";
+} from "../../../../_state";
+import PropertyHeader from "../../components/PropertyHeader";
+import { useProperties } from "../../../../_actions";
+import BulkImportComponent from "../../components/BulkImportComponent";
+import CommonArea from "../../../CommonAreas/CommonArea";
+import DefectResolution from "../../../DefectResolution/DefectResolution";
+import { Reports } from "../../../Reports/Reports";
 
-import { Users } from "../users/Users";
-import Appointments from "../Appointments";
+import { Users } from "../../../users/Users";
+import Appointments from "../../../Appointments";
 import React from "react";
 
 export default function SelectedProject() {

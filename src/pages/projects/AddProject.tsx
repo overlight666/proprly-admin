@@ -25,7 +25,7 @@ import { ImageType } from "../../_types";
 import { useModal } from "../../hooks/useModal";
 import { useProject } from "../../_actions/projects.actions";
 import AddTowerModal from "./components/AddTowerModal";
-import TowersTable from "./components/Towers/TowersTable";
+import TowersTable from "./components/SubComponents/TowersTable";
 import React from "react";
 
 export default function AddProject() {

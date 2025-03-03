@@ -20,7 +20,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import Checkbox from "../../../components/form/input/Checkbox";
 import { useModal } from "../../../hooks/useModal";
-import ExportPropertyReportModal from "../../properties/components/ExportPropertyReportModal";
+import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
 import React from "react";
 DataTable.use(DT);
 
