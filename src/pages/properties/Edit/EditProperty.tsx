@@ -31,8 +31,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Select2 from "../../components/form/Select2";
 import { useModal } from "../../hooks/useModal";
-import OwnerTable from "./components/OwnerTable";
-import AddOwnerModal from "./components/AddOwnerModal";
+import OwnerTable from "./Tables/OwnerTable";
+import AddOwnerModal from "./Modal/AddOwnerModal";
 import FileUploader from "../../_components/ImageUploader";
 import React from "react";
 

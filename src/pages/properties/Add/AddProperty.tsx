@@ -2,41 +2,41 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PageMeta from "../../components/common/PageMeta";
+import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
+import PageMeta from "../../../components/common/PageMeta";
 import {
   selectedProjectAtom,
   selectedOrgAtom,
   globalConfigAtom,
   organizationPropertyOwnerAtom,
   activeTabIndexProjectAtom,
-} from "../../_state";
-import Button from "../../components/ui/button/Button";
-import { FileIcon, PlusIcon } from "../../icons";
+} from "../../../_state";
+import Button from "../../../components/ui/button/Button";
+import { FileIcon, PlusIcon } from "../../../icons";
 import { useEffect, useState } from "react";
-import { ExcelData, OptionType, TowerData } from "../../_types";
+import { ExcelData, OptionType, TowerData } from "../../../_types";
 import * as excelJs from "exceljs";
-import DropzoneComponent from "../../components/form/form-elements/DropZone";
-import { dropZoneAtom } from "../../_state/atoms/dropzone";
+import DropzoneComponent from "../../../components/form/form-elements/DropZone";
+import { dropZoneAtom } from "../../../_state/atoms/dropzone";
 import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
-import BulkTable from "./components/BulkTable";
-import { useProperties } from "../../_actions";
+import BulkTable from "./BulkTable";
+import { useProperties } from "../../../_actions";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
-import ComponentCard from "../../components/common/ComponentCard";
-import Label from "../../components/form/Label";
-import Input from "../../components/form/input/InputField";
-import Select from "../../components/form/Select";
+import ComponentCard from "../../../components/common/ComponentCard";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
+import Select from "../../../components/form/Select";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Select2 from "../../components/form/Select2";
-import { useModal } from "../../hooks/useModal";
-import OwnerTable from "./components/OwnerTable";
-import AddOwnerModal from "./components/AddOwnerModal";
-import FileUploader from "../../_components/ImageUploader";
+import Select2 from "../../../components/form/Select2";
+import { useModal } from "../../../hooks/useModal";
+import FileUploader from "../../../_components/ImageUploader";
 import React from "react";
+import OwnerTable from "../Tables/OwnerTable";
+import AddOwnerModal from "../Modal/AddOwnerModal";
 
 export default function AddProperty() {
   const selectedOrganization = useRecoilValue(selectedOrgAtom);
