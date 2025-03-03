@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
+
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import moment from "moment";
+import React from "react";
+import { useProject } from "../../../../_actions";
+import { projectTimelineAtom } from "../../../../_state";
 import {
   FolderIcon,
   InfoIcon,
   ShootingStarIcon,
   TimeIcon,
-} from "../../../icons";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import moment from "moment";
-import Button from "../../../components/ui/button/Button";
-import Radio from "../../../components/form/input/Radio";
-import { useProject } from "../../../_actions/projects.actions";
-import { projectTimelineAtom } from "../../../_state";
-import React from "react";
+} from "../../../../icons";
+import Radio from "../../../../components/form/input/Radio";
+import Button from "../../../../components/ui/button/Button";
 
 export default function TimeLine({ openModal }: any) {
   const { project_id }: any = useParams();

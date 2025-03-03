@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import Radio from "../../../components/form/input/Radio";
-import { AlertIcon } from "../../../icons";
 import { useRecoilValue } from "recoil";
-import { projectDashboardAtom } from "../../../_state";
+
 import React from "react";
+import { projectDashboardAtom } from "../../../../_state";
+import { AlertIcon } from "../../../../icons";
+import Radio from "../../../../components/form/input/Radio";
 
 export default function Defects() {
   const [selectedValue, setSelectedValue] = useState("all");

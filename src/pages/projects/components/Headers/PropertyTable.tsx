@@ -7,21 +7,22 @@ import { useEffect, useState } from "react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 
-import { Property } from "../../../_types";
-import { useRecoilValue } from "recoil";
-import { propertiesAtom } from "../../../_state";
-import { TableCell } from "../../../components/ui/table";
-import { ucword } from "../../../_helpers";
-import Badge from "../../../components/ui/badge/Badge";
-import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../icons";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import moment from "moment";
 import { toast } from "react-toastify";
-import Checkbox from "../../../components/form/input/Checkbox";
-import { useModal } from "../../../hooks/useModal";
-import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
+
 import React from "react";
+import { useRecoilValue } from "recoil";
+import { propertiesAtom } from "../../../../_state";
+import { useModal } from "../../../../hooks/useModal";
+import { Property } from "../../../../_types";
+import { ucword } from "../../../../_helpers";
+import { TableCell } from "../../../../components/ui/table";
+import Checkbox from "../../../../components/form/input/Checkbox";
+import Badge from "../../../../components/ui/badge/Badge";
+import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../../icons";
+import ExportPropertyReportModal from "../../../properties/components/ExportPropertyReportModal";
 DataTable.use(DT);
 
 // Define the table data using the interface
