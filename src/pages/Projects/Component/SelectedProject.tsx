@@ -35,7 +35,7 @@ import CommonArea from "../../CommonAreas/CommonArea";
 import DefectResolution from "../../DefectResolution/DefectResolution";
 import { Reports } from "../../Reports/Reports";
 
-import { Users } from "../../users/Users";
+import { Users } from "../../Users/Users";
 import Appointments from "../../Appointments";
 import React from "react";
 import DefectsChart from "../Charts/DefectChart";
