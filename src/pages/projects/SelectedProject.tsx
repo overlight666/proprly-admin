@@ -37,7 +37,7 @@ import BulkImportComponent from "./components/BulkImportComponent";
 import CommonArea from "../CommonAreas/CommonArea";
 import DefectResolution from "../DefectResolution/DefectResolution";
 import { Reports } from "../Reports/Reports";
-import Appointments from "../Appointments/appointments";
+
 import { Users } from "../users/Users";
 
 export default function SelectedProject() {
