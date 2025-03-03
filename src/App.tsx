@@ -9,7 +9,7 @@ import Organization from "./pages/Organizations/Organization";
 import AddOrganization from "./pages/Organizations/AddOrganization";
 import { Tooltip } from "react-tooltip";
 import SelectedOrganization from "./pages/Organizations/SelectedOrganization";
-import EditProject from "./pages/Projects/editProject";
+import EditProject from "./pages/projects/components/EditProject";
 import AddProperty from "./pages/properties/AddProperty";
 import EditProperty from "./pages/properties/EditProperty";
 import SelectedProject from "./pages/Projects/SelectedProject";

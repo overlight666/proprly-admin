@@ -1,36 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PageMeta from "../../components/common/PageMeta";
-import { selectedOrgAtom } from "../../_state/atoms/organizations";
-import ComponentCard from "../../components/common/ComponentCard";
-import Label from "../../components/form/Label";
-import Input from "../../components/form/input/InputField";
+import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
+import PageMeta from "../../../components/common/PageMeta";
+import { selectedOrgAtom } from "../../../_state/atoms/organizations";
+import ComponentCard from "../../../components/common/ComponentCard";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import Select from "../../components/form/Select";
+import Select from "../../../components/form/Select";
 import {
   globalConfigAtom,
   projectResponseAtom,
   selectedProjectAtom,
-} from "../../_state";
+} from "../../../_state";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { ucword } from "../../_helpers";
-import DropzoneComponent from "../../components/form/form-elements/DropZone";
-import { dropZoneAtom, uploadResponseAtom } from "../../_state/atoms/dropzone";
-import FileUploader from "../../_components/ImageUploader";
+import { ucword } from "../../../_helpers";
+import DropzoneComponent from "../../../components/form/form-elements/DropZone";
+import {
+  dropZoneAtom,
+  uploadResponseAtom,
+} from "../../../_state/atoms/dropzone";
+import FileUploader from "../../../_components/ImageUploader";
 import { Link } from "react-router";
-import Button from "../../components/ui/button/Button";
+import Button from "../../../components/ui/button/Button";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { ImageType } from "../../_types";
-import { useModal } from "../../hooks/useModal";
-import { useProject } from "../../_actions/projects.actions";
-import { BoxIcon, FolderIcon } from "../../icons";
+import { ImageType } from "../../../_types";
+import { useModal } from "../../../hooks/useModal";
+import { useProject } from "../../../_actions/projects.actions";
+import { BoxIcon, FolderIcon } from "../../../icons";
 import React from "react";
-import TowersTable from "./components/Towers/TowersTable";
-import AddTowerModal from "./components/Towers/TowersTable";
+import TowersTable from "./Towers/TowersTable";
+import AddTowerModal from "./Towers/TowersTable";
 export default function EditProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
   const setUploadResponse = useSetRecoilState(uploadResponseAtom);
