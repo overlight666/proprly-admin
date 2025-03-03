@@ -18,4 +18,19 @@ export default defineConfig({
       },
     }),
   ],
+  preview: {
+    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech"], //added this
+  },
+  server: {
+    cors: {
+      origin: [
+        "admin-dev.proprly.tech",
+        "admin-staging.proprly.tech",
+        "http://localhost:5173",
+      ],
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Content-Type"],
+    },
+    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech"], //added this
+  },
 });
