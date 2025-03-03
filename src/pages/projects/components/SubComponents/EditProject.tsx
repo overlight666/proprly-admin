@@ -34,6 +34,7 @@ import { BoxIcon, FolderIcon } from "../../../../icons";
 import React from "react";
 import TowersTable from "./TowersTable";
 import AddTowerModal from "./TowersTable";
+
 export default function EditProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
   const setUploadResponse = useSetRecoilState(uploadResponseAtom);
