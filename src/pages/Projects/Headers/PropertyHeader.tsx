@@ -36,7 +36,7 @@ export default function PropertyHeader({
           <Button
             onClick={() => setShowBulk(true)}
             disabled={!canUpload}
-            className="w-[25%]"
+            className="w-[220px]"
             size="sm"
             variant="white"
             startIcon={<FileIcon />}
