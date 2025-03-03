@@ -33,7 +33,7 @@ import { useProject } from "../../../_actions/projects.actions";
 import { BoxIcon, FolderIcon } from "../../../icons";
 import React from "react";
 import TowersTable from "../Towers/TowersTable";
-import AddTowerModal from "../Towers/TowersTable";
+import AddTowerModal from "../Towers/AddTowerModal";
 
 export default function EditProject() {
   const uploadResponse: any = useRecoilValue(uploadResponseAtom);
