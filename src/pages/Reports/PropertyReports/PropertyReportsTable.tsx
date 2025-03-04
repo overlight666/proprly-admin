@@ -26,13 +26,16 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
           (report: any) => report?.reports?.length > 0
         );
         let arr: any = [];
+        console.log(dataWithReports);
         dataWithReports?.map((mr: any) => {
-          const mer = mr?.reports?.map((r: any) => {
-            return {
-              value: mr.value,
-              ...r,
-            };
-          });
+          const mer = mr?.reports
+            ?.filter((r: any) => r.inspectionId)
+            ?.map((r: any) => {
+              return {
+                value: mr.value,
+                ...r,
+              };
+            });
           arr = [...arr, ...mer];
         });
 
@@ -40,7 +43,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
           return [
             obj?.unitNo,
             obj?.lotNo,
-            obj?.owners.map((o: any) => o.fullName).join(", "),
+            obj?.owners?.map((o: any) => o.fullName).join(", "),
             obj?.value,
             { headerValue: headerValue, ...obj },
           ];
@@ -50,15 +53,17 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
         const getFiltered = propertReports?.find(
           (report: any) => report.key == headerValue
         );
-        const filteredData = getFiltered?.reports?.map((obj: any) => {
-          return [
-            obj?.unitNo,
-            obj?.lotNo,
-            obj?.owners.map((o: any) => o.fullName).join(", "),
-            getFiltered?.value,
-            { headerValue: headerValue, ...obj, value: getFiltered?.value },
-          ];
-        });
+        const filteredData = getFiltered?.reports
+          ?.filter((r: any) => r.inspectionId)
+          ?.map((obj: any) => {
+            return [
+              obj?.unitNo,
+              obj?.lotNo,
+              obj?.owners?.map((o: any) => o.fullName).join(", "),
+              getFiltered?.value,
+              { headerValue: headerValue, ...obj, value: getFiltered?.value },
+            ];
+          });
         setTableData(filteredData || []);
       }
     }
