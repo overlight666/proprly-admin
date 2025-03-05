@@ -122,6 +122,8 @@ const AppSidebar: React.FC = () => {
   const location = useLocation();
   const orgAction = useOrganization();
   const userAction = useUserActions();
+  const [adminItems, setAdminItems] = useState<NavItem[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const [projectItems, setProjectItems] = useState<NavItem[]>([]);
   const [showProjects, setShowProjects] = useState(false);
@@ -258,6 +260,33 @@ const AppSidebar: React.FC = () => {
   }, [currentRoute, selectedOrganization, id]);
 
   useEffect(() => {
+    const boolString = localStorage.getItem("isAdmin");
+    const isAdmins = boolString === "true";
+    setIsAdmin(isAdmins);
+    if (isAdmins) {
+      const adminI = [
+        {
+          icon: <UserCircleIcon />,
+          name: "Sign-up Leads",
+          path: "/signup-leads",
+        },
+        {
+          icon: <UserCircleIcon />,
+          name: "Master Configuration",
+          path: "/master-configuration",
+        },
+        {
+          icon: <UserCircleIcon />,
+          name: "Support Tickets",
+          path: "/support-tickets",
+        },
+      ];
+      setAdminItems(adminI);
+    }
+    console.log(isAdmin);
+  }, []);
+
+  useEffect(() => {
     if (projects) {
       setProjectItems([]);
       const projectNavHolder: any =
@@ -278,8 +307,9 @@ const AppSidebar: React.FC = () => {
       }
     }
   }, [projects]);
+
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others";
+    type: "main" | "others" | "admin menu";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -329,7 +359,10 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others") => {
+  const handleSubmenuToggle = (
+    index: number,
+    menuType: "main" | "others" | "admin menu"
+  ) => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -342,7 +375,10 @@ const AppSidebar: React.FC = () => {
     });
   };
 
-  const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
+  const renderMenuItems = (
+    items: NavItem[],
+    menuType: "main" | "others" | "admin menu"
+  ) => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
         <li key={nav.name}>
@@ -546,6 +582,25 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
+            {isAdmin && (
+              <div className="">
+                <h2
+                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                    !isExpanded && !isHovered
+                      ? "lg:justify-center"
+                      : "justify-start"
+                  }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    "Admin Menu"
+                  ) : (
+                    <HorizontaLDots />
+                  )}
+                </h2>
+                {renderMenuItems(adminItems, "admin menu")}
+                {/* {renderMenuItems(othersItems, "others")} */}
+              </div>
+            )}
             {showProjects && (
               <div className="">
                 <h2
