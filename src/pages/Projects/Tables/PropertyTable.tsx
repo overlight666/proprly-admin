@@ -184,7 +184,7 @@ export default function PropertyTable({
                           `/organization/${id}/project/${project_id}/property/${_data}`
                         )
                       }
-                      className="size-5 text-white cursor-pointer"
+                      className="size-5 text-black cursor-pointer dark:text-white"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="Edit"
                       data-tooltip-place="left"

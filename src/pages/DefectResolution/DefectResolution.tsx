@@ -82,7 +82,7 @@ export default function DefectResolution() {
       <div className="flex flex-row mt-10 w-full gap-2">
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Pending (<span className="mx-1">2</span>)
+            Pending (<span className="mx-1">{pendingDefects?.length}</span>)
           </Label>
           {pendingDefects &&
             pendingDefects.length > 0 &&
@@ -94,7 +94,8 @@ export default function DefectResolution() {
         </div>
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            In Progress (<span className="mx-1">2</span>)
+            In Progress (
+            <span className="mx-1">{inprogressDefects?.length}</span>)
           </Label>
           {inprogressDefects &&
             inprogressDefects.length > 0 &&
@@ -106,7 +107,7 @@ export default function DefectResolution() {
         </div>
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Disputed (<span className="mx-1">2</span>)
+            Disputed (<span className="mx-1">{disputedDefects.length}</span>)
           </Label>
           {disputedDefects &&
             disputedDefects.length > 0 &&
@@ -118,7 +119,7 @@ export default function DefectResolution() {
         </div>
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Resolved(<span className="mx-1">2</span>)
+            Resolved(<span className="mx-1">{resolvedDefects.length}</span>)
           </Label>
           {resolvedDefects &&
             resolvedDefects.length > 0 &&

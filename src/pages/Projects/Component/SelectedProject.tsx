@@ -41,7 +41,7 @@ import React from "react";
 import DefectsChart from "../Charts/DefectChart";
 import BulkImportComponent from "./BulkImportComponent";
 import PropertyHeader from "../Headers/PropertyHeader";
-import PropertyTable from "../Headers/PropertyTable";
+import PropertyTable from "../Tables/PropertyTable";
 import Defects from "../Defects/Defects";
 import TimeLine from "../Timeline/Timeline";
 
