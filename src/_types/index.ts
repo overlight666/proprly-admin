@@ -6,6 +6,21 @@ export interface Country {
   timezone: Timezone[];
 }
 
+export interface Leads {
+  id: number;
+  fullName: string;
+  email: string;
+  mobileNumber: string;
+  organizationName: string;
+  organizationCountryCode: string;
+  organizationTimezone: string;
+  status: string;
+  isEmailVerified: boolean;
+  isMobileVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Timezone {
   abbreviation: string;
   createdAt: string;

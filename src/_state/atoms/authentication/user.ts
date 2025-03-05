@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { atom } from "recoil";
-import { Config, NotificationParent } from "../../../_types";
+import { Config, Leads, NotificationParent } from "../../../_types";
 
 const usersAtom = atom({
   key: "user",
@@ -27,7 +27,19 @@ const projectAdminUsersAtom = atom<any[]>({
   default: undefined,
 });
 
+const signupLeadsListAtom = atom<Leads[]>({
+  key: "signupLeadsAtom",
+  default: undefined,
+});
+
+const signupLeadsConvertAtom = atom<any>({
+  key: "signupLeadsConvertAtom",
+  default: undefined,
+});
+
 export {
+  signupLeadsConvertAtom,
+  signupLeadsListAtom,
   projectAdminUsersAtom,
   usersAtom,
   globalConfigAtom,

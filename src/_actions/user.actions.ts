@@ -8,6 +8,8 @@ import {
   authAtom,
   globalConfigAtom,
   projectAdminUsersAtom,
+  signupLeadsConvertAtom,
+  signupLeadsListAtom,
   tokenAtom,
   usersAtom,
 } from "../_state";
@@ -25,6 +27,9 @@ function useUserActions() {
   const setAllNotification = useSetRecoilState(allNotificationsAtom);
   const setAddUserResponse = useSetRecoilState(addUserReponseAtom);
   const setProjectAdminUsers = useSetRecoilState(projectAdminUsersAtom);
+  const setLeads = useSetRecoilState(signupLeadsListAtom);
+  const setLeadsConverted = useSetRecoilState(signupLeadsConvertAtom);
+
   const persist = usePersistor();
 
   return {
@@ -35,6 +40,8 @@ function useUserActions() {
     getAllNotifications,
     addUser,
     getProjectAdminUsers,
+    getLeads,
+    convertLead,
     // addUserWithTrades,
   };
 
@@ -62,6 +69,18 @@ function useUserActions() {
       });
   }
 
+  function convertLead(params: any, userAction: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/admin/signup-leads/organization`, params)
+      .then((response: any) => {
+        if (response) {
+          setLeadsConverted(
+            response && response.data ? response.data : response
+          );
+          userAction.getLeads();
+        }
+      });
+  }
   // function addUserWithTrades(project_id: any, params: any) {
   //   return fetchWrapper
   //     .post(`${baseUrl}/project/${project_id}/users-with-tradecode`, params)
@@ -80,6 +99,16 @@ function useUserActions() {
       .then((response: any) => {
         if (response) {
           setGlobalConfig(response && response.data ? response.data : response);
+        }
+      });
+  }
+
+  function getLeads() {
+    return fetchWrapper
+      .get(`${baseUrl}/admin/signup-leads`)
+      .then((response: any) => {
+        if (response) {
+          setLeads(response && response.data ? response.data : response);
         }
       });
   }

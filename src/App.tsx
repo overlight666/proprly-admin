@@ -15,6 +15,7 @@ import EditProperty from "./pages/Properties/Edit/EditProperty";
 import AddProperty from "./pages/Properties/Add/AddProperty";
 import EditProject from "./pages/Projects/Edit/EditProject";
 import SelectedProject from "./pages/Projects/Component/SelectedProject";
+import SignupLeads from "./pages/Admin/SignupLeads/SignupLeads";
 
 export default function App() {
   return (
@@ -115,6 +116,16 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <EditProperty />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
+              path="/signup-leads"
+              element={
+                <PrivateRoute>
+                  <SignupLeads />
                 </PrivateRoute>
               }
             />
