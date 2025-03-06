@@ -94,19 +94,21 @@ export default function NotificationDropdown() {
                     onItemClick={closeDropdown}
                     className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
                   >
-                    <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
+                    {/* <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
                       <img src="/images/notification-bell.png" />
                       {!notif.isRead && (
                         <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
                       )}
-                    </span>
+                    </span> */}
 
                     <span className="block">
                       <span className="text-theme-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-medium text-gray-800 dark:text-white/90 block">
+                        <span className="font-medium text-gray-800 dark:text-white block">
                           {notif.bodyWeb && notif.bodyWeb.Project}
                         </span>
-                        <span>{notif.title}</span>
+                        <span className="font-medium text-gray-800 dark:text-white block">
+                          {notif.title}
+                        </span>
                         <span className="font-normal text-xs text-gray-800 dark:text-white/90">
                           <div className="flex flex-row">
                             <div className="flex">
