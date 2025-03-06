@@ -8,9 +8,10 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { BoxIcon, DocsIcon, DownloadIcon, ListIcon } from "../../../icons";
 import { useModal } from "../../../hooks/useModal";
 import { toast } from "react-toastify";
-import PropertyTradeReportModal from "./PropertyReportsModal";
+import PropertyTradeReportModal from "./PropertyTradeReportsModal";
 import { ucword } from "../../../_helpers";
 import React from "react";
+import PropertyReportModal from "./PropertyReportsModal";
 
 export default function PropertyReportsTable({ tableRef, headerValue }: any) {
   const [tableData, setTableData] = useState<any[]>([]);
@@ -18,6 +19,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
   const [commonAreaHolder, setCommonAreaHolder] = useState<any>(undefined);
   const [modalTitle, setModalTitle] = useState("");
   const { isOpen, openModal, closeModal } = useModal();
+  const [whichModal, setWhichModal] = useState(1);
 
   useEffect(() => {
     if (propertReports) {
@@ -71,12 +73,21 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
 
   return (
     <>
-      <PropertyTradeReportModal
-        closeModal={closeModal}
-        isOpen={isOpen}
-        reports={commonAreaHolder}
-        title={modalTitle}
-      />
+      {whichModal == 1 ? (
+        <PropertyReportModal
+          closeModal={closeModal}
+          isOpen={isOpen}
+          reports={commonAreaHolder}
+          title={modalTitle}
+        />
+      ) : (
+        <PropertyTradeReportModal
+          closeModal={closeModal}
+          isOpen={isOpen}
+          reports={commonAreaHolder}
+          title={modalTitle}
+        />
+      )}
       <div className="mt-8 space-y-3">
         <DataTable
           ref={tableRef}
@@ -142,6 +153,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                     <DocsIcon
                       onClick={() => {
                         setCommonAreaHolder(_row[3]?.reports);
+                        setWhichModal(2);
                         openModal();
                         setModalTitle("Trade Report History");
                       }}
@@ -164,6 +176,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                                 : "pre_settlement_general_inspection")
                           ).reports
                         );
+                        setWhichModal(1);
                         openModal();
 
                         setModalTitle(

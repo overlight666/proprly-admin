@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { DownloadIcon } from "../../../icons";
 import moment from "moment";
 import React from "react";
-export default function PropertyReportModal({
+export default function PropertyTradeReportModal({
   isOpen,
   closeModal,
   reports,
@@ -120,13 +120,13 @@ export default function PropertyReportModal({
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Unit No
+                  Trade Name
                 </th>
                 <th
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Date Created
+                  Trade Code
                 </th>
 
                 <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
