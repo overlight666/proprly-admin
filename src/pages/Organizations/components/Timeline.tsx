@@ -14,6 +14,7 @@ import moment from "moment";
 import Button from "../../../components/ui/button/Button";
 import Radio from "../../../components/form/input/Radio";
 import React from "react";
+import { hasViewDetails } from "../../../_helpers";
 
 export default function TimeLine({ openModal }: any) {
   const { id }: any = useParams();
@@ -137,16 +138,17 @@ export default function TimeLine({ openModal }: any) {
                           <InfoIcon className="size-5" />
                           Needs Action
                         </Button>
-                      )) || (
-                        <Button
-                          onClick={() => getDefect(timeline.data.id)}
-                          variant="outline"
-                          className="mt-5 inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                        >
-                          <FolderIcon className="size-5" />
-                          View Details
-                        </Button>
-                      )}
+                      )) ||
+                        (hasViewDetails(timeline.title) && (
+                          <Button
+                            onClick={() => getDefect(timeline.data.id)}
+                            variant="outline"
+                            className="mt-5 inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                          >
+                            <FolderIcon className="size-5" />
+                            View Details
+                          </Button>
+                        ))}
                     </li>
                   );
                 })
