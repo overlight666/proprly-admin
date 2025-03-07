@@ -36,7 +36,7 @@ export default function SelectedOrganization() {
 
   const onSearch = (value: any) => {
     // tableRef.current?.dt()?.search(value).draw();
-    tableRef.current.dt().search(value).draw();
+    tableRef?.current?.dt().search(value).draw();
   };
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function SelectedOrganization() {
       <div className="min-h-screen rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] xl:pb-12 overflow-hidden">
         <div className="flex dark:text-white text-black border-b-[0.1px] border-gray-200">
           {/* Loop through tab data and render button for each. */}
-          {tabsData.map((tab, idx) => {
+          {tabsData?.map((tab, idx) => {
             return (
               <button
                 key={idx}
@@ -78,14 +78,14 @@ export default function SelectedOrganization() {
                 onClick={() => setActiveTabIndex(idx)}
               >
                 <div className="flex flex-row items-center justify-center gap-2">
-                  {tab.icon}
-                  {tab.label}
+                  {tab?.icon}
+                  {tab?.label}
                 </div>
               </button>
             );
           })}
         </div>
-        {tabsData[activeTabIndex].label === "Dashboard" ? (
+        {tabsData[activeTabIndex]?.label === "Dashboard" ? (
           <div className="flex flex-col gap-5 px-5 mt-5">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 md:gap-6 mt-3 ">
               {/* <!-- Metric Item Start --> */}
@@ -162,8 +162,8 @@ export default function SelectedOrganization() {
                   totalTitle="Total Property Defects"
                   totalValue={
                     dashboardData &&
-                    dashboardData.defectsByProperty &&
-                    dashboardData.defectsByProperty.total
+                    dashboardData?.defectsByProperty &&
+                    dashboardData?.defectsByProperty?.total
                   }
                 />
               </div>
@@ -178,8 +178,8 @@ export default function SelectedOrganization() {
                   totalTitle="Total Common Area Defects"
                   totalValue={
                     dashboardData &&
-                    dashboardData.defectsByCommonArea &&
-                    dashboardData.defectsByCommonArea.total
+                    dashboardData?.defectsByCommonArea &&
+                    dashboardData?.defectsByCommonArea?.total
                   }
                 />
               </div>
