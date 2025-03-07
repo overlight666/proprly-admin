@@ -82,10 +82,11 @@ export default function DefectResolution() {
       <div className="flex flex-row mt-10 w-full gap-2">
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Pending (<span className="mx-1">{pendingDefects?.length}</span>)
+            Pending (<span className="mx-1">{pendingDefects?.length || 0}</span>
+            )
           </Label>
           {pendingDefects &&
-            pendingDefects.length > 0 &&
+            pendingDefects?.length > 0 &&
             pendingDefects.map((defects, index) => {
               return (
                 <DefectItem keyValue={index + "pending"} defect={defects} />
@@ -98,7 +99,7 @@ export default function DefectResolution() {
             <span className="mx-1">{inprogressDefects?.length}</span>)
           </Label>
           {inprogressDefects &&
-            inprogressDefects.length > 0 &&
+            inprogressDefects?.length > 0 &&
             inprogressDefects.map((defects, index) => {
               return (
                 <DefectItem keyValue={index + "progress"} defect={defects} />
@@ -107,10 +108,11 @@ export default function DefectResolution() {
         </div>
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Disputed (<span className="mx-1">{disputedDefects.length}</span>)
+            Disputed (
+            <span className="mx-1">{disputedDefects?.length || 0}</span>)
           </Label>
           {disputedDefects &&
-            disputedDefects.length > 0 &&
+            disputedDefects?.length > 0 &&
             disputedDefects.map((defects, index) => {
               return (
                 <DefectItem keyValue={index + "disputed"} defect={defects} />
@@ -119,10 +121,11 @@ export default function DefectResolution() {
         </div>
         <div className="basis-[25%] gap-3">
           <Label className="text-[1rem] font-bold">
-            Resolved(<span className="mx-1">{resolvedDefects.length}</span>)
+            Resolved(
+            <span className="mx-1">{resolvedDefects?.length || 0}</span>)
           </Label>
           {resolvedDefects &&
-            resolvedDefects.length > 0 &&
+            resolvedDefects?.length > 0 &&
             resolvedDefects.map((defects, index) => {
               return (
                 <DefectItem keyValue={index + "resolved"} defect={defects} />
