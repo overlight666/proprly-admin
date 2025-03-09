@@ -242,6 +242,7 @@ export interface NotificationType {
   data: NotificationDataType;
   isRead: boolean;
   forAdmin: boolean;
+  isNeedAction: boolean;
   userId: number;
   createdAt: string;
   updatedAt: string;

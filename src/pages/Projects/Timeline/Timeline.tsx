@@ -130,7 +130,7 @@ export default function TimeLine({ openModal }: any) {
                         )}
                       </div>
 
-                      {(timeline.forAdmin && (
+                      {(timeline.forAdmin && timeline.isNeedAction && (
                         <Button
                           onClick={() => getDefect(timeline.data.id)}
                           variant="outline"
