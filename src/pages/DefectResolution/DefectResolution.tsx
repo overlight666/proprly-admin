@@ -89,7 +89,11 @@ export default function DefectResolution() {
             pendingDefects?.length > 0 &&
             pendingDefects.map((defects, index) => {
               return (
-                <DefectItem keyValue={index + "pending"} defect={defects} />
+                <DefectItem
+                  key={index}
+                  keyValue={index + "pending"}
+                  defect={defects}
+                />
               );
             })}
         </div>
@@ -102,7 +106,11 @@ export default function DefectResolution() {
             inprogressDefects?.length > 0 &&
             inprogressDefects.map((defects, index) => {
               return (
-                <DefectItem keyValue={index + "progress"} defect={defects} />
+                <DefectItem
+                  key={index}
+                  keyValue={index + "progress"}
+                  defect={defects}
+                />
               );
             })}
         </div>
@@ -115,7 +123,11 @@ export default function DefectResolution() {
             disputedDefects?.length > 0 &&
             disputedDefects.map((defects, index) => {
               return (
-                <DefectItem keyValue={index + "disputed"} defect={defects} />
+                <DefectItem
+                  key={index}
+                  keyValue={index + "disputed"}
+                  defect={defects}
+                />
               );
             })}
         </div>
@@ -128,7 +140,11 @@ export default function DefectResolution() {
             resolvedDefects?.length > 0 &&
             resolvedDefects.map((defects, index) => {
               return (
-                <DefectItem keyValue={index + "resolved"} defect={defects} />
+                <DefectItem
+                  key={index}
+                  keyValue={index + "resolved"}
+                  defect={defects}
+                />
               );
             })}
         </div>

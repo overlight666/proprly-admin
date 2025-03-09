@@ -16,6 +16,7 @@ import { defectFeedbackAtom } from "../_state/atoms/defects";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import React from "react";
+import { getIcons, textColoring } from "../_helpers/textIcons";
 
 export default function DefectResolutionModal({ isOpen, closeModal }: any) {
   const defect = useRecoilValue(organizationDefectAtom);
@@ -59,16 +60,15 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
         className="max-w-[90%] p-6 lg:p-10 max-h-[90%] relative overflow-auto"
       >
         <div className="flex flex-col px-2 overflow-auto custom-scrollbar">
-          <div>
-            <Badge
-              color="error"
-              style={{
-                color: defect?.color,
-                backgroundColor: `${defect?.color}30`,
-              }}
+          <div className="flex items-center">
+            <div
+              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(defect?.subStatus, true)}
+                    `}
             >
-              {defect && defect?.subStatus}
-            </Badge>
+              {getIcons(defect?.subStatus)}
+              <span className="text-[12px]">{defect?.subStatus}</span>
+            </div>
           </div>
           <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-2">
             <ComponentCard title="Defect Information" className="col-span-8">
@@ -192,16 +192,20 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                                 (c) => c.id == activity?.loggedUserRoleId
                               )?.roleName}
                           </time>
-                          <div className="mt-3">
-                            <Badge
-                              color="error"
-                              style={{
-                                color: activity?.color,
-                                backgroundColor: `${activity?.color}20`,
-                              }}
+                          <div className="flex">
+                            <div
+                              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${textColoring(
+                                    activity.defectSubStatus,
+                                    true
+                                  )}
+                                  `}
                             >
-                              {activity.defectSubStatus}
-                            </Badge>
+                              {getIcons(activity.defectSubStatus)}
+                              <span className="text-[12px]">
+                                {activity.defectSubStatus}
+                              </span>
+                            </div>
                           </div>
 
                           {activity.images && activity.images.length > 0 && (

@@ -8,6 +8,7 @@ import DefectResolutionModal from "../../../_components/DefectResolutionModal";
 import { useModal } from "../../../hooks/useModal";
 import { useOrganization } from "../../../_actions/organizations.actions";
 import React from "react";
+import { getIcons, textColoring } from "../../../_helpers/textIcons";
 
 // Define the table data using the interface
 interface DefectItemBox {
@@ -45,13 +46,19 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
           </div>
           <div className="flex flex-col gap-0">
             <div className="p-1 rounded-lg">
-              <span
-                style={{
-                  color: defect?.color,
-                }}
-              >
-                {defect?.subStatus}
-              </span>
+              <div className="flex items-center">
+                <div
+                  className={`flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
+                    defect?.subStatus,
+                    true
+                  )}`}
+                >
+                  <div className="flex h-full align-top">
+                    {getIcons(defect?.subStatus)}
+                  </div>
+                  <span className={`text-[14px]`}>{defect?.subStatus}</span>
+                </div>
+              </div>
             </div>
             <span className="text-black dark:text-gray-300 text-sm">{`${defect?.property?.unitNo}, ${defect?.checklistZone?.name} - ${defect?.checklistElement?.name}`}</span>
             <span className="text-xs text-gray-400 dark:text-gray-500">
