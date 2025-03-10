@@ -2,14 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Modal } from "../components/ui/modal";
-import { organizationDefectAtom } from "../_state/atoms/organizations";
 import Badge from "../components/ui/badge/Badge";
 import Label from "../components/form/Label";
 import Input from "../components/form/input/InputField";
 import ComponentCard from "../components/common/ComponentCard";
 import moment from "moment";
 import TextArea from "../components/form/input/TextArea";
-import { globalConfigAtom } from "../_state";
+import { globalConfigAtom, projectDefectAtom } from "../_state";
 import { Roles } from "../_types";
 import { useDefect } from "../_actions/defects.actions";
 import { defectFeedbackAtom } from "../_state/atoms/defects";
@@ -18,8 +17,11 @@ import { toast } from "react-toastify";
 import React from "react";
 import { getIcons, textColoring } from "../_helpers/textIcons";
 
-export default function DefectResolutionModal({ isOpen, closeModal }: any) {
-  const defect = useRecoilValue(organizationDefectAtom);
+export default function DefectProjectResolutionModal({
+  isOpen,
+  closeModal,
+}: any) {
+  const defect = useRecoilValue(projectDefectAtom);
   const config = useRecoilValue(globalConfigAtom);
   const defectFeedback = useRecoilValue(defectFeedbackAtom);
   const setDefectFeedback = useSetRecoilState(defectFeedbackAtom);

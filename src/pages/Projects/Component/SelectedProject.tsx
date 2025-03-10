@@ -20,7 +20,6 @@ import { selectedOrgAtom } from "../../../_state/atoms/organizations";
 import { useNavigate, useParams } from "react-router";
 
 import { useModal } from "../../../hooks/useModal";
-import DefectResolutionModal from "../../../_components/DefectResolutionModal";
 
 import {
   activeTabIndexProjectAtom,
@@ -44,6 +43,7 @@ import PropertyHeader from "../Headers/PropertyHeader";
 import PropertyTable from "../Tables/PropertyTable";
 import Defects from "../Defects/Defects";
 import TimeLine from "../Timeline/Timeline";
+import DefectProjectResolutionModal from "../../../_components/DefectProjectResolutionModal";
 
 export default function SelectedProject() {
   const { id, project_id }: any = useParams();
@@ -153,7 +153,7 @@ export default function SelectedProject() {
 
   return (
     <div>
-      <DefectResolutionModal
+      <DefectProjectResolutionModal
         isOpen={isOpen}
         openModal={openModal}
         closeModal={closeModal}
