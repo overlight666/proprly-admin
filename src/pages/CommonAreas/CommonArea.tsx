@@ -206,7 +206,7 @@ export default function CommonArea() {
                     variant="primary"
                     className="text-black dark:text-white"
                   >
-                    <GearIcon className="size-5 text-black dark:text-white" />
+                    <GearIcon className="size-5 text-white" />
                     Configure
                   </Button>
                 )
@@ -312,7 +312,7 @@ export default function CommonArea() {
                   variant="primary"
                   className="text-black dark:text-white"
                 >
-                  <HomeIcon className="size-5 text-black dark:text-white" />
+                  <HomeIcon className="size-5 text-white" />
                   Manage
                 </Button>
               )
