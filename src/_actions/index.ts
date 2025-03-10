@@ -8,3 +8,5 @@ export * from "./warranty.action";
 export * from "./defectResolution.actions";
 export * from "./appointments.actions";
 export * from "./reports.action";
+export * from "./organizations.actions";
+export * from "./defects.actions";

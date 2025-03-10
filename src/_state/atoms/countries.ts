@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { atom } from "recoil";
 import { Country } from "../../_types";
 
@@ -6,4 +7,9 @@ const countriesAtom = atom<Country[]>({
   default: undefined,
 });
 
-export { countriesAtom };
+const regionsAtom = atom<any[]>({
+  key: "regionsAtom",
+  default: undefined,
+});
+
+export { countriesAtom, regionsAtom };

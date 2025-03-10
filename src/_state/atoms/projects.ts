@@ -52,7 +52,13 @@ const attachedUserResponse = atom<any>({
   default: undefined,
 });
 
+const allProjectsAtom = atom<Project[]>({
+  key: "allProjectsAtom",
+  default: undefined,
+});
+
 export {
+  allProjectsAtom,
   attachedUserResponse,
   projectTowerResponseAtom,
   activeTabIndexProjectAtom,

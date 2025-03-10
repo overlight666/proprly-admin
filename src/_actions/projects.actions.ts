@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil";
 
 import { useFetchWrapper } from "../_helpers";
 import {
+  allProjectsAtom,
   attachedUserResponse,
   projectDashboardAtom,
   projectDefectAtom,
@@ -26,6 +27,7 @@ function useProject() {
   const setProjectResponse = useSetRecoilState(projectResponseAtom);
   const setProjectTowerResponse = useSetRecoilState(projectTowerResponseAtom);
   const setAttachedUserResponse = useSetRecoilState(attachedUserResponse);
+  const setAllProjects = useSetRecoilState(allProjectsAtom);
 
   return {
     getProjectsByOrg,
@@ -38,6 +40,7 @@ function useProject() {
     addProjectTower,
     removeProjectTower,
     attachUser,
+    getAllProjects,
   };
 
   function attachUser(project_id: any, params: any) {
@@ -154,5 +157,13 @@ function useProject() {
           );
         }
       });
+  }
+
+  function getAllProjects() {
+    return fetchWrapper.get(`${baseUrl}/projects`).then((response: any) => {
+      if (response) {
+        setAllProjects(response && response.data ? response.data : response);
+      }
+    });
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { atom } from "recoil";
 
 const defectFeedbackAtom = atom({
@@ -5,4 +6,9 @@ const defectFeedbackAtom = atom({
   default: undefined,
 });
 
-export { defectFeedbackAtom };
+const defectCodesAtom = atom<any[]>({
+  key: "defectCodesAtom",
+  default: undefined,
+});
+
+export { defectFeedbackAtom, defectCodesAtom };
