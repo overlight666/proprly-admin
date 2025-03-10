@@ -27,6 +27,7 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
 
   const [defectMessage, setDefectMessage] = useState("");
 
+  console.log(defect);
   useEffect(() => {
     if (defectFeedback) {
       toast.info(defectMessage);
@@ -47,9 +48,9 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
             return letter.toUpperCase();
           });
     } catch (error: any) {
-      val = "";
+      val = "N/A";
     }
-    return val;
+    return val ? val : "N/A";
   };
 
   return (
@@ -74,40 +75,47 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
             <ComponentCard title="Defect Information" className="col-span-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <div>
-                  <Label htmlFor="input">Lot No</Label>
+                  <Label htmlFor="input">
+                    {defect?.property ? "Lot No" : "CA Lot No"}
+                  </Label>
                   <Input
                     type="text"
                     id="input"
                     value={
-                      defect && defect?.property && defect?.property?.lotNo
+                      (defect && defect?.property && defect?.property?.lotNo) ||
+                      defect?.commonArea?.lotNo
                     }
                     readOnly={true}
                   />
                 </div>
-                <div>
-                  <Label htmlFor="input">Unit No</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={
-                      defect && defect?.property && defect?.property?.unitNo
-                    }
-                    readOnly={true}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="input">Zone</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={
-                      defect &&
-                      defect?.checklistZone &&
-                      defect?.checklistZone?.name
-                    }
-                    readOnly={true}
-                  />
-                </div>
+                {defect?.property && (
+                  <div>
+                    <Label htmlFor="input">Unit No</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={
+                        defect && defect?.property && defect?.property?.unitNo
+                      }
+                      readOnly={true}
+                    />
+                  </div>
+                )}
+                {defect?.checklistZone && (
+                  <div>
+                    <Label htmlFor="input">Zone</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={
+                        defect &&
+                        defect?.checklistZone &&
+                        defect?.checklistZone?.name
+                      }
+                      readOnly={true}
+                    />
+                  </div>
+                )}
                 <div>
                   <Label htmlFor="input">Element</Label>
                   <Input
@@ -152,12 +160,12 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <TextArea
                     value={`${
                       defect &&
-                      defect.defectCode &&
-                      defect.defectCode.defectCode
+                      defect?.defectCode &&
+                      defect?.defectCode.defectCode
                     }, ${
                       defect &&
-                      defect.defectCode &&
-                      defect.defectCode.defectName
+                      defect?.defectCode &&
+                      defect?.defectCode.defectName
                     }`}
                     rows={2}
                     readOnly={true}
@@ -181,7 +189,7 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
               <div className="gap-2 ">
                 <ol className="relative border-s border-gray-200 dark:border-gray-700">
                   {defect?.activityLogs &&
-                    defect.activityLogs.map((activity, index) => {
+                    defect?.activityLogs.map((activity, index) => {
                       return (
                         <li className="mb-4 ms-4" key={index}>
                           <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
@@ -257,7 +265,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.projectTower?.name}
+                    value={
+                      defect?.property?.projectTower?.name
+                        ? defect?.property?.projectTower?.name
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -266,7 +278,9 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.floor}
+                    value={
+                      defect?.property?.floor ? defect?.property?.floor : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -275,7 +289,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.bedroom}
+                    value={
+                      defect?.property?.bedroom
+                        ? defect?.property?.bedroom
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -285,7 +303,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.bathroom}
+                    value={
+                      defect?.property?.bathroom
+                        ? defect?.property?.bathroom
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -295,7 +317,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.ensuite}
+                    value={
+                      defect?.property?.ensuite
+                        ? defect?.property?.ensuite
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -305,7 +331,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.studyRoom}
+                    value={
+                      defect?.property?.studyRoom
+                        ? defect?.property?.studyRoom
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -315,7 +345,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.storage}
+                    value={
+                      defect?.property?.storage
+                        ? defect?.property?.storage
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -325,7 +359,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.parkingSpaces}
+                    value={
+                      defect?.property?.parkingSpaces
+                        ? defect?.property?.parkingSpaces
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -338,7 +376,11 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.internalArea}
+                    value={
+                      defect?.property?.internalArea
+                        ? defect?.property?.internalArea
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
@@ -350,19 +392,23 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   <Input
                     type="text"
                     id="input"
-                    value={defect?.property.externalArea}
+                    value={
+                      defect?.property?.externalArea
+                        ? defect?.property?.externalArea
+                        : "N/A"
+                    }
                     readOnly={true}
                   />
                 </div>
               </div>
             </ComponentCard>
             {defect &&
-              defect.subStatus &&
-              defect.subStatus == "Pending Admin Approval" && (
+              defect?.subStatus &&
+              defect?.subStatus == "Pending Admin Approval" && (
                 <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end col-span-12">
                   <button
                     onClick={() => {
-                      defectAction.pushDefectFeedback(defect.id, {
+                      defectAction.pushDefectFeedback(defect?.id, {
                         feedback: "reject",
                       });
                       setDefectMessage("Defect has been rejected");
@@ -374,7 +420,7 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   </button>
                   <button
                     onClick={() => {
-                      defectAction.pushDefectFeedback(defect.id, {
+                      defectAction.pushDefectFeedback(defect?.id, {
                         feedback: "accept",
                       });
                       setDefectMessage("Defect has been accepted");
@@ -387,15 +433,15 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                 </div>
               )}
             {defect &&
-              defect.subStatus &&
-              (defect.subStatus == "Defect Rejected by Admin" ||
-                (defect.subStatus &&
-                  defect.subStatus.toLowerCase() ==
+              defect?.subStatus &&
+              (defect?.subStatus == "Defect Rejected by Admin" ||
+                (defect?.subStatus &&
+                  defect?.subStatus.toLowerCase() ==
                     "pending admin feedback")) && (
                 <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end col-span-12">
                   <button
                     onClick={() => {
-                      defectAction.pushDefectFeedback(defect.id, {
+                      defectAction.pushDefectFeedback(defect?.id, {
                         feedback: "close",
                       });
                       setDefectMessage("Defect has been closed");
@@ -407,7 +453,7 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   </button>
                   <button
                     onClick={() => {
-                      defectAction.pushDefectFeedback(defect.id, {
+                      defectAction.pushDefectFeedback(defect?.id, {
                         feedback: "reopen",
                       });
                       setDefectMessage("Defect has been reopened");
