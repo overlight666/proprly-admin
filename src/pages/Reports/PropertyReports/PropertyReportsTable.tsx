@@ -157,7 +157,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                         openModal();
                         setModalTitle("Trade Report History");
                       }}
-                      className="size-5 text-white cursor-pointer"
+                      className="size-5 text-black dark:text-white cursor-pointer"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="Trade Reports"
                       data-tooltip-place="top"
