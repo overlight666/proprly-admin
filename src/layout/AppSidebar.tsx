@@ -153,7 +153,7 @@ const AppSidebar: React.FC = () => {
     "/organization/new",
     "/signup-leads",
     "signup-leads/view",
-    "/master-configurations",
+    "/master-configuration",
     "/support-tickets",
     "/organization/:id",
     "/organization/:id/edit",
@@ -226,7 +226,7 @@ const AppSidebar: React.FC = () => {
       currentRoute === "/organization/new" ||
       currentRoute === "/signup-leads" ||
       currentRoute === "signup-leads/view" ||
-      currentRoute === "/master-configurations" ||
+      currentRoute === "/master-configuration" ||
       currentRoute === "/support-tickets" ||
       currentRoute === "/organization/:id/edit"
     ) {
