@@ -9,3 +9,4 @@ export * from "./warranty";
 export * from "./commonArea";
 export * from "./appointments";
 export * from "./reports";
+export * from "./trades";

@@ -1,7 +1,7 @@
 import React from "react";
 import PageMeta from "../../../components/common/PageMeta";
 import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
-import { MasterAccordion } from "./component/Accordion";
+import { MasterAccordion } from "./components/Accordion";
 
 export default function MasterConfiguration() {
   return (

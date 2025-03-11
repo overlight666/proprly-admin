@@ -16,4 +16,14 @@ const defectCodesResponseAtom = atom<any>({
   default: undefined,
 });
 
-export { defectFeedbackAtom, defectCodesAtom, defectCodesResponseAtom };
+const defectCodesSelectAtom = atom<any[]>({
+  key: "defectCodesSelectAtom",
+  default: undefined,
+});
+
+export {
+  defectFeedbackAtom,
+  defectCodesAtom,
+  defectCodesResponseAtom,
+  defectCodesSelectAtom,
+};

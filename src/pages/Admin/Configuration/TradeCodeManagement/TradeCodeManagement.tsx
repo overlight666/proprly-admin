@@ -2,40 +2,41 @@
 import React, { useEffect, useState } from "react";
 import Label from "../../../../components/form/Label";
 import { PlusIcon } from "../../../../icons";
-import DefectCodeTable from "./DefectCodeTable";
+import TradeCodeTable from "./TradeCodeTable";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   allProjectsAtom,
   organizationsAtom,
   regionsAtom,
+  tradeCodesAtom,
+  tradeCodesResponseAtom,
 } from "../../../../_state";
 import {
   useCountriesAction,
   useDefect,
   useOrganization,
   useProject,
+  useTrade,
 } from "../../../../_actions";
 import { Project } from "../../../../_types";
-import {
-  defectCodesAtom,
-  defectCodesResponseAtom,
-} from "../../../../_state/atoms/defects";
-import AddDefectCodeModal from "./AddDefectCodeModal";
+import AddTradeCodeModal from "./AddTradeCodeModal";
 import { useModal } from "../../../../hooks/useModal";
 import { toast } from "react-toastify";
 
-export default function DefectCodeManagement() {
+export default function TradeCodeManagement() {
   const [isType, setIsType] = useState("");
   const orglist: any = useRecoilValue(organizationsAtom);
   const projectList: Project[] = useRecoilValue(allProjectsAtom);
   const regionList: any[] = useRecoilValue(regionsAtom);
-  const defectCodeList: any[] = useRecoilValue(defectCodesAtom);
-  const defectCodeResponse: any = useRecoilValue(defectCodesResponseAtom);
+  const tradeCodeList: any[] = useRecoilValue(tradeCodesAtom);
+
+  const tradeCodeResponse: any = useRecoilValue(tradeCodesResponseAtom);
   const orgAction = useOrganization();
   const projectAction = useProject();
   const regionAction = useCountriesAction();
+  const tradeAction = useTrade();
   const defectAction = useDefect();
-  const setDefectCodes = useSetRecoilState(defectCodesAtom);
+  const setTradeCodes = useSetRecoilState(tradeCodesAtom);
   const [selectedId, setSelectedId] = useState<any>();
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -57,16 +58,17 @@ export default function DefectCodeManagement() {
           ? `?regionId=${selectedId}`
           : "";
       if (selectedId || isType === "default") {
-        defectAction.getDefectCodes(params);
+        tradeAction.getTradeCodes(params);
+        defectAction.getDefectCodesSelect(params);
       }
     }
-  }, [isType, selectedId, defectCodeResponse]);
+  }, [isType, selectedId, tradeCodeResponse]);
 
-  const addDefectCode = (name: any, code: any) => {
-    console.log(name, code);
+  const addTradeCode = (name: any, code: any, defectList: any) => {
     const params: any = {
-      defectName: name,
-      defectCode: code,
+      tradeName: name,
+      tradeCode: code,
+      defectCodes: defectList,
     };
     if (isType === "project") {
       params.projectId = selectedId;
@@ -75,10 +77,10 @@ export default function DefectCodeManagement() {
     } else if (isType === "region") {
       params.regionId = selectedId;
     }
-    defectAction
-      .addDefectCode(params)
+    tradeAction
+      .addTradeCode(params)
       .then(() => {
-        toast.info("New defect code has been created!");
+        toast.info("New trade code has been created!");
       })
       .catch((e) => {
         toast.error(e);
@@ -99,7 +101,7 @@ export default function DefectCodeManagement() {
               value={isType}
               onChange={(e) => {
                 setSelectedId(undefined);
-                setDefectCodes([]);
+                setTradeCodes([]);
                 setIsType(e.target.value);
               }}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
@@ -225,20 +227,26 @@ export default function DefectCodeManagement() {
         >
           <div className="flex items-center">
             <PlusIcon />
-            Add New Defect Code
+            Add New Trade Code
           </div>
         </button>
       </div>
 
-      <DefectCodeTable
-        tableData={defectCodeList?.map((codes, index) => {
-          return [index + 1, codes.defectName, codes.defectCode, codes];
+      <TradeCodeTable
+        tableData={tradeCodeList?.map((codes, index) => {
+          return [
+            index + 1,
+            codes.tradeName,
+            codes.tradeCode,
+            codes?.defectCode?.map((c) => c?.defectCode).join(", "),
+            codes,
+          ];
         })}
       />
-      <AddDefectCodeModal
+      <AddTradeCodeModal
         isOpen={isOpen}
         closeModal={closeModal}
-        addDefectCode={addDefectCode}
+        addTradeCode={addTradeCode}
       />
     </div>
   );

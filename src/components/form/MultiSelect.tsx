@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import useComponentVisible from "../../_helpers/dropdown";
 
@@ -29,7 +29,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const [selectedOptions, setSelectedOptions] =
     useState<string[]>(defaultSelected);
   const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(true);
+    useComponentVisible(false);
 
   const toggleDropdown = () => {
     if (!disabled) setIsComponentVisible(!isComponentVisible);

@@ -10,3 +10,4 @@ export * from "./appointments.actions";
 export * from "./reports.action";
 export * from "./organizations.actions";
 export * from "./defects.actions";
+export * from "./trades.actions";
