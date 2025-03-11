@@ -2,7 +2,11 @@
 import { useSetRecoilState } from "recoil";
 
 import { useFetchWrapper } from "../_helpers";
-import { defectCodesAtom, defectFeedbackAtom } from "../_state/atoms/defects";
+import {
+  defectCodesAtom,
+  defectCodesResponseAtom,
+  defectFeedbackAtom,
+} from "../_state/atoms/defects";
 
 export { useDefect };
 
@@ -11,10 +15,12 @@ function useDefect() {
   const fetchWrapper: any = useFetchWrapper();
   const setDefectFeedback = useSetRecoilState(defectFeedbackAtom);
   const setDefectCodes = useSetRecoilState(defectCodesAtom);
+  const setDefectCodesResponse = useSetRecoilState(defectCodesResponseAtom);
 
   return {
     pushDefectFeedback,
     getDefectCodes,
+    addDefectCode,
   };
 
   function pushDefectFeedback(id: any, params: any) {
@@ -23,6 +29,18 @@ function useDefect() {
       .then((response: any) => {
         if (response) {
           setDefectFeedback(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
+
+  function addDefectCode(params: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/defect-code`, params)
+      .then((response: any) => {
+        if (response) {
+          setDefectCodesResponse(
             response && response.data ? response.data : response
           );
         }

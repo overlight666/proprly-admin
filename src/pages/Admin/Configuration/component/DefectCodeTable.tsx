@@ -3,13 +3,36 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import React from "react";
+import React, { useRef } from "react";
 import { TableCell } from "../../../../components/ui/table";
-import { PencilIcon, TrashBinIcon } from "../../../../icons";
+import { PencilIcon, SearchIcon, TrashBinIcon } from "../../../../icons";
+import { toast } from "react-toastify";
+import Input from "../../../../components/form/input/InputField";
+export default function DefectCodeTable({ tableData }: any) {
+  const tableRef = useRef<any>(null);
 
-export default function DefectCodeTable({ tableRef, tableData }: any) {
+  const onSearch = (value: any) => {
+    tableRef?.current?.dt().search(value).draw();
+  };
+
   return (
     <>
+      <div
+        className="flex w-full flex-row mt-5
+      "
+      >
+        <div className="relative w-[36%]">
+          <Input
+            placeholder="Search"
+            type="text"
+            className="pl-[62px] "
+            onChange={(e) => onSearch(e.target.value)}
+          />
+          <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+            <SearchIcon className="size-6" />
+          </span>
+        </div>
+      </div>
       <div className="mt-8 space-y-3">
         <DataTable
           ref={tableRef}
@@ -49,12 +72,18 @@ export default function DefectCodeTable({ tableRef, tableData }: any) {
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Edit"
                     data-tooltip-place="top"
+                    onClick={() => {
+                      toast.warn("Under-construction");
+                    }}
                   />
                   <TrashBinIcon
                     className="size-5 text-red-700 cursor-pointer"
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Delete"
                     data-tooltip-place="top"
+                    onClick={() => {
+                      toast.warn("Under-construction");
+                    }}
                   />
                 </div>
               </TableCell>
