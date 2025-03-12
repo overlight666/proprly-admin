@@ -120,11 +120,12 @@ function useOrganization() {
       });
   }
 
-  function updateOrganization(id: any, params: any, toast: any) {
+  function updateOrganization(id: any, params: any, toast: any, navigate: any) {
     return fetchWrapper
       .put(`${baseUrl}/admin/organizations/${id}`, params)
       .then((response: any) => {
         if (response) {
+          navigate("/");
           toast.info("Organization is updated");
         }
       });

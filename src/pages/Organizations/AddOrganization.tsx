@@ -164,7 +164,12 @@ export default function AddOrganization() {
           users: selectedBuilders,
         };
         if (location.pathname === "/organization/edit") {
-          orgAction.updateOrganization(query.get("id"), params, toast);
+          orgAction.updateOrganization(
+            query.get("id"),
+            params,
+            toast,
+            navigate
+          );
         } else {
           orgAction.addOrganization(params, navigate).catch((error: any) => {
             toast.error(error[0].message);
