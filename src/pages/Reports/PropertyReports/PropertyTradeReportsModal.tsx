@@ -14,20 +14,23 @@ export default function PropertyTradeReportModal({
   title,
 }: any) {
   // const [modalTitle, setModalTitle] = useState("");
-
   const [tableData, setTableData] = useState<any>([]);
+  const [selectedTrade, setSelectedTrade] = useState("");
   // const [commonAreaHolder, setCommonAreaHolder] = useState<any>(undefined);
+
   useEffect(() => {
-    const filteredReports = reports?.map((rep: any, index: any) => {
-      return [
-        index + 1,
-        rep.lotNo,
-        moment(rep.createdAt).format("YYYY-DD-MM hh:mm:ss"),
-        rep,
-      ];
-    });
+    const filteredReports = reports?.propetyReports
+      ?.find((f) => f.value === selectedTrade)
+      ?.tradeReports?.map((rep: any, index: any) => {
+        return [
+          index + 1,
+          rep.lotNo,
+          moment(rep.createdAt).format("YYYY-DD-MM hh:mm:ss"),
+          rep,
+        ];
+      });
     setTableData(filteredReports);
-  }, [reports]);
+  }, [selectedTrade]);
 
   return (
     <>
@@ -48,6 +51,24 @@ export default function PropertyTradeReportModal({
           </h4>
         </div>
         <div className="mt-8 space-y-3">
+          <div className="w-[30%] space-y-5">
+            <select
+              id="selectedTrade"
+              name="selectedTrade"
+              value={selectedTrade}
+              onChange={(e) => {
+                setSelectedTrade(e.target.value);
+              }}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            >
+              <option value="" selected>
+                Please Select
+              </option>
+              {reports?.propetyReports?.map((pr: any) => {
+                return <option value={pr.value}>{pr.value}</option>;
+              })}
+            </select>
+          </div>
           <DataTable
             className="compact stripe"
             data={tableData}

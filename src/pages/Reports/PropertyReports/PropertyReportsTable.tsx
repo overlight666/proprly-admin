@@ -152,7 +152,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                     _data?.value == "Post-handover Inspection") && (
                     <DocsIcon
                       onClick={() => {
-                        setCommonAreaHolder(_row[3]?.reports);
+                        setCommonAreaHolder(_data);
                         setWhichModal(2);
                         openModal();
                         setModalTitle("Trade Report History");
