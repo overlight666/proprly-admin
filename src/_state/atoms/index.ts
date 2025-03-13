@@ -10,3 +10,4 @@ export * from "./commonArea";
 export * from "./appointments";
 export * from "./reports";
 export * from "./trades";
+export * from "./checklist";

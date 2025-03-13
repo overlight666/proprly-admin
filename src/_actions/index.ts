@@ -11,3 +11,4 @@ export * from "./reports.action";
 export * from "./organizations.actions";
 export * from "./defects.actions";
 export * from "./trades.actions";
+export * from "./checklist.actions";
