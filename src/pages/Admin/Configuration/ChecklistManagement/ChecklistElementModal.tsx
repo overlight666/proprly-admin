@@ -1,47 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
-import { useEffect, useState } from "react";
 import React from "react";
 import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
-import { useRecoilValue } from "recoil";
-import { regionsAtom } from "../../../../_state";
-import Select from "../../../../components/form/Select";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
-export default function ChecklistZoneModal({
+export default function ChecklistElementModal({
   isOpen,
   closeModal,
   title,
   onSubmit,
 }: any) {
-  const [options, setOptions] = useState<any>("");
-  const regions = useRecoilValue(regionsAtom);
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     code: Yup.string().required("Code is required"),
-    regionId: Yup.string().required("Region is required"),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
 
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
-
-  useEffect(() => {
-    if (regions) {
-      const tempOptions = regions.map((r: any) => {
-        return {
-          value: r.id,
-          label: r.regionName,
-        };
-      });
-      setOptions(tempOptions);
-    }
-  }, [regions]);
 
   return (
     <>
@@ -60,19 +41,6 @@ export default function ChecklistZoneModal({
             </h5>
           </div>
           <div className="mt-8 space-y-3">
-            <div>
-              <Label>
-                Select Region<span className="text-error-500">*</span>
-              </Label>
-              <Select
-                options={options && options.length ? options : []}
-                placeholder="Select an option"
-                className="dark:bg-dark-900"
-                register={{ ...register("regionId") }}
-                error={errors.regionId}
-                hint={errors.regionId?.message}
-              />
-            </div>
             <div className="space-y-2">
               <Label htmlFor="input">Name</Label>
               <Input

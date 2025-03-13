@@ -7,8 +7,10 @@ import {
   checklistElementListAtom,
   checklistZoneListAtom,
 } from "../../../../_state";
-import ChecklistModal from "./checklistModal";
 import { useModal } from "../../../../hooks/useModal";
+import ChecklistZoneModal from "./checklistModal";
+import { toast } from "react-toastify";
+import ChecklistElementModal from "./ChecklistElementModal";
 
 export default function ChecklistManagement() {
   const checklistAction = useChecklist();
@@ -17,6 +19,7 @@ export default function ChecklistManagement() {
   const [defaultSelectedZone, setDefaultSelectedZone] = useState(0);
   const [defaultSelectedElement, setDefaultSelectedElement] = useState(0);
   const [modalTitle, setModalTitle] = useState("");
+  const [modalType, setModalType] = useState(0);
   const { isOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
@@ -31,19 +34,60 @@ export default function ChecklistManagement() {
     }
   }, [checklistZones]);
 
+  function onSubmitZone(props: any) {
+    const params = {
+      order: checklistZones.length + 1,
+      ...props,
+    };
+    checklistAction
+      .saveChecklistZone(params)
+      .then(() => {
+        checklistAction.getChecklistZone();
+        closeModal();
+      })
+      .catch((e) => toast.error(e));
+  }
+
+  function onSubmitElement(props: any) {
+    const params = {
+      order: checklistElements.length + 1,
+      checklistZoneId: checklistZones[defaultSelectedZone]?.id,
+      ...props,
+    };
+    checklistAction
+      .saveChecklistElement(params)
+      .then(() => {
+        checklistAction.getChecklistZone();
+        closeModal();
+      })
+      .catch((e) => toast.error(e));
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3">
-      <ChecklistModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        title={modalTitle}
-      />
+      {modalType === 0 && (
+        <ChecklistZoneModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          title={modalTitle}
+          onSubmit={onSubmitZone}
+        />
+      )}
+      {modalType === 1 && (
+        <ChecklistElementModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          title={modalTitle}
+          onSubmit={onSubmitElement}
+        />
+      )}
       <div className="border-2 border-gray-600 shadow-md">
         <div className="flex justify-between p-2 items-center border-b-2 border-gray-600">
           <span className="font-bold">Zones</span>
           <div
             className="cursor-pointer"
             onClick={() => {
+              setModalType(0);
               setModalTitle("Add New Zone");
               openModal();
             }}
@@ -92,6 +136,7 @@ export default function ChecklistManagement() {
           <div
             className="cursor-pointer"
             onClick={() => {
+              setModalType(1);
               setModalTitle("Add New Element");
               openModal();
             }}

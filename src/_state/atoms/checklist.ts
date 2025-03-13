@@ -11,4 +11,18 @@ const checklistElementListAtom = atom<any[]>({
   default: undefined,
 });
 
-export { checklistZoneListAtom, checklistElementListAtom };
+const checklistZoneResponseAtom = atom<any[]>({
+  key: "checklistZoneResponseAtom",
+  default: undefined,
+});
+
+const checklistElementResponseAtom = atom<any[]>({
+  key: "checklistElementResponseAtom",
+  default: undefined,
+});
+export {
+  checklistZoneListAtom,
+  checklistElementListAtom,
+  checklistZoneResponseAtom,
+  checklistElementResponseAtom,
+};
