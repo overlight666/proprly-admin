@@ -228,8 +228,8 @@ const AppSidebar: React.FC = () => {
       currentRoute === "signup-leads/view" ||
       currentRoute === "/master-configuration" ||
       currentRoute === "/support-tickets" ||
-      currentRoute === "/organization/:id/edit"
-      // currentRoute === "/organization/:id"
+      currentRoute === "/organization/:id/edit" ||
+      currentRoute === "/organization/:id"
     ) {
       setShowProjects(false);
       const navItemsHolder: NavItem[] = [
@@ -240,6 +240,7 @@ const AppSidebar: React.FC = () => {
         },
       ];
       setNavItems(navItemsHolder);
+      projectAction.getProjectsByOrg(id);
     } else {
       if (selectedOrganization && id) {
         setShowProjects(true);
