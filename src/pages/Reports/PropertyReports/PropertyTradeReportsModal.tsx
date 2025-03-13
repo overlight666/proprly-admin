@@ -42,7 +42,10 @@ export default function PropertyTradeReportModal({
       /> */}
       <Modal
         isOpen={isOpen}
-        onClose={closeModal}
+        onClose={() => {
+          setSelectedTrade("");
+          closeModal();
+        }}
         className="max-w-[80%] p-6 lg:p-10"
       >
         <div className="px-2 pr-14">
