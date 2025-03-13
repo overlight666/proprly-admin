@@ -25,10 +25,9 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
     if (propertReports) {
       if (headerValue === "all") {
         const dataWithReports = propertReports?.filter(
-          (report: any) => report?.reports?.length > 0
+          (report: any) => report?.reports?.length > 0 && report.value !== "All"
         );
         let arr: any = [];
-        console.log(dataWithReports);
         dataWithReports?.map((mr: any) => {
           const mer = mr?.reports
             ?.filter((r: any) => r.inspectionId)

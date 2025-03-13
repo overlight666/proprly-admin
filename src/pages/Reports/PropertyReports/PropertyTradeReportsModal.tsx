@@ -5,7 +5,6 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useEffect, useState } from "react";
 import { DownloadIcon } from "../../../icons";
-import moment from "moment";
 import React from "react";
 export default function PropertyTradeReportModal({
   isOpen,
@@ -19,18 +18,26 @@ export default function PropertyTradeReportModal({
   // const [commonAreaHolder, setCommonAreaHolder] = useState<any>(undefined);
 
   useEffect(() => {
-    const filteredReports = reports?.propetyReports
-      ?.find((f) => f.value === selectedTrade)
-      ?.tradeReports?.map((rep: any, index: any) => {
-        return [
-          index + 1,
-          rep.lotNo,
-          moment(rep.createdAt).format("YYYY-DD-MM hh:mm:ss"),
-          rep,
-        ];
-      });
-    setTableData(filteredReports);
-  }, [selectedTrade]);
+    setTableData([]);
+    if (
+      reports.value === "General Inspection" ||
+      reports.value === "Post-handover Inspection"
+    ) {
+      const filteredReports = reports?.tradeReports
+        ?.filter((f) => f.inspectionId == selectedTrade)
+        ?.map((rep: any, index: any) => {
+          return [index + 1, rep.tradeName, rep.tradeCode, rep];
+        });
+      setTableData(filteredReports);
+    } else {
+      const filteredReports = reports?.tradeReports?.map(
+        (rep: any, index: any) => {
+          return [index + 1, rep.tradeName, rep.tradeCode, rep];
+        }
+      );
+      setTableData(filteredReports);
+    }
+  }, [selectedTrade, reports]);
 
   return (
     <>
@@ -50,28 +57,34 @@ export default function PropertyTradeReportModal({
       >
         <div className="px-2 pr-14">
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-            {title}
+            {reports.value === "General Inspection" ||
+            reports.value === "Post-handover Inspection"
+              ? title
+              : `Lot No ${reports.lotNo} Unit No ${reports.unitNo} Trade Reports`}
           </h4>
         </div>
         <div className="mt-8 space-y-3">
-          <div className="w-[30%] space-y-5">
-            <select
-              id="selectedTrade"
-              name="selectedTrade"
-              value={selectedTrade}
-              onChange={(e) => {
-                setSelectedTrade(e.target.value);
-              }}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            >
-              <option value="" selected>
-                Please Select
-              </option>
-              {reports?.propetyReports?.map((pr: any) => {
-                return <option value={pr.value}>{pr.value}</option>;
-              })}
-            </select>
-          </div>
+          {(reports.value === "General Inspection" ||
+            reports.value === "Post-handover Inspection") && (
+            <div className="w-[30%] space-y-5">
+              <select
+                id="selectedTrade"
+                name="selectedTrade"
+                value={selectedTrade}
+                onChange={(e) => {
+                  setSelectedTrade(e.target.value);
+                }}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              >
+                <option value="" selected>
+                  Please Select
+                </option>
+                {reports?.tradeReportsFilterOptions?.map((pr: any) => {
+                  return <option value={pr.inspectionId}>{pr.label}</option>;
+                })}
+              </select>
+            </div>
+          )}
           <DataTable
             className="compact stripe"
             data={tableData}
