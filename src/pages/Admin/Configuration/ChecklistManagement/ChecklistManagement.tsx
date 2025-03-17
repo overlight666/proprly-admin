@@ -8,7 +8,7 @@ import {
   checklistZoneListAtom,
 } from "../../../../_state";
 import { useModal } from "../../../../hooks/useModal";
-import ChecklistZoneModal from "./checklistModal";
+import ChecklistZoneModal from "./ChecklistModal";
 import { toast } from "react-toastify";
 import ChecklistElementModal from "./ChecklistElementModal";
 
