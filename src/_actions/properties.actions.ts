@@ -62,7 +62,7 @@ function useProperties() {
     _navigate: any,
     toast: any,
     warranties: any,
-    hasWarranties: boolean,
+    _hasWarranties: boolean,
     _filesToDelete: any
   ) {
     return fetchWrapper
@@ -76,8 +76,18 @@ function useProperties() {
           //     warrantyAction.deleteWarranty(del);
           //   });
           // }
-          if (hasWarranties) {
-            warranties?.groups?.map((warrant: any) => {
+          const hasOldWaranties = warranties?.groups?.filter(
+            (warant: any) => warant.warrantyId
+          );
+          const hasNewWarranties = warranties?.groups?.filter(
+            (warant: any) => !warant.warrantyId
+          );
+          const oldWarranties = {
+            groups: hasOldWaranties,
+          };
+
+          if (hasOldWaranties.length > 0) {
+            oldWarranties?.groups?.map((warrant: any) => {
               warrantyAction.updateWarranty(
                 warrant.warrantyId,
                 { files: warrant.files },
@@ -85,10 +95,18 @@ function useProperties() {
               );
             });
             setActiveTabIndex(1);
-            toast.success("Property has been updated!");
           } else {
             setActiveTabIndex(1);
-            toast.success("Property has been updated!");
+          }
+          if (hasNewWarranties?.length > 0) {
+            const warrantyParams = {
+              propertyId: property_id,
+              ...warranties,
+            };
+            warrantyAction.uploadWarrantyGroupNoNavigate(warrantyParams, toast);
+            setActiveTabIndex(1);
+          } else {
+            setActiveTabIndex(1);
           }
         }
       })

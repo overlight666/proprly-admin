@@ -23,6 +23,7 @@ function useWarrantyAction() {
     deleteWarranty,
     uploadBulk,
     saveCommonAreaWarranties,
+    uploadWarrantyGroupNoNavigate,
   };
 
   function saveCommonAreaWarranties(params: any, toast: any) {
@@ -69,6 +70,33 @@ function useWarrantyAction() {
             toast.error(e);
           } else {
             toast.error("Property has been created with warranty upload issue");
+          }
+        }
+      });
+  }
+
+  function uploadWarrantyGroupNoNavigate(params: any, toast: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/warranty`, params)
+      .then((response: any) => {
+        if (response) {
+          toast.info("Warranty has been added!");
+        }
+      })
+      .catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Wwarranty upload failed");
           }
         }
       });

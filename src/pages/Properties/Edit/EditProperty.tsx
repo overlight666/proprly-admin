@@ -142,6 +142,7 @@ export default function EditProperty() {
         selectedProperty?.warranty.map((war) => {
           getOldWarranties(war);
         });
+        setHasWarranties(true);
         assignIdToWarranties(selectedProperty?.warranty);
       }
     }
@@ -170,7 +171,7 @@ export default function EditProperty() {
   }, [template]);
 
   const removeAppliances = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "appliances") {
@@ -187,7 +188,7 @@ export default function EditProperty() {
   };
 
   const removeBathroomFixtures = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "bathroom_fixtures") {
@@ -204,7 +205,7 @@ export default function EditProperty() {
   };
 
   const removeAirConditioning = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "air_conditioning") {
@@ -221,7 +222,7 @@ export default function EditProperty() {
   };
 
   const removeUtilities = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "utilities") {
@@ -238,7 +239,7 @@ export default function EditProperty() {
   };
 
   const removeIntercom = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "intercom") {
@@ -255,7 +256,7 @@ export default function EditProperty() {
   };
 
   const removeBuilderwarranty = (file: any) => {
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setFilesToDelete((oldArray: any) => [...oldArray, file.id]);
     const newG = warrantyGroup?.map((war: any) => {
       if (war.group == "builder_warranty") {
@@ -397,7 +398,7 @@ export default function EditProperty() {
       }
       return w;
     });
-    setHasWarranties(true);
+    // setHasWarranties(true);
     setWarrantyGroup(newGroup);
   };
 
@@ -438,6 +439,7 @@ export default function EditProperty() {
         warrantyWithId?.find((wi: any) => wi.group == wg.group)?.id;
       return wg;
     });
+
     setWarrantyGroup(assignId);
   };
 
