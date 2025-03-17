@@ -125,6 +125,7 @@ const AppSidebar: React.FC = () => {
   const [adminItems, setAdminItems] = useState<NavItem[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [orgItems, setOrgItems] = useState<NavItem[]>([]);
   const [projectItems, setProjectItems] = useState<NavItem[]>([]);
   const [showProjects, setShowProjects] = useState(false);
   const selectedOrganization = useRecoilValue(selectedOrgAtom);
@@ -241,23 +242,22 @@ const AppSidebar: React.FC = () => {
       ];
       setNavItems(navItemsHolder);
       projectAction.getProjectsByOrg(id);
+    }
+    if (selectedOrganization && id) {
+      setShowProjects(true);
+      setOrgItems([]);
+      const navItemsHolder: NavItem[] = [
+        {
+          icon: <FolderIcon />,
+          name: selectedOrganization.name,
+          path: `/organization/${selectedOrganization.id}`,
+          id: selectedOrganization.id,
+        },
+      ];
+      setOrgItems(navItemsHolder.sort((a: any, b: any) => a.id - b.id));
+      projectAction.getProjectsByOrg(id);
     } else {
-      if (selectedOrganization && id) {
-        setShowProjects(true);
-        setNavItems([]);
-        const navItemsHolder: NavItem[] = [
-          {
-            icon: <FolderIcon />,
-            name: selectedOrganization.name,
-            path: `/organization/${selectedOrganization.id}`,
-            id: selectedOrganization.id,
-          },
-        ];
-        setNavItems(navItemsHolder.sort((a: any, b: any) => a.id - b.id));
-        projectAction.getProjectsByOrg(id);
-      } else {
-        setNavItems([]);
-      }
+      setOrgItems([]);
     }
   }, [currentRoute, selectedOrganization, id]);
 
@@ -311,7 +311,7 @@ const AppSidebar: React.FC = () => {
   }, [projects]);
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "admin menu";
+    type: "main" | "others" | "admin menu" | "organization";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -363,7 +363,7 @@ const AppSidebar: React.FC = () => {
 
   const handleSubmenuToggle = (
     index: number,
-    menuType: "main" | "others" | "admin menu"
+    menuType: "main" | "others" | "admin menu" | "organization"
   ) => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
@@ -379,7 +379,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     items: NavItem[],
-    menuType: "main" | "others" | "admin menu"
+    menuType: "main" | "others" | "admin menu" | "organization"
   ) => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
@@ -584,7 +584,7 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
-            {isAdmin && (
+            {(orgItems?.length && (
               <div className="">
                 <h2
                   className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
@@ -594,15 +594,14 @@ const AppSidebar: React.FC = () => {
                   }`}
                 >
                   {isExpanded || isHovered || isMobileOpen ? (
-                    "Admin Menu"
+                    "Organization"
                   ) : (
                     <HorizontaLDots />
                   )}
                 </h2>
-                {renderMenuItems(adminItems, "admin menu")}
-                {/* {renderMenuItems(othersItems, "others")} */}
+                {renderMenuItems(orgItems, "organization")}
               </div>
-            )}
+            )) || <></>}
             {showProjects && (
               <div className="">
                 <h2
@@ -619,6 +618,25 @@ const AppSidebar: React.FC = () => {
                   )}
                 </h2>
                 {renderMenuItems(projectItems, "others")}
+                {/* {renderMenuItems(othersItems, "others")} */}
+              </div>
+            )}
+            {isAdmin && (
+              <div className="">
+                <h2
+                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                    !isExpanded && !isHovered
+                      ? "lg:justify-center"
+                      : "justify-start"
+                  }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    "Admin Menu"
+                  ) : (
+                    <HorizontaLDots />
+                  )}
+                </h2>
+                {renderMenuItems(adminItems, "admin menu")}
                 {/* {renderMenuItems(othersItems, "others")} */}
               </div>
             )}
