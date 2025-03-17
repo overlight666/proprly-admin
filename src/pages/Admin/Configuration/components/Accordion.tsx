@@ -16,10 +16,10 @@ export const MasterAccordion = () => {
         <AccordionItem header="Trade & Defect Code Mapping">
           <TradeCodeManagement />
         </AccordionItem>
-        <AccordionItem header="Property List Configuration"></AccordionItem>
-        <AccordionItem header="Common Area Checklist Configuration">
+        <AccordionItem header="Property List Configuration">
           <ChecklistManagement />
         </AccordionItem>
+        <AccordionItem header="Common Area Checklist Configuration"></AccordionItem>
       </Accordion>
     </div>
   );
