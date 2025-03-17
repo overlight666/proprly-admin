@@ -236,8 +236,21 @@ export default function AddOrganization() {
 
   return (
     <div>
-      <PageMeta title="Proprly | Admin" description="New Organization" />
-      <PageBreadcrumb pageTitle="New Organization" />
+      <PageMeta
+        title="Proprly | Admin"
+        description={
+          location.pathname === "/organization/edit"
+            ? "Edit Organization"
+            : "New Organization"
+        }
+      />
+      <PageBreadcrumb
+        pageTitle={
+          location.pathname === "/organization/edit"
+            ? "Edit Organization"
+            : "New Organization"
+        }
+      />
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <form
           className="space-y-6"
