@@ -3,7 +3,6 @@
 import { useRecoilValue } from "recoil";
 import {
   globalConfigAtom,
-  projectStrataAtom,
   selectedCommonAreaAtom,
   selectedProjectAtom,
 } from "../../_state";
@@ -14,13 +13,12 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Select from "../../components/form/Select";
-import ProjectStrataTable from "./components/ProjectStrataTable";
 import FileUploader from "../../_components/ImageUploader";
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/button/Button";
 import { useCommonArea } from "../../_actions/commonArea.actions";
 import { toast } from "react-toastify";
-import { GearIcon, HomeIcon } from "../../icons";
+import { HomeIcon } from "../../icons";
 import LocationMappingTable from "./components/LocationMappingBasementTable";
 import LocationMappingTowerTable from "./components/LocationMappingTowerTable";
 // Define the table data using the interface
@@ -29,7 +27,6 @@ export default function CommonArea() {
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
-  const strataUser = useRecoilValue(projectStrataAtom);
   const commonAreaAction = useCommonArea();
   const [lifts, setLifts] = useState<any>([]);
   const [isConfigure, setIsConfigure] = useState<any>(false);
@@ -61,7 +58,12 @@ export default function CommonArea() {
 
   useEffect(() => {
     if (selectedCommonArea) {
-      setValue("lotNo", selectedCommonArea[0]?.lotNo);
+      setValue(
+        "lotNo",
+        selectedCommonArea[0]?.lotNo == "0"
+          ? "n/a"
+          : selectedCommonArea[0]?.lotNo
+      );
       setValue("status", selectedCommonArea[0]?.status);
       setLifts([]);
       setGarageDoor([]);
@@ -171,6 +173,8 @@ export default function CommonArea() {
       ...props,
     };
 
+    params.lotNo = params.lotNo == "n/a" ? 0 : params.lotNo;
+
     if (selectedCommonArea?.length != 0) {
       const warranties = {
         groups: warrantyGroup,
@@ -189,6 +193,20 @@ export default function CommonArea() {
     }
   }
 
+  useEffect(() => {
+    if (selectedCommonArea?.length == 0) {
+      const params = {
+        lotNo: 0,
+        status: "pre_settlement",
+      };
+      commonAreaAction
+        .saveCommonArea(params, warrantyGroup, toast)
+        .catch((e: any) => {
+          toast.error(e);
+        });
+    }
+  }, []);
+
   return (
     <div className="overflow-hidden mt-5 ">
       {!isConfigure ? (
@@ -199,18 +217,18 @@ export default function CommonArea() {
           <div className="mx-5">
             <ComponentCard
               title="Common Area Information"
-              rightComponent={
-                selectedCommonArea?.length != 0 && (
-                  <Button
-                    onClick={() => setIsConfigure(!isConfigure)}
-                    variant="primary"
-                    className="text-black dark:text-white"
-                  >
-                    <GearIcon className="size-5 text-white" />
-                    Configure
-                  </Button>
-                )
-              }
+              // rightComponent={
+              //   selectedCommonArea?.length != 0 && (
+              //     <Button
+              //       onClick={() => setIsConfigure(!isConfigure)}
+              //       variant="primary"
+              //       className="text-black dark:text-white"
+              //     >
+              //       <GearIcon className="size-5 text-white" />
+              //       Configure
+              //     </Button>
+              //   )
+              // }
             >
               <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
                 <div>
@@ -245,11 +263,10 @@ export default function CommonArea() {
                 </div>
               </div>
             </ComponentCard>
-            <ComponentCard title="Strata Information" className="mt-5">
-              <div className="gap-2 grid grid-cols-1">
-                <ProjectStrataTable strataUsers={strataUser} />
-              </div>
-            </ComponentCard>
+            <div className="gap-2 grid grid-cols-1 xl:grid-cols-1 mt-5">
+              <LocationMappingTowerTable />
+              <LocationMappingTable />
+            </div>
             <ComponentCard title="Warranty Information" className="mt-5">
               <div className="gap-2 grid grid-cols-1 xl:grid-cols-1">
                 <div className="space-y-6">

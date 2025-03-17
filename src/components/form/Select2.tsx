@@ -57,7 +57,7 @@ const Select2: React.FC<SelectProps> = ({
           {placeholder}
         </option>
         {/* Map over options */}
-        {options.map((option) => (
+        {options?.map((option) => (
           <option
             key={option.value}
             value={option.value}
