@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect } from "react";
@@ -49,16 +50,19 @@ const Appointments = () => {
     // Initialize with some events
     const myAppointments = appointments
       ?.map((ap: any) => {
+        console.log(ap);
         return {
           allDay: false,
           id: ap.id,
-          title: `${moment(ap.startDate, "YYYY-MM-DD h:mm a").format(
+          title: `${
+            ap?.property
+              ? `Unit No ${ap?.property?.unitNo}`
+              : `CA Lot no ${ap?.commonArea}`
+              ? ap?.commonArea?.lotNo
+              : ""
+          } | ${moment(ap.startDate, "YYYY-MM-DD h:mm a").format(
             "h:mm A"
-          )} - ${moment(ap.endDate, "YYYY-MM-DD h:mm a").format("h:mm A")} ${
-            ap.type == "defect"
-              ? "defect appointment"
-              : "inspection appointment"
-          }`,
+          )} - ${moment(ap.endDate, "YYYY-MM-DD h:mm a").format("h:mm A")}`,
           start: moment.utc(ap.startDate).toISOString(),
           extendedProps: {
             calendar:
