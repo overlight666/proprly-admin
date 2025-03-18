@@ -10,22 +10,22 @@ import {
 import { useRecoilValue } from "recoil";
 import {
   allProjectsAtom,
+  checklistElementListAtom,
   checklistZoneListAtom,
-  commonAreaChecklistElementListAtom,
   organizationsAtom,
   regionsAtom,
 } from "../../../../_state";
 import { useModal } from "../../../../hooks/useModal";
-import ChecklistZoneModal from "./ChecklistZoneModal";
+import ChecklistZoneModal from "./PropertylistZoneModal";
 import { toast } from "react-toastify";
-import ChecklistElementModal from "./ChecklistElementModal";
+import ChecklistElementModal from "./PropertylistElementModal";
 import { Project } from "../../../../_types";
 import Label from "../../../../components/form/Label";
 
-export default function ChecklistManagement() {
+export default function PropertylistManagement() {
   const checklistAction = useChecklist();
   const checklistZones = useRecoilValue(checklistZoneListAtom);
-  const checklistElements = useRecoilValue(commonAreaChecklistElementListAtom);
+  const checklistElements = useRecoilValue(checklistElementListAtom);
   const [selectedElement, setSelectedElement] = useState<any>(undefined);
   const [selectedDefect, setSelectedDefect] = useState<any>(undefined);
   const [defaultSelectedZone, setDefaultSelectedZone] = useState(0);
@@ -74,7 +74,7 @@ export default function ChecklistManagement() {
           ? `?regionId=${selectedId}`
           : "";
       if (selectedId || isType === "default") {
-        checklistAction.getCommonAreaElement(params);
+        checklistAction.getChecklistElement(params);
       }
     }
   }, [isType, selectedId]);
@@ -268,7 +268,7 @@ export default function ChecklistManagement() {
 
         <div className="rounded-lg border border-gray-300 shadow-theme-xs">
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
-            <span className="font-bold">Common Area Categories</span>
+            <span className="font-bold">Zones</span>
             <div
               className="cursor-pointer"
               onClick={() => {

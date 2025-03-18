@@ -20,9 +20,15 @@ const checklistElementResponseAtom = atom<any[]>({
   key: "checklistElementResponseAtom",
   default: undefined,
 });
+
+const commonAreaChecklistElementListAtom = atom<any[]>({
+  key: "commonAreaChecklistElementListAtom",
+  default: undefined,
+});
 export {
   checklistZoneListAtom,
   checklistElementListAtom,
   checklistZoneResponseAtom,
   checklistElementResponseAtom,
+  commonAreaChecklistElementListAtom,
 };

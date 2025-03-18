@@ -4,6 +4,7 @@ import { AccordionItem } from "../../../Users/components/AccordionItem";
 import DefectCodeManagement from "../DefectCodeManagement/DefectCodeManagement";
 import TradeCodeManagement from "../TradeCodeManagement/TradeCodeManagement";
 import ChecklistManagement from "../ChecklistManagement/ChecklistManagement";
+import PropertylistManagement from "../PropertylistManagement/PropertylistManagement";
 
 export const MasterAccordion = () => {
   return (
@@ -17,9 +18,11 @@ export const MasterAccordion = () => {
           <TradeCodeManagement />
         </AccordionItem>
         <AccordionItem header="Property List Configuration">
+          <PropertylistManagement />
+        </AccordionItem>
+        <AccordionItem header="Common Area Checklist Configuration">
           <ChecklistManagement />
         </AccordionItem>
-        <AccordionItem header="Common Area Checklist Configuration"></AccordionItem>
       </Accordion>
     </div>
   );

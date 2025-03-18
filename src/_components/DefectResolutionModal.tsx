@@ -452,9 +452,13 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                   </button>
                   <button
                     onClick={() => {
-                      defectAction.pushDefectFeedback(defect?.id, {
-                        feedback: "reopen",
-                      });
+                      defectAction
+                        .pushDefectFeedback(defect?.id, {
+                          feedback: "reopen",
+                        })
+                        .catch((e) => {
+                          toast.error(e);
+                        });
                       setDefectMessage("Defect has been reopened");
                     }}
                     type="button"
