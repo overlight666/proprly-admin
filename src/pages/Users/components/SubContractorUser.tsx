@@ -124,7 +124,7 @@ export const SubContractorUser = () => {
         title={"Add New Sub-Contractor"}
       />
       <div>
-        <Label htmlFor="inputTwo">Project Strata list</Label>
+        <Label htmlFor="inputTwo">Project subcontractor list</Label>
         <div className="flex flex-row gap-2 w-full">
           <Select2
             options={

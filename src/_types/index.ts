@@ -252,7 +252,7 @@ export interface NotificationType {
 }
 
 export interface BodyWeb {
-  Project: string;
+  project: string;
   Zone: string;
   Element: string;
   unitNo: string;

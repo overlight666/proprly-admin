@@ -11,6 +11,7 @@ import { DefectSumissionType } from "../../_types";
 import DefectItem from "./components/DefectBox";
 import DefectHeader from "./components/DefectHeader";
 import React from "react";
+import { toast } from "react-toastify";
 // Define the table data using the interface
 
 export default function DefectResolution() {
@@ -34,10 +35,14 @@ export default function DefectResolution() {
 
   useEffect(() => {
     if (selectedValue == "commonArea") {
-      defectResolutionAction.getDefectResolutions(
-        selectedCommonArea[0]?.id,
-        selectedValue
-      );
+      if (selectedCommonArea.length == 0) {
+        toast.warn("Your common area is not configured");
+      } else {
+        defectResolutionAction.getDefectResolutions(
+          selectedCommonArea[0]?.id,
+          selectedValue
+        );
+      }
     } else {
       defectResolutionAction.getDefectResolutions(
         selectedProject?.id,

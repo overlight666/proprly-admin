@@ -87,11 +87,11 @@ export default function TimeLine({ openModal }: any) {
                         {moment(timeline?.localDateTime).calendar()}
                       </time>
                       <div className="flex flex-col">
-                        {timeline.bodyWeb.Project && (
+                        {timeline.bodyWeb.project && (
                           <span className="text-base font-normal text-gray-500 dark:text-gray-400">
                             Project:{" "}
                             <span className="text-blue-400">
-                              {timeline.bodyWeb.Project}
+                              {timeline.bodyWeb.project}
                             </span>
                           </span>
                         )}
