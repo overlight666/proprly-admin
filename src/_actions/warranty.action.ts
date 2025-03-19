@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "../_helpers";
@@ -26,14 +27,15 @@ function useWarrantyAction() {
     uploadWarrantyGroupNoNavigate,
   };
 
-  function saveCommonAreaWarranties(params: any, toast: any) {
+  function saveCommonAreaWarranties(params: any, _toast: any) {
     return fetchWrapper
       .post(`${baseUrl}/warranty`, params)
       .then((response: any) => {
         const res = response && response.data ? response.data : response;
         setCommonAreaWarrantyResponse(res);
         if (res) {
-          toast.success("Common area is saved!");
+          // toast.success("Common area is saved!");
+          console.log(res);
         }
       });
   }

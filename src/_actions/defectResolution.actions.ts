@@ -13,6 +13,7 @@ function useDefectResolution() {
 
   return {
     getDefectResolutions,
+    getAllDefectResolutions,
   };
 
   function getDefectResolutions(id: any, type: string) {
@@ -25,5 +26,13 @@ function useDefectResolution() {
     return fetchWrapper.get(`${baseUrl}${url}`).then((response: any) => {
       setDefects(response && response.data ? response.data : response);
     });
+  }
+
+  function getAllDefectResolutions() {
+    return fetchWrapper
+      .get(`${baseUrl}/admin/defect-submissions`)
+      .then((response: any) => {
+        setDefects(response && response.data ? response.data : response);
+      });
   }
 }

@@ -23,7 +23,9 @@ import LocationMappingTable from "./components/LocationMappingBasementTable";
 import LocationMappingTowerTable from "./components/LocationMappingTowerTable";
 // Define the table data using the interface
 import React from "react";
+import { useParams } from "react-router";
 export default function CommonArea() {
+  const { project_id } = useParams();
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
@@ -196,6 +198,7 @@ export default function CommonArea() {
   useEffect(() => {
     if (selectedCommonArea?.length == 0) {
       const params = {
+        projectId: project_id,
         lotNo: 0,
         status: "pre_settlement",
       };
