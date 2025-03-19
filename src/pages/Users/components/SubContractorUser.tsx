@@ -146,7 +146,7 @@ export const SubContractorUser = () => {
             className="w-[15%]"
             onClick={() => attachuserHandler()}
           >
-            Attach Strata <PlusIcon />
+            Attach Subcontractor <PlusIcon />
           </Button>
         </div>
       </div>

@@ -212,17 +212,23 @@ export default function AddOrganization() {
         selectedOrganization.user.filter((u) =>
           u.organization_role?.find((o) => o.roleKey === "organization_admin")
         );
-      const mergedBuilders = [...selectedBuilders, ...orgAdmins];
-      const uniqueBuilders = mergedBuilders.filter((value: any, index: any) => {
-        const _value = JSON.stringify(value);
-        return (
-          index ===
-          mergedBuilders.findIndex((obj: any) => {
-            return JSON.stringify(obj) === _value;
-          })
+      try {
+        const mergedBuilders = [...selectedBuilders, ...orgAdmins];
+        const uniqueBuilders = mergedBuilders.filter(
+          (value: any, index: any) => {
+            const _value = JSON.stringify(value);
+            return (
+              index ===
+              mergedBuilders.findIndex((obj: any) => {
+                return JSON.stringify(obj) === _value;
+              })
+            );
+          }
         );
-      });
-      setSelectedBuilders(uniqueBuilders);
+        setSelectedBuilders(uniqueBuilders);
+      } catch (error) {
+        console.log(error);
+      }
 
       const builderHandler = builders?.map((obj: any) => {
         return {

@@ -241,7 +241,9 @@ const AppSidebar: React.FC = () => {
         },
       ];
       setNavItems(navItemsHolder);
-      projectAction.getProjectsByOrg(id);
+      if (id) {
+        projectAction.getProjectsByOrg(id);
+      }
     }
     if (selectedOrganization && id) {
       setShowProjects(true);

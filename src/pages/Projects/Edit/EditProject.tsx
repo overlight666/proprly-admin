@@ -23,7 +23,7 @@ import {
   uploadResponseAtom,
 } from "../../../_state/atoms/dropzone";
 import FileUploader from "../../../_components/ImageUploader";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../../../components/ui/button/Button";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -54,6 +54,7 @@ export default function EditProject() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { id, project_id }: any = useParams();
   const projectAction = useProject();
+  const navigate = useNavigate();
 
   const basementOptions: any = [
     {
@@ -155,6 +156,9 @@ export default function EditProject() {
       };
       projectAction
         .updateProject(params, project_id, toast)
+        .then(() => {
+          navigate(-1);
+        })
         .catch((error: any) => {
           toast.error(error[0].message);
         });

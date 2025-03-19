@@ -11,6 +11,7 @@ import {
   organizationPropertyOwnerAtom,
   activeTabIndexProjectAtom,
   selectedPropertyAtom,
+  bulkResponseAtom,
 } from "../../../_state";
 import Button from "../../../components/ui/button/Button";
 import { PlusIcon } from "../../../icons";
@@ -62,6 +63,7 @@ export default function EditProperty() {
   const [utilities, setUtilities] = useState<any>([]);
   const [intercom, setIntercom] = useState<any>([]);
   const [builderwarranty, setBuilderwarranty] = useState<any>([]);
+  const setBulkResponse = useSetRecoilState(bulkResponseAtom);
 
   const [warrantyGroup, setWarrantyGroup] = useState<any>([
     {
@@ -378,17 +380,21 @@ export default function EditProperty() {
       groups: warrantyGroup,
     };
 
-    propertAction.updateProperty(
-      id,
-      project_id,
-      property_id,
-      params,
-      navigate,
-      toast,
-      warranties,
-      hasWarranties,
-      filesToDelete
-    );
+    propertAction
+      .updateProperty(
+        id,
+        project_id,
+        property_id,
+        params,
+        navigate,
+        toast,
+        warranties,
+        hasWarranties,
+        filesToDelete
+      )
+      .then(() => {
+        navigate(-1);
+      });
   }
 
   const getUploadedFile = (f: any) => {
@@ -779,8 +785,9 @@ export default function EditProperty() {
               variant="outline"
               type="button"
               onClick={() => {
+                setBulkResponse({ stay: 1 });
                 setActiveTabIndex(1);
-                navigate(`/organization/${id}/project/${project_id}`);
+                navigate(-1);
               }}
             >
               Cancel

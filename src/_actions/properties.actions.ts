@@ -71,6 +71,7 @@ function useProperties() {
         if (response) {
           const res = response && response.data ? response.data : response;
           setBulkResponse(res);
+          toast.info("Property has been updated");
           // if (filesToDelete) {
           //   filesToDelete?.map((del: any) => {
           //     warrantyAction.deleteWarranty(del);

@@ -80,7 +80,7 @@ function useWarrantyAction() {
       .post(`${baseUrl}/warranty`, params)
       .then((response: any) => {
         if (response) {
-          toast.info("Warranty has been added!");
+          console.log(response);
         }
       })
       .catch((e: any) => {
