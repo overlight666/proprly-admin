@@ -30,6 +30,7 @@ export default function ChecklistManagement() {
   const [selectedDefect, setSelectedDefect] = useState<any>(undefined);
   const [defaultSelectedZone, setDefaultSelectedZone] = useState(0);
   const [defaultSelectedElement, setDefaultSelectedElement] = useState(0);
+  const [defaultSelectedSubElement, setDefaultSelectedSubElement] = useState(0);
   const [modalTitle, setModalTitle] = useState("");
   const [modalType, setModalType] = useState(0);
   const { isOpen, openModal, closeModal } = useModal();
@@ -333,32 +334,61 @@ export default function ChecklistManagement() {
           <div className="max-h-[500px] overflow-auto">
             {selectedElement?.elements?.map((element: any, index) => {
               return (
-                <div
-                  key={index}
-                  className={`flex justify-between p-2 items-center ${
-                    defaultSelectedElement === index &&
-                    "bg-gray-200 dark:bg-gray-700"
-                  }`}
-                >
+                <div key={index} className="flex w-full flex-col">
                   <div
-                    className="w-[80%] cursor-pointer"
-                    onClick={() => setDefaultSelectedElement(index)}
+                    className={`flex justify-between p-2 items-center ${
+                      defaultSelectedElement === index &&
+                      "bg-gray-200 dark:bg-gray-700"
+                    }`}
                   >
-                    <span>{element.name}</span>
-                  </div>
+                    <div
+                      className="w-[80%] cursor-pointer"
+                      onClick={() => {
+                        setDefaultSelectedSubElement(0);
+                        setDefaultSelectedElement(index);
+                      }}
+                    >
+                      <span>{element.name}</span>
+                    </div>
 
-                  <div className="flex gap-2">
-                    <PencilIcon
-                      className="text-green-600 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Edit"
-                    />
-                    <TrashBinIcon
-                      className="text-red-600 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Delete"
-                    />
+                    <div className="flex gap-2">
+                      <PencilIcon
+                        className="text-green-600 cursor-pointer"
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content="Edit"
+                      />
+                      <TrashBinIcon
+                        className="text-red-600 cursor-pointer"
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content="Delete"
+                      />
+                    </div>
                   </div>
+                  {element?.subElements?.length > 0 && (
+                    <div className="pl-10 my-1">
+                      <ul className="list-disc">
+                        {element?.subElements?.map(
+                          (subs: any, subIndex: any) => {
+                            return (
+                              <li
+                                className={`py-1 px-1 hover:bg-gray-200 hover:dark:bg-gray-700 cursor-pointer ${
+                                  defaultSelectedSubElement === subIndex &&
+                                  defaultSelectedElement === index &&
+                                  "bg-gray-300 dark:bg-gray-800"
+                                }`}
+                                onClick={() => {
+                                  setDefaultSelectedSubElement(subIndex);
+                                  setDefaultSelectedElement(index);
+                                }}
+                              >
+                                {subs.name}
+                              </li>
+                            );
+                          }
+                        )}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               );
             })}

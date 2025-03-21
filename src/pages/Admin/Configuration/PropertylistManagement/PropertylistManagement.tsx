@@ -336,7 +336,6 @@ export default function PropertylistManagement() {
               return (
                 <div key={index} className="flex w-full flex-col">
                   <div
-                    key={index}
                     className={`flex justify-between p-2 items-center w-full hover:bg-gray-200 hover:dark:bg-gray-700 ${
                       defaultSelectedElement === index &&
                       "bg-gray-200 dark:bg-gray-700"
@@ -344,7 +343,10 @@ export default function PropertylistManagement() {
                   >
                     <div
                       className="w-[80%] cursor-pointer"
-                      onClick={() => setDefaultSelectedElement(index)}
+                      onClick={() => {
+                        setDefaultSelectedSubElement(0);
+                        setDefaultSelectedElement(index);
+                      }}
                     >
                       <span>{element.name}</span>
                     </div>
