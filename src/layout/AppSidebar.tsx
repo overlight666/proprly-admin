@@ -148,6 +148,7 @@ const AppSidebar: React.FC = () => {
   const reportAction = useReports();
   const { id, project_id, property_id }: any = useParams();
 
+  console.log(JSON.parse(localStorage.getItem("authUser") || ""));
   const currentRoute = [
     "/",
     "/organization",

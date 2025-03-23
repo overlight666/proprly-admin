@@ -17,6 +17,7 @@ import EditProject from "./pages/Projects/Edit/EditProject";
 import SelectedProject from "./pages/Projects/Component/SelectedProject";
 import SignupLeads from "./pages/Admin/SignupLeads/SignupLeads";
 import MasterConfiguration from "./pages/Admin/Configuration/MasterConfiguration";
+import SupportTickets from "./pages/Admin/SupportTickets/SupportTickets";
 
 export default function App() {
   return (
@@ -137,6 +138,15 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <MasterConfiguration />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              index
+              path="/support-tickets"
+              element={
+                <PrivateRoute>
+                  <SupportTickets />
                 </PrivateRoute>
               }
             />
