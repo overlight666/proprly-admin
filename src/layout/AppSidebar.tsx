@@ -270,6 +270,7 @@ const AppSidebar: React.FC = () => {
     const isAdmins = boolString === "true";
     setIsAdmin(isAdmins);
     if (isAdmins) {
+      userAction.getSupportTikets();
       const adminI = [
         {
           icon: <UserCircleIcon />,
@@ -289,7 +290,6 @@ const AppSidebar: React.FC = () => {
       ];
       setAdminItems(adminI);
     }
-    console.log(isAdmin);
   }, []);
 
   useEffect(() => {

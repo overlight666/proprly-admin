@@ -37,7 +37,13 @@ const signupLeadsConvertAtom = atom<any>({
   default: undefined,
 });
 
+const supportTicketsAtom = atom<any[]>({
+  key: "supportTicketsAtom",
+  default: undefined,
+});
+
 export {
+  supportTicketsAtom,
   signupLeadsConvertAtom,
   signupLeadsListAtom,
   projectAdminUsersAtom,

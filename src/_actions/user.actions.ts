@@ -10,6 +10,7 @@ import {
   projectAdminUsersAtom,
   signupLeadsConvertAtom,
   signupLeadsListAtom,
+  supportTicketsAtom,
   tokenAtom,
   usersAtom,
 } from "../_state";
@@ -29,7 +30,7 @@ function useUserActions() {
   const setProjectAdminUsers = useSetRecoilState(projectAdminUsersAtom);
   const setLeads = useSetRecoilState(signupLeadsListAtom);
   const setLeadsConverted = useSetRecoilState(signupLeadsConvertAtom);
-
+  const setSupportTickets = useSetRecoilState(supportTicketsAtom);
   const persist = usePersistor();
 
   return {
@@ -42,8 +43,17 @@ function useUserActions() {
     getProjectAdminUsers,
     getLeads,
     convertLead,
+    getSupportTikets,
     // addUserWithTrades,
   };
+
+  function getSupportTikets() {
+    return fetchWrapper.get(`${baseUrl}/support`).then((response: any) => {
+      if (response) {
+        setSupportTickets(response && response.data ? response.data : response);
+      }
+    });
+  }
 
   function getProjectAdminUsers(org_id: any) {
     const isAdmin = persist.getValues("isAdmin");

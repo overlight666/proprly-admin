@@ -9,7 +9,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
-import { signupLeadsListAtom } from "../../../../_state";
+import { signupLeadsListAtom, supportTicketsAtom } from "../../../../_state";
 import { useRecoilValue } from "recoil";
 import { Leads } from "../../../../_types";
 import { TableCell } from "../../../../components/ui/table";
@@ -29,7 +29,25 @@ DataTable.use(DT);
 
 export default function SupportTicketsTable({ tableRef }: any) {
   const [tableData, setTableData] = useState<any>([]);
-
+  const tickets = useRecoilValue(supportTicketsAtom);
+  useEffect(() => {
+    if (tickets?.length > 0) {
+      const ticketMutate = tickets?.map((ticket, index) => {
+        return [
+          index + 1,
+          ticket?.ticketNo,
+          ticket?.user?.fullName,
+          ticket?.user?.mobile,
+          ticket?.user?.email,
+          ticket?.status?.toUpperCase(),
+          moment(ticket?.createdAt).format("ll"),
+          ticket,
+        ];
+      });
+      setTableData(ticketMutate);
+    }
+  }, [tickets]);
+  console.log(tickets);
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <div className="max-w-full overflow-x-auto">
@@ -43,7 +61,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
               paging: true,
               searching: true,
               columnDefs: [
-                { searchable: true, targets: [0, 2, 3, 1, 4] },
+                { searchable: true, targets: [0, 1, 2, 3, 4, 5, 6] },
                 {
                   className:
                     "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400",
