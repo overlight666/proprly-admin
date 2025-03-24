@@ -20,7 +20,14 @@ export default function OrgTable({ orglist }: any) {
   useEffect(() => {
     if (orglist) {
       const tb = orglist.map((org: Organization) => {
-        return [org.name, 0, 0, 0, 0, org.id];
+        return [
+          org.name,
+          org.totalProjects,
+          org.totalProperties,
+          org.defectCounts?.open,
+          org?.defectCounts?.in_progress,
+          org.id,
+        ];
       });
       setTableData(tb);
     }

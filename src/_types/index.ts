@@ -111,6 +111,9 @@ export interface Organization {
   image: ImageType;
   region?: Regions;
   user?: userData[];
+  defectCounts?: any;
+  totalProjects: any;
+  totalProperties: any;
 }
 
 export interface Timezone {

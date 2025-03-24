@@ -71,28 +71,28 @@ export default function OrgGrid({ orglist }: any) {
                       color="error"
                       startIcon={<ErrorIcon />}
                     >
-                      Open Defects: 0
+                      Open Defects: {org?.defectCounts?.open}
                     </Badge>{" "}
                     <Badge
                       variant="light"
                       color="primary"
                       startIcon={<BoxIcon />}
                     >
-                      Projects: 0
+                      Projects: {org?.totalProjects}
                     </Badge>
                     <Badge
                       variant="light"
                       color="success"
                       startIcon={<DocsIcon />}
                     >
-                      Properties: 0
+                      Properties: {org?.totalProperties}
                     </Badge>{" "}
                     <Badge
                       variant="light"
                       color="warning"
                       startIcon={<TaskIcon />}
                     >
-                      Defects in-progress: 0
+                      Defects in-progress: {org?.defectCounts?.in_progress}
                     </Badge>{" "}
                   </div>
                 </div>
