@@ -148,9 +148,9 @@ const AppSidebar: React.FC = () => {
   const reportAction = useReports();
   const { id, project_id, property_id }: any = useParams();
 
-  console.log(JSON.parse(localStorage.getItem("authUser") || ""));
   const currentRoute = [
     "/",
+    "/contact-support",
     "/organization",
     "/organization/new",
     "/signup-leads",
@@ -230,6 +230,7 @@ const AppSidebar: React.FC = () => {
       currentRoute === "signup-leads/view" ||
       currentRoute === "/master-configuration" ||
       currentRoute === "/support-tickets" ||
+      currentRoute === "/contact-support" ||
       currentRoute === "/organization/:id/edit" ||
       currentRoute === "/organization/:id"
     ) {

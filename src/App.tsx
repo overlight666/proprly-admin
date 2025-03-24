@@ -18,6 +18,7 @@ import SelectedProject from "./pages/Projects/Component/SelectedProject";
 import SignupLeads from "./pages/Admin/SignupLeads/SignupLeads";
 import MasterConfiguration from "./pages/Admin/Configuration/MasterConfiguration";
 import SupportTickets from "./pages/Admin/SupportTickets/SupportTickets";
+import ContactSupport from "./pages/Admin/ContactSupport/ContactSupport";
 
 export default function App() {
   return (
@@ -147,6 +148,15 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <SupportTickets />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              index
+              path="/contact-support"
+              element={
+                <PrivateRoute>
+                  <ContactSupport />
                 </PrivateRoute>
               }
             />
