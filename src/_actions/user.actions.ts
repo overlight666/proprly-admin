@@ -8,6 +8,7 @@ import {
   authAtom,
   globalConfigAtom,
   projectAdminUsersAtom,
+  selectedTicketAtom,
   signupLeadsConvertAtom,
   signupLeadsListAtom,
   supportTicketsAtom,
@@ -31,6 +32,8 @@ function useUserActions() {
   const setLeads = useSetRecoilState(signupLeadsListAtom);
   const setLeadsConverted = useSetRecoilState(signupLeadsConvertAtom);
   const setSupportTickets = useSetRecoilState(supportTicketsAtom);
+  const setSelectedSupportTickets = useSetRecoilState(selectedTicketAtom);
+
   const persist = usePersistor();
 
   return {
@@ -44,8 +47,21 @@ function useUserActions() {
     getLeads,
     convertLead,
     getSupportTikets,
+    getSelectedTicket,
     // addUserWithTrades,
   };
+
+  function getSelectedTicket(id: any) {
+    return fetchWrapper
+      .get(`${baseUrl}/support/${id}`)
+      .then((response: any) => {
+        if (response) {
+          setSelectedSupportTickets(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
 
   function getSupportTikets() {
     return fetchWrapper.get(`${baseUrl}/support`).then((response: any) => {

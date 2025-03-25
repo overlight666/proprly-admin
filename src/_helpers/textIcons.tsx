@@ -1,6 +1,36 @@
 import React from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
+  if (defectSubStatus == "pending") {
+    return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
+  } else if (
+    defectSubStatus == "Defect Logged" ||
+    defectSubStatus == "Pending Admin Approval"
+  ) {
+    return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
+  } else if (
+    defectSubStatus == "Defect Resolved" ||
+    defectSubStatus == "Resolution Accepted by Auditor" ||
+    defectSubStatus == "Resolution Accepted By Owner" ||
+    defectSubStatus == "Defect Closed"
+  ) {
+    return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
+  } else if (
+    defectSubStatus == "Defect Resolution Disputed by Owner" ||
+    defectSubStatus == "Warranty Issue" ||
+    defectSubStatus == "Owner Defect" ||
+    defectSubStatus == "Not a Defect" ||
+    defectSubStatus == "Defect Rejected by Admin" ||
+    defectSubStatus == "Pending Admin feedback" ||
+    defectSubStatus == "Pending Admin Feedback"
+  ) {
+    return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
+  }
+  return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
+};
+
 export const textColoring = (defectSubStatus: any, hasBg: any) => {
   if (
     defectSubStatus == "Tradesman to be organised" ||
@@ -43,6 +73,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const getIcons = (defectSubStatus) => {
   if (
+    defectSubStatus == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||

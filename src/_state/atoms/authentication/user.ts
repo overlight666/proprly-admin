@@ -42,7 +42,13 @@ const supportTicketsAtom = atom<any[]>({
   default: undefined,
 });
 
+const selectedTicketAtom = atom<any>({
+  key: "selectedTicketAtom",
+  default: undefined,
+});
+
 export {
+  selectedTicketAtom,
   supportTicketsAtom,
   signupLeadsConvertAtom,
   signupLeadsListAtom,
