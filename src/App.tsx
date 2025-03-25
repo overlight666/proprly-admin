@@ -19,6 +19,7 @@ import SignupLeads from "./pages/Admin/SignupLeads/SignupLeads";
 import MasterConfiguration from "./pages/Admin/Configuration/MasterConfiguration";
 import SupportTickets from "./pages/Admin/SupportTickets/SupportTickets";
 import ContactSupport from "./pages/Admin/ContactSupport/ContactSupport";
+import RegionManagement from "./pages/Admin/RegionManagement/RegionManagement";
 
 export default function App() {
   return (
@@ -157,6 +158,16 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <ContactSupport />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
+              path="/region-management"
+              element={
+                <PrivateRoute>
+                  <RegionManagement />
                 </PrivateRoute>
               }
             />

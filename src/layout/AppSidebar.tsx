@@ -157,6 +157,7 @@ const AppSidebar: React.FC = () => {
     "signup-leads/view",
     "/master-configuration",
     "/support-tickets",
+    "/region-management",
     "/organization/:id",
     "/organization/:id/edit",
     "/organization/:id/project/:project_id",
@@ -230,6 +231,7 @@ const AppSidebar: React.FC = () => {
       currentRoute === "signup-leads/view" ||
       currentRoute === "/master-configuration" ||
       currentRoute === "/support-tickets" ||
+      currentRoute === "/region-management" ||
       currentRoute === "/contact-support" ||
       currentRoute === "/organization/:id/edit" ||
       currentRoute === "/organization/:id"
@@ -286,6 +288,11 @@ const AppSidebar: React.FC = () => {
           icon: <UserCircleIcon />,
           name: "Support Tickets",
           path: "/support-tickets",
+        },
+        {
+          icon: <UserCircleIcon />,
+          name: "Region Management",
+          path: "/region-management",
         },
       ];
       setAdminItems(adminI);

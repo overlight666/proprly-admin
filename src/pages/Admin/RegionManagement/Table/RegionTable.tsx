@@ -27,26 +27,8 @@ DataTable.use(DT);
 
 // Define the table data using the interface
 
-export default function SupportTicketsTable({ tableRef }: any) {
+export default function RegionTable({ tableRef }: any) {
   const [tableData, setTableData] = useState<any>([]);
-  const tickets = useRecoilValue(supportTicketsAtom);
-  useEffect(() => {
-    if (tickets?.length > 0) {
-      const ticketMutate = tickets?.map((ticket, index) => {
-        return [
-          index + 1,
-          ticket?.ticketNo,
-          ticket?.user?.fullName,
-          ticket?.user?.mobile,
-          ticket?.user?.email,
-          ticket?.status?.toUpperCase(),
-          moment(ticket?.createdAt).format("ll"),
-          ticket,
-        ];
-      });
-      setTableData(ticketMutate);
-    }
-  }, [tickets]);
 
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -80,7 +62,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
               },
             }}
             slots={{
-              7: (_data: any, _row: any) => (
+              4: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                   <div className="flex flex-row gap-5">
                     <FolderIcon
@@ -108,37 +90,14 @@ export default function SupportTicketsTable({ tableRef }: any) {
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Ticket No
+                  Country
                 </th>
-                <th
-                  scope="col"
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                >
-                  Full Name
-                </th>
-                <th
-                  scope="col"
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                >
-                  Phone
-                </th>
-                <th
-                  scope="col"
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                >
-                  Email Address
-                </th>
+
                 <th
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   Status
-                </th>
-                <th
-                  scope="col"
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                >
-                  Ticket Created
                 </th>
 
                 <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
