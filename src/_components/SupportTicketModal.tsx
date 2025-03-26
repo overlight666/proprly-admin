@@ -54,7 +54,7 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
             </div>
           </div>
           <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-12 gap-2">
-            <ComponentCard title="Defect Information" className="col-span-8">
+            <ComponentCard title="Ticket Information" className="col-span-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <div>
                   <Label htmlFor="input">Ticket No</Label>
