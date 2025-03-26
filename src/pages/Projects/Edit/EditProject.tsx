@@ -212,6 +212,7 @@ export default function EditProject() {
         newTower.map((to) => {
           const params = {
             projectId: project_id,
+            status: "under_construction",
             ...to,
           };
           projectAction.addProjectTower(params);
