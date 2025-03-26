@@ -47,7 +47,13 @@ const selectedTicketAtom = atom<any>({
   default: undefined,
 });
 
+const contactSupportAtom = atom<any>({
+  key: "contactSupportAtom",
+  default: undefined,
+});
+
 export {
+  contactSupportAtom,
   selectedTicketAtom,
   supportTicketsAtom,
   signupLeadsConvertAtom,

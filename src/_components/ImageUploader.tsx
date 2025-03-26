@@ -11,6 +11,7 @@ interface UploadTypes {
   setUploadQueue?: any;
   getUploadedFile?: any;
   group?: string;
+  accept?: string;
 }
 export default function FileUploader({
   title,
@@ -19,6 +20,7 @@ export default function FileUploader({
   setUploadQueue,
   getUploadedFile,
   group,
+  accept = "application/pdf",
 }: UploadTypes) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,7 +48,7 @@ export default function FileUploader({
       <FileInput
         onChange={handleFileChange}
         className="custom-class"
-        accept="application/pdf"
+        accept={accept}
       />
       <div className="max-h-[250px] overflow-auto">
         {uploadQueue &&

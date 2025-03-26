@@ -33,6 +33,7 @@ import {
 import { useProject } from "../_actions/projects.actions";
 import {
   commonAreaWarrantyResponse,
+  contactSupportAtom,
   projectResponseAtom,
   projectsAtom,
   selectedProjectAtom,
@@ -133,6 +134,8 @@ const AppSidebar: React.FC = () => {
   const projectResponse = useRecoilValue(projectResponseAtom);
   const warrantyUpdate = useRecoilValue(warrantiesUpdateAtom);
   const projects = useRecoilValue(projectsAtom);
+  const setContactSupport = useSetRecoilState(contactSupportAtom);
+  const contactSupportResponse = useRecoilValue(contactSupportAtom);
 
   const setWarrantyResponse = useSetRecoilState(warrantiesUpdateAtom);
   const setCommonAreaWarrantyResponse = useSetRecoilState(
@@ -266,6 +269,17 @@ const AppSidebar: React.FC = () => {
       setOrgItems([]);
     }
   }, [currentRoute, selectedOrganization, id]);
+
+  useEffect(() => {
+    if (contactSupportResponse) {
+      const boolString = localStorage.getItem("isAdmin");
+      const isAdmins = boolString === "true";
+      if (isAdmins) {
+        userAction.getSupportTikets();
+        setContactSupport("");
+      }
+    }
+  }, [contactSupportResponse]);
 
   useEffect(() => {
     const boolString = localStorage.getItem("isAdmin");
