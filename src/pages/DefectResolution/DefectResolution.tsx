@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Radio from "../../components/form/input/Radio";
 import Label from "../../components/form/Label";
 import { useDefectResolution } from "../../_actions";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { appointmentTradeCodesAtom, selectedProjectAtom } from "../../_state";
 import { defectResolutionAtom } from "../../_state/atoms/defectResolution";
 import { DefectSumissionType } from "../../_types";
@@ -25,6 +25,7 @@ export default function DefectResolution() {
   const defectResolutionAction = useDefectResolution();
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const defects = useRecoilValue(defectResolutionAtom);
+  const setDefects = useSetRecoilState(defectResolutionAtom);
   const [search, setSearch] = useState("");
   const [pendingDefects, setPendingDefects] = useState<
     DefectSumissionType[] | []
@@ -41,8 +42,10 @@ export default function DefectResolution() {
 
   useEffect(() => {
     if (selectedValue == "all") {
+      setDefects([]);
       defectResolutionAction.getAllDefectResolutions(selectedProject?.id);
     } else {
+      setDefects([]);
       defectResolutionAction.getDefectResolutions(
         selectedProject?.id,
         selectedValue
