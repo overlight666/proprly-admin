@@ -19,7 +19,7 @@ function useDefectResolution() {
   function getDefectResolutions(id: any, type: string) {
     let url = "";
     if (type == "commonArea") {
-      url = `/admin/defect-submissions?commonAreaId=${id}&type=commonArea`;
+      url = `/admin/defect-submissions?projectId=${id}&type=commonArea`;
     } else {
       url = `/admin/defect-submissions?projectId=${id}&type=property`;
     }
@@ -28,9 +28,9 @@ function useDefectResolution() {
     });
   }
 
-  function getAllDefectResolutions() {
+  function getAllDefectResolutions(id: any) {
     return fetchWrapper
-      .get(`${baseUrl}/admin/defect-submissions`)
+      .get(`${baseUrl}/admin/defect-submissions?projectId=${id}`)
       .then((response: any) => {
         setDefects(response && response.data ? response.data : response);
       });

@@ -5,17 +5,13 @@ import Radio from "../../components/form/input/Radio";
 import Label from "../../components/form/Label";
 import { useDefectResolution } from "../../_actions";
 import { useRecoilValue } from "recoil";
-import {
-  appointmentTradeCodesAtom,
-  selectedCommonAreaAtom,
-  selectedProjectAtom,
-} from "../../_state";
+import { appointmentTradeCodesAtom, selectedProjectAtom } from "../../_state";
 import { defectResolutionAtom } from "../../_state/atoms/defectResolution";
 import { DefectSumissionType } from "../../_types";
 import DefectItem from "./components/DefectBox";
 import DefectHeader from "./components/DefectHeader";
 import React from "react";
-import { toast } from "react-toastify";
+
 // Define the table data using the interface
 
 export default function DefectResolution() {
@@ -25,7 +21,7 @@ export default function DefectResolution() {
   const [label, setLabel] = useState("");
   const [filterValue, setFilterValue] = useState<any>();
   const tradeCodes = useRecoilValue(appointmentTradeCodesAtom);
-  const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
+
   const defectResolutionAction = useDefectResolution();
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const defects = useRecoilValue(defectResolutionAtom);
@@ -45,23 +41,12 @@ export default function DefectResolution() {
 
   useEffect(() => {
     if (selectedValue == "all") {
-      defectResolutionAction.getAllDefectResolutions();
+      defectResolutionAction.getAllDefectResolutions(selectedProject?.id);
     } else {
-      if (selectedValue == "commonArea") {
-        if (selectedCommonArea.length == 0) {
-          toast.warn("Your common area is not configured");
-        } else {
-          defectResolutionAction.getDefectResolutions(
-            selectedCommonArea[0]?.id,
-            selectedValue
-          );
-        }
-      } else {
-        defectResolutionAction.getDefectResolutions(
-          selectedProject?.id,
-          selectedValue
-        );
-      }
+      defectResolutionAction.getDefectResolutions(
+        selectedProject?.id,
+        selectedValue
+      );
     }
   }, [selectedValue]);
 
