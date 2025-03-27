@@ -13,6 +13,7 @@ import {
   commonAreaChecklistAtom,
   commonAreaConfigAtom,
   selectedCommonAreaAtom,
+  selectedProjectAtom,
 } from "../../../_state";
 import { useCommonArea } from "../../../_actions/commonArea.actions";
 import Badge from "../../../components/ui/badge/Badge";
@@ -26,7 +27,11 @@ DataTable.use(DT);
 import React from "react";
 // Define the table data using the interface
 
-export default function LocationMappingTable() {
+export default function LocationMappingTable({
+  hasCommonArea,
+  setRawBasements,
+  rawBasements,
+}: any) {
   const [tableData, setTableData] = useState<any>([]);
   const commonAreaAction = useCommonArea();
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
@@ -35,6 +40,8 @@ export default function LocationMappingTable() {
   const [selected, setSelected] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<any>(undefined);
   const [isAllCHecked, setIsAllChecked] = useState(false);
+  const selectedProject = useRecoilValue(selectedProjectAtom);
+
   const commonAreaCategoryResponse = useRecoilValue(
     commonAreaCategoryResponseAtom
   );
@@ -57,7 +64,7 @@ export default function LocationMappingTable() {
 
   useEffect(() => {
     setTableData([]);
-    if (commonAreaConfig) {
+    if (commonAreaConfig && !hasCommonArea) {
       const basements = commonAreaConfig?.projectBasements?.map(
         (basement: any) => {
           return [
@@ -83,26 +90,68 @@ export default function LocationMappingTable() {
       );
       const merged = [...basements];
       setTableData(merged);
-    }
-  }, [commonAreaConfig, selected]);
-
-  const selectAll = (e: any) => {
-    setIsAllChecked(e);
-    if (e) {
-      const basements = commonAreaConfig?.projectBasements?.map(
-        (basement: any) => {
-          return {
+    } else {
+      const basements = selectedProject?.basementList?.map((basement: any) => {
+        return [
+          {
             type: "basement",
-            id: basement.key,
+            id: basement?.key,
+            selectedValues: selected,
             configuration:
               (basement?.configuration &&
                 basement?.configuration?.commonAreaCategory) ||
               [],
-          };
-        }
-      );
+          },
+
+          basement.value,
+          basement.commonAreaConfigurationStatus || "pending",
+          rawBasements
+            ?.find((fl) => fl.basement == basement?.key)
+            ?.commonAreaCategories.map(
+              (ca: any) => commonAreaChecklist.find((cac) => cac.id == ca)?.name
+            )
+            .join(", ") || "",
+        ];
+      });
       const merged = [...basements];
-      setSelected(merged);
+      setTableData(merged);
+    }
+  }, [commonAreaConfig, selected, rawBasements]);
+
+  const selectAll = (e: any) => {
+    setIsAllChecked(e);
+    if (e) {
+      if (!hasCommonArea) {
+        const basements = commonAreaConfig?.projectBasements?.map(
+          (basement: any) => {
+            return {
+              type: "basement",
+              id: basement.key,
+              configuration:
+                (basement?.configuration &&
+                  basement?.configuration?.commonAreaCategory) ||
+                [],
+            };
+          }
+        );
+        const merged = [...basements];
+        setSelected(merged);
+      } else {
+        const basements = selectedProject?.basementList?.map(
+          (basement: any) => {
+            return {
+              type: "basement",
+              id: basement.key,
+              configuration:
+                (basement?.configuration &&
+                  basement?.configuration?.commonAreaCategory) ||
+                [],
+            };
+          }
+        );
+        const merged = [...basements];
+        setSelected(merged);
+      }
     } else {
       setSelected([]);
     }
@@ -125,25 +174,62 @@ export default function LocationMappingTable() {
   };
 
   const registerCategory = () => {
-    selected?.map((sv: any, index: any) => {
-      const newArr = sv?.configuration.map((s: any) => s.id);
-      newArr.push(parseInt(selectedCategory));
-      const params = {
-        commonAreaId: selectedCommonArea[0]?.id,
-        basement: sv.id,
-        commonAreaCategories: newArr,
-      };
-      commonAreaAction
-        .addCommonAreaCategoryBasement(params, index == selected.length - 1)
-        .then(() => {
-          setSelected([]);
-          setSelectedCategory(undefined);
-          setIsAllChecked(false);
-        })
-        .catch((e: any) => {
-          toast.error(e);
+    if (!hasCommonArea) {
+      selected?.map((sv: any, index: any) => {
+        const newArr = sv?.configuration.map((s: any) => s.id);
+        newArr.push(parseInt(selectedCategory));
+        const params = {
+          commonAreaId: selectedCommonArea[0]?.id,
+          basement: sv.id,
+          commonAreaCategories: newArr,
+        };
+        commonAreaAction
+          .addCommonAreaCategoryBasement(params, index == selected.length - 1)
+          .then(() => {
+            setSelected([]);
+            setSelectedCategory(undefined);
+            setIsAllChecked(false);
+          })
+          .catch((e: any) => {
+            toast.error(e);
+          });
+      });
+    } else {
+      const basements: any = [];
+      if (rawBasements.length == 0) {
+        selected?.map((sv: any, index: any) => {
+          const newArr = sv?.configuration.map((s: any) => s.id);
+          newArr.push(parseInt(selectedCategory));
+
+          const params = {
+            basement: sv.id,
+            commonAreaCategories: newArr,
+          };
+
+          basements.push(params);
         });
-    });
+        setRawBasements(basements);
+      } else {
+        selected?.map((sv: any, index: any) => {
+          const newArr = sv?.configuration.map((s: any) => s.id);
+          newArr.push(parseInt(selectedCategory));
+          const holder = rawBasements?.find((base) => base?.basement == sv.id);
+          const filtered = rawBasements?.filter(
+            (base) => base?.basement != sv.id
+          );
+          if (holder?.commonAreaCategories) {
+            holder.commonAreaCategories = Array.from(
+              new Set([
+                ...holder.commonAreaCategories,
+                parseInt(selectedCategory),
+              ])
+            );
+          }
+
+          setRawBasements([...filtered, holder]);
+        });
+      }
+    }
   };
 
   const stringToColour = (str: string) => {
@@ -177,10 +263,11 @@ export default function LocationMappingTable() {
                     };
                   }) || []
                 }
-                placeholder="Please category"
+                placeholder="Please select"
                 className="dark:bg-dark-900"
               />
               <Button
+                type="button"
                 disabled={selected?.length == 0 || !selectedCategory}
                 variant="primary"
                 size="sm"
@@ -234,10 +321,10 @@ export default function LocationMappingTable() {
                 2: (_data: any, _row: any) => (
                   <Badge
                     color={
-                      _data.toLowerCase() == "pending"
+                      _data?.toLowerCase() == "pending"
                         ? "warning"
                         : _data
-                            .toLowerCase()
+                            ?.toLowerCase()
                             .replace(/_/g, "")
                             .replace(/ /g, "") == "inprogress"
                         ? "info"

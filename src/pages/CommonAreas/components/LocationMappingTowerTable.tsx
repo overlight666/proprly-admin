@@ -13,6 +13,7 @@ import {
   commonAreaChecklistAtom,
   commonAreaConfigAtom,
   selectedCommonAreaAtom,
+  selectedProjectAtom,
 } from "../../../_state";
 import { useCommonArea } from "../../../_actions/commonArea.actions";
 import Badge from "../../../components/ui/badge/Badge";
@@ -26,15 +27,22 @@ DataTable.use(DT);
 import React from "react";
 // Define the table data using the interface
 
-export default function LocationMappingTowerTable() {
+export default function LocationMappingTowerTable({
+  hasCommonArea,
+  setRawTowers,
+  rawTowers,
+  selectedTower,
+  setSelectedTower,
+}: any) {
   const [tableData, setTableData] = useState<any>([]);
   const commonAreaAction = useCommonArea();
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
+  const selectedProject = useRecoilValue(selectedProjectAtom);
   const commonAreaConfig = useRecoilValue(commonAreaConfigAtom);
   const commonAreaChecklist = useRecoilValue(commonAreaChecklistAtom);
   const [selected, setSelected] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<any>(undefined);
-  const [selectedTower, setSelectedTower] = useState<any>(undefined);
+
   const [towerHolder, setTowerHolder] = useState<any>(undefined);
   const [isAllCHecked, setIsAllChecked] = useState(false);
   const commonAreaCategoryResponse = useRecoilValue(
@@ -59,53 +67,102 @@ export default function LocationMappingTowerTable() {
 
   useEffect(() => {
     setTableData([]);
-    if (commonAreaConfig && selectedTower) {
-      const myTower = commonAreaConfig?.projectTowers?.find(
-        (t: any) => t.id == selectedTower
-      );
-      setTowerHolder(myTower);
-      const towers = myTower?.floors?.map((tower: any) => {
-        return [
-          {
-            type: "tower",
-            id: tower?.key,
-            selectedValues: selected,
-            configuration:
-              (tower?.configuration &&
-                tower?.configuration?.commonAreaCategory) ||
-              [],
-          },
 
-          tower.value,
-          tower?.configuration && tower?.configuration?.commonAreaCategory
-            ? "configured"
-            : "pending",
-          (tower?.configuration &&
-            tower?.configuration?.commonAreaCategory
-              .map((ca: any) => ca.name)
-              .join(", ")) ||
-            "",
-        ];
-      });
-      setTableData(towers);
+    if (!hasCommonArea) {
+      if (commonAreaConfig && selectedTower) {
+        const myTower = commonAreaConfig?.projectTowers?.find(
+          (t: any) => t.id == selectedTower
+        );
+        setTowerHolder(myTower);
+        const towers = myTower?.floors?.map((tower: any) => {
+          return [
+            {
+              type: "tower",
+              id: tower?.key,
+              selectedValues: selected,
+              configuration:
+                (tower?.configuration &&
+                  tower?.configuration?.commonAreaCategory) ||
+                [],
+            },
+
+            tower.value,
+            tower?.configuration && tower?.configuration?.commonAreaCategory
+              ? "configured"
+              : "pending",
+            (tower?.configuration &&
+              tower?.configuration?.commonAreaCategory
+                .map((ca: any) => ca.name)
+                .join(", ")) ||
+              "",
+          ];
+        });
+        setTableData(towers);
+      }
+    } else {
+      if (selectedProject && selectedTower) {
+        const myTower = selectedProject?.projectTower?.find(
+          (t: any) => t.id == selectedTower
+        );
+        setTowerHolder(myTower);
+        const towers = myTower?.floorList?.map((tower: any) => {
+          return [
+            {
+              type: "tower",
+              id: tower?.key,
+              selectedValues: selected,
+              configuration:
+                (tower?.configuration &&
+                  tower?.configuration?.commonAreaCategory) ||
+                [],
+            },
+
+            tower.value,
+            tower?.configuration && tower?.configuration?.commonAreaCategory
+              ? "configured"
+              : "pending",
+            rawTowers
+              ?.find((fl) => fl.floor == tower?.key)
+              ?.commonAreaCategories.map(
+                (ca: any) =>
+                  commonAreaChecklist.find((cac) => cac.id == ca)?.name
+              )
+              .join(", ") || "",
+          ];
+        });
+        setTableData(towers);
+      }
     }
-  }, [commonAreaConfig, selectedTower, selected]);
+  }, [commonAreaConfig, selectedTower, selected, rawTowers]);
 
   const selectAll = (e: any) => {
     setIsAllChecked(e);
     if (e) {
-      const towers = towerHolder?.floors?.map((tower: any) => {
-        return {
-          type: "tower",
-          id: tower.key,
-          configuration:
-            (tower?.configuration &&
-              tower?.configuration?.commonAreaCategory) ||
-            [],
-        };
-      });
-
-      setSelected(towers);
+      if (!hasCommonArea) {
+        const towers = towerHolder?.floors?.map((tower: any) => {
+          return {
+            type: "tower",
+            id: tower.key,
+            configuration:
+              (tower?.configuration &&
+                tower?.configuration?.commonAreaCategory) ||
+              [],
+          };
+        });
+        setSelected(towers);
+      } else {
+        const towers = towerHolder?.floorList?.map((tower: any) => {
+          return {
+            type: "tower",
+            id: tower.key,
+            configuration:
+              (tower?.configuration &&
+                tower?.configuration?.commonAreaCategory) ||
+              [],
+          };
+        });
+        setSelected(towers);
+      }
     } else {
       setSelected([]);
     }
@@ -128,27 +185,67 @@ export default function LocationMappingTowerTable() {
   };
 
   const registerCategory = () => {
-    selected?.map((sv: any, index: any) => {
-      const newArr = sv?.configuration.map((s: any) => s.id);
-      newArr.push(parseInt(selectedCategory));
+    if (!hasCommonArea) {
+      selected?.map((sv: any, index: any) => {
+        const newArr = sv?.configuration.map((s: any) => s.id);
+        newArr.push(parseInt(selectedCategory));
 
-      const params = {
-        commonAreaId: selectedCommonArea[0]?.id,
-        floor: sv.id,
-        commonAreaCategories: newArr,
-        projectTowerId: towerHolder?.id,
-      };
-      commonAreaAction
-        .addCommonAreaCategoryTower(params, index == selected.length - 1)
-        .then(() => {
-          setSelected([]);
-          setSelectedCategory(undefined);
-          setIsAllChecked(false);
-        })
-        .catch((e: any) => {
-          toast.error(e);
+        const params = {
+          commonAreaId: selectedCommonArea[0]?.id,
+          floor: sv.id,
+          commonAreaCategories: newArr,
+          projectTowerId: towerHolder?.id,
+        };
+
+        commonAreaAction
+          .addCommonAreaCategoryTower(params, index == selected.length - 1)
+          .then(() => {
+            setSelected([]);
+            setSelectedCategory(undefined);
+            setIsAllChecked(false);
+          })
+          .catch((e: any) => {
+            toast.error(e);
+          });
+      });
+    } else {
+      const towers: any = [];
+      if (rawTowers.length == 0) {
+        selected?.map((sv: any, index: any) => {
+          const newArr = sv?.configuration.map((s: any) => s.id);
+          newArr.push(parseInt(selectedCategory));
+
+          const params = {
+            floor: sv.id,
+            commonAreaCategories: newArr,
+            projectTowerId: towerHolder?.id,
+          };
+
+          towers.push(params);
         });
-    });
+        setRawTowers(towerHolder?.id, towers);
+      } else {
+        selected?.map((sv: any, index: any) => {
+          const newArr = sv?.configuration.map((s: any) => s.id);
+          newArr.push(parseInt(selectedCategory));
+          const holder = rawTowers?.find(
+            (tower) =>
+              tower?.floor == sv.id && tower?.projectTowerId == towerHolder?.id
+          );
+          const filtered = rawTowers?.filter((tower) => tower?.floor != sv.id);
+          if (holder?.commonAreaCategories) {
+            holder.commonAreaCategories = Array.from(
+              new Set([
+                ...holder.commonAreaCategories,
+                parseInt(selectedCategory),
+              ])
+            );
+          }
+
+          setRawTowers(towerHolder?.id, [...filtered, holder]);
+        });
+      }
+    }
   };
 
   const stringToColour = (str: string) => {
@@ -175,12 +272,19 @@ export default function LocationMappingTowerTable() {
                 <Select2
                   onChange={(e) => setSelectedTower(e)}
                   options={
-                    commonAreaConfig?.projectTowers?.map((cl: any) => {
-                      return {
-                        value: cl.id,
-                        label: cl.name,
-                      };
-                    }) || []
+                    !hasCommonArea
+                      ? commonAreaConfig?.projectTowers?.map((cl: any) => {
+                          return {
+                            value: cl.id,
+                            label: cl.name,
+                          };
+                        }) || []
+                      : selectedProject?.projectTower?.map((cl: any) => {
+                          return {
+                            value: cl.id,
+                            label: cl.name,
+                          };
+                        })
                   }
                   placeholder="Select a tower"
                   className="dark:bg-dark-900"
@@ -203,6 +307,7 @@ export default function LocationMappingTowerTable() {
                   disabled={selected?.length == 0 || !selectedCategory}
                   variant="primary"
                   size="sm"
+                  type="button"
                   onClick={() => registerCategory()}
                 >
                   Register
@@ -215,10 +320,10 @@ export default function LocationMappingTowerTable() {
                   <span className="ml-2">
                     <Badge
                       color={
-                        towerHolder?.commonAreaConfigurationStatus.toLowerCase() ==
+                        towerHolder?.commonAreaConfigurationStatus?.toLowerCase() ==
                         "pending"
                           ? "warning"
-                          : towerHolder?.commonAreaConfigurationStatus.toLowerCase() ==
+                          : towerHolder?.commonAreaConfigurationStatus?.toLowerCase() ==
                             "configured"
                           ? "success"
                           : "info"

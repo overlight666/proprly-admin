@@ -23,9 +23,9 @@ import LocationMappingTable from "./components/LocationMappingBasementTable";
 import LocationMappingTowerTable from "./components/LocationMappingTowerTable";
 // Define the table data using the interface
 import React from "react";
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 export default function CommonArea() {
-  const { project_id } = useParams();
+  // const { project_id } = useParams();
   const selectedCommonArea = useRecoilValue(selectedCommonAreaAtom);
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
@@ -34,6 +34,9 @@ export default function CommonArea() {
   const [isConfigure, setIsConfigure] = useState<any>(false);
   const [garageDoor, setGarageDoor] = useState<any>([]);
   const [miscellaneous, setMiscellaneous] = useState<any>([]);
+  const [rawTowers, setRawTowers] = useState<any>([]);
+  const [selectedTower, setSelectedTower] = useState<any>(undefined);
+  const [rawBasements, setRawBasements] = useState<any>([]);
   const [warrantyGroup, setWarrantyGroup] = useState<any>([
     {
       group: "lifts",
@@ -175,6 +178,18 @@ export default function CommonArea() {
       ...props,
     };
 
+    if (rawBasements) {
+      params.basements = rawBasements;
+    }
+
+    if (rawTowers) {
+      const holder: any = [];
+      rawTowers?.map((t: any) => {
+        holder.push(...t.towers);
+      });
+      params.towers = holder;
+    }
+
     params.lotNo = params.lotNo == "n/a" ? 0 : params.lotNo;
 
     if (selectedCommonArea?.length != 0) {
@@ -195,20 +210,40 @@ export default function CommonArea() {
     }
   }
 
-  useEffect(() => {
-    if (selectedCommonArea?.length == 0) {
-      const params = {
-        projectId: project_id,
-        lotNo: 0,
-        status: "pre_settlement",
-      };
-      commonAreaAction
-        .saveCommonArea(params, warrantyGroup, toast)
-        .catch((e: any) => {
-          toast.error(e);
-        });
+  // useEffect(() => {
+  //   if (selectedCommonArea?.length == 0) {
+  //     const params = {
+  //       projectId: project_id,
+  //       lotNo: 0,
+  //       status: "pre_settlement",
+  //     };
+  //     commonAreaAction
+  //       .saveCommonArea(params, warrantyGroup, toast)
+  //       .catch((e: any) => {
+  //         toast.error(e);
+  //       });
+  //   }
+  // }, []);
+
+  const setTowers = (id: any, value: any) => {
+    if (rawTowers.find((tower) => tower.id == id)) {
+      const myTowers = rawTowers?.map((mt: any) => {
+        if (mt.id == id) {
+          mt.towers = value;
+        }
+        return mt;
+      });
+      setRawTowers(myTowers);
+    } else {
+      setRawTowers([
+        ...rawTowers,
+        {
+          id: id,
+          towers: value,
+        },
+      ]);
     }
-  }, []);
+  };
 
   return (
     <div className="overflow-hidden mt-5 ">
@@ -267,8 +302,20 @@ export default function CommonArea() {
               </div>
             </ComponentCard>
             <div className="gap-2 grid grid-cols-1 xl:grid-cols-1 mt-5">
-              <LocationMappingTowerTable />
-              <LocationMappingTable />
+              <LocationMappingTowerTable
+                hasCommonArea={selectedCommonArea?.length == 0}
+                setRawTowers={setTowers}
+                rawTowers={
+                  rawTowers.find((t) => t.id == selectedTower)?.towers || []
+                }
+                setSelectedTower={setSelectedTower}
+                selectedTower={selectedTower}
+              />
+              <LocationMappingTable
+                hasCommonArea={selectedCommonArea?.length == 0}
+                setRawBasements={setRawBasements}
+                rawBasements={rawBasements}
+              />
             </div>
             <ComponentCard title="Warranty Information" className="mt-5">
               <div className="gap-2 grid grid-cols-1 xl:grid-cols-1">

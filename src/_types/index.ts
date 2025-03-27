@@ -337,6 +337,7 @@ export interface Project {
   image?: ImageType;
   documents?: DocumentFile[];
   user?: userInterface[];
+  basementList?: any;
 }
 
 export interface userInterface {
