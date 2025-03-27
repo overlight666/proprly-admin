@@ -173,16 +173,13 @@ export default function CommonArea() {
   };
 
   function onSubmit(props: any) {
-    const params = {
+    const params: any = {
       projectId: selectedProject?.id,
       ...props,
     };
 
-    if (rawBasements) {
-      params.configuration.basements = rawBasements;
-    }
-
     if (rawTowers) {
+      params.configuration = {};
       const holder: any = [];
       rawTowers?.map((t: any) => {
         holder.push(...t.towers);
@@ -190,8 +187,13 @@ export default function CommonArea() {
       params.configuration.towers = holder;
     }
 
+    if (rawBasements) {
+      params.configuration.basements = rawBasements;
+    }
+
     params.lotNo = params.lotNo == "n/a" ? 0 : params.lotNo;
 
+    console.log(params);
     if (selectedCommonArea?.length != 0) {
       const warranties = {
         groups: warrantyGroup,
