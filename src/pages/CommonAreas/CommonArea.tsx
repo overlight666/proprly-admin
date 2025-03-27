@@ -179,7 +179,7 @@ export default function CommonArea() {
     };
 
     if (rawBasements) {
-      params.basements = rawBasements;
+      params.configuration.basements = rawBasements;
     }
 
     if (rawTowers) {
@@ -187,7 +187,7 @@ export default function CommonArea() {
       rawTowers?.map((t: any) => {
         holder.push(...t.towers);
       });
-      params.towers = holder;
+      params.configuration.towers = holder;
     }
 
     params.lotNo = params.lotNo == "n/a" ? 0 : params.lotNo;
