@@ -32,7 +32,13 @@ const commonAreaCategoryResponseAtom = atom<any>({
   default: undefined,
 });
 
+const commonAreaResponseAtom = atom<any>({
+  key: "commonAreaCategoryResponseAtom",
+  default: undefined,
+});
+
 export {
+  commonAreaResponseAtom,
   projectSubContractorAtom,
   selectedCommonAreaAtom,
   projectStrataAtom,

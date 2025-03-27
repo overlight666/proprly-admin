@@ -6,6 +6,7 @@ import {
   commonAreaCategoryResponseAtom,
   commonAreaChecklistAtom,
   commonAreaConfigAtom,
+  commonAreaResponseAtom,
   projectAuditorAtom,
   projectStrataAtom,
   projectSubContractorAtom,
@@ -24,6 +25,7 @@ function useCommonArea() {
   const setContractor = useSetRecoilState(projectSubContractorAtom);
   const setCommonAreaConfig = useSetRecoilState(commonAreaConfigAtom);
   const setCommonAreaChecklist = useSetRecoilState(commonAreaChecklistAtom);
+  const setCommonAreaResponse = useSetRecoilState(commonAreaResponseAtom);
   const persist = usePersistor();
   const setCommonAreaCategoryResponse = useSetRecoilState(
     commonAreaCategoryResponseAtom
@@ -115,6 +117,7 @@ function useCommonArea() {
               ? response.data[0]
               : response.data
             : response;
+        setCommonAreaResponse(res);
         if (res?.id) {
           const warrantyParams = {
             commonAreaId: res.id,

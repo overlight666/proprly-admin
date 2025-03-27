@@ -32,6 +32,7 @@ import {
 } from "../_actions";
 import { useProject } from "../_actions/projects.actions";
 import {
+  commonAreaResponseAtom,
   commonAreaWarrantyResponse,
   contactSupportAtom,
   projectResponseAtom,
@@ -138,6 +139,8 @@ const AppSidebar: React.FC = () => {
   const contactSupportResponse = useRecoilValue(contactSupportAtom);
 
   const setWarrantyResponse = useSetRecoilState(warrantiesUpdateAtom);
+  const commonAreaResponse = useRecoilValue(commonAreaResponseAtom);
+  const setCommonAreaResponse = useSetRecoilState(commonAreaResponseAtom);
   const setCommonAreaWarrantyResponse = useSetRecoilState(
     commonAreaWarrantyResponse
   );
@@ -207,11 +210,12 @@ const AppSidebar: React.FC = () => {
   }, [project_id]);
 
   useEffect(() => {
-    if (commonAreaWarrantyResponseValue) {
+    if (commonAreaWarrantyResponseValue || commonAreaResponse) {
       commonAreaAction.getCommonArea(project_id);
       setCommonAreaWarrantyResponse(undefined);
+      setCommonAreaResponse(undefined);
     }
-  }, [commonAreaWarrantyResponseValue]);
+  }, [commonAreaWarrantyResponseValue, commonAreaResponse]);
 
   useEffect(() => {
     userAction.getConfig();

@@ -178,7 +178,7 @@ export default function CommonArea() {
       ...props,
     };
 
-    if (rawTowers) {
+    if (rawTowers?.length > 0) {
       params.configuration = {};
       const holder: any = [];
       rawTowers?.map((t: any) => {
@@ -187,13 +187,12 @@ export default function CommonArea() {
       params.configuration.towers = holder;
     }
 
-    if (rawBasements) {
+    if (rawBasements?.length > 0) {
       params.configuration.basements = rawBasements;
     }
 
     params.lotNo = params.lotNo == "n/a" ? 0 : params.lotNo;
 
-    console.log(params);
     if (selectedCommonArea?.length != 0) {
       const warranties = {
         groups: warrantyGroup,

@@ -65,6 +65,7 @@ export default function LocationMappingTable({
   useEffect(() => {
     setTableData([]);
     if (commonAreaConfig && !hasCommonArea) {
+      console.log(commonAreaConfig);
       const basements = commonAreaConfig?.projectBasements?.map(
         (basement: any) => {
           return [
