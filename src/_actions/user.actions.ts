@@ -50,6 +50,7 @@ function useUserActions() {
     getSupportTikets,
     getSelectedTicket,
     submitSupportTikets,
+    updateSupportTikets,
     // addUserWithTrades,
   };
 
@@ -68,6 +69,18 @@ function useUserActions() {
   function submitSupportTikets(params: any) {
     return fetchWrapper
       .post(`${baseUrl}/support`, params)
+      .then((response: any) => {
+        if (response) {
+          setContactSupport(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
+
+  function updateSupportTikets(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/support/${id}`, params)
       .then((response: any) => {
         if (response) {
           setContactSupport(

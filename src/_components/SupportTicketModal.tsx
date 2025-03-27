@@ -9,30 +9,66 @@ import Input from "../components/form/input/InputField";
 import ComponentCard from "../components/common/ComponentCard";
 import moment from "moment";
 import TextArea from "../components/form/input/TextArea";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getIcons, ticketColoring } from "../_helpers/textIcons";
-import { selectedTicketAtom } from "../_state";
+import { authAtom, selectedTicketAtom } from "../_state";
 import { ucword } from "../_helpers";
 import { PDFIcon } from "../icons";
+import Select2 from "../components/form/Select2";
+import FileUploader from "./ImageUploader";
+import { ImageType } from "../_types";
+import { uploadResponseAtom } from "../_state/atoms/dropzone";
+import Button from "../components/ui/button/Button";
+import { toast } from "react-toastify";
+import { useUserActions } from "../_actions";
 
 export default function SupportTicketModal({ isOpen, closeModal }: any) {
-  const ticket = useRecoilValue(selectedTicketAtom);
-  console.log(ticket);
-  const getStatus = (value: any) => {
-    let val = "";
-    try {
-      val =
-        value &&
-        value
-          .replace("_", " ")
-          .toLowerCase()
-          .replace(/\b[a-z]/g, function (letter: any) {
-            return letter.toUpperCase();
-          });
-    } catch (error: any) {
-      val = "N/A";
+  const currentUser = useRecoilValue(authAtom);
+  const ticket: any = useRecoilValue(selectedTicketAtom);
+  const [status, setStatus] = useState("");
+  const [description, setDescription] = useState("");
+  const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
+  const [uploadQueue, setUploadQueue] = useState<any>([]);
+  const uploadResponse: any = useRecoilValue(uploadResponseAtom);
+  const setUploadResponse = useSetRecoilState(uploadResponseAtom);
+  const userAction = useUserActions();
+
+  useEffect(() => {
+    if (uploadResponse) {
+      if (fileContainer && fileContainer.length > 0) {
+        setFileContainer((oldArray: any) => [...oldArray, uploadResponse]);
+      } else {
+        setFileContainer([uploadResponse]);
+      }
+      setUploadResponse(undefined);
     }
-    return val ? val : "N/A";
+  }, [uploadResponse]);
+
+  const removeFile = (file: File) => {
+    const newFiles: any =
+      fileContainer &&
+      fileContainer.length > 0 &&
+      fileContainer.filter((e) => e.name !== file.name);
+    setFileContainer(newFiles);
+  };
+
+  const onSubmit = async () => {
+    if (description.length == 0) {
+      toast.error("Description is required");
+    } else {
+      const params = {
+        issueId: ticket?.issueId,
+        description,
+        userId: JSON.parse(currentUser)?.user?.id,
+        attachment: fileContainer.map((files) => files.id),
+        status: status,
+      };
+      await userAction.updateSupportTikets(ticket?.id, params).then(() => {
+        toast.success("Support ticket has been updated!");
+        setFileContainer([]);
+        closeModal();
+      });
+    }
   };
 
   return (
@@ -40,7 +76,7 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        className="max-w-[90%] p-6 lg:p-10 relative overflow-auto"
+        className="max-w-[90%] max-h-[90%] p-6 lg:p-10 relative overflow-auto"
       >
         <div className="flex flex-col px-2 overflow-auto custom-scrollbar">
           <div className="flex items-center">
@@ -144,14 +180,58 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
                   </div>
                 </div>
                 <div>
-                  <Label>Proprly Admin Evidence</Label>
-                  <TextArea
-                    value={ticket?.comment}
-                    rows={2}
-                    readOnly={true}
-                    placeholder="N/A"
-                  />
+                  <Label htmlFor="inputTwo">Status</Label>
+                  <div className="flex flex-row gap-2 w-full">
+                    <Select2
+                      options={[
+                        {
+                          label: "In Progress",
+                          value: "in_progress",
+                        },
+                        {
+                          label: "Resolved",
+                          value: "resolved",
+                        },
+                      ]}
+                      onChange={(e) => setStatus(e)}
+                      placeholder="Select a builder"
+                      className="dark:bg-dark-900"
+                      containerClass="w-[85%]"
+                    />
+                  </div>
                 </div>
+                {status !== "" && (
+                  <>
+                    <div className="mt-5">
+                      <Label>Proprly Admin Evidence</Label>
+                      <TextArea
+                        value={description}
+                        rows={2}
+                        onChange={(e) => setDescription(e)}
+                        placeholder="Comment/Description"
+                      />
+                    </div>
+                    <div>
+                      <FileUploader
+                        title="Upload file"
+                        removeFile={removeFile}
+                        setUploadQueue={setUploadQueue}
+                        uploadQueue={uploadQueue}
+                        accept="*"
+                      />
+                    </div>
+                    <div className="flex w-full flex-row gap-5 mt-10">
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        type="button"
+                        onClick={() => onSubmit()}
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             </ComponentCard>
             <ComponentCard
