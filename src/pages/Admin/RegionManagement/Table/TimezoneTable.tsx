@@ -11,39 +11,55 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import {
   allRegionAtom,
-  selectedRegionAtom,
   signupLeadsListAtom,
   supportTicketsAtom,
 } from "../../../../_state";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
+import { Leads } from "../../../../_types";
 import { TableCell } from "../../../../components/ui/table";
-import { CloseIcon, FolderIcon, PencilIcon } from "../../../../icons";
+import {
+  CheckCircleIcon,
+  CheckLineIcon,
+  CloseIcon,
+  FolderIcon,
+  PencilIcon,
+} from "../../../../icons";
+import moment from "moment";
+import { useUserActions } from "../../../../_actions";
+import { ucword } from "../../../../_helpers";
+import { toast } from "react-toastify";
 import { useModal } from "../../../../hooks/useModal";
 import AddRegionModal from "../Modal/AddRegionModal";
+import TimezoneModal from "../Modal/TimezoneModal";
 DataTable.use(DT);
 
 // Define the table data using the interface
 
-export default function RegionTable({ tableRef }: any) {
+export default function TimezoneTable({ tableRef, timezone }: any) {
   const regionList = useRecoilValue(allRegionAtom);
   const [tableData, setTableData] = useState<any>([]);
   const { isOpen, openModal, closeModal } = useModal();
-  const setSelectedRegion = useSetRecoilState(selectedRegionAtom);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (regionList) {
-      const regions = regionList?.map((region, index) => {
-        return [index + 1, region?.regionName, "n/a", region];
+    if (timezone) {
+      const timezones = timezone?.map((tz, index) => {
+        return [
+          index + 1,
+          tz?.name,
+          tz.description,
+          tz.abbreviation,
+          tz.offset,
+          tz,
+        ];
       });
-      setTableData(regions);
+      setTableData(timezones);
     }
-  }, [regionList]);
+  }, [timezone]);
   return (
-    <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <AddRegionModal
+    <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] mt-5">
+      <TimezoneModal
         closeModal={closeModal}
         isOpen={isOpen}
         isEdit={isEdit}
@@ -79,17 +95,9 @@ export default function RegionTable({ tableRef }: any) {
               },
             }}
             slots={{
-              3: (_data: any, _row: any) => (
+              5: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                   <div className="flex flex-row gap-5">
-                    <FolderIcon
-                      className="size-5 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="View"
-                      onClick={() => {
-                        navigate(`/region-management/${_data?.id}`);
-                      }}
-                    />
                     <PencilIcon
                       className="size-5 cursor-pointer"
                       data-tooltip-id="tooltip"
@@ -125,16 +133,28 @@ export default function RegionTable({ tableRef }: any) {
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Country
+                  Name
                 </th>
 
                 <th
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Status
+                  Description
                 </th>
 
+                <th
+                  scope="col"
+                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                >
+                  Abbreviation
+                </th>
+                <th
+                  scope="col"
+                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                >
+                  Offset
+                </th>
                 <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                   Actions
                 </th>

@@ -57,7 +57,19 @@ const allRegionAtom = atom<any>({
   default: undefined,
 });
 
+const addRegionResponseAtom = atom<any>({
+  key: "addRegionResponseAtom",
+  default: undefined,
+});
+
+const selectedRegionAtom = atom<any>({
+  key: "selectedRegionAtom",
+  default: undefined,
+});
+
 export {
+  selectedRegionAtom,
+  addRegionResponseAtom,
   allRegionAtom,
   contactSupportAtom,
   selectedTicketAtom,

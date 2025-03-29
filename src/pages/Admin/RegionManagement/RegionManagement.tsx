@@ -15,10 +15,11 @@ export default function RegionManagement() {
   return (
     <div>
       <PageMeta title="Proprly | Admin" description="" />
-      <PageBreadcrumb pageTitle="Support Tickets" />
+      <PageBreadcrumb pageTitle="Region Management" />
       <div className="min-h-screen rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] xl:pb-12 overflow-hidden">
         <>
           <RegionHeader onSearch={onSearch} />
+
           <div className="px-5 py-2">
             <RegionTable tableRef={tableRef} />
           </div>

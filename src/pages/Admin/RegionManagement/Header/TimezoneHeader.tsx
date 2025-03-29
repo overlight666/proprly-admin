@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import Input from "../../../../components/form/input/InputField";
 import { SearchIcon } from "../../../../icons";
 import Button from "../../../../components/ui/button/Button";
-import AddRegionModal from "../Modal/AddRegionModal";
 import { useModal } from "../../../../hooks/useModal";
+import TimezoneModal from "../Modal/TimezoneModal";
 
-export default function RegionHeader({ onSearch }: any) {
+export default function TimezoneHeader({ onSearch }: any) {
   const { isOpen, openModal, closeModal } = useModal();
   const [isEdit, setIsEdit] = useState(false);
   return (
     <>
-      <AddRegionModal closeModal={closeModal} isOpen={isOpen} isEdit={isEdit} />
+      <TimezoneModal closeModal={closeModal} isOpen={isOpen} isEdit={isEdit} />
       <div className="flex justify-between flex-row items-center px-5 py-5 w-full">
         <div
           className="flex space-x-2 w-full justify-between items-center flex-row w-full
@@ -38,7 +38,7 @@ export default function RegionHeader({ onSearch }: any) {
                 openModal();
               }}
             >
-              Add Region
+              Add Timezone
             </Button>
           </div>
         </div>

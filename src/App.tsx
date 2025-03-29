@@ -20,6 +20,7 @@ import MasterConfiguration from "./pages/Admin/Configuration/MasterConfiguration
 import SupportTickets from "./pages/Admin/SupportTickets/SupportTickets";
 import ContactSupport from "./pages/Admin/ContactSupport/ContactSupport";
 import RegionManagement from "./pages/Admin/RegionManagement/RegionManagement";
+import TimezoneManagement from "./pages/Admin/RegionManagement/TimezoneManagement";
 
 export default function App() {
   return (
@@ -168,6 +169,16 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <RegionManagement />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
+              path="/region-management/:regionId"
+              element={
+                <PrivateRoute>
+                  <TimezoneManagement />
                 </PrivateRoute>
               }
             />

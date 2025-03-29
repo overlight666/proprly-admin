@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil";
 
 import { history, useFetchWrapper } from "../_helpers";
 import {
+  addRegionResponseAtom,
   addUserReponseAtom,
   allNotificationsAtom,
   allRegionAtom,
@@ -10,6 +11,7 @@ import {
   contactSupportAtom,
   globalConfigAtom,
   projectAdminUsersAtom,
+  selectedRegionAtom,
   selectedTicketAtom,
   signupLeadsConvertAtom,
   signupLeadsListAtom,
@@ -37,6 +39,8 @@ function useUserActions() {
   const setSelectedSupportTickets = useSetRecoilState(selectedTicketAtom);
   const setContactSupport = useSetRecoilState(contactSupportAtom);
   const setRegions = useSetRecoilState(allRegionAtom);
+  const setRegionsResponse = useSetRecoilState(addRegionResponseAtom);
+  const setSelectedRegion = useSetRecoilState(selectedRegionAtom);
   const persist = usePersistor();
 
   return {
@@ -54,8 +58,43 @@ function useUserActions() {
     submitSupportTikets,
     updateSupportTikets,
     getAllRegions,
+    addRegion,
+    getRegionById,
+    updateRegion,
     // addUserWithTrades,
   };
+
+  function getRegionById(id: any) {
+    return fetchWrapper.get(`${baseUrl}/region/${id}`).then((response: any) => {
+      if (response) {
+        setSelectedRegion(response && response.data ? response.data : response);
+      }
+    });
+  }
+
+  function updateRegion(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/region/${id}`, params)
+      .then((response: any) => {
+        if (response) {
+          setRegionsResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
+
+  function addRegion(params: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/region`, params)
+      .then((response: any) => {
+        if (response) {
+          setRegionsResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
 
   function getAllRegions() {
     return fetchWrapper.get(`${baseUrl}/region`).then((response: any) => {
