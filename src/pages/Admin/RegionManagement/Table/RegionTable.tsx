@@ -9,7 +9,11 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
-import { signupLeadsListAtom, supportTicketsAtom } from "../../../../_state";
+import {
+  allRegionAtom,
+  signupLeadsListAtom,
+  supportTicketsAtom,
+} from "../../../../_state";
 import { useRecoilValue } from "recoil";
 import { Leads } from "../../../../_types";
 import { TableCell } from "../../../../components/ui/table";
@@ -18,6 +22,7 @@ import {
   CheckLineIcon,
   CloseIcon,
   FolderIcon,
+  PencilIcon,
 } from "../../../../icons";
 import moment from "moment";
 import { useUserActions } from "../../../../_actions";
@@ -28,8 +33,17 @@ DataTable.use(DT);
 // Define the table data using the interface
 
 export default function RegionTable({ tableRef }: any) {
+  const regionList = useRecoilValue(allRegionAtom);
   const [tableData, setTableData] = useState<any>([]);
 
+  useEffect(() => {
+    if (regionList) {
+      const regions = regionList?.map((region, index) => {
+        return [index + 1, region?.regionName, "n/a", region];
+      });
+      setTableData(regions);
+    }
+  }, [regionList]);
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <div className="max-w-full overflow-x-auto">
@@ -43,7 +57,7 @@ export default function RegionTable({ tableRef }: any) {
               paging: true,
               searching: true,
               columnDefs: [
-                { searchable: true, targets: [0, 1, 2, 3, 4, 5, 6] },
+                { searchable: true, targets: [0, 1, 2] },
                 {
                   className:
                     "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400",
@@ -62,13 +76,29 @@ export default function RegionTable({ tableRef }: any) {
               },
             }}
             slots={{
-              4: (_data: any, _row: any) => (
+              3: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                   <div className="flex flex-row gap-5">
                     <FolderIcon
                       className="size-5 cursor-pointer"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="View"
+                      //   onClick={() =>
+                      //     navigate(`/organization/${id}/project/${_data}`)
+                      //   }
+                    />
+                    <PencilIcon
+                      className="size-5 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Edit"
+                      //   onClick={() =>
+                      //     navigate(`/organization/${id}/project/${_data}`)
+                      //   }
+                    />
+                    <CloseIcon
+                      className="size-5 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Deactivate"
                       //   onClick={() =>
                       //     navigate(`/organization/${id}/project/${_data}`)
                       //   }

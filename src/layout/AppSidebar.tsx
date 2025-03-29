@@ -290,6 +290,7 @@ const AppSidebar: React.FC = () => {
     const isAdmins = boolString === "true";
     setIsAdmin(isAdmins);
     if (isAdmins) {
+      userAction.getAllRegions();
       userAction.getSupportTikets();
       const adminI = [
         {

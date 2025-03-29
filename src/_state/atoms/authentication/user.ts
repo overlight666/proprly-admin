@@ -52,7 +52,13 @@ const contactSupportAtom = atom<any>({
   default: undefined,
 });
 
+const allRegionAtom = atom<any>({
+  key: "allRegionAtom",
+  default: undefined,
+});
+
 export {
+  allRegionAtom,
   contactSupportAtom,
   selectedTicketAtom,
   supportTicketsAtom,

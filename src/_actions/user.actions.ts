@@ -5,6 +5,7 @@ import { history, useFetchWrapper } from "../_helpers";
 import {
   addUserReponseAtom,
   allNotificationsAtom,
+  allRegionAtom,
   authAtom,
   contactSupportAtom,
   globalConfigAtom,
@@ -35,6 +36,7 @@ function useUserActions() {
   const setSupportTickets = useSetRecoilState(supportTicketsAtom);
   const setSelectedSupportTickets = useSetRecoilState(selectedTicketAtom);
   const setContactSupport = useSetRecoilState(contactSupportAtom);
+  const setRegions = useSetRecoilState(allRegionAtom);
   const persist = usePersistor();
 
   return {
@@ -51,8 +53,17 @@ function useUserActions() {
     getSelectedTicket,
     submitSupportTikets,
     updateSupportTikets,
+    getAllRegions,
     // addUserWithTrades,
   };
+
+  function getAllRegions() {
+    return fetchWrapper.get(`${baseUrl}/region`).then((response: any) => {
+      if (response) {
+        setRegions(response && response.data ? response.data : response);
+      }
+    });
+  }
 
   function getSelectedTicket(id: any) {
     return fetchWrapper
