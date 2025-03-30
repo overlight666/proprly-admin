@@ -104,14 +104,14 @@ export default function LeadTable({ tableRef }: any) {
               7: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                   <div className="flex flex-row gap-5">
-                    <FolderIcon
+                    {/* <FolderIcon
                       className="size-5 cursor-pointer"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="View"
-                      //   onClick={() =>
-                      //     navigate(`/organization/${id}/project/${_data}`)
-                      //   }
-                    />
+                        onClick={() =>
+                          navigate(`/organization/${id}/project/${_data}`)
+                        }
+                    /> */}
                     {_data.status !== "accepted" && (
                       <CheckLineIcon
                         className="size-5 cursor-pointer text-green-600"
