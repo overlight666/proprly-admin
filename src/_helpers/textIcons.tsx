@@ -33,6 +33,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const textColoring = (defectSubStatus: any, hasBg: any) => {
   if (
+    defectSubStatus == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -46,7 +47,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
   ) {
     return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
   } else if (
-    defectSubStatus == "pending" ||
+    defectSubStatus == "rejected" ||
     defectSubStatus == "Defect Logged" ||
     defectSubStatus == "Pending Admin Approval"
   ) {
@@ -74,6 +75,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const getIcons = (defectSubStatus) => {
   if (
+    defectSubStatus == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -109,7 +111,7 @@ export const getIcons = (defectSubStatus) => {
       </svg>
     );
   } else if (
-    defectSubStatus == "pending" ||
+    defectSubStatus == "rejected" ||
     defectSubStatus == "Defect Logged" ||
     defectSubStatus == "Pending Admin Approval"
   ) {
