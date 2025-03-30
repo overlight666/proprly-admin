@@ -153,20 +153,23 @@ export default function LeadTable({ tableRef }: any) {
                     /> */}
                     {_data.status !== "accepted" && (
                       <CheckLineIcon
-                        className="size-5 cursor-pointer text-green-600"
+                        className={`size-5 cursor-pointer text-green-600 ${
+                          _data.status == "rejected" && "text-yellow-600"
+                        }`}
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Convert"
                         onClick={() => confirmAlertSubmit(_data)}
                       />
                     )}
-                    {_data.status !== "accepted" && (
-                      <CloseIcon
-                        className="size-5 cursor-pointer text-red-600"
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content="Reject"
-                        onClick={() => rejectAlertSubmit(_data)}
-                      />
-                    )}
+                    {_data.status !== "accepted" &&
+                      _data.status !== "rejected" && (
+                        <CloseIcon
+                          className="size-5 cursor-pointer text-red-600"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Reject"
+                          onClick={() => rejectAlertSubmit(_data)}
+                        />
+                      )}
                   </div>
                 </TableCell>
               ),
