@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
 import {
@@ -20,10 +20,24 @@ export default function Organization() {
   const orgAction = useOrganization();
   const navigate = useNavigate();
   const selectedOutline = useRecoilValue(organizationOutlineAtom);
+  const [search, setSearch] = useState("");
 
+  const [orglistFiltered, setOrglistFiltered] = useState<any[]>([]);
   useEffect(() => {
     orgAction.getOrganizations();
   }, []);
+
+  useEffect(() => {
+    if (orglist && search?.trim()?.length > 0) {
+      const newList = orglist.filter((list) =>
+        list?.name?.toLowerCase().includes(search?.toLowerCase())
+      );
+      console.log(newList);
+      setOrglistFiltered(newList);
+    } else {
+      setOrglistFiltered(orglist);
+    }
+  }, [search, orglist]);
 
   return (
     <>
@@ -50,11 +64,11 @@ export default function Organization() {
           </div>
         )) || (
           <>
-            <OrganizationHeader />
+            <OrganizationHeader setSearch={setSearch} />
             {selectedOutline === "table" ? (
-              <OrgTable orglist={orglist} />
+              <OrgTable orglist={orglistFiltered} />
             ) : (
-              <OrgGrid orglist={orglist} />
+              <OrgGrid orglist={orglistFiltered} />
             )}
           </>
         )}
