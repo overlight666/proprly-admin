@@ -23,6 +23,7 @@ import moment from "moment";
 import { useUserActions } from "../../../../_actions";
 import { ucword } from "../../../../_helpers";
 import { toast } from "react-toastify";
+import { getIcons, textColoring } from "../../../../_helpers/textIcons";
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -89,15 +90,12 @@ export default function LeadTable({ tableRef }: any) {
               5: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                   <div
-                    className={`px-2 py-1 rounded-md ${
-                      _data === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : _data === "rejected"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-green-100 text-green-800"
-                    }`}
+                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(_data, true)}
+                    `}
                   >
-                    {ucword(_data)}
+                    {getIcons(_data)}
+                    <span className="text-[12px]">{ucword(_data)}</span>
                   </div>
                 </TableCell>
               ),

@@ -33,6 +33,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const textColoring = (defectSubStatus: any, hasBg: any) => {
   if (
+    defectSubStatus == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
