@@ -21,7 +21,7 @@ const Confirmation: ConfirmDialog<Props, boolean> = ({
   <Modal
     onClose={() => proceed(false)}
     isOpen={show}
-    className="max-w-[30%] p-6 lg:p-10 max-h-[90%] relative overflow-auto"
+    className="max-w-[40%] p-6 lg:p-10 max-h-[90%] relative overflow-auto"
   >
     <div className="flex flex-col px-2 overflow-auto custom-scrollbar gap-10">
       <div className="flex justify-center">

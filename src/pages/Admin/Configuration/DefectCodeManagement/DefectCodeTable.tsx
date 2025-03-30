@@ -5,7 +5,13 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import React, { useRef, useState } from "react";
 import { TableCell } from "../../../../components/ui/table";
-import { PencilIcon, SearchIcon, TrashBinIcon } from "../../../../icons";
+import {
+  CheckLineIcon,
+  CloseIcon,
+  PencilIcon,
+  SearchIcon,
+  TrashBinIcon,
+} from "../../../../icons";
 import { toast } from "react-toastify";
 import Input from "../../../../components/form/input/InputField";
 import EditDefectCodeModal from "./EditDefectCodeModal";
@@ -97,33 +103,64 @@ export default function DefectCodeTable({ tableData }: any) {
                       openModal();
                     }}
                   />
-                  <TrashBinIcon
-                    className="size-5 text-red-700 cursor-pointer"
-                    data-tooltip-id="tooltip"
-                    data-tooltip-content="Delete"
-                    data-tooltip-place="top"
-                    onClick={async () => {
-                      if (
-                        await confirm({
-                          confirmText: "DELETE",
-                          confirmVariant: "danger",
-                          confirmation:
-                            "You are about to delete this defect code. Please confirm to continue!",
-                        })
-                      ) {
-                        defectAction
-                          .deleteDefectCode(_data.id)
-                          .then(() => {
-                            toast.warning(
-                              `${_data.defectName} has been deleted!`
-                            );
+                  {_data.isActive && (
+                    <CloseIcon
+                      className="size-5 text-red-700 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Deactivate"
+                      data-tooltip-place="top"
+                      onClick={async () => {
+                        if (
+                          await confirm({
+                            confirmText: "Deactivate",
+                            confirmVariant: "danger",
+                            confirmation:
+                              "You are about to deactivate this defect code. Please confirm to continue!",
                           })
-                          .catch((e) => {
-                            toast.error(e);
-                          });
-                      }
-                    }}
-                  />
+                        ) {
+                          defectAction
+                            .deleteDefectCode(_data.id)
+                            .then(() => {
+                              toast.warning(
+                                `${_data.defectName} has been deactivated!`
+                              );
+                            })
+                            .catch((e) => {
+                              toast.error(e);
+                            });
+                        }
+                      }}
+                    />
+                  )}
+                  {!_data.isActive && (
+                    <CheckLineIcon
+                      className="size-5 text-green-700 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Activate"
+                      data-tooltip-place="top"
+                      onClick={async () => {
+                        if (
+                          await confirm({
+                            confirmText: "Activate",
+                            confirmVariant: "green",
+                            confirmation:
+                              "You are about to activate this defect code. Please confirm to continue!",
+                          })
+                        ) {
+                          defectAction
+                            .activateDefectCode(_data)
+                            .then(() => {
+                              toast.warning(
+                                `${_data.defectName} has been activated!`
+                              );
+                            })
+                            .catch((e) => {
+                              toast.error(e);
+                            });
+                        }
+                      }}
+                    />
+                  )}
                 </div>
               </TableCell>
             ),

@@ -26,6 +26,7 @@ function useDefect() {
     getDefectCodesSelect,
     editDefectCode,
     deleteDefectCode,
+    activateDefectCode,
   };
 
   function pushDefectFeedback(id: any, params: any) {
@@ -64,6 +65,22 @@ function useDefect() {
       });
   }
 
+  function activateDefectCode(params: any) {
+    const body = {
+      isActive: true,
+      defectName: params?.defectName,
+      isVisible: true,
+    };
+    return fetchWrapper
+      .put(`${baseUrl}/defect-code/${params?.id}`, body)
+      .then((response: any) => {
+        if (response) {
+          setDefectCodesResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
   function deleteDefectCode(id: any) {
     return fetchWrapper
       .delete(`${baseUrl}/defect-code/${id}`)
