@@ -37,7 +37,7 @@ export default function DefectCodeManagement() {
   const defectAction = useDefect();
   const setDefectCodes = useSetRecoilState(defectCodesAtom);
   const [selectedId, setSelectedId] = useState<any>();
-
+  const [sortedList, setSortedList] = useState<any[]>([]);
   const { isOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
@@ -83,6 +83,20 @@ export default function DefectCodeManagement() {
         toast.error(e);
       });
   };
+
+  function dynamicSort(property) {
+    return function (a, b) {
+      return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    };
+  }
+
+  useEffect(() => {
+    if (defectCodeList) {
+      const copyList = [...defectCodeList];
+      copyList.sort(dynamicSort("id"));
+      setSortedList(copyList);
+    }
+  }, [defectCodeList]);
 
   return (
     <div>
@@ -230,8 +244,8 @@ export default function DefectCodeManagement() {
       </div>
 
       <DefectCodeTable
-        tableData={defectCodeList?.map((codes, index) => {
-          return [index + 1, codes.defectName, codes.defectCode, codes];
+        tableData={sortedList?.map((codes, index) => {
+          return [index + 1, codes?.defectName, codes?.defectCode, codes];
         })}
       />
       <AddDefectCodeModal

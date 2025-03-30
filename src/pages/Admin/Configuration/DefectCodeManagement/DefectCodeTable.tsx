@@ -3,20 +3,30 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { TableCell } from "../../../../components/ui/table";
 import { PencilIcon, SearchIcon, TrashBinIcon } from "../../../../icons";
 import { toast } from "react-toastify";
 import Input from "../../../../components/form/input/InputField";
+import EditDefectCodeModal from "./EditDefectCodeModal";
+import { useModal } from "../../../../hooks/useModal";
+import { confirm } from "../../../../components/dialog/ConfirmDialog";
+import { useDefect } from "../../../../_actions";
 export default function DefectCodeTable({ tableData }: any) {
   const tableRef = useRef<any>(null);
-
+  const { isOpen, openModal, closeModal } = useModal();
+  const [defectCode, setDefectCode] = useState<any>();
   const onSearch = (value: any) => {
     tableRef?.current?.dt().search(value).draw();
   };
-
+  const defectAction = useDefect();
   return (
     <>
+      <EditDefectCodeModal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        defectCode={defectCode}
+      />
       <div
         className="flex w-full flex-row mt-5
       "
@@ -73,7 +83,8 @@ export default function DefectCodeTable({ tableData }: any) {
                     data-tooltip-content="Edit"
                     data-tooltip-place="top"
                     onClick={() => {
-                      toast.warn("Under-construction");
+                      setDefectCode(_data);
+                      openModal();
                     }}
                   />
                   <TrashBinIcon
@@ -81,8 +92,26 @@ export default function DefectCodeTable({ tableData }: any) {
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Delete"
                     data-tooltip-place="top"
-                    onClick={() => {
-                      toast.warn("Under-construction");
+                    onClick={async () => {
+                      if (
+                        await confirm({
+                          confirmText: "DELETE",
+                          confirmVariant: "danger",
+                          confirmation:
+                            "You are about to delete this defect code. Please confirm to continue!",
+                        })
+                      ) {
+                        defectAction
+                          .deleteDefectCode(_data.id)
+                          .then(() => {
+                            toast.warning(
+                              `${_data.defectName} has been deleted!`
+                            );
+                          })
+                          .catch((e) => {
+                            toast.error(e);
+                          });
+                      }
                     }}
                   />
                 </div>

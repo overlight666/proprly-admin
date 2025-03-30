@@ -24,6 +24,8 @@ function useDefect() {
     getDefectCodes,
     addDefectCode,
     getDefectCodesSelect,
+    editDefectCode,
+    deleteDefectCode,
   };
 
   function pushDefectFeedback(id: any, params: any) {
@@ -41,6 +43,30 @@ function useDefect() {
   function addDefectCode(params: any) {
     return fetchWrapper
       .post(`${baseUrl}/defect-code`, params)
+      .then((response: any) => {
+        if (response) {
+          setDefectCodesResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
+
+  function editDefectCode(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/defect-code/${id}`, params)
+      .then((response: any) => {
+        if (response) {
+          setDefectCodesResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
+
+  function deleteDefectCode(id: any) {
+    return fetchWrapper
+      .delete(`${baseUrl}/defect-code/${id}`)
       .then((response: any) => {
         if (response) {
           setDefectCodesResponse(
