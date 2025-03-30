@@ -3,20 +3,38 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { TableCell } from "../../../../components/ui/table";
-import { PencilIcon, SearchIcon, TrashBinIcon } from "../../../../icons";
+import {
+  CheckLineIcon,
+  CloseIcon,
+  PencilIcon,
+  SearchIcon,
+  TrashBinIcon,
+} from "../../../../icons";
 import { toast } from "react-toastify";
 import Input from "../../../../components/form/input/InputField";
+import { useModal } from "../../../../hooks/useModal";
+import EditTradeCodeModal from "./EditTradeCodeModal";
+import { getIcons, textColoring } from "../../../../_helpers/textIcons";
+import { confirm } from "../../../../components/dialog/ConfirmDialog";
+import { useTrade } from "../../../../_actions";
 export default function TradeCodeTable({ tableData }: any) {
   const tableRef = useRef<any>(null);
-
+  const { isOpen, openModal, closeModal } = useModal();
+  const [selectedTradeCode, setSelectedTradeCode] = useState<any>();
   const onSearch = (value: any) => {
     tableRef?.current?.dt().search(value).draw();
   };
+  const tradeAction = useTrade();
 
   return (
     <>
+      <EditTradeCodeModal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        tradeCode={selectedTradeCode}
+      />
       <div
         className="flex w-full flex-row mt-5
       "
@@ -66,6 +84,25 @@ export default function TradeCodeTable({ tableData }: any) {
           slots={{
             4: (_data: any, _row: any) => (
               <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                <div className="flex items-center">
+                  <div
+                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(
+                      _data?.isActive ? "Active" : "Inactive",
+                      true
+                    )}
+                    `}
+                  >
+                    {getIcons(_data?.isActive ? "Active" : "Inactive")}
+                    <span className="text-[12px]">
+                      {_data?.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                </div>
+              </TableCell>
+            ),
+            5: (_data: any, _row: any) => (
+              <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                 <div className="flex gap-3">
                   <PencilIcon
                     className="size-5 text-blue-700 cursor-pointer"
@@ -73,18 +110,72 @@ export default function TradeCodeTable({ tableData }: any) {
                     data-tooltip-content="Edit"
                     data-tooltip-place="top"
                     onClick={() => {
-                      toast.warn("Under-construction");
+                      setSelectedTradeCode(_data);
+                      openModal();
                     }}
                   />
-                  <TrashBinIcon
-                    className="size-5 text-red-700 cursor-pointer"
-                    data-tooltip-id="tooltip"
-                    data-tooltip-content="Delete"
-                    data-tooltip-place="top"
-                    onClick={() => {
-                      toast.warn("Under-construction");
-                    }}
-                  />
+                  {_data?.isActive && (
+                    <CloseIcon
+                      className="size-5 text-red-700 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Delete"
+                      data-tooltip-place="top"
+                      onClick={async () => {
+                        if (
+                          await confirm({
+                            confirmText: "Deactivate",
+                            confirmVariant: "danger",
+                            confirmation:
+                              "You are about to trade this defect code. Please confirm to continue!",
+                          })
+                        ) {
+                          tradeAction
+                            .deleteTradeCode(_data.id)
+                            .then(() => {
+                              toast.warning(
+                                `${_data.tradeName} has been deactivated!`
+                              );
+                            })
+                            .catch((e) => {
+                              toast.error(e);
+                            });
+                        }
+                      }}
+                    />
+                  )}
+                  {!_data?.isActive && (
+                    <CheckLineIcon
+                      className="size-5 text-green-700 cursor-pointer"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Delete"
+                      data-tooltip-place="top"
+                      onClick={async () => {
+                        if (
+                          await confirm({
+                            confirmText: "Activate",
+                            confirmVariant: "green",
+                            confirmation:
+                              "You are about to activate this trade code. Please confirm to continue!",
+                          })
+                        ) {
+                          tradeAction
+                            .activateTradeCode(_data?.id, {
+                              tradeName: _data.tradeName,
+                              isVisible: true,
+                              isActive: true,
+                            })
+                            .then(() => {
+                              toast.success(
+                                `${_data.tradeName} has been activated!`
+                              );
+                            })
+                            .catch((e) => {
+                              toast.error(e);
+                            });
+                        }
+                      }}
+                    />
+                  )}
                 </div>
               </TableCell>
             ),
@@ -115,6 +206,12 @@ export default function TradeCodeTable({ tableData }: any) {
                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
                 Defect Codes
+              </th>
+              <th
+                scope="col"
+                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+              >
+                Status
               </th>
               <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Actions

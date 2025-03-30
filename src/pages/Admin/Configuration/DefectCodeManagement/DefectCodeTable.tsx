@@ -18,6 +18,7 @@ import EditDefectCodeModal from "./EditDefectCodeModal";
 import { useModal } from "../../../../hooks/useModal";
 import { confirm } from "../../../../components/dialog/ConfirmDialog";
 import { useDefect } from "../../../../_actions";
+import { getIcons, textColoring } from "../../../../_helpers/textIcons";
 export default function DefectCodeTable({ tableData }: any) {
   const tableRef = useRef<any>(null);
   const { isOpen, openModal, closeModal } = useModal();
@@ -87,7 +88,21 @@ export default function DefectCodeTable({ tableData }: any) {
                   _data.isActive ? "text-green-600" : "text-orange-600"
                 }`}
               >
-                <span>{_data.isActive ? "Active" : "Inactive"}</span>
+                <div className="flex items-center">
+                  <div
+                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(
+                      _data?.isActive ? "Active" : "Inactive",
+                      true
+                    )}
+                    `}
+                  >
+                    {getIcons(_data?.isActive ? "Active" : "Inactive")}
+                    <span className="text-[12px]">
+                      {_data?.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                </div>
               </TableCell>
             ),
             4: (_data: any, _row: any) => (
@@ -150,7 +165,7 @@ export default function DefectCodeTable({ tableData }: any) {
                           defectAction
                             .activateDefectCode(_data)
                             .then(() => {
-                              toast.warning(
+                              toast.success(
                                 `${_data.defectName} has been activated!`
                               );
                             })

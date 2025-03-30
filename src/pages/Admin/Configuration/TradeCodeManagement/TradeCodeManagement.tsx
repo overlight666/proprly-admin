@@ -38,8 +38,14 @@ export default function TradeCodeManagement() {
   const defectAction = useDefect();
   const setTradeCodes = useSetRecoilState(tradeCodesAtom);
   const [selectedId, setSelectedId] = useState<any>();
-
+  const [sortedList, setSortedList] = useState<any[]>([]);
   const { isOpen, openModal, closeModal } = useModal();
+
+  function dynamicSort(property) {
+    return function (a, b) {
+      return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    };
+  }
 
   useEffect(() => {
     orgAction.getOrganizations();
@@ -64,6 +70,13 @@ export default function TradeCodeManagement() {
     }
   }, [isType, selectedId, tradeCodeResponse]);
 
+  useEffect(() => {
+    if (tradeCodeList) {
+      const copyList = [...tradeCodeList];
+      copyList.sort(dynamicSort("id"));
+      setSortedList(copyList);
+    }
+  }, [tradeCodeList]);
   const addTradeCode = (name: any, code: any, defectList: any) => {
     const params: any = {
       tradeName: name,
@@ -233,12 +246,13 @@ export default function TradeCodeManagement() {
       </div>
 
       <TradeCodeTable
-        tableData={tradeCodeList?.map((codes, index) => {
+        tableData={sortedList?.map((codes, index) => {
           return [
             index + 1,
             codes.tradeName,
             codes.tradeCode,
             codes?.defectCode?.map((c) => c?.defectCode).join(", "),
+            codes,
             codes,
           ];
         })}

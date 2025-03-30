@@ -7,14 +7,16 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
     return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
   } else if (
     defectSubStatus == "Defect Logged" ||
-    defectSubStatus == "Pending Admin Approval"
+    defectSubStatus == "Pending Admin Approval" ||
+    defectSubStatus == "Inactive"
   ) {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
-    defectSubStatus == "Defect Closed"
+    defectSubStatus == "Defect Closed" ||
+    defectSubStatus == "Aactive"
   ) {
     return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
   } else if (
@@ -49,14 +51,16 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
   } else if (
     defectSubStatus == "rejected" ||
     defectSubStatus == "Defect Logged" ||
-    defectSubStatus == "Pending Admin Approval"
+    defectSubStatus == "Pending Admin Approval" ||
+    defectSubStatus == "Inactive"
   ) {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
-    defectSubStatus == "Defect Closed"
+    defectSubStatus == "Defect Closed" ||
+    defectSubStatus == "Active"
   ) {
     return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
   } else if (
@@ -113,7 +117,8 @@ export const getIcons = (defectSubStatus) => {
   } else if (
     defectSubStatus == "rejected" ||
     defectSubStatus == "Defect Logged" ||
-    defectSubStatus == "Pending Admin Approval"
+    defectSubStatus == "Pending Admin Approval" ||
+    defectSubStatus == "Inactive"
   ) {
     return (
       <svg
@@ -142,7 +147,8 @@ export const getIcons = (defectSubStatus) => {
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
-    defectSubStatus == "Defect Closed"
+    defectSubStatus == "Defect Closed" ||
+    defectSubStatus == "Active"
   ) {
     return (
       <svg
