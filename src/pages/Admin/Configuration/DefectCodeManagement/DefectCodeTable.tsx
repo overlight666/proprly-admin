@@ -19,6 +19,7 @@ export default function DefectCodeTable({ tableData }: any) {
   const onSearch = (value: any) => {
     tableRef?.current?.dt().search(value).draw();
   };
+
   const defectAction = useDefect();
   return (
     <>
@@ -75,6 +76,15 @@ export default function DefectCodeTable({ tableData }: any) {
           }}
           slots={{
             3: (_data: any, _row: any) => (
+              <TableCell
+                className={`px-4 py-3 text-start text-theme-sm ${
+                  _data.isActive ? "text-green-600" : "text-orange-600"
+                }`}
+              >
+                <span>{_data.isActive ? "Active" : "Inactive"}</span>
+              </TableCell>
+            ),
+            4: (_data: any, _row: any) => (
               <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                 <div className="flex gap-3">
                   <PencilIcon
@@ -140,6 +150,12 @@ export default function DefectCodeTable({ tableData }: any) {
                 Defect Code
               </th>
 
+              <th
+                scope="col"
+                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+              >
+                Status
+              </th>
               <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                 Actions
               </th>

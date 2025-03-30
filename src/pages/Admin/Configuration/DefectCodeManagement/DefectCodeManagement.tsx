@@ -97,7 +97,6 @@ export default function DefectCodeManagement() {
       setSortedList(copyList);
     }
   }, [defectCodeList]);
-
   return (
     <div>
       <div className="flex items-end justify-between flex-wrap gap-1">
@@ -245,7 +244,13 @@ export default function DefectCodeManagement() {
 
       <DefectCodeTable
         tableData={sortedList?.map((codes, index) => {
-          return [index + 1, codes?.defectName, codes?.defectCode, codes];
+          return [
+            index + 1,
+            codes?.defectName,
+            codes?.defectCode,
+            codes,
+            codes,
+          ];
         })}
       />
       <AddDefectCodeModal
