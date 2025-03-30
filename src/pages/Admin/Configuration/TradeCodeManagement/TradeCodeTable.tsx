@@ -118,7 +118,7 @@ export default function TradeCodeTable({ tableData }: any) {
                     <CloseIcon
                       className="size-5 text-red-700 cursor-pointer"
                       data-tooltip-id="tooltip"
-                      data-tooltip-content="Delete"
+                      data-tooltip-content="Deactivate"
                       data-tooltip-place="top"
                       onClick={async () => {
                         if (
@@ -147,7 +147,7 @@ export default function TradeCodeTable({ tableData }: any) {
                     <CheckLineIcon
                       className="size-5 text-green-700 cursor-pointer"
                       data-tooltip-id="tooltip"
-                      data-tooltip-content="Delete"
+                      data-tooltip-content="Activate"
                       data-tooltip-place="top"
                       onClick={async () => {
                         if (
