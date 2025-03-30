@@ -33,7 +33,7 @@ const commonAreaCategoryResponseAtom = atom<any>({
 });
 
 const commonAreaResponseAtom = atom<any>({
-  key: "commonAreaCategoryResponseAtom",
+  key: "commonAreaResponseAtom",
   default: undefined,
 });
 

@@ -52,6 +52,7 @@ function useUserActions() {
     addUser,
     getProjectAdminUsers,
     getLeads,
+    rejectLead,
     convertLead,
     getSupportTikets,
     getSelectedTicket,
@@ -184,6 +185,20 @@ function useUserActions() {
         }
       });
   }
+
+  function rejectLead(params: any, userAction: any) {
+    return fetchWrapper
+      .delete(`${baseUrl}/admin/signup-leads/${params.id}`)
+      .then((response: any) => {
+        if (response) {
+          setLeadsConverted(
+            response && response.data ? response.data : response
+          );
+          userAction.getLeads();
+        }
+      });
+  }
+
   // function addUserWithTrades(project_id: any, params: any) {
   //   return fetchWrapper
   //     .post(`${baseUrl}/project/${project_id}/users-with-tradecode`, params)

@@ -24,6 +24,8 @@ import { useUserActions } from "../../../../_actions";
 import { ucword } from "../../../../_helpers";
 import { toast } from "react-toastify";
 import { getIcons, textColoring } from "../../../../_helpers/textIcons";
+import { confirm } from "../../../../components/dialog/ConfirmDialog";
+
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -54,6 +56,45 @@ export default function LeadTable({ tableRef }: any) {
       setTableData(tb);
     }
   }, [leads]);
+
+  const confirmAlertSubmit = async (_data: any) => {
+    if (
+      await confirm({
+        confirmText: "CONFIRM",
+        confirmation:
+          "You are about to confirm the registration of this lead. Please confirm to continue!",
+      })
+    ) {
+      userActions
+        .convertLead({ id: _data.id }, userActions)
+        .then(() => {
+          toast.info("Lead converted");
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
+
+  const rejectAlertSubmit = async (_data: any) => {
+    if (
+      await confirm({
+        confirmText: "REJECT",
+        confirmVariant: "danger",
+        confirmation:
+          "You are about to reject the registration of this lead. Please confirm to continue!",
+      })
+    ) {
+      userActions
+        .rejectLead({ id: _data.id }, userActions)
+        .then(() => {
+          toast.warning("Lead rejected");
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -115,16 +156,7 @@ export default function LeadTable({ tableRef }: any) {
                         className="size-5 cursor-pointer text-green-600"
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Convert"
-                        onClick={() => {
-                          userActions
-                            .convertLead({ id: _data.id }, userActions)
-                            .then(() => {
-                              toast.info("Lead converted");
-                            })
-                            .catch((e) => {
-                              toast.error(e);
-                            });
-                        }}
+                        onClick={() => confirmAlertSubmit(_data)}
                       />
                     )}
                     {_data.status !== "accepted" && (
@@ -132,6 +164,7 @@ export default function LeadTable({ tableRef }: any) {
                         className="size-5 cursor-pointer text-red-600"
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Reject"
+                        onClick={() => rejectAlertSubmit(_data)}
                       />
                     )}
                   </div>
