@@ -12,6 +12,7 @@ import PropertyTradeReportModal from "./PropertyTradeReportsModal";
 import { ucword } from "../../../_helpers";
 import React from "react";
 import PropertyReportModal from "./PropertyReportsModal";
+import PropertyReportHistoryModal from "./PropertyReportsHistoryModal";
 
 export default function PropertyReportsTable({ tableRef, headerValue }: any) {
   const [tableData, setTableData] = useState<any[]>([]);
@@ -79,14 +80,22 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
           reports={commonAreaHolder}
           title={modalTitle}
         />
-      ) : (
+      ) : whichModal == 2 ? (
         <PropertyTradeReportModal
           closeModal={closeModal}
           isOpen={isOpen}
           reports={commonAreaHolder}
           title={modalTitle}
         />
+      ) : (
+        <PropertyReportHistoryModal
+          closeModal={closeModal}
+          isOpen={isOpen}
+          reports={commonAreaHolder}
+          title={modalTitle}
+        />
       )}
+
       <div className="mt-8 space-y-3">
         <DataTable
           ref={tableRef}
@@ -166,16 +175,9 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                     _data?.value == "Post-handover Inspection") && (
                     <ListIcon
                       onClick={() => {
-                        setCommonAreaHolder(
-                          _data?.propetyReports?.find(
-                            (pf: any) =>
-                              pf.key ==
-                              (_data?.value == "Post-handover Inspection"
-                                ? "post_handover_inspection"
-                                : "pre_settlement_general_inspection")
-                          ).reports
-                        );
-                        setWhichModal(1);
+                        setCommonAreaHolder(_data?.reportHistory);
+
+                        setWhichModal(3);
                         openModal();
 
                         setModalTitle(
