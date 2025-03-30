@@ -595,7 +595,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>
@@ -651,7 +651,7 @@ const AppSidebar: React.FC = () => {
                 {/* {renderMenuItems(othersItems, "others")} */}
               </div>
             )}
-            {isAdmin && (
+            {isAdmin && !showProjects && (
               <div className="">
                 <h2
                   className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
