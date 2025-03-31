@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Key } from "react";
+import { Key, useState } from "react";
 import Label from "../components/form/Label";
 import FileInput from "../components/form/input/FileInput";
 import ImageProgress from "./ImageProgess";
@@ -22,10 +22,12 @@ export default function FileUploader({
   group,
   accept = "application/pdf",
 }: UploadTypes) {
+  const [value, setValue] = useState<any>();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setUploadQueue((oldArray: any) => [...oldArray, file]);
+      setValue("");
     }
   };
 
@@ -46,6 +48,7 @@ export default function FileUploader({
     <div>
       <Label>{title}</Label>
       <FileInput
+        value={value}
         onChange={handleFileChange}
         className="custom-class"
         accept={accept}

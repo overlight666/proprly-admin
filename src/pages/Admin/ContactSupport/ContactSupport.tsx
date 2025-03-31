@@ -86,7 +86,7 @@ export default function ContactSupport() {
       await userAction.submitSupportTikets(params).then(() => {
         toast.success("Support ticket has been submitted!");
         setTimeout(() => {
-          navigate(-1);
+          navigate("/support-tickets");
         }, 500);
       });
     }
@@ -98,7 +98,7 @@ export default function ContactSupport() {
       <PageBreadcrumb pageTitle="Contact Support" />
       <div className="min-h-screen rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] xl:pb-12 overflow-hidden">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-10 py-10">
+          <div className="px-10 py-10 gap-5 flex flex-col">
             <div>
               <Label>Select Issue</Label>
               <Select
@@ -141,7 +141,10 @@ export default function ContactSupport() {
                 )}{" "}
                 Submit
               </Button>
-              <Button variant="gray" onClick={() => navigate(-1)}>
+              <Button
+                variant="gray"
+                onClick={() => navigate("/support-tickets")}
+              >
                 Cancel
               </Button>
             </div>

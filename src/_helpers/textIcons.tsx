@@ -26,7 +26,8 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Not a Defect" ||
     defectSubStatus == "Defect Rejected by Admin" ||
     defectSubStatus == "Pending Admin feedback" ||
-    defectSubStatus == "Pending Admin Feedback"
+    defectSubStatus == "Pending Admin Feedback" ||
+    defectSubStatus?.toLowerCase() == "in_progress"
   ) {
     return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
   }
@@ -35,7 +36,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const textColoring = (defectSubStatus: any, hasBg: any) => {
   if (
-    defectSubStatus == "pending" ||
+    defectSubStatus?.toLowerCase() == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -70,7 +71,8 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Not a Defect" ||
     defectSubStatus == "Defect Rejected by Admin" ||
     defectSubStatus == "Pending Admin feedback" ||
-    defectSubStatus == "Pending Admin Feedback"
+    defectSubStatus == "Pending Admin Feedback" ||
+    defectSubStatus?.toLowerCase() == "in_progress"
   ) {
     return hasBg ? "text-blue-800 bg-blue-100" : "text-blue-400";
   }
@@ -79,7 +81,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
 
 export const getIcons = (defectSubStatus) => {
   if (
-    defectSubStatus == "pending" ||
+    defectSubStatus?.toLowerCase() == "pending" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -176,7 +178,8 @@ export const getIcons = (defectSubStatus) => {
     defectSubStatus == "Not a Defect" ||
     defectSubStatus == "Defect Rejected by Admin" ||
     defectSubStatus == "Pending Admin feedback" ||
-    defectSubStatus == "Pending Admin Feedback"
+    defectSubStatus == "Pending Admin Feedback" ||
+    defectSubStatus?.toLowerCase() == "in_progress"
   ) {
     return (
       <svg

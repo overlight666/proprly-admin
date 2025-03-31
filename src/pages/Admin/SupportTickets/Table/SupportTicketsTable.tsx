@@ -28,6 +28,7 @@ import { ucword } from "../../../../_helpers";
 import { toast } from "react-toastify";
 import SupportTicketModal from "../../../../_components/SupportTicketModal";
 import { useModal } from "../../../../hooks/useModal";
+import { getIcons, textColoring } from "../../../../_helpers/textIcons";
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -59,7 +60,11 @@ export default function SupportTicketsTable({ tableRef }: any) {
 
   return (
     <>
-      <SupportTicketModal isOpen={isOpen} closeModal={closeModal} />
+      <SupportTicketModal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        openModal={openModal}
+      />
       <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
           <div className="">
@@ -91,6 +96,22 @@ export default function SupportTicketsTable({ tableRef }: any) {
                 },
               }}
               slots={{
+                5: (_data: any, _row: any) => (
+                  <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                    <div className="flex">
+                      <div
+                        className={`my-1 mr-2 flex flex-row no-wrap justify-center items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                    ${textColoring(_data, true)}
+                    `}
+                      >
+                        {getIcons(_data)}
+                        <span className="text-[12px] text-nowrap">
+                          {ucword(_data)}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                ),
                 7: (_data: any, _row: any) => (
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                     <div className="flex flex-row gap-5">

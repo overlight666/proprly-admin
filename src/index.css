@@ -609,9 +609,7 @@ span.flatpickr-weekday,
 
 .photoviewer-modal {
   position: absolute;
-  z-index: 9999999;
-  width: 320px;
-  height: 320px;
+  z-index: 99999 !important;
   color: #333;
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.6);

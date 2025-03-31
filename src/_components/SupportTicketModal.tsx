@@ -21,8 +21,13 @@ import { uploadResponseAtom } from "../_state/atoms/dropzone";
 import Button from "../components/ui/button/Button";
 import { toast } from "react-toastify";
 import { useUserActions } from "../_actions";
+import PhotoViewer from "photoviewer";
 
-export default function SupportTicketModal({ isOpen, closeModal }: any) {
+export default function SupportTicketModal({
+  isOpen,
+  closeModal,
+  openModal,
+}: any) {
   const currentUser = useRecoilValue(authAtom);
   const ticket: any = useRecoilValue(selectedTicketAtom);
   const [status, setStatus] = useState("");
@@ -71,6 +76,31 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
     }
   };
 
+  const viewImage = (img: any) => {
+    const items = [
+      {
+        src: img?.url, // path to image
+        title: img?.name, // If you skip it, there will display the original image name(image1)
+      },
+    ];
+
+    const options = {
+      index: 0,
+
+      callbacks: {
+        beforeOpen: function (context) {
+          closeModal();
+          // Will fire before modal is opened
+        },
+
+        beforeClose: function (context) {
+          openModal();
+        },
+      },
+    };
+
+    new PhotoViewer(items, options);
+  };
   return (
     <>
       <Modal
@@ -90,69 +120,70 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
             </div>
           </div>
           <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-12 gap-2">
-            <ComponentCard title="Ticket Information" className="col-span-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <div>
-                  <Label htmlFor="input">Ticket No</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={ticket?.ticketNo}
-                    readOnly={true}
-                  />
-                </div>
-                {ticket?.property && (
+            <div className="flex flex-col gap-5 col-span-8">
+              <ComponentCard title="Ticket Information">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   <div>
-                    <Label htmlFor="input">Name</Label>
+                    <Label htmlFor="input">Ticket No</Label>
                     <Input
                       type="text"
                       id="input"
-                      value={ticket && ticket?.user && ticket?.user?.fullName}
+                      value={ticket?.ticketNo}
                       readOnly={true}
                     />
                   </div>
-                )}
+                  {ticket?.property && (
+                    <div>
+                      <Label htmlFor="input">Name</Label>
+                      <Input
+                        type="text"
+                        id="input"
+                        value={ticket && ticket?.user && ticket?.user?.fullName}
+                        readOnly={true}
+                      />
+                    </div>
+                  )}
 
-                <div>
-                  <Label htmlFor="input">Email Address</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={ticket && ticket?.user && ticket?.user?.email}
-                    readOnly={true}
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="input">Email Address</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={ticket && ticket?.user && ticket?.user?.email}
+                      readOnly={true}
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="input">Phone No</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={ticket && ticket?.user && ticket?.user?.mobile}
-                    readOnly={true}
-                  />
+                  <div>
+                    <Label htmlFor="input">Phone No</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={ticket && ticket?.user && ticket?.user?.mobile}
+                      readOnly={true}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="input">Issue Type</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={ticket?.supportsIssuesTypes?.title}
+                      readOnly={true}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="input">Status</Label>
+                    <Input
+                      type="text"
+                      id="input"
+                      value={ucword(ticket?.status)}
+                      readOnly={true}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="input">Issue Type</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={ticket?.supportsIssuesTypes?.title}
-                    readOnly={true}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="input">Status</Label>
-                  <Input
-                    type="text"
-                    id="input"
-                    value={ucword(ticket?.status)}
-                    readOnly={true}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full flex-col">
-                <div className="mb-5">
+                <div className="flex w-full flex-col">
+                  {/* <div className="mb-5">
                   <Label>Evidence Uploaded</Label>
                   <div className="flex gap-2 flex-wrap mt-5 flex-row">
                     {ticket?.images?.map((img, index) => {
@@ -178,28 +209,29 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
                       );
                     })}
                   </div>
+                </div> */}
                 </div>
-                <div>
-                  <Label htmlFor="inputTwo">Status</Label>
-                  <div className="flex flex-row gap-2 w-full">
-                    <Select2
-                      options={[
-                        {
-                          label: "In Progress",
-                          value: "in_progress",
-                        },
-                        {
-                          label: "Resolved",
-                          value: "resolved",
-                        },
-                      ]}
-                      onChange={(e) => setStatus(e)}
-                      placeholder="Select a builder"
-                      className="dark:bg-dark-900"
-                      containerClass="w-[85%]"
-                    />
-                  </div>
+              </ComponentCard>
+              <ComponentCard title="Status" className="col-span-8">
+                <div className="flex flex-row gap-2 w-full">
+                  <Select2
+                    options={[
+                      {
+                        label: "In Progress",
+                        value: "in_progress",
+                      },
+                      {
+                        label: "Resolved",
+                        value: "resolved",
+                      },
+                    ]}
+                    onChange={(e) => setStatus(e)}
+                    placeholder="Select status"
+                    className="dark:bg-dark-900"
+                    containerClass="w-[100%]"
+                  />
                 </div>
+
                 {status !== "" && (
                   <>
                     <div className="mt-5">
@@ -232,8 +264,8 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
                     </div>
                   </>
                 )}
-              </div>
-            </ComponentCard>
+              </ComponentCard>
+            </div>
             <ComponentCard
               title="Activity Logs"
               className="col-span-4  !mt-[0px] !max-h-[98%] overflow-auto"
@@ -264,13 +296,31 @@ export default function SupportTicketModal({ isOpen, closeModal }: any) {
                             {ticket?.description}
                           </div>
                           {activity.images && activity.images.length > 0 && (
-                            <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
+                            <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-200 dark:bg-gray-800 rounded-md p-2">
                               {activity.images.map((img, index) => {
-                                return (
+                                return img?.url?.includes(".pdf") ? (
+                                  <div className="flex flex-col items-center">
+                                    <a
+                                      href={img?.url}
+                                      target="_blank"
+                                      download={img?.url}
+                                      rel="noreferrer"
+                                      className="cursor-pointer"
+                                      data-tooltip-id="tooltip"
+                                      data-tooltip-content={img?.key}
+                                    >
+                                      <PDFIcon className="size-10" />
+                                    </a>
+                                    <span className="text-black dark:text-gray-200 text-[12px]">
+                                      {img.name}
+                                    </span>
+                                  </div>
+                                ) : (
                                   <img
                                     key={index}
                                     src={img.url}
-                                    className="h-20 w-20 object-scale-down object-center"
+                                    onClick={() => viewImage(img)}
+                                    className="object-scale-down object-center cursor-pointer"
                                   />
                                 );
                               })}
