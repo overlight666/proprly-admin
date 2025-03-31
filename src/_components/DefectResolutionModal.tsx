@@ -17,8 +17,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import React from "react";
 import { getIcons, textColoring } from "../_helpers/textIcons";
+import PhotoViewer from "photoviewer";
 
-export default function DefectResolutionModal({ isOpen, closeModal }: any) {
+export default function DefectResolutionModal({
+  isOpen,
+  closeModal,
+  openModal,
+}: any) {
   const defect = useRecoilValue(organizationDefectAtom);
   const config = useRecoilValue(globalConfigAtom);
   const defectFeedback = useRecoilValue(defectFeedbackAtom);
@@ -50,6 +55,32 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
       val = "N/A";
     }
     return val ? val : "N/A";
+  };
+
+  const viewImage = (img: any) => {
+    const items = [
+      {
+        src: img?.url, // path to image
+        title: img?.name, // If you skip it, there will display the original image name(image1)
+      },
+    ];
+
+    const options = {
+      index: 0,
+
+      callbacks: {
+        beforeOpen: function (context) {
+          closeModal();
+          // Will fire before modal is opened
+        },
+
+        beforeClose: function (context) {
+          openModal();
+        },
+      },
+    };
+
+    new PhotoViewer(items, options);
   };
 
   return (
@@ -170,6 +201,22 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                     readOnly={true}
                   />
                 </div>
+                <div className="py-2">
+                  <Label>Defect Evidence</Label>
+                  <div className="flex gap-2 w-full overflow-auto bg-gray-200 dark:bg-gray-800 rounded-md p-2">
+                    {defect?.images?.map((image) => {
+                      return (
+                        <img
+                          onClick={() => viewImage(image)}
+                          src={image?.url}
+                          height={80}
+                          width={80}
+                          className="object-scale-down object-center cursor-pointer"
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
                 <div>
                   <Label>Comment</Label>
                   <TextArea
@@ -216,13 +263,14 @@ export default function DefectResolutionModal({ isOpen, closeModal }: any) {
                           </div>
 
                           {activity.images && activity.images.length > 0 && (
-                            <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-100 p-2">
+                            <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-200 dark:bg-gray-800 p-2 gap-2">
                               {activity.images.map((img, index) => {
                                 return (
                                   <img
                                     key={index}
                                     src={img.url}
-                                    className="h-20 w-20 object-scale-down object-center"
+                                    onClick={() => viewImage(img)}
+                                    className="object-scale-down object-center cursor-pointer"
                                   />
                                 );
                               })}
