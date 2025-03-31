@@ -135,14 +135,18 @@ export default function AddProject() {
 
   function onSubmit(props: any) {
     if (uploadedImage) {
-      const params = {
+      const params: any = {
         maintenanceServiceType: props.maintenanceServiceType,
         type: props.type,
         name: props.name,
         address: `${props.address0}, ${props.address1}, ${props.address2}`,
         imageId: uploadedImage.id,
-        documents: fileContainer.map((f) => f.id),
       };
+
+      if (fileContainer?.length > 0) {
+        params.documents = fileContainer.map((f) => f.id);
+      }
+
       setFieldHolder(params);
       setPage(2);
     } else {
