@@ -66,13 +66,8 @@ function useDefect() {
   }
 
   function activateDefectCode(params: any) {
-    const body = {
-      isActive: true,
-      defectName: params?.defectName,
-      isVisible: true,
-    };
     return fetchWrapper
-      .put(`${baseUrl}/defect-code/${params?.id}`, body)
+      .put(`${baseUrl}/defect-code/restore/${params?.id}`)
       .then((response: any) => {
         if (response) {
           setDefectCodesResponse(

@@ -33,7 +33,7 @@ export default function EditDefectCodeModal({
       defectAction
         .editDefectCode(defectCode?.id, params)
         .then(() => {
-          toast.info("New defect code has been updated!");
+          toast.info("Defect code has been updated!");
         })
         .catch((e) => {
           toast.error(e);

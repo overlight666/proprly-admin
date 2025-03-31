@@ -45,9 +45,9 @@ function useTrade() {
       });
   }
 
-  function activateTradeCode(id: any, params: any) {
+  function activateTradeCode(id: any) {
     return fetchWrapper
-      .put(`${baseUrl}/trade-code/${id}`, params)
+      .put(`${baseUrl}/trade-code/restore/${id}`)
       .then((response: any) => {
         if (response) {
           setTradeCodesResponse(

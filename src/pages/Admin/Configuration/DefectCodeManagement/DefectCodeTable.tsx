@@ -151,22 +151,22 @@ export default function DefectCodeTable({ tableData }: any) {
                     <CheckLineIcon
                       className="size-5 text-green-700 cursor-pointer"
                       data-tooltip-id="tooltip"
-                      data-tooltip-content="Activate"
+                      data-tooltip-content="Restore"
                       data-tooltip-place="top"
                       onClick={async () => {
                         if (
                           await confirm({
-                            confirmText: "Activate",
+                            confirmText: "Restore",
                             confirmVariant: "green",
                             confirmation:
-                              "You are about to activate this defect code. Please confirm to continue!",
+                              "You are about to restore this defect code. Please confirm to continue!",
                           })
                         ) {
                           defectAction
                             .activateDefectCode(_data)
                             .then(() => {
                               toast.success(
-                                `${_data.defectName} has been activated!`
+                                `${_data.defectName} has been restored!`
                               );
                             })
                             .catch((e) => {
