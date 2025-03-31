@@ -7,7 +7,6 @@ const propertiesAtom = atom<Property[]>({
   default: undefined,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const bulkResponseAtom = atom<any>({
   key: "bulkResponseAtom",
   default: undefined,
@@ -28,7 +27,13 @@ const generateReportAtom = atom<any>({
   default: undefined,
 });
 
+const listPropertiesAtom = atom<any>({
+  key: "listPropertiesAtom",
+  default: undefined,
+});
+
 export {
+  listPropertiesAtom,
   generateReportAtom,
   propertiesAtom,
   bulkResponseAtom,

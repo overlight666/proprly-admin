@@ -70,7 +70,7 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
             <span className="text-xs text-gray-400 dark:text-gray-500">
               {defect?.property?.projectTower?.name} -
               <span className="text-xs text-gray-600 dark:text-gray-200">
-                {` Floor ${defect?.property?.projectTower?.numFloors}`}
+                {` Floor ${defect?.property?.floor}`}
               </span>
             </span>
             <hr className="my-1 text-gray-400" />

@@ -7,6 +7,7 @@ import {
   activeTabIndexProjectAtom,
   bulkResponseAtom,
   generateReportAtom,
+  listPropertiesAtom,
   propertiesAtom,
   selectedPropertyAtom,
 } from "../_state";
@@ -21,6 +22,7 @@ function useProperties() {
   const setBulkResponse = useSetRecoilState(bulkResponseAtom);
   const setActiveTabIndex = useSetRecoilState(activeTabIndexProjectAtom);
   const setSelectedProperty = useSetRecoilState(selectedPropertyAtom);
+  const setListProperties = useSetRecoilState(listPropertiesAtom);
   const setGenerateReport = useSetRecoilState(generateReportAtom);
   const warrantyAction = useWarrantyAction();
 
@@ -31,6 +33,7 @@ function useProperties() {
     getProperty,
     updateProperty,
     generateNewReport,
+    getPropertyByProject,
   };
 
   function generateNewReport(id: any, toast: any) {
@@ -39,6 +42,18 @@ function useProperties() {
       .then((_response: any) => {
         setGenerateReport(true);
         toast.success("New reports generated!");
+      });
+  }
+
+  function getPropertyByProject(id: any) {
+    return fetchWrapper
+      .get(`${baseUrl}/project/${id}/properties`)
+      .then((response: any) => {
+        if (response) {
+          setListProperties(
+            response && response.data ? response.data : response
+          );
+        }
       });
   }
 
@@ -77,12 +92,14 @@ function useProperties() {
           //     warrantyAction.deleteWarranty(del);
           //   });
           // }
+
           const hasOldWaranties = warranties?.groups?.filter(
             (warant: any) => warant.warrantyId
           );
           const hasNewWarranties = warranties?.groups?.filter(
             (warant: any) => !warant.warrantyId
           );
+
           const oldWarranties = {
             groups: hasOldWaranties,
           };
@@ -100,12 +117,21 @@ function useProperties() {
             setActiveTabIndex(1);
           }
           if (hasNewWarranties?.length > 0) {
-            const warrantyParams = {
-              propertyId: property_id,
-              ...warranties,
-            };
-            warrantyAction.uploadWarrantyGroupNoNavigate(warrantyParams, toast);
-            setActiveTabIndex(1);
+            const hasFiles = hasNewWarranties?.filter(
+              (warrant: any) => warrant?.files?.length > 0
+            );
+
+            if (hasFiles) {
+              const warrantyParams = {
+                propertyId: property_id,
+                groups: hasFiles,
+              };
+              warrantyAction.uploadWarrantyGroupNoNavigate(
+                warrantyParams,
+                toast
+              );
+              setActiveTabIndex(1);
+            }
           } else {
             setActiveTabIndex(1);
           }
@@ -130,6 +156,16 @@ function useProperties() {
       });
   }
 
+  function attachUser(user: any, id: any) {
+    const params = {
+      id: user?.id,
+      roleId: 6,
+    };
+    return fetchWrapper
+      .post(`${baseUrl}/property/${id}/user`, params)
+      .then((_response: any) => {});
+  }
+
   function addProperty(
     id: any,
     project_id: any,
@@ -144,19 +180,57 @@ function useProperties() {
       .then((response: any) => {
         if (response) {
           const res = response && response.data ? response.data : response;
-          setBulkResponse(res);
 
-          const warrantyParams = {
-            propertyId: res.id,
-            ...warranties,
-          };
-          warrantyAction.uploadWarrantyGroup(
-            id,
-            project_id,
-            warrantyParams,
-            navigate,
-            toast
-          );
+          if (params?.users?.length > 0) {
+            const promise1 = params?.users?.map(async (user: any) => {
+              await attachUser(user, res?.id);
+            });
+            Promise.all(promise1).then(function () {
+              if (warranties?.length > 0) {
+                const warrantyParams = {
+                  propertyId: res.id,
+                  ...warranties,
+                };
+                warrantyAction
+                  .uploadWarrantyGroup(
+                    id,
+                    project_id,
+                    warrantyParams,
+                    navigate,
+                    toast
+                  )
+                  .then(() => {
+                    setBulkResponse(res);
+                  });
+              } else {
+                setActiveTabIndex(1);
+                toast.info("Property has been successfully created!");
+                navigate(-1);
+              }
+            });
+          } else {
+            if (warranties?.length > 0) {
+              const warrantyParams = {
+                propertyId: res.id,
+                ...warranties,
+              };
+              warrantyAction
+                .uploadWarrantyGroup(
+                  id,
+                  project_id,
+                  warrantyParams,
+                  navigate,
+                  toast
+                )
+                .then(() => {
+                  setBulkResponse(res);
+                });
+            } else {
+              setActiveTabIndex(1);
+              toast.info("Property has been successfully created!");
+              navigate(-1);
+            }
+          }
         }
       })
       .catch((e: any) => {

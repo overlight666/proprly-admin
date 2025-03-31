@@ -8,6 +8,7 @@ import {
   checklistZoneListAtom,
   checklistZoneResponseAtom,
   commonAreaChecklistElementListAtom,
+  addCommonAreaCategoryResponseAtom,
 } from "../_state/atoms/checklist";
 
 export { useChecklist };
@@ -18,6 +19,7 @@ function useChecklist() {
   const setChecklistZone = useSetRecoilState(checklistZoneListAtom);
   const setChecklistZoneResponse = useSetRecoilState(checklistZoneResponseAtom);
   const setChecklistElement = useSetRecoilState(checklistElementListAtom);
+  const setAddCAResponse = useSetRecoilState(addCommonAreaCategoryResponseAtom);
   const setChecklistElementResponse = useSetRecoilState(
     checklistElementResponseAtom
   );
@@ -30,6 +32,7 @@ function useChecklist() {
     saveChecklistZone,
     saveChecklistElement,
     getCommonAreaElement,
+    saveCommonAreaCategory,
   };
 
   function getChecklistZone() {
@@ -37,6 +40,14 @@ function useChecklist() {
       .get(`${baseUrl}/admin/checklist/zones`)
       .then((response: any) => {
         setChecklistZone(response && response.data ? response.data : response);
+      });
+  }
+
+  function saveCommonAreaCategory(params: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/common_area_checklist`, params)
+      .then((response: any) => {
+        setAddCAResponse(response && response.data ? response.data : response);
       });
   }
 
@@ -49,6 +60,7 @@ function useChecklist() {
         );
       });
   }
+
   function getChecklistElement(params: any) {
     return fetchWrapper
       .get(`${baseUrl}/checklist${params}`)

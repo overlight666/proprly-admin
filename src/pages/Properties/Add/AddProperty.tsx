@@ -759,7 +759,7 @@ export default function AddProperty() {
                   </div>
                   <div>
                     <Label htmlFor="inputTwo">Split Level Property</Label>
-                    <Select options={[]} placeholder="Split Level Property" />
+                    <Select disabled options={[]} placeholder="Please select" />
                   </div>
                   <div>
                     <Label htmlFor="input">

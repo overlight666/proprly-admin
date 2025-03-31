@@ -26,7 +26,9 @@ export default function ExportPropertyReportModal({
   const setReportGenerated = useSetRecoilState(generateReportAtom);
   useEffect(() => {
     setTableData([]);
-    propertyAction.getProperty(id);
+    if (id) {
+      propertyAction.getProperty(id);
+    }
     if (newReportGenerated) {
       setReportGenerated(false);
     }

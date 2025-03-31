@@ -226,7 +226,7 @@ export default function SupportTicketModal({
                       },
                     ]}
                     onChange={(e) => setStatus(e)}
-                    placeholder="Select status"
+                    placeholder="Select any option"
                     className="dark:bg-dark-900"
                     containerClass="w-[100%]"
                   />

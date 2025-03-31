@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { propertiesAtom } from "../../../_state";
+import { listPropertiesAtom } from "../../../_state";
 import { useModal } from "../../../hooks/useModal";
 import { Property } from "../../../_types";
 import { ucword } from "../../../_helpers";
@@ -23,6 +23,7 @@ import Checkbox from "../../../components/form/input/Checkbox";
 import Badge from "../../../components/ui/badge/Badge";
 import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../icons";
 import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
+import { useProperties } from "../../../_actions";
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -33,12 +34,20 @@ export default function PropertyTable({
   setSelected,
 }: any) {
   const [tableData, setTableData] = useState<any>([]);
-  const properties = useRecoilValue(propertiesAtom);
+  const properties = useRecoilValue(listPropertiesAtom);
   const navigate = useNavigate();
   const { id, project_id } = useParams();
   const { isOpen, openModal, closeModal } = useModal();
   const [propertyReportId, setPropertyReportId] = useState<any>(undefined);
+  const propertyAction = useProperties();
 
+  useEffect(() => {
+    if (project_id) {
+      propertyAction.getPropertyByProject(project_id);
+    }
+  }, []);
+
+  console.log(properties);
   useEffect(() => {
     if (properties) {
       const tb = properties.map((prop: Property) => {

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import OtpInput from "react-otp-input";
 import React from "react";
-export default function Step3({ onSubmitStep3, onResend }: any) {
+export default function Step3({ onSubmitStep3, onResend, mobileNumber }: any) {
   const [otp, setOtp] = useState("");
   return (
     <div>
@@ -12,7 +12,8 @@ export default function Step3({ onSubmitStep3, onResend }: any) {
             Verify your Mobile Number
           </h1>
           <span className="text-sm text-gray-400 font-normal">
-            We sent you a six-digit code to xxxxxx 243. Enter the code to
+            We sent you a six-digit code to xxxxxx{" "}
+            {mobileNumber.substr(mobileNumber.length - 3)}. Enter the code to
             confirm your mobile number.
           </span>
         </div>

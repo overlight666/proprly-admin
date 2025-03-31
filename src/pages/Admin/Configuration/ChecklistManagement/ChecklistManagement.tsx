@@ -43,6 +43,20 @@ export default function ChecklistManagement() {
   const regionAction = useCountriesAction();
   const [isType, setIsType] = useState("");
 
+  const getChecklist = () => {
+    const params =
+      isType === "project"
+        ? `?projectId=${selectedId}`
+        : isType === "organization"
+        ? `?organizationId=${selectedId}`
+        : isType === "region"
+        ? `?regionId=${selectedId}`
+        : "";
+    if (selectedId || isType === "default") {
+      checklistAction.getCommonAreaElement(params);
+    }
+  };
+
   useEffect(() => {
     // checklistAction.getChecklistZone();
     orgAction.getOrganizations();
@@ -66,17 +80,7 @@ export default function ChecklistManagement() {
 
   useEffect(() => {
     if (isType) {
-      const params =
-        isType === "project"
-          ? `?projectId=${selectedId}`
-          : isType === "organization"
-          ? `?organizationId=${selectedId}`
-          : isType === "region"
-          ? `?regionId=${selectedId}`
-          : "";
-      if (selectedId || isType === "default") {
-        checklistAction.getCommonAreaElement(params);
-      }
+      getChecklist();
     }
   }, [isType, selectedId]);
 
@@ -89,13 +93,26 @@ export default function ChecklistManagement() {
   //   }, [checklistZones]);
 
   function onSubmitZone(props: any) {
-    const params = {
-      order: checklistZones.length + 1,
+    const params: any = {
       ...props,
     };
+
+    if (isType == "default") {
+      params.isDefault = true;
+    }
+    if (isType == "region") {
+      params.regionId = selectedId;
+    }
+    if (isType == "project") {
+      params.projectId = selectedId;
+    }
+    if (isType == "organization") {
+      params.organizationId = selectedId;
+    }
     checklistAction
-      .saveChecklistZone(params)
+      .saveCommonAreaCategory(params)
       .then(() => {
+        getChecklist();
         checklistAction.getChecklistZone();
         closeModal();
       })
@@ -271,11 +288,20 @@ export default function ChecklistManagement() {
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Common Area Categories</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer ${
+                isType == "default" || (isType !== "default" && selectedId)
+                  ? "text-blue-600"
+                  : "text-gray-600"
+              }`}
               onClick={() => {
-                setModalType(0);
-                setModalTitle("Add New Zone");
-                openModal();
+                if (
+                  isType == "default" ||
+                  (isType !== "default" && selectedId)
+                ) {
+                  setModalType(0);
+                  setModalTitle("Add New Common Area Category");
+                  openModal();
+                }
               }}
             >
               <PlusIcon />
@@ -321,7 +347,7 @@ export default function ChecklistManagement() {
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Elements</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer text-blue-600`}
               onClick={() => {
                 setModalType(1);
                 setModalTitle("Add New Element");
@@ -398,7 +424,7 @@ export default function ChecklistManagement() {
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Defects</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer text-blue-600`}
               onClick={() => {
                 setModalTitle("Add New Defect");
                 openModal();

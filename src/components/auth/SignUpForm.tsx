@@ -198,7 +198,11 @@ export default function SignUpForm() {
           ) : step === 2 ? (
             <Step2 onSubmitStep2={onSubmitStep2} />
           ) : step === 3 ? (
-            <Step3 onSubmitStep3={onSubmitStep3} onResend={onResend} />
+            <Step3
+              onSubmitStep3={onSubmitStep3}
+              onResend={onResend}
+              mobileNumber={mobileNumber}
+            />
           ) : (
             <Step4 />
           )}
