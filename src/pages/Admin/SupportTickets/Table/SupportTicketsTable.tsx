@@ -22,6 +22,7 @@ import {
   CheckLineIcon,
   CloseIcon,
   FolderIcon,
+  PencilIcon,
 } from "../../../../icons";
 import moment from "moment";
 import { ucword } from "../../../../_helpers";
@@ -115,10 +116,10 @@ export default function SupportTicketsTable({ tableRef }: any) {
                 7: (_data: any, _row: any) => (
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                     <div className="flex flex-row gap-5">
-                      <FolderIcon
+                      <PencilIcon
                         className="size-5 cursor-pointer"
                         data-tooltip-id="tooltip"
-                        data-tooltip-content="View"
+                        data-tooltip-content="Edit"
                         onClick={() => {
                           //   userAction.getSelectedTicket(_data?.id);
                           setSelectedTicket(_data);
