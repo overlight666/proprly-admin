@@ -23,7 +23,7 @@ const Confirmation: ConfirmDialog<Props, boolean> = ({
     isOpen={show}
     className="max-w-[40%] p-6 lg:p-10 max-h-[90%] relative overflow-auto"
   >
-    <div className="flex flex-col px-2 overflow-auto custom-scrollbar gap-10">
+    <div className="flex flex-col px-5 overflow-auto custom-scrollbar gap-10">
       <div className="flex justify-center">
         <span className="text-gray-600 dark:text-gray-200 text-[20px] text-center">
           {confirmation}

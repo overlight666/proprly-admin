@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,6 +12,8 @@ export default function ChecklistZoneModal({
   closeModal,
   title,
   onSubmit,
+  selectedCategory,
+  isEdit,
 }: any) {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -19,8 +21,16 @@ export default function ChecklistZoneModal({
 
   const formOptions = { resolver: yupResolver(validationSchema) };
 
-  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
+
+  useEffect(() => {
+    if (isEdit) {
+      setValue("name", selectedCategory?.name);
+    } else {
+      setValue("name", "");
+    }
+  }, [isEdit, selectedCategory]);
 
   return (
     <>

@@ -33,6 +33,8 @@ function useChecklist() {
     saveChecklistElement,
     getCommonAreaElement,
     saveCommonAreaCategory,
+    updateCommonAreaCategory,
+    deleteCommonAreaCategory,
   };
 
   function getChecklistZone() {
@@ -46,6 +48,22 @@ function useChecklist() {
   function saveCommonAreaCategory(params: any) {
     return fetchWrapper
       .post(`${baseUrl}/common_area_checklist`, params)
+      .then((response: any) => {
+        setAddCAResponse(response && response.data ? response.data : response);
+      });
+  }
+
+  function updateCommonAreaCategory(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/common_area_checklist/${id}`, params)
+      .then((response: any) => {
+        setAddCAResponse(response && response.data ? response.data : response);
+      });
+  }
+
+  function deleteCommonAreaCategory(id: any) {
+    return fetchWrapper
+      .delete(`${baseUrl}/common_area_checklist/${id}`)
       .then((response: any) => {
         setAddCAResponse(response && response.data ? response.data : response);
       });

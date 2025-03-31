@@ -19,29 +19,34 @@ export default function ChecklistElementModal({
 }: any) {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
+    subElements: Yup.array().optional(),
   });
 
   const [isChecked, setIsChecked] = useState(false);
   const formOptions = { resolver: yupResolver(validationSchema) };
 
-  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
-  const [subItems, setSubItems] = useState<any[]>([{ name: "" }]);
+  const [subItems, setSubItems] = useState<any[]>([{ name: "", index: 0 }]);
 
   const removeElement = (e) => {
     const holder = [...subItems];
-    const removeIndex = holder.indexOf(e);
-    if (removeIndex !== -1) {
-      holder.splice(removeIndex, 1);
-      setSubItems(holder);
-    }
+    const filtered = holder?.filter((hold: any) => hold.index != e);
+    setValue("subElements", filtered);
+    setSubItems(filtered);
   };
 
   const handleInput = (inputEv, index) => {
     const value = inputEv.target.value;
     setSubItems((state) =>
-      state.map((val, i) => (i !== index ? val?.name : value))
+      state.map((val: any) => {
+        if (val?.index == index) {
+          val.name = value;
+        }
+        return val;
+      })
     );
+    setValue("subElements", subItems);
   };
 
   return (
@@ -89,8 +94,9 @@ export default function ChecklistElementModal({
                         <div className="w-[75%]">
                           <Input
                             type="text"
+                            value={_element.name}
                             placeholder="Enter element name"
-                            onChange={(e) => handleInput(e, index)}
+                            onChange={(e) => handleInput(e, _element?.index)}
                           />
                         </div>
                         {index == subItems.length - 1 && (
@@ -102,6 +108,7 @@ export default function ChecklistElementModal({
                                 ...oldArray,
                                 {
                                   name: "",
+                                  index: _element?.index + 1,
                                 },
                               ]);
                             }}
@@ -114,7 +121,7 @@ export default function ChecklistElementModal({
                             type="button"
                             variant="danger"
                             onClick={() => {
-                              removeElement(index);
+                              removeElement(_element?.index);
                             }}
                           >
                             <TrashBinIcon />
