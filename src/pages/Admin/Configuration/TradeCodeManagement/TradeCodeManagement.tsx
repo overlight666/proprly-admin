@@ -57,12 +57,12 @@ export default function TradeCodeManagement() {
     if (isType) {
       const params =
         isType === "project"
-          ? `?projectId=${selectedId}`
+          ? `?projectId=${selectedId}&onlyWithoutTradecode=true`
           : isType === "organization"
-          ? `?organizationId=${selectedId}`
+          ? `?organizationId=${selectedId}&onlyWithoutTradecode=true`
           : isType === "region"
-          ? `?regionId=${selectedId}`
-          : "";
+          ? `?regionId=${selectedId}&onlyWithoutTradecode=true`
+          : "?onlyWithoutTradecode=true";
       if (selectedId || isType === "default") {
         tradeAction.getTradeCodes(params);
         defectAction.getDefectCodesSelect(params);
