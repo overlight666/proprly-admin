@@ -9,6 +9,7 @@ import {
   checklistZoneResponseAtom,
   commonAreaChecklistElementListAtom,
   addCommonAreaCategoryResponseAtom,
+  checklistResponseAtom,
 } from "../_state/atoms/checklist";
 
 export { useChecklist };
@@ -20,6 +21,7 @@ function useChecklist() {
   const setChecklistZoneResponse = useSetRecoilState(checklistZoneResponseAtom);
   const setChecklistElement = useSetRecoilState(checklistElementListAtom);
   const setAddCAResponse = useSetRecoilState(addCommonAreaCategoryResponseAtom);
+  const setPropertyResponse = useSetRecoilState(checklistResponseAtom);
   const setChecklistElementResponse = useSetRecoilState(
     checklistElementResponseAtom
   );
@@ -35,6 +37,9 @@ function useChecklist() {
     saveCommonAreaCategory,
     updateCommonAreaCategory,
     deleteCommonAreaCategory,
+    savePropertyChecklistCategory,
+    updatePropertyChecklistCategory,
+    deletePropertyChecklistCategory,
   };
 
   function getChecklistZone() {
@@ -84,6 +89,36 @@ function useChecklist() {
       .get(`${baseUrl}/checklist${params}`)
       .then((response: any) => {
         setChecklistElement(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function savePropertyChecklistCategory(params: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/checklist`, params)
+      .then((response: any) => {
+        setPropertyResponse(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function updatePropertyChecklistCategory(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/checklist/${id}`, params)
+      .then((response: any) => {
+        setPropertyResponse(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function deletePropertyChecklistCategory(id: any) {
+    return fetchWrapper
+      .delete(`${baseUrl}/checklist/${id}`)
+      .then((response: any) => {
+        setPropertyResponse(
           response && response.data ? response.data : response
         );
       });

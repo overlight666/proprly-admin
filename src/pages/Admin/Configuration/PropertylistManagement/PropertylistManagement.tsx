@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { PencilIcon, PlusIcon, TrashBinIcon } from "../../../../icons";
+import {
+  CheckLineIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashBinIcon,
+} from "../../../../icons";
 import {
   useChecklist,
   useCountriesAction,
@@ -11,20 +16,21 @@ import { useRecoilValue } from "recoil";
 import {
   allProjectsAtom,
   checklistElementListAtom,
-  checklistZoneListAtom,
+  // checklistZoneListAtom,
   organizationsAtom,
   regionsAtom,
 } from "../../../../_state";
+import { confirm } from "../../../../components/dialog/ConfirmDialog";
 import { useModal } from "../../../../hooks/useModal";
-import ChecklistZoneModal from "./PropertylistZoneModal";
 import { toast } from "react-toastify";
-import ChecklistElementModal from "./PropertylistElementModal";
 import { Project } from "../../../../_types";
 import Label from "../../../../components/form/Label";
+import PropertylistZoneModal from "./PropertylistZoneModal";
+import PropertylistElementModal from "./PropertylistElementModal";
 
 export default function PropertylistManagement() {
   const checklistAction = useChecklist();
-  const checklistZones = useRecoilValue(checklistZoneListAtom);
+  // const checklistZones = useRecoilValue(checklistZoneListAtom);
   const checklistElements = useRecoilValue(checklistElementListAtom);
   const [selectedElement, setSelectedElement] = useState<any>(undefined);
   const [selectedDefect, setSelectedDefect] = useState<any>(undefined);
@@ -37,11 +43,27 @@ export default function PropertylistManagement() {
   const orglist: any = useRecoilValue(organizationsAtom);
   const projectList: Project[] = useRecoilValue(allProjectsAtom);
   const regionList: any[] = useRecoilValue(regionsAtom);
+  const [selectedCategory, setSelectedCategory] = useState<any>();
   const [selectedId, setSelectedId] = useState<any>();
   const orgAction = useOrganization();
   const projectAction = useProject();
   const regionAction = useCountriesAction();
   const [isType, setIsType] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+
+  const getChecklist = () => {
+    const params =
+      isType === "project"
+        ? `?projectId=${selectedId}`
+        : isType === "organization"
+        ? `?organizationId=${selectedId}`
+        : isType === "region"
+        ? `?regionId=${selectedId}`
+        : "";
+    if (selectedId || isType === "default") {
+      checklistAction.getCommonAreaElement(params);
+    }
+  };
 
   useEffect(() => {
     // checklistAction.getChecklistZone();
@@ -66,17 +88,7 @@ export default function PropertylistManagement() {
 
   useEffect(() => {
     if (isType) {
-      const params =
-        isType === "project"
-          ? `?projectId=${selectedId}`
-          : isType === "organization"
-          ? `?organizationId=${selectedId}`
-          : isType === "region"
-          ? `?regionId=${selectedId}`
-          : "";
-      if (selectedId || isType === "default") {
-        checklistAction.getChecklistElement(params);
-      }
+      getChecklist();
     }
   }, [isType, selectedId]);
 
@@ -89,33 +101,100 @@ export default function PropertylistManagement() {
   //   }, [checklistZones]);
 
   function onSubmitZone(props: any) {
-    const params = {
-      order: checklistZones.length + 1,
-      ...props,
-    };
-    checklistAction
-      .saveChecklistZone(params)
-      .then(() => {
-        checklistAction.getChecklistZone();
-        closeModal();
-      })
-      .catch((e) => toast.error(e));
+    if (!isEdit) {
+      const params: any = {
+        ...props,
+      };
+
+      if (isType == "default") {
+        params.isDefault = true;
+      }
+      if (isType == "region") {
+        params.regionId = selectedId;
+      }
+      if (isType == "project") {
+        params.projectId = selectedId;
+      }
+      if (isType == "organization") {
+        params.organizationId = selectedId;
+      }
+      checklistAction
+        .savePropertyChecklistCategory(params)
+        .then(() => {
+          getChecklist();
+          checklistAction.getChecklistZone();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    } else {
+      const params: any = {
+        ...props,
+      };
+      checklistAction
+        .updatePropertyChecklistCategory(selectedCategory?.id, params)
+        .then(() => {
+          getChecklist();
+          checklistAction.getChecklistZone();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    }
   }
 
   function onSubmitElement(props: any) {
     const params = {
-      order: checklistElements.length + 1,
-      checklistZoneId: checklistZones[defaultSelectedZone]?.id,
-      ...props,
+      commonAreaCategoryId: checklistElements[defaultSelectedZone]?.id,
+      elements: [props],
     };
     checklistAction
       .saveChecklistElement(params)
       .then(() => {
         checklistAction.getChecklistZone();
+        getChecklist();
         closeModal();
       })
       .catch((e) => toast.error(e));
   }
+
+  const deleteCategory = async (zone: any) => {
+    if (
+      await confirm({
+        confirmText: "Delete",
+        confirmVariant: "danger",
+        confirmation:
+          "You are about to delete this category. Please confirm to continue!",
+      })
+    ) {
+      checklistAction
+        .deletePropertyChecklistCategory(zone.id)
+        .then(() => {
+          toast.warning(`${zone.name} has been deleted!`);
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
+
+  const restoreCategory = async (zone: any) => {
+    if (
+      await confirm({
+        confirmText: "Restore",
+        confirmVariant: "green",
+        confirmation:
+          "You are about to restore this category. Please confirm to continue!",
+      })
+    ) {
+      checklistAction
+        .deleteCommonAreaCategory(zone.id)
+        .then(() => {
+          toast.warning(`${zone.name} has been restored!`);
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
 
   return (
     <div className="space-y-5">
@@ -251,15 +330,17 @@ export default function PropertylistManagement() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         {modalType === 0 && (
-          <ChecklistZoneModal
+          <PropertylistZoneModal
+            isEdit={isEdit}
             isOpen={isOpen}
             closeModal={closeModal}
             title={modalTitle}
             onSubmit={onSubmitZone}
+            selectedCategory={selectedCategory}
           />
         )}
         {modalType === 1 && (
-          <ChecklistElementModal
+          <PropertylistElementModal
             isOpen={isOpen}
             closeModal={closeModal}
             title={modalTitle}
@@ -269,13 +350,23 @@ export default function PropertylistManagement() {
 
         <div className="rounded-lg border border-gray-300 shadow-theme-xs">
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
-            <span className="font-bold">Zones</span>
+            <span className="font-bold">Common Area Categories</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer ${
+                isType == "default" || (isType !== "default" && selectedId)
+                  ? "text-blue-600"
+                  : "text-gray-600"
+              }`}
               onClick={() => {
-                setModalType(0);
-                setModalTitle("Add New Zone");
-                openModal();
+                if (
+                  isType == "default" ||
+                  (isType !== "default" && selectedId)
+                ) {
+                  setIsEdit(false);
+                  setModalType(0);
+                  setModalTitle("Add New Common Area Category");
+                  openModal();
+                }
               }}
             >
               <PlusIcon />
@@ -298,19 +389,51 @@ export default function PropertylistManagement() {
                       setDefaultSelectedElement(0);
                     }}
                   >
-                    <span>{zone.name}</span>
+                    <span
+                      className={`${
+                        !zone.isActive && "line-through text-red-900"
+                      }`}
+                    >
+                      {zone.name}
+                    </span>
                   </div>
                   <div className="flex gap-2">
-                    <PencilIcon
-                      className="text-green-600 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Edit"
-                    />
-                    <TrashBinIcon
-                      className="text-red-600 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Delete"
-                    />
+                    {zone.isActive && (
+                      <>
+                        <PencilIcon
+                          className="text-green-600 cursor-pointer"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Edit"
+                          onClick={() => {
+                            setIsEdit(true);
+                            setModalType(0);
+                            setModalTitle("Edit Common Area Category");
+                            setSelectedCategory(zone);
+                            openModal();
+                          }}
+                        />
+                        <TrashBinIcon
+                          className="text-red-600 cursor-pointer"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Delete"
+                          onClick={() => {
+                            deleteCategory(zone);
+                          }}
+                        />
+                      </>
+                    )}
+                    {!zone.isActive && (
+                      <>
+                        <CheckLineIcon
+                          className="text-green-600 cursor-pointer"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Restore"
+                          onClick={() => {
+                            restoreCategory(zone);
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               );
@@ -321,11 +444,15 @@ export default function PropertylistManagement() {
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Elements</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer ${
+                isType ? "text-blue-600" : "text-gray-600"
+              }`}
               onClick={() => {
-                setModalType(1);
-                setModalTitle("Add New Element");
-                openModal();
+                if (isType) {
+                  setModalType(1);
+                  setModalTitle("Add New Element");
+                  openModal();
+                }
               }}
             >
               <PlusIcon />
@@ -336,7 +463,7 @@ export default function PropertylistManagement() {
               return (
                 <div key={index} className="flex w-full flex-col">
                   <div
-                    className={`flex justify-between p-2 items-center w-full hover:bg-gray-200 hover:dark:bg-gray-700 ${
+                    className={`flex justify-between p-2 items-center ${
                       defaultSelectedElement === index &&
                       "bg-gray-200 dark:bg-gray-700"
                     }`}
@@ -398,10 +525,14 @@ export default function PropertylistManagement() {
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Defects</span>
             <div
-              className="cursor-pointer"
+              className={`cursor-pointer ${
+                isType ? "text-blue-600" : "text-gray-600"
+              }`}
               onClick={() => {
-                setModalTitle("Add New Defect");
-                openModal();
+                if (isType) {
+                  setModalTitle("Add New Defect");
+                  openModal();
+                }
               }}
             >
               <PlusIcon />

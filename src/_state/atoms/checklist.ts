@@ -31,7 +31,13 @@ const addCommonAreaCategoryResponseAtom = atom<any[]>({
   default: undefined,
 });
 
+const checklistResponseAtom = atom<any[]>({
+  key: "checklistResponseAtom",
+  default: undefined,
+});
+
 export {
+  checklistResponseAtom,
   addCommonAreaCategoryResponseAtom,
   checklistZoneListAtom,
   checklistElementListAtom,
