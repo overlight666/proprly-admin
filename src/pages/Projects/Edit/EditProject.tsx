@@ -145,15 +145,19 @@ export default function EditProject() {
 
   function onSubmit(props: any) {
     if (uploadedImage) {
-      const params = {
+      const params: any = {
         organizationId: id,
         maintenanceServiceType: props.maintenanceServiceType,
         type: props.type,
         name: props.name,
         address: `${props.address0}, ${props.address1}, ${props.address2}`,
         imageId: uploadedImage.id,
-        documents: fileContainer.map((f) => f.id),
       };
+
+      if (fileContainer?.length > 0) {
+        params.documents = fileContainer.map((f) => f.id);
+      }
+
       projectAction
         .updateProject(params, project_id, toast)
         .then(() => {
