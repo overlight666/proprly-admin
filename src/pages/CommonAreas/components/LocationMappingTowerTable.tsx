@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { ucword } from "../../../_helpers";
 DataTable.use(DT);
 import React from "react";
+import ComponentCard from "../../../components/common/ComponentCard";
 // Define the table data using the interface
 
 export default function LocationMappingTowerTable({
@@ -262,10 +263,7 @@ export default function LocationMappingTowerTable({
   };
 
   return (
-    <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <h1 className="pb-5 text-black dark:text-white text-[16px] font-medium">
-        Attach Common Area Categories to Towers - Floors
-      </h1>
+    <ComponentCard title="Attach Common Area Categories to Towers - Floors">
       <div className="max-w-full overflow-x-auto">
         <>
           <div className="flex gap-5 space-y-5">
@@ -451,6 +449,6 @@ export default function LocationMappingTowerTable({
           </div>
         </>
       </div>
-    </div>
+    </ComponentCard>
   );
 }
