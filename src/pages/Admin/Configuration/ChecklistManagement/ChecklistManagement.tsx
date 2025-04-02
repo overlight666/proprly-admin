@@ -50,6 +50,7 @@ export default function ChecklistManagement() {
   const regionAction = useCountriesAction();
   const [isType, setIsType] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+
   const getChecklist = () => {
     const params =
       isType === "project"

@@ -61,7 +61,7 @@ export default function PropertylistManagement() {
         ? `?regionId=${selectedId}`
         : "";
     if (selectedId || isType === "default") {
-      checklistAction.getCommonAreaElement(params);
+      checklistAction.getChecklistElement(params);
     }
   };
 
@@ -162,13 +162,14 @@ export default function PropertylistManagement() {
         confirmText: "Delete",
         confirmVariant: "danger",
         confirmation:
-          "You are about to delete this category. Please confirm to continue!",
+          "You are about to delete this zone. Please confirm to continue!",
       })
     ) {
       checklistAction
         .deletePropertyChecklistCategory(zone.id)
         .then(() => {
           toast.warning(`${zone.name} has been deleted!`);
+          getChecklist();
         })
         .catch((e) => {
           toast.error(e);
@@ -189,6 +190,7 @@ export default function PropertylistManagement() {
         .deleteCommonAreaCategory(zone.id)
         .then(() => {
           toast.warning(`${zone.name} has been restored!`);
+          getChecklist();
         })
         .catch((e) => {
           toast.error(e);
@@ -350,7 +352,7 @@ export default function PropertylistManagement() {
 
         <div className="rounded-lg border border-gray-300 shadow-theme-xs">
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
-            <span className="font-bold">Common Area Categories</span>
+            <span className="font-bold">Zones</span>
             <div
               className={`cursor-pointer ${
                 isType == "default" || (isType !== "default" && selectedId)
@@ -364,7 +366,7 @@ export default function PropertylistManagement() {
                 ) {
                   setIsEdit(false);
                   setModalType(0);
-                  setModalTitle("Add New Common Area Category");
+                  setModalTitle("Add New Zone");
                   openModal();
                 }
               }}
@@ -407,7 +409,7 @@ export default function PropertylistManagement() {
                           onClick={() => {
                             setIsEdit(true);
                             setModalType(0);
-                            setModalTitle("Edit Common Area Category");
+                            setModalTitle("Edit Zone");
                             setSelectedCategory(zone);
                             openModal();
                           }}
