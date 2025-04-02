@@ -58,16 +58,20 @@ export default function SupportTicketModal({
   };
 
   const onSubmit = async () => {
-    if (description.length == 0) {
+    if (description.trim().length == 0) {
       toast.error("Description is required");
     } else {
-      const params = {
+      const params: any = {
         issueId: ticket?.issueId,
         description,
         userId: JSON.parse(currentUser)?.user?.id,
-        attachment: fileContainer.map((files) => files.id),
         status: status,
       };
+
+      if (fileContainer?.length > 0) {
+        params.attachment = fileContainer.map((files) => files.id);
+      }
+
       await userAction.updateSupportTikets(ticket?.id, params).then(() => {
         toast.success("Support ticket has been updated!");
         setFileContainer([]);
