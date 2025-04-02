@@ -72,11 +72,11 @@ export default function SelectedProject() {
     }
   }, [selected]);
 
-  useEffect(() => {
-    if (!bulkResponse) {
-      setActiveTabIndex(0);
-    }
-  }, [project_id]);
+  // useEffect(() => {
+  //   if (!bulkResponse) {
+  //     setActiveTabIndex(0);
+  //   }
+  // }, [project_id]);
 
   useEffect(() => {
     if (selectedProject || bulkResponse) {
