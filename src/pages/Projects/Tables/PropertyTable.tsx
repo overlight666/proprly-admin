@@ -169,7 +169,7 @@ export default function PropertyTable({
               ),
 
               6: (_data: any, _row: any) => (
-                <div className="flex items-center justify-center">
+                <div className="flex">
                   <div
                     className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
                                   ${textColoring(_data, true)}
