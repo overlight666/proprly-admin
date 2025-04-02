@@ -71,6 +71,9 @@ export default function SupportTicketModal({
       await userAction.updateSupportTikets(ticket?.id, params).then(() => {
         toast.success("Support ticket has been updated!");
         setFileContainer([]);
+        setUploadQueue([]);
+        setDescription("");
+        setStatus("");
         closeModal();
       });
     }
@@ -277,24 +280,10 @@ export default function SupportTicketModal({
                       return (
                         <li className="mb-4 ms-4" key={index}>
                           <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                          <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-                            {moment(ticket?.createdAt).format("LLL")}
-                          </time>
-                          <div className="flex">
-                            <div
-                              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
-                                  ${ticketColoring(activity?.status, true)}
-                                  `}
-                            >
-                              {getIcons(activity?.status)}
-                              <span className="text-[12px]">
-                                {ucword(activity?.status)}
-                              </span>
-                            </div>
+                          <div className="mb-1 text-sm font-normal leading-none text-gray-800 dark:text-gray-200">
+                            <span>{ucword(activity?.user?.fullName)}</span>
                           </div>
-                          <div className="text-black dark:text-white">
-                            {ticket?.description}
-                          </div>
+
                           {activity.images && activity.images.length > 0 && (
                             <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-200 dark:bg-gray-800 rounded-md p-2">
                               {activity.images.map((img, index) => {
@@ -326,6 +315,24 @@ export default function SupportTicketModal({
                               })}
                             </div>
                           )}
+                          <div className="text-black dark:text-white mt-2">
+                            {ticket?.description}
+                          </div>
+                          <div className="flex mt-2">
+                            <div
+                              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${ticketColoring(activity?.status, true)}
+                                  `}
+                            >
+                              {getIcons(activity?.status)}
+                              <span className="text-[12px]">
+                                {ucword(activity?.status)}
+                              </span>
+                            </div>
+                          </div>
+                          <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+                            {moment(ticket?.createdAt).format("LLL")}
+                          </time>
                         </li>
                       );
                     })}
