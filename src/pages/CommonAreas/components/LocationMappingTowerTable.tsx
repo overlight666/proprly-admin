@@ -70,11 +70,11 @@ export default function LocationMappingTowerTable({
 
     if (!hasCommonArea) {
       if (commonAreaConfig && selectedTower) {
-        const myTower = commonAreaConfig?.projectTowers?.find(
+        const myTower = commonAreaConfig?.project?.projectTower?.find(
           (t: any) => t.id == selectedTower
         );
         setTowerHolder(myTower);
-        const towers = myTower?.floors?.map((tower: any) => {
+        const towers = myTower?.floorList?.map((tower: any) => {
           return [
             {
               type: "tower",
@@ -139,7 +139,7 @@ export default function LocationMappingTowerTable({
     setIsAllChecked(e);
     if (e) {
       if (!hasCommonArea) {
-        const towers = towerHolder?.floors?.map((tower: any) => {
+        const towers = towerHolder?.floorList?.map((tower: any) => {
           return {
             type: "tower",
             id: tower.key,
@@ -263,7 +263,7 @@ export default function LocationMappingTowerTable({
 
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <h1 className="pb-5 text-black dark:text-white text-[16px]">
+      <h1 className="pb-5 text-black dark:text-white text-[16px] font-medium">
         Attach Common Area Categories to Towers - Floors
       </h1>
       <div className="max-w-full overflow-x-auto">
@@ -275,12 +275,14 @@ export default function LocationMappingTowerTable({
                   onChange={(e) => setSelectedTower(e)}
                   options={
                     !hasCommonArea
-                      ? commonAreaConfig?.projectTowers?.map((cl: any) => {
-                          return {
-                            value: cl.id,
-                            label: cl.name,
-                          };
-                        }) || []
+                      ? commonAreaConfig?.project?.projectTower?.map(
+                          (cl: any) => {
+                            return {
+                              value: cl.id,
+                              label: cl.name,
+                            };
+                          }
+                        ) || []
                       : selectedProject?.projectTower?.map((cl: any) => {
                           return {
                             value: cl.id,

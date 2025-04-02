@@ -37,6 +37,7 @@ export default function CommonArea() {
   const [rawTowers, setRawTowers] = useState<any>([]);
   const [selectedTower, setSelectedTower] = useState<any>(undefined);
   const [rawBasements, setRawBasements] = useState<any>([]);
+
   const [warrantyGroup, setWarrantyGroup] = useState<any>([
     {
       group: "lifts",
@@ -271,9 +272,7 @@ export default function CommonArea() {
             >
               <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
                 <div>
-                  <Label htmlFor="input">
-                    Common Area Lot No <span className="text-error-500">*</span>{" "}
-                  </Label>
+                  <Label htmlFor="input">Common Area Lot No</Label>
                   <Input
                     type="text"
                     register={{ ...register("lotNo") }}

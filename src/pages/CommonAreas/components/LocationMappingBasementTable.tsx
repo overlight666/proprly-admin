@@ -65,7 +65,7 @@ export default function LocationMappingTable({
   useEffect(() => {
     setTableData([]);
     if (commonAreaConfig && !hasCommonArea) {
-      const basements = commonAreaConfig?.projectBasements?.map(
+      const basements = commonAreaConfig?.project?.basementList?.map(
         (basement: any) => {
           return [
             {
@@ -249,7 +249,7 @@ export default function LocationMappingTable({
 
   return (
     <div className="overflow-hidden mt-5 rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <h1 className="pb-5 text-black dark:text-white text-[16px]">
+      <h1 className="pb-5 text-black dark:text-white text-[16px] font-medium">
         Attach Common Area Categories to Basement - Floors
       </h1>
       <div className="max-w-full overflow-x-auto">
