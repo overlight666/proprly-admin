@@ -14,6 +14,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
+    defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
@@ -39,6 +40,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
 export const textColoring = (defectSubStatus: any, hasBg: any) => {
   if (
     defectSubStatus?.toLowerCase() == "pending" ||
+    defectSubStatus?.toLowerCase() == "under_construction" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -60,6 +62,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
+    defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
@@ -86,6 +89,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
 export const getIcons = (defectSubStatus) => {
   if (
     defectSubStatus?.toLowerCase() == "pending" ||
+    defectSubStatus?.toLowerCase() == "under_construction" ||
     defectSubStatus == "Tradesman to be organised" ||
     defectSubStatus == "Materials & Tradesman to be organised" ||
     defectSubStatus == "Materials to be organised" ||
@@ -152,6 +156,7 @@ export const getIcons = (defectSubStatus) => {
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
+    defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||

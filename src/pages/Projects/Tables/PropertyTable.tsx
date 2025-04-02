@@ -24,6 +24,7 @@ import Badge from "../../../components/ui/badge/Badge";
 import { DocsIcon, PageIcon, PencilIcon, TaskIcon } from "../../../icons";
 import ExportPropertyReportModal from "../../Properties/components/ExportPropertyReportModal";
 import { useProperties } from "../../../_actions";
+import { getIcons, textColoring } from "../../../_helpers/textIcons";
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -168,20 +169,14 @@ export default function PropertyTable({
               ),
 
               6: (_data: any, _row: any) => (
-                <Badge
-                  variant="light"
-                  color={
-                    _data == "pending" || _data == "under_construction"
-                      ? "warning"
-                      : _data == "rejected"
-                      ? "error"
-                      : _data == "in_progress"
-                      ? "info"
-                      : "success"
-                  }
+                <div
+                  className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${textColoring(_data, true)}
+                                  `}
                 >
-                  {ucword(_data)}
-                </Badge>
+                  {getIcons(_data)}
+                  <span className="text-[12px]">{ucword(_data)}</span>
+                </div>
               ),
 
               8: (_data: any, _row: any) => (
