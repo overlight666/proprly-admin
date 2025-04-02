@@ -12,6 +12,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
   ) {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
+    defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
@@ -57,6 +58,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
   ) {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
+    defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
@@ -146,6 +148,7 @@ export const getIcons = (defectSubStatus) => {
       </svg>
     );
   } else if (
+    defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
