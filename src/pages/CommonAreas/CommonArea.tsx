@@ -54,7 +54,7 @@ export default function CommonArea() {
   ]);
 
   const validationSchema = Yup.object().shape({
-    lotNo: Yup.string().required("Lot no is required"),
+    lotNo: Yup.string().optional(),
     status: Yup.string().required("Common Area status is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };

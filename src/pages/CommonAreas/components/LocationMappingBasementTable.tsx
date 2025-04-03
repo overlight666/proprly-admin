@@ -26,6 +26,7 @@ import { ucword } from "../../../_helpers";
 DataTable.use(DT);
 import React from "react";
 import ComponentCard from "../../../components/common/ComponentCard";
+import { getIcons, textColoring } from "../../../_helpers/textIcons";
 // Define the table data using the interface
 
 export default function LocationMappingTable({
@@ -42,7 +43,7 @@ export default function LocationMappingTable({
   const [selectedCategory, setSelectedCategory] = useState<any>(undefined);
   const [isAllCHecked, setIsAllChecked] = useState(false);
   const selectedProject = useRecoilValue(selectedProjectAtom);
-
+  const [staticValue, setSelectedBasement] = useState("");
   const commonAreaCategoryResponse = useRecoilValue(
     commonAreaCategoryResponseAtom
   );
@@ -64,68 +65,76 @@ export default function LocationMappingTable({
   }, [commonAreaCategoryResponse]);
 
   useEffect(() => {
-    setTableData([]);
-    if (commonAreaConfig && !hasCommonArea) {
-      const basements = commonAreaConfig?.project?.basementList?.map(
-        (basement: any) => {
-          return [
-            {
-              type: "basement",
-              id: basement?.key,
-              selectedValues: selected,
-              configuration:
-                (basement?.configuration &&
-                  basement?.configuration?.commonAreaCategory) ||
-                [],
-            },
+    if (staticValue) {
+      setTableData([]);
+      if (commonAreaConfig && !hasCommonArea) {
+        const basements = commonAreaConfig?.project?.basementList?.map(
+          (basement: any) => {
+            return [
+              {
+                type: "basement",
+                id: basement?.key,
+                selectedValues: selected,
+                configuration:
+                  (basement?.configuration &&
+                    basement?.configuration?.commonAreaCategory) ||
+                  [],
+              },
 
-            basement.value,
-            basement.commonAreaConfigurationStatus,
-            (basement?.configuration &&
-              basement?.configuration?.commonAreaCategory
-                .map((ca: any) => ca.name)
-                .join(", ")) ||
-              "",
-          ];
-        }
-      );
-      if (basements) {
-        const merged = [...basements];
-        setTableData(merged);
-      }
-    } else {
-      const basements = selectedProject?.basementList?.map((basement: any) => {
-        return [
-          {
-            type: "basement",
-            id: basement?.key,
-            selectedValues: selected,
-            configuration:
+              basement.value,
+              basement.commonAreaConfigurationStatus,
               (basement?.configuration &&
-                basement?.configuration?.commonAreaCategory) ||
-              [],
-          },
+                basement?.configuration?.commonAreaCategory
+                  .map((ca: any) => ca.name)
+                  .join(", ")) ||
+                "",
+            ];
+          }
+        );
+        if (basements) {
+          const merged = [...basements];
+          setTableData(merged);
+        }
+      } else {
+        const basements = selectedProject?.basementList?.map(
+          (basement: any) => {
+            return [
+              {
+                type: "basement",
+                id: basement?.key,
+                selectedValues: selected,
+                configuration:
+                  (basement?.configuration &&
+                    basement?.configuration?.commonAreaCategory) ||
+                  [],
+              },
 
-          basement.value,
-          basement.commonAreaConfigurationStatus || "pending",
-          rawBasements
-            ?.find((fl) => fl.basement == basement?.key)
-            ?.commonAreaCategories.map(
-              (ca: any) => commonAreaChecklist.find((cac) => cac.id == ca)?.name
-            )
-            .join(", ") || "",
-        ];
-      });
-      const merged = [...basements];
-      setTableData(merged);
+              basement.value,
+              basement.commonAreaConfigurationStatus || "pending",
+              rawBasements
+                ?.find((fl) => fl.basement == basement?.key)
+                ?.commonAreaCategories.map(
+                  (ca: any) =>
+                    commonAreaChecklist.find((cac) => cac.id == ca)?.name
+                )
+                .join(", ") || "",
+            ];
+          }
+        );
+        if (basements) {
+          const merged = [...basements];
+          setTableData(merged);
+        }
+      }
     }
-  }, [commonAreaConfig, selected, rawBasements]);
+  }, [commonAreaConfig, selected, rawBasements, staticValue]);
 
+  console.log(commonAreaConfig);
   const selectAll = (e: any) => {
     setIsAllChecked(e);
     if (e) {
       if (!hasCommonArea) {
-        const basements = commonAreaConfig?.projectBasements?.map(
+        const basements = commonAreaConfig?.project?.projectBasements?.map(
           (basement: any) => {
             return {
               type: "basement",
@@ -217,19 +226,32 @@ export default function LocationMappingTable({
           const newArr = sv?.configuration.map((s: any) => s.id);
           newArr.push(parseInt(selectedCategory));
           const holder = rawBasements?.find((base) => base?.basement == sv.id);
-          const filtered = rawBasements?.filter(
-            (base) => base?.basement != sv.id
-          );
-          if (holder?.commonAreaCategories) {
-            holder.commonAreaCategories = Array.from(
-              new Set([
-                ...holder.commonAreaCategories,
-                parseInt(selectedCategory),
-              ])
+          if (holder) {
+            const filtered = rawBasements?.filter(
+              (base) => base?.basement != sv.id
             );
-          }
+            if (holder?.commonAreaCategories) {
+              holder.commonAreaCategories = Array.from(
+                new Set([
+                  ...holder.commonAreaCategories,
+                  parseInt(selectedCategory),
+                ])
+              );
+            }
 
-          setRawBasements([...filtered, holder]);
+            setRawBasements([...filtered, holder]);
+          } else {
+            const filtered = rawBasements?.filter(
+              (base) => base?.basement != sv.id
+            );
+            setRawBasements([
+              ...filtered,
+              {
+                basement: sv.id,
+                commonAreaCategories: [parseInt(selectedCategory)],
+              },
+            ]);
+          }
         });
       }
     }
@@ -258,7 +280,19 @@ export default function LocationMappingTable({
           <div className="flex gap-5 space-y-5">
             <div className="flex gap-3 items-center">
               <Select2
-                disabled={selected?.length == 0}
+                onChange={(e) => setSelectedBasement(e)}
+                options={[
+                  {
+                    label: "Basement",
+                    value: "basement",
+                  },
+                ]}
+                placeholder="Please select"
+                className="dark:bg-dark-900"
+              />
+
+              <Select2
+                disabled={!staticValue || selected?.length == 0}
                 onChange={(e) => setSelectedCategory(e)}
                 options={
                   commonAreaChecklist?.map((cl: any) => {
@@ -271,9 +305,12 @@ export default function LocationMappingTable({
                 placeholder="Please select"
                 className="dark:bg-dark-900"
               />
+
               <Button
                 type="button"
-                disabled={selected?.length == 0 || !selectedCategory}
+                disabled={
+                  !staticValue || selected?.length == 0 || !selectedCategory
+                }
                 variant="primary"
                 size="sm"
                 onClick={() => registerCategory()}
@@ -324,20 +361,21 @@ export default function LocationMappingTable({
                   />
                 ),
                 2: (_data: any, _row: any) => (
-                  <Badge
-                    color={
-                      _data?.toLowerCase() == "pending"
-                        ? "warning"
-                        : _data
-                            ?.toLowerCase()
-                            .replace(/_/g, "")
-                            .replace(/ /g, "") == "inprogress"
-                        ? "info"
-                        : "success"
-                    }
-                  >
-                    {ucword(_data)}
-                  </Badge>
+                  <div className="flex">
+                    <div
+                      className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${textColoring(
+                                    _data ? _data : "pending",
+                                    true
+                                  )}
+                                  `}
+                    >
+                      {getIcons(_data ? _data : "pending")}
+                      <span className="text-[12px]">
+                        {ucword(_data ? _data : "pending")}
+                      </span>
+                    </div>
+                  </div>
                 ),
                 3: (_data: any, _row: any) => (
                   <div>

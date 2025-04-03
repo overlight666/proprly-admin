@@ -26,6 +26,7 @@ import { ucword } from "../../../_helpers";
 DataTable.use(DT);
 import React from "react";
 import ComponentCard from "../../../components/common/ComponentCard";
+import { getIcons, textColoring } from "../../../_helpers/textIcons";
 // Define the table data using the interface
 
 export default function LocationMappingTowerTable({
@@ -105,7 +106,9 @@ export default function LocationMappingTowerTable({
         const myTower = selectedProject?.projectTower?.find(
           (t: any) => t.id == selectedTower
         );
+
         setTowerHolder(myTower);
+
         const towers = myTower?.floorList?.map((tower: any) => {
           return [
             {
@@ -117,13 +120,12 @@ export default function LocationMappingTowerTable({
                   tower?.configuration?.commonAreaCategory) ||
                 [],
             },
-
             tower.value,
             tower?.configuration && tower?.configuration?.commonAreaCategory
               ? "configured"
               : "pending",
             rawTowers
-              ?.find((fl) => fl.floor == tower?.key)
+              ?.find((fl) => fl?.floor == tower?.key)
               ?.commonAreaCategories.map(
                 (ca: any) =>
                   commonAreaChecklist.find((cac) => cac.id == ca)?.name
@@ -233,17 +235,33 @@ export default function LocationMappingTowerTable({
             (tower) =>
               tower?.floor == sv.id && tower?.projectTowerId == towerHolder?.id
           );
-          const filtered = rawTowers?.filter((tower) => tower?.floor != sv.id);
-          if (holder?.commonAreaCategories) {
-            holder.commonAreaCategories = Array.from(
-              new Set([
-                ...holder.commonAreaCategories,
-                parseInt(selectedCategory),
-              ])
+          if (holder) {
+            const filtered = rawTowers?.filter(
+              (tower) => tower?.floor != sv.id
             );
-          }
+            if (holder?.commonAreaCategories) {
+              holder.commonAreaCategories = Array.from(
+                new Set([
+                  ...holder.commonAreaCategories,
+                  parseInt(selectedCategory),
+                ])
+              );
+            }
 
-          setRawTowers(towerHolder?.id, [...filtered, holder]);
+            setRawTowers(towerHolder?.id, [...filtered, holder]);
+          } else {
+            const filtered = rawTowers?.filter(
+              (tower) => tower?.floor != sv.id
+            );
+            setRawTowers(towerHolder?.id, [
+              ...filtered,
+              {
+                commonAreaCategories: [parseInt(selectedCategory)],
+                floor: sv.id,
+                projectTowerId: towerHolder?.id,
+              },
+            ]);
+          }
         });
       }
     }
@@ -288,7 +306,7 @@ export default function LocationMappingTowerTable({
                           };
                         })
                   }
-                  placeholder="Select a tower"
+                  placeholder="Please Select"
                   className="dark:bg-dark-900"
                 />
                 <Select2
@@ -379,20 +397,16 @@ export default function LocationMappingTowerTable({
                   />
                 ),
                 2: (_data: any, _row: any) => (
-                  <Badge
-                    color={
-                      _data.toLowerCase() == "pending"
-                        ? "warning"
-                        : _data
-                            .toLowerCase()
-                            .replace(/_/g, "")
-                            .replace(/ /g, "") == "inprogress"
-                        ? "info"
-                        : "success"
-                    }
-                  >
-                    {ucword(_data)}
-                  </Badge>
+                  <div className="flex">
+                    <div
+                      className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${textColoring(_data, true)}
+                                  `}
+                    >
+                      {getIcons(_data)}
+                      <span className="text-[12px]">{ucword(_data)}</span>
+                    </div>
+                  </div>
                 ),
                 3: (_data: any, _row: any) => (
                   <div>
