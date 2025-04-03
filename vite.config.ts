@@ -19,7 +19,7 @@ export default defineConfig({
     }),
   ],
   preview: {
-    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech"], //added this
+    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech","https://app.proprly.tech/"], //added this
   },
   server: {
     cors: {
@@ -31,6 +31,6 @@ export default defineConfig({
       methods: ["GET", "POST"],
       allowedHeaders: ["Content-Type"],
     },
-    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech"], //added this
+    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech","https://app.proprly.tech/"], //added this
   },
 });
