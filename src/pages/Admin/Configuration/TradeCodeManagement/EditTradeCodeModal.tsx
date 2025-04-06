@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
 import { useEffect, useState } from "react";
@@ -6,6 +7,9 @@ import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
 import { toast } from "react-toastify";
 import { useTrade } from "../../../../_actions";
+import MultiSelect from "../../../../components/form/MultiSelect";
+import { useRecoilValue } from "recoil";
+import { defectCodesSelectAtom } from "../../../../_state/atoms/defects";
 
 export default function EditTradeCodeModal({
   isOpen,
@@ -13,6 +17,8 @@ export default function EditTradeCodeModal({
   tradeCode,
 }: any) {
   const [defectName, setDefectName] = useState<any>(tradeCode?.tradeName);
+  const defectCodeList: any[] = useRecoilValue(defectCodesSelectAtom);
+
   const [nameError, setNameError] = useState<any>("");
 
   const tradeAction = useTrade();
@@ -37,11 +43,13 @@ export default function EditTradeCodeModal({
       setDefectName("");
     }
   }
+
   useEffect(() => {
     if (tradeCode) {
       setDefectName(tradeCode?.tradeName);
     }
   }, [tradeCode]);
+
   return (
     <>
       <Modal
@@ -70,6 +78,37 @@ export default function EditTradeCodeModal({
                 placeholder="Enter defect name"
                 error={nameError !== ""}
                 hint={nameError}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="input">Trade Code</Label>
+              <Input
+                disabled
+                value={tradeCode?.tradeCode}
+                type="text"
+                placeholder="Enter defect code"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>
+                Defect Codes<span className="text-error-500">*</span>
+              </Label>
+              <MultiSelect
+                label=""
+                hasLabel={false}
+                options={[...defectCodeList, ...tradeCode?.defectCode]?.map(
+                  (defect: any) => {
+                    return {
+                      text: `${defect.defectCode} - ${defect.defectName}`,
+                      value: defect.id,
+                      selected: false,
+                    };
+                  }
+                )}
+                defaultSelected={tradeCode?.defectCode?.map(
+                  (codes) => codes.id
+                )}
+                // onChange={(values: any) => setDefectList(values)}
               />
             </div>
           </div>

@@ -11,4 +11,9 @@ const tradeCodesResponseAtom = atom<any>({
   default: undefined,
 });
 
-export { tradeCodesAtom, tradeCodesResponseAtom };
+const allTradeCodesAtom = atom<any>({
+  key: "allTradeCodesAtom",
+  default: undefined,
+});
+
+export { tradeCodesAtom, tradeCodesResponseAtom, allTradeCodesAtom };

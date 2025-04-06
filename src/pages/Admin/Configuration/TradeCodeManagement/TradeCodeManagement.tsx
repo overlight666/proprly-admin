@@ -65,6 +65,7 @@ export default function TradeCodeManagement() {
           : "?onlyWithoutTradecode=true";
       if (selectedId || isType === "default") {
         tradeAction.getTradeCodes(params);
+        // tradeAction.getAllTradeCodes();
         defectAction.getDefectCodesSelect(params);
       }
     }

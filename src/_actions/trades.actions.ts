@@ -3,7 +3,11 @@ import { useSetRecoilState } from "recoil";
 
 import { useFetchWrapper } from "../_helpers";
 
-import { tradeCodesAtom, tradeCodesResponseAtom } from "../_state";
+import {
+  allTradeCodesAtom,
+  tradeCodesAtom,
+  tradeCodesResponseAtom,
+} from "../_state";
 
 export { useTrade };
 
@@ -11,6 +15,7 @@ function useTrade() {
   const baseUrl = `${import.meta.env.VITE_API_URL}`;
   const fetchWrapper: any = useFetchWrapper();
   const setTradeCodes = useSetRecoilState(tradeCodesAtom);
+  const setAllTradeCodes = useSetRecoilState(allTradeCodesAtom);
   const setTradeCodesResponse = useSetRecoilState(tradeCodesResponseAtom);
 
   return {
@@ -19,6 +24,7 @@ function useTrade() {
     deleteTradeCode,
     getTradeCodes,
     activateTradeCode,
+    getAllTradeCodes,
   };
 
   function addTradeCode(params: any) {
@@ -75,5 +81,10 @@ function useTrade() {
       .then((response: any) => {
         setTradeCodes(response && response.data ? response.data : response);
       });
+  }
+  function getAllTradeCodes() {
+    return fetchWrapper.get(`${baseUrl}/trade-code`).then((response: any) => {
+      setAllTradeCodes(response && response.data ? response.data : response);
+    });
   }
 }
