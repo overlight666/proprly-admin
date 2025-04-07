@@ -17,6 +17,7 @@ export default function EditTradeCodeModal({
 }: any) {
   const [defectName, setDefectName] = useState<any>(tradeCode?.tradeName);
   const defectCodeList: any[] = useRecoilValue(defectCodesSelectAtom);
+  const [defectList, setDefectList] = useState<any>([]);
 
   const [nameError, setNameError] = useState<any>("");
 
@@ -34,6 +35,7 @@ export default function EditTradeCodeModal({
       tradeAction
         .editTradeCode(tradeCode?.id, {
           tradeName: defectName,
+          defectCodes: defectList,
         })
         .then(() => {
           toast.success("Trade code has been updated!");
@@ -46,6 +48,7 @@ export default function EditTradeCodeModal({
   useEffect(() => {
     if (tradeCode) {
       setDefectName(tradeCode?.tradeName);
+      setDefectList(tradeCode?.defectCode?.map((codes) => codes.id));
     }
   }, [tradeCode]);
 
@@ -110,7 +113,7 @@ export default function EditTradeCodeModal({
                 defaultSelected={tradeCode?.defectCode?.map(
                   (codes) => codes.id
                 )}
-                // onChange={(values: any) => setDefectList(values)}
+                onChange={(values: any) => setDefectList(values)}
               />
             </div>
           </div>
