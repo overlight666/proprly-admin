@@ -75,10 +75,8 @@ export default function PropertylistZoneModal({
                   setIsChecked(e);
                   setValue("isChecked", e);
                 }}
+                label="Duplicate from"
               />
-              <span className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                Duplicate from
-              </span>
             </div>
             {isChecked && (
               <div>

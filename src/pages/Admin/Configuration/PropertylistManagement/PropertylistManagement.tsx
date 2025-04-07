@@ -151,18 +151,35 @@ export default function PropertylistManagement() {
   }
 
   function onSubmitElement(props: any) {
-    const params = {
-      commonAreaCategoryId: checklistElements[defaultSelectedZone]?.id,
-      elements: [props],
-    };
-    checklistAction
-      .saveChecklistElement(params)
-      .then(() => {
-        checklistAction.getChecklistZone();
-        getChecklist();
-        closeModal();
-      })
-      .catch((e) => toast.error(e));
+    const { isDuplicate, duplicateElementId, name } = props;
+    if (!isDuplicate) {
+      const params = {
+        zoneId: checklistElements[defaultSelectedZone]?.id,
+        elements: [props],
+      };
+      checklistAction
+        .saveChecklistElement(params)
+        .then(() => {
+          checklistAction.getChecklistZone();
+          getChecklist();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    } else {
+      const params = {
+        zoneId: checklistElements[defaultSelectedZone]?.id,
+        duplicateElementId: duplicateElementId,
+        name: name,
+      };
+      checklistAction
+        .saveChecklistElement(params)
+        .then(() => {
+          checklistAction.getChecklistZone();
+          getChecklist();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    }
   }
 
   const deleteCategory = async (zone: any) => {
