@@ -102,9 +102,18 @@ export default function PropertylistManagement() {
 
   function onSubmitZone(props: any) {
     if (!isEdit) {
-      const params: any = {
-        ...props,
-      };
+      const { isChecked, name, duplicateZoneId } = props;
+      let params: any = {};
+      if (isChecked) {
+        params = {
+          name,
+          duplicateZoneId,
+        };
+      } else {
+        params = {
+          name: name,
+        };
+      }
 
       if (isType == "default") {
         params.isDefault = true;
