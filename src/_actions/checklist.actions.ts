@@ -10,6 +10,7 @@ import {
   commonAreaChecklistElementListAtom,
   addCommonAreaCategoryResponseAtom,
   checklistResponseAtom,
+  attachResponseAtom,
 } from "../_state/atoms/checklist";
 
 export { useChecklist };
@@ -28,6 +29,8 @@ function useChecklist() {
   const setChecklistCommonAreaElement = useSetRecoilState(
     commonAreaChecklistElementListAtom
   );
+  const attachResponse = useSetRecoilState(attachResponseAtom);
+
   return {
     getChecklistZone,
     getChecklistElement,
@@ -40,7 +43,20 @@ function useChecklist() {
     savePropertyChecklistCategory,
     updatePropertyChecklistCategory,
     deletePropertyChecklistCategory,
+    restorePropertyChecklistCategory,
+    updateChecklistElement,
+    deletePropertyChecklistElement,
+    restorePropertyChecklistElement,
+    attachDetachDefectCode,
   };
+
+  function attachDetachDefectCode(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/admin/element/defects/${id}`, params)
+      .then((response: any) => {
+        attachResponse(response && response.data ? response.data : response);
+      });
+  }
 
   function getChecklistZone() {
     return fetchWrapper
@@ -124,6 +140,37 @@ function useChecklist() {
       });
   }
 
+  function deletePropertyChecklistElement(id: any) {
+    return fetchWrapper
+      .delete(`${baseUrl}/admin/element/${id}`)
+      .then((response: any) => {
+        setPropertyResponse(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function restorePropertyChecklistElement(id: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/admin/element/restore/${id}`)
+      .then((response: any) => {
+        setPropertyResponse(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function restorePropertyChecklistCategory(id: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/checklist/restore/${id}`)
+      .then((response: any) => {
+        if (response) {
+          setPropertyResponse(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
   function getCommonAreaElement(params: any) {
     return fetchWrapper
       .get(`${baseUrl}/common_area_checklist${params}`)
@@ -137,6 +184,16 @@ function useChecklist() {
   function saveChecklistElement(params: any) {
     return fetchWrapper
       .post(`${baseUrl}/admin/checklist/elements`, params)
+      .then((response: any) => {
+        setChecklistElementResponse(
+          response && response.data ? response.data : response
+        );
+      });
+  }
+
+  function updateChecklistElement(id: any, params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/admin/element/${id}`, params)
       .then((response: any) => {
         setChecklistElementResponse(
           response && response.data ? response.data : response

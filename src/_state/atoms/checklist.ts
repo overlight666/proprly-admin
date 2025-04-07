@@ -36,7 +36,13 @@ const checklistResponseAtom = atom<any[]>({
   default: undefined,
 });
 
+const attachResponseAtom = atom<any[]>({
+  key: "attachResponseAtom",
+  default: undefined,
+});
+
 export {
+  attachResponseAtom,
   checklistResponseAtom,
   addCommonAreaCategoryResponseAtom,
   checklistZoneListAtom,

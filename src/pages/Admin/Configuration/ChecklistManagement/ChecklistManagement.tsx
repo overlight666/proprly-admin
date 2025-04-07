@@ -9,6 +9,7 @@ import {
 import {
   useChecklist,
   useCountriesAction,
+  useDefect,
   useOrganization,
   useProject,
 } from "../../../../_actions";
@@ -27,10 +28,14 @@ import { toast } from "react-toastify";
 import ChecklistElementModal from "./ChecklistElementModal";
 import { Project } from "../../../../_types";
 import Label from "../../../../components/form/Label";
+import EditChecklistElementModal from "./EditChecklistElementModal";
+import AttachDefectCodes from "./AttachDefectCodes";
 
 export default function ChecklistManagement() {
   const checklistAction = useChecklist();
   //   const checklistZones = useRecoilValue(checklistZoneListAtom);
+  const [selectedEditElement, setSelectedEditElement] =
+    useState<any>(undefined);
   const checklistElements = useRecoilValue(commonAreaChecklistElementListAtom);
   const [selectedElement, setSelectedElement] = useState<any>(undefined);
   const [selectedDefect, setSelectedDefect] = useState<any>(undefined);
@@ -50,6 +55,7 @@ export default function ChecklistManagement() {
   const regionAction = useCountriesAction();
   const [isType, setIsType] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const defectAction = useDefect();
 
   const getChecklist = () => {
     const params =
@@ -65,6 +71,19 @@ export default function ChecklistManagement() {
     }
   };
 
+  const getDefectCodes = () => {
+    const params =
+      isType === "project"
+        ? `?projectId=${selectedId}&onlyWithoutTradecode=true`
+        : isType === "organization"
+        ? `?organizationId=${selectedId}&onlyWithoutTradecode=true`
+        : isType === "region"
+        ? `?regionId=${selectedId}&onlyWithoutTradecode=true`
+        : "?onlyWithoutTradecode=true";
+    if (selectedId || isType === "default") {
+      defectAction.getDefectCodesSelect(params);
+    }
+  };
   useEffect(() => {
     // checklistAction.getChecklistZone();
     orgAction.getOrganizations();
@@ -89,6 +108,7 @@ export default function ChecklistManagement() {
   useEffect(() => {
     if (isType) {
       getChecklist();
+      getDefectCodes();
     }
   }, [isType, selectedId]);
 
@@ -156,6 +176,17 @@ export default function ChecklistManagement() {
       .catch((e) => toast.error(e));
   }
 
+  function onSubmitEditElement(props: any) {
+    checklistAction
+      .updateChecklistElement(selectedEditElement?.id, props)
+      .then(() => {
+        toast.info("Element has been updated!");
+        getChecklist();
+        closeModal();
+      })
+      .catch((e) => toast.error(e));
+  }
+
   const deleteCategory = async (zone: any) => {
     if (
       await confirm({
@@ -189,6 +220,99 @@ export default function ChecklistManagement() {
         .deleteCommonAreaCategory(zone.id)
         .then(() => {
           toast.warning(`${zone.name} has been restored!`);
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
+
+  const restoreElement = async (element: any) => {
+    if (
+      await confirm({
+        confirmText: "Restore",
+        confirmVariant: "green",
+        confirmation:
+          "You are about to restore this element. Please confirm to continue!",
+      })
+    ) {
+      checklistAction
+        .restorePropertyChecklistElement(element.id)
+        .then(() => {
+          toast.success(`${element.name} has been restored!`);
+          getChecklist();
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
+
+  const deleteElement = async (element: any) => {
+    if (
+      await confirm({
+        confirmText: "Delete",
+        confirmVariant: "danger",
+        confirmation:
+          "You are about to delete this element. Please confirm to continue!",
+      })
+    ) {
+      checklistAction
+        .deletePropertyChecklistElement(element.id)
+        .then(() => {
+          toast.warning(`${element.name} has been deleted!`);
+          getChecklist();
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
+
+  const onSubmitAttachDefect = (props) => {
+    if (props && props?.length > 0) {
+      const params = {
+        defectCodes: props,
+        action: "attach",
+      };
+      checklistAction
+        .attachDetachDefectCode(
+          selectedElement?.elements[defaultSelectedElement]?.id,
+          params
+        )
+        .then(() => {
+          toast.info(
+            `${selectedElement?.elements[defaultSelectedElement]?.name} defect codes has been updated!`
+          );
+          getChecklist();
+          closeModal();
+        });
+    } else {
+      toast.error("Please select at least 1 defect code");
+    }
+  };
+
+  const detachDefect = async (defect: any) => {
+    const params = {
+      defectCodes: [defect?.id],
+      action: "detach",
+    };
+    if (
+      await confirm({
+        confirmText: "Detach",
+        confirmVariant: "danger",
+        confirmation:
+          "You are about to detatch this defect code. Please confirm to continue!",
+      })
+    ) {
+      checklistAction
+        .attachDetachDefectCode(
+          selectedElement?.elements[defaultSelectedElement]?.id,
+          params
+        )
+        .then(() => {
+          toast.warning(`${defect?.defectName} has been detached!`);
+          getChecklist();
         })
         .catch((e) => {
           toast.error(e);
@@ -347,7 +471,24 @@ export default function ChecklistManagement() {
             onSubmit={onSubmitElement}
           />
         )}
-
+        {modalType === 2 && (
+          <EditChecklistElementModal
+            isOpen={isOpen}
+            isEdit={isEdit}
+            closeModal={closeModal}
+            title={modalTitle}
+            selectedElement={selectedEditElement}
+            onSubmit={onSubmitEditElement}
+          />
+        )}
+        {modalType === 3 && (
+          <AttachDefectCodes
+            isOpen={isOpen}
+            closeModal={closeModal}
+            title={modalTitle}
+            attachDefects={onSubmitAttachDefect}
+          />
+        )}
         <div className="rounded-lg border border-gray-300 shadow-theme-xs">
           <div className="flex justify-between p-2 items-center border-gray-300 shadow-theme-xs">
             <span className="font-bold">Common Area Categories</span>
@@ -475,20 +616,52 @@ export default function ChecklistManagement() {
                         setDefaultSelectedElement(index);
                       }}
                     >
-                      <span>{element.name}</span>
+                      <span
+                        className={`${
+                          !element.isActive && "line-through text-red-900"
+                        }`}
+                      >
+                        {element.name}
+                      </span>
                     </div>
 
                     <div className="flex gap-2">
-                      <PencilIcon
-                        className="text-green-600 cursor-pointer"
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content="Edit"
-                      />
-                      <TrashBinIcon
-                        className="text-red-600 cursor-pointer"
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content="Delete"
-                      />
+                      {element.isActive && (
+                        <div className="flex gap-2">
+                          <PencilIcon
+                            className="text-green-600 cursor-pointer"
+                            data-tooltip-id="tooltip"
+                            data-tooltip-content="Edit"
+                            onClick={() => {
+                              setIsEdit(true);
+                              setModalType(2);
+                              setModalTitle("Edit Element");
+                              setSelectedEditElement(element);
+                              openModal();
+                            }}
+                          />
+                          <TrashBinIcon
+                            className="text-red-600 cursor-pointer"
+                            data-tooltip-id="tooltip"
+                            data-tooltip-content="Delete"
+                            onClick={() => {
+                              deleteElement(element);
+                            }}
+                          />
+                        </div>
+                      )}
+                      {!element.isActive && (
+                        <div className="flex gap-2">
+                          <CheckLineIcon
+                            className="text-green-600 cursor-pointer"
+                            data-tooltip-id="tooltip"
+                            data-tooltip-content="Restore"
+                            onClick={() => {
+                              restoreElement(element);
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   {element?.subElements?.length > 0 && (
@@ -508,7 +681,53 @@ export default function ChecklistManagement() {
                                   setDefaultSelectedElement(index);
                                 }}
                               >
-                                {subs.name}
+                                <div className="flex w-full justify-between pr-1">
+                                  <span
+                                    className={`${
+                                      !subs.isActive &&
+                                      "line-through text-red-900"
+                                    }`}
+                                  >
+                                    {subs.name}
+                                  </span>
+
+                                  {subs.isActive && (
+                                    <div className="flex gap-2">
+                                      <PencilIcon
+                                        className="text-green-600 cursor-pointer"
+                                        data-tooltip-id="tooltip"
+                                        data-tooltip-content="Edit"
+                                        onClick={() => {
+                                          setIsEdit(true);
+                                          setModalType(2);
+                                          setModalTitle("Edit Sub Element");
+                                          setSelectedEditElement(subs);
+                                          openModal();
+                                        }}
+                                      />
+                                      <TrashBinIcon
+                                        className="text-red-600 cursor-pointer"
+                                        data-tooltip-id="tooltip"
+                                        data-tooltip-content="Delete"
+                                        onClick={() => {
+                                          deleteElement(subs);
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                  {!subs.isActive && (
+                                    <div className="flex gap-2">
+                                      <CheckLineIcon
+                                        className="text-green-600 cursor-pointer"
+                                        data-tooltip-id="tooltip"
+                                        data-tooltip-content="Restore"
+                                        onClick={() => {
+                                          restoreElement(element);
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
                               </li>
                             );
                           }
@@ -530,8 +749,11 @@ export default function ChecklistManagement() {
               }`}
               onClick={() => {
                 if (isType) {
-                  setModalTitle("Add New Defect");
-                  openModal();
+                  if (isType) {
+                    setModalTitle("Attach Defect");
+                    setModalType(3);
+                    openModal();
+                  }
                 }
               }}
             >
@@ -550,15 +772,11 @@ export default function ChecklistManagement() {
                   </div>
 
                   <div className="flex gap-2">
-                    <PencilIcon
-                      className="text-green-600 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Edit"
-                    />
                     <TrashBinIcon
                       className="text-red-600 cursor-pointer"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="Delete"
+                      onClick={() => detachDefect(element)}
                     />
                   </div>
                 </div>

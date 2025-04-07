@@ -1,31 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import Checkbox from "../../../../components/form/input/Checkbox";
-import Select2 from "../../../../components/form/Select2";
-import { useRecoilValue } from "recoil";
-import { checklistElementListAtom } from "../../../../_state";
 
-export default function PropertylistZoneModal({
+export default function EditPropertyListElementModal({
   isOpen,
   closeModal,
   title,
   onSubmit,
-  selectedCategory,
   isEdit,
+  selectedElement,
 }: any) {
-  const checklistElements = useRecoilValue(checklistElementListAtom);
-  const [isChecked, setIsChecked] = useState(false);
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
-    duplicateZoneId: Yup.string().optional(),
-    isChecked: Yup.boolean().optional(),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -35,11 +27,9 @@ export default function PropertylistZoneModal({
 
   useEffect(() => {
     if (isEdit) {
-      setValue("name", selectedCategory?.name);
-    } else {
-      setValue("name", "");
+      setValue("name", selectedElement?.name);
     }
-  }, [isEdit, selectedCategory]);
+  }, [isEdit, selectedElement]);
 
   return (
     <>
@@ -68,34 +58,6 @@ export default function PropertylistZoneModal({
                 hint={errors.name?.message}
               />
             </div>
-            <div className="flex items-center gap-3">
-              <Checkbox
-                disabled={isEdit}
-                checked={isChecked}
-                onChange={(e) => {
-                  setIsChecked(e);
-                  setValue("isChecked", e);
-                }}
-                label="Duplicate from"
-              />
-            </div>
-            {isChecked && (
-              <div>
-                <Select2
-                  options={checklistElements?.map((list) => {
-                    return {
-                      label: list.name,
-                      value: list.id,
-                    };
-                  })}
-                  placeholder="Select Existing Zone"
-                  className="dark:bg-dark-900"
-                  onChange={(e) => {
-                    setValue("duplicateZoneId", e);
-                  }}
-                />
-              </div>
-            )}
           </div>
           <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
             <button

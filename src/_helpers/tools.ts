@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const hasViewDetails = (str: string) => {
   const statuses = [
     "Defect Logged",
@@ -24,4 +25,10 @@ export const hasViewDetails = (str: string) => {
   ];
 
   return statuses.includes(str);
+};
+
+export const dynamicSort = (property: any) => {
+  return function (a: any, b: any) {
+    return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+  };
 };
