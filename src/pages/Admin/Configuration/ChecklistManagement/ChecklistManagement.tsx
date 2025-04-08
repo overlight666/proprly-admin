@@ -217,9 +217,10 @@ export default function ChecklistManagement() {
       })
     ) {
       checklistAction
-        .deleteCommonAreaCategory(zone.id)
+        .restorePropertyChecklistCategory(zone.id)
         .then(() => {
-          toast.warning(`${zone.name} has been restored!`);
+          toast.success(`${zone.name} has been restored!`);
+          getChecklist();
         })
         .catch((e) => {
           toast.error(e);

@@ -152,7 +152,7 @@ function useChecklist() {
 
   function restorePropertyChecklistElement(id: any) {
     return fetchWrapper
-      .put(`${baseUrl}/admin/element/restore/${id}`)
+      .put(`${baseUrl}/checklist/elements/restore/${id}`)
       .then((response: any) => {
         setPropertyResponse(
           response && response.data ? response.data : response
@@ -162,7 +162,7 @@ function useChecklist() {
 
   function restorePropertyChecklistCategory(id: any) {
     return fetchWrapper
-      .put(`${baseUrl}/checklist/restore/${id}`)
+      .put(`${baseUrl}/checklist/zone/restore/${id}`)
       .then((response: any) => {
         if (response) {
           setPropertyResponse(

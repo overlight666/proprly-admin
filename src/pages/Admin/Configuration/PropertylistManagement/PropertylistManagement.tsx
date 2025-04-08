@@ -750,7 +750,7 @@ export default function PropertylistManagement() {
                                         data-tooltip-id="tooltip"
                                         data-tooltip-content="Restore"
                                         onClick={() => {
-                                          restoreElement(element);
+                                          restoreElement(subs);
                                         }}
                                       />
                                     </div>
