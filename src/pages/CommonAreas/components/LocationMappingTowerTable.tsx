@@ -69,14 +69,13 @@ export default function LocationMappingTowerTable({
 
   useEffect(() => {
     setTableData([]);
-
-    if (!hasCommonArea) {
+    if (hasCommonArea) {
       if (commonAreaConfig && selectedTower) {
         const myTower = commonAreaConfig?.project?.projectTower?.find(
           (t: any) => t.id == selectedTower
         );
         setTowerHolder(myTower);
-        const towers = myTower?.floorList?.map((tower: any) => {
+        const towers = myTower?.floors?.map((tower: any) => {
           return [
             {
               type: "tower",
@@ -141,8 +140,8 @@ export default function LocationMappingTowerTable({
   const selectAll = (e: any) => {
     setIsAllChecked(e);
     if (e) {
-      if (!hasCommonArea) {
-        const towers = towerHolder?.floorList?.map((tower: any) => {
+      if (hasCommonArea) {
+        const towers = towerHolder?.floors?.map((tower: any) => {
           return {
             type: "tower",
             id: tower.key,
@@ -188,7 +187,7 @@ export default function LocationMappingTowerTable({
   };
 
   const registerCategory = () => {
-    if (!hasCommonArea) {
+    if (hasCommonArea) {
       selected?.map((sv: any, index: any) => {
         const newArr = sv?.configuration.map((s: any) => s.id);
         newArr.push(parseInt(selectedCategory));
@@ -290,7 +289,7 @@ export default function LocationMappingTowerTable({
                 <Select2
                   onChange={(e) => setSelectedTower(e)}
                   options={
-                    !hasCommonArea
+                    hasCommonArea
                       ? commonAreaConfig?.project?.projectTower?.map(
                           (cl: any) => {
                             return {
@@ -328,6 +327,7 @@ export default function LocationMappingTowerTable({
                   variant="primary"
                   size="sm"
                   type="button"
+                  className="cursor-pointer"
                   onClick={() => registerCategory()}
                 >
                   Register

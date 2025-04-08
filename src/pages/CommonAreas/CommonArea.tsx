@@ -303,7 +303,7 @@ export default function CommonArea() {
             </ComponentCard>
             <div className="gap-2 grid grid-cols-1 xl:grid-cols-1 mt-5">
               <LocationMappingTowerTable
-                hasCommonArea={selectedCommonArea?.length == 0}
+                hasCommonArea={selectedCommonArea?.length > 0}
                 setRawTowers={setTowers}
                 rawTowers={
                   rawTowers.find((t) => t.id == selectedTower)?.towers || []
@@ -312,7 +312,7 @@ export default function CommonArea() {
                 selectedTower={selectedTower}
               />
               <LocationMappingTable
-                hasCommonArea={selectedCommonArea?.length == 0}
+                hasCommonArea={selectedCommonArea?.length > 0}
                 setRawBasements={setRawBasements}
                 rawBasements={rawBasements}
               />

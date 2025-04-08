@@ -67,8 +67,8 @@ export default function LocationMappingTable({
   useEffect(() => {
     if (staticValue) {
       setTableData([]);
-      if (commonAreaConfig && !hasCommonArea) {
-        const basements = commonAreaConfig?.project?.basementList?.map(
+      if (commonAreaConfig && hasCommonArea) {
+        const basements = commonAreaConfig?.projectBasements?.map(
           (basement: any) => {
             return [
               {
@@ -129,12 +129,11 @@ export default function LocationMappingTable({
     }
   }, [commonAreaConfig, selected, rawBasements, staticValue]);
 
-  console.log(commonAreaConfig);
   const selectAll = (e: any) => {
     setIsAllChecked(e);
     if (e) {
-      if (!hasCommonArea) {
-        const basements = commonAreaConfig?.project?.projectBasements?.map(
+      if (hasCommonArea) {
+        const basements = commonAreaConfig?.projectBasements?.map(
           (basement: any) => {
             return {
               type: "basement",
@@ -186,7 +185,7 @@ export default function LocationMappingTable({
   };
 
   const registerCategory = () => {
-    if (!hasCommonArea) {
+    if (hasCommonArea) {
       selected?.map((sv: any, index: any) => {
         const newArr = sv?.configuration.map((s: any) => s.id);
         newArr.push(parseInt(selectedCategory));
@@ -313,6 +312,7 @@ export default function LocationMappingTable({
                 }
                 variant="primary"
                 size="sm"
+                className="cursor-pointer"
                 onClick={() => registerCategory()}
               >
                 Register
