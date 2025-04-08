@@ -48,6 +48,7 @@ function useChecklist() {
     deletePropertyChecklistElement,
     restorePropertyChecklistElement,
     attachDetachDefectCode,
+    restoreCommonAreaChecklistCategory,
   };
 
   function attachDetachDefectCode(id: any, params: any) {
@@ -178,6 +179,17 @@ function useChecklist() {
         setChecklistCommonAreaElement(
           response && response.data ? response.data : response
         );
+      });
+  }
+  function restoreCommonAreaChecklistCategory(id: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/common-area-category/restore/${id}`)
+      .then((response: any) => {
+        if (response) {
+          setPropertyResponse(
+            response && response.data ? response.data : response
+          );
+        }
       });
   }
 

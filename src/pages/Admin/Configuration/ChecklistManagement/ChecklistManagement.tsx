@@ -60,12 +60,12 @@ export default function ChecklistManagement() {
   const getChecklist = () => {
     const params =
       isType === "project"
-        ? `?projectId=${selectedId}`
+        ? `?projectId=${selectedId}&showAll=true`
         : isType === "organization"
-        ? `?organizationId=${selectedId}`
+        ? `?organizationId=${selectedId}&showAll=true`
         : isType === "region"
-        ? `?regionId=${selectedId}`
-        : "";
+        ? `?regionId=${selectedId}&showAll=true`
+        : "?showAll=true";
     if (selectedId || isType === "default") {
       checklistAction.getCommonAreaElement(params);
     }
@@ -122,9 +122,18 @@ export default function ChecklistManagement() {
 
   function onSubmitZone(props: any) {
     if (!isEdit) {
-      const params: any = {
-        ...props,
-      };
+      const { isChecked, name, duplicateCommonAreaCategoryId } = props;
+      let params: any = {};
+      if (isChecked) {
+        params = {
+          name,
+          duplicateCommonAreaCategoryId,
+        };
+      } else {
+        params = {
+          name: name,
+        };
+      }
 
       if (isType == "default") {
         params.isDefault = true;
@@ -162,18 +171,35 @@ export default function ChecklistManagement() {
   }
 
   function onSubmitElement(props: any) {
-    const params = {
-      commonAreaCategoryId: checklistElements[defaultSelectedZone]?.id,
-      elements: [props],
-    };
-    checklistAction
-      .saveChecklistElement(params)
-      .then(() => {
-        checklistAction.getChecklistZone();
-        getChecklist();
-        closeModal();
-      })
-      .catch((e) => toast.error(e));
+    const { isDuplicate, duplicateElementId, name } = props;
+    if (!isDuplicate) {
+      const params = {
+        commonAreaCategoryId: checklistElements[defaultSelectedZone]?.id,
+        elements: [props],
+      };
+      checklistAction
+        .saveChecklistElement(params)
+        .then(() => {
+          checklistAction.getChecklistZone();
+          getChecklist();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    } else {
+      const params = {
+        commonAreaCategoryId: checklistElements[defaultSelectedZone]?.id,
+        duplicateElementId: duplicateElementId,
+        name: name,
+      };
+      checklistAction
+        .saveChecklistElement(params)
+        .then(() => {
+          checklistAction.getChecklistZone();
+          getChecklist();
+          closeModal();
+        })
+        .catch((e) => toast.error(e));
+    }
   }
 
   function onSubmitEditElement(props: any) {
@@ -200,6 +226,7 @@ export default function ChecklistManagement() {
         .deleteCommonAreaCategory(zone.id)
         .then(() => {
           toast.warning(`${zone.name} has been deleted!`);
+          getChecklist();
         })
         .catch((e) => {
           toast.error(e);
@@ -217,7 +244,7 @@ export default function ChecklistManagement() {
       })
     ) {
       checklistAction
-        .restorePropertyChecklistCategory(zone.id)
+        .restoreCommonAreaChecklistCategory(zone.id)
         .then(() => {
           toast.success(`${zone.name} has been restored!`);
           getChecklist();

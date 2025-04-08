@@ -10,6 +10,9 @@ import * as Yup from "yup";
 import Checkbox from "../../../../components/form/input/Checkbox";
 import Button from "../../../../components/ui/button/Button";
 import { PlusIcon, TrashBinIcon } from "../../../../icons";
+import { commonAreaChecklistElementListAtom } from "../../../../_state";
+import { useRecoilValue } from "recoil";
+import Select2 from "../../../../components/form/Select2";
 
 export default function ChecklistElementModal({
   isOpen,
@@ -17,12 +20,18 @@ export default function ChecklistElementModal({
   title,
   onSubmit,
 }: any) {
+  const checklistElements = useRecoilValue(commonAreaChecklistElementListAtom);
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
+    commonAreaCategoryId: Yup.string().optional(),
     subElements: Yup.array().optional(),
+    isDuplicate: Yup.boolean().optional(),
+    duplicateElementId: Yup.string().optional(),
   });
 
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedZone, setSelectedZone] = useState<any>();
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const formOptions = { resolver: yupResolver(validationSchema) };
 
   const { register, handleSubmit, formState, setValue } = useForm(formOptions);
@@ -78,12 +87,60 @@ export default function ChecklistElementModal({
             </div>
             <div className="flex">
               <Checkbox
-                className="w-5 h-5"
+                disabled={isDuplicate}
                 checked={isChecked}
                 onChange={setIsChecked}
                 label="Has Sub elements?"
               />
             </div>
+            <div className="flex items-center gap-3">
+              <Checkbox
+                disabled={isChecked}
+                checked={isDuplicate}
+                onChange={(e) => {
+                  setIsDuplicate(e);
+                  setValue("isDuplicate", e);
+                }}
+                label="Duplicate from"
+              />
+            </div>
+            {isDuplicate && (
+              <div>
+                <Select2
+                  options={checklistElements?.map((list) => {
+                    return {
+                      label: list.name,
+                      value: list.id,
+                    };
+                  })}
+                  placeholder="Select Existing Category"
+                  className="dark:bg-dark-900"
+                  onChange={(e) => {
+                    setSelectedZone(
+                      checklistElements.find((zone) => zone.id == e)
+                    );
+                    setValue("commonAreaCategoryId", e);
+                  }}
+                />
+              </div>
+            )}
+            {selectedZone?.elements && (
+              <div>
+                <Select2
+                  options={selectedZone?.elements?.map((list) => {
+                    return {
+                      label: list.name,
+                      value: list.id,
+                    };
+                  })}
+                  placeholder="Select Existing Element"
+                  className="dark:bg-dark-900"
+                  onChange={(e) => {
+                    setValue("duplicateElementId", e);
+                  }}
+                />
+              </div>
+            )}
             {isChecked &&
               subItems?.map((_element: any, index: any) => {
                 return (

@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
+import Checkbox from "../../../../components/form/input/Checkbox";
+import Select2 from "../../../../components/form/Select2";
+import { useRecoilValue } from "recoil";
+import { commonAreaChecklistElementListAtom } from "../../../../_state";
 
 export default function ChecklistZoneModal({
   isOpen,
@@ -15,8 +20,12 @@ export default function ChecklistZoneModal({
   selectedCategory,
   isEdit,
 }: any) {
+  const checklistElements = useRecoilValue(commonAreaChecklistElementListAtom);
+  const [isChecked, setIsChecked] = useState(false);
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
+    duplicateCommonAreaCategoryId: Yup.string().optional(),
+    isChecked: Yup.boolean().optional(),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -59,6 +68,34 @@ export default function ChecklistZoneModal({
                 hint={errors.name?.message}
               />
             </div>
+            <div className="flex items-center gap-3">
+              <Checkbox
+                disabled={isEdit}
+                checked={isChecked}
+                onChange={(e) => {
+                  setIsChecked(e);
+                  setValue("isChecked", e);
+                }}
+                label="Duplicate from"
+              />
+            </div>
+            {isChecked && (
+              <div>
+                <Select2
+                  options={checklistElements?.map((list) => {
+                    return {
+                      label: list.name,
+                      value: list.id,
+                    };
+                  })}
+                  placeholder="Select Existing Zone"
+                  className="dark:bg-dark-900"
+                  onChange={(e) => {
+                    setValue("duplicateCommonAreaCategoryId", e);
+                  }}
+                />
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
             <button
