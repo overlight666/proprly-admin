@@ -60,7 +60,7 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
                 </div>
               </div>
             </div>
-            <span className="text-black dark:text-gray-300 text-sm">{`${defect?.property?.unitNo}, ${defect?.checklistZone?.name} - ${defect?.checklistElement?.name}`}</span>
+            <span className="text-black dark:text-gray-300 text-sm">{`${defect?.property?.unitNo || defect?.commonArea?.lotNo || ''}, ${defect?.checklistZone?.name || defect?.commonAreaCategory?.name} - ${defect?.checklistElement?.name}`}</span>
             <span className="text-xs text-gray-400 dark:text-gray-500">
               Defect Code:{" "}
               <span className="text-xs text-gray-600 dark:text-gray-200">
