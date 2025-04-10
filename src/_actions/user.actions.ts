@@ -44,6 +44,9 @@ function useUserActions() {
   const persist = usePersistor();
 
   return {
+    getDcryptToken,
+    forgotPassword,
+    resetPassword,
     login,
     logout,
     getAll,
@@ -278,5 +281,48 @@ function useUserActions() {
 
   function getAll() {
     return fetchWrapper.get(baseUrl).then(setUsers);
+  }
+
+  function forgotPassword(email: string, navigate: any) {
+    const isAdmin = location.href.includes("forgot-password/admin") ? true : false;
+
+    return fetchWrapper
+      .post(`${baseUrl}/${isAdmin ? `admin/forgot_password` : `forgot_password`}`, {
+        email,
+      })
+      .then((response: any) => {
+        if (response) {
+          const { from }: any = history.location.state || {
+            from: { pathname: "/" },
+          };
+          navigate(from);
+        }
+      });
+  }
+
+  function resetPassword(password: string, confirmPassword: string, token: string, navigate: any) {
+    return fetchWrapper
+      .post(`${baseUrl}/reset_password`, {
+        token,
+        password,
+        confirmPassword
+      })
+      .then((response: any) => {
+        if (response) {
+          const { from }: any = history.location.state || {
+            from: { pathname: "/" },
+          };
+          navigate(from);
+        }
+      });
+  }
+
+  function getDcryptToken(token: string) {
+    return fetchWrapper.post(`${baseUrl}/decrypt_token`, { token }).then((response: any) => {
+      console.log(response)
+      if (response) {
+        return response;
+      }
+    }).catch((error: any) => console.error({ error }))
   }
 }

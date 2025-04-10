@@ -21,6 +21,8 @@ import SupportTickets from "./pages/Admin/SupportTickets/SupportTickets";
 import ContactSupport from "./pages/Admin/ContactSupport/ContactSupport";
 import RegionManagement from "./pages/Admin/RegionManagement/RegionManagement";
 import TimezoneManagement from "./pages/Admin/RegionManagement/TimezoneManagement";
+import ForgotPassword from "./pages/Admin/ResetPassword/ForgotPassword";
+import ResetPassword from "./pages/Admin/ResetPassword/ResetPassword";
 
 export default function App() {
   return (
@@ -188,6 +190,10 @@ export default function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signin/admin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgot-password/admin" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/reset-password/admin" element={<ResetPassword />} />
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
