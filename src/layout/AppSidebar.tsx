@@ -26,6 +26,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { selectedOrgAtom } from "../_state/atoms/organizations";
 import {
   useAppointments,
+  useCountriesAction,
   useProperties,
   useReports,
   useUserActions,
@@ -124,6 +125,7 @@ const AppSidebar: React.FC = () => {
   const location = useLocation();
   const orgAction = useOrganization();
   const userAction = useUserActions();
+  const regionAction = useCountriesAction();
   const [adminItems, setAdminItems] = useState<NavItem[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [navItems, setNavItems] = useState<NavItem[]>([]);
@@ -219,6 +221,7 @@ const AppSidebar: React.FC = () => {
 
   useEffect(() => {
     userAction.getConfig();
+    regionAction.getSystemRegions();
     userAction.getAllNotifications();
   }, []);
 

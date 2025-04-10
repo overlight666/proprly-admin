@@ -12,4 +12,9 @@ const regionsAtom = atom<any[]>({
   default: undefined,
 });
 
-export { countriesAtom, regionsAtom };
+const systemRegionsAtom = atom<any[]>({
+  key: "systemRegionsAtom",
+  default: undefined,
+});
+
+export { countriesAtom, regionsAtom, systemRegionsAtom };

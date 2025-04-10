@@ -2,7 +2,7 @@
 import { useSetRecoilState } from "recoil";
 
 import { useFetchWrapper } from "../_helpers";
-import { countriesAtom, regionsAtom } from "../_state";
+import { countriesAtom, regionsAtom, systemRegionsAtom } from "../_state";
 
 export { useCountriesAction };
 
@@ -11,10 +11,11 @@ function useCountriesAction() {
   const fetchWrapper: any = useFetchWrapper();
   const setCountries = useSetRecoilState(countriesAtom);
   const setRegions = useSetRecoilState(regionsAtom);
-
+  const setSystemRegions = useSetRecoilState(systemRegionsAtom);
   return {
     getCountries,
     getRegions,
+    getSystemRegions
   };
 
   function getCountries() {
@@ -26,6 +27,13 @@ function useCountriesAction() {
   function getRegions() {
     return fetchWrapper.get(`${baseUrl}/region`).then((response: any) => {
       setRegions(response && response.data ? response.data : response);
+    });
+  }
+
+
+  function getSystemRegions() {
+    return fetchWrapper.get(`${baseUrl}/config/system_regions`).then((response: any) => {
+      setSystemRegions(response && response.data ? response.data : response);
     });
   }
 }

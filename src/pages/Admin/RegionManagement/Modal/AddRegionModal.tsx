@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label } from "flowbite-react/components/Label";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "../../../../components/ui/modal";
 import Input from "../../../../components/form/input/InputField";
 
@@ -10,7 +10,8 @@ import * as Yup from "yup";
 import { useUserActions } from "../../../../_actions";
 import { toast } from "react-toastify";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { addRegionResponseAtom, selectedRegionAtom } from "../../../../_state";
+import { addRegionResponseAtom, selectedRegionAtom, systemRegionsAtom } from "../../../../_state";
+import Select2 from "../../../../components/form/Select2";
 
 export default function AddRegionModal({
   isOpen,
@@ -23,7 +24,10 @@ export default function AddRegionModal({
   const selectedRegion = useRecoilValue(selectedRegionAtom);
   const setSelectedRegion = useSetRecoilState(selectedRegionAtom);
   const setRegionResponse = useSetRecoilState(addRegionResponseAtom);
-
+  const systemRegions: any = useRecoilValue(systemRegionsAtom);
+  const [selectedCountry, setSelectedCountry] = useState<any>()
+  const [regionsOption, setRegionOptions] = useState<any>([])
+  const [singleRegion, setSingleRegion] = useState<any>()
   const validationSchema = Yup.object().shape({
     regionName: Yup.string().required("Region name is required"),
     regionCode: Yup.string().required("Region Code is required"),
@@ -52,6 +56,11 @@ export default function AddRegionModal({
 
   useEffect(() => {
     if (isEdit && selectedRegion) {
+      const detachCountry = systemRegions?.countries?.find((country) => country.currency == selectedRegion?.currency);
+      const detachRegion = detachCountry?.regions?.find((region) => region?.regionCode?.toLowerCase() == selectedRegion?.regionCode?.toLowerCase());
+      console.log(detachCountry)
+      setSingleRegion(JSON.stringify(detachRegion))
+      setSelectedCountry(detachCountry?.countryCode)
       setValue("regionName", selectedRegion?.regionName);
       setValue("regionCode", selectedRegion?.regionCode);
       setValue("currency", selectedRegion?.currency);
@@ -89,6 +98,23 @@ export default function AddRegionModal({
     }
   }
 
+  useEffect(() => {
+    if(selectedCountry) {
+      const detachCountry = systemRegions?.countries?.find((country) => country.countryCode == selectedCountry);
+      setRegionOptions(detachCountry?.regions)
+      setValue("currency", detachCountry?.currency);
+       setValue("dateFormat", detachCountry?.dateFormat);
+    }
+  }, [selectedCountry])
+
+  useEffect(() => {
+    if(singleRegion) {
+      const parsedRegion = JSON.parse(singleRegion)
+      setValue("regionName", parsedRegion?.regionName);
+      setValue("regionCode", parsedRegion?.regionCode);
+    }
+  }, [singleRegion])
+
   return (
     <>
       <Modal
@@ -107,18 +133,47 @@ export default function AddRegionModal({
           </div>
           <div className="mt-8 space-y-3">
             <div className="space-y-2">
-              <Label htmlFor="input">Region Name</Label>
-              <Input
-                type="text"
-                placeholder="Enter Region Name"
-                register={{ ...register("regionName") }}
-                error={errors.regionName}
-                hint={errors.regionName?.message}
-              />
+              <Label htmlFor="input">Select Country</Label>
+              <Select2
+              options={
+                systemRegions?.countries?.map((region) => {
+                  return {
+                    value: region?.countryCode,
+                    label: region?.countryName,
+                  }
+                }) || []
+              }
+              defaultValue={isEdit ? selectedCountry: ""}
+              placeholder="Select a country"
+              className="dark:bg-dark-900"
+              onChange={(e) => setSelectedCountry(e)}
+            />
             </div>
-            <div className="space-y-2">
+            {
+              selectedCountry &&  <div className="space-y-2">
+              <Label htmlFor="input">Select Region</Label>
+              <Select2
+              options={
+                regionsOption?.map((region) => {
+                  return {
+                    value: JSON.stringify(region),
+                    label: region?.regionName,
+                  }
+                }) || []
+              }
+              placeholder="Select a region"
+              className="dark:bg-dark-900"
+              defaultValue={isEdit ? singleRegion: ""}
+              onChange={(e) => setSingleRegion(e)}
+            />
+            </div>
+            }
+            {
+              singleRegion && <>
+              <div className="space-y-2">
               <Label htmlFor="input">Region Code</Label>
               <Input
+                readOnly
                 type="text"
                 placeholder="Enter Region Code"
                 register={{ ...register("regionCode") }}
@@ -129,6 +184,7 @@ export default function AddRegionModal({
             <div className="space-y-2">
               <Label htmlFor="input">Currency</Label>
               <Input
+                readOnly
                 type="text"
                 placeholder="$"
                 register={{ ...register("currency") }}
@@ -139,6 +195,7 @@ export default function AddRegionModal({
             <div className="space-y-2">
               <Label htmlFor="input">Date Format</Label>
               <Input
+                readOnly
                 type="text"
                 placeholder="mm/yy/dddd"
                 register={{ ...register("dateFormat") }}
@@ -146,6 +203,9 @@ export default function AddRegionModal({
                 hint={errors.dateFormat?.message}
               />
             </div>
+              </>
+            }
+            
           </div>
           <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
             <button
