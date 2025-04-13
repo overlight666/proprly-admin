@@ -65,11 +65,29 @@ function useUserActions() {
     addRegion,
     getRegionById,
     updateRegion,
+    deleteRegion,
+    restoreRegion
     // addUserWithTrades,
   };
 
   function getRegionById(id: any) {
     return fetchWrapper.get(`${baseUrl}/region/${id}`).then((response: any) => {
+      if (response) {
+        setSelectedRegion(response && response.data ? response.data : response);
+      }
+    });
+  }
+
+  function deleteRegion(id: any) {
+    return fetchWrapper.delete(`${baseUrl}/region/${id}`).then((response: any) => {
+      if (response) {
+        setSelectedRegion(response && response.data ? response.data : response);
+      }
+    });
+  }
+
+  function restoreRegion(id: any) {
+    return fetchWrapper.put(`${baseUrl}/region/restore/${id}`).then((response: any) => {
       if (response) {
         setSelectedRegion(response && response.data ? response.data : response);
       }
