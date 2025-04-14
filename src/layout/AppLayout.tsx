@@ -4,9 +4,13 @@ import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import React from "react";
+import LoadingOverlay from 'react-loading-overlay'
+import { useRecoilValue } from "recoil";
+import { isLoadingAtom } from "../_state";
 
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+
 
   return (
     <div className="min-h-screen xl:flex">
@@ -29,9 +33,17 @@ const LayoutContent: React.FC = () => {
 };
 
 const AppLayout: React.FC = () => {
+  const isLoading = useRecoilValue(isLoadingAtom);
   return (
     <SidebarProvider>
-      <LayoutContent />
+       <LoadingOverlay
+          className="w-screen sticky bottom-0 overflow-hidden"
+          active={isLoading}
+          spinner
+          text='Loading your content...'
+        >
+        <LayoutContent/>
+      </LoadingOverlay>
     </SidebarProvider>
   );
 };

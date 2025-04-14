@@ -67,7 +67,14 @@ const selectedRegionAtom = atom<any>({
   default: undefined,
 });
 
+
+const isLoadingAtom = atom<any>({
+  key: "isLoadingAtom",
+  default: false,
+});
+
 export {
+  isLoadingAtom,
   selectedRegionAtom,
   addRegionResponseAtom,
   allRegionAtom,

@@ -3,6 +3,7 @@ import { useSetRecoilState } from "recoil";
 
 import { useFetchWrapper } from "../_helpers";
 import { defectResolutionAtom } from "../_state/atoms/defectResolution";
+import { isLoadingAtom } from "../_state";
 
 export { useDefectResolution };
 
@@ -10,6 +11,7 @@ function useDefectResolution() {
   const baseUrl = `${import.meta.env.VITE_API_URL}`;
   const fetchWrapper: any = useFetchWrapper();
   const setDefects = useSetRecoilState(defectResolutionAtom);
+  const setLoading = useSetRecoilState(isLoadingAtom);
 
   return {
     getDefectResolutions,
@@ -17,6 +19,7 @@ function useDefectResolution() {
   };
 
   function getDefectResolutions(id: any, type: string) {
+    setLoading(true)
     let url = "";
     if (type == "commonArea") {
       url = `/admin/defect-submissions?projectId=${id}&type=commonArea`;
@@ -25,14 +28,17 @@ function useDefectResolution() {
     }
     return fetchWrapper.get(`${baseUrl}${url}`).then((response: any) => {
       setDefects(response && response.data ? response.data : response);
+       setLoading(false)
     });
   }
 
   function getAllDefectResolutions(id: any) {
+    setLoading(true)
     return fetchWrapper
       .get(`${baseUrl}/admin/defect-submissions?projectId=${id}`)
       .then((response: any) => {
         setDefects(response && response.data ? response.data : response);
+        setLoading(false)
       });
   }
 }
