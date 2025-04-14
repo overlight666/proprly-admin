@@ -44,6 +44,8 @@ function useCommonArea() {
     addCommonAreaCategoryTower,
     getProjectAuditor,
     getProjectSubContractor,
+    detachCommonAreaCategoryTower,
+    detachCommonAreaCategoryBasement
   };
 
   function addCommonAreaCategoryBasement(params: any, refresh: boolean) {
@@ -55,6 +57,16 @@ function useCommonArea() {
       });
   }
 
+    function detachCommonAreaCategoryBasement(params: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/common_area/detach_common_area_categories`, params)
+      .then((response: any) => {
+        const res = response && response.data ? response.data : response;
+        setCommonAreaCategoryResponse(res);
+      });
+  }
+
+
   function addCommonAreaCategoryTower(params: any, refresh: boolean) {
     return fetchWrapper
       .post(
@@ -64,6 +76,18 @@ function useCommonArea() {
       .then((response: any) => {
         const res = response && response.data ? response.data : response;
         if (refresh) setCommonAreaCategoryResponse(res);
+      });
+  }
+
+    function detachCommonAreaCategoryTower(params: any) {
+    return fetchWrapper
+      .put(
+        `${baseUrl}/common_area/detach_common_area_categories`,
+        params
+      )
+      .then((response: any) => {
+        const res = response && response.data ? response.data : response;
+        setCommonAreaCategoryResponse(res);
       });
   }
 

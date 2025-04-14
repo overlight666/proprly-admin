@@ -5,6 +5,7 @@ import { useFetchWrapper } from "../_helpers";
 import {
   allProjectsAtom,
   attachedUserResponse,
+  isLoadingAtom,
   projectDashboardAtom,
   projectDefectAtom,
   projectResponseAtom,
@@ -28,6 +29,7 @@ function useProject() {
   const setProjectTowerResponse = useSetRecoilState(projectTowerResponseAtom);
   const setAttachedUserResponse = useSetRecoilState(attachedUserResponse);
   const setAllProjects = useSetRecoilState(allProjectsAtom);
+  const setLoading = useSetRecoilState(isLoadingAtom)
 
   return {
     getProjectsByOrg,
@@ -148,6 +150,7 @@ function useProject() {
   }
 
   function getSelectedProject(id: any) {
+    setLoading(true)
     return fetchWrapper
       .get(`${baseUrl}/projects/${id}`)
       .then((response: any) => {
@@ -155,6 +158,7 @@ function useProject() {
           setSelectedProject(
             response && response.data ? response.data : response
           );
+           setLoading(false)
         }
       });
   }

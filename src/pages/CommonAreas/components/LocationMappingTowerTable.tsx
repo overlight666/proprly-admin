@@ -95,7 +95,10 @@ export default function LocationMappingTowerTable({
               tower?.configuration?.commonAreaCategory
                 .map((ca: any) => ca.name)
                 .join(", ")) ||
-              "",
+            "",
+            tower?.configuration?.commonAreaCategory,
+            myTower,
+            tower
           ];
         });
         setTableData(towers);
@@ -130,6 +133,12 @@ export default function LocationMappingTowerTable({
                   commonAreaChecklist.find((cac) => cac.id == ca)?.name
               )
               .join(", ") || "",
+            rawTowers
+              ?.find((fl) => fl?.floor == tower?.key)
+              ?.commonAreaCategories,
+            myTower,
+            rawTowers,
+            commonAreaChecklist
           ];
         });
         setTableData(towers);
@@ -266,19 +275,48 @@ export default function LocationMappingTowerTable({
     }
   };
 
-  const stringToColour = (str: string) => {
-    let hash = 0;
-    str.split("").forEach((char) => {
-      hash = char.charCodeAt(0) + ((hash << 5) - hash);
-    });
-    let colour = "#";
-    for (let i = 0; i < 3; i++) {
-      const value = (hash >> (i * 8)) & 0xff;
-      colour += value.toString(16).padStart(2, "0");
-    }
-    return colour;
-  };
+  // const stringToColour = (str: string) => {
+  //   let hash = 0;
+  //   str.split("").forEach((char) => {
+  //     hash = char.charCodeAt(0) + ((hash << 5) - hash);
+  //   });
+  //   let colour = "#";
+  //   for (let i = 0; i < 3; i++) {
+  //     const value = (hash >> (i * 8)) & 0xff;
+  //     colour += value.toString(16).padStart(2, "0");
+  //   }
+  //   return colour;
+  // };
 
+
+  const detachTower = (col, data, selected, tower, rowTower, selectedT) => {
+    if (hasCommonArea) {
+      const params = {
+        commonAreaId: selectedCommonArea[0]?.id,
+        floor: data.id,
+        commonAreaCategories: col?.filter((cats) => cats?.name?.trim()?.toLowerCase() == selected?.trim()?.toLowerCase()).map((cols) => cols?.id),
+        projectTowerId: tower?.id,
+      };
+      commonAreaAction.detachCommonAreaCategoryTower(params)
+    } else {
+      const selectedOne = selectedT?.find((sel) => sel?.name?.trim()?.toLowerCase() == selected?.trim()?.toLowerCase())
+      const holder = rowTower?.find(
+        (tower2) =>
+          tower2?.floor == data.id && tower2?.projectTowerId == tower?.id
+      );
+
+      const filtered = rowTower?.filter(
+        (tower) => tower?.floor != data.id
+      );
+
+      holder.commonAreaCategories = holder?.commonAreaCategories.filter((f) => f != selectedOne?.id)
+
+      console.log(holder, selectedOne)
+      setRawTowers(tower?.id, [...filtered, holder]);
+    }
+
+
+  }
   return (
     <ComponentCard title="Attach Common Area Categories to Towers - Floors">
       <div className="max-w-full overflow-x-auto">
@@ -291,19 +329,19 @@ export default function LocationMappingTowerTable({
                   options={
                     hasCommonArea
                       ? commonAreaConfig?.project?.projectTower?.map(
-                          (cl: any) => {
-                            return {
-                              value: cl.id,
-                              label: cl.name,
-                            };
-                          }
-                        ) || []
-                      : selectedProject?.projectTower?.map((cl: any) => {
+                        (cl: any) => {
                           return {
                             value: cl.id,
                             label: cl.name,
                           };
-                        })
+                        }
+                      ) || []
+                      : selectedProject?.projectTower?.map((cl: any) => {
+                        return {
+                          value: cl.id,
+                          label: cl.name,
+                        };
+                      })
                   }
                   placeholder="Please Select"
                   className="dark:bg-dark-900"
@@ -341,12 +379,12 @@ export default function LocationMappingTowerTable({
                     <Badge
                       color={
                         towerHolder?.commonAreaConfigurationStatus?.toLowerCase() ==
-                        "pending"
+                          "pending"
                           ? "warning"
                           : towerHolder?.commonAreaConfigurationStatus?.toLowerCase() ==
                             "configured"
-                          ? "success"
-                          : "info"
+                            ? "success"
+                            : "info"
                       }
                     >
                       {towerHolder?.commonAreaConfigurationStatus}
@@ -409,17 +447,20 @@ export default function LocationMappingTowerTable({
                   </div>
                 ),
                 3: (_data: any, _row: any) => (
-                  <div>
+                  <div className="flex flex-wrap gap-2">
                     {_data.split(",").map((col: any, index: any) => {
                       return (
-                        <span
-                          key={index}
-                          style={{
-                            color: stringToColour(col + "proprly"),
-                          }}
-                        >
-                          {`${col} `}
-                        </span>
+                        col && <div key={index} className="flex items-center justify-center rounded-full border-[0.7px] border-transparent bg-gray-100 py-1 pl-2.5 pr-2 text-sm text-gray-800 hover:border-gray-200 dark:bg-gray-800 dark:text-white/90 dark:hover:border-gray-800">
+                          <span className="flex-initial">{col}</span>
+                          <div className="flex flex-row-reverse flex-auto">
+                            <div onClick={() => detachTower(_row[4], _row[0], col, _row[5], _row[6], _row[7])} className="pl-2 text-gray-500 cursor-pointer group-hover:text-gray-400 dark:text-gray-400">
+                              <svg className="fill-current" role="button" width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.40717 4.46881C3.11428 4.17591 3.11428 3.70104 3.40717 3.40815C3.70006 3.11525 4.17494 3.11525 4.46783 3.40815L6.99943 5.93975L9.53095 3.40822C9.82385 3.11533 10.2987 3.11533 10.5916 3.40822C10.8845 3.70112 10.8845 4.17599 10.5916 4.46888L8.06009 7.00041L10.5916 9.53193C10.8845 9.82482 10.8845 10.2997 10.5916 10.5926C10.2987 10.8855 9.82385 10.8855 9.53095 10.5926L6.99943 8.06107L4.46783 10.5927C4.17494 10.8856 3.70006 10.8856 3.40717 10.5927C3.11428 10.2998 3.11428 9.8249 3.40717 9.53201L5.93877 7.00041L3.40717 4.46881Z">
+                                </path>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
