@@ -151,15 +151,15 @@ export default function DefectResolutionModal({
                           </time>
                           <div className="flex">
                             <div
-                              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
-                                  ${textColoring(
-                                activity.defectSubStatus,
-                                true
-                              )}
-                                  `}
+                              style={{
+                                backgroundColor: defect?.bgColor
+                              }}
+                              className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
                             >
                               {getIcons(activity.defectSubStatus)}
-                              <span className="text-[12px]">
+                              <span style={{
+                                color: defect?.color
+                              }} className={`text-[12px]`}>
                                 {activity.defectSubStatus}
                               </span>
                             </div>

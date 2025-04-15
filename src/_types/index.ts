@@ -465,6 +465,7 @@ export interface DefectSumissionType {
   projectTower?: TowerData;
   floor?: any;
   inspection?:any;
+  bgColor?: any;
 }
 
 export interface Config {

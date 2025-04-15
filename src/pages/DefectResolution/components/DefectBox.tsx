@@ -48,15 +48,17 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
             <div className="p-1 rounded-lg">
               <div className="flex items-center">
                 <div
-                  className={`flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all ${textColoring(
-                    defect?.subStatus,
-                    true
-                  )}`}
+                  style={{ backgroundColor: defect?.bgColor }}
+                  className={`flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
                 >
                   <div className="flex h-full align-top">
                     {getIcons(defect?.subStatus)}
                   </div>
-                  <span className={`text-[14px]`}>{defect?.subStatus}</span>
+                  <span
+                    style={{
+                      color: defect?.color
+                    }}
+                    className={`text-[14px]`}>{defect?.subStatus}</span>
                 </div>
               </div>
             </div>
