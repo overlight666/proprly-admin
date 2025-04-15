@@ -464,6 +464,7 @@ export interface DefectSumissionType {
   approvalNeededBy: string;
   projectTower?: TowerData;
   floor?: any;
+  inspection?:any;
 }
 
 export interface Config {

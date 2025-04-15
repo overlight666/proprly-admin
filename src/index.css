@@ -957,3 +957,7 @@ span.flatpickr-weekday,
     transform: rotateZ(360deg) translate3d(0, 0, 0);
   }
 }
+
+.visually-hidden, .carousel-indicators {
+  display: none;
+}
