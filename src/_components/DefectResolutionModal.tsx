@@ -19,7 +19,8 @@ import { getIcons, textColoring } from "../_helpers/textIcons";
 import PhotoViewer from "photoviewer";
 import Carousel from 'react-bootstrap/Carousel';
 
-import * as appIcons from "@mui/icons-material"
+import Icon from '@mdi/react';
+import * as apIcon from '@mdi/js';
 import { ucword } from "../_helpers";
 
 export default function DefectResolutionModal({
@@ -120,7 +121,17 @@ export default function DefectResolutionModal({
       prevElement[i]?.appendChild(svg)
     }
   })
-  console.log(defect)
+
+  const mutateIcon = (name: any) => {
+    const splitName = name.split("-");
+    let newName = "mdi"
+    splitName?.map((names) => {
+      newName = newName + ucword(names)
+    })
+    return newName
+  }
+
+
   return (
     <>
       <Modal
@@ -138,7 +149,7 @@ export default function DefectResolutionModal({
               <div className="gap-2 mt-5">
                 <ol className="relative border-s border-gray-200 dark:border-gray-700">
                   {defect?.activityLogs &&
-                    defect?.activityLogs.map((activity, index) => {
+                    defect?.activityLogs.map((activity: any, index) => {
                       return (
                         <li className="mb-4 ms-4" key={index}>
                           <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
@@ -152,14 +163,17 @@ export default function DefectResolutionModal({
                           <div className="flex">
                             <div
                               style={{
-                                backgroundColor: defect?.bgColor
+                                backgroundColor: activity?.bgColor
                               }}
                               className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
                             >
-                              {getIcons(activity.defectSubStatus)}
+                              {/* {getIcons(activity.defectSubStatus)} */}
+                              <Icon path={apIcon[mutateIcon(activity?.icon?.appIcon)]} size={0.5} style={{
+                                color: activity?.color
+                              }} />
                               <span style={{
-                                color: defect?.color
-                              }} className={`text-[12px]`}>
+                                color: activity?.color
+                              }} className={`text-[12px] ml-1`}>
                                 {activity.defectSubStatus}
                               </span>
                             </div>

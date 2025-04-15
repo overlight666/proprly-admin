@@ -9,7 +9,8 @@ import { useModal } from "../../../hooks/useModal";
 import { useOrganization } from "../../../_actions/organizations.actions";
 import React from "react";
 import { getIcons, textColoring } from "../../../_helpers/textIcons";
-
+import Icon from '@mdi/react';
+import * as apIcon from '@mdi/js';
 // Define the table data using the interface
 interface DefectItemBox {
   keyValue: any;
@@ -18,6 +19,14 @@ interface DefectItemBox {
 export default function DefectItem({ keyValue, defect }: DefectItemBox) {
   const { isOpen, openModal, closeModal } = useModal();
   const orgAction = useOrganization();
+  const mutateIcon = (name: any) => {
+    const splitName = name.split("-");
+    let newName = "mdi"
+    splitName?.map((names) => {
+      newName = newName + ucword(names)
+    })
+    return newName
+  }
   return (
     <div key={keyValue}>
       <DefectResolutionModal
@@ -52,13 +61,16 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
                   className={`flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
                 >
                   <div className="flex h-full align-top">
-                    {getIcons(defect?.subStatus)}
+                    {/* {getIcons(defect?.subStatus)} */}
+                    <Icon path={apIcon[mutateIcon(defect?.icon?.appIcon)]} size={0.5} style={{
+                      color: defect?.color
+                    }} />
                   </div>
                   <span
                     style={{
                       color: defect?.color
                     }}
-                    className={`text-[14px]`}>{defect?.subStatus}</span>
+                    className={`text-[14px] ml-1`}>{defect?.subStatus}</span>
                 </div>
               </div>
             </div>

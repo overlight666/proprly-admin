@@ -431,6 +431,7 @@ export interface CommonAreaCategory {
 }
 
 export interface DefectSumissionType {
+  icon?: any;
   id: number;
   commonArea?: CommonAreaData;
   commonAreaCategory?: CommonAreaCategory;

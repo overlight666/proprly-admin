@@ -36,7 +36,7 @@ const AppLayout: React.FC = () => {
   return (
     <SidebarProvider>
       <LoadingOverlay
-        className="w-[100vw] h-[100vh] sticky bottom-0 overflow-hidden"
+        className={`w-[100vw] h-[100vh] sticky bottom-0 ${isLoading && 'overflow-hidden'}`}
         active={isLoading}
         spinner
         text='Loading your content...'
