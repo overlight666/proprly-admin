@@ -4,7 +4,7 @@ import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import React from "react";
-import LoadingOverlay from 'react-loading-overlay'
+import LoadingOverlay from 'react-loading-overlay-ts'
 import { useRecoilValue } from "recoil";
 import { isLoadingAtom } from "../_state";
 
