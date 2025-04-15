@@ -19,9 +19,8 @@ const LayoutContent: React.FC = () => {
         <Backdrop />
       </div>
       <div
-        className={`flex-1 transition-all duration-300 ease-in-out overflow-hidden ${
-          isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"
-        } ${isMobileOpen ? "ml-0" : ""}`}
+        className={`flex-1 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"
+          } ${isMobileOpen ? "ml-0" : ""}`}
       >
         <AppHeader />
         <div className="p-4 mx-auto max-w-screen-2xl md:p-6">
@@ -36,13 +35,13 @@ const AppLayout: React.FC = () => {
   const isLoading = useRecoilValue(isLoadingAtom);
   return (
     <SidebarProvider>
-       <LoadingOverlay
-          className="w-screen sticky bottom-0 overflow-hidden"
-          active={isLoading}
-          spinner
-          text='Loading your content...'
-        >
-        <LayoutContent/>
+      <LoadingOverlay
+        className="w-[100vw] h-[100vh] sticky bottom-0 overflow-hidden"
+        active={isLoading}
+        spinner
+        text='Loading your content...'
+      >
+        <LayoutContent />
       </LoadingOverlay>
     </SidebarProvider>
   );
