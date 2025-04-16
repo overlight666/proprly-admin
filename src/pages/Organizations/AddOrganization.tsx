@@ -29,6 +29,7 @@ import { dropZoneAtom } from "../../_state/atoms/dropzone";
 import { useLocation } from "react-router";
 import Select2 from "../../components/form/Select2";
 import React from "react";
+import { isLoadingAtom } from "../../_state";
 
 export default function AddOrganization() {
   const orgAction = useOrganization();
@@ -47,6 +48,8 @@ export default function AddOrganization() {
   const navigate = useNavigate();
   const props: any = useLocation();
   const query = new URLSearchParams(props.search);
+  const setIsLoading = useSetRecoilState(isLoadingAtom);
+  const isLoading = useRecoilValue(isLoadingAtom)
 
   const validationSchema = Yup.object().shape({
     country: Yup.string().required("Country is required"),
@@ -133,15 +136,27 @@ export default function AddOrganization() {
 
   const attachBuilderHandler = () => {
     const builderHandler = JSON.parse(attachBuilder);
-
     if (!selectedBuilders.find((o: any) => o.email === builderHandler.email)) {
-      const params = {
-        id: builderHandler?.id,
-        roleId: 1,
-      };
-      orgAction.attachBuilder(query.get("id"), params).then(() => {
-        orgAction.getSelectedOrganization(query.get("id"));
-      });
+      if (query.get("id")) {
+        const params = {
+          id: builderHandler?.id,
+          roleId: 1,
+        };
+        orgAction.attachBuilder(query.get("id"), params).then(() => {
+          orgAction.getSelectedOrganization(query.get("id"));
+        });
+      } else {
+        const temp = {
+          fullName: builderHandler?.fullName,
+          mobile: builderHandler?.mobile,
+          password: "test",
+          email: builderHandler?.email,
+          id: builderHandler?.id,
+          roleId: 1,
+        };
+        setSelectedBuilders((oldArray: any) => [...oldArray, temp]);
+      }
+
       // setSelectedBuilders((oldArray: any) => [...oldArray, builderHandler]);
     } else {
       toast.warning("Builder already exist");
@@ -164,15 +179,22 @@ export default function AddOrganization() {
           users: selectedBuilders,
         };
         if (location.pathname === "/organization/edit") {
+          setIsLoading(true);
           orgAction.updateOrganization(
             query.get("id"),
             params,
             toast,
             navigate
-          );
+          ).then(() => {
+            setIsLoading(false);
+          });
         } else {
-          orgAction.addOrganization(params, navigate).catch((error: any) => {
+          setIsLoading(true);
+          orgAction.addOrganization(params, navigate).then(() => {
+            setIsLoading(false);
+          }).catch((error: any) => {
             toast.error(error[0].message);
+            setIsLoading(false);
           });
         }
       } else {
@@ -375,7 +397,7 @@ export default function AddOrganization() {
         <Button
           size="sm"
           variant="primary"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isLoading}
           type="submit"
           form="orgform"
         >

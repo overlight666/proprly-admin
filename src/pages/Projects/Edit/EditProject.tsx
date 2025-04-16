@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import Select from "../../../components/form/Select";
 import {
   globalConfigAtom,
+  isLoadingAtom,
   projectResponseAtom,
   selectedProjectAtom,
 } from "../../../_state";
@@ -55,6 +56,9 @@ export default function EditProject() {
   const { id, project_id }: any = useParams();
   const projectAction = useProject();
   const navigate = useNavigate();
+
+  const isLoading = useRecoilValue(isLoadingAtom)
+  const setIsLoading = useSetRecoilState(isLoadingAtom)
 
   const basementOptions: any = [
     {
@@ -157,13 +161,15 @@ export default function EditProject() {
       if (fileContainer?.length > 0) {
         params.documents = fileContainer.map((f) => f.id);
       }
-
+      setIsLoading(true);
       projectAction
         .updateProject(params, project_id, toast)
         .then(() => {
+          setIsLoading(false);
           navigate(-1);
         })
         .catch((error: any) => {
+          setIsLoading(false);
           toast.error(error[0].message);
         });
     } else {
@@ -294,13 +300,11 @@ export default function EditProject() {
           return (
             <button
               key={idx}
-              className={`transition-colors duration-300 ${
-                idx == 0 && "rounded-tl-md"
-              } ${
-                idx === activeTabIndex
+              className={`transition-colors duration-300 ${idx == 0 && "rounded-tl-md"
+                } ${idx === activeTabIndex
                   ? "bg-blue-100 px-6 py-4 text-blue-600"
                   : "border-transparent hover:border-gray-200 px-6 py-4"
-              }`}
+                }`}
               // Change the active tab on click.
               onClick={() => setActiveTabIndex(idx)}
             >
@@ -487,7 +491,7 @@ export default function EditProject() {
             <Button
               size="sm"
               variant="primary"
-              disabled={form2Status.isSubmitting}
+              disabled={form2Status.isSubmitting || isLoading}
               type="submit"
               form="projectForm2"
             >

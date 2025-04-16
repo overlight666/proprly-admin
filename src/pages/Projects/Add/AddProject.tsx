@@ -7,7 +7,7 @@ import ComponentCard from "../../../components/common/ComponentCard";
 import Label from "../../../components/form/Label";
 import Input from "../../../components/form/input/InputField";
 import Select from "../../../components/form/Select";
-import { globalConfigAtom } from "../../../_state";
+import { globalConfigAtom, isLoadingAtom } from "../../../_state";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -49,6 +49,8 @@ export default function AddProject() {
   const { id } = useParams();
   const projectAction = useProject();
   const navigate = useNavigate();
+  const isLoading = useRecoilValue(isLoadingAtom);
+  const setIsLoading = useSetRecoilState(isLoadingAtom);
 
   const basementOptions: any = [
     {
@@ -188,8 +190,11 @@ export default function AddProject() {
         organizationId: id,
         ...fieldHolder,
       };
-      projectAction.addProject(params, navigate).catch((error: any) => {
-        console.log(error);
+      setIsLoading(true);
+      projectAction.addProject(params, navigate).then(() => {
+        setIsLoading(false);
+      }).catch((error: any) => {
+        setIsLoading(false)
         toast.error(error[0].message);
       });
     }
@@ -384,7 +389,7 @@ export default function AddProject() {
             <Button
               size="sm"
               variant="primary"
-              disabled={form2Status.isSubmitting}
+              disabled={form2Status.isSubmitting || isLoading}
               type="submit"
               form="projectForm2"
             >

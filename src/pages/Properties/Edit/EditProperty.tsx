@@ -12,6 +12,7 @@ import {
   activeTabIndexProjectAtom,
   selectedPropertyAtom,
   bulkResponseAtom,
+  isLoadingAtom,
 } from "../../../_state";
 import Button from "../../../components/ui/button/Button";
 import { PlusIcon } from "../../../icons";
@@ -64,6 +65,8 @@ export default function EditProperty() {
   const [intercom, setIntercom] = useState<any>([]);
   const [builderwarranty, setBuilderwarranty] = useState<any>([]);
   const setBulkResponse = useSetRecoilState(bulkResponseAtom);
+  const isLoading = useRecoilValue(isLoadingAtom)
+  const setIsLoading = useSetRecoilState(isLoadingAtom)
 
   const [warrantyGroup, setWarrantyGroup] = useState<any>([
     {
@@ -379,7 +382,7 @@ export default function EditProperty() {
     const warranties = {
       groups: warrantyGroup,
     };
-
+    setIsLoading(true);
     propertAction
       .updateProperty(
         id,
@@ -393,6 +396,7 @@ export default function EditProperty() {
         filesToDelete
       )
       .then(() => {
+        setIsLoading(false);
         navigate(-1);
       });
   }
@@ -795,7 +799,7 @@ export default function EditProperty() {
             <Button
               size="sm"
               variant="primary"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               type="submit"
             >
               {isSubmitting && (

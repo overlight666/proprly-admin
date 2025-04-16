@@ -10,6 +10,7 @@ import {
   globalConfigAtom,
   organizationPropertyOwnerAtom,
   activeTabIndexProjectAtom,
+  isLoadingAtom,
 } from "../../../_state";
 import Button from "../../../components/ui/button/Button";
 import { FileIcon, PlusIcon } from "../../../icons";
@@ -46,6 +47,8 @@ export default function AddProperty() {
   const setImage = useSetRecoilState(dropZoneAtom);
   const [excelData, setExcelData] = useState<any>(null);
   const [template, setTemplate] = useState<any>(undefined);
+  const isLoading = useRecoilValue(isLoadingAtom)
+  const setIsLoading = useSetRecoilState(isLoadingAtom)
 
   const navigate = useNavigate();
   const propertAction = useProperties();
@@ -492,7 +495,7 @@ export default function AddProperty() {
     const warranties = {
       groups: warrantyGroup,
     };
-
+    setIsLoading(true);
     propertAction.addProperty(
       id,
       project_id,
@@ -501,7 +504,9 @@ export default function AddProperty() {
       toast,
       warranties,
       hasWarranties
-    );
+    ).then(() => {
+      setIsLoading(false);
+    });
   }
 
   const getUploadedFile = (f: any) => {
@@ -583,344 +588,344 @@ export default function AddProperty() {
               bulkData={excelData}
             />
           ))) || (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 gap-5">
-              <ComponentCard title="Property Specifications">
-                <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
-                  <div>
-                    <Label htmlFor="input">
-                      Lot No <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("lotNo") }}
-                      error={errors.lotNo}
-                      hint={errors.lotNo?.message}
-                      placeholder="Enter Lot Number"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="inputTwo">
-                      Property status <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Select
-                      options={globalConfig?.propertyStatusList?.map(
-                        (l: any) => {
-                          return {
-                            label: l.value,
-                            value: l.key,
-                          };
-                        }
-                      )}
-                      placeholder="Select Status"
-                      className="dark:bg-dark-900"
-                      register={{ ...register("status") }}
-                      error={errors.status}
-                      hint={errors.status?.message}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="inputTwo">
-                      Tower <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Select
-                      options={
-                        selectedProject?.projectTower?.map((l: any) => {
-                          return {
-                            label: l.name,
-                            value: l.id,
-                          };
-                        }) || []
-                      }
-                      placeholder="Select Tower"
-                      className="dark:bg-dark-900"
-                      register={{ ...register("projectTowerId") }}
-                      error={errors.projectTowerId}
-                      hint={errors.projectTowerId?.message}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="inputTwo">
-                      Floors <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Select
-                      options={
-                        (selectedTower &&
-                          selectedProject?.projectTower
-                            ?.find((t: any) => t.id == selectedTower)
-                            ?.floorList.map((f: any) => {
-                              return {
-                                label: f.value,
-                                value: f.key,
-                              };
-                            })) ||
-                        []
-                      }
-                      placeholder="Select Floor"
-                      className="dark:bg-dark-900"
-                      register={{ ...register("floor") }}
-                      error={errors.floor}
-                      hint={errors.floor?.message}
-                    />
-                  </div>
-                </div>
-              </ComponentCard>
-              <ComponentCard title="Basic Information">
-                <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
-                  <div>
-                    <Label htmlFor="input">
-                      Unit No <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("unitNo") }}
-                      error={errors.unitNo}
-                      hint={errors.unitNo?.message}
-                      placeholder="Enter Unit Number"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Bedroom <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("bedroom") }}
-                      error={errors.bedroom}
-                      hint={errors.bedroom?.message}
-                      placeholder="Enter Bedroom"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Bathroom <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("bathroom") }}
-                      error={errors.bathroom}
-                      hint={errors.bathroom?.message}
-                      placeholder="Enter Bathroom"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Ensuite <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("ensuite") }}
-                      error={errors.ensuite}
-                      hint={errors.ensuite?.message}
-                      placeholder="Enter Ensuite"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Study Room <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("studyRoom") }}
-                      error={errors.studyRoom}
-                      hint={errors.studyRoom?.message}
-                      placeholder="Enter Study Room"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Storage <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("storage") }}
-                      error={errors.storage}
-                      hint={errors.storage?.message}
-                      placeholder="Enter Storage"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="input">
-                      Parking Spaces <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("parkingSpaces") }}
-                      error={errors.parkingSpaces}
-                      hint={errors.parkingSpaces?.message}
-                      placeholder="Enter Study Room"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="inputTwo">Split Level Property</Label>
-                    <Select disabled options={[]} placeholder="Please select" />
-                  </div>
-                  <div>
-                    <Label htmlFor="input">
-                      Internal Area(m
-                      <span className="align-super">2</span>){" "}
-                      <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("internalArea") }}
-                      error={errors.internalArea}
-                      hint={errors.internalArea?.message}
-                      placeholder="Enter Internal Area"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="input">
-                      External Area(m
-                      <span className="align-super">2</span>){" "}
-                      <span className="text-error-500">*</span>{" "}
-                    </Label>
-                    <Input
-                      type="text"
-                      register={{ ...register("externalArea") }}
-                      error={errors.externalArea}
-                      hint={errors.externalArea?.message}
-                      placeholder="Enter External Area"
-                    />
-                  </div>
-                </div>
-              </ComponentCard>
-              <ComponentCard title="Owner Information">
-                <div className="space-y-6">
-                  <div>
-                    <Label htmlFor="inputTwo">Owner list</Label>
-                    <div className="flex flex-row gap-2 w-full">
-                      <Select2
-                        options={
-                          listOwners && listOwners.length ? listOwners : []
-                        }
-                        onChange={(e) => setAttachOwner(e)}
-                        placeholder="Select an Owner"
-                        className="dark:bg-dark-900"
-                        containerClass="w-[85%]"
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-1 gap-5">
+                <ComponentCard title="Property Specifications">
+                  <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
+                    <div>
+                      <Label htmlFor="input">
+                        Lot No <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("lotNo") }}
+                        error={errors.lotNo}
+                        hint={errors.lotNo?.message}
+                        placeholder="Enter Lot Number"
                       />
-                      <Button
-                        size="sm"
-                        variant="primary"
-                        className="w-[15%]"
-                        type="button"
-                        onClick={() => attachOwnerHandler()}
-                      >
-                        Attach Owner <PlusIcon />
-                      </Button>
+                    </div>
+                    <div>
+                      <Label htmlFor="inputTwo">
+                        Property status <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Select
+                        options={globalConfig?.propertyStatusList?.map(
+                          (l: any) => {
+                            return {
+                              label: l.value,
+                              value: l.key,
+                            };
+                          }
+                        )}
+                        placeholder="Select Status"
+                        className="dark:bg-dark-900"
+                        register={{ ...register("status") }}
+                        error={errors.status}
+                        hint={errors.status?.message}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="inputTwo">
+                        Tower <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Select
+                        options={
+                          selectedProject?.projectTower?.map((l: any) => {
+                            return {
+                              label: l.name,
+                              value: l.id,
+                            };
+                          }) || []
+                        }
+                        placeholder="Select Tower"
+                        className="dark:bg-dark-900"
+                        register={{ ...register("projectTowerId") }}
+                        error={errors.projectTowerId}
+                        hint={errors.projectTowerId?.message}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="inputTwo">
+                        Floors <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Select
+                        options={
+                          (selectedTower &&
+                            selectedProject?.projectTower
+                              ?.find((t: any) => t.id == selectedTower)
+                              ?.floorList.map((f: any) => {
+                                return {
+                                  label: f.value,
+                                  value: f.key,
+                                };
+                              })) ||
+                          []
+                        }
+                        placeholder="Select Floor"
+                        className="dark:bg-dark-900"
+                        register={{ ...register("floor") }}
+                        error={errors.floor}
+                        hint={errors.floor?.message}
+                      />
                     </div>
                   </div>
-                  <div>
-                    <OwnerTable
-                      selectedUsers={selectedUsers}
-                      removeUser={removeUser}
+                </ComponentCard>
+                <ComponentCard title="Basic Information">
+                  <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
+                    <div>
+                      <Label htmlFor="input">
+                        Unit No <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("unitNo") }}
+                        error={errors.unitNo}
+                        hint={errors.unitNo?.message}
+                        placeholder="Enter Unit Number"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Bedroom <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("bedroom") }}
+                        error={errors.bedroom}
+                        hint={errors.bedroom?.message}
+                        placeholder="Enter Bedroom"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Bathroom <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("bathroom") }}
+                        error={errors.bathroom}
+                        hint={errors.bathroom?.message}
+                        placeholder="Enter Bathroom"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Ensuite <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("ensuite") }}
+                        error={errors.ensuite}
+                        hint={errors.ensuite?.message}
+                        placeholder="Enter Ensuite"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Study Room <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("studyRoom") }}
+                        error={errors.studyRoom}
+                        hint={errors.studyRoom?.message}
+                        placeholder="Enter Study Room"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Storage <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("storage") }}
+                        error={errors.storage}
+                        hint={errors.storage?.message}
+                        placeholder="Enter Storage"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="input">
+                        Parking Spaces <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("parkingSpaces") }}
+                        error={errors.parkingSpaces}
+                        hint={errors.parkingSpaces?.message}
+                        placeholder="Enter Study Room"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="inputTwo">Split Level Property</Label>
+                      <Select disabled options={[]} placeholder="Please select" />
+                    </div>
+                    <div>
+                      <Label htmlFor="input">
+                        Internal Area(m
+                        <span className="align-super">2</span>){" "}
+                        <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("internalArea") }}
+                        error={errors.internalArea}
+                        hint={errors.internalArea?.message}
+                        placeholder="Enter Internal Area"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="input">
+                        External Area(m
+                        <span className="align-super">2</span>){" "}
+                        <span className="text-error-500">*</span>{" "}
+                      </Label>
+                      <Input
+                        type="text"
+                        register={{ ...register("externalArea") }}
+                        error={errors.externalArea}
+                        hint={errors.externalArea?.message}
+                        placeholder="Enter External Area"
+                      />
+                    </div>
+                  </div>
+                </ComponentCard>
+                <ComponentCard title="Owner Information">
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="inputTwo">Owner list</Label>
+                      <div className="flex flex-row gap-2 w-full">
+                        <Select2
+                          options={
+                            listOwners && listOwners.length ? listOwners : []
+                          }
+                          onChange={(e) => setAttachOwner(e)}
+                          placeholder="Select an Owner"
+                          className="dark:bg-dark-900"
+                          containerClass="w-[85%]"
+                        />
+                        <Button
+                          size="sm"
+                          variant="primary"
+                          className="w-[15%]"
+                          type="button"
+                          onClick={() => attachOwnerHandler()}
+                        >
+                          Attach Owner <PlusIcon />
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <OwnerTable
+                        selectedUsers={selectedUsers}
+                        removeUser={removeUser}
+                      />
+                    </div>
+                    <div
+                      className="text-blue-600 gap-1 flex flex-row items-center cursor-pointer"
+                      onClick={() => openModal()}
+                    >
+                      <span>ADD NEW OWNER</span>
+                      <PlusIcon />
+                    </div>
+                  </div>
+                </ComponentCard>
+
+                <ComponentCard title="Warranty Information">
+                  <div className="space-y-6">
+                    <FileUploader
+                      title="Appliances"
+                      group="appliances"
+                      removeFile={removeAppliances}
+                      setUploadQueue={setAppliances}
+                      uploadQueue={appliances}
+                      getUploadedFile={getUploadedFile}
                     />
                   </div>
-                  <div
-                    className="text-blue-600 gap-1 flex flex-row items-center cursor-pointer"
-                    onClick={() => openModal()}
-                  >
-                    <span>ADD NEW OWNER</span>
-                    <PlusIcon />
+                  <div className="space-y-6">
+                    <FileUploader
+                      group="bathroom_fixtures"
+                      title="Bathroom Fixtures"
+                      removeFile={removeBathroomFixtures}
+                      setUploadQueue={setBathroomFixtures}
+                      uploadQueue={bathroomFixtures}
+                      getUploadedFile={getUploadedFile}
+                    />
                   </div>
-                </div>
-              </ComponentCard>
-
-              <ComponentCard title="Warranty Information">
-                <div className="space-y-6">
-                  <FileUploader
-                    title="Appliances"
-                    group="appliances"
-                    removeFile={removeAppliances}
-                    setUploadQueue={setAppliances}
-                    uploadQueue={appliances}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-                <div className="space-y-6">
-                  <FileUploader
-                    group="bathroom_fixtures"
-                    title="Bathroom Fixtures"
-                    removeFile={removeBathroomFixtures}
-                    setUploadQueue={setBathroomFixtures}
-                    uploadQueue={bathroomFixtures}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-                <div className="space-y-6">
-                  <FileUploader
-                    group="air_conditioning"
-                    title="Air Conditioning"
-                    removeFile={removeAirConditioning}
-                    setUploadQueue={setAirConditioning}
-                    uploadQueue={airConditioning}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-                <div className="space-y-6">
-                  <FileUploader
-                    group="utilities"
-                    title="Utilities"
-                    removeFile={removeUtilities}
-                    setUploadQueue={setUtilities}
-                    uploadQueue={utilities}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-                <div className="space-y-6">
-                  <FileUploader
-                    group="intercom"
-                    title="Intercom"
-                    removeFile={removeIntercom}
-                    setUploadQueue={setIntercom}
-                    uploadQueue={intercom}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-                <div className="space-y-6">
-                  <FileUploader
-                    group="builder_warranty"
-                    title="Builder Warranty"
-                    removeFile={removeBuilderwarranty}
-                    setUploadQueue={setBuilderwarranty}
-                    uploadQueue={builderwarranty}
-                    getUploadedFile={getUploadedFile}
-                  />
-                </div>
-              </ComponentCard>
-            </div>
-            <div className="flex w-full flex-row gap-5 mt-10">
-              <Button
-                size="sm"
-                variant="outline"
-                type="button"
-                onClick={() => {
-                  setActiveTabIndex(1);
-                  navigate(`/organization/${id}/project/${project_id}`);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                size="sm"
-                variant="primary"
-                disabled={isSubmitting}
-                type="submit"
-              >
-                {isSubmitting && (
-                  <span className="spinner-border spinner-border-sm mr-1"></span>
-                )}{" "}
-                Create Property
-              </Button>
-            </div>
-          </form>
-        )}
+                  <div className="space-y-6">
+                    <FileUploader
+                      group="air_conditioning"
+                      title="Air Conditioning"
+                      removeFile={removeAirConditioning}
+                      setUploadQueue={setAirConditioning}
+                      uploadQueue={airConditioning}
+                      getUploadedFile={getUploadedFile}
+                    />
+                  </div>
+                  <div className="space-y-6">
+                    <FileUploader
+                      group="utilities"
+                      title="Utilities"
+                      removeFile={removeUtilities}
+                      setUploadQueue={setUtilities}
+                      uploadQueue={utilities}
+                      getUploadedFile={getUploadedFile}
+                    />
+                  </div>
+                  <div className="space-y-6">
+                    <FileUploader
+                      group="intercom"
+                      title="Intercom"
+                      removeFile={removeIntercom}
+                      setUploadQueue={setIntercom}
+                      uploadQueue={intercom}
+                      getUploadedFile={getUploadedFile}
+                    />
+                  </div>
+                  <div className="space-y-6">
+                    <FileUploader
+                      group="builder_warranty"
+                      title="Builder Warranty"
+                      removeFile={removeBuilderwarranty}
+                      setUploadQueue={setBuilderwarranty}
+                      uploadQueue={builderwarranty}
+                      getUploadedFile={getUploadedFile}
+                    />
+                  </div>
+                </ComponentCard>
+              </div>
+              <div className="flex w-full flex-row gap-5 mt-10">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    setActiveTabIndex(1);
+                    navigate(`/organization/${id}/project/${project_id}`);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  disabled={isSubmitting || isLoading}
+                  type="submit"
+                >
+                  {isSubmitting && (
+                    <span className="spinner-border spinner-border-sm mr-1"></span>
+                  )}{" "}
+                  Create Property
+                </Button>
+              </div>
+            </form>
+          )}
       </div>
 
       <AddOwnerModal
