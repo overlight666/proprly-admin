@@ -433,6 +433,7 @@ export interface CommonAreaCategory {
 export interface DefectSumissionType {
   icon?: any;
   id: number;
+  approvalOptions: any[];
   commonArea?: CommonAreaData;
   commonAreaCategory?: CommonAreaCategory;
   organizationId: number;

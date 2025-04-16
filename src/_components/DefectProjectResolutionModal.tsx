@@ -268,14 +268,10 @@ export default function DefectProjectResolutionModal({
             </div>
           </div>
           <hr className="mt-5" />
-          {defect &&
-            defect?.subStatus &&
-            (defect?.subStatus == "Defect Rejected by Admin" ||
-              (defect?.subStatus &&
-                defect?.subStatus.toLowerCase() ==
-                "pending admin feedback")) && (
-              <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
-                <button
+          {
+            defect?.approvalOptions?.length > 0 && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+              {
+                defect?.approvalOptions?.includes("close") && <button
                   onClick={() => {
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "close",
@@ -287,7 +283,9 @@ export default function DefectProjectResolutionModal({
                 >
                   Close Defect
                 </button>
-                <button
+              }
+              {
+                defect?.approvalOptions?.includes("reopen") && <button
                   onClick={() => {
                     defectAction
                       .pushDefectFeedback(defect?.id, {
@@ -303,8 +301,10 @@ export default function DefectProjectResolutionModal({
                 >
                   Re-open Defect
                 </button>
-              </div>
-            )}
+              }
+            </div>
+          }
+
         </div>
 
       </Modal>
