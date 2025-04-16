@@ -64,9 +64,9 @@ export default function BuilderTable({ selectedBuilders, removeBuilder }: any) {
                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                       <div
                         className="!text-[red]"
-                        onClick={() => removeBuilder(builder.email)}
                       >
                         <TrashBinIcon
+                          onClick={() => removeBuilder(builder.email)}
                           className="size-5 cursor-pointer"
                           data-tooltip-id="tooltip"
                           data-tooltip-content="Delete"
