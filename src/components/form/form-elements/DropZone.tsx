@@ -54,11 +54,10 @@ const DropzoneComponent = ({
         <form
           {...getRootProps()}
           className={`dropzone rounded-xl   border-dashed border-gray-300 p-7 lg:p-10
-        ${
-          isDragActive
-            ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
-            : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
-        }
+        ${isDragActive
+              ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
+              : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
+            }
       `}
           id="demo-upload"
         >
@@ -66,12 +65,12 @@ const DropzoneComponent = ({
           <input {...getInputProps()} />
 
           {uploadedImage && !notImage.includes(uploadedImage.mimeType) ? (
-            <div className="relative">
+            <div >
               <div className="overflow-hidden flex items-center justify-center object-contain">
                 <img
                   src={uploadedImage.url}
                   alt="Cover"
-                  className="border border-gray-200 rounded-xl dark:border-gray-800 max-h-[300px] !object-contain"
+                  className="border border-gray-200 rounded-xl dark:border-gray-800 max-h-[300px] object-contain"
                 />
               </div>
             </div>

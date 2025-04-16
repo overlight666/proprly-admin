@@ -388,12 +388,6 @@ export default function AddOrganization() {
         </ComponentCard>
       </div>
       <div className="flex w-full flex-row gap-5 mt-10">
-        <Link
-          to="/"
-          className="flex items-center justify-center px-3 py-2 rounded-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300"
-        >
-          Cancel
-        </Link>
         <Button
           size="sm"
           variant="primary"
@@ -406,6 +400,13 @@ export default function AddOrganization() {
           )}{" "}
           Submit
         </Button>
+        <Link
+          to="/"
+          className="flex items-center justify-center px-3 py-2 rounded-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300"
+        >
+          Cancel
+        </Link>
+
       </div>
 
       <AddBuilderModal
