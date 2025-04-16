@@ -200,7 +200,7 @@ export default function DefectResolutionModal({
                               </p>
                             </div>
                             {activity.images && activity.images.length > 0 && (
-                              <Carousel className="p-3 dark:bg-gray-800 relative rounded-md bg-gray-100">
+                              <Carousel className="p-3 dark:bg-gray-800 relative rounded-md bg-gray-100 flex justify-center items-center">
                                 {activity.images.map((img, index) => {
                                   return (
                                     <Carousel.Item key={index}
