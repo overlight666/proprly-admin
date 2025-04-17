@@ -95,7 +95,7 @@ export default function ProjectReportsTable({ tableRef }: any) {
                 scope="col"
                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Property Report Name
+                Project Report Name
               </th>
               <th
                 scope="col"
