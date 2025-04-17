@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   globalConfigAtom,
+  isLoadingAtom,
   selectedCommonAreaAtom,
   selectedProjectAtom,
 } from "../../_state";
@@ -37,6 +38,8 @@ export default function CommonArea() {
   const [rawTowers, setRawTowers] = useState<any>([]);
   const [selectedTower, setSelectedTower] = useState<any>(undefined);
   const [rawBasements, setRawBasements] = useState<any>([]);
+
+  const setLoading = useSetRecoilState(isLoadingAtom);
 
   const [warrantyGroup, setWarrantyGroup] = useState<any>([
     {
@@ -149,18 +152,18 @@ export default function CommonArea() {
   };
 
   const removeGarageDoor = (file: any) => {
-    const newG = warrantyGroup?.map((war: any) => {
-      if (war.group == "garage_door") {
-        war.files = war.files.filter((f: any) => f !== file?.id);
-      }
-      return war;
-    });
-    setWarrantyGroup(newG);
-    const newFiles: any =
-      garageDoor &&
-      garageDoor.length > 0 &&
-      garageDoor.filter((e: any) => e.name !== file.name);
-    setGarageDoor(newFiles);
+    // const newG = warrantyGroup?.map((war: any) => {
+    //   if (war.group == "garage_door") {
+    //     war.files = war.files.filter((f: any) => f !== file?.id);
+    //   }
+    //   return war;
+    // });
+    // setWarrantyGroup(newG);
+    // const newFiles: any =
+    //   garageDoor &&
+    //   garageDoor.length > 0 &&
+    //   garageDoor.filter((e: any) => e.name !== file.name);
+    // setGarageDoor(newFiles);
   };
 
   const getUploadedFile = (f: any) => {
@@ -198,15 +201,26 @@ export default function CommonArea() {
       const warranties = {
         groups: warrantyGroup,
       };
+      setLoading(true)
       commonAreaAction
-        .updateCommonArea(selectedCommonArea[0]?.id, params, warranties, toast)
+        .updateCommonArea(selectedCommonArea[0]?.id, params, warranties, toast).then(() => {
+          setLoading(false)
+        })
         .catch((e: any) => {
+          setLoading(false)
           toast.error(e);
         });
     } else {
+      const warranties = {
+        groups: warrantyGroup,
+      };
+      setLoading(true)
       commonAreaAction
-        .saveCommonArea(params, warrantyGroup, toast)
+        .saveCommonArea(params, warranties, toast).then(() => {
+          setLoading(false)
+        })
         .catch((e: any) => {
+          setLoading(false)
           toast.error(e);
         });
     }
@@ -257,18 +271,18 @@ export default function CommonArea() {
           <div className="mx-5">
             <ComponentCard
               title="Common Area Information"
-              // rightComponent={
-              //   selectedCommonArea?.length != 0 && (
-              //     <Button
-              //       onClick={() => setIsConfigure(!isConfigure)}
-              //       variant="primary"
-              //       className="text-black dark:text-white"
-              //     >
-              //       <GearIcon className="size-5 text-white" />
-              //       Configure
-              //     </Button>
-              //   )
-              // }
+            // rightComponent={
+            //   selectedCommonArea?.length != 0 && (
+            //     <Button
+            //       onClick={() => setIsConfigure(!isConfigure)}
+            //       variant="primary"
+            //       className="text-black dark:text-white"
+            //     >
+            //       <GearIcon className="size-5 text-white" />
+            //       Configure
+            //     </Button>
+            //   )
+            // }
             >
               <div className="gap-2 grid grid-cols-1 xl:grid-cols-2">
                 <div>

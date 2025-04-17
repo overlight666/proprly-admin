@@ -25,6 +25,7 @@ function useWarrantyAction() {
     uploadBulk,
     saveCommonAreaWarranties,
     uploadWarrantyGroupNoNavigate,
+    uploadWarrantyGroupCommonArea
   };
 
   function saveCommonAreaWarranties(params: any, _toast: any) {
@@ -138,6 +139,33 @@ function useWarrantyAction() {
         }
       });
   }
+
+  function uploadWarrantyGroupCommonArea(
+    params: any,
+    toast: any
+  ) {
+    return fetchWrapper
+      .post(`${baseUrl}/warranty`, params)
+      .then((response: any) => {
+        if (response) {
+          setActiveTabIndex(2);
+        }
+      })
+      .catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+            toast.error(e);
+        }
+      });
+  }
+
 
   function uploadBulk(params: any, toast: any) {
     return fetchWrapper

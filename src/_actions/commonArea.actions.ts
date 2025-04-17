@@ -117,15 +117,16 @@ function useCommonArea() {
       .then((response: any) => {
         const res = response && response.data ? response.data : response;
         if (res) {
-          warranties?.groups?.map((warrant: any) => {
-            if (warrant && warrant.warrantyId) {
-              warrantyAction.updateWarranty(
-                warrant.warrantyId,
-                { files: warrant.files },
-                toast
-              );
-            }
-          });
+          const warrantyParams = {
+                commonAreaId: res?.id,
+                groups: warranties?.groups?.filter((f: any) => f?.files?.length > 0 && !f?.warrantyId),
+            };
+            warrantyAction
+                .uploadWarrantyGroupCommonArea(warrantyParams, toast)
+          const updateWarranty = warranties?.groups?.filter((f: any) => f?.files?.length > 0 && f?.warrantyId);
+            updateWarranty?.map((war: any) => {
+              warrantyAction.updateWarranty(war?.warrantyId, {files: war?.files}, toast)
+            })
           toast.success("Common Area has been updated!");
         }
       });
@@ -134,21 +135,24 @@ function useCommonArea() {
   function saveCommonArea(params: any, warranties: any, toast: any) {
     return fetchWrapper
       .post(`${baseUrl}/common_area`, params)
-      .then((response: any) => {
+      .then(async (response: any) => {
         const res =
           response && response.data
             ? response.data.length > 0
               ? response.data[0]
               : response.data
             : response;
-        setCommonAreaResponse(res);
+      
         if (res?.id) {
           const warrantyParams = {
-            commonAreaId: res.id,
-            groups: warranties,
-          };
-          warrantyAction.saveCommonAreaWarranties(warrantyParams, toast);
+                commonAreaId: res?.id,
+                groups: warranties?.groups?.filter((f: any) => f?.files?.length > 0),
+            };
+            await warrantyAction
+                .uploadWarrantyGroupCommonArea(warrantyParams, toast)
         }
+        setCommonAreaResponse(res);
+        return res
       });
   }
 
