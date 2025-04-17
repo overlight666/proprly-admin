@@ -43,7 +43,7 @@ export default function OrgGrid({ orglist }: any) {
                 }
               >
                 <div
-                  className="relative cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => navigate(`/organization/${org.id}`)}
                 >
                   <div className="overflow-hidden ">
