@@ -121,14 +121,14 @@ export default function SelectedProject() {
   const getTotal = () => {
     const count1 =
       dashboardData &&
-      dashboardData?.defectsByProperty &&
-      dashboardData?.defectsByProperty.in_progress
+        dashboardData?.defectsByProperty &&
+        dashboardData?.defectsByProperty.in_progress
         ? dashboardData?.defectsByProperty.in_progress
         : 0;
     const count2 =
       dashboardData &&
-      dashboardData?.defectsByCommonArea &&
-      dashboardData?.defectsByCommonArea.in_progress
+        dashboardData?.defectsByCommonArea &&
+        dashboardData?.defectsByCommonArea.in_progress
         ? dashboardData?.defectsByCommonArea.in_progress
         : 0;
     return count1 + count2;
@@ -170,7 +170,7 @@ export default function SelectedProject() {
         canEdit={true}
         editComponent={
           <div
-            className="text-black dark:text-white cursor-pointer z-99999"
+            className="text-black dark:text-white cursor-pointer"
             onClick={() =>
               navigate(`/organization/${id}/project/${project_id}/edit`)
             }
@@ -191,11 +191,10 @@ export default function SelectedProject() {
             return (
               <button
                 key={idx}
-                className={`transition-colors duration-300 ${
-                  idx === activeTabIndex
+                className={`transition-colors duration-300 ${idx === activeTabIndex
                     ? "bg-blue-100 px-6 py-4 text-blue-600"
                     : "border-transparent hover:border-gray-200 px-6 py-4"
-                }`}
+                  }`}
                 // Change the active tab on click.
                 onClick={() => setActiveTabIndex(idx)}
               >
