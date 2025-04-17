@@ -51,15 +51,14 @@ export default function ImageProgress({
           <span className="text-black dark:text-gray-400 text-xs">
             {getFileSizeFromUrl(file.size)}{" "}
             <span
-              className={`${
-                progress < 50
-                  ? "text-red-400"
-                  : progress < 90 && progress > 50
+              className={`${progress < 50
+                ? "text-red-400"
+                : progress < 90 && progress > 50
                   ? "text-green-400"
                   : progress == 100
-                  ? "text-blue-500"
-                  : "text-red-500"
-              } text-sm ml-5`}
+                    ? "text-blue-500"
+                    : "text-red-500"
+                } text-sm ml-5`}
             >
               {progress && typeof progress != "string"
                 ? `${progress.toFixed(2)}%`
@@ -69,7 +68,7 @@ export default function ImageProgress({
         </div>
       </div>
       <TrashBinIcon
-        onClick={() => removeThis(file.name)}
+        onClick={() => removeThis(file.name, file)}
         className="size-5 text-red-700 cursor-pointer"
         data-tooltip-id="tooltip"
         data-tooltip-content="Delete"

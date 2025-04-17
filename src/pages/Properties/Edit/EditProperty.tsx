@@ -188,7 +188,7 @@ export default function EditProperty() {
     const newFiles: any =
       appliances &&
       appliances.length > 0 &&
-      appliances.filter((e: any) => e.name !== file.name);
+      appliances.filter((e: any) => e.id !== file.id);
     setAppliances(newFiles);
   };
 
@@ -205,7 +205,7 @@ export default function EditProperty() {
     const newFiles: any =
       bathroomFixtures &&
       bathroomFixtures.length > 0 &&
-      bathroomFixtures.filter((e: any) => e.name !== file.name);
+      bathroomFixtures.filter((e: any) => e.id !== file.id);
     setBathroomFixtures(newFiles);
   };
 
@@ -222,7 +222,7 @@ export default function EditProperty() {
     const newFiles: any =
       airConditioning &&
       airConditioning.length > 0 &&
-      airConditioning.filter((e: any) => e.name !== file.name);
+      airConditioning.filter((e: any) => e.id !== file.id);
     setAirConditioning(newFiles);
   };
 
@@ -239,7 +239,7 @@ export default function EditProperty() {
     const newFiles: any =
       utilities &&
       utilities.length > 0 &&
-      utilities.filter((e: any) => e.name !== file.name);
+      utilities.filter((e: any) => e.id !== file.id);
     setUtilities(newFiles);
   };
 
@@ -256,7 +256,7 @@ export default function EditProperty() {
     const newFiles: any =
       intercom &&
       intercom.length > 0 &&
-      intercom.filter((e: any) => e.name !== file.name);
+      intercom.filter((e: any) => e.id !== file.id);
     setIntercom(newFiles);
   };
 
@@ -273,7 +273,7 @@ export default function EditProperty() {
     const newFiles: any =
       builderwarranty &&
       builderwarranty.length > 0 &&
-      builderwarranty.filter((e: any) => e.name !== file.name);
+      builderwarranty.filter((e: any) => e.id !== file.id);
     setBuilderwarranty(newFiles);
   };
 

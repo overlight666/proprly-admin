@@ -31,15 +31,15 @@ export default function FileUploader({
     }
   };
 
-  const removeThis = (name: string) => {
+  const removeThis = (name: string, file: any) => {
     const fileHandler: File =
       uploadQueue &&
       uploadQueue.length > 0 &&
-      uploadQueue.find((q: File) => q.name === name);
+      uploadQueue.find((q: any) => q.name === name && q?.id === file?.id);
     const newQue =
       uploadQueue &&
       uploadQueue.length > 0 &&
-      uploadQueue.filter((q: File) => q.name !== name);
+      uploadQueue.filter((q: any) => q?.id !== file?.id);
     setUploadQueue(newQue);
     removeFile(fileHandler);
   };
