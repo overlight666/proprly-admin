@@ -157,13 +157,24 @@ function useProperties() {
   }
 
   function attachUser(user: any, id: any) {
-    const params = {
-      id: user?.id,
-      roleId: 6,
-    };
-    return fetchWrapper
-      .post(`${baseUrl}/property/${id}/user`, params)
-      .then((_response: any) => {});
+    if(user?.id) {
+       const params = {
+          id: user?.id,
+          roleId: 6,
+        };
+      return fetchWrapper
+        .post(`${baseUrl}/property/${id}/user`, params)
+        .then((_response: any) => {});
+    } else {
+        const params = {
+          ...user,
+          roleId: 6,
+        };
+      return fetchWrapper
+        .post(`${baseUrl}/property/${id}/user`, params)
+        .then((_response: any) => {});
+    }
+   
   }
 
   function addProperty(
@@ -175,6 +186,7 @@ function useProperties() {
     warranties: any,
     _hasWarranties: boolean
   ) {
+
     return fetchWrapper
       .post(`${baseUrl}/property`, params)
       .then((response: any) => {
@@ -183,13 +195,13 @@ function useProperties() {
 
           if (params?.users?.length > 0) {
             const promise1 = params?.users?.map(async (user: any) => {
-              await attachUser(user, res?.id);
+                await attachUser(user, res?.id);
             });
             Promise.all(promise1).then(function () {
-              if (warranties?.length > 0) {
-                const warrantyParams = {
-                  propertyId: res.id,
-                  ...warranties,
+              if (warranties) {
+               const warrantyParams = {
+                    propertyId: res?.id,
+                    groups: warranties?.groups?.filter((f: any) => f?.files?.length > 0),
                 };
                 warrantyAction
                   .uploadWarrantyGroup(
@@ -209,11 +221,11 @@ function useProperties() {
               }
             });
           } else {
-            if (warranties?.length > 0) {
+            if (warranties) {
               const warrantyParams = {
-                propertyId: res.id,
-                ...warranties,
-              };
+                    propertyId: res?.id,
+                    groups: warranties?.groups?.filter((f: any) => f?.files?.length > 0),
+                };
               warrantyAction
                 .uploadWarrantyGroup(
                   id,
