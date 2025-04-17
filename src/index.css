@@ -961,3 +961,11 @@ span.flatpickr-weekday,
 .visually-hidden, .carousel-indicators {
   display: none;
 }
+
+.carousel-inner .carousel-item {
+  display: none;
+}
+
+.carousel-inner .active {
+  display: block;
+}
