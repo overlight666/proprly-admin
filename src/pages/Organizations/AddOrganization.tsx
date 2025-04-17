@@ -193,7 +193,7 @@ export default function AddOrganization() {
           orgAction.addOrganization(params, navigate).then(() => {
             setIsLoading(false);
           }).catch((error: any) => {
-            toast.error(error[0].message);
+            toast.error(error);
             setIsLoading(false);
           });
         }
