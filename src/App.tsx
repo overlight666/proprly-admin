@@ -23,6 +23,7 @@ import RegionManagement from "./pages/Admin/RegionManagement/RegionManagement";
 import TimezoneManagement from "./pages/Admin/RegionManagement/TimezoneManagement";
 import ForgotPassword from "./pages/Admin/ResetPassword/ForgotPassword";
 import ResetPassword from "./pages/Admin/ResetPassword/ResetPassword";
+import Profile from "./pages/Profile/Profile";
 
 export default function App() {
   return (
@@ -181,6 +182,16 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <TimezoneManagement />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
                 </PrivateRoute>
               }
             />
