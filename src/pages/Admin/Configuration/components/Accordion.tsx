@@ -5,6 +5,8 @@ import DefectCodeManagement from "../DefectCodeManagement/DefectCodeManagement";
 import TradeCodeManagement from "../TradeCodeManagement/TradeCodeManagement";
 import ChecklistManagement from "../ChecklistManagement/ChecklistManagement";
 import PropertylistManagement from "../PropertylistManagement/PropertylistManagement";
+import TemplateManagement from "../ITPManagement/ITPTemplateManagement";
+import ITPTaskManagement from "../ITPTaskManagement/ITPTaskManagement";
 
 export const MasterAccordion = () => {
   return (
@@ -22,6 +24,12 @@ export const MasterAccordion = () => {
         </AccordionItem>
         <AccordionItem header="Common Area Checklist Configuration">
           <ChecklistManagement />
+        </AccordionItem>
+        <AccordionItem header="ITP Template Management">
+          <TemplateManagement />
+        </AccordionItem>
+        <AccordionItem header="ITP Tasks Management">
+          <ITPTaskManagement />
         </AccordionItem>
       </Accordion>
     </div>

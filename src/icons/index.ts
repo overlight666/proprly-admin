@@ -58,8 +58,10 @@ import { ReactComponent as BugIcon } from "./bug.svg?react";
 import { ReactComponent as BuildingIcon } from "./building.svg?react";
 import { ReactComponent as GearIcon } from "./gear.svg?react";
 import { ReactComponent as HomeIcon } from "./home.svg?react";
+import { ReactComponent as BulkIcon } from "./bulk-icon.svg?react";
 
 export {
+  BulkIcon,
   HomeIcon,
   GearIcon,
   BuildingIcon,
