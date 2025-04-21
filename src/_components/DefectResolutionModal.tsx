@@ -274,8 +274,10 @@ export default function DefectResolutionModal({
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "close",
                     }).then(() => {
-                      closeModal();
                       setDefectMessage("Defect has been closed");
+                      setTimeout(() => {
+                        closeModal();
+                      }, 1000);
                     });
 
                   }}
@@ -292,8 +294,11 @@ export default function DefectResolutionModal({
                       .pushDefectFeedback(defect?.id, {
                         feedback: "reopen",
                       }).then(() => {
-                        closeModal();
                         setDefectMessage("Defect has been reopened");
+                        setTimeout(() => {
+                          closeModal();
+                        }, 1000);
+
                       })
                       .catch((e) => {
                         toast.error(e);
@@ -312,8 +317,11 @@ export default function DefectResolutionModal({
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "reject",
                     }).then(() => {
-                      closeModal();
                       setDefectMessage("Defect has been rejected");
+                      setTimeout(() => {
+                        closeModal();
+                      }, 1000);
+
                     });
 
                   }}
@@ -330,8 +338,10 @@ export default function DefectResolutionModal({
                       .pushDefectFeedback(defect?.id, {
                         feedback: "accept",
                       }).then(() => {
-                        closeModal();
                         setDefectMessage("Defect has been accepted");
+                        setTimeout(() => {
+                          closeModal();
+                        }, 1000);
                       })
                       .catch((e) => {
                         toast.error(e);
