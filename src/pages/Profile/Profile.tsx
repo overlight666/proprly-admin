@@ -9,10 +9,11 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { useRecoilValue } from "recoil";
 import { authAtom } from "../../_state";
+import { useNavigate } from "react-router";
 
 export default function Profile() {
     const userDetails = useRecoilValue(authAtom);
-
+    const navigate = useNavigate()
     const validationSchema = Yup.object().shape({
         fullName: Yup.string().required("Full Name is required"),
         email: Yup.string().required("Email is required"),
@@ -96,6 +97,9 @@ export default function Profile() {
                                 size="sm"
                                 variant="outline"
                                 type="button"
+                                onClick={() => {
+                                    navigate(-1)
+                                }}
                             >
                                 Cancel
                             </Button>

@@ -275,8 +275,11 @@ export default function DefectProjectResolutionModal({
                   onClick={() => {
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "close",
+                    }).then(() => {
+                      closeModal();
+                      setDefectMessage("Defect has been closed");
                     });
-                    setDefectMessage("Defect has been closed");
+
                   }}
                   type="button"
                   className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
@@ -290,11 +293,14 @@ export default function DefectProjectResolutionModal({
                     defectAction
                       .pushDefectFeedback(defect?.id, {
                         feedback: "reopen",
+                      }).then(() => {
+                        closeModal();
+                        setDefectMessage("Defect has been reopened");
                       })
                       .catch((e) => {
                         toast.error(e);
                       });
-                    setDefectMessage("Defect has been reopened");
+
                   }}
                   type="button"
                   className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
@@ -307,8 +313,11 @@ export default function DefectProjectResolutionModal({
                   onClick={() => {
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "reject",
+                    }).then(() => {
+                      closeModal();
+                      setDefectMessage("Defect has been rejected");
                     });
-                    setDefectMessage("Defect has been rejected");
+
                   }}
                   type="button"
                   className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
@@ -322,11 +331,14 @@ export default function DefectProjectResolutionModal({
                     defectAction
                       .pushDefectFeedback(defect?.id, {
                         feedback: "accept",
+                      }).then(() => {
+                        closeModal();
+                        setDefectMessage("Defect has been accepted");
                       })
                       .catch((e) => {
                         toast.error(e);
                       });
-                    setDefectMessage("Defect has been accepted");
+
                   }}
                   type="button"
                   className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
