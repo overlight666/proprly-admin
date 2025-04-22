@@ -37,6 +37,7 @@ function useProject() {
     getDashboardProjectStats,
     getTimeline,
     getDefectSubmission,
+    getDefectSubmissionResult,
     addProject,
     updateProject,
     addProjectTower,
@@ -111,6 +112,19 @@ function useProject() {
             response && response.data ? response.data : response
           );
           openModal();
+        }
+      });
+  }
+
+  function getDefectSubmissionResult(id: any) {
+    return fetchWrapper
+      .get(`${baseUrl}/admin/defect-submissions/${id}`)
+      .then((response: any) => {
+        if (response) {
+          setDefectSubmission(
+            response && response.data ? response.data : response
+          );
+ 
         }
       });
   }

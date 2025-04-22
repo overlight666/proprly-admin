@@ -21,9 +21,16 @@ const defectCodesSelectAtom = atom<any[]>({
   default: undefined,
 });
 
+const reloadDefectsAtom = atom<any>({
+  key: "reloadDefectsAtom",
+  default: undefined,
+});
+
+
 export {
   defectFeedbackAtom,
   defectCodesAtom,
   defectCodesResponseAtom,
   defectCodesSelectAtom,
+  reloadDefectsAtom
 };

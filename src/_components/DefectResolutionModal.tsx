@@ -11,7 +11,7 @@ import TextArea from "../components/form/input/TextArea";
 import { globalConfigAtom } from "../_state";
 import { Roles } from "../_types";
 import { useDefect } from "../_actions/defects.actions";
-import { defectFeedbackAtom } from "../_state/atoms/defects";
+import { defectFeedbackAtom, reloadDefectsAtom } from "../_state/atoms/defects";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import React from "react";
@@ -22,27 +22,31 @@ import Carousel from 'react-bootstrap/Carousel';
 import Icon from '@mdi/react';
 import * as apIcon from '@mdi/js';
 import { ucword } from "../_helpers";
+import { useOrganization, useProject } from "../_actions";
+import { useParams } from "react-router";
 
 export default function DefectResolutionModal({
   isOpen,
   closeModal,
   openModal,
 }: any) {
+  const { id, project_id } = useParams();
   const defect = useRecoilValue(organizationDefectAtom);
   const config = useRecoilValue(globalConfigAtom);
   const defectFeedback = useRecoilValue(defectFeedbackAtom);
   const setDefectFeedback = useSetRecoilState(defectFeedbackAtom);
   const defectAction = useDefect();
+  const orgAction = useOrganization();
+  const projectAction = useProject();
+  const setIsReload = useSetRecoilState(reloadDefectsAtom);
 
-  const [defectMessage, setDefectMessage] = useState("");
 
   useEffect(() => {
     if (defectFeedback) {
-      toast.info(defectMessage);
       setDefectFeedback(undefined);
-      setDefectMessage("");
     }
   }, [defectFeedback]);
+
 
   const getStatus = (value: any) => {
     let val = "";
@@ -131,21 +135,25 @@ export default function DefectResolutionModal({
     return newName
   }
 
+  const setDefectMessage = (msg) => {
+    toast.info(msg)
+  }
+
   return (
     <>
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
-        className="max-w-[80%] p-6 lg:p-10 max-h-[90%] relative overflow-auto"
+        className="max-w-[80%] p-6 lg:p-10 max-h-[90%] relative overflow-hidden"
       >
-        <div className="flex flex-col px-2 overflow-auto custom-scrollbar">
+        <div className="flex flex-col px-2">
           <div className="flex gap-3">
-            <span className="dark:text-gray-200">{defect?.property ? `Unit No ${defect?.property?.unitNo}, ${defect?.property?.projectTower?.name} - Floor ${defect?.property?.floor}` : `CA Lot No ${defect?.commonArea?.lotNo}, ${defect?.projectTower?.name}`}</span>
+            <span className="dark:text-gray-200">{defect?.property ? `Unit No ${defect?.property?.unitNo}, ${defect?.property?.projectTower?.name} - ${defect?.property?.floor == 0 ? "Ground Floor" : `Floor ${defect?.property?.floor}`}` : `CA Lot No ${defect?.commonArea?.lotNo}, ${defect?.projectTower?.name}, ${defect?.floor == 0 ? "Ground Floor" : `Floor ${defect?.floor}`}`}</span>
           </div>
           <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-3 gap-2">
             <div className="col-span-2">
               <span className="dark:text-gray-200">Activity Logs</span>
-              <div className="gap-2 mt-5">
+              <div className="gap-2 mt-5 max-h-[50vh] overflow-auto custom-scrollbar">
                 <ol className="relative border-s border-gray-200 dark:border-gray-700">
                   {defect?.activityLogs &&
                     defect?.activityLogs.map((activity: any, index) => {
@@ -177,7 +185,7 @@ export default function DefectResolutionModal({
                               </span>
                             </div>
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2">
+                          <div className="grid grid-cols-1">
                             <div className="flex flex-col">
                               {activity.comment ?
                                 <span className="text-[12px] text-gray-900 dark:text-gray-200 ml-2">
@@ -199,7 +207,7 @@ export default function DefectResolutionModal({
                               </p>
                             </div>
                             {activity.images && activity.images.length > 0 && (
-                              <Carousel className="p-3 dark:bg-gray-800 relative rounded-md bg-gray-100 flex justify-center items-center">
+                              <Carousel className="p-3 dark:bg-gray-800 relative rounded-md bg-gray-100 flex justify-center items-center w-[350px]">
                                 {activity.images.map((img, index) => {
                                   return (
                                     <Carousel.Item key={index}
@@ -238,7 +246,7 @@ export default function DefectResolutionModal({
                   <span className="font-normal text-gray-800 dark:text-gray-400">
                     Where is the Defect?
                   </span>
-                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.checklistZone?.name}</span>
+                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.checklistZone?.name ? defect?.checklistZone?.name : defect?.floor == 0 ? "Ground Floor" : `Floor ${defect?.floor}`}</span>
 
                 </div>
                 <div className="flex flex-col gap-1">
@@ -274,10 +282,13 @@ export default function DefectResolutionModal({
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "close",
                     }).then(() => {
+                      setIsReload(true);
                       setDefectMessage("Defect has been closed");
-                      setTimeout(() => {
-                        closeModal();
-                      }, 1000);
+                      orgAction.getTimeline(id);
+                      projectAction.getTimeline(project_id);
+                      // orgAction.getDefectSubmissionResult(defect?.id);
+
+                      closeModal();
                     });
 
                   }}
@@ -294,10 +305,13 @@ export default function DefectResolutionModal({
                       .pushDefectFeedback(defect?.id, {
                         feedback: "reopen",
                       }).then(() => {
+                        setIsReload(true);
                         setDefectMessage("Defect has been reopened");
-                        setTimeout(() => {
-                          closeModal();
-                        }, 1000);
+                        orgAction.getTimeline(id);
+                        projectAction.getTimeline(project_id);
+                        // orgAction.getDefectSubmissionResult(defect?.id);
+
+                        closeModal();
 
                       })
                       .catch((e) => {
@@ -317,10 +331,12 @@ export default function DefectResolutionModal({
                     defectAction.pushDefectFeedback(defect?.id, {
                       feedback: "reject",
                     }).then(() => {
+                      setIsReload(true);
                       setDefectMessage("Defect has been rejected");
-                      setTimeout(() => {
-                        closeModal();
-                      }, 1000);
+                      orgAction.getTimeline(id);
+                      projectAction.getTimeline(project_id);
+                      // orgAction.getDefectSubmissionResult(defect?.id);
+                      closeModal();
 
                     });
 
@@ -338,10 +354,13 @@ export default function DefectResolutionModal({
                       .pushDefectFeedback(defect?.id, {
                         feedback: "accept",
                       }).then(() => {
+                        setIsReload(true);
                         setDefectMessage("Defect has been accepted");
-                        setTimeout(() => {
-                          closeModal();
-                        }, 1000);
+                        orgAction.getTimeline(id);
+                        projectAction.getTimeline(project_id);
+                        // orgAction.getDefectSubmissionResult(defect?.id);
+
+                        closeModal();
                       })
                       .catch((e) => {
                         toast.error(e);

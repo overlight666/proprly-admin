@@ -11,6 +11,8 @@ import { DefectSumissionType } from "../../_types";
 import DefectItem from "./components/DefectBox";
 import DefectHeader from "./components/DefectHeader";
 import React from "react";
+import { reloadDefectsAtom } from "../../_state/atoms/defects";
+import { useParams } from "react-router";
 
 // Define the table data using the interface
 
@@ -21,11 +23,14 @@ export default function DefectResolution() {
   const [label, setLabel] = useState("");
   const [filterValue, setFilterValue] = useState<any>();
   const tradeCodes = useRecoilValue(appointmentTradeCodesAtom);
-
+  const { project_id } = useParams();
   const defectResolutionAction = useDefectResolution();
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const defects = useRecoilValue(defectResolutionAtom);
   const setDefects = useSetRecoilState(defectResolutionAtom);
+  const isReload = useRecoilValue(reloadDefectsAtom);
+  const setIsReload = useSetRecoilState(reloadDefectsAtom);
+
   const [search, setSearch] = useState("");
   const [pendingDefects, setPendingDefects] = useState<
     DefectSumissionType[] | []
@@ -43,16 +48,32 @@ export default function DefectResolution() {
   useEffect(() => {
     if (selectedValue == "all") {
       setDefects([]);
-      defectResolutionAction.getAllDefectResolutions(selectedProject?.id);
+      defectResolutionAction.getAllDefectResolutions(project_id);
     } else {
       setDefects([]);
       defectResolutionAction.getDefectResolutions(
-        selectedProject?.id,
+        project_id,
         selectedValue
       );
     }
-  }, [selectedValue]);
+  }, [selectedValue, project_id]);
 
+  useEffect(() => {
+    if (isReload) {
+      if (selectedValue == "all") {
+        setDefects([]);
+        defectResolutionAction.getAllDefectResolutions(project_id);
+      } else {
+        setDefects([]);
+        defectResolutionAction.getDefectResolutions(
+          project_id,
+          selectedValue
+        );
+      }
+      setIsReload(false)
+    }
+
+  }, [isReload])
   useEffect(() => {
     setFilterValue("");
     setOption([]);

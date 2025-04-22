@@ -46,6 +46,7 @@ function useOrganization() {
     getDashboardStats,
     getTimeline,
     getDefectSubmission,
+    getDefectSubmissionResult,
     attachBuilder,
   };
 
@@ -86,6 +87,17 @@ function useOrganization() {
       });
   }
 
+    function getDefectSubmissionResult(id: any) {
+    return fetchWrapper
+      .get(`${baseUrl}/admin/defect-submissions/${id}`)
+      .then((response: any) => {
+        if (response) {
+          setDefectSubmission(
+            response && response.data ? response.data : response
+          );
+        }
+      });
+  }
   function getTimeline(id: any) {
     return fetchWrapper
       .get(`${baseUrl}/notifications?forAdmin=true&organizationId=${id}`)
