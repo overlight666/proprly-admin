@@ -27,7 +27,7 @@ const commonAreaChecklistElementListAtom = atom<any[]>({
 });
 
 const addCommonAreaCategoryResponseAtom = atom<any[]>({
-  key: "commonAreaCategoryResponseAtom",
+  key: "addCommonAreaCategoryResponseAtom",
   default: undefined,
 });
 
