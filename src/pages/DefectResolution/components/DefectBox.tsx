@@ -16,8 +16,7 @@ interface DefectItemBox {
   keyValue: any;
   defect: DefectSumissionType;
 }
-export default function DefectItem({ keyValue, defect }: DefectItemBox) {
-  const { isOpen, openModal, closeModal } = useModal();
+export default function DefectItem({ keyValue, defect, openModal }: any) {
   const orgAction = useOrganization();
   const mutateIcon = (name: any) => {
     const splitName = name.split("-");
@@ -29,15 +28,11 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
   }
   return (
     <div key={keyValue}>
-      <DefectResolutionModal
-        isOpen={isOpen}
-        openModal={openModal}
-        closeModal={closeModal}
-      />
+
       <ComponentCard
         title={""}
         noHeader={true}
-        className="overflow-hidden w-full my-3"
+        className="overflow-hidden w-full my-3 min-w-[260px] max-w-[260px]"
         subClass="sm:!p-3"
       >
         <div
@@ -53,7 +48,7 @@ export default function DefectItem({ keyValue, defect }: DefectItemBox) {
               className="w-full h-[150px] object-fit rounded-md"
             />
           </div>
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0 overflow-auto">
             <div className="p-1 rounded-lg">
               <div className="flex items-center">
                 <div
