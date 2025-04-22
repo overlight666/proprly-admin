@@ -301,7 +301,7 @@ function useUserActions() {
     return fetchWrapper.get(baseUrl).then(setUsers);
   }
 
-  function forgotPassword(email: string, navigate: any) {
+  function forgotPassword(email: string) {
     const isAdmin = location.href.includes("forgot-password/admin") ? true : false;
 
     return fetchWrapper
@@ -310,10 +310,12 @@ function useUserActions() {
       })
       .then((response: any) => {
         if (response) {
-          const { from }: any = history.location.state || {
-            from: { pathname: "/" },
-          };
-          navigate(from);
+          return response
+          // console.log(response)
+          // const { from }: any = history.location.state || {
+          //   from: { pathname: "/" },
+          // };
+          // navigate(from);
         }
       });
   }
@@ -337,7 +339,6 @@ function useUserActions() {
 
   function getDcryptToken(token: string) {
     return fetchWrapper.post(`${baseUrl}/decrypt_token`, { token }).then((response: any) => {
-      console.log(response)
       if (response) {
         return response;
       }

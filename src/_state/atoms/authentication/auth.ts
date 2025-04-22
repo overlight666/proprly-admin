@@ -12,4 +12,8 @@ const tokenAtom = atom<any>({
   default: localStorage.getItem("token"),
 });
 
-export { authAtom, tokenAtom };
+const forgottenAtom = atom<any>({
+  key: "forgottenAtom",
+  default: false,
+});
+export { authAtom, tokenAtom, forgottenAtom};

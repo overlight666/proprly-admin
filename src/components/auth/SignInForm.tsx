@@ -6,8 +6,8 @@ import Label from "../form/Label";
 // import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
 import { useUserActions } from "../../_actions";
-import { useRecoilValue } from "recoil";
-import { tokenAtom } from "../../_state";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { forgottenAtom, tokenAtom } from "../../_state";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ import Input from "../form/input/InputField";
 import React from "react";
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const setForgotten = useSetRecoilState(forgottenAtom)
   // const [isChecked, setIsChecked] = useState(false);
   const token = useRecoilValue(tokenAtom);
   const userActions = useUserActions();
@@ -31,6 +32,7 @@ export default function SignInForm() {
   const { errors, isSubmitting } = formState;
   const navigate = useNavigate();
   useEffect(() => {
+    setForgotten(false);
     // redirect to home if already logged in
     if (token) navigate("/");
 
@@ -85,9 +87,8 @@ export default function SignInForm() {
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
-                      className={`absolute z-30 -translate-y-1/2 cursor-pointer right-4 ${
-                        errors.password ? "top-5" : "top-1/2"
-                      }`}
+                      className={`absolute z-30 -translate-y-1/2 cursor-pointer right-4 ${errors.password ? "top-5" : "top-1/2"
+                        }`}
                     >
                       {showPassword ? (
                         <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />

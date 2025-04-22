@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRecoilState } from "recoil";
-import { tokenAtom } from "../_state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { forgottenAtom, tokenAtom } from "../_state";
 import { usePersistor } from "./persistor";
 import useLogout from "./goto";
 
@@ -8,6 +8,7 @@ export { useFetchWrapper };
 
 function useFetchWrapper() {
   const [auth, setToken] = useRecoilState<any>(tokenAtom);
+  const isForgotten = useRecoilValue(forgottenAtom);
   const persist = usePersistor();
   const navigate = useLogout();
   return {
@@ -68,10 +69,13 @@ function useFetchWrapper() {
       if (!response.ok) {
         if ([401, 403].includes(response.status)) {
           // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-          persist.clearValues("token");
-          persist.clearValues("authUser");
-          setToken(null);
-          navigate("/signin");
+          if(!isForgotten) {
+            persist.clearValues("token");
+            persist.clearValues("authUser");
+            setToken(null);
+            navigate("/signin");
+          }
+         
         }
 
         const error =
