@@ -53,9 +53,9 @@ export default function DefectItem({ keyValue, defect, openModal }: any) {
               <div className="flex items-center">
                 <div
                   style={{ backgroundColor: defect?.bgColor }}
-                  className={`flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
+                  className={`flex items-start rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all`}
                 >
-                  <div className="flex h-full align-top">
+                  <div className="flex h-full align-top mt-1">
                     {/* {getIcons(defect?.subStatus)} */}
                     <Icon path={apIcon[mutateIcon(defect?.icon?.appIcon)]} size={0.5} style={{
                       color: defect?.color
