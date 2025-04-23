@@ -54,8 +54,18 @@ export const AcquisitionChart = function ({ data }: any) {
     tooltip: {
       shared: true,
       followCursor: false,
-      fillSeriesColor: false,
+      fillSeriesColor: true,
       inverseOrder: true,
+      custom: function ({ series, seriesIndex, _dataPointIndex, w }) {
+        const customElement = document.createElement('div')
+        customElement.style.padding = '9px'
+        customElement.innerHTML = `${w?.config?.labels[seriesIndex]} (${series[seriesIndex]})`
+        console.log(w, seriesIndex)
+        return customElement
+      },
+      onDatasetHover: {
+        highlightDataSeries: true,
+      },
       style: {
         fontSize: "14px",
         fontFamily: "Inter, sans-serif",
