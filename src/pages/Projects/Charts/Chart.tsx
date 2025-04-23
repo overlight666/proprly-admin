@@ -60,7 +60,6 @@ export const AcquisitionChart = function ({ data }: any) {
         const customElement = document.createElement('div')
         customElement.style.padding = '9px'
         customElement.innerHTML = `${w?.config?.labels[seriesIndex]} (${series[seriesIndex]})`
-        console.log(w, seriesIndex)
         return customElement
       },
       onDatasetHover: {

@@ -46,7 +46,7 @@ const Select: React.FC<SelectProps> = ({
     inputClasses += `  border-error-500 focus:border-error-300 focus:ring-error-500/20 dark:text-error-400 dark:border-error-500 dark:focus:border-error-800`;
   }
   return (
-    <div className={`relative ${containerClass}`}>
+    <div className={`${containerClass}`}>
       <select
         disabled={disabled}
         className={inputClasses}
