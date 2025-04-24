@@ -27,12 +27,12 @@ export default function DefectItem({ keyValue, defect, openModal }: any) {
     return newName
   }
   return (
-    <div key={keyValue}>
+    <div key={keyValue} className="w-full">
 
       <ComponentCard
         title={""}
         noHeader={true}
-        className="overflow-hidden w-full my-3 min-w-[260px] max-w-[260px]"
+        className="overflow-hidden my-3"
         subClass="sm:!p-3"
       >
         <div

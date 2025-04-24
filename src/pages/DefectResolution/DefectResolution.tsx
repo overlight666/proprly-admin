@@ -36,7 +36,7 @@ export default function DefectResolution() {
   const isReload = useRecoilValue(reloadDefectsAtom);
   const setIsReload = useSetRecoilState(reloadDefectsAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
-
+  const [selectedPage, setSelectedPage] = useState<string>('pending')
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -61,24 +61,6 @@ export default function DefectResolution() {
     }
   };
 
-  const defectTabs = [
-    {
-      name: "Open Defects",
-      key: "pending"
-    },
-    {
-      name: "In Progress",
-      key: "in_progress"
-    },
-    {
-      name: "Disputed",
-      key: "disputed"
-    },
-    {
-      name: "Resolved",
-      key: "resolved"
-    }
-  ]
 
   const [search, setSearch] = useState("");
   const [pendingDefects, setPendingDefects] = useState<
@@ -185,7 +167,7 @@ export default function DefectResolution() {
     }
   }, [filter]);
 
-  const filteredDefects = (status: any[]) => {
+  const filteredDefects = (status: any) => {
     let results: any = defects?.filter((d) => status.includes(d.status));
     if (search.trim().length > 0) {
       results = results?.filter(
@@ -345,35 +327,35 @@ export default function DefectResolution() {
         />
       </div>
       <div className="flex flex-col w-full mt-10">
-        {
-          globalConfig?.defectSubmissionStatusSections?.map((tab: DefectSubmissionStatusSections) => {
-            return (
-              <div className="flex gap-2 flex-col">
-                <Label className="szh-accordion__item-btn flex w-full p-4 text-left dark:hover:bg-gray-700 hover:bg-gray-200 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700">
-                  {tab.name} (
-                  <span className="mx-1">{filteredDefects(tab.status)?.length}</span>
-                  )
-                </Label>
-                {filteredDefects(tab.status)?.length > 0 && <Carousel responsive={responsive} ssr={true} draggable={true} swipeable={true}
-                  showDots={true}>
-                  {
-                    filteredDefects(tab.status)?.map((defects, index) => {
-                      return (
-                        <DefectItem
-                          key={index}
-                          keyValue={index + tab.key}
-                          defect={defects}
-                          openModal={openModal}
-                        />
-                      );
-                    })
-                  }
-                </Carousel>}
+        <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+          <ul className="flex flex-wrap -mb-px">
+            {
+              globalConfig?.defectSubmissionStatusSections?.map((tab: DefectSubmissionStatusSections) => {
+                return (
+                  <li className="me-2">
+                    <a href="#" onClick={() => setSelectedPage(tab.key)} className={selectedPage !== tab.key ? `inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300` : `inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500`}>{tab.name}</a>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </div>
 
-              </div>
-            )
-          })
-        }
+        {filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length > 0 && <div className="w-full gap-2 grid grid-cols-1 md:grid-cols-4">
+          {
+            filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.map((defects, index) => {
+              return (
+                <DefectItem
+                  key={index}
+                  keyValue={index}
+                  defect={defects}
+                  openModal={openModal}
+                />
+              );
+            })
+          }
+        </div>}
+
       </div>
       {/* <div className="flex flex-row mt-10 w-full gap-2">
         <div className="basis-[25%] gap-3">
