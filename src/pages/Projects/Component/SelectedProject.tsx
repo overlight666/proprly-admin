@@ -44,6 +44,7 @@ import PropertyTable from "../Tables/PropertyTable";
 import Defects from "../Defects/Defects";
 import TimeLine from "../Timeline/Timeline";
 import DefectProjectResolutionModal from "../../../_components/DefectProjectResolutionModal";
+import DefectPagination from "../../DefectResolution/components/Pagination";
 
 export default function SelectedProject() {
   const { id, project_id }: any = useParams();
@@ -63,6 +64,9 @@ export default function SelectedProject() {
   const [selected, setSelected] = useState<any[]>([]);
   const [showBulk, setShowBulk] = useState(false);
   const [propertyUploadQueue, setPropertyUploadQueue] = useState<any>([]);
+  const [pageRow, setPageRow] = useState<any>('all')
+  const [totalRows, setTotalRows] = useState<any>(0)
+  const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     if (selected && selected.length > 1) {
@@ -71,12 +75,6 @@ export default function SelectedProject() {
       setCanUpload(false);
     }
   }, [selected]);
-
-  // useEffect(() => {
-  //   if (!bulkResponse) {
-  //     setActiveTabIndex(0);
-  //   }
-  // }, [project_id]);
 
   useEffect(() => {
     if (selectedProject || bulkResponse) {
@@ -151,6 +149,19 @@ export default function SelectedProject() {
     }
   };
 
+  const handlePageClick = (event) => {
+    if (pageRow != "all") {
+      const newOffset = (event.selected * pageRow) % totalRows;
+      console.log(
+        `User requested page number ${event.selected}, which is offset ${newOffset}`
+      );
+      setItemOffset(newOffset);
+    } else {
+      setItemOffset(0);
+    }
+
+  };
+
   return (
     <div>
       <DefectProjectResolutionModal
@@ -192,8 +203,8 @@ export default function SelectedProject() {
               <button
                 key={idx}
                 className={`transition-colors duration-300 ${idx === activeTabIndex
-                    ? "bg-blue-100 px-6 py-4 text-blue-600"
-                    : "border-transparent hover:border-gray-200 px-6 py-4"
+                  ? "bg-blue-100 px-6 py-4 text-blue-600"
+                  : "border-transparent hover:border-gray-200 px-6 py-4"
                   }`}
                 // Change the active tab on click.
                 onClick={() => setActiveTabIndex(idx)}
@@ -333,7 +344,7 @@ export default function SelectedProject() {
           <CommonArea />
         ) : tabsData[activeTabIndex].label === "Defect Resolution" ? (
           <div className="flex flex-row gap-4 mx-5">
-            <DefectResolution />
+            <DefectResolution setTotalRows={setTotalRows} setPageRow={setPageRow} itemOffset={itemOffset} pageRow={pageRow} />
           </div>
         ) : tabsData[activeTabIndex].label === "Appointments" ? (
           <>
@@ -347,6 +358,12 @@ export default function SelectedProject() {
           <Reports />
         )}
       </div>
+      {
+        tabsData[activeTabIndex].label === "Defect Resolution" && <div className="mt-5">
+          <DefectPagination pageRow={pageRow} setPageRow={setPageRow} totalRows={totalRows} handlePageClick={handlePageClick} />
+        </div>
+      }
+
     </div>
   );
 }
