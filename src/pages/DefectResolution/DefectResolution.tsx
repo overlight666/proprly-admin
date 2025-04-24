@@ -341,7 +341,7 @@ export default function DefectResolution() {
           </ul>
         </div>
 
-        {filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length > 0 && <div className="flex w-full flex-row flex-wrap gap-2">
+        {filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length > 0 && <div className="w-full gap-2 grid grid-cols-1 md:grid-cols-4">
           {
             filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.map((defects, index) => {
               return (
