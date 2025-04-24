@@ -27,7 +27,7 @@ export default function DefectItem({ keyValue, defect, openModal }: any) {
     return newName
   }
   return (
-    <div key={keyValue} className="w-[24%]">
+    <div key={keyValue} className="w-full">
 
       <ComponentCard
         title={""}
