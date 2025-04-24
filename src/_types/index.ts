@@ -470,7 +470,16 @@ export interface DefectSumissionType {
   bgColor?: any;
 }
 
+export interface DefectSubmissionStatusSections {
+  name: string;
+  key: any;
+  status: any[];
+  forMobile: boolean;
+  forWeb: boolean;
+}
+
 export interface Config {
+  defectSubmissionStatusSections?: DefectSubmissionStatusSections[]
   roles?: Roles[];
   roleAccessLevel: AccessLevel;
   roleAccessLevelList: ValueList[];

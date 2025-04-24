@@ -5,9 +5,9 @@ import Radio from "../../components/form/input/Radio";
 import Label from "../../components/form/Label";
 import { useDefectResolution } from "../../_actions";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { appointmentTradeCodesAtom, selectedProjectAtom } from "../../_state";
+import { appointmentTradeCodesAtom, globalConfigAtom, selectedProjectAtom } from "../../_state";
 import { defectResolutionAtom } from "../../_state/atoms/defectResolution";
-import { DefectSumissionType } from "../../_types";
+import { DefectSubmissionStatusSections, DefectSumissionType } from "../../_types";
 import DefectItem from "./components/DefectBox";
 import DefectHeader from "./components/DefectHeader";
 import React from "react";
@@ -35,6 +35,8 @@ export default function DefectResolution() {
   const setDefects = useSetRecoilState(defectResolutionAtom);
   const isReload = useRecoilValue(reloadDefectsAtom);
   const setIsReload = useSetRecoilState(reloadDefectsAtom);
+  const globalConfig = useRecoilValue(globalConfigAtom);
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -183,8 +185,8 @@ export default function DefectResolution() {
     }
   }, [filter]);
 
-  const filteredDefects = (status: any) => {
-    let results: any = defects?.filter((d) => d.status === status);
+  const filteredDefects = (status: any[]) => {
+    let results: any = defects?.filter((d) => status.includes(d.status));
     if (search.trim().length > 0) {
       results = results?.filter(
         (defect) => search !== "" && defect?.property?.unitNo === search
@@ -298,6 +300,7 @@ export default function DefectResolution() {
     setResolvedDefects(resolved);
   }, [defects, search, filter, filterValue]);
 
+
   return (
     <div className="overflow-hidden mt-5 w-full">
       <DefectResolutionModal
@@ -343,18 +346,18 @@ export default function DefectResolution() {
       </div>
       <div className="flex flex-col w-full mt-10">
         {
-          defectTabs?.map((tab) => {
+          globalConfig?.defectSubmissionStatusSections?.map((tab: DefectSubmissionStatusSections) => {
             return (
               <div className="flex gap-2 flex-col">
                 <Label className="szh-accordion__item-btn flex w-full p-4 text-left dark:hover:bg-gray-700 hover:bg-gray-200 bg-gray-100 dark:bg-gray-800 dark:bg-gray-700">
                   {tab.name} (
-                  <span className="mx-1">{filteredDefects(tab.key)?.length}</span>
+                  <span className="mx-1">{filteredDefects(tab.status)?.length}</span>
                   )
                 </Label>
-                {filteredDefects(tab.key)?.length > 0 && <Carousel responsive={responsive} ssr={true} draggable={true} swipeable={true}
+                {filteredDefects(tab.status)?.length > 0 && <Carousel responsive={responsive} ssr={true} draggable={true} swipeable={true}
                   showDots={true}>
                   {
-                    filteredDefects(tab.key)?.map((defects, index) => {
+                    filteredDefects(tab.status)?.map((defects, index) => {
                       return (
                         <DefectItem
                           key={index}

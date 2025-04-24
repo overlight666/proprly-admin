@@ -56,7 +56,7 @@ export default function AccountSettings() {
     return (
         <div>
             <PageMeta
-                title="React.js Blank Dashboard | TailAdmin - Next.js Admin Dashboard Template"
+                title="Proprly | Account Settings"
                 description="This is React.js Blank Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
             />
             <PageBreadcrumb pageTitle="Account Settings" />
