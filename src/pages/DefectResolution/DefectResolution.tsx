@@ -17,10 +17,11 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useModal } from "../../hooks/useModal";
 import DefectResolutionModal from "../../_components/DefectResolutionModal";
+import Select2 from "../../components/form/Select2";
 
 // Define the table data using the interface
 
-export default function DefectResolution() {
+export default function DefectResolution({ setTotalRows, itemOffset, pageRow }: any) {
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedValue, setSelectedValue] = useState<any>("all");
   const [filter, setFilter] = useState<any>("Filter by");
@@ -37,6 +38,7 @@ export default function DefectResolution() {
   const setIsReload = useSetRecoilState(reloadDefectsAtom);
   const globalConfig = useRecoilValue(globalConfigAtom);
   const [selectedPage, setSelectedPage] = useState<string>('pending')
+  const [endOffset, setEndOffset] = useState(0);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -198,6 +200,7 @@ export default function DefectResolution() {
     return results
   }
 
+
   useEffect(() => {
     let pendings: any = defects?.filter((d) => d.status === "logged");
     let disputed: any = defects?.filter((d) => d.status === "disputed");
@@ -282,9 +285,17 @@ export default function DefectResolution() {
     setResolvedDefects(resolved);
   }, [defects, search, filter, filterValue]);
 
+  useEffect(() => {
+    if (pageRow != 'all') {
+      setEndOffset(parseInt(itemOffset) + parseInt(pageRow));
+    } else {
+      setEndOffset(filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length)
+    }
+    setTotalRows(filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length)
+  }, [selectedPage, itemOffset, pageRow])
 
   return (
-    <div className="overflow-hidden mt-5 w-full">
+    <div className="overflow-auto mt-5 w-full h-full">
       <DefectResolutionModal
         isOpen={isOpen}
         openModal={openModal}
@@ -343,7 +354,7 @@ export default function DefectResolution() {
 
         {filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.length > 0 && <div className="w-full gap-2 grid grid-cols-1 md:grid-cols-4">
           {
-            filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.map((defects, index) => {
+            filteredDefects(globalConfig?.defectSubmissionStatusSections?.find((ds: any) => ds.key == selectedPage)?.status)?.slice(itemOffset, endOffset)?.map((defects, index) => {
               return (
                 <DefectItem
                   key={index}
@@ -357,76 +368,7 @@ export default function DefectResolution() {
         </div>}
 
       </div>
-      {/* <div className="flex flex-row mt-10 w-full gap-2">
-        <div className="basis-[25%] gap-3">
-          <Label className="text-[1rem] font-bold">
-            Pending (<span className="mx-1">{pendingDefects?.length || 0}</span>
-            )
-          </Label>
-          {pendingDefects &&
-            pendingDefects?.length > 0 &&
-            pendingDefects.map((defects, index) => {
-              return (
-                <DefectItem
-                  key={index}
-                  keyValue={index + "pending"}
-                  defect={defects}
-                />
-              );
-            })}
-        </div>
-        <div className="basis-[25%] gap-3">
-          <Label className="text-[1rem] font-bold">
-            In Progress (
-            <span className="mx-1">{inprogressDefects?.length}</span>)
-          </Label>
-          {inprogressDefects &&
-            inprogressDefects?.length > 0 &&
-            inprogressDefects.map((defects, index) => {
-              return (
-                <DefectItem
-                  key={index}
-                  keyValue={index + "progress"}
-                  defect={defects}
-                />
-              );
-            })}
-        </div>
-        <div className="basis-[25%] gap-3">
-          <Label className="text-[1rem] font-bold">
-            Disputed (
-            <span className="mx-1">{disputedDefects?.length || 0}</span>)
-          </Label>
-          {disputedDefects &&
-            disputedDefects?.length > 0 &&
-            disputedDefects.map((defects, index) => {
-              return (
-                <DefectItem
-                  key={index}
-                  keyValue={index + "disputed"}
-                  defect={defects}
-                />
-              );
-            })}
-        </div>
-        <div className="basis-[25%] gap-3">
-          <Label className="text-[1rem] font-bold">
-            Resolved(
-            <span className="mx-1">{resolvedDefects?.length || 0}</span>)
-          </Label>
-          {resolvedDefects &&
-            resolvedDefects?.length > 0 &&
-            resolvedDefects.map((defects, index) => {
-              return (
-                <DefectItem
-                  key={index}
-                  keyValue={index + "resolved"}
-                  defect={defects}
-                />
-              );
-            })}
-        </div>
-      </div> */}
+
     </div>
   );
 }
