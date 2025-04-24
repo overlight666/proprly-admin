@@ -1,8 +1,8 @@
-name: Continous Deployment [Staging]
+name: Continous Deployment [Production]
 on:
   push:
     branches:
-      - staging
+      - master
 
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -d '{
               "ref": "${{ github.sha }}",
-              "environment": "staging",
+              "environment": "production",
               "required_contexts": [],
               "auto_merge": false,
               "description": "Deployment triggered from GitHub Actions"
@@ -36,25 +36,6 @@ jobs:
           cat deployment.json
           echo "DEPLOYMENT_ID=$(jq -r .id deployment.json)" >> $GITHUB_ENV
 
-      - name: executing remote ssh commands on remote server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.PROPRLY_DEV_SERVER_HOST }}
-          username: ${{ secrets.PROPRLY_DEV_SERVER_USER }}
-          key: ${{ secrets.PROPRLY_DEV_SERVER_KEY }}
-          port: ${{ secrets.PROPRLY_DEV_SERVER_PORT }}
-          script_stop: true
-          script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            cd proprly-admin-staging
-            git fetch
-            git reset --hard origin/staging
-            git pull origin staging
-            npm install
-            npm run build
-            pm2 restart proprly-admin-staging
-
       - name: Update Deployment Status
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,6 +45,6 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -d '{
               "state": "success",
-              "environment": "staging",
-              "description": "Deployed to staging server"
+              "environment": "production",
+              "description": "Deployed to production server"
             }'

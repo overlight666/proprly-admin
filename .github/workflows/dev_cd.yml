@@ -1,13 +1,41 @@
-name: Continous Deployment [Dev]
+name: Continous Deployment [Development]
 on:
   push:
     branches:
-      - dev-bk
+      - development
+
+permissions:
+  contents: read
+  deployments: write
+
 jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create Deployment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST https://api.github.com/repos/${{ github.repository }}/deployments \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -d '{
+              "ref": "${{ github.sha }}",
+              "environment": "development",
+              "required_contexts": [],
+              "auto_merge": false,
+              "description": "Deployment triggered from GitHub Actions"
+            }' > deployment.json
+
+      - name: Get Deployment ID
+        run: |
+          cat deployment.json
+          echo "DEPLOYMENT_ID=$(jq -r .id deployment.json)" >> $GITHUB_ENV
+
       - name: executing remote ssh commands on remote server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -21,8 +49,21 @@ jobs:
             source ~/.nvm/nvm.sh
             cd proprly-admin
             git fetch
-            git reset --hard origin/dev
-            git pull origin dev
+            git reset --hard origin/development
+            git pull origin development
             npm install
             npm run build
             pm2 restart proprly-admin-dev
+
+      - name: Update Deployment Status
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -d '{
+              "state": "success",
+              "environment": "development",
+              "description": "Deployed to dev server"
+            }'
