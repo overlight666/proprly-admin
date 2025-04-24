@@ -32,7 +32,6 @@ export default function Organization() {
       const newList = orglist.filter((list) =>
         list?.name?.toLowerCase().includes(search?.toLowerCase())
       );
-      console.log(newList);
       setOrglistFiltered(newList);
     } else {
       setOrglistFiltered(orglist);
@@ -63,15 +62,15 @@ export default function Organization() {
             </div>
           </div>
         )) || (
-          <>
-            <OrganizationHeader setSearch={setSearch} />
-            {selectedOutline === "table" ? (
-              <OrgTable orglist={orglistFiltered} />
-            ) : (
-              <OrgGrid orglist={orglistFiltered} />
-            )}
-          </>
-        )}
+            <>
+              <OrganizationHeader setSearch={setSearch} />
+              {selectedOutline === "table" ? (
+                <OrgTable orglist={orglistFiltered} />
+              ) : (
+                <OrgGrid orglist={orglistFiltered} />
+              )}
+            </>
+          )}
       </div>
     </>
   );
