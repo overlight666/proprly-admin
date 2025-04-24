@@ -44,6 +44,7 @@ function useUserActions() {
   const persist = usePersistor();
 
   return {
+    changePassword,
     getDcryptToken,
     forgotPassword,
     resetPassword,
@@ -320,6 +321,17 @@ function useUserActions() {
       });
   }
 
+  function changePassword(params: any) {
+    const isAdmin = persist.getValues("isAdmin");
+    const user = persist.getValues("authUser");
+    const url = isAdmin ? `${baseUrl}/admin/${user?.user?.id}`:`${baseUrl}/users/${user?.user?.id}`
+    return fetchWrapper.put(url, params).then((response: any) => {
+      if (response) {
+        return response;
+      }
+    }).catch((error: any) => error)
+  }
+
   function resetPassword(password: string, confirmPassword: string, token: string, navigate: any) {
     return fetchWrapper
       .post(`${baseUrl}/reset_password`, {
@@ -344,4 +356,5 @@ function useUserActions() {
       }
     }).catch((error: any) => console.error({ error }))
   }
+
 }

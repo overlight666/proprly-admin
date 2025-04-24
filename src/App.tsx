@@ -24,6 +24,7 @@ import TimezoneManagement from "./pages/Admin/RegionManagement/TimezoneManagemen
 import ForgotPassword from "./pages/Admin/ResetPassword/ForgotPassword";
 import ResetPassword from "./pages/Admin/ResetPassword/ResetPassword";
 import Profile from "./pages/Profile/Profile";
+import AccountSettings from "./pages/Profile/AccountSettings";
 
 export default function App() {
   return (
@@ -192,6 +193,16 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <Profile />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              index
+              path="/account-settings"
+              element={
+                <PrivateRoute>
+                  <AccountSettings />
                 </PrivateRoute>
               }
             />
