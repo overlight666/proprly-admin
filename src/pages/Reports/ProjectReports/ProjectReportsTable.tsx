@@ -6,9 +6,10 @@ import moment from "moment";
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import { DownloadIcon } from "../../../icons";
+import { DocsIcon, DownloadIcon } from "../../../icons";
 import { TableCell } from "../../../components/ui/table";
 import React from "react";
+import { toast } from "react-toastify";
 
 export default function ProjectReportsTable({ tableRef }: any) {
   const selectedProject = useRecoilValue(selectedProjectAtom);
@@ -23,6 +24,7 @@ export default function ProjectReportsTable({ tableRef }: any) {
             obj?.reportName,
             moment(obj?.createdAt).format("lll"),
             obj?.reportUrl,
+            selectedProject
           ];
         }
       );
@@ -64,7 +66,7 @@ export default function ProjectReportsTable({ tableRef }: any) {
           }}
           slots={{
             3: (_data: any, _row: any) => (
-              <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+              <TableCell className="flex gap-3 px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                 <a
                   href={_data}
                   target="_blank"
@@ -79,6 +81,19 @@ export default function ProjectReportsTable({ tableRef }: any) {
                     data-tooltip-place="top"
                   />
                 </a>
+                <DocsIcon
+                  onClick={() => {
+                    toast.warn("No report by trade found")
+                    // setCommonAreaHolder(_data);
+                    // setWhichModal(2);
+                    // openModal();
+                    // setModalTitle("Trade Report History");
+                  }}
+                  className="size-5 text-black dark:text-white cursor-pointer"
+                  data-tooltip-id="tooltip"
+                  data-tooltip-content="Trade Reports"
+                  data-tooltip-place="top"
+                />
               </TableCell>
             ),
           }}
