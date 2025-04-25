@@ -8,12 +8,12 @@ import ReactPaginate from "react-paginate";
 
 // Define the table data using the interface
 
-export default function DefectPagination({ pageRow, setPageRow, totalRows, handlePageClick }: any) {
+export default function DefectPagination({ setItemOffset, itemOffset, pageRow, setPageRow, totalRows, handlePageClick }: any) {
 
     return (
         <div className="flex justify-between items-center w-full p-5 rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div className="flex gap-2 items-center">
-                <span className="text-gray-500">Showing <span className="text-gray-800 dark:text-white">1-7</span> of <span className="text-gray-800 dark:text-white">{totalRows}</span> Rows</span>
+                <span className="text-gray-500">Showing <span className="text-gray-800 dark:text-white">{itemOffset + 1}-{pageRow != "all" ? parseInt(itemOffset) + parseInt(pageRow) : totalRows}</span> of <span className="text-gray-800 dark:text-white">{totalRows}</span> Rows</span>
                 <Select2
                     options={[
                         {
@@ -34,7 +34,12 @@ export default function DefectPagination({ pageRow, setPageRow, totalRows, handl
                         },
                     ]}
                     defaultValue={pageRow}
-                    onChange={(e) => setPageRow(e)}
+                    onChange={(e) => {
+                        setPageRow(e)
+                        if (e == 'all') {
+                            setItemOffset(0)
+                        }
+                    }}
                     className="dark:bg-dark-900"
                     containerClass="max-w-[80px]"
                 />
