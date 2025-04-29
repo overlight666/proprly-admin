@@ -187,6 +187,9 @@ export default function AddOrganization() {
             navigate
           ).then(() => {
             setIsLoading(false);
+          }).catch((e) => {
+            toast.error(e);
+            setIsLoading(false);
           });
         } else {
           setIsLoading(true);
