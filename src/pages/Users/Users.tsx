@@ -5,6 +5,7 @@ import { AuditorUser } from "./components/AuditorUser";
 import { StrataUser } from "./components/StrataUser";
 import { SubContractorUser } from "./components/SubContractorUser";
 import React from "react";
+import { SalesAgent } from "./components/SalesAgent";
 
 export const Users = () => {
   return (
@@ -24,6 +25,9 @@ export const Users = () => {
         </AccordionItem>
         <AccordionItem header="Strata">
           <StrataUser />
+        </AccordionItem>
+        <AccordionItem header="Sales Agent">
+          <SalesAgent />
         </AccordionItem>
       </Accordion>
     </div>

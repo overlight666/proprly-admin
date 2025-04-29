@@ -338,7 +338,10 @@ export default function DefectResolutionModal({
                       // orgAction.getDefectSubmissionResult(defect?.id);
                       closeModal();
 
-                    });
+                    }).catch((e) => {
+                      toast.error(e);
+                      closeModal();
+                    });;
 
                   }}
                   type="button"
@@ -364,6 +367,7 @@ export default function DefectResolutionModal({
                       })
                       .catch((e) => {
                         toast.error(e);
+                        closeModal();
                       });
 
                   }}

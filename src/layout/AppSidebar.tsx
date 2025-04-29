@@ -42,6 +42,7 @@ import {
   warrantiesUpdateAtom,
 } from "../_state";
 import { useCommonArea } from "../_actions/commonArea.actions";
+import { defectFeedbackAtom } from "../_state/atoms/defects";
 
 type NavItem = {
   name: string;
@@ -139,6 +140,7 @@ const AppSidebar: React.FC = () => {
   const projects = useRecoilValue(projectsAtom);
   const setContactSupport = useSetRecoilState(contactSupportAtom);
   const contactSupportResponse = useRecoilValue(contactSupportAtom);
+  const defectFeedback = useRecoilValue(defectFeedbackAtom);
 
   const setWarrantyResponse = useSetRecoilState(warrantiesUpdateAtom);
   const commonAreaResponse = useRecoilValue(commonAreaResponseAtom);
@@ -194,10 +196,11 @@ const AppSidebar: React.FC = () => {
       orgAction.getOrgPropertyOwners(id);
       commonAreaAction.getProjectStrata(id);
       commonAreaAction.getProjectAuditor(id);
+      commonAreaAction.getProjectSalesAgent(id);
       userAction.getProjectAdminUsers(id);
       commonAreaAction.getProjectSubContractor(id);
     }
-  }, [id, project_id, projectResponse]);
+  }, [id, project_id, projectResponse, defectFeedback]);
 
   useEffect(() => {
     if (project_id) {
@@ -211,7 +214,7 @@ const AppSidebar: React.FC = () => {
       reportAction.getProjectCommonAreaReports(project_id);
       reportAction.getProjectPropertyReports(project_id);
     }
-  }, [project_id]);
+  }, [project_id, defectFeedback]);
 
   useEffect(() => {
     if (commonAreaWarrantyResponseValue || commonAreaResponse) {
