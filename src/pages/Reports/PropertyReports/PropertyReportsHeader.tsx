@@ -3,12 +3,15 @@ import React from "react";
 import Input from "../../../components/form/input/InputField";
 import Radio from "../../../components/form/input/Radio";
 import { SearchIcon } from "../../../icons";
+import { useRecoilValue } from "recoil";
+import { propertyReportsAtom } from "../../../_state";
 
 export default function PropertyReportsHeader({
   onSearch,
   setSelectedValue,
   selectedValue,
 }: any) {
+  const propertReports = useRecoilValue(propertyReportsAtom);
   return (
     <>
       <div className="flex flex-col px-5 w-full gap-5">
@@ -32,46 +35,17 @@ export default function PropertyReportsHeader({
           <span className="text-black dark:text-white mr-5">
             Inspection Type:
           </span>
-          <Radio
-            id="property1"
-            name="propertyReport"
-            value="all"
-            checked={selectedValue === "all"}
-            onChange={(e) => setSelectedValue(e)}
-            label="All"
-          />
-          <Radio
-            id="property2"
-            name="propertyReport"
-            value="pre_settlement_inspection"
-            checked={selectedValue === "pre_settlement_inspection"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Pre-Settlement"
-          />
-          <Radio
-            id="property3"
-            name="propertyReport"
-            value="pre_settlement_general_inspection"
-            checked={selectedValue === "pre_settlement_general_inspection"}
-            onChange={(e) => setSelectedValue(e)}
-            label="General"
-          />
-          <Radio
-            id="property4"
-            name="propertyReport"
-            value="handover_inspection"
-            checked={selectedValue === "handover_inspection"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Handover"
-          />
-          <Radio
-            id="property5"
-            name="propertyReport"
-            value="post_handover_inspection"
-            checked={selectedValue === "post_handover_inspection"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Post Handover"
-          />
+          {
+            propertReports?.length > 0 && propertReports.map(rport => <Radio
+              id={rport?.key}
+              name="propertyReport"
+              value={rport?.key}
+              checked={selectedValue === rport?.key}
+              onChange={(e) => setSelectedValue(e)}
+              label={rport?.shortLabel}
+            />)
+
+          }
         </div>
       </div>
     </>
