@@ -41,7 +41,7 @@ export default function DefectsChart({
         </div>
         <div className="flex flex-wrap items-center gap-3 mb-3 flex-row w-full mt-2">
           {
-            removeItemOnce(Object.keys(data), "all")?.map((obj, index) => {
+            data && removeItemOnce(Object.keys(data), "all")?.map((obj, index) => {
               return (
                 <Radio
                   id={`${obj}1`}
