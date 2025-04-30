@@ -16,7 +16,7 @@ export default function DefectsChart({
   totalTitle,
   totalValue,
 }: any) {
-  const [selectedValue, setSelectedValue] = useState("all");
+  const [selectedValue, setSelectedValue] = useState("open");
 
   const sumValues = (obj: any) =>
     Object.values(obj).reduce((a: any, b: any) => a + b);
@@ -44,8 +44,8 @@ export default function DefectsChart({
             data && removeItemOnce(Object.keys(data), "all")?.map((obj, index) => {
               return (
                 <Radio
-                  id={`${obj}1`}
-                  name={obj}
+                  id={`${keyId}-${obj}`}
+                  name={`${keyId}-${obj}`}
                   value={obj}
                   checked={selectedValue == obj}
                   onChange={(e) => setSelectedValue(e)}

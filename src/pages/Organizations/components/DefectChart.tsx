@@ -45,8 +45,8 @@ export default function DefectsChart({
             data && removeItemOnce(Object.keys(data), "all")?.map((obj, index) => {
               return (
                 <Radio
-                  id={`${obj}1`}
-                  name={obj}
+                  id={`${keyId}-${obj}`}
+                  name={`${keyId}-${obj}`}
                   value={obj}
                   checked={selectedValue == obj}
                   onChange={(e) => setSelectedValue(e)}
