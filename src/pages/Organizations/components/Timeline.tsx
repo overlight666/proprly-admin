@@ -30,6 +30,7 @@ export default function TimeLine({ openModal }: any) {
     orgAction.getDefectSubmission(id, openModal);
   };
 
+
   return (
     <div className=" rounded-2xl border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex items-start justify-between flex-col">

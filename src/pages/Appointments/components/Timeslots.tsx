@@ -36,7 +36,6 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
   const appointmentAction = useAppointments();
   const timeslots = useRecoilValue(appointmentTimeslotAtom);
 
-  console.log(timeslots);
   useEffect(() => {
     appointmentAction.getTimeSlots(project_id);
   }, []);
@@ -111,11 +110,11 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
     setDaySelected2(
       daySelected2 && daySelected2.length
         ? daySelected2.map((e) => {
-            if (e.day == value) {
-              e.duration = duration;
-            }
-            return e;
-          })
+          if (e.day == value) {
+            e.duration = duration;
+          }
+          return e;
+        })
         : []
     );
   };
@@ -141,16 +140,16 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
               | Iterable<ReactNode>
               | ReactPortal
               | Promise<
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactPortal
-                  | ReactElement<unknown, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | null
-                  | undefined
-                >
+                | string
+                | number
+                | bigint
+                | boolean
+                | ReactPortal
+                | ReactElement<unknown, string | JSXElementConstructor<any>>
+                | Iterable<ReactNode>
+                | null
+                | undefined
+              >
               | ((props: ToastContentProps<unknown>) => ReactNode)
               | null
               | undefined
@@ -161,7 +160,7 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <div className="flex flex-col px-5 h-full py-5">
@@ -276,10 +275,10 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
                           name="timeslot"
                           value={
                             daySelected2 &&
-                            daySelected2.length &&
-                            daySelected2.find((e) => e.day == sl.day)?.duration
+                              daySelected2.length &&
+                              daySelected2.find((e) => e.day == sl.day)?.duration
                               ? daySelected2.find((e) => e.day == sl.day)
-                                  ?.duration
+                                ?.duration
                               : sl.duration
                           }
                           onChange={(e) =>
@@ -298,26 +297,26 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
                     </div>
                   </div>
                   {daySelected2 &&
-                  daySelected2.length &&
-                  daySelected2.find((e) => e.day == sl.day) ? (
+                    daySelected2.length &&
+                    daySelected2.find((e) => e.day == sl.day) ? (
                     <div className="grid grid-cols-1 gap-y-2 pt-[20px]">
                       <Label htmlFor="timeslot">Available Time Slots</Label>
                       <div className="flex flex-wrap gap-4">
                         {daySelected2.find((e) => e.day == sl.day)?.duration ==
-                        60
+                          60
                           ? slot1.map((s, index) => {
-                              return (
-                                <div
-                                  key={index}
-                                  className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
-                                >
-                                  <span className="text-[14px]">{s}</span>
-                                </div>
-                              );
-                            })
+                            return (
+                              <div
+                                key={index}
+                                className="flex cursor-pointer gap-2 rounded-lg border-2 border-blue-400 p-2 text-blue-400"
+                              >
+                                <span className="text-[14px]">{s}</span>
+                              </div>
+                            );
+                          })
                           : daySelected2.find((e) => e.day == sl.day)
-                              ?.duration == 120
-                          ? slot2.map((s, index) => {
+                            ?.duration == 120
+                            ? slot2.map((s, index) => {
                               return (
                                 <div
                                   key={index}
@@ -327,7 +326,7 @@ export const TimeSlots = function ({ setShowTimeSlots }: any) {
                                 </div>
                               );
                             })
-                          : slot3.map((s, index) => {
+                            : slot3.map((s, index) => {
                               return (
                                 <div
                                   key={index}
