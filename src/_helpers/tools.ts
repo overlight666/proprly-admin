@@ -32,3 +32,27 @@ export const dynamicSort = (property: any) => {
     return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
   };
 };
+
+export function moveKeyToEnd(obj: any, keyToMove: any) {
+  if (!obj.hasOwnProperty(keyToMove)) {
+    return obj;
+  }
+
+  const value = obj[keyToMove];
+  delete obj[keyToMove];
+  obj[keyToMove] = value;
+  return obj;
+}
+
+export function moveValueToEnd(arr: any, value: any) {
+  const newArray = arr.filter((item: any) => item !== value);
+  newArray.push(value);
+  return newArray;
+}
+
+
+export function combineAndRemoveDuplicates(arr1: any, arr2: any) {
+  const combinedArray = [...arr1, ...arr2]; // Combines arrays using spread syntax
+  const uniqueArray = [...new Set(combinedArray)]; // Removes duplicates using Set
+  return uniqueArray;
+}
