@@ -7,7 +7,7 @@ import React from "react";
 import { projectDashboardAtom } from "../../../_state";
 import { AlertIcon } from "../../../icons";
 import Radio from "../../../components/form/input/Radio";
-import { combineAndRemoveDuplicates, moveValueToEnd, ucword } from "../../../_helpers";
+import { combineAndRemoveDuplicates, moveValueToEnd, removeItemOnce, ucword } from "../../../_helpers";
 
 export default function Defects() {
   const [selectedValue, setSelectedValue] = useState("all");
@@ -22,7 +22,7 @@ export default function Defects() {
   useEffect(() => {
     if (projectDashboard && projectDashboard?.defectsByCommonArea && projectDashboard?.defectsByProperty) {
       const combined = combineAndRemoveDuplicates(Object.keys(projectDashboard.defectsByCommonArea), Object.keys(projectDashboard.defectsByProperty));
-      setDefectKeys(moveValueToEnd(moveValueToEnd(moveValueToEnd(moveValueToEnd(combined, "open"), "disputed"), "resolved"), "total"))
+      setDefectKeys(removeItemOnce(moveValueToEnd(moveValueToEnd(moveValueToEnd(moveValueToEnd(combined, "open"), "disputed"), "resolved"), "pending"), "total"))
     }
   }, [projectDashboard])
 

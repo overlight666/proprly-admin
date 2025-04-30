@@ -50,6 +50,14 @@ export function moveValueToEnd(arr: any, value: any) {
   return newArray;
 }
 
+export function removeItemOnce(arr: any, value: any) {
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+
 
 export function combineAndRemoveDuplicates(arr1: any, arr2: any) {
   const combinedArray = [...arr1, ...arr2]; // Combines arrays using spread syntax

@@ -5,7 +5,7 @@ import Radio from "../../../components/form/input/Radio";
 import { AlertIcon } from "../../../icons";
 import { useRecoilValue } from "recoil";
 import { organizationDashboardAtom } from "../../../_state/atoms/organizations";
-import { combineAndRemoveDuplicates, moveKeyToEnd, moveValueToEnd, ucword } from "../../../_helpers";
+import { combineAndRemoveDuplicates, moveKeyToEnd, moveValueToEnd, removeItemOnce, ucword } from "../../../_helpers";
 
 export default function Defects() {
   const [selectedValue, setSelectedValue] = useState("all");
@@ -20,9 +20,11 @@ export default function Defects() {
   useEffect(() => {
     if (projectDashboard && projectDashboard?.defectsByCommonArea && projectDashboard?.defectsByProperty) {
       const combined = combineAndRemoveDuplicates(Object.keys(projectDashboard.defectsByCommonArea), Object.keys(projectDashboard.defectsByProperty));
-      setDefectKeys(moveValueToEnd(moveValueToEnd(moveValueToEnd(moveValueToEnd(combined, "open"), "disputed"), "resolved"), "total"))
+      setDefectKeys(removeItemOnce(moveValueToEnd(moveValueToEnd(moveValueToEnd(moveValueToEnd(combined, "open"), "disputed"), "resolved"), "pending"), "total"));
     }
   }, [projectDashboard])
+
+  console.log(projectDashboard)
 
   return (
     <div className=" rounded-2xl border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
