@@ -92,7 +92,7 @@ export default function OrgGrid({ orglist }: any) {
                       color="warning"
                       startIcon={<TaskIcon />}
                     >
-                      Defects in-progress: {org?.defectCounts?.in_progress}
+                      Requested Defects: {org?.defectCounts?.requested}
                     </Badge>{" "}
                   </div>
                 </div>

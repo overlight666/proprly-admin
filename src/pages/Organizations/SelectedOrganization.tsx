@@ -53,6 +53,7 @@ export default function SelectedOrganization() {
       icon: <FolderIcon />,
     },
   ];
+
   return (
     <div>
       <DefectResolutionModal
@@ -69,11 +70,10 @@ export default function SelectedOrganization() {
             return (
               <button
                 key={idx}
-                className={`transition-colors duration-300 ${
-                  idx === activeTabIndex
-                    ? "bg-blue-100 px-6 py-4 text-blue-600"
-                    : "border-transparent hover:border-gray-200 px-6 py-4"
-                }`}
+                className={`transition-colors duration-300 ${idx === activeTabIndex
+                  ? "bg-blue-100 px-6 py-4 text-blue-600"
+                  : "border-transparent hover:border-gray-200 px-6 py-4"
+                  }`}
                 // Change the active tab on click.
                 onClick={() => setActiveTabIndex(idx)}
               >

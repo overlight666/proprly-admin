@@ -437,8 +437,8 @@ export default function LocationMappingTowerTable({
                   <div className="flex">
                     <div
                       className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
-                                  ${textColoring(_data, true)}
-                                  `}
+                        ${textColoring(_data, true)}
+                        `}
                     >
                       {getIcons(_data)}
                       <span className="text-[12px]">{ucword(_data)}</span>
