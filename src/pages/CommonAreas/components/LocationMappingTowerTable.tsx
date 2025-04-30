@@ -311,7 +311,6 @@ export default function LocationMappingTowerTable({
 
       holder.commonAreaCategories = holder?.commonAreaCategories.filter((f) => f != selectedOne?.id)
 
-      console.log(holder, selectedOne)
       setRawTowers(tower?.id, [...filtered, holder]);
     }
 

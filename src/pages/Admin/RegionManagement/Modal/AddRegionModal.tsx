@@ -58,7 +58,7 @@ export default function AddRegionModal({
     if (isEdit && selectedRegion) {
       const detachCountry = systemRegions?.countries?.find((country) => country.currency == selectedRegion?.currency);
       const detachRegion = detachCountry?.regions?.find((region) => region?.regionCode?.toLowerCase() == selectedRegion?.regionCode?.toLowerCase());
-      console.log(detachCountry)
+
       setSingleRegion(JSON.stringify(detachRegion))
       setSelectedCountry(detachCountry?.countryCode)
       setValue("regionName", selectedRegion?.regionName);
@@ -99,16 +99,16 @@ export default function AddRegionModal({
   }
 
   useEffect(() => {
-    if(selectedCountry) {
+    if (selectedCountry) {
       const detachCountry = systemRegions?.countries?.find((country) => country.countryCode == selectedCountry);
       setRegionOptions(detachCountry?.regions)
       setValue("currency", detachCountry?.currency);
-       setValue("dateFormat", detachCountry?.dateFormat);
+      setValue("dateFormat", detachCountry?.dateFormat);
     }
   }, [selectedCountry])
 
   useEffect(() => {
-    if(singleRegion) {
+    if (singleRegion) {
       const parsedRegion = JSON.parse(singleRegion)
       setValue("regionName", parsedRegion?.regionName);
       setValue("regionCode", parsedRegion?.regionCode);
@@ -135,77 +135,77 @@ export default function AddRegionModal({
             <div className="space-y-2">
               <Label htmlFor="input">Select Country</Label>
               <Select2
-              options={
-                systemRegions?.countries?.map((region) => {
-                  return {
-                    value: region?.countryCode,
-                    label: region?.countryName,
-                  }
-                }) || []
-              }
-              defaultValue={isEdit ? selectedCountry: ""}
-              placeholder="Select a country"
-              className="dark:bg-dark-900"
-              onChange={(e) => setSelectedCountry(e)}
-            />
+                options={
+                  systemRegions?.countries?.map((region) => {
+                    return {
+                      value: region?.countryCode,
+                      label: region?.countryName,
+                    }
+                  }) || []
+                }
+                defaultValue={isEdit ? selectedCountry : ""}
+                placeholder="Select a country"
+                className="dark:bg-dark-900"
+                onChange={(e) => setSelectedCountry(e)}
+              />
             </div>
             {
-              selectedCountry &&  <div className="space-y-2">
-              <Label htmlFor="input">Select Region</Label>
-              <Select2
-              options={
-                regionsOption?.map((region) => {
-                  return {
-                    value: JSON.stringify(region),
-                    label: region?.regionName,
+              selectedCountry && <div className="space-y-2">
+                <Label htmlFor="input">Select Region</Label>
+                <Select2
+                  options={
+                    regionsOption?.map((region) => {
+                      return {
+                        value: JSON.stringify(region),
+                        label: region?.regionName,
+                      }
+                    }) || []
                   }
-                }) || []
-              }
-              placeholder="Select a region"
-              className="dark:bg-dark-900"
-              defaultValue={isEdit ? singleRegion: ""}
-              onChange={(e) => setSingleRegion(e)}
-            />
-            </div>
+                  placeholder="Select a region"
+                  className="dark:bg-dark-900"
+                  defaultValue={isEdit ? singleRegion : ""}
+                  onChange={(e) => setSingleRegion(e)}
+                />
+              </div>
             }
             {
               singleRegion && <>
-              <div className="space-y-2">
-              <Label htmlFor="input">Region Code</Label>
-              <Input
-                readOnly
-                type="text"
-                placeholder="Enter Region Code"
-                register={{ ...register("regionCode") }}
-                error={errors.regionCode}
-                hint={errors.regionCode?.message}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="input">Currency</Label>
-              <Input
-                readOnly
-                type="text"
-                placeholder="$"
-                register={{ ...register("currency") }}
-                error={errors.currency}
-                hint={errors.currency?.message}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="input">Date Format</Label>
-              <Input
-                readOnly
-                type="text"
-                placeholder="mm/yy/dddd"
-                register={{ ...register("dateFormat") }}
-                error={errors.dateFormat}
-                hint={errors.dateFormat?.message}
-              />
-            </div>
+                <div className="space-y-2">
+                  <Label htmlFor="input">Region Code</Label>
+                  <Input
+                    readOnly
+                    type="text"
+                    placeholder="Enter Region Code"
+                    register={{ ...register("regionCode") }}
+                    error={errors.regionCode}
+                    hint={errors.regionCode?.message}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="input">Currency</Label>
+                  <Input
+                    readOnly
+                    type="text"
+                    placeholder="$"
+                    register={{ ...register("currency") }}
+                    error={errors.currency}
+                    hint={errors.currency?.message}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="input">Date Format</Label>
+                  <Input
+                    readOnly
+                    type="text"
+                    placeholder="mm/yy/dddd"
+                    register={{ ...register("dateFormat") }}
+                    error={errors.dateFormat}
+                    hint={errors.dateFormat?.message}
+                  />
+                </div>
               </>
             }
-            
+
           </div>
           <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
             <button

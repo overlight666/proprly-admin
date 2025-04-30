@@ -56,7 +56,7 @@ export default function CommonAreaReportsTable({ tableRef, headerValue }: any) {
           const dataWithReports = getFiltered?.filter(
             (report: any) => Object.keys(report.latestReport).length !== 0
           );
-          console.log(getFiltered, dataWithReports);
+
           const filteredData = dataWithReports?.map(
             (obj: any, index: number) => {
               return [
@@ -120,79 +120,79 @@ export default function CommonAreaReportsTable({ tableRef, headerValue }: any) {
                     _data?.headerValue == "pre_settlement_general_inspection" ||
                     _data?.headerValue == "all" ||
                     _data?.headerValue == "post_handover_inspection") && (
-                    <a
-                      href={_data?.latestReport?.reportUrl}
-                      target="_blank"
-                      download={`${_row[3]?.latestReport?.reportName}`}
-                      rel="noreferrer"
-                      onClick={() => {
-                        if (!_data?.latestReport?.reportUrl) {
-                          toast.warn("No report generated!");
-                        }
-                      }}
-                    >
-                      <DownloadIcon
-                        //   onClick={() => setOpenModal(_data)}
-                        className="size-5 text-blue-700 cursor-pointer"
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content="Export Report"
-                        data-tooltip-place="top"
-                      />
-                    </a>
-                  )}
+                      <a
+                        href={_data?.latestReport?.reportUrl}
+                        target="_blank"
+                        download={`${_row[3]?.latestReport?.reportName}`}
+                        rel="noreferrer"
+                        onClick={() => {
+                          if (!_data?.latestReport?.reportUrl) {
+                            toast.warn("No report generated!");
+                          }
+                        }}
+                      >
+                        <DownloadIcon
+                          //   onClick={() => setOpenModal(_data)}
+                          className="size-5 text-blue-700 cursor-pointer"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Export Report"
+                          data-tooltip-place="top"
+                        />
+                      </a>
+                    )}
                   {(_data?.headerValue == "pre_settlement_inspection" ||
                     _data?.headerValue == "handover_inspection" ||
                     _data?.headerValue == "all") && (
-                    <DocsIcon
-                      onClick={() => {
-                        setCommonAreaHolder(_row[3]?.reports);
-                        openModal();
-                        setModalTitle("Common Area Trade Report History");
-                      }}
-                      className="size-5 text-white cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Trade Reports"
-                      data-tooltip-place="top"
-                    />
-                  )}
-                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
-                    _data?.headerValue == "all" ||
-                    _data?.headerValue == "post_handover_inspection") && (
-                    <ListIcon
-                      onClick={() => {
-                        setCommonAreaHolder(_data?.fullReports);
-                        openModal();
-                        setModalTitle("Common Area Report History");
-                      }}
-                      className="size-5 text-green-700 cursor-pointer"
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Report History"
-                      data-tooltip-place="top"
-                    />
-                  )}
-                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
-                    _data?.headerValue == "all" ||
-                    _data?.headerValue == "post_handover_inspection") && (
-                    <a
-                      href={_data?.fullReport?.reportUrl}
-                      onClick={() => {
-                        if (!_data?.fullReport?.reportUrl) {
-                          toast.warn("No report generated!");
-                        }
-                      }}
-                      target="_blank"
-                      download={`${_row[3]?.fullReport?.reportName}`}
-                      rel="noreferrer"
-                    >
-                      <BoxIcon
-                        //   onClick={() => setOpenModal(_data)}
-                        className="size-5 text-yellow-700 cursor-pointer"
+                      <DocsIcon
+                        onClick={() => {
+                          setCommonAreaHolder(_row[3]?.reports);
+                          openModal();
+                          setModalTitle("Common Area Trade Report History");
+                        }}
+                        className="size-5 text-white cursor-pointer"
                         data-tooltip-id="tooltip"
-                        data-tooltip-content="Export Full Report"
+                        data-tooltip-content="Trade Reports"
                         data-tooltip-place="top"
                       />
-                    </a>
-                  )}
+                    )}
+                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
+                    _data?.headerValue == "all" ||
+                    _data?.headerValue == "post_handover_inspection") && (
+                      <ListIcon
+                        onClick={() => {
+                          setCommonAreaHolder(_data?.fullReports);
+                          openModal();
+                          setModalTitle("Common Area Report History");
+                        }}
+                        className="size-5 text-green-700 cursor-pointer"
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content="Report History"
+                        data-tooltip-place="top"
+                      />
+                    )}
+                  {(_data?.headerValue == "pre_settlement_general_inspection" ||
+                    _data?.headerValue == "all" ||
+                    _data?.headerValue == "post_handover_inspection") && (
+                      <a
+                        href={_data?.fullReport?.reportUrl}
+                        onClick={() => {
+                          if (!_data?.fullReport?.reportUrl) {
+                            toast.warn("No report generated!");
+                          }
+                        }}
+                        target="_blank"
+                        download={`${_row[3]?.fullReport?.reportName}`}
+                        rel="noreferrer"
+                      >
+                        <BoxIcon
+                          //   onClick={() => setOpenModal(_data)}
+                          className="size-5 text-yellow-700 cursor-pointer"
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Export Full Report"
+                          data-tooltip-place="top"
+                        />
+                      </a>
+                    )}
                 </div>
               </>
             ),

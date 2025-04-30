@@ -46,49 +46,47 @@ export default function RegionTable({ tableRef }: any) {
     }
   }, [regionList]);
 
-  console.log(regionList)
-
-    const deleteRegion = async (zone: any) => {
-      if (
-        await confirm({
-          confirmText: "Delete",
-          confirmVariant: "danger",
-          confirmation:
-            "You are about to delete this region. Please confirm to continue!",
+  const deleteRegion = async (zone: any) => {
+    if (
+      await confirm({
+        confirmText: "Delete",
+        confirmVariant: "danger",
+        confirmation:
+          "You are about to delete this region. Please confirm to continue!",
+      })
+    ) {
+      userAction
+        .deleteRegion(zone.id)
+        .then(() => {
+          toast.warning(`${zone.name} has been deleted!`);
+          userAction.getAllRegions();
         })
-      ) {
-        userAction
-          .deleteRegion(zone.id)
-          .then(() => {
-            toast.warning(`${zone.name} has been deleted!`);
-            userAction.getAllRegions();
-          })
-          .catch((e) => {
-            toast.error(e);
-          });
-      }
-    };
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
 
-     const restoreRegion = async (zone: any) => {
-      if (
-        await confirm({
-          confirmText: "Restore",
-          confirmVariant: "green",
-          confirmation:
-            "You are about to restore this region. Please confirm to continue!",
+  const restoreRegion = async (zone: any) => {
+    if (
+      await confirm({
+        confirmText: "Restore",
+        confirmVariant: "green",
+        confirmation:
+          "You are about to restore this region. Please confirm to continue!",
+      })
+    ) {
+      userAction
+        .restoreRegion(zone.id)
+        .then(() => {
+          toast.warning(`${zone.name} has been restored!`);
+          userAction.getAllRegions();
         })
-      ) {
-        userAction
-          .restoreRegion(zone.id)
-          .then(() => {
-            toast.warning(`${zone.name} has been restored!`);
-            userAction.getAllRegions();
-          })
-          .catch((e) => {
-            toast.error(e);
-          });
-      }
-    };
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -130,12 +128,11 @@ export default function RegionTable({ tableRef }: any) {
             slots={{
               1: (_data: any, _row: any) => (
                 <span
-                      className={`${
-                        !_row[3].isActive && "line-through text-red-900"
-                      }`}
-                    >
-                      {_data}
-                    </span>
+                  className={`${!_row[3].isActive && "line-through text-red-900"
+                    }`}
+                >
+                  {_data}
+                </span>
               ),
               3: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
@@ -162,16 +159,16 @@ export default function RegionTable({ tableRef }: any) {
                       className="size-5 cursor-pointer"
                       data-tooltip-id="tooltip"
                       data-tooltip-content="Deactivate"
-                        onClick={() =>
-                          deleteRegion(_data)
-                        }
+                      onClick={() =>
+                        deleteRegion(_data)
+                      }
                     /> : <CheckLineIcon
-                          className="size-5 cursor-pointer text-green-400"
-                          data-tooltip-id="tooltip"
-                          data-tooltip-content="Restore"
-                            onClick={() =>
-                              restoreRegion(_data)
-                            }
+                      className="size-5 cursor-pointer text-green-400"
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Restore"
+                      onClick={() =>
+                        restoreRegion(_data)
+                      }
                     />}
                   </div>
                 </TableCell>

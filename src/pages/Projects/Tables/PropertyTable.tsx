@@ -48,7 +48,6 @@ export default function PropertyTable({
     }
   }, []);
 
-  console.log(properties);
   useEffect(() => {
     if (properties) {
       const tb = properties.map((prop: Property) => {
@@ -61,15 +60,14 @@ export default function PropertyTable({
           prop.lotNo,
           prop.unitNo,
           prop?.user &&
-            prop?.user
-              .map((u) => {
-                return u.fullName;
-              })
-              .join(", "),
+          prop?.user
+            .map((u) => {
+              return u.fullName;
+            })
+            .join(", "),
           prop.status && ucword(prop.status),
-          `${prop.projectTower && prop.projectTower.name}, ${
-            prop.projectTower &&
-            prop.projectTower.floorList.find((f) => f.key == prop.floor)?.value
+          `${prop.projectTower && prop.projectTower.name}, ${prop.projectTower &&
+          prop.projectTower.floorList.find((f) => f.key == prop.floor)?.value
           }`,
           prop.warrantyStatus && prop.warrantyStatus,
           moment(prop.createdAt).format("lll"),

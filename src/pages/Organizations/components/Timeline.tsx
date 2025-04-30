@@ -64,7 +64,7 @@ export default function TimeLine({ openModal }: any) {
                 .filter((notif) =>
                   selectedValue === "needs_action"
                     ? notif.title.toLowerCase() === "pending admin feedback" ||
-                      notif.title.toLowerCase() === "pending admin approval"
+                    notif.title.toLowerCase() === "pending admin approval"
                     : notif
                 )
                 .map((timeline, index) => {
