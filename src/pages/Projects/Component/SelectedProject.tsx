@@ -361,6 +361,7 @@ export default function SelectedProject() {
       {
         totalRows > 0 && tabsData[activeTabIndex].label === "Defect Resolution" && <div className="mt-5">
           <DefectPagination setItemOffset={setItemOffset} itemOffset={itemOffset} pageRow={pageRow} setPageRow={setPageRow} totalRows={totalRows} handlePageClick={handlePageClick} />
+
         </div>
       }
 

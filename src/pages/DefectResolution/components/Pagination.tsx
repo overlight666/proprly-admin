@@ -10,6 +10,7 @@ import ReactPaginate from "react-paginate";
 
 export default function DefectPagination({ setItemOffset, itemOffset, pageRow, setPageRow, totalRows, handlePageClick }: any) {
 
+
     return (
         <div className="flex justify-between items-center w-full p-5 rounded-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div className="flex gap-2 items-center">
@@ -34,12 +35,14 @@ export default function DefectPagination({ setItemOffset, itemOffset, pageRow, s
                         },
                     ]}
                     defaultValue={pageRow}
+
                     onChange={(e) => {
                         setPageRow(e)
                         if (e == 'all') {
                             setItemOffset(0)
                         }
                     }}
+
                     className="dark:bg-dark-900"
                     containerClass="max-w-[80px]"
                 />
