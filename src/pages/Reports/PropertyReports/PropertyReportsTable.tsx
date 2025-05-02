@@ -130,10 +130,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
             4: (_data: any, _row: any) => (
               <>
                 <div className="flex flex-row gap-4">
-                  {(_data?.value == "Pre-settlement Inspection" ||
-                    _data?.value == "Handover Inspection" ||
-                    _data?.value == "General Inspection" ||
-                    _data?.value == "Post-handover Inspection") && (
+                  {_data?.hasReport && (
                     <a
                       href={_data?.reportUrl}
                       target="_blank"
@@ -154,10 +151,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       />
                     </a>
                   )}
-                  {(_data?.value == "Pre-settlement Inspection" ||
-                    _data?.value == "Handover Inspection" ||
-                    _data?.value == "General Inspection" ||
-                    _data?.value == "Post-handover Inspection") && (
+                  {_data?.hasTradeReport && (
                     <DocsIcon
                       onClick={() => {
                         setCommonAreaHolder(_data);
@@ -171,8 +165,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       data-tooltip-place="top"
                     />
                   )}
-                  {(_data?.value == "General Inspection" ||
-                    _data?.value == "Post-handover Inspection") && (
+                  {_data?.hasReportHistory && (
                     <ListIcon
                       onClick={() => {
                         setCommonAreaHolder(_data?.reportHistory);
@@ -181,10 +174,9 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                         openModal();
 
                         setModalTitle(
-                          `${
-                            _data.value
-                              ? _data.value
-                              : ucword(_data.headerValue)
+                          `${_data.value
+                            ? _data.value
+                            : ucword(_data.headerValue)
                           } Report History`
                         );
                       }}
@@ -194,8 +186,7 @@ export default function PropertyReportsTable({ tableRef, headerValue }: any) {
                       data-tooltip-place="top"
                     />
                   )}
-                  {(_data?.value == "General Inspection" ||
-                    _data?.value == "Post-handover Inspection") && (
+                  {_data?.hasFullReport && (
                     <a
                       href={_data?.fullReport?.reportUrl}
                       onClick={() => {

@@ -86,7 +86,7 @@ function useFetchWrapper() {
             : data.messages
             ? data.messages.map((msg: any) => msg.message).join(",")
             : data.errors) || response.statusText;
-
+            
         return Promise.reject(error);
       }
 

@@ -25,7 +25,7 @@ export default function OrgTable({ orglist }: any) {
           org.totalProjects,
           org.totalProperties,
           org.defectCounts?.open,
-          org?.defectCounts?.in_progress,
+          org?.defectCounts?.requested,
           org.id,
         ];
       });
@@ -133,7 +133,7 @@ export default function OrgTable({ orglist }: any) {
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Defects In-progress
+                  Requested Defects
                 </th>
 
                 <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">

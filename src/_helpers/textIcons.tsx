@@ -61,6 +61,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
   ) {
     return hasBg ? "text-red-800 bg-red-100" : "text-red-400";
   } else if (
+    defectSubStatus?.toLowerCase() == "configured" ||
     defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
@@ -154,6 +155,7 @@ export const getIcons = (defectSubStatus) => {
       </svg>
     );
   } else if (
+    defectSubStatus?.toLowerCase() == "configured" ||
     defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||

@@ -8,6 +8,7 @@ import {
   commonAreaConfigAtom,
   commonAreaResponseAtom,
   projectAuditorAtom,
+  projectSalesAgentAtom,
   projectStrataAtom,
   projectSubContractorAtom,
   selectedCommonAreaAtom,
@@ -22,6 +23,7 @@ function useCommonArea() {
   const setCommonArea = useSetRecoilState(selectedCommonAreaAtom);
   const setStrata = useSetRecoilState(projectStrataAtom);
   const setAuditor = useSetRecoilState(projectAuditorAtom);
+  const setSalesAgent = useSetRecoilState(projectSalesAgentAtom);
   const setContractor = useSetRecoilState(projectSubContractorAtom);
   const setCommonAreaConfig = useSetRecoilState(commonAreaConfigAtom);
   const setCommonAreaChecklist = useSetRecoilState(commonAreaChecklistAtom);
@@ -45,7 +47,8 @@ function useCommonArea() {
     getProjectAuditor,
     getProjectSubContractor,
     detachCommonAreaCategoryTower,
-    detachCommonAreaCategoryBasement
+    detachCommonAreaCategoryBasement,
+    getProjectSalesAgent
   };
 
   function addCommonAreaCategoryBasement(params: any, refresh: boolean) {
@@ -181,6 +184,16 @@ function useCommonArea() {
       : `${baseUrl}/organization/${org_id}/users?roleKey=project_auditor`;
     return fetchWrapper.get(url).then((response: any) => {
       setAuditor(response && response.data ? response.data : response);
+    });
+  }
+
+    function getProjectSalesAgent(org_id: any) {
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users?roleKey=project_sales_agent`
+      : `${baseUrl}/organization/${org_id}/users?roleKey=project_sales_agent`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setSalesAgent(response && response.data ? response.data : response);
     });
   }
 

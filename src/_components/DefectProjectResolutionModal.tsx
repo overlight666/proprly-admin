@@ -238,7 +238,7 @@ export default function DefectProjectResolutionModal({
                   <span className="font-normal text-gray-800 dark:text-gray-400">
                     Type
                   </span>
-                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.inspection ? `${ucword(defect?.inspection?.stage)} Inspection Defect` : ""}</span>
+                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.inspection ? `${ucword(defect?.inspection?.stage)} Inspection Defect` : defect?.stage ? ucword(defect?.stage) : ""}</span>
 
                 </div>
                 <div className="flex flex-col gap-1">

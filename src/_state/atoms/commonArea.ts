@@ -17,6 +17,12 @@ const projectAuditorAtom = atom<any[]>({
   default: undefined,
 });
 
+const projectSalesAgentAtom = atom<any[]>({
+  key: "projectSalesAgentAtom",
+  default: undefined,
+});
+
+
 const projectSubContractorAtom = atom<any[]>({
   key: "projectSubContractorAtom",
   default: undefined,
@@ -45,4 +51,5 @@ export {
   commonAreaChecklistAtom,
   commonAreaCategoryResponseAtom,
   projectAuditorAtom,
+  projectSalesAgentAtom
 };

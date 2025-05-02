@@ -7,6 +7,7 @@ import { TaskIcon } from "../../../icons";
 import { TradeVariables } from "../../../_types";
 import { AcquisitionChart } from "./Chart";
 import React from "react";
+import { removeItemOnce, ucword } from "../../../_helpers";
 
 export default function DefectsChart({
   title,
@@ -15,7 +16,7 @@ export default function DefectsChart({
   totalTitle,
   totalValue,
 }: any) {
-  const [selectedValue, setSelectedValue] = useState("all");
+  const [selectedValue, setSelectedValue] = useState("open");
 
   const sumValues = (obj: any) =>
     Object.values(obj).reduce((a: any, b: any) => a + b);
@@ -39,55 +40,30 @@ export default function DefectsChart({
           </h3>
         </div>
         <div className="flex flex-wrap items-center gap-3 mb-3 flex-row w-full mt-2">
-          <Radio
-            id={`${keyId}1`}
-            name={keyId}
-            value="all"
-            checked={selectedValue === "all"}
-            onChange={(e) => setSelectedValue(e)}
-            label="All"
-          />
-          <Radio
-            id={`${keyId}2`}
-            name={keyId}
-            value="in_progress"
-            checked={selectedValue === "in_progress"}
-            onChange={(e) => setSelectedValue(e)}
-            label="In Progress"
-          />
-          <Radio
-            id={`${keyId}3`}
-            name={keyId}
-            value="pending"
-            checked={selectedValue === "pending"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Pending"
-          />
-          <Radio
-            id={`${keyId}4`}
-            name={keyId}
-            value="resolved"
-            checked={selectedValue === "resolved"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Resolved"
-          />
-          <Radio
-            id={`${keyId}5`}
-            name={keyId}
-            value="disputed"
-            checked={selectedValue === "disputed"}
-            onChange={(e) => setSelectedValue(e)}
-            label="Disputed"
-          />
+          {
+            data && removeItemOnce(Object.keys(data), "all")?.map((obj, index) => {
+              return (
+                <Radio
+                  id={`${keyId}-${obj}`}
+                  name={`${keyId}-${obj}`}
+                  value={obj}
+                  checked={selectedValue == obj}
+                  onChange={(e) => setSelectedValue(e)}
+                  label={ucword(obj)}
+                />
+              )
+            })
+          }
+
         </div>
         <div className="flex items-center justify-center mt-5 w-full flex-col">
           {(checkIsValid(data && data[selectedValue]) && (
             <AcquisitionChart data={data[selectedValue]} />
           )) || (
-            <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
-              <span className="font-black text-white">No data found</span>
-            </div>
-          )}
+              <div className="mb-3 mt-5 flex h-[260px] w-[260px] items-center justify-center rounded-full bg-gray-300">
+                <span className="font-black text-white">No data found</span>
+              </div>
+            )}
           <div className="flex items-center justify-center p-3 text-black dark:text-white">
             <span>
               {totalTitle}:{" "}

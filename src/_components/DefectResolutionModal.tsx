@@ -139,6 +139,7 @@ export default function DefectResolutionModal({
     toast.info(msg)
   }
 
+
   return (
     <>
       <Modal
@@ -239,7 +240,7 @@ export default function DefectResolutionModal({
                   <span className="font-normal text-gray-800 dark:text-gray-400">
                     Type
                   </span>
-                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.inspection ? `${ucword(defect?.inspection?.stage)} Inspection Defect` : ""}</span>
+                  <span className="dark:text-gray-100 text-gray-400 font-light"> {defect?.inspection ? `${ucword(defect?.inspection?.stage)} Inspection Defect` : defect?.stage ? ucword(defect?.stage) : ""}</span>
 
                 </div>
                 <div className="flex flex-col gap-1">
@@ -338,7 +339,10 @@ export default function DefectResolutionModal({
                       // orgAction.getDefectSubmissionResult(defect?.id);
                       closeModal();
 
-                    });
+                    }).catch((e) => {
+                      toast.error(e);
+                      closeModal();
+                    });;
 
                   }}
                   type="button"
@@ -364,6 +368,7 @@ export default function DefectResolutionModal({
                       })
                       .catch((e) => {
                         toast.error(e);
+                        closeModal();
                       });
 
                   }}
