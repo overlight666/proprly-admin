@@ -364,12 +364,15 @@ export default function AddProperty() {
         }
       });
     if (
-      validTowers.filter((e: boolean) => e == false).length > 0 ||
-      validFloors.filter((f: boolean) => f == false).length > 0
+      validTowers.filter((e: boolean) => e == false).length > 0
     ) {
-      toast.error("The template you uploaded did not match for this property.");
+      toast.error("Towers from the template did not match, please provide a valid towers");
     } else {
-      setExcelData(data);
+      if (validFloors.filter((f: boolean) => f == false).length > 0) {
+        toast.error("Floors from the template did not match, please provide a valid floors");
+      } else {
+        setExcelData(data);
+      }
     }
   };
 
@@ -388,7 +391,7 @@ export default function AddProperty() {
           const worksheetName: any = workbook.SheetNames[0];
           const worksheet: any = workbook.Sheets[worksheetName];
           const data: any = XLSX.utils.sheet_to_json(worksheet);
-          validateData(data.slice(0, 10));
+          validateData(data.slice(0, (data.length - 1)));
         };
         reader.readAsArrayBuffer(selectedFile);
       } else {
