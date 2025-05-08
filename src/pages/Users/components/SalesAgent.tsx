@@ -73,7 +73,7 @@ export const SalesAgent = () => {
         if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
             const params = {
                 id: userHandler?.id,
-                roleId: 4,
+                roleId: 10,
             };
             projectAction
                 .attachUser(project_id, params)
