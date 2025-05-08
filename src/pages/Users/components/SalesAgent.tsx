@@ -12,8 +12,9 @@ import { projectRole, userInterface } from "../../../_types";
 import AddUserModal from "./AddUserModal";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
-import { projectSalesAgentAtom, selectedProjectAtom } from "../../../_state";
+import { globalConfigAtom, projectSalesAgentAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import { getRoleId } from "../../../_helpers/getRoleId";
 import React from "react";
 
 export const SalesAgent = () => {
@@ -25,6 +26,7 @@ export const SalesAgent = () => {
     const projectAuditors: any = useRecoilValue(projectSalesAgentAtom);
     const userAction = useUserActions();
     const projectAction = useProject();
+    const config: any = useRecoilValue(globalConfigAtom);
 
     useEffect(() => {
         if (selectedProject) {
@@ -45,7 +47,7 @@ export const SalesAgent = () => {
             mobile: mobileNumber,
             projectId: project_id,
             email,
-            roleId: 10,
+            roleId: getRoleId(config?.role, "project_sales_agent"),
         };
         if (!selectedUsers.find((o: any) => o.email === temp.email)) {
             userAction.addUser(project_id, temp).then(() => {
@@ -73,7 +75,7 @@ export const SalesAgent = () => {
         if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
             const params = {
                 id: userHandler?.id,
-                roleId: 10,
+                roleId: getRoleId(config?.role, "project_sales_agent"),
             };
             projectAction
                 .attachUser(project_id, params)

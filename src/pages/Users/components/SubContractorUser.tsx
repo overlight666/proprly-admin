@@ -12,6 +12,7 @@ import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
 import {
   appointmentTradeCodesAtom,
+  globalConfigAtom,
   projectSubContractorAtom,
   selectedProjectAtom,
 } from "../../../_state";
@@ -19,6 +20,7 @@ import { useProject, useUserActions } from "../../../_actions";
 import UserTradesTable from "./UserTableTrade";
 import AddUserTradesModal from "./AddUserTradesModal";
 import MultiSelect from "../../../components/form/MultiSelect";
+import { getRoleId } from "../../../_helpers/getRoleId";
 import React from "react";
 
 export const SubContractorUser = () => {
@@ -33,6 +35,7 @@ export const SubContractorUser = () => {
   const tradeCodeList = useRecoilValue(appointmentTradeCodesAtom);
   const [tradeCodes, setTradeCodes] = useState([]);
   const [tradesList, setTradeList] = useState([]);
+  const config: any = useRecoilValue(globalConfigAtom);
 
   useEffect(() => {
     const tradesl = tradeCodeList?.map((trades: any) => {
@@ -70,7 +73,7 @@ export const SubContractorUser = () => {
       projectId: project_id,
       email,
       tradeCodeIds: tradeCodes,
-      roleId: 5,
+      roleId: getRoleId(config?.role, "project_sub_contractor"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -98,7 +101,7 @@ export const SubContractorUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: 5,
+        roleId: getRoleId(config?.role, "project_sub_contractor"),
         tradeCodeIds: tradeCodes,
       };
       projectAction
