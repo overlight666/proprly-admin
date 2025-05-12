@@ -10,10 +10,11 @@ import { toast } from "react-toastify";
 import { projectRole, userInterface } from "../../../_types";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
-import { projectAdminUsersAtom, selectedProjectAtom } from "../../../_state";
+import { globalConfigAtom, projectAdminUsersAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
 import AddUserModal from "./AddUserModal";
 import UserTable from "./UserTable";
+import { getRoleId } from "../../../_helpers/getRoleId";
 import React from "react";
 
 export const AdminUser = () => {
@@ -25,6 +26,7 @@ export const AdminUser = () => {
   const projectAdmins: any = useRecoilValue(projectAdminUsersAtom);
   const userAction = useUserActions();
   const projectAction = useProject();
+  const config: any = useRecoilValue(globalConfigAtom);
 
   useEffect(() => {
     if (selectedProject) {
@@ -45,7 +47,7 @@ export const AdminUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: 2,
+      roleId: getRoleId(config?.role, "project_admin"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -73,7 +75,7 @@ export const AdminUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: 2,
+        roleId: getRoleId(config?.role, "project_admin"),
       };
       projectAction
         .attachUser(project_id, params)

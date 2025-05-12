@@ -12,8 +12,9 @@ import { projectRole, userInterface } from "../../../_types";
 import AddUserModal from "./AddUserModal";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
-import { projectAuditorAtom, selectedProjectAtom } from "../../../_state";
+import { globalConfigAtom, projectAuditorAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import { getRoleId } from "../../../_helpers/getRoleId";
 import React from "react";
 
 export const AuditorUser = () => {
@@ -25,6 +26,7 @@ export const AuditorUser = () => {
   const projectAuditors: any = useRecoilValue(projectAuditorAtom);
   const userAction = useUserActions();
   const projectAction = useProject();
+  const config: any = useRecoilValue(globalConfigAtom);
 
   useEffect(() => {
     if (selectedProject) {
@@ -45,7 +47,7 @@ export const AuditorUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: 4,
+      roleId: getRoleId(config?.role, "project_auditor"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -73,7 +75,7 @@ export const AuditorUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: 4,
+        roleId: getRoleId(config?.role, "project_auditor"),
       };
       projectAction
         .attachUser(project_id, params)

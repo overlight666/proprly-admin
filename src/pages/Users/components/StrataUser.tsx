@@ -12,8 +12,9 @@ import { projectRole, userInterface } from "../../../_types";
 import AddUserModal from "./AddUserModal";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
-import { projectStrataAtom, selectedProjectAtom } from "../../../_state";
+import { globalConfigAtom, projectStrataAtom, selectedProjectAtom } from "../../../_state";
 import { useProject, useUserActions } from "../../../_actions";
+import { getRoleId } from "../../../_helpers/getRoleId";
 import React from "react";
 
 export const StrataUser = () => {
@@ -25,6 +26,7 @@ export const StrataUser = () => {
   const projectStrata: any = useRecoilValue(projectStrataAtom);
   const userAction = useUserActions();
   const projectAction = useProject();
+  const config: any = useRecoilValue(globalConfigAtom);
 
   useEffect(() => {
     if (selectedProject) {
@@ -45,7 +47,7 @@ export const StrataUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: 3,
+      roleId: getRoleId(config?.role, "project_strata"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -73,7 +75,7 @@ export const StrataUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: 3,
+        roleId: getRoleId(config?.role, "project_strata"),
       };
       projectAction
         .attachUser(project_id, params)
