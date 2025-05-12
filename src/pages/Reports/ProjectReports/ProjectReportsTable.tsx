@@ -10,10 +10,15 @@ import { DocsIcon, DownloadIcon } from "../../../icons";
 import { TableCell } from "../../../components/ui/table";
 import React from "react";
 import { toast } from "react-toastify";
+import ProjectTradeReportModal from "./ProjectTradeReportsModal";
+import { useModal } from "../../../hooks/useModal";
 
 export default function ProjectReportsTable({ tableRef }: any) {
   const selectedProject = useRecoilValue(selectedProjectAtom);
   const [tableData, setTableData] = useState<any[]>([]);
+  const [reportHandler, setReportHandler] = useState<any>(undefined);
+  const [modalTitle, setModalTitle] = useState("");
+  const { isOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
     if (selectedProject) {
@@ -34,6 +39,12 @@ export default function ProjectReportsTable({ tableRef }: any) {
 
   return (
     <>
+      <ProjectTradeReportModal
+        closeModal={closeModal}
+        isOpen={isOpen}
+        reports={reportHandler}
+        title={modalTitle}
+      />
       <div className="mt-8 space-y-3">
         <DataTable
           ref={tableRef}
@@ -83,11 +94,12 @@ export default function ProjectReportsTable({ tableRef }: any) {
                 </a>
                 <DocsIcon
                   onClick={() => {
-                    toast.warn("No report by trade found")
-                    // setCommonAreaHolder(_data);
+                    console.log(_data)
+                    // toast.warn("No report by trade found")
+                    setReportHandler(_row[4]);
                     // setWhichModal(2);
-                    // openModal();
-                    // setModalTitle("Trade Report History");
+                    openModal();
+                    setModalTitle("Trade Report History");
                   }}
                   className="size-5 text-black dark:text-white cursor-pointer"
                   data-tooltip-id="tooltip"
