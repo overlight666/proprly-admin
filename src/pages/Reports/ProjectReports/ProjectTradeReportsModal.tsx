@@ -21,7 +21,7 @@ export default function ProjectTradeReportModal({
         setTableData([]);
         const filteredReports = reports?.tradeReports?.map(
             (rep: any, index: any) => {
-                return [index + 1, rep.reportName, rep.tradeCodeId, rep];
+                return [index + 1, rep?.tradeCode?.tradeName, rep?.tradeCode?.tradeCode, rep];
             }
         );
         setTableData(filteredReports);

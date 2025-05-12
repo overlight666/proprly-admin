@@ -190,8 +190,8 @@ function useCommonArea() {
     function getProjectSalesAgent(org_id: any) {
     const isAdmin = persist.getValues("isAdmin");
     const url = isAdmin
-      ? `${baseUrl}/users?roleKey=project_sales_agent`
-      : `${baseUrl}/organization/${org_id}/users?roleKey=project_sales_agent`;
+      ? `${baseUrl}/users`
+      : `${baseUrl}/organization/${org_id}/users`;
     return fetchWrapper.get(url).then((response: any) => {
       setSalesAgent(response && response.data ? response.data : response);
     });
