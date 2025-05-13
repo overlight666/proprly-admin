@@ -47,7 +47,7 @@ export const AdminUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: getRoleId(config?.role, "project_admin"),
+      roleId: getRoleId(config?.roles, "project_admin"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -75,7 +75,7 @@ export const AdminUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: getRoleId(config?.role, "project_admin"),
+        roleId: getRoleId(config?.roles, "project_admin"),
       };
       projectAction
         .attachUser(project_id, params)

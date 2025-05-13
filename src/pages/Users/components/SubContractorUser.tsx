@@ -73,7 +73,7 @@ export const SubContractorUser = () => {
       projectId: project_id,
       email,
       tradeCodeIds: tradeCodes,
-      roleId: getRoleId(config?.role, "project_sub_contractor"),
+      roleId: getRoleId(config?.roles, "project_sub_contractor"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -101,7 +101,7 @@ export const SubContractorUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: getRoleId(config?.role, "project_sub_contractor"),
+        roleId: getRoleId(config?.roles, "project_sub_contractor"),
         tradeCodeIds: tradeCodes,
       };
       projectAction
