@@ -10,7 +10,10 @@ export default defineConfig({
       exportType: "named",
       namedExport: "ReactComponent",
     },
-  }),],
+  })],
+  preview: {
+    allowedHosts: ["admin-dev.proprly.tech", "admin-staging.proprly.tech", "app.proprly.tech"], //added this
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
