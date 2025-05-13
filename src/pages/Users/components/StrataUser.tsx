@@ -47,7 +47,7 @@ export const StrataUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: getRoleId(config?.role, "project_strata"),
+      roleId: getRoleId(config?.roles, "project_strata"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -75,7 +75,7 @@ export const StrataUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: getRoleId(config?.role, "project_strata"),
+        roleId: getRoleId(config?.roles, "project_strata"),
       };
       projectAction
         .attachUser(project_id, params)

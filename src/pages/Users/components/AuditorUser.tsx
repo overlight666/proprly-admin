@@ -47,7 +47,7 @@ export const AuditorUser = () => {
       mobile: mobileNumber,
       projectId: project_id,
       email,
-      roleId: getRoleId(config?.role, "project_auditor"),
+      roleId: getRoleId(config?.roles, "project_auditor"),
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
@@ -75,7 +75,7 @@ export const AuditorUser = () => {
     if (!selectedUsers.find((o: any) => o.email === userHandler.email)) {
       const params = {
         id: userHandler?.id,
-        roleId: getRoleId(config?.role, "project_auditor"),
+        roleId: getRoleId(config?.roles, "project_auditor"),
       };
       projectAction
         .attachUser(project_id, params)
