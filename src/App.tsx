@@ -34,17 +34,17 @@ import ViewOrganization from "./pages/organization/pages/ViewOrganization";
 import NewProject from "./pages/project/pages/NewProject";
 import { Tooltip } from "react-tooltip";
 import { ProjectPage } from "./pages/project";
-import AddProperty from "./pages/project/tabs/property/pages/NewProperty";
-import EditProperty from "./pages/project/tabs/property/pages/EditProperty";
+import AccountSettingsPage from "./pages/admin/account-settings/AccountSettingsPage";
+import { SignupLeads } from "./pages/admin/signup-leads/SignupLeads";
 import MasterConfiguration from "./pages/admin/master-configuration/MasterConfiguration";
 import RegionManagement from "./pages/admin/region-management/RegionManagement";
-import TimezoneManagement from "./pages/admin/region-management/TimezoneManagement";
 import SupportTickets from "./pages/admin/support-tickets/SupportTickets";
 import ContactSupport from "./pages/admin/contact-support/ContactSupport";
-import ProfilePage from "./pages/admin/profile/Profile";
-import EditProfilePage from "./pages/admin/profile/pages/edit-profile";
-import AccountSettingsPage from "./pages/admin/account-settings/AccountSetting";
-import { SignupLeads } from "./pages/admin/signup-leads/SignupLeads";
+import ProfilePage from "./pages/admin/profile/ProfilePage";
+import EditProfilePage from "./pages/admin/profile/pages/EditProfilePage";
+import TimezoneManagement from "./pages/admin/region-management/TimezoneManagement";
+import AddProperty from "./pages/project/tabs/property/pages/NewProperty";
+import EditProperty from "./pages/project/tabs/property/pages/EditProperty";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
