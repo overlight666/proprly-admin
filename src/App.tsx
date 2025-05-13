@@ -152,6 +152,7 @@ const App: FC = function () {
               <EditProperty />
             </PrivateRoutes>
           } />
+
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-in/admin" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
@@ -168,7 +169,6 @@ const App: FC = function () {
           <Route path="/pages/maintenance" element={<MaintenancePage />} />
 
           <Route path="/pages/500" element={<ServerErrorPage />} />
-         
           
           <Route
             path="/forgot-password/admin"
