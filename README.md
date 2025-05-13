@@ -1,157 +1,111 @@
-# TailAdmin React - Free React Tailwind Admin Dashboard Template
+<div align="center">
+  <h1>flowbite-pro-react-admin-dashboard</h1>
+  <p>
+    Get started with a premium admin dashboard layout built with React, Tailwind CSS and Flowbite featuring 21 example pages including charts, kanban board, mailing system, and more.
+  </p>
+  <p>
+    <a href="https://discord.com/invite/4eeurUVvTy">
+      <img src="https://img.shields.io/discord/902911619032576090?color=%237289da&label=Discord" alt="Flowbite on Discord" />
+    </a>
+  </p>
+</div>
+<div align="center">
+  <a href="https://flowbite-react-admin-dashboard.vercel.app/">
+    <img src="https://i.postimg.cc/vmW12Pqh/Screenshot.png" />
+  </a>
+  <br />
+</div>
+<hr />
 
-TailAdmin is a free and open-source admin dashboard template built on **React and Tailwind CSS**, providing developers with everything they need to create a comprehensive, data-driven back-end, 
-dashboard, or admin panel solution for upcoming web projects.
+**You can [copy/paste code you want from this project](#how-to-use-in-your-own-project), or [use the whole thing for your website](#how-to-install).**
 
-With TailAdmin, you get access to all the necessary dashboard UI components, elements, and pages required to build a feature-rich and complete dashboard or admin panel. Whether you're building dashboard or admin panel for a complex web application or a simple website, TailAdmin is the perfect solution to help you get up and running quickly.
+## Table of Contents
 
-![TailAdmin React.js Dashboard Preview](./banner.png)
+- [How to use in your own project](#how-to-use-in-your-own-project)
+- [How to install](#how-to-install)
+  - [Assumptions](#assumptions)
+- [How to develop locally](#how-to-develop-locally)
+- [How to build for production](#how-to-build-for-production)
+- [How to deploy](#how-to-deploy)
 
-## Overview
+## How to use in your own project
 
-TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built on:
+In this case, we assume you already have a `nodejs` project with a `package.json`.
 
-- React 18 (create-react-app)
-- TypeScript
-- Tailwind CSS
+You can copy any of the code from the `.tsx` files in `src/pages` to your own `nodejs` project. Some pages contain optional dependencies discussed further below. Pages might also use some of the static files found in `public`.
 
-### Quick Links
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🖌️ Figma Design File (Community Edition)](https://www.figma.com/community/file/1214477970819985778)
-- [⚡ Get PRO Version](https://tailadmin.com/pricing)
+Your project will need to have [`flowbite-react`](https://github.com/bacali95/flowbite-react) installed. That's it! If you're unfamiliar, see [the open-source guide on how to install `flowbite-react`](https://github.com/themesberg/flowbite-react#getting-started).
 
-### Demos
-- [Free Version](https://free-react-demo.tailadmin.com/)
-- [Pro Version](https://react-demo.tailadmin.com)
+Optional dependencies include:
 
-### Other Versions
-- [HTML Version](https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template)
-- [Next.js Version](https://github.com/TailAdmin/free-nextjs-admin-dashboard)
-- [Vue.js Version](https://github.com/TailAdmin/vue-tailwind-admin-dashboard)
+- [`react-icons`](https://react-icons.github.io/react-icons/) for most of the many icons used
+- [`react-apexcharts`](https://github.com/apexcharts/react-apexcharts) for charts/graphs found on [Dashboard page](https://github.com/themesberg/flowbite-react-admin-dashboard/blob/main/src/pages/index.tsx)
+- [`react-sortablejs`](https://github.com/SortableJS/react-sortablejs) for Kanban-style boards found on [Kanban page](https://github.com/themesberg/flowbite-react-admin-dashboard/blob/main/src/pages/kanban.tsx)
+- [`svgmap`](https://github.com/StephanWagner/svgMap) for maps found on [Dashboard page](https://github.com/themesberg/flowbite-react-admin-dashboard/blob/main/src/pages/kanban.tsx)
 
+## How to install
 
-## Installation
+### Assumptions
 
-### Prerequisites
-To get started with TailAdmin, ensure you have the following prerequisites installed and set up:
+- You can open a shell/terminal/command prompt
+- You have `git` instaslled and can run `git` in the shell
+- You have `nodejs` installed and can run `node`, `npm` in the shell
 
-- Node.js 18.x or later (recommended to use Node.js 20.x or later)
+Install [`yarn`](https://yarnpkg.com/)
 
-### Cloning the Repository
-Clone the repository using the following command:
-
-```bash
-git clone https://github.com/TailAdmin/free-react-tailwind-admin-dashboard.git
+```sh
+npm i -g yarn
 ```
 
-> Windows Users: place the repository near the root of your drive if you face issues while cloning.
+Clone this repository
 
-1. Install dependencies:
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
-    > On `npm` some included packages can cause peer-deps issue with React 18 while installing.
-    >
-    > Use the `--legacy-peer-deps` flag, at the end of the installation command, as a workaround for that.
+```sh
+git clone https://github.com/themesberg/flowbite-react-admin-dashboard.git
+cd flowbite-react-admin-dashboard
+```
 
-2. Start the development server:
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
+Install dependencies for this project
 
-## Components
+```sh
+yarn install
+```
 
-TailAdmin is a pre-designed starting point for building a web-based dashboard using React.js and Tailwind CSS. The template includes:
+## How to develop locally
 
-- Sophisticated and accessible sidebar
-- Data visualization components
-- Prebuilt profile management and 404 page
-- Tables and Charts(Line and Bar)
-- Authentication forms and input elements
-- Alerts, Dropdowns, Modals, Buttons and more
-- Can't forget Dark Mode 🕶️
+Once run, this command will display a link to the local server.
 
-All components are built with React and styled using Tailwind CSS for easy customization.
+```sh
+yarn dev
+```
 
-## Feature Comparison
+## How to build for production
 
-### Free Version
-- 1 Unique Dashboard
-- 30+ dashboard components
-- 50+ UI elements
-- Basic Figma design files
-- Community support
+Your code won't build if you have TypeScript errors. Otherwise, the command will report how large the output files are, which should go to `dist` folder.
 
-### Pro Version
-- 5 Unique Dashboards: Analytics, Ecommerce, Marketing, CRM, Stocks (more coming soon)
-- 400+ dashboard components and UI elements
-- Complete Figma design file
-- Email support
+We use [vite](https://vitejs.dev) to build and its default behavior is to emit an `index.html`, `app.js`, and `app.css`.
 
-To learn more about pro version features and pricing, visit our [pricing page](https://tailadmin.com/pricing).
+```sh
+yarn build
+```
 
-## Changelog
+## How to deploy
 
-### Version 2.0.0 - [February 2025]
-A major update with comprehensive redesign and modern React patterns implementation.
+You can deploy this repository to any hosting service from Cloudflare Pages, Vercel, or Github Pages to Heroku to AWS to your own Nginx server.
 
-#### Major Improvements
-- Complete UI redesign with modern React patterns
-- New features: collapsible sidebar, chat, and calendar
-- Improved performance and accessibility
-- Updated data visualization using ApexCharts
+However, `react-router` needs your server to send all requests to `/`. This is commonly referred to as a [Single Page Application (SPA)](https://developer.mozilla.org/en-US/docs/Glossary/SPA). You will have to add a rewrite to accomplish that. To host on Vercel, for example, you just need to add a `vercel.json` with:
 
-#### Key Features
-- Redesigned dashboards (Ecommerce, Analytics, Marketing, CRM)
-- Enhanced navigation with React Router integration
-- Advanced tables with sorting and filtering
-- Calendar with drag-and-drop support
-- New UI components and improved existing ones
+```json
+{
+  "routes": [
+    {
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
+    }
+  ]
+}
+```
 
-#### Breaking Changes
-- Updated sidebar component API
-- Migrated charts to ApexCharts
-- Revised authentication system
+Most, but not all, providers have a mechanism to do this, but we can't cover them all here.
 
-[Read more](https://tailadmin.com/docs/update-logs/react) on this release.
-
-### Version 1.3.7 - [June 20, 2024]
-
-#### Enhancements
-
-1. Remove Repetition of DefaultLayout in every Pages
-2. Add ClickOutside Component for reduce repeated functionality in Header Message, Notification and User Dropdowns.
-
-### Version 1.3.6 - [Jan 31, 2024]
-
-#### Enhancements
-
-1. Integrate flatpickr in [Date Picker/Form Elements]
-2. Change color after select an option [Select Element/Form Elements].
-3. Make it functional [Multiselect Dropdown/Form Elements].
-4. Make best value editable [Pricing Table One/Pricing Table].
-5. Rearrange Folder structure.
-
-### Version 1.2.0 - [Apr 28, 2023]
-
-- Add Typescript in TailAdmin React.
-
-### Version 1.0.0 - Initial Release - [Mar 13, 2023]
-
-- Initial release of TailAdmin React.
-
-
-
-## License
-
-TailAdmin React.js Free Version is released under the MIT License.
-
-## Support
-
-If you find this project helpful, please consider giving it a star on GitHub. Your support helps us continue developing and maintaining this template.
+Alternatively, you can change this app to server-side render. `vite` isn't designed to do that, so you'll need to use a plugin to create an HTML file for each page. `vite` [has a section in their docs](https://github.com/vitejs/awesome-vite#ssr) about SSR plugins and they seem great.

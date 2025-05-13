@@ -1,0 +1,217 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { useRecoilValue } from "recoil";
+import { commonAreaChecklistElementListAtom } from "@/_recoil/states";
+import { Modal } from "@/components/ui/modal";
+import { Label } from "flowbite-react";
+import Input from "@/components/ui/input";
+import Checkbox2 from "@/components/ui/checkbox2";
+import Select from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import { TrashBinIcon } from "@/icons";
+
+
+export default function ChecklistElementModal({
+  isOpen,
+  closeModal,
+  title,
+  onSubmit,
+}: any) {
+  const checklistElements = useRecoilValue(commonAreaChecklistElementListAtom);
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    commonAreaCategoryId: Yup.string().optional(),
+    subElements: Yup.array().optional(),
+    isDuplicate: Yup.boolean().optional(),
+    duplicateElementId: Yup.string().optional(),
+  });
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [selectedZone, setSelectedZone] = useState<any>();
+  const [isDuplicate, setIsDuplicate] = useState(false);
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
+  const { errors, isSubmitting } = formState;
+  const [subItems, setSubItems] = useState<any[]>([{ name: "", index: 0 }]);
+
+  const removeElement = (e) => {
+    const holder = [...subItems];
+    const filtered = holder?.filter((hold: any) => hold.index != e);
+    setValue("subElements", filtered);
+    setSubItems(filtered);
+  };
+
+  const handleInput = (inputEv, index) => {
+    const value = inputEv.target.value;
+    setSubItems((state) =>
+      state.map((val: any) => {
+        if (val?.index == index) {
+          val.name = value;
+        }
+        return val;
+      })
+    );
+    setValue("subElements", subItems);
+  };
+
+  return (
+    <>
+      <Modal
+        isOpen={isOpen}
+        onClose={closeModal}
+        className="max-w-[700px] p-6 lg:p-10"
+      >
+        <form
+          className="flex flex-col px-2 overflow-y-auto custom-scrollbar"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
+            <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
+              {title}
+            </h5>
+          </div>
+          <div className="mt-8 space-y-3">
+            <div className="space-y-2">
+              <Label htmlFor="input">Name</Label>
+              <Input
+                type="text"
+                placeholder="Enter name"
+                register={{ ...register("name") }}
+                error={errors.name}
+                hint={errors.name?.message}
+              />
+            </div>
+            <div className="flex">
+              <Checkbox2
+                disabled={isDuplicate}
+                checked={isChecked}
+                onChange={setIsChecked}
+                label="Has Sub elements?"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <Checkbox2
+                disabled={isChecked}
+                checked={isDuplicate}
+                onChange={(e) => {
+                  setIsDuplicate(e);
+                  setValue("isDuplicate", e);
+                }}
+                label="Duplicate from"
+              />
+            </div>
+            {isDuplicate && (
+              <div>
+                <Select
+                  options={checklistElements?.map((list) => {
+                    return {
+                      label: list.name,
+                      value: list.id,
+                    };
+                  })}
+                  placeholder="Select Existing Category"
+                  className="dark:bg-dark-900"
+                  onChange={(e) => {
+                    setSelectedZone(
+                      checklistElements.find((zone) => zone.id == e)
+                    );
+                    setValue("commonAreaCategoryId", e);
+                  }}
+                />
+              </div>
+            )}
+            {selectedZone?.elements && (
+              <div>
+                <Select
+                  options={selectedZone?.elements?.map((list) => {
+                    return {
+                      label: list.name,
+                      value: list.id,
+                    };
+                  })}
+                  placeholder="Select Existing Element"
+                  className="dark:bg-dark-900"
+                  onChange={(e) => {
+                    setValue("duplicateElementId", e);
+                  }}
+                />
+              </div>
+            )}
+            {isChecked &&
+              subItems?.map((_element: any, index: any) => {
+                return (
+                  <div className="flex w-[95%] ml-5">
+                    <div className="space-y-2 w-full">
+                      <Label htmlFor="input">Element Name</Label>
+                      <div className="flex w-full gap-2">
+                        <div className="w-[75%]">
+                          <Input
+                            type="text"
+                            value={_element.name}
+                            placeholder="Enter element name"
+                            onChange={(e) => handleInput(e, _element?.index)}
+                          />
+                        </div>
+                        {index == subItems.length - 1 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                              setSubItems((oldArray) => [
+                                ...oldArray,
+                                {
+                                  name: "",
+                                  index: _element?.index + 1,
+                                },
+                              ]);
+                            }}
+                          >
+                            <PlusIcon />
+                          </Button>
+                        )}
+                        {index > 0 && (
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={() => {
+                              removeElement(_element?.index);
+                            }}
+                          >
+                            <TrashBinIcon />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+          <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
+            <Button
+              onClick={() => {
+                closeModal();
+              }}
+              type="button"
+              variant="outline"
+            >
+              Close
+            </Button>
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </>
+  );
+}

@@ -1,206 +1,216 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+/* see https://github.com/themesberg/flowbite-admin-dashboard/blob/main/src/css/input.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply relative text-base font-normal z-1 bg-gray-50 font-outfit;
-  }
+/* chart styles */
+.apexcharts-tooltip {
+  @apply bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-0 rounded-lg shadow-lg !important;
 }
 
-@layer components {
-  .menu-item {
-    @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
-  }
-  .menu-item-active {
-    @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
-  }
-  .menu-item-inactive {
-    @apply text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
-  }
-  .menu-item-icon {
-    @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400;
-  }
-  .menu-item-icon-active {
-    @apply text-brand-500 dark:text-brand-400;
-  }
-  .menu-item-icon-size svg {
-    @apply size-6 !important;
-  }
-  .menu-item-icon-inactive {
-    @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
-  }
-
-  .menu-item-arrow {
-    @apply relative;
-  }
-  .menu-item-arrow-active {
-    @apply rotate-180 text-brand-500 dark:text-brand-400;
-  }
-  .menu-item-arrow-inactive {
-    @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
-  }
-
-  .menu-dropdown-item {
-    @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-medium;
-  }
-  .menu-dropdown-item-active {
-    @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
-  }
-  .menu-dropdown-item-inactive {
-    @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
-  }
-
-  .menu-dropdown-badge {
-    @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500 dark:text-brand-400;
-  }
-  .menu-dropdown-badge-active {
-    @apply bg-brand-100 dark:bg-brand-500/20;
-  }
-  .menu-dropdown-badge-inactive {
-    @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
-  }
-}
-@layer utilities {
-  /* Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    @apply size-1.5;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply rounded-full;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full dark:bg-gray-700;
-  }
-  /* For Remove Date Icon */
-  input[type="date"]::-webkit-inner-spin-button,
-  input[type="time"]::-webkit-inner-spin-button,
-  input[type="date"]::-webkit-calendar-picker-indicator,
-  input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-  }
+.apexcharts-tooltip .apexcharts-tooltip-title {
+  @apply py-2 px-4 bg-gray-100 dark:bg-gray-600 border-b border-gray-200 dark:border-gray-500 !important;
 }
 
-.tableCheckbox:checked ~ span span {
-  @apply opacity-100;
-}
-.tableCheckbox:checked ~ span {
-  @apply border-brand-500 bg-brand-500;
+.apexcharts-xaxistooltip {
+  @apply text-gray-500 border-0 bg-white dark:bg-gray-700 dark:text-gray-300 rounded-lg shadow-lg !important;
 }
 
-/* third-party libraries CSS */
-.apexcharts-legend-text {
-  @apply !text-gray-700 dark:!text-gray-400;
+.apexcharts-tooltip .apexcharts-tooltip-text-y-value {
+  @apply dark:text-white;
 }
 
-.apexcharts-text {
-  @apply !fill-gray-700 dark:!fill-gray-400;
+.apexcharts-xaxistooltip-text {
+  @apply font-medium text-sm !important;
 }
 
-.apexcharts-tooltip.apexcharts-theme-light {
-  @apply gap-1 !rounded-lg !border-gray-200 p-3 !shadow-theme-sm dark:!border-gray-800 dark:!bg-gray-900;
+.apexcharts-xaxistooltip:before,
+.apexcharts-xaxistooltip:after {
+  @apply border-0 !important;
 }
 
-.apexcharts-tooltip-marker {
-  @apply !mr-1.5 !h-1.5 !w-1.5;
-}
-.apexcharts-legend-text {
-  @apply !pl-5 !text-gray-700 dark:!text-gray-400;
-}
-.apexcharts-tooltip-series-group {
-  @apply !p-0;
-}
-.apexcharts-tooltip-y-group {
-  @apply !p-0;
-}
-.apexcharts-tooltip-title {
-  @apply !mb-0 !border-b-0 !bg-transparent !p-0 !text-[10px] !leading-4 !text-gray-800 dark:!text-white/90;
-}
-.apexcharts-tooltip-text {
-  @apply !text-theme-xs !text-gray-700 dark:!text-white/90;
-}
-.apexcharts-tooltip-text-y-value {
-  @apply !font-medium;
+/* SVG map styles */
+.svgMap-map-wrapper {
+  @apply bg-white !important;
 }
 
-.apexcharts-gridline {
-  @apply !stroke-gray-100 dark:!stroke-gray-800;
-}
-#chartTwo .apexcharts-datalabels-group {
-  @apply !-translate-y-24;
-}
-#chartTwo .apexcharts-datalabels-group .apexcharts-text {
-  @apply !fill-gray-800 !font-semibold dark:!fill-white/90;
+.svgMap-map-image {
+  @apply dark:bg-gray-800;
 }
 
-#chartDarkStyle .apexcharts-datalabels-group .apexcharts-text {
-  @apply !fill-gray-800 !font-semibold dark:!fill-white/90;
+.svgMap-map-controls-wrapper {
+  @apply shadow-none left-0 bottom-0 dark:bg-gray-800 !important;
 }
 
-#chartSixteen .apexcharts-legend {
-  @apply !p-0 !pl-6;
+.svgMap-map-controls-zoom {
+  @apply dark:bg-gray-800 !important;
 }
 
-.jvectormap-container {
-  @apply !bg-gray-50 dark:!bg-gray-900;
-}
-.jvectormap-region.jvectormap-element {
-  @apply !fill-gray-300 hover:!fill-brand-500 dark:!fill-gray-700 dark:hover:!fill-brand-500;
-}
-.jvectormap-marker.jvectormap-element {
-  @apply !stroke-gray-200 dark:!stroke-gray-800;
-}
-.jvectormap-tip {
-  @apply !bg-brand-500 !border-none !px-2 !py-1;
-}
-.jvectormap-zoomin,
-.jvectormap-zoomout {
-  @apply !hidden;
+.svgMap-map-wrapper .svgMap-control-button {
+  @apply rounded-lg border-solid border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600 !important;
 }
 
-.stocks-slider-outer .swiper-button-next:after,
-.stocks-slider-outer .swiper-button-prev:after {
-  @apply hidden;
+.svgMap-map-wrapper .svgMap-control-button.svgMap-zoom-button:after,
+.svgMap-map-wrapper .svgMap-control-button.svgMap-zoom-button:before {
+  @apply dark:bg-gray-600 dark:hover:bg-gray-500;
 }
 
-.stocks-slider-outer .swiper-button-next,
-.stocks-slider-outer .swiper-button-prev {
-  @apply !static mt-0 h-8 w-9 rounded-full border dark:hover:bg-white/[0.05] border-gray-200 !text-gray-700 transition hover:bg-gray-100 dark:border-white/[0.03] dark:bg-gray-800 dark:!text-gray-400  dark:hover:!text-white/90;
+.svgMap-map-wrapper .svgMap-control-button:first-child {
+  @apply mr-2 !important;
 }
 
-.stocks-slider-outer .swiper-button-next.swiper-button-disabled,
-.stocks-slider-outer .swiper-button-prev.swiper-button-disabled {
-  @apply bg-white opacity-50 dark:bg-gray-900;
+.svgMap-tooltip {
+  @apply bg-white dark:bg-gray-700 shadow-lg rounded-lg border-0 text-left !important;
 }
 
-.stocks-slider-outer .swiper-button-next svg,
-.stocks-slider-outer .swiper-button-prev svg {
-  @apply !h-auto !w-auto;
+.svgMap-tooltip
+  .svgMap-tooltip-content-container
+  .svgMap-tooltip-flag-container {
+  @apply inline-block mr-2 text-left border-0 p-0 !important;
 }
+
+.svgMap-tooltip
+  .svgMap-tooltip-content-container
+  .svgMap-tooltip-flag-container
+  .svgMap-tooltip-flag {
+  @apply inline-block border-0 h-4 p-0 !important;
+}
+
+.svgMap-tooltip .svgMap-tooltip-title {
+  @apply inline-block pt-2 text-gray-900 dark:text-white font-semibold text-sm !important;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content {
+  @apply mt-0 !important;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content table td {
+  @apply text-sm text-left text-gray-500 dark:text-gray-400 font-normal !important;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content table td span {
+  @apply text-sm text-left text-gray-900 dark:text-white font-semibold !important;
+}
+
+.svgMap-tooltip .svgMap-tooltip-pointer {
+  @apply hidden !important;
+}
+
+.svgMap-map-wrapper .svgMap-country {
+  @apply dark:stroke-gray-800;
+}
+
+.svgMap-map-wrapper .svgMap-country {
+  @apply dark:stroke-gray-800 !important;
+}
+
+.svgMap-country[fill="#4B5563"] {
+  @apply fill-[#4B5563] !important;
+}
+
+/* kanban styles */
+
+.drag-card {
+  @apply opacity-100 !important;
+  @apply rotate-6;
+}
+
+.ghost-card {
+  @apply bg-gray-100/40 dark:bg-gray-600/40 !important;
+}
+
+/* calendar styles */
+
+.fc .fc-toolbar {
+  @apply flex-row justify-between px-4;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  @apply mb-5;
+}
+
+.fc .fc-toolbar-title {
+  @apply text-lg text-gray-900 dark:text-gray-100 font-semibold !important;
+}
+
+.fc .fc-today-button {
+  @apply rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 !important;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+  @apply mx-2 !important;
+}
+
+.fc .fc-button-group .fc-prev-button,
+.fc .fc-button-group .fc-next-button {
+  @apply bg-white border-0 text-gray-500 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 rounded inline-flex focus:bg-gray-100 focus:ring-1 focus:ring-gray-100 justify-center !important;
+}
+
+.fc .fc-scrollgrid {
+  @apply border-l-0 border-gray-200 !important;
+}
+
+.fc .fc-daygrid-day-frame {
+  @apply border-gray-200 !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  @apply py-3 text-base text-gray-900 font-semibold !important;
+}
+
+.fc-theme-standard th {
+  @apply border-0 border-b border-gray-200 !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-end {
+  @apply mr-2 !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
+  @apply ml-2 !important;
+}
+
+.fc .fc-event .fc-event-main {
+  @apply p-2 bg-white hover:bg-green-100 !important;
+}
+
+.fc .fc-h-event .fc-event-main-frame {
+  @apply text-xs font-semibold !important;
+}
+
+.fc .fc-daygrid-day-frame {
+  @apply hover:bg-gray-50 cursor-pointer !important;
+}
+
+
+.dt-input {
+  @apply text-gray-800 dark:text-gray-100  w-[50px] !important;
+}
+.dt-layout-row {
+   @apply text-gray-800 dark:text-gray-100 !important;
+}
+
+.reverse-label {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+}
+
+.visually-hidden {
+  display: none;
+}
+
 
 .flatpickr-wrapper {
   @apply w-full;
 }
 .flatpickr-calendar {
-  @apply mt-2 !bg-white !rounded-xl !p-5 !border !border-gray-200 !text-gray-500 dark:!bg-gray-dark dark:!text-gray-400 dark:!shadow-theme-xl 2xsm:!w-auto;
+  @apply mt-2 !bg-white !rounded-xl !p-5 !border !border-gray-200 !text-gray-500 dark:bg-gray-200 dark:text-gray-400;
 }
 
 .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-months .flatpickr-next-month:hover svg {
-  @apply stroke-brand-500;
+  @apply stroke-blue-500;
 }
 .flatpickr-calendar.arrowTop:before,
 .flatpickr-calendar.arrowTop:after {
@@ -225,11 +235,11 @@
 }
 
 .flatpickr-weekday {
-  @apply !text-theme-sm !font-medium !text-gray-500 dark:!text-gray-400 !bg-transparent;
+  @apply !text-sm !font-medium !text-gray-500 dark:!text-gray-400 !bg-transparent;
 }
 
 .flatpickr-day {
-  @apply !flex !items-center !text-theme-sm !font-medium !text-gray-800 dark:!text-white/90 dark:hover:!border-gray-300 dark:hover:!bg-gray-900;
+  @apply !flex !items-center !text-sm !font-medium !text-gray-800 dark:!text-white/90 dark:hover:!border-gray-300 dark:hover:!bg-gray-900;
 }
 .flatpickr-day.nextMonthDay,
 .flatpickr-day.prevMonthDay {
@@ -278,7 +288,7 @@ span.flatpickr-weekday,
 }
 .flatpickr-day.inRange {
   box-shadow: -5px 0 0 #f9fafb, 5px 0 0 #f9fafb !important;
-  @apply dark:!shadow-datepicker;
+  @apply dark:!shadow-md;
 }
 .flatpickr-day.inRange,
 .flatpickr-day.prevMonthDay.inRange,
@@ -319,7 +329,7 @@ span.flatpickr-weekday,
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
   background: #465fff;
-  @apply !border-brand-500 !bg-brand-500 hover:!border-brand-500 hover:!bg-brand-500;
+  @apply !border-blue-500 !bg-blue-500 hover:!border-blue-500 hover:!bg-blue-500;
 }
 .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
 .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
@@ -343,7 +353,7 @@ span.flatpickr-weekday,
 }
 
 .fc .fc-view-harness {
-  @apply max-w-full overflow-x-auto custom-scrollbar;
+  @apply max-w-full overflow-x-auto;
 }
 .fc-dayGridMonth-view.fc-view.fc-daygrid {
   @apply min-w-[718px];
@@ -383,7 +393,7 @@ span.flatpickr-weekday,
   @apply hidden;
 }
 .fc-addEventButton-button {
-  @apply !rounded-lg !border-0 !bg-brand-500 !px-4 !py-2.5 !text-sm !font-medium hover:!bg-brand-600 focus:!shadow-none;
+  @apply !rounded-lg !border-0 !bg-blue-500 !px-4 !py-2.5 !text-sm !font-medium hover:!bg-blue-600 focus:!shadow-none;
 }
 .fc-toolbar-title {
   @apply !text-lg !font-medium text-gray-800 dark:text-white/90;
@@ -446,25 +456,25 @@ span.flatpickr-weekday,
   @apply !ml-3;
 }
 .event-fc-color.fc-bg-success {
-  @apply border-success-50 bg-success-50;
+  @apply border-green-50 bg-green-50;
 }
 .event-fc-color.fc-bg-danger {
-  @apply border-error-50 bg-error-50;
+  @apply border-red-50 bg-red-50;
 }
 .event-fc-color.fc-bg-primary {
-  @apply border-brand-50 bg-brand-50;
+  @apply border-blue-50 bg-blue-50;
 }
 .event-fc-color.fc-bg-warning {
   @apply border-orange-50 bg-orange-50;
 }
 .event-fc-color.fc-bg-success .fc-daygrid-event-dot {
-  @apply bg-success-500;
+  @apply bg-green-500;
 }
 .event-fc-color.fc-bg-danger .fc-daygrid-event-dot {
-  @apply bg-error-500;
+  @apply bg-red-500;
 }
 .event-fc-color.fc-bg-primary .fc-daygrid-event-dot {
-  @apply bg-brand-500;
+  @apply bg-blue-500;
 }
 .event-fc-color.fc-bg-warning .fc-daygrid-event-dot {
   @apply bg-orange-500;
@@ -503,7 +513,7 @@ span.flatpickr-weekday,
 .carouselTwo .swiper-button-prev,
 .carouselFour .swiper-button-next,
 .carouselFour .swiper-button-prev {
-  @apply h-10 w-10 rounded-full border-[0.5px] border-white/10 bg-white/90 !text-gray-700 shadow-slider-navigation backdrop-blur-[10px];
+  @apply h-10 w-10 rounded-full border-[0.5px] border-white/10 bg-white/90 !text-gray-700 shadow-md backdrop-blur-[10px];
 }
 
 .carouselTwo .swiper-button-prev,
@@ -518,31 +528,31 @@ span.flatpickr-weekday,
 
 .carouselThree .swiper-pagination,
 .carouselFour .swiper-pagination {
-  @apply !bottom-3 !left-1/2 inline-flex !w-auto -translate-x-1/2 items-center gap-1.5 rounded-[40px] border-[0.5px] border-white/10 bg-white/60 px-2 py-1.5 shadow-slider-navigation backdrop-blur-[10px] sm:!bottom-5;
+  @apply !bottom-3 !left-1/2 inline-flex !w-auto -translate-x-1/2 items-center gap-1.5 rounded-[40px] border-[0.5px] border-white/10 bg-white/60 px-2 py-1.5 shadow-md backdrop-blur-[10px] sm:!bottom-5;
 }
 
 .carouselThree .swiper-pagination-bullet,
 .carouselFour .swiper-pagination-bullet {
-  @apply !m-0 h-2.5 w-2.5 bg-white opacity-100 shadow-theme-xs duration-200 ease-in-out;
+  @apply !m-0 h-2.5 w-2.5 bg-white opacity-100 shadow-md duration-200 ease-in-out;
 }
 
 .carouselThree .swiper-pagination-bullet-active,
 .carouselFour .swiper-pagination-bullet-active {
-  @apply w-6.5 rounded-xl;
+  @apply w-[6.5px] rounded-xl;
 }
 
 .form-check-input:checked ~ span {
-  @apply border-[6px] border-brand-500 bg-brand-500 dark:border-brand-500;
+  @apply border-[6px] border-blue-500 bg-blue-500 dark:border-blue-500;
 }
 
 .taskCheckbox:checked ~ .box span {
-  @apply opacity-100 bg-brand-500;
+  @apply opacity-100 bg-blue-500;
 }
 .taskCheckbox:checked ~ p {
   @apply text-gray-400 line-through;
 }
 .taskCheckbox:checked ~ .box {
-  @apply border-brand-500 bg-brand-500 dark:border-brand-500;
+  @apply border-blue-500 bg-blue-500 dark:border-blue-500;
 }
 
 .task {
@@ -764,7 +774,7 @@ span.flatpickr-weekday,
   display: none;
 }
 
-.photoviewer-error-msg {
+.photoviewer-red-msg {
   vertical-align: middle;
 }
 
@@ -969,3 +979,35 @@ span.flatpickr-weekday,
 .carousel-inner .active {
   display: block;
 }
+
+.react-datepicker__input-container {
+  @apply dark:bg-gray-900 text-gray-800 dark:text-gray-100;
+}
+.react-datepicker__input-container input {
+  @apply h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-md placeholder:text-gray-400 focus:outline-none focus:ring  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30;
+}
+.react-datepicker-wrapper {
+  @apply w-full;
+}
+.react-datepicker__calendar-icon {
+  @apply absolute mt-1;
+}
+.react-datepicker__month-container {
+  @apply  dark:bg-gray-800 dark:text-gray-100;
+}
+.react-datepicker__header,.react-datepicker__current-month  {
+   @apply dark:bg-gray-800 dark:text-gray-100;
+}
+.react-datepicker__day-names div {
+ @apply dark:bg-gray-800 dark:text-gray-100;
+}
+.react-datepicker__day {
+ @apply dark:text-gray-100;
+}
+.react-datepicker__day--disabled {
+   @apply dark:text-gray-500;
+}
+.react-datepicker {
+   @apply border-0 shadow-md rounded-md !important;
+}
+@custom-variant dark (&:where(.dark, .dark *));
