@@ -10,7 +10,7 @@ import { Organization } from "@/lib/interface";
 import Input from "@/components/ui/input";
 import OrgGrid from "./components/orgGrid";
 import OrgTable from "./tables/orgTable";
-import { replace, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export const OrganizationPage: FC = function () {
     const organizationsList = useRecoilValue(organizationsAtom);

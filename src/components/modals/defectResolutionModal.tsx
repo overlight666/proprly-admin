@@ -3,7 +3,6 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import moment from "moment";
 import { useEffect } from "react";
-import PhotoViewer from "photoviewer";
 import Carousel from 'react-bootstrap/Carousel';
 
 import Icon from '@mdi/react';

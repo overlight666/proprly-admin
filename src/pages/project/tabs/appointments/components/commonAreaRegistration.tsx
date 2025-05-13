@@ -14,7 +14,6 @@ import { appointmentTradeCodesAtom, remainingTimeSlotsAtom, selectedCommonAreaAt
 import { useAppointments } from "@/_recoil/actions";
 import { Property } from "@/lib/interface";
 import { Label } from "flowbite-react";
-import Select from "@/components/ui/select";
 import Input from "@/components/ui/input";
 import { ucword } from "@/helpers";
 import TextArea from "@/components/ui/text-area";

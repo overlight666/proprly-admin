@@ -15,8 +15,8 @@ import { toast } from "react-toastify";
 
 export default function TemplateTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
-    const { isOpen, openModal, closeModal } = useModal();
-    const [defectCode, setDefectCode] = useState<any>();
+    const { openModal } = useModal();
+    const [_defectCode, setDefectCode] = useState<any>();
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };

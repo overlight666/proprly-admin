@@ -4,20 +4,13 @@ import SupportTicketModal from "@/components/modals/supportTicketModal";
 import { truncateString, ucword } from "@/helpers";
 import { useModal } from "@/helpers/useModal";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { Checkbox, Label, Progress, Table } from "flowbite-react";
-import { StarIcon } from "lucide-react";
+import { Checkbox, Label, Table } from "flowbite-react";
 import moment from "moment";
-import { useEffect, useState, type FC } from "react";
+import { type FC } from "react";
 import {
     HiChevronLeft,
     HiChevronRight,
-    HiDotsVertical,
-    HiExclamationCircle,
-    HiEye,
-    HiFolder,
-    HiPlus,
     HiTrash,
-    HiViewGrid,
 } from "react-icons/hi";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 

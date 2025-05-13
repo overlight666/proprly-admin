@@ -2,17 +2,12 @@
 import { useEffect, useState } from "react";
 import TaskTable from "./TaskTable";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { allProjectsAtom, defectCodesAtom, defectCodesResponseAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
-import { Project } from "@/lib/interface";
+import { defectCodesAtom, defectCodesResponseAtom } from "@/_recoil/states";
 import { useCountriesAction, useDefect, useOrganization, useProject } from "@/_recoil/actions";
-import { useModal } from "@/helpers/useModal";
 import { Label } from "flowbite-react";
 
 export default function ITPTaskManagement() {
     const [isType, setIsType] = useState("");
-    const orglist: any = useRecoilValue(organizationsAtom);
-    const projectList: Project[] = useRecoilValue(allProjectsAtom);
-    const regionList: any[] = useRecoilValue(regionsAtom);
     const defectCodeList: any[] = useRecoilValue(defectCodesAtom);
     const defectCodeResponse: any = useRecoilValue(defectCodesResponseAtom);
     const orgAction = useOrganization();
@@ -21,7 +16,7 @@ export default function ITPTaskManagement() {
     const defectAction = useDefect();
     const setDefectCodes = useSetRecoilState(defectCodesAtom);
     const [selectedId, setSelectedId] = useState<any>();
-    const [sortedList, setSortedList] = useState<any[]>([]);
+    const [_sortedList, setSortedList] = useState<any[]>([]);
 
     useEffect(() => {
         orgAction.getOrganizations();

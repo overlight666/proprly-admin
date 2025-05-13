@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
-
-import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router";
@@ -41,12 +37,11 @@ export default function NewProject() {
     const [page, setPage] = useState(1);
     const { isOpen, openModal, closeModal } = useModal();
     const [towers, setTowers] = useState<any[]>([]);
-    const [fieldHolder, setFieldHolder] = useState<any>({});
+    const [_fieldHolder, setFieldHolder] = useState<any>({});
     const [uploadQueue, setUploadQueue] = useState<any>([]);
     const { id } = useParams();
     const projectAction = useProject();
     const navigate = useNavigate();
-    const isLoading = useRecoilValue(isLoadingAtom);
     const setIsLoading = useSetRecoilState(isLoadingAtom);
 
 

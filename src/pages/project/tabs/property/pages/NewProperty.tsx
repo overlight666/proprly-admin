@@ -495,8 +495,6 @@ export default function AddProperty() {
         };
         setIsLoading(true);
         propertAction.addProperty(
-            id,
-            project_id,
             params,
             navigate,
             toast,

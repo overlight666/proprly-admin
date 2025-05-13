@@ -108,8 +108,6 @@ function useWarrantyAction() {
   }
 
   function uploadWarrantyGroup(
-    id: any,
-    project_id: any,
     params: any,
     navigate: any,
     toast: any

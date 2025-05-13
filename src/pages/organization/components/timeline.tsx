@@ -3,7 +3,6 @@ import { useRecoilValue } from "recoil";
 import {
     FolderIcon,
     InfoIcon,
-    ShootingStarIcon,
     TimeIcon,
 } from "../../../icons";
 import { useEffect, useState } from "react";

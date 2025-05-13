@@ -55,7 +55,7 @@ const ProfileIntro: FC = function () {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     const { register, handleSubmit, formState, setValue } = useForm(formOptions);
-    const { errors, isSubmitting } = formState;
+    const { errors } = formState;
 
     useEffect(() => {
         if (userDetails) {

@@ -9,9 +9,9 @@ export default function AddITP({
     isOpen,
     closeModal,
 }: any) {
-    const [defectName, setDefectName] = useState<any>("");
-    const [defectCode, setDefectCode] = useState<any>("");
-    const [nameError, setNameError] = useState<any>("");
+    const [_defectName, setDefectName] = useState<any>("");
+    const [_defectCode, setDefectCode] = useState<any>("");
+    const [_nameError, setNameError] = useState<any>("");
     const [codeError, setCodeError] = useState<any>("");
 
     function onSubmit() {

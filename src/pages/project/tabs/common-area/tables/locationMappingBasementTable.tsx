@@ -213,7 +213,7 @@ export default function LocationMappingTable({
         } else {
             const basements: any = [];
             if (rawBasements.length == 0) {
-                selected?.map((sv: any, index: any) => {
+                selected?.map((sv: any, _index: any) => {
                     const newArr = sv?.configuration.map((s: any) => s.id);
                     newArr.push(parseInt(selectedCategory));
 
@@ -226,7 +226,7 @@ export default function LocationMappingTable({
                 });
                 setRawBasements(basements);
             } else {
-                selected?.map((sv: any, index: any) => {
+                selected?.map((sv: any, _index: any) => {
                     const newArr = sv?.configuration.map((s: any) => s.id);
                     newArr.push(parseInt(selectedCategory));
                     const holder = rawBasements?.find((base) => base?.basement == sv.id);

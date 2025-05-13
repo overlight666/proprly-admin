@@ -41,7 +41,7 @@ export const SignUp = (): JSX.Element => {
         validationSchema: signUpValidattion,
         onSubmit: async (
             values: signUpForm,
-            formikHelpers: FormikHelpers<signUpForm>,
+            _formikHelpers: FormikHelpers<signUpForm>,
         ) => {
             registrationAction.registerLead(values).then((e: any) => {
                 if (e?.id) {

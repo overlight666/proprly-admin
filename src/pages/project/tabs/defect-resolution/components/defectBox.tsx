@@ -4,15 +4,11 @@ import moment from "moment";
 
 import Icon from '@mdi/react';
 import * as apIcon from '@mdi/js';
-import { DefectSumissionType } from "@/lib/interface";
 import { useOrganization } from "@/_recoil/actions";
 import { ucword } from "@/helpers";
 import ComponentCard from "@/components/ui/component-card";
 // Define the table data using the interface
-interface DefectItemBox {
-    keyValue: any;
-    defect: DefectSumissionType;
-}
+
 export default function DefectItem({ keyValue, defect, openModal }: any) {
     const orgAction = useOrganization();
     const mutateIcon = (name: any) => {

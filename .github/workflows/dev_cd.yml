@@ -51,9 +51,9 @@ jobs:
             git fetch
             git reset --hard origin/development
             git pull origin development
-            npm install -g yarn
-            yarn install
-            yarn build
+            npm install -g pnpm@latest-10
+            pnpm install
+            pnpm build
             pm2 restart proprly-admin-dev
 
       - name: Update Deployment Status

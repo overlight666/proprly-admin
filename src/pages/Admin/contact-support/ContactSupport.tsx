@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { authAtom, globalConfigAtom, uploadResponseAtom } from "@/_recoil/states";
+import { authAtom, uploadResponseAtom } from "@/_recoil/states";
 import { ImageType } from "@/lib/interface";
 import { useUserActions } from "@/_recoil/actions";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,6 @@ export default function ContactSupport() {
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
-  const config = useRecoilValue(globalConfigAtom);
 
   useEffect(() => {
     if (uploadResponse) {

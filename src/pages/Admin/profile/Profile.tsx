@@ -1,7 +1,7 @@
 import { authAtom } from "@/_recoil/states";
 import { ucword } from "@/helpers";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { Badge, Breadcrumb, Progress } from "flowbite-react";
+import { Breadcrumb, Progress } from "flowbite-react";
 import { EditIcon } from "lucide-react";
 import moment from "moment";
 import type { FC } from "react";

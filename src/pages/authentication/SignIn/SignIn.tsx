@@ -32,7 +32,7 @@ export const SignIn = (): JSX.Element => {
         validationSchema: signinValidattion,
         onSubmit: async (
             values: signInForm,
-            formikHelpers: FormikHelpers<signInForm>,
+            _formikHelpers: FormikHelpers<signInForm>,
         ) => {
             userAction.login(values.email, values.password, navigate)
         },

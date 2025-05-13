@@ -5,18 +5,8 @@ import type { FC } from "react";
 import { useEffect, useState } from "react";
 import {
   HiAdjustments,
-  HiChartPie,
-  HiChartSquareBar,
-  HiClipboard,
   HiCog,
-  HiCollection,
-  HiInboxIn,
-  HiInformationCircle,
-  HiLockClosed,
   HiSearch,
-  HiShoppingBag,
-  HiUsers,
-  HiViewGrid,
 } from "react-icons/hi";
 
 import { useSidebarContext } from "../context/SidebarContext";
@@ -28,7 +18,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, projectsAtom, regionOptionsAtom, selectedOrgAtom, sidebarIndexAtom } from "@/_recoil/states";
 import { useParams } from "react-router";
 import { Project } from "@/lib/interface";
-import { truncateMenuString, truncateString } from "@/helpers";
+import { truncateMenuString } from "@/helpers";
 import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
 
 const ExampleSidebar: FC = function () {

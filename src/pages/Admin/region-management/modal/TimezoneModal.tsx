@@ -30,7 +30,7 @@ export default function TimezoneModal({ isOpen, closeModal, isEdit, id }: any) {
 
   const formOptions = { resolver: yupResolver(validationSchema) };
 
-  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
+  const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
 
   useEffect(() => {

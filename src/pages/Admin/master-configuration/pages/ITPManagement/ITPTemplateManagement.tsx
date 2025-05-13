@@ -17,7 +17,7 @@ export default function TemplateManagement() {
     const projectAction = useProject();
     const regionAction = useCountriesAction();
     const setDefectCodes = useSetRecoilState(defectCodesAtom);
-    const [sortedList, setSortedList] = useState<any[]>([]);
+    const [sortedList, _setSortedList] = useState<any[]>([]);
     const { isOpen, openModal, closeModal } = useModal();
 
     useEffect(() => {
@@ -68,7 +68,7 @@ export default function TemplateManagement() {
             </div>
 
             <TemplateTable
-                tableData={sortedList?.map((codes, index) => {
+                tableData={sortedList?.map((_codes, _index) => {
                     return [];
                 })}
             />
