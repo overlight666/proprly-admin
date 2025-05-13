@@ -178,8 +178,6 @@ function useProperties() {
   }
 
   function addProperty(
-    id: any,
-    project_id: any,
     params: any,
     navigate: any,
     toast: any,
@@ -205,8 +203,6 @@ function useProperties() {
                 };
                 warrantyAction
                   .uploadWarrantyGroup(
-                    id,
-                    project_id,
                     warrantyParams,
                     navigate,
                     toast
@@ -228,8 +224,6 @@ function useProperties() {
               };
               warrantyAction
                 .uploadWarrantyGroup(
-                  id,
-                  project_id,
                   warrantyParams,
                   navigate,
                   toast

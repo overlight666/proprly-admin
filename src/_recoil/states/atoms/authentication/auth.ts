@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AuthType } from "@/lib/interface";
 import { atom } from "recoil";
-import { AuthType } from "../../../_types";
 
 const authAtom = atom<AuthType | any>({
   key: "auth",
@@ -16,4 +16,4 @@ const forgottenAtom = atom<any>({
   key: "forgottenAtom",
   default: false,
 });
-export { authAtom, tokenAtom, forgottenAtom};
+export { authAtom, tokenAtom, forgottenAtom };

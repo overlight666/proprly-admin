@@ -1,5 +1,4 @@
 import { useUserActions } from "@/_recoil/actions";
-import { authAtom } from "@/_recoil/states";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { EyeCloseIcon } from "@/icons";
@@ -12,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { HiHome } from "react-icons/hi";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { useRecoilValue } from "recoil";
 import * as Yup from "yup";
 
 const AccountSettingsPage: FC = function () {
@@ -47,7 +45,6 @@ const AccountSettingsPage: FC = function () {
 
 
 const ChangePassword: FC = function () {
-    const userDetails = useRecoilValue(authAtom);
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [showOldPassword, setShowOldPassword] = useState(false)
@@ -64,7 +61,7 @@ const ChangePassword: FC = function () {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     const { register, handleSubmit, formState, setValue } = useForm(formOptions);
-    const { errors, isSubmitting } = formState;
+    const { errors } = formState;
 
 
     const onSubmit = (props: any) => {

@@ -2,14 +2,12 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { ChevronLeftIcon, FileIcon, PlusIcon } from "../../../../../icons";
+import { ChevronLeftIcon, PlusIcon } from "../../../../../icons";
 import { useEffect, useState } from "react";
 
-import * as excelJs from "exceljs";
 
 import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
-import BulkTable from "../tables/bulkTable";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 
@@ -19,14 +17,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import OwnerTable from "../tables/ownerTable";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { activeTabIndexProjectAtom, bulkResponseAtom, dropZoneAtom, globalConfigAtom, isLoadingAtom, organizationPropertyOwnerAtom, projectMenuAtom, selectedOrgAtom, selectedProjectAtom, selectedPropertyAtom } from "@/_recoil/states";
+import { bulkResponseAtom, dropZoneAtom, globalConfigAtom, isLoadingAtom, organizationPropertyOwnerAtom, projectMenuAtom, selectedOrgAtom, selectedProjectAtom, selectedPropertyAtom } from "@/_recoil/states";
 import { useModal } from "@/helpers/useModal";
 import { useProperties } from "@/_recoil/actions";
-import { ExcelData, OptionType, TowerData } from "@/lib/interface";
+import { ExcelData, OptionType } from "@/lib/interface";
 import { Breadcrumb, Label } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
-import DropzoneComponent from "@/components/ui/dropzone";
 import ComponentCard from "@/components/ui/component-card";
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";

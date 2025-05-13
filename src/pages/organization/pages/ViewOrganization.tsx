@@ -7,10 +7,9 @@ import {
     HiHome,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { useOrganization } from "@/_recoil/actions";
 import { useNavigate, useParams } from "react-router";
-import { isLoadingAtom, organizationDashboardAtom, organizationMenuAtom, selectedOrgAtom } from "@/_recoil/states";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { organizationDashboardAtom, organizationMenuAtom, selectedOrgAtom } from "@/_recoil/states";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { TableHeader } from "../components/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "@/icons";
@@ -27,9 +26,7 @@ const ViewOrganization: FC = function () {
     const [organizationMenu, setOrganizationMenu] = useRecoilState(organizationMenuAtom)
     const { id } = params;
     const dashboardData = useRecoilValue(organizationDashboardAtom);
-    const orgAction = useOrganization();
     const navigate = useNavigate();
-    const setIsLoading = useSetRecoilState(isLoadingAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const { isOpen, openModal, closeModal } = useModal();
 

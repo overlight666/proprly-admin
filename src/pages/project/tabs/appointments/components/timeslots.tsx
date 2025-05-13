@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-    JSXElementConstructor,
     Key,
-    ReactElement,
-    ReactNode,
-    ReactPortal,
     useEffect,
     useState,
 } from "react";
 import { useParams } from "react-router";
 import { useRecoilValue } from "recoil";
-import { toast, ToastContentProps } from "react-toastify";
+import { toast } from "react-toastify";
 import { useAppointments } from "@/_recoil/actions";
 import { appointmentTimeslotAtom } from "@/_recoil/states";
 import { Checkbox, Label } from "flowbite-react";

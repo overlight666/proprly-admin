@@ -3,9 +3,8 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useModal } from "@/helpers/useModal";
-import { useDefect } from "@/_recoil/actions";
 import Input from "@/components/ui/input";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,13 +12,10 @@ import { BulkIcon } from "@/icons";
 
 export default function TaskTable({ tableData, isType }: any) {
     const tableRef = useRef<any>(null);
-    const { isOpen, openModal, closeModal } = useModal();
-    const [defectCode, setDefectCode] = useState<any>();
+    const { openModal } = useModal();
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
-
-    const defectAction = useDefect();
     return (
         <>
             <hr />

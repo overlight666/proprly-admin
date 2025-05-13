@@ -17,7 +17,6 @@ import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
 import ComponentCard from "@/components/ui/component-card";
 import { Label } from "flowbite-react";
 import Input from "@/components/ui/input";
-import Select from "@/components/ui/select";
 import FileUploader2 from "@/components/ui/fileupload2";
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "@/icons";
@@ -151,7 +150,7 @@ export default function CommonArea() {
         setMiscellaneous(newFiles);
     };
 
-    const removeGarageDoor = (file: any) => {
+    const removeGarageDoor = (_file: any) => {
         // const newG = warrantyGroup?.map((war: any) => {
         //   if (war.group == "garage_door") {
         //     war.files = war.files.filter((f: any) => f !== file?.id);

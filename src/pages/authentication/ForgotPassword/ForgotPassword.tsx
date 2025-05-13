@@ -26,7 +26,7 @@ export const ForgotPassword = (): JSX.Element => {
         validationSchema: forgotValidattion,
         onSubmit: async (
             values: forgotForm,
-            formikHelpers: FormikHelpers<forgotForm>,
+            _formikHelpers: FormikHelpers<forgotForm>,
         ) => {
             userAction.forgotPassword(values.email).then((e: any) => {
                 if (e && e?.message) {

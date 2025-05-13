@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRecoilState, useRecoilValue } from "recoil";
-import { forgottenAtom, tokenAtom } from "@/_recoil/states";
+import { useRecoilState } from "recoil";
+import { tokenAtom } from "@/_recoil/states";
 import { usePersistor } from "./persistor";
 import useLogout from "./goto";
 
@@ -8,7 +8,6 @@ export { useFetchWrapper };
 
 function useFetchWrapper() {
   const [auth, setToken] = useRecoilState<any>(tokenAtom);
-  const isForgotten = useRecoilValue(forgottenAtom);
   const persist = usePersistor();
   const navigate = useLogout();
   return {

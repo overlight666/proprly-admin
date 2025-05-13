@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Config, Leads, NotificationParent } from "@/lib/interface";
+import { Config, Leads } from "@/lib/interface";
 import { atom } from "recoil";
 
 const usersAtom = atom({

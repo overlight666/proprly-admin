@@ -7,13 +7,8 @@ import { useEffect, useRef, useState } from "react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useNavigate } from "react-router";
-import { useRecoilValue } from "recoil";
-import { TableCell } from "../../../components/ui/table";
-import { FolderIcon, SearchIcon } from "../../../icons";
+import { SearchIcon } from "../../../icons";
 import { useParams } from "react-router";
-import { projectsAtom } from "@/_recoil/states";
-import { Project } from "@/lib/interface";
-import { ucword } from "@/helpers";
 import { Button } from "@/components/ui/button";
 import { File, Plus } from "lucide-react";
 import Input from "@/components/ui/input";
@@ -23,8 +18,7 @@ DataTable.use(DT);
 // Define the table data using the interface
 
 export default function PropertiesPage({ setShowBulk, selected, setSelected }: any) {
-    const [tableData, setTableData] = useState<any>([]);
-    const projects = useRecoilValue(projectsAtom);
+
     const { id, project_id } = useParams();
     const navigate = useNavigate();
     const tableRef = useRef<any>(null);

@@ -34,7 +34,6 @@ export const Step2 = ({
     values,
     handleChange,
     setFieldValue,
-    handleNext
 }: RoleDetailsFormProps) => {
     const [options, setOption] = useState<OptionType[]>();
     const [timezoneOption, setTimezoneOption] = useState<OptionType[]>();

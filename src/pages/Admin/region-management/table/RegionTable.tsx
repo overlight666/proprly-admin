@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useNavigate } from "react-router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { TableCell } from "../../../../components/ui/table";
 import { CheckLineIcon, CloseIcon, FolderIcon, PencilIcon } from "../../../../icons";
 import AddRegionModal from "../modal/AddRegionModal";
 import { toast } from "react-toastify";
-import { allRegionAtom, selectedRegionAtom } from "@/_recoil/states";
+import { allRegionAtom } from "@/_recoil/states";
 import { useModal } from "@/helpers/useModal";
 import { useUserActions } from "@/_recoil/actions";
 import { confirm } from "@/components/ui/confirm-dialog";
@@ -24,7 +24,6 @@ export default function RegionTable({ tableRef }: any) {
   const regionList = useRecoilValue(allRegionAtom);
   const [tableData, setTableData] = useState<any>([]);
   const { isOpen, openModal, closeModal } = useModal();
-  const setSelectedRegion = useSetRecoilState(selectedRegionAtom);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState();
   const navigate = useNavigate();

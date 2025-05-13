@@ -97,12 +97,12 @@ export default function SupportTicketModal({
             index: 0,
 
             callbacks: {
-                beforeOpen: function (context) {
+                beforeOpen: function (_context) {
                     closeModal();
                     // Will fire before modal is opened
                 },
 
-                beforeClose: function (context) {
+                beforeClose: function (_context) {
                     openModal();
                 },
             },

@@ -11,7 +11,6 @@ export default function ProjectTradeReportModal({
     isOpen,
     closeModal,
     reports,
-    title,
 }: any) {
     // const [modalTitle, setModalTitle] = useState("");
     const [tableData, setTableData] = useState<any>([]);

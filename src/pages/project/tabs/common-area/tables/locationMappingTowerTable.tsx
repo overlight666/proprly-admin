@@ -219,7 +219,7 @@ export default function LocationMappingTowerTable({
         } else {
             const towers: any = [];
             if (rawTowers.length == 0) {
-                selected?.map((sv: any, index: any) => {
+                selected?.map((sv: any, _index: any) => {
                     const newArr = sv?.configuration.map((s: any) => s.id);
                     newArr.push(parseInt(selectedCategory));
 
@@ -233,7 +233,7 @@ export default function LocationMappingTowerTable({
                 });
                 setRawTowers(towerHolder?.id, towers);
             } else {
-                selected?.map((sv: any, index: any) => {
+                selected?.map((sv: any, _index: any) => {
                     const newArr = sv?.configuration.map((s: any) => s.id);
                     newArr.push(parseInt(selectedCategory));
                     const holder = rawTowers?.find(

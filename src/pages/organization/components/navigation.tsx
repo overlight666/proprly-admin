@@ -3,7 +3,7 @@ import {
     LayoutDashboard,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { organizationMenuAtom } from "@/_recoil/states";
 
 export const TableHeader = (): JSX.Element => {
