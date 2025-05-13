@@ -59,8 +59,14 @@ import { ReactComponent as BuildingIcon } from "./building.svg?react";
 import { ReactComponent as GearIcon } from "./gear.svg?react";
 import { ReactComponent as HomeIcon } from "./home.svg?react";
 import { ReactComponent as BulkIcon } from "./bulk-icon.svg?react";
+import { ReactComponent as FilterIcon } from "./filter.svg?react";
+import { ReactComponent as FileExport } from "./file-export.svg?react";
+import { ReactComponent as OrderedListIcon } from "./ordered-list.svg?react";
 
 export {
+  OrderedListIcon,
+  FileExport,
+  FilterIcon,
   BulkIcon,
   HomeIcon,
   GearIcon,
