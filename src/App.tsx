@@ -28,7 +28,6 @@ import NotFoundPage from "./pages/pages/404";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
 import PrivateRoutes from "./helpers/privateRoute";
 import { OrganizationPage } from "./pages/organization";
-import { SignupLeads } from "./pages/admin/signup-leads";
 import EditOrganization from "./pages/organization/pages/EditOrganization";
 import AddOrganization from "./pages/organization/pages/AddOrganization";
 import ViewOrganization from "./pages/organization/pages/ViewOrganization";
@@ -45,6 +44,7 @@ import ContactSupport from "./pages/admin/contact-support/ContactSupport";
 import ProfilePage from "./pages/admin/profile/Profile";
 import EditProfilePage from "./pages/admin/profile/pages/edit-profile";
 import AccountSettingsPage from "./pages/admin/account-settings/AccountSetting";
+import { SignupLeads } from "./pages/admin/signup-leads/SignupLeads";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
