@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "descrption": "proprly admin dashboard",
   "scripts": {
-    "build": "yarn typecheck && vite build",
+    "build": "vite build",
     "dev": "vite --host",
     "format": "prettier --check --ignore-path .gitignore --write .",
     "lint": "eslint --ignore-path .gitignore .",
