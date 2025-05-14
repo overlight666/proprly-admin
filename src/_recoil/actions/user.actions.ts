@@ -7,6 +7,7 @@ import {
   addUserReponseAtom,
   allNotificationsAtom,
   allRegionAtom,
+  allUserAtom,
   authAtom,
   contactSupportAtom,
   globalConfigAtom,
@@ -42,6 +43,7 @@ function useUserActions() {
   const setRegions = useSetRecoilState(allRegionAtom);
   const setRegionsResponse = useSetRecoilState(addRegionResponseAtom);
   const setSelectedRegion = useSetRecoilState(selectedRegionAtom);
+  const setAllUsers = useSetRecoilState(allUserAtom);
   const persist = usePersistor();
 
   return {
@@ -68,7 +70,8 @@ function useUserActions() {
     getRegionById,
     updateRegion,
     deleteRegion,
-    restoreRegion
+    restoreRegion,
+    getAllUsers
     // addUserWithTrades,
   };
 
@@ -233,6 +236,19 @@ function useUserActions() {
       );
     });
   }
+
+  function getAllUsers(org_id: any) {
+    const isAdmin = persist.getValues("isAdmin");
+    const url = isAdmin
+      ? `${baseUrl}/users`
+      : `${baseUrl}/organization/${org_id}/users`;
+    return fetchWrapper.get(url).then((response: any) => {
+      setAllUsers(
+        response && response.data ? response.data : response
+      );
+    });
+  }
+
 
   function addUser(project_id: any, params: any) {
     return fetchWrapper
