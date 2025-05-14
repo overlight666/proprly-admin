@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import UserTradesTable from "../tables/userTableTrade";
 import { useModal } from "@/helpers/useModal";
-import { appointmentTradeCodesAtom, globalConfigAtom, projectSubContractorAtom, selectedProjectAtom } from "@/_recoil/states";
+import { allUserAtom, appointmentTradeCodesAtom, globalConfigAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useProject, useUserActions } from "@/_recoil/actions";
 import { projectRole, userInterface } from "@/lib/interface";
 import { Label } from "flowbite-react";
@@ -24,13 +24,13 @@ export const SubContractorUser = () => {
   const [attachUser, setAttachUser] = useState<any>();
   const { project_id, id } = useParams();
   const selectedProject = useRecoilValue(selectedProjectAtom);
-  const projectSubContractor: any = useRecoilValue(projectSubContractorAtom);
   const userAction = useUserActions();
   const projectAction = useProject();
   const tradeCodeList = useRecoilValue(appointmentTradeCodesAtom);
   const [tradeCodes, setTradeCodes] = useState([]);
   const [tradesList, setTradeList] = useState([]);
   const config: any = useRecoilValue(globalConfigAtom);
+  const allUsers: any = useRecoilValue(allUserAtom);
 
   useEffect(() => {
     const tradesl = tradeCodeList?.map((trades: any) => {
@@ -72,7 +72,7 @@ export const SubContractorUser = () => {
     };
     if (!selectedUsers.find((o: any) => o.email === temp.email)) {
       userAction.addUser(project_id, temp).then(() => {
-        userAction.getProjectAdminUsers(id);
+        userAction.getAllUsers(id);
         // setSelectedUsers((oldArray: any) => [...oldArray, temp]);
         projectAction.getSelectedProject(project_id);
       });
@@ -126,7 +126,7 @@ export const SubContractorUser = () => {
         <div className="flex flex-row gap-2 w-full items-center">
           <Select
             options={
-              projectSubContractor?.map((user: any) => {
+              allUsers?.map((user: any) => {
                 return {
                   label: user?.fullName,
                   value: JSON.stringify(user),

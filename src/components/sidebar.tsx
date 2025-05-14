@@ -104,6 +104,7 @@ const ExampleSidebar: FC = function () {
         commonAreaAction.getProjectSalesAgent(id),
         userAction.getProjectAdminUsers(id),
         commonAreaAction.getProjectSubContractor(id),
+        userAction.getAllUsers(id)
       ]).then((values) => {
         const countryHandler = values[0]?.map((r: any) => {
           return {

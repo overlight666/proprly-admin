@@ -73,7 +73,13 @@ const isLoadingAtom = atom<any>({
   default: false,
 });
 
+const allUserAtom = atom<any>({
+  key: "allUserAtom",
+  default: undefined,
+});
+
 export {
+  allUserAtom,
   isLoadingAtom,
   selectedRegionAtom,
   addRegionResponseAtom,
