@@ -65,7 +65,7 @@ export default function Defects() {
                     {
                         defectKeys?.map((obj, index) => {
                             return <div key={index} className="flex flex-row items-center gap-5">
-                                <span className="dark:text-gray-400 text-black text-sm  w-[30%]">
+                                <span className="dark:text-gray-400 text-black text-lg  w-[30%]">
                                     {ucword(obj)}
                                 </span>
                                 <div className="flex flex-col items-center justify-center w-full">

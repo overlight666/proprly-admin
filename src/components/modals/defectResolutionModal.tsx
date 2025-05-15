@@ -10,10 +10,11 @@ import * as apIcon from '@mdi/js';
 import { useParams } from "react-router";
 import { globalConfigAtom, organizationDefectAtom, reloadDefectsAtom, sidebarIndexAtom } from "@/_recoil/states";
 import { useDefect, useOrganization, useProject } from "@/_recoil/actions";
-import { ucword } from "@/helpers";
+import { expandPhoto, ucword } from "@/helpers";
 import { toast } from "react-toastify";
 import { Modal } from "../ui/modal";
 import { Button } from "../ui/button";
+
 
 export default function DefectResolutionModal({
     isOpen,
@@ -33,6 +34,7 @@ export default function DefectResolutionModal({
             setSidebarIndex('z-9');
         }
     }, [isOpen])
+
 
 
     useEffect(() => {
@@ -161,6 +163,7 @@ export default function DefectResolutionModal({
                                                                                 className="d-block w-[350px] h-[200px] rounded-md"
                                                                                 src={img.url}
                                                                                 alt="First slide"
+                                                                                onClick={() => expandPhoto(img.url)}
                                                                             />
 
                                                                         </Carousel.Item>
