@@ -33,7 +33,8 @@ import { useNavigate } from "react-router";
 import logoIcon from "~/images/default-user.png";
 
 import logoDark from "~/images/logo-dark.png";
-import logoLight from "~/images/logo-light.png";
+// import logoLight from "~/images/logo-light.png";
+import logoMain from "~/images/proprly-main.png";
 import { allNotificationsAtom, authAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import { FaEnvelope, FaEnvelopeOpen } from "react-icons/fa";
@@ -56,7 +57,7 @@ const ExampleNavbar: FC = function () {
               <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
                 <img
                   alt=""
-                  src={isDarkMode ? logoDark : logoLight}
+                  src={isDarkMode ? logoDark : logoMain}
                   className="mr-3 h-6 sm:h-8"
                 />
               </span>
