@@ -18,43 +18,43 @@ export const TableHeader = (): JSX.Element => {
         {
             id: "dashboard",
             label: "Dashboard",
-            icon: <LayoutDashboard className="w-3.5 h-3.5" />,
+            icon: <LayoutDashboard className="w-4 h-4" />,
             alt: "Column",
         },
         {
             id: "properties",
             label: "Properties",
-            icon: <FolderClosed className="w-3.5 h-3.5" />,
+            icon: <FolderClosed className="w-4 h-4" />,
             alt: "Folder outline",
         },
         {
             id: "common-areas",
             label: "Common Areas",
-            icon: <Building2 className="w-3.5 h-3.5" />
+            icon: <Building2 className="w-4 h-4" />
 
         },
         {
             id: "defect-resolution",
             label: "Defect Resolution",
-            icon: <BugIcon className="w-3.5 h-3.5" />,
+            icon: <BugIcon className="w-4 h-4" />,
             alt: "Adjustments vertical",
         },
         {
             id: "appointments",
             label: "Appointments",
-            icon: <Calendar1Icon className="w-3.5 h-3.5" />,
+            icon: <Calendar1Icon className="w-4 h-4" />,
             alt: "Appointment settings",
         },
         {
             id: "users",
             label: "Users",
-            icon: <User2 className="w-3.5 h-3.5" />,
+            icon: <User2 className="w-4 h-4" />,
             alt: "user outline",
         },
         {
             id: "reports",
             label: "Reports",
-            icon: <ClipboardList className="w-3.5 h-3.5" />,
+            icon: <ClipboardList className="w-4 h-4" />,
             alt: "Paste outline",
         },
     ];
@@ -81,7 +81,7 @@ export const TableHeader = (): JSX.Element => {
                                     }`}>
                                     {item.icon}
                                     <div
-                                        className={`relative w-fit text-sm font-medium whitespace-nowrap ${projectMenu == item?.id
+                                        className={`relative w-fit !text-lg font-medium whitespace-nowrap ${projectMenu == item?.id
                                             ? "text-primary-600"
                                             : "dark:text-gray-300 text-gray-600"
                                             }`}

@@ -13,13 +13,13 @@ export const TableHeader = (): JSX.Element => {
         {
             id: "dashboard",
             label: "Dashboard",
-            icon: <LayoutDashboard className="w-3.5 h-3.5" />,
+            icon: <LayoutDashboard className="w-4 h-4" />,
             alt: "Column",
         },
         {
             id: "project",
             label: "Projects",
-            icon: <FolderClosed className="w-3.5 h-3.5" />,
+            icon: <FolderClosed className="w-4 h-4" />,
             alt: "Folder outline",
         },
     ];
@@ -46,7 +46,7 @@ export const TableHeader = (): JSX.Element => {
                                     }`}>
                                     {item.icon}
                                     <div
-                                        className={`relative w-fit text-sm font-medium whitespace-nowrap ${organizationMenu == item?.id
+                                        className={`relative w-fit text-lg font-medium whitespace-nowrap ${organizationMenu == item?.id
                                             ? "text-primary-600"
                                             : "dark:text-gray-300 text-gray-600"
                                             }`}

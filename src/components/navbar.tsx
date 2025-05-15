@@ -152,19 +152,18 @@ const NotificationBellDropdown: FC = function () {
               >
                 <div className="shrink-0">
 
-                  {!notification?.isRead && <FaEnvelope className="h-10 w-10" /> || <FaEnvelopeOpen className="h-10 w-10" />}
+                  {!notification?.isRead && <FaEnvelope className="h-8 w-8 text-red-300" /> || <FaEnvelopeOpen className="h-8 w-8 text-gray-300" />}
                 </div>
                 <div className="w-full pl-3">
-                  <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {notification?.title}&nbsp;
+                  <div className="mb-1.5 text-sm font-normal text-gray-500 dark:text-gray-100">
+                    <b className="text-[16px]">{notification?.title}</b><br />
                     {
                       notification?.property &&
                       <>
-                        on &nbsp;
                         <span className="font-semibold text-gray-900 dark:text-white">
                           Unit {notification?.property?.unitNo}
                         </span>
-                        &nbsp; on Project &nbsp;<span className="font-semibold text-blue-400 dark:text-blue-400">
+                        <br />Project &nbsp;<span className="font-semibold text-blue-400 dark:text-blue-400">
                           {notification?.bodyWeb?.project}
                         </span>
                         &nbsp; {notification?.bodyWeb?.zone && <>
@@ -186,11 +185,10 @@ const NotificationBellDropdown: FC = function () {
                           </span>
                         </>}
                       </> || notification?.commonArea && <>
-                        on &nbsp;
                         <span className="font-semibold text-gray-900 dark:text-white">
                           Lot no {notification?.commonArea?.lotNo}
                         </span>
-                        &nbsp; on Project &nbsp;<span className="font-semibold text-blue-400 dark:text-blue-400">
+                        <br />Project &nbsp;<span className="font-semibold text-blue-400 dark:text-blue-400">
                           {notification?.bodyWeb?.project}
                         </span>
                         &nbsp; {notification?.bodyWeb?.zone || notification?.bodyWeb?.Zone && <>
@@ -217,8 +215,7 @@ const NotificationBellDropdown: FC = function () {
                   <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
                     {moment
                       .utc(notification.createdAt, "YYYY-MM-DD h:mm:ss a")
-                      .local()
-                      .format("MMM Do, YYYY h:mm:ss a")}
+                      .calendar()}
                   </div>
                 </div>
               </a>)

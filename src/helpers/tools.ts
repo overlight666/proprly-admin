@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import PhotoViewer from 'photoviewer';
+
 export const hasViewDetails = (str: string) => {
   const statuses = [
     "Defect Logged",
@@ -64,4 +66,23 @@ export function combineAndRemoveDuplicates(arr1: any, arr2: any) {
   const combinedArray = [...arr1, ...arr2]; // Combines arrays using spread syntax
   const uniqueArray = [...new Set(combinedArray)]; // Removes duplicates using Set
   return uniqueArray;
+}
+
+export const expandPhoto = (img: any) => {
+  var items = [
+    {
+      src: img, // path to image
+      title: 'Image Caption 1' // If you skip it, there will display the original image name(image1)
+    },
+  ];
+
+  // define options (if needed)
+  var options = {
+    // optionName: 'option value'
+    // for example:
+    index: 0 // this option means you will start at first image
+  };
+
+  // Initialize the plugin
+  new PhotoViewer(items, options);
 }

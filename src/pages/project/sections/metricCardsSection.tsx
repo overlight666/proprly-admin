@@ -16,14 +16,14 @@ export const MetricCardsSection = (): JSX.Element => {
         const count1 =
             dashboardData &&
                 dashboardData?.defectsByProperty &&
-                dashboardData?.defectsByProperty.in_progress
-                ? dashboardData?.defectsByProperty.in_progress
+                dashboardData?.defectsByProperty.disputed
+                ? dashboardData?.defectsByProperty.disputed
                 : 0;
         const count2 =
             dashboardData &&
                 dashboardData?.defectsByCommonArea &&
-                dashboardData?.defectsByCommonArea.in_progress
-                ? dashboardData?.defectsByCommonArea.in_progress
+                dashboardData?.defectsByCommonArea.disputed
+                ? dashboardData?.defectsByCommonArea.disputed
                 : 0;
         return count1 + count2;
     };
@@ -42,7 +42,7 @@ export const MetricCardsSection = (): JSX.Element => {
         },
         {
             icon: <FolderPlusIcon className="w-5 h-5" />,
-            title: "Defects In-Progress",
+            title: "Total Disputed Defects",
             value: getTotal() || 0,
             trend: {
                 direction: "up",
