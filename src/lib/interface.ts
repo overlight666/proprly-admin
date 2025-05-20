@@ -9,6 +9,47 @@ export interface signUpForm {
     organizationTimezone: string;
 }
 
+
+
+export interface LocationItem {
+    key: string;
+    name: string;
+    commonAreaCategoryId?: number;
+    type?: string;
+}
+
+
+export interface ITPList {
+    id: any;
+    name: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    regionId: any;
+    organizationId: any;
+    projectId: any;
+    createdAt: string;
+    updatedAt: string;
+    tasks: any[];
+    tradeCodes: any[];
+    locations: any[];
+}
+
+export interface itpTemplateForm {
+    id?: any;
+    name: string;
+    isDefault: boolean;
+    tradeCodes: any[];
+    locations: LocationFormItem[]
+}
+
+export interface LocationFormItem {
+    isMandatory: boolean;
+    locationKey: string;
+    commonAreaCategoryId: any;
+    name: string;
+}
+
 export interface forgotForm {
     email: string;
 }

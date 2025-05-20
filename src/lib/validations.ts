@@ -32,6 +32,18 @@ export const forgotValidattion = yup.object({
         .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email'),
 });
 
+export const itpTemplateValidattion = yup.object({
+    name: yup
+        .string()
+        .required('Name is required')
+        .max(255, 'Name is too Long!'),
+    tradeCodes: yup.array()
+        .required('Trade code is required'),
+    locations: yup.array()
+        .required('Location is required'),
+
+});
+
 export const signinValidattion = yup.object({
     email: yup
         .string()
