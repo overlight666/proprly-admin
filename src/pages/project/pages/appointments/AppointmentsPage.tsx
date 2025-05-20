@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { propertiesAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
+import { selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import { Breadcrumb } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
@@ -12,7 +12,6 @@ import Appointments from "./appointments";
 
 export const AppointmentsPage: FC = function () {
     const selectedProject = useRecoilValue(selectedProjectAtom);
-    const properties = useRecoilValue(propertiesAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const navigate = useNavigate();
     const params = useParams();
