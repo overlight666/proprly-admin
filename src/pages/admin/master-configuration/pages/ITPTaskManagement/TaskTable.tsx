@@ -18,7 +18,6 @@ export default function TaskTable({ tableData, isType }: any) {
     };
     return (
         <>
-            <hr />
 
             <div
                 className="flex w-full flex-row mt-5 justify-between
