@@ -11,7 +11,7 @@ interface Option {
 interface MultiSelectProps {
     label: string;
     options: Option[];
-    defaultSelected?: string[];
+    defaultSelected?: any[];
     onChange?: (selected: string[]) => void;
     disabled?: boolean;
     hasLabel?: boolean;

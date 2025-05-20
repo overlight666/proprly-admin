@@ -15,3 +15,4 @@ export * from "./defectResolution";
 export * from "./defects";
 export * from "./dropzone";
 export * from "./globalStyle";
+export * from "./itp";

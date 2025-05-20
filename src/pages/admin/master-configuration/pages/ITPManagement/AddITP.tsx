@@ -1,21 +1,97 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isLoadingAtom, LocationListAtom, TradeCodesByRegionAtom } from "@/_recoil/states";
+import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
+import MultiSelect from "@/components/ui/multiselect";
 import Select from "@/components/ui/select";
 import { Label } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import LocationTable from "./LocationTable";
+import { FormikHelpers, useFormik } from "formik";
+import { itpTemplateForm } from "@/lib/interface";
+import { itpTemplateValidattion } from "@/lib/validations";
+import { useITPAction } from "@/_recoil/actions";
+import { toast } from "react-toastify";
 
 export default function AddITP({
+    currentParams,
+    selectedId,
+    isType,
     isOpen,
     closeModal,
+    initialValues,
+    isEdit
 }: any) {
     const [_defectName, setDefectName] = useState<any>("");
     const [_defectCode, setDefectCode] = useState<any>("");
     const [_nameError, setNameError] = useState<any>("");
     const [codeError, setCodeError] = useState<any>("");
+    const tradeCodes = useRecoilValue(TradeCodesByRegionAtom);
+    const locationList = useRecoilValue(LocationListAtom);
 
-    function onSubmit() {
-    }
+    const [selectedLocations, setSelectedLocations] = useState<any>("");
+    const itpAction = useITPAction();
+    const setIsLoading = useSetRecoilState(isLoadingAtom);
+
+
+    const formik = useFormik<itpTemplateForm>({
+        enableReinitialize: true,
+        initialValues,
+        validationSchema: itpTemplateValidattion,
+        onSubmit: async (
+            values: itpTemplateForm,
+            _formikHelpers: FormikHelpers<itpTemplateForm>,
+        ) => {
+            setIsLoading(true);
+            const params =
+                isType === "project"
+                    ? `?projectId=${selectedId}`
+                    : isType === "organization"
+                        ? `?organizationId=${selectedId}`
+                        : isType === "region"
+                            ? `?regionId=${selectedId}`
+                            : "";
+
+            if (!isEdit) {
+                itpAction.addITPTemplate(values, params).then((e: any) => {
+                    if (e) {
+                        if (!e?.error) {
+                            setIsLoading(false);
+                            closeModal();
+                            formik.resetForm();
+                            itpAction.getItpTemplates(currentParams);
+                            itpAction.getTradeCode(currentParams);
+                            toast.success("ITP Template added successfully");
+                        } else {
+                            toast.error(e?.error);
+                            setIsLoading(false);
+                        }
+
+                    }
+                })
+            } else {
+                itpAction.updateITPTemplate(values, values?.id).then((e: any) => {
+                    if (e) {
+                        if (!e?.error) {
+                            setIsLoading(false);
+                            closeModal();
+                            formik.resetForm();
+                            itpAction.getItpTemplates(currentParams);
+                            itpAction.getTradeCode(currentParams);
+                            toast.success("ITP Template updated successfully");
+                        } else {
+                            toast.error(e?.error);
+                            setIsLoading(false);
+                        }
+
+                    }
+                })
+            }
+
+        },
+    });
 
     return (
         <>
@@ -27,41 +103,71 @@ export default function AddITP({
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
                         <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
-                            Add Template Management
+                            Add ITP Template Management
                         </h5>
                     </div>
                     <div className="mt-8 space-y-3">
                         <div className="space-y-2">
                             <Label htmlFor="input">Select Trade Category<span className="text-error-500">*</span></Label>
-                            <Select
-                                options={[
-                                    {
-                                        label: "TC 1",
-                                        value: "in_progress",
-                                    },
-                                    {
-                                        label: "TC 2",
-                                        value: "resolved",
-                                    },
-                                ]}
-                                placeholder="Select trade category"
-                                className="dark:bg-dark-900"
-                                containerClass="w-[100%]"
+                            <MultiSelect
+                                label=""
+                                hasLabel={false}
+                                defaultSelected={formik.values.tradeCodes}
+                                options={tradeCodes?.map((tradeCode: any) => {
+                                    return {
+                                        text: `${tradeCode?.tradeCode} - ${tradeCode?.tradeName}`,
+                                        value: tradeCode?.id,
+                                    };
+                                }) ?? []}
+                                onChange={(values: any) => formik.setFieldValue("tradeCodes", values)}
                             />
+
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="input">Enter ITP Template Name<span className="text-error-500">*</span></Label>
                             <Input
+                                name="name"
                                 type="text"
-                                onChange={(e) => setDefectCode(e.target.value)}
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
                                 placeholder="ITP Template Name"
-                                error={codeError !== ""}
-                                hint={codeError}
+                                error={formik.errors.name}
+                                hint={formik.errors.name}
                             />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="input">Select Location<span className="text-error-500">*</span></Label>
+                            <div className="flex justify-between items-center gap-1 w-full">
+                                <div className="basis-[90%]">
+                                    <Select
+                                        placeholder="Select location"
+                                        options={locationList?.map((location: any) => {
+                                            return {
+                                                label: location?.name,
+                                                value: JSON.stringify({
+                                                    ...location, isMandatory: true,
+                                                    locationKey: location?.key
+                                                }),
+                                            };
+                                        }
+                                        )}
+                                        onChange={(values: any) => setSelectedLocations(values)}
+                                    />
+                                </div>
+
+                                <Button disabled={!selectedLocations} className="basis-[10%]" variant="secondary" onClick={() => {
+                                    console.log(JSON.parse(selectedLocations)?.key)
+                                    formik.values.locations?.find((location: any) => location?.key == JSON.parse(selectedLocations)?.key) ? toast.error("Location already added") : formik.setFieldValue("locations", [...formik.values.locations, JSON.parse(selectedLocations)])
+                                    setSelectedLocations("")
+                                }}>Add</Button>
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <LocationTable selectedLocations={formik.values.locations || []} setFieldValue={formik.setFieldValue} values={formik.values} />
                         </div>
                     </div>
                     <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
-                        <button
+                        <Button
                             onClick={() => {
                                 setCodeError("");
                                 setNameError("");
@@ -70,17 +176,18 @@ export default function AddITP({
                                 closeModal();
                             }}
                             type="button"
-                            className="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] sm:w-auto"
+                            variant="outline"
                         >
                             Close
-                        </button>
-                        <button
-                            onClick={() => onSubmit()}
+                        </Button>
+                        <Button
+                            disabled={formik.isSubmitting || !formik.values.name || formik.values.locations?.length === 0 || formik.values.tradeCodes?.length === 0}
+                            onClick={() => formik.handleSubmit()}
                             type="button"
-                            className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+
                         >
                             Submit
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </Modal>
