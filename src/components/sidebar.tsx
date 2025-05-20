@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import {
   HiAdjustments,
   HiCog,
-  HiLockClosed,
   HiSearch,
 } from "react-icons/hi";
 

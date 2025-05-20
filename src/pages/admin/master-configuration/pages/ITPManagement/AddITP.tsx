@@ -6,7 +6,7 @@ import { Modal } from "@/components/ui/modal";
 import MultiSelect from "@/components/ui/multiselect";
 import Select from "@/components/ui/select";
 import { Label } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import LocationTable from "./LocationTable";
 import { FormikHelpers, useFormik } from "formik";
@@ -27,7 +27,6 @@ export default function AddITP({
     const [_defectName, setDefectName] = useState<any>("");
     const [_defectCode, setDefectCode] = useState<any>("");
     const [_nameError, setNameError] = useState<any>("");
-    const [codeError, setCodeError] = useState<any>("");
     const tradeCodes = useRecoilValue(TradeCodesByRegionAtom);
     const locationList = useRecoilValue(LocationListAtom);
 
@@ -169,7 +168,7 @@ export default function AddITP({
                     <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
                         <Button
                             onClick={() => {
-                                setCodeError("");
+
                                 setNameError("");
                                 setDefectName("");
                                 setDefectCode("");

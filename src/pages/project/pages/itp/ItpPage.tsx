@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { propertiesAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
+import { selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import { Breadcrumb } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
@@ -11,26 +11,11 @@ import { ChevronLeftIcon } from "lucide-react";
 
 export const ItpPage: FC = function () {
     const selectedProject = useRecoilValue(selectedProjectAtom);
-    const [showBulk, setShowBulk] = useState(false);
-    const [propertyUploadQueue, setPropertyUploadQueue] = useState<any>([]);
-    const [selected, setSelected] = useState<any[]>([]);
-    const properties = useRecoilValue(propertiesAtom);
+
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const navigate = useNavigate();
     const params = useParams();
     const { id } = params;
-
-    const bulkUploadHandler = (value: boolean) => {
-        if (value) {
-            const propertyQueue =
-                selected &&
-                selected?.map((id: any) => {
-                    return properties.find((pr) => pr.id == id);
-                });
-            setPropertyUploadQueue(propertyQueue);
-            setShowBulk(true);
-        }
-    };
 
     return (
         <NavbarSidebarLayout>

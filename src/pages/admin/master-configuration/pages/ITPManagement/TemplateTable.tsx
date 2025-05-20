@@ -3,7 +3,7 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useITPAction } from "@/_recoil/actions";
 import Input from "@/components/ui/input";
 import { PencilIcon, SearchIcon } from "lucide-react";

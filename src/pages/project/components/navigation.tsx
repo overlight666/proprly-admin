@@ -1,8 +1,5 @@
 import {
-    Building2,
-    Calendar1Icon,
     ClipboardList,
-    FolderClosed,
     LayoutDashboard,
     User2,
 } from "lucide-react";

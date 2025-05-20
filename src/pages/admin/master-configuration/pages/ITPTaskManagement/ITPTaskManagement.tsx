@@ -2,26 +2,23 @@
 import { useEffect, useState } from "react";
 import TaskTable from "./TaskTable";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { allProjectsAtom, defectCodesAtom, defectCodesResponseAtom, isLoadingAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
-import { useCountriesAction, useDefect, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
+import { allProjectsAtom, defectCodesAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
 import { Project } from "@/lib/interface";
 
 export default function ITPTaskManagement() {
     const [isType, setIsType] = useState("");
     const defectCodeList: any[] = useRecoilValue(defectCodesAtom);
-    const defectCodeResponse: any = useRecoilValue(defectCodesResponseAtom);
     const orgAction = useOrganization();
     const projectAction = useProject();
     const regionAction = useCountriesAction();
-    const defectAction = useDefect();
     const setDefectCodes = useSetRecoilState(defectCodesAtom);
     const [selectedId, setSelectedId] = useState<any>();
     const [_sortedList, setSortedList] = useState<any[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState<any>();
     const projectList: Project[] = useRecoilValue(allProjectsAtom);
     const orglist: any = useRecoilValue(organizationsAtom);
-    const setIsLoading = useSetRecoilState(isLoadingAtom);
     const regionList: any[] = useRecoilValue(regionsAtom);
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
