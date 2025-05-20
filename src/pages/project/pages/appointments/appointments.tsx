@@ -14,11 +14,11 @@ import { useParams } from "react-router";
 import { useModal } from "@/helpers/useModal";
 import { appointmentEventsAtom, remainingTimeSlotsAtom } from "@/_recoil/states";
 import { useAppointments } from "@/_recoil/actions";
-import { TimeSlots } from "../components/timeslots";
+import { TimeSlots } from "./components/timeslots";
 import { Modal } from "@/components/ui/modal";
 import Radio from "@/components/ui/radio";
-import { PropertyEventRegistration } from "../components/propertyEventRegistration";
-import { CommonAreaEventRegistration } from "../components/commonAreaRegistration";
+import { PropertyEventRegistration } from "./components/propertyEventRegistration";
+import { CommonAreaEventRegistration } from "./components/commonAreaRegistration";
 import Input from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 

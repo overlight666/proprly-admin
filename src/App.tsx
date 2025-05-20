@@ -45,6 +45,10 @@ import EditProfilePage from "./pages/admin/profile/pages/EditProfilePage";
 import TimezoneManagement from "./pages/admin/region-management/TimezoneManagement";
 import AddProperty from "./pages/project/tabs/property/pages/NewProperty";
 import EditProperty from "./pages/project/tabs/property/pages/EditProperty";
+import { Properties } from "./pages/project/pages/properties/Properties";
+import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage";
+import { ItpPage } from "./pages/project/pages/itp/ItpPage";
+import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -150,6 +154,30 @@ const App: FC = function () {
           <Route path="/organization/:id/project/:project_id/property/view/:property_id" element={
             <PrivateRoutes>
               <EditProperty />
+            </PrivateRoutes>
+          } />
+
+          <Route path="/organization/:id/project/:project_id/property/view" element={
+            <PrivateRoutes>
+              <Properties />
+            </PrivateRoutes>
+          } />
+
+          <Route path="/organization/:id/project/:project_id/common-area/view" element={
+            <PrivateRoutes>
+              <CommonAreaPage />
+            </PrivateRoutes>
+          } />
+
+          <Route path="/organization/:id/project/:project_id/itp/view" element={
+            <PrivateRoutes>
+              <ItpPage />
+            </PrivateRoutes>
+          } />
+
+          <Route path="/organization/:id/project/:project_id/appointments/view" element={
+            <PrivateRoutes>
+              <AppointmentsPage />
             </PrivateRoutes>
           } />
 

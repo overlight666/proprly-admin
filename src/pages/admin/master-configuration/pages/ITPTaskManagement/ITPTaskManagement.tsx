@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import TaskTable from "./TaskTable";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { defectCodesAtom, defectCodesResponseAtom } from "@/_recoil/states";
-import { useCountriesAction, useDefect, useOrganization, useProject } from "@/_recoil/actions";
+import { allProjectsAtom, defectCodesAtom, defectCodesResponseAtom, isLoadingAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { useCountriesAction, useDefect, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
+import { Project } from "@/lib/interface";
 
 export default function ITPTaskManagement() {
     const [isType, setIsType] = useState("");
@@ -17,6 +18,14 @@ export default function ITPTaskManagement() {
     const setDefectCodes = useSetRecoilState(defectCodesAtom);
     const [selectedId, setSelectedId] = useState<any>();
     const [_sortedList, setSortedList] = useState<any[]>([]);
+    const [selectedTemplate, setSelectedTemplate] = useState<any>();
+    const projectList: Project[] = useRecoilValue(allProjectsAtom);
+    const orglist: any = useRecoilValue(organizationsAtom);
+    const setIsLoading = useSetRecoilState(isLoadingAtom);
+    const regionList: any[] = useRecoilValue(regionsAtom);
+    const itpAction = useITPAction();
+    const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
+    const setItpList = useSetRecoilState(ItpManagementListAtom);
 
     useEffect(() => {
         orgAction.getOrganizations();
@@ -35,10 +44,23 @@ export default function ITPTaskManagement() {
                             ? `?regionId=${selectedId}`
                             : "";
             if (selectedId || isType === "default") {
-                defectAction.getDefectCodes(params);
+                // setIsLoading(true);
+                setItpList([]);
+                Promise.all([
+                    itpAction.getItpTemplates(params),
+                    itpAction.getTradeCode(params)]).then(() => {
+                        // setTimeout(() => {
+                        //     setIsLoading(false)
+                        // }, 1000);
+
+                    })
             }
         }
-    }, [isType, selectedId, defectCodeResponse]);
+    }, [isType, selectedId]);
+
+    useEffect(() => {
+        setItpList([]);
+    }, [isType])
 
     function dynamicSort(property) {
         return function (a, b) {
@@ -56,7 +78,7 @@ export default function ITPTaskManagement() {
     return (
         <div>
             <div className="flex items-end justify-between flex-wrap gap-1">
-                <div className="flex flex-col gap-5 w-[80%] flex-wrap">
+                <div className="flex flex-row items-center gap-5 w-[80%] flex-wrap">
                     <div className="w-[45%]">
                         <Label>
                             Select Type<span className="text-error-500">*</span>
@@ -85,7 +107,7 @@ export default function ITPTaskManagement() {
                         {isType === "project" && (
                             <div className="flex flex-col">
                                 <Label>
-                                    Select ITP Category<span className="text-error-500">*</span>
+                                    Select Project<span className="text-error-500">*</span>
                                 </Label>
                                 <select
                                     id="project"
@@ -97,16 +119,16 @@ export default function ITPTaskManagement() {
                                     <option value="" selected>
                                         Please Select
                                     </option>
-                                    {/* {projectList?.map((project) => {
+                                    {projectList?.map((project) => {
                                         return <option value={project?.id}>{project.name}</option>;
-                                    })} */}
+                                    })}
                                 </select>
                             </div>
                         )}
                         {isType === "organization" && (
                             <div className="flex flex-col">
                                 <Label>
-                                    Select ITP Category<span className="text-error-500">*</span>
+                                    Select Organization<span className="text-error-500">*</span>
                                 </Label>
                                 <select
                                     id="organization"
@@ -118,8 +140,15 @@ export default function ITPTaskManagement() {
                                     <option value="" selected>
                                         Please Select
                                     </option>
-
-
+                                    {orglist?.map(
+                                        (organization: any) => {
+                                            return (
+                                                <option value={organization?.id}>
+                                                    {organization?.name}
+                                                </option>
+                                            );
+                                        }
+                                    )}
                                 </select>
                             </div>
                         )}
@@ -127,7 +156,7 @@ export default function ITPTaskManagement() {
                         {isType === "region" && (
                             <div className="flex flex-col">
                                 <Label>
-                                    Select ITP Category<span className="text-error-500">*</span>
+                                    Select Region<span className="text-error-500">*</span>
                                 </Label>
                                 <select
                                     id="region"
@@ -139,14 +168,39 @@ export default function ITPTaskManagement() {
                                     <option value="" selected>
                                         Please Select
                                     </option>
-                                    {/* {regionList?.map((region) => {
+                                    {regionList?.map((region) => {
                                         return (
                                             <option value={region?.id}>{region.regionName}</option>
                                         );
-                                    })} */}
+                                    })}
                                 </select>
                             </div>
                         )}
+
+                    </div>
+                    <div>
+                        {
+                            ItpTemplatesList?.length > 0 && <div className="flex flex-col">
+                                <Label>
+                                    Select ITP Category<span className="text-error-500">*</span>
+                                </Label>
+                                <select
+                                    id="project"
+                                    name="project"
+                                    value={selectedTemplate}
+                                    onChange={(e) => setSelectedTemplate(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {ItpTemplatesList?.map((project) => {
+                                        return <option value={project?.id}>{project.name}</option>;
+                                    })}
+
+                                </select>
+                            </div>
+                        }
                     </div>
                 </div>
 

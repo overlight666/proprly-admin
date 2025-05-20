@@ -47,7 +47,7 @@ export default function LocationMappingTable({
     );
 
     useEffect(() => {
-        if (selectedCommonArea?.length != 0) {
+        if (selectedCommonArea && selectedCommonArea?.length != 0) {
             commonAreaAction.getCommonAreaConfig(selectedCommonArea[0]?.id);
         }
     }, [selectedCommonArea]);

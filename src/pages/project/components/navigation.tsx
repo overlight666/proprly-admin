@@ -21,30 +21,30 @@ export const TableHeader = (): JSX.Element => {
             icon: <LayoutDashboard className="w-4 h-4" />,
             alt: "Column",
         },
-        {
-            id: "properties",
-            label: "Properties",
-            icon: <FolderClosed className="w-4 h-4" />,
-            alt: "Folder outline",
-        },
-        {
-            id: "common-areas",
-            label: "Common Areas",
-            icon: <Building2 className="w-4 h-4" />
+        // {
+        //     id: "properties",
+        //     label: "Properties",
+        //     icon: <FolderClosed className="w-4 h-4" />,
+        //     alt: "Folder outline",
+        // },
+        // {
+        //     id: "common-areas",
+        //     label: "Common Areas",
+        //     icon: <Building2 className="w-4 h-4" />
 
-        },
+        // },
         {
             id: "defect-resolution",
             label: "Defect Resolution",
             icon: <BugIcon className="w-4 h-4" />,
             alt: "Adjustments vertical",
         },
-        {
-            id: "appointments",
-            label: "Appointments",
-            icon: <Calendar1Icon className="w-4 h-4" />,
-            alt: "Appointment settings",
-        },
+        // {
+        //     id: "appointments",
+        //     label: "Appointments",
+        //     icon: <Calendar1Icon className="w-4 h-4" />,
+        //     alt: "Appointment settings",
+        // },
         {
             id: "users",
             label: "Users",

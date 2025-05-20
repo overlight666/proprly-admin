@@ -10,8 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
-import LocationMappingTable from "../tables/locationMappingBasementTable";
-import LocationMappingTowerTable from "../tables/locationMappingTowerTable";
+import LocationMappingTable from "./tables/locationMappingBasementTable";
+import LocationMappingTowerTable from "./tables/locationMappingTowerTable";
 import { globalConfigAtom, isLoadingAtom, selectedCommonAreaAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
 import ComponentCard from "@/components/ui/component-card";

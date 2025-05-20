@@ -62,8 +62,14 @@ import { ReactComponent as BulkIcon } from "./bulk-icon.svg?react";
 import { ReactComponent as FilterIcon } from "./filter.svg?react";
 import { ReactComponent as FileExport } from "./file-export.svg?react";
 import { ReactComponent as OrderedListIcon } from "./ordered-list.svg?react";
+import { ReactComponent as CommonAreaIcon } from "./common-area.svg?react";
+import { ReactComponent as ItpIcon } from "./itp.svg?react";
+import { ReactComponent as AppointmentIcon } from "./appointment.svg?react";
 
 export {
+  AppointmentIcon,
+  ItpIcon,
+  CommonAreaIcon,
   OrderedListIcon,
   FileExport,
   FilterIcon,

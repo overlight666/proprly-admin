@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 import {
   HiAdjustments,
   HiCog,
+  HiLockClosed,
   HiSearch,
 } from "react-icons/hi";
 
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
-import { EarthIcon, GroupIcon, PlusIcon, SettingsIcon, TicketIcon } from "lucide-react";
+import { EarthIcon, FolderClosedIcon, FolderOpenIcon, GroupIcon, PlusIcon, SettingsIcon, TicketIcon } from "lucide-react";
 import { useAppointments, useCountriesAction, useOrganization, useProject, useProperties, useReports, useUserActions } from "@/_recoil/actions";
 import { usePersistor } from "@/helpers/persistor";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -20,6 +21,7 @@ import { useParams } from "react-router";
 import { Project } from "@/lib/interface";
 import { truncateMenuString } from "@/helpers";
 import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
+import { AppointmentIcon, BuildingIcon, CommonAreaIcon, ItpIcon } from "@/icons";
 
 const ExampleSidebar: FC = function () {
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
@@ -167,7 +169,10 @@ const ExampleSidebar: FC = function () {
             </form>
             <Sidebar.Items>
               <Sidebar.ItemGroup>
-                {(currentPage.includes("/organization/view") || currentPage.includes("/project/new") || currentPage.includes("/project/view") || currentPage.includes("/property/new")) ?
+                {(currentPage.includes("/organization/view")
+                  || currentPage.includes("/project/new")
+                  || currentPage.includes("/project/view")
+                  || currentPage.includes("/property/new")) ?
                   !isLoading && <Sidebar.Item
                     href={`/organization/view/${selectedOrganization?.id}`}
                     label={`${selectedOrganization?.name?.charAt(0).toUpperCase()}${selectedOrganization?.name?.charAt(1).toUpperCase()}`}
@@ -246,24 +251,47 @@ const ExampleSidebar: FC = function () {
                 </Sidebar.ItemGroup>
               }
               <Sidebar.ItemGroup>
-                {(currentPage.includes("/organization/view") || currentPage.includes("/project/new") || currentPage.includes("/project/view") || currentPage.includes("/property/new")) && projects?.map((project: Project, index: any) => {
-                  return (
-                    <Sidebar.Item
-                      key={index}
-                      href={`/organization/${id}/project/view/${project?.id}`}
-                      label={`${project?.name?.charAt(0).toUpperCase()}${project?.name?.charAt(1).toUpperCase()}`}
-                      className={
-                        (currentPage.includes("/project/view") || currentPage.includes("/property/new")) && project?.id == project_id ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                      }
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content={project?.name}
-                    >
-                      {truncateMenuString(project?.name, 15)}
-                    </Sidebar.Item>
-                  )
-                })
+                {(currentPage.includes("/organization/view")
+                  || currentPage.includes("/project/new")
+                  || currentPage.includes("/project/view")
+                  || currentPage.includes("/property/new")
+                  || currentPage.includes("/property/view")
+                  || currentPage.includes("/common-area/view")
+                  || currentPage.includes("/appointments/view")
+                  || currentPage.includes("/itp/view")) && projects?.map((project: Project, index: any) => {
+                    return (
+                      project?.id == project_id ? <Sidebar.Collapse icon={FolderOpenIcon} label={project?.name} key={index} open={true} className="bg-gray-200 dark:bg-gray-700">
+                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/property/view`} icon={BuildingIcon} className={currentPage.includes("/property/view") && "bg-blue-100 dark:bg-gray-900"}>
+                          Properties
+                        </Sidebar.Item>
+                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/common-area/view`} icon={CommonAreaIcon} className={currentPage.includes("/common-area/view") && "bg-blue-100 dark:bg-gray-900"}>
+                          Common Areas
+                        </Sidebar.Item>
+                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/itp/view`} icon={ItpIcon} className={currentPage.includes("/itp/view") && "bg-blue-100 dark:bg-gray-900"}>
+                          ITPs
+                        </Sidebar.Item>
+                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/appointments/view`} icon={AppointmentIcon} className={currentPage.includes("/appointments/view") && "bg-blue-100 dark:bg-gray-900"}>
+                          Appointments
+                        </Sidebar.Item>
+
+                      </Sidebar.Collapse> : <Sidebar.Item
+                        key={index}
+                        href={`/organization/${id}/project/view/${project?.id}`}
+                        icon={FolderClosedIcon}
+                        // label={`${project?.name?.charAt(0).toUpperCase()}${project?.name?.charAt(1).toUpperCase()}`}
+                        className={
+                          (currentPage.includes("/project/view") || currentPage.includes("/property/new")) && project?.id == project_id ? "bg-gray-100 dark:bg-gray-700" : ""
+                        }
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content={project?.name}
+                      >
+                        {truncateMenuString(project?.name, 15)}
+                      </Sidebar.Item>
+                    )
+                  })
 
                 }
+
               </Sidebar.ItemGroup>
               {/* <Sidebar.ItemGroup>
                 <Sidebar.Item

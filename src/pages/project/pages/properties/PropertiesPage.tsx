@@ -7,12 +7,13 @@ import { useEffect, useRef, useState } from "react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useNavigate } from "react-router";
-import { SearchIcon } from "../../../icons";
+
 import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
-import { File, Plus } from "lucide-react";
+import { File, Plus, SearchIcon } from "lucide-react";
 import Input from "@/components/ui/input";
-import PropertyTable from "../tables/properties-table";
+import PropertyTable from "../../tables/properties-table";
+
 DataTable.use(DT);
 
 // Define the table data using the interface

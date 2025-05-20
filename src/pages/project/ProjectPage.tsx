@@ -18,14 +18,14 @@ import { TimelineDefectsSection } from "./sections/timelineDefectsSection";
 import DefectsChart from "./sections/defectChart";
 import DefectResolutionModal from "@/components/modals/defectResolutionModal";
 import { useModal } from "@/helpers/useModal";
-import PropertiesPage from "./tabs/PropertiesPage";
-import BulkImportComponent from "./components/bulk-import-component";
-import CommonArea from "./tabs/common-area/pages/commonArea";
+import BulkImportComponent from "./pages/properties/components/bulk-import-component";
+import CommonArea from "./pages/common-area/commonArea";
 import DefectResolution from "./tabs/defect-resolution/pages/defectResolution";
 import DefectPagination from "./tabs/defect-resolution/components/pagination";
-import Appointments from "./tabs/appointments/pages/appointments";
+import Appointments from "./pages/appointments/appointments";
 import { Users } from "./tabs/users/pages/Users";
 import { Reports } from "./tabs/reports/pages/Reports";
+import PropertiesPage from "./pages/properties/PropertiesPage";
 
 
 export const ProjectPage: FC = function () {
