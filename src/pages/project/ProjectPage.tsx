@@ -26,7 +26,7 @@ import Appointments from "./pages/appointments/appointments";
 import { Users } from "./tabs/users/pages/Users";
 import { Reports } from "./tabs/reports/pages/Reports";
 import PropertiesPage from "./pages/properties/PropertiesPage";
-import ITPTaskManagement from "./pages/itp/ItpPage";
+import ITPTaskManagement from "./tabs/itp/itp-management";
 
 
 export const ProjectPage: FC = function () {

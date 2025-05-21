@@ -4,15 +4,10 @@ import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef } from "react";
-import { useModal } from "@/helpers/useModal";
 import Input from "@/components/ui/input";
-import { PlusIcon, SearchIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { BulkIcon } from "@/icons";
-
-export default function TaskTable({ tableData, isType }: any) {
+import { SearchIcon } from "lucide-react";
+export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
-    const { openModal } = useModal();
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
