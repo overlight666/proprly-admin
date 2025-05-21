@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { type FC } from "react";
+import { useState, type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
+import { commonAreaMenuAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import { Breadcrumb } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
@@ -9,13 +9,34 @@ import { useNavigate, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
 import CommonArea from "./commonArea";
+import { CommonAreaHeader } from "./components/common-area-header";
+import DefectPagination from "./tabs/defect-resolution/components/pagination";
+import DefectResolution from "./tabs/defect-resolution/pages/defectResolution";
 
 export const CommonAreaPage: FC = function () {
     const selectedProject = useRecoilValue(selectedProjectAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const navigate = useNavigate();
+    const dashboardMenu = useRecoilValue(commonAreaMenuAtom);
+    const [pageRow, setPageRow] = useState<any>('all')
+    const [totalRows, setTotalRows] = useState<any>(0)
+    const [itemOffset, setItemOffset] = useState(0);
     const params = useParams();
     const { id } = params;
+
+
+    const handlePageClick = (event) => {
+        if (pageRow != "all") {
+            const newOffset = (event.selected * pageRow) % totalRows;
+            console.log(
+                `User requested page number ${event.selected}, which is offset ${newOffset}`
+            );
+            setItemOffset(newOffset);
+        } else {
+            setItemOffset(0);
+        }
+
+    };
 
 
 
@@ -54,11 +75,25 @@ export const CommonAreaPage: FC = function () {
 
                     </div>
                     <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                        {selectedProject?.name} - Common Areas
+                        {selectedProject?.name}
                     </h1>
                 </div>
                 {/* Organization Card */}
-                <CommonArea />
+                <div className="grid grid-cols-1 gap-y-1 px-1 pt-1">
+                    <CommonAreaHeader />
+                    {
+                        dashboardMenu == 'manage' ?
+                            <CommonArea />
+                            :
+                            <DefectResolution setTotalRows={setTotalRows} setPageRow={setPageRow} itemOffset={itemOffset} pageRow={pageRow} />
+                    }
+                    {
+                        totalRows > 0 && dashboardMenu == 'defect-resolution' && <div className="mt-5">
+                            <DefectPagination setItemOffset={setItemOffset} itemOffset={itemOffset} pageRow={pageRow} setPageRow={setPageRow} totalRows={totalRows} handlePageClick={handlePageClick} />
+
+                        </div>
+                    }
+                </div>
             </main>
         </NavbarSidebarLayout>
     );

@@ -42,8 +42,14 @@ const projectSalesAgentAtom = atom<any[]>({
   default: undefined,
 });
 
+const commonAreaMenuAtom = atom<any>({
+  key: "commonAreaMenuAtom",
+  default: "manage",
+});
+
 
 export {
+  commonAreaMenuAtom,
   projectSalesAgentAtom,
   commonAreaResponseAtom,
   projectSubContractorAtom,

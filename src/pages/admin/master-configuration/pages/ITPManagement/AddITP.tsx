@@ -102,7 +102,7 @@ export default function AddITP({
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
                         <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
-                            Add ITP Template Management
+                            {`${isEdit ? "Edit" : "Add"} ITP Template Management`}
                         </h5>
                     </div>
                     <div className="mt-8 space-y-3">

@@ -1,21 +1,19 @@
 import {
-    ClipboardList,
-    LayoutDashboard,
-    User2,
+    CalendarCheck,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { projectMenuAtom } from "@/_recoil/states";
 import { useRecoilState } from "recoil";
-import { BugIcon, ItpTaskIcon } from "@/icons";
+import { DefectResolutionIcon } from "@/icons";
+import { commonAreaMenuAtom } from "@/_recoil/states";
 
-export const TableHeader = (): JSX.Element => {
-    const [projectMenu, setProjectMenu] = useRecoilState(projectMenuAtom);
+export const CommonAreaHeader = (): JSX.Element => {
+    const [commonAreaMenu, setCommonAreaMenu] = useRecoilState(commonAreaMenuAtom);
     // Navigation items data
     const navigationItems = [
         {
-            id: "dashboard",
-            label: "Dashboard",
-            icon: <LayoutDashboard className="w-4 h-4" />,
+            id: "manage",
+            label: "Manage",
+            icon: <CalendarCheck className="w-4 h-4" />,
             alt: "Column",
         },
         // {
@@ -33,7 +31,7 @@ export const TableHeader = (): JSX.Element => {
         {
             id: "defect-resolution",
             label: "Defect Resolution",
-            icon: <BugIcon className="w-4 h-4" />,
+            icon: <DefectResolutionIcon className="w-4 h-4" />,
             alt: "Adjustments vertical",
         },
         // {
@@ -42,24 +40,18 @@ export const TableHeader = (): JSX.Element => {
         //     icon: <Calendar1Icon className="w-4 h-4" />,
         //     alt: "Appointment settings",
         // },
-        {
-            id: "users",
-            label: "Users",
-            icon: <User2 className="w-4 h-4" />,
-            alt: "user outline",
-        },
-        {
-            id: "reports",
-            label: "Reports",
-            icon: <ClipboardList className="w-4 h-4" />,
-            alt: "Paste outline",
-        },
-        {
-            id: "itp",
-            label: "ITP Task Status",
-            icon: <ItpTaskIcon className="w-4 h-4" />,
-            alt: "Paste outline",
-        },
+        // {
+        //     id: "reports",
+        //     label: "Reports",
+        //     icon: <ReportsIcon className="w-4 h-4" />,
+        //     alt: "user outline",
+        // },
+        // {
+        //     id: "itpTask",
+        //     label: "ITP Task Status",
+        //     icon: <ItpTaskIcon className="w-4 h-4" />,
+        //     alt: "Paste outline",
+        // },
     ];
 
     return (
@@ -74,17 +66,17 @@ export const TableHeader = (): JSX.Element => {
                             <TabsTrigger
                                 key={item.id}
                                 value={item.id}
-                                onClick={() => setProjectMenu(item.id)}
-                                className={`flex flex-col items-start justify-center pr-5 pb-[2px] rounded-md relative flex h-auto ${item.id === "dashboard" ? "pl-0" : ""
+                                onClick={() => setCommonAreaMenu(item.id)}
+                                className={`flex flex-col items-start justify-center pr-5 pb-[2px] rounded-md relative flex h-auto ${item.id === "manage" ? "pl-0" : ""
                                     }`}
                             >
-                                <div className={`inline-flex items-center gap-1 flex ${projectMenu == item?.id
+                                <div className={`inline-flex items-center gap-1 flex ${commonAreaMenu == item?.id
                                     ? "text-primary-600"
                                     : "dark:text-gray-300 text-gray-600"
                                     }`}>
                                     {item.icon}
                                     <div
-                                        className={`relative w-fit !text-lg font-medium whitespace-nowrap ${projectMenu == item?.id
+                                        className={`relative w-fit !text-lg font-medium whitespace-nowrap ${commonAreaMenu == item?.id
                                             ? "text-primary-600"
                                             : "dark:text-gray-300 text-gray-600"
                                             }`}
