@@ -259,7 +259,12 @@ const ExampleSidebar: FC = function () {
                   || currentPage.includes("/appointments/view")
                   || currentPage.includes("/itp/view")) && projects?.map((project: Project, index: any) => {
                     return (
-                      project?.id == project_id ? <Sidebar.Collapse icon={FolderOpenIcon} label={project?.name} key={index} open={true} className="bg-gray-200 dark:bg-gray-700">
+                      project?.id == project_id ? <Sidebar.Collapse icon={FolderOpenIcon}
+                        label={truncateMenuString(project?.name, 15)}
+                        key={index} open={true}
+                        data-tooltip-id="tooltip"
+                        data-tooltip-content={project?.name}
+                        className="bg-gray-200 dark:bg-gray-700">
                         <Sidebar.Item href={`/organization/${id}/project/${project_id}/property/view`} icon={BuildingIcon} className={currentPage.includes("/property/view") && "bg-blue-100 dark:bg-gray-900"}>
                           Properties
                         </Sidebar.Item>
