@@ -1,64 +1,213 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { type FC } from "react";
-import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
-import { useRecoilValue } from "recoil";
-import { Breadcrumb } from "flowbite-react";
-import { HiHome } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router";
-import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { allProjectsAtom, defectCodesAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
+import { Label } from "flowbite-react";
+import { Project } from "@/lib/interface";
+import TaskTable from "./components/itp-table";
 
-export const ItpPage: FC = function () {
-    const selectedProject = useRecoilValue(selectedProjectAtom);
+export default function ITPTaskManagement() {
+    const [isType, setIsType] = useState("");
+    const defectCodeList: any[] = useRecoilValue(defectCodesAtom);
+    const orgAction = useOrganization();
+    const projectAction = useProject();
+    const regionAction = useCountriesAction();
+    const setDefectCodes = useSetRecoilState(defectCodesAtom);
+    const [selectedId, setSelectedId] = useState<any>();
+    const [_sortedList, setSortedList] = useState<any[]>([]);
+    const [selectedTemplate, setSelectedTemplate] = useState<any>();
+    const projectList: Project[] = useRecoilValue(allProjectsAtom);
+    const orglist: any = useRecoilValue(organizationsAtom);
+    const regionList: any[] = useRecoilValue(regionsAtom);
+    const itpAction = useITPAction();
+    const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
+    const setItpList = useSetRecoilState(ItpManagementListAtom);
 
-    const selectedOrganization = useRecoilValue(selectedOrgAtom);
-    const navigate = useNavigate();
-    const params = useParams();
-    const { id } = params;
+    useEffect(() => {
+        orgAction.getOrganizations();
+        projectAction.getAllProjects();
+        regionAction.getRegions();
+    }, []);
 
+    useEffect(() => {
+        if (isType) {
+            const params =
+                isType === "project"
+                    ? `?projectId=${selectedId}`
+                    : isType === "organization"
+                        ? `?organizationId=${selectedId}`
+                        : isType === "region"
+                            ? `?regionId=${selectedId}`
+                            : "";
+            if (selectedId || isType === "default") {
+                // setIsLoading(true);
+                setItpList([]);
+                Promise.all([
+                    itpAction.getItpTemplates(params),
+                    itpAction.getTradeCode(params)]).then(() => {
+                        // setTimeout(() => {
+                        //     setIsLoading(false)
+                        // }, 1000);
+
+                    })
+            }
+        }
+    }, [isType, selectedId]);
+
+    useEffect(() => {
+        setItpList([]);
+    }, [isType])
+
+    function dynamicSort(property) {
+        return function (a, b) {
+            return a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+        };
+    }
+
+    useEffect(() => {
+        if (defectCodeList) {
+            const copyList = [...defectCodeList];
+            copyList.sort(dynamicSort("id"));
+            setSortedList(copyList);
+        }
+    }, [defectCodeList]);
     return (
-        <NavbarSidebarLayout>
-            <main className="flex flex-col w-full gap-[22px] pb-5 px-5">
-                {/* Header */}
-                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-4">
-                    <div className="col-span-full flex items-center justify-between">
-                        <Breadcrumb className="mb-4">
-                            <Breadcrumb.Item href="/">
-                                <div className="flex items-center gap-x-3">
-                                    <HiHome className="text-xl" />
-                                    <span className="dark:text-white">Organizations</span>
-                                </div>
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item href={`/organization/view/${id}`}>
-                                <span className="dark:text-white">{selectedOrganization?.name}</span>
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item href={`/organization/${id}/project/view/${selectedProject?.id}`}>
-                                <span className="dark:text-white">{selectedProject?.name}</span>
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item >ITPs</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <div className="mb-4">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="flex items-center gap-1.5"
-                                onClick={() => navigate(-1)}
-                            >
-                                <ChevronLeftIcon className="w-2.5 h-2.5 dark:text-gray-500" />
-                                <span className="font-medium text-gray-500 text-sm">Back</span>
-                            </Button>
-                        </div>
+        <div>
+            <div className="flex items-end justify-between flex-wrap gap-1">
+                <div className="flex flex-row items-center gap-5 w-[80%] flex-wrap">
+                    <div className="w-[45%]">
+                        <Label>
+                            Select Type<span className="text-error-500">*</span>
+                        </Label>
+                        <select
+                            id="timeslot"
+                            name="timeslot"
+                            value={isType}
+                            onChange={(e) => {
+                                setSelectedId(undefined);
+                                setDefectCodes([]);
+                                setIsType(e.target.value);
+                            }}
+                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                            <option value="" selected>
+                                Please Select
+                            </option>
+                            <option value="default">Default</option>
+                            <option value="project">Project</option>
+                            <option value="organization">Organization</option>
+                            <option value="region">Region</option>
+                        </select>
+                    </div>
+                    <div className="w-[45%]">
+                        {isType === "project" && (
+                            <div className="flex flex-col">
+                                <Label>
+                                    Select Project<span className="text-error-500">*</span>
+                                </Label>
+                                <select
+                                    id="project"
+                                    name="project"
+                                    value={selectedId}
+                                    onChange={(e) => setSelectedId(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {projectList?.map((project) => {
+                                        return <option value={project?.id}>{project.name}</option>;
+                                    })}
+                                </select>
+                            </div>
+                        )}
+                        {isType === "organization" && (
+                            <div className="flex flex-col">
+                                <Label>
+                                    Select Organization<span className="text-error-500">*</span>
+                                </Label>
+                                <select
+                                    id="organization"
+                                    name="organization"
+                                    value={selectedId}
+                                    onChange={(e) => setSelectedId(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {orglist?.map(
+                                        (organization: any) => {
+                                            return (
+                                                <option value={organization?.id}>
+                                                    {organization?.name}
+                                                </option>
+                                            );
+                                        }
+                                    )}
+                                </select>
+                            </div>
+                        )}
+
+                        {isType === "region" && (
+                            <div className="flex flex-col">
+                                <Label>
+                                    Select Region<span className="text-error-500">*</span>
+                                </Label>
+                                <select
+                                    id="region"
+                                    name="region"
+                                    value={selectedId}
+                                    onChange={(e) => setSelectedId(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {regionList?.map((region) => {
+                                        return (
+                                            <option value={region?.id}>{region.regionName}</option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                        )}
 
                     </div>
-                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                        {selectedProject?.name} - ITPs
-                    </h1>
+                    <div>
+                        {
+                            ItpTemplatesList?.length > 0 && <div className="flex flex-col">
+                                <Label>
+                                    Select ITP Category<span className="text-error-500">*</span>
+                                </Label>
+                                <select
+                                    id="project"
+                                    name="project"
+                                    value={selectedTemplate}
+                                    onChange={(e) => setSelectedTemplate(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {ItpTemplatesList?.map((project) => {
+                                        return <option value={project?.id}>{project.name}</option>;
+                                    })}
+
+                                </select>
+                            </div>
+                        }
+                    </div>
                 </div>
-                {/* Organization Card */}
 
-            </main>
-        </NavbarSidebarLayout>
+            </div>
+
+            <TaskTable
+                tableData={[]}
+                isType={isType}
+            />
+
+        </div>
     );
-};
-
+}

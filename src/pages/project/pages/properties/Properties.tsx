@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { propertiesAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
+import { propertiesAtom, propertyMenuAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import PropertiesPage from "./PropertiesPage";
 import BulkImportComponent from "./components/bulk-import-component";
@@ -10,6 +10,9 @@ import { HiHome } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
+import { PropertyHeader } from "./components/property-header";
+import DefectResolution from "./tabs/defect-resolution/pages/defectResolution";
+import DefectPagination from "./tabs/defect-resolution/components/pagination";
 
 export const Properties: FC = function () {
     const selectedProject = useRecoilValue(selectedProjectAtom);
@@ -18,9 +21,27 @@ export const Properties: FC = function () {
     const [selected, setSelected] = useState<any[]>([]);
     const properties = useRecoilValue(propertiesAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
+    const dashboardMenu = useRecoilValue(propertyMenuAtom);
+    const [pageRow, setPageRow] = useState<any>('all')
+    const [totalRows, setTotalRows] = useState<any>(0)
+    const [itemOffset, setItemOffset] = useState(0);
     const navigate = useNavigate();
     const params = useParams();
     const { id } = params;
+
+
+    const handlePageClick = (event) => {
+        if (pageRow != "all") {
+            const newOffset = (event.selected * pageRow) % totalRows;
+            console.log(
+                `User requested page number ${event.selected}, which is offset ${newOffset}`
+            );
+            setItemOffset(newOffset);
+        } else {
+            setItemOffset(0);
+        }
+
+    };
 
     const bulkUploadHandler = (value: boolean) => {
         if (value) {
@@ -68,21 +89,35 @@ export const Properties: FC = function () {
                         </div>
 
                     </div>
-                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                        {selectedProject?.name} - Properties
-                    </h1>
+                    <div className="w-full col-span-full">
+                        <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+                            {selectedProject?.name}
+                        </h1>
+                    </div>
+
                 </div>
                 {/* Organization Card */}
-                {
-                    !showBulk ?
-                        <PropertiesPage setShowBulk={bulkUploadHandler} setSelected={setSelected} selected={selected} />
-                        :
-                        <BulkImportComponent
-                            selected={propertyUploadQueue}
-                            setShowBulk={setShowBulk}
-                            clear={setSelected}
-                        />
-                }
+                <div className="grid grid-cols-1 gap-y-1 px-1 pt-1">
+                    <PropertyHeader />
+                    {
+                        dashboardMenu == 'manage' ?
+                            !showBulk ?
+                                <PropertiesPage setShowBulk={bulkUploadHandler} setSelected={setSelected} selected={selected} />
+                                :
+                                <BulkImportComponent
+                                    selected={propertyUploadQueue}
+                                    setShowBulk={setShowBulk}
+                                    clear={setSelected}
+                                />
+                            : <DefectResolution setTotalRows={setTotalRows} setPageRow={setPageRow} itemOffset={itemOffset} pageRow={pageRow} />
+                    }
+                    {
+                        totalRows > 0 && dashboardMenu == 'defect-resolution' && <div className="mt-5">
+                            <DefectPagination setItemOffset={setItemOffset} itemOffset={itemOffset} pageRow={pageRow} setPageRow={setPageRow} totalRows={totalRows} handlePageClick={handlePageClick} />
+
+                        </div>
+                    }
+                </div>
             </main>
         </NavbarSidebarLayout>
     );

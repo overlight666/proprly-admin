@@ -32,7 +32,14 @@ const listPropertiesAtom = atom<any>({
   default: undefined,
 });
 
+const propertyMenuAtom = atom<any>({
+  key: "propertyMenuAtom",
+  default: "manage",
+});
+
+
 export {
+  propertyMenuAtom,
   listPropertiesAtom,
   generateReportAtom,
   propertiesAtom,
