@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "@/helpers";
-import { ItpManagementListAtom, LocationListAtom, TradeCodesByRegionAtom } from "../states";
+import { ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -12,6 +12,7 @@ function useITPAction() {
     const setITPList = useSetRecoilState(ItpManagementListAtom); // Replace with the correct atom for ITP
     const setTradeCode = useSetRecoilState(TradeCodesByRegionAtom); // Replace with the correct atom for Trade Codes
     const setLocationList = useSetRecoilState(LocationListAtom); // Replace with the correct atom for Locations
+    const setITPTaskList = useSetRecoilState(ItpTaskListAtom);
 
     return {
         getItpTemplates,
@@ -19,7 +20,8 @@ function useITPAction() {
         getLocations,
         addITPTemplate,
         deleteITPTemplate,
-        updateITPTemplate
+        updateITPTemplate,
+        getItpTasks
     };
 
     function getItpTemplates(params: any) {
@@ -27,6 +29,14 @@ function useITPAction() {
             .get(`${baseUrl}/itp_templates${params}`)
             .then((response: any) => {
                 setITPList(response && response.data ? response.data : response);
+            });
+    }
+
+    function getItpTasks(params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp_task${params}`)
+            .then((response: any) => {
+                setITPTaskList(response && response.data ? response.data : response);
             });
     }
 

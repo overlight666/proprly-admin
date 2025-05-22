@@ -9,6 +9,7 @@ import Input from "@/components/ui/input";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BulkIcon } from "@/icons";
+import { ITPTask } from "@/lib/interface";
 
 export default function TaskTable({ tableData, isType }: any) {
     const tableRef = useRef<any>(null);
@@ -62,7 +63,16 @@ export default function TaskTable({ tableData, isType }: any) {
                 <DataTable
                     ref={tableRef}
                     className="compact stripe"
-                    data={tableData || []}
+                    data={tableData?.map((tasks: ITPTask) => {
+                        return [
+                            tasks?.inspectionWorkActivity,
+                            tasks?.timingFrequency?.label,
+                            tasks?.method?.label,
+                            tasks?.acceptanceCriteria,
+                            tasks?.reference,
+                            tasks?.comments
+                        ]
+                    }) || []}
                     options={{
                         // order: [[1, "asc"]],
                         destroy: true,
