@@ -17,17 +17,14 @@ import {
   HiEye,
   HiInbox,
   HiLogout,
-  HiMenuAlt1,
   HiOutlineTicket,
   HiSearch,
   HiShoppingBag,
   HiUserCircle,
   HiUsers,
   HiViewGrid,
-  HiX,
 } from "react-icons/hi";
 import { useSidebarContext } from "../context/SidebarContext";
-import isSmallScreen from "../helpers/is-small-screen";
 import { useUserActions } from "@/_recoil/actions";
 import { useNavigate } from "react-router";
 import logoIcon from "~/images/default-user.png";
@@ -63,17 +60,18 @@ const ExampleNavbar: FC = function () {
               </span>
             </Navbar.Brand>
             {isPageWithSidebar && (
-              <button
-                onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
-                className="ml-20 mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline"
-              >
-                <span className="sr-only">Toggle sidebar</span>
-                {isOpenOnSmallScreens && isSmallScreen() ? (
-                  <HiX className="h-6 w-6" />
-                ) : (
-                  <HiMenuAlt1 className="h-6 w-6" />
-                )}
-              </button>
+              <div className="ml-28 mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline" />
+              // <button
+              //   onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
+              //   className="ml-20 mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline"
+              // >
+              //   <span className="sr-only">Toggle sidebar</span>
+              //   {isOpenOnSmallScreens && isSmallScreen() ? (
+              //     <HiX className="h-6 w-6" />
+              //   ) : (
+              //     <HiMenuAlt1 className="h-6 w-6" />
+              //   )}
+              // </button>
             )}
             <form className="hidden md:block">
               <Label htmlFor="search" className="sr-only">

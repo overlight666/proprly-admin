@@ -11,16 +11,16 @@ import {
 
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
-import { EarthIcon, FolderClosedIcon, FolderOpenIcon, GroupIcon, PlusIcon, SettingsIcon, TicketIcon } from "lucide-react";
+import { EarthIcon, GroupIcon, PlusIcon, SettingsIcon, TicketIcon } from "lucide-react";
 import { useAppointments, useCountriesAction, useOrganization, useProject, useProperties, useReports, useUserActions } from "@/_recoil/actions";
 import { usePersistor } from "@/helpers/persistor";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, projectsAtom, regionOptionsAtom, selectedOrgAtom, sidebarIndexAtom } from "@/_recoil/states";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Project } from "@/lib/interface";
-import { truncateMenuString } from "@/helpers";
 import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
 import { AppointmentIcon, BuildingIcon, CommonAreaIcon, ItpIcon } from "@/icons";
+import Select from 'react-select';
 
 const ExampleSidebar: FC = function () {
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
@@ -47,6 +47,7 @@ const ExampleSidebar: FC = function () {
   const userAction = useUserActions();
   const appointmentAction = useAppointments();
   const reportAction = useReports();
+  const navigate = useNavigate();
 
   const { id, project_id, property_id } = params;
 
@@ -249,7 +250,45 @@ const ExampleSidebar: FC = function () {
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
               }
-              <Sidebar.ItemGroup>
+              {(currentPage.includes("/organization/view")
+                || currentPage.includes("/project/new")
+                || currentPage.includes("/project/view")
+                || currentPage.includes("/property/new")
+                || currentPage.includes("/property/view")
+                || currentPage.includes("/common-area/view")
+                || currentPage.includes("/appointments/view")
+                || currentPage.includes("/itp/view")) && <Sidebar.ItemGroup>
+                  <Select className="my-react-select-container"
+                    classNamePrefix="my-react-select"
+                    defaultValue={project_id}
+                    isSearchable onChange={(selected: any) => {
+                      navigate(`/organization/${id}/project/view/${selected.value}`)
+                    }} options={projects?.map((project: Project) => {
+                      return {
+                        label: project.name,
+                        value: project.id
+                      }
+                    }) as any || []}
+                    placeholder="Select Project"
+                  />
+                  {
+                    project_id && <div>
+                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/property/view`} icon={BuildingIcon} className={currentPage.includes("/property/view") && "bg-blue-100 dark:bg-gray-900"}>
+                        Properties
+                      </Sidebar.Item>
+                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/common-area/view`} icon={CommonAreaIcon} className={currentPage.includes("/common-area/view") && "bg-blue-100 dark:bg-gray-900"}>
+                        Common Areas
+                      </Sidebar.Item>
+                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/itp/view`} icon={ItpIcon} className={currentPage.includes("/itp/view") && "bg-blue-100 dark:bg-gray-900"}>
+                        ITPs
+                      </Sidebar.Item>
+                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/appointments/view`} icon={AppointmentIcon} className={currentPage.includes("/appointments/view") && "bg-blue-100 dark:bg-gray-900"}>
+                        Appointments
+                      </Sidebar.Item>
+                    </div>
+                  }
+                </Sidebar.ItemGroup>}
+              {/* <Sidebar.ItemGroup>
                 {(currentPage.includes("/organization/view")
                   || currentPage.includes("/project/new")
                   || currentPage.includes("/project/view")
@@ -296,7 +335,8 @@ const ExampleSidebar: FC = function () {
 
                 }
 
-              </Sidebar.ItemGroup>
+              </Sidebar.ItemGroup> */}
+
               {/* <Sidebar.ItemGroup>
                 <Sidebar.Item
                   href="/dashboard"
