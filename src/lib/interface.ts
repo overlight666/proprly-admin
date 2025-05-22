@@ -9,6 +9,11 @@ export interface signUpForm {
     organizationTimezone: string;
 }
 
+export interface ItpLocation {
+    name: string;
+    key: string;
+}
+
 export interface ITPOption {
     id: number;
     types: string;
@@ -79,6 +84,7 @@ export interface ItpTemplates {
 
 export interface ITPTask {
     id: number;
+    status?: string;
     itpTemplatesId: number;
     methodId: number;
     timingFrequencyId: number;

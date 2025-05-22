@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "@/helpers";
-import { ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
+import { AllTradeCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -14,6 +14,8 @@ function useITPAction() {
     const setLocationList = useSetRecoilState(LocationListAtom); // Replace with the correct atom for Locations
     const setITPTaskList = useSetRecoilState(ItpTaskListAtom);
     const setITPOptions = useSetRecoilState(TIPOptionsAtom);
+    const setITPLocations = useSetRecoilState(ITPLocationListAtom);
+    const setAllTradeCode = useSetRecoilState(AllTradeCodesAtom);
 
     return {
         getItpTemplates,
@@ -24,8 +26,18 @@ function useITPAction() {
         updateITPTemplate,
         getItpTasks,
         getItpOptions,
-        addITPTask
+        addITPTask,
+        getITPLocations,
+        getAllTradeCode,
     };
+
+    function getITPLocations() {
+        return fetchWrapper
+            .get(`${baseUrl}/itp_templates/locations`)
+            .then((response: any) => {
+                setITPLocations(response && response.data ? response.data : response);
+            });
+    }
 
     function getItpOptions() {
         return fetchWrapper
@@ -48,6 +60,14 @@ function useITPAction() {
             .get(`${baseUrl}/itp_task${params}`)
             .then((response: any) => {
                 setITPTaskList(response && response.data ? response.data : response);
+            });
+    }
+
+    function getAllTradeCode() {
+        return fetchWrapper
+            .get(`${baseUrl}/trade-code`)
+            .then((response: any) => {
+                setAllTradeCode(response && response.data ? response.data : response);
             });
     }
 
