@@ -261,8 +261,8 @@ const ExampleSidebar: FC = function () {
                   <Select className="my-react-select-container"
                     classNamePrefix="my-react-select"
                     defaultValue={{
-                      label: projects.find((project) => project?.id === project_id)?.name,
-                      value: projects.find((project) => project?.id === project_id)?.id,
+                      label: projects?.find((project) => project?.id === project_id)?.name,
+                      value: projects?.find((project) => project?.id === project_id)?.id,
                     }}
                     isSearchable onChange={(selected: any) => {
                       navigate(`/organization/${id}/project/view/${selected.value}`)
