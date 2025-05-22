@@ -91,7 +91,7 @@ export const Properties: FC = function () {
                     </div>
                     <div className="w-full col-span-full">
                         <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                            {selectedProject?.name}
+                            Property Management
                         </h1>
                     </div>
 

@@ -52,7 +52,7 @@ export const AppointmentsPage: FC = function () {
 
                     </div>
                     <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                        {selectedProject?.name} - Appointments
+                        Appointments Management
                     </h1>
                 </div>
                 {/* Organization Card */}

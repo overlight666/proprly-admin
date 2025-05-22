@@ -1,17 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
-import { selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
+import { ITPMenuAtom, selectedOrgAtom, selectedProjectAtom } from "@/_recoil/states";
 import { useRecoilValue } from "recoil";
 import { Breadcrumb } from "flowbite-react";
 import { HiHome } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
+import { ITPHeader } from "./components/itp-header";
+import ITPTaskManagement from "../../tabs/itp/itp-management";
 
 export const ItpPage: FC = function () {
     const selectedProject = useRecoilValue(selectedProjectAtom);
-
+    const dashboardMenu = useRecoilValue(ITPMenuAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const navigate = useNavigate();
     const params = useParams();
@@ -52,11 +54,22 @@ export const ItpPage: FC = function () {
 
                     </div>
                     <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                        {selectedProject?.name} - ITPs
+                        ITP Management
                     </h1>
                 </div>
                 {/* Organization Card */}
 
+                <div className="grid grid-cols-1 gap-y-1 px-1 pt-1">
+                    <ITPHeader />
+                    {
+                        dashboardMenu == 'manage' ?
+                            <div className="flex w-full items-center justify-center h-[300px]">
+                                <h1 className="dark:text-white text-2xl">Under Construction</h1>
+                            </div>
+                            :
+                            <ITPTaskManagement />
+                    }
+                </div>
             </main>
         </NavbarSidebarLayout>
     );

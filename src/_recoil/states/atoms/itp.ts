@@ -18,5 +18,10 @@ const TradeCodesByRegionAtom = atom<any[]>({
     default: undefined,
 });
 
+const ITPMenuAtom = atom<any>({
+    key: "ITPMenuAtom",
+    default: "manage",
+});
 
-export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom };
+
+export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom };
