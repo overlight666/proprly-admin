@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import TaskTable from "./TaskTable";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { allProjectsAtom, defectCodesAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { allProjectsAtom, defectCodesAtom, ItpManagementListAtom, ItpTaskListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
 import { Project } from "@/lib/interface";
@@ -23,6 +23,8 @@ export default function ITPTaskManagement() {
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
+
+    const taskList = useRecoilValue(ItpTaskListAtom);
 
     useEffect(() => {
         orgAction.getOrganizations();
@@ -56,6 +58,24 @@ export default function ITPTaskManagement() {
     }, [isType, selectedId]);
 
     useEffect(() => {
+        if (selectedTemplate) {
+            const params =
+                isType === "project"
+                    ? `?projectId=${selectedId}`
+                    : isType === "organization"
+                        ? `?organizationId=${selectedId}`
+                        : isType === "region"
+                            ? `?regionId=${selectedId}`
+                            : "";
+
+            if (selectedId || isType === "default") {
+                const templateParams = params ? `${params}&itpTemplatesId=${selectedTemplate}` : `?itpTemplatesId=${selectedTemplate}`;
+                itpAction.getItpTasks(templateParams);
+            }
+        }
+    }, [selectedTemplate])
+
+    useEffect(() => {
         setItpList([]);
     }, [isType])
 
@@ -72,6 +92,7 @@ export default function ITPTaskManagement() {
             setSortedList(copyList);
         }
     }, [defectCodeList]);
+
     return (
         <div>
             <div className="flex items-end justify-between flex-wrap gap-1">
@@ -191,8 +212,8 @@ export default function ITPTaskManagement() {
                                     <option value="" selected>
                                         Please Select
                                     </option>
-                                    {ItpTemplatesList?.map((project) => {
-                                        return <option value={project?.id}>{project.name}</option>;
+                                    {ItpTemplatesList?.map((template) => {
+                                        return <option value={template?.id}>{template.name}</option>;
                                     })}
 
                                 </select>
@@ -204,7 +225,7 @@ export default function ITPTaskManagement() {
             </div>
 
             <TaskTable
-                tableData={[]}
+                tableData={taskList ?? []}
                 isType={isType}
             />
 

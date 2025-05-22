@@ -18,6 +18,73 @@ export interface LocationItem {
     type?: string;
 }
 
+export interface TimingFrequency {
+    id: number;
+    types: string;
+    label: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    createdAt: string;
+    updatedAt: string;
+    description: any;
+}
+
+export interface ITPMethod {
+    id: number;
+    types: string;
+    label: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    createdAt: string;
+    updatedAt: string;
+    description: any;
+}
+
+export interface VerificationType {
+    id: number;
+    types: string;
+    label: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    createdAt: string;
+    updatedAt: string;
+    description: any;
+}
+
+export interface ItpTemplates {
+    id: number;
+    name: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    regionId: any;
+    organizationId: any;
+    projectId: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ITPTask {
+    id: number;
+    itpTemplatesId: number;
+    methodId: number;
+    timingFrequencyId: number;
+    inspectionWorkActivity: string;
+    acceptanceCriteria: string;
+    reference: string;
+    isFinal: boolean;
+    comments: string;
+    createdAt: string;
+    updatedAt: string;
+    verificationTypeId: number;
+    timingFrequency: TimingFrequency
+    method: ITPMethod;
+    verificationType: VerificationType;
+    itpTemplates: ItpTemplates;
+}
 
 export interface ITPList {
     id: any;
