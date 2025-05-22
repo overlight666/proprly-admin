@@ -260,7 +260,10 @@ const ExampleSidebar: FC = function () {
                 || currentPage.includes("/itp/view")) && <Sidebar.ItemGroup>
                   <Select className="my-react-select-container"
                     classNamePrefix="my-react-select"
-                    defaultValue={project_id}
+                    defaultValue={{
+                      label: projects.find((project) => project?.id === project_id)?.name,
+                      value: projects.find((project) => project?.id === project_id)?.id,
+                    }}
                     isSearchable onChange={(selected: any) => {
                       navigate(`/organization/${id}/project/view/${selected.value}`)
                     }} options={projects?.map((project: Project) => {
