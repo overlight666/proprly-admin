@@ -84,7 +84,9 @@ const ExampleSidebar: FC = function () {
       userAction.getConfig(),
       userAction.getAllRegions(),
       userAction.getSupportTikets(),
-      itpActions.getItpOptions()
+      itpActions.getItpOptions(),
+      itpActions.getITPLocations(),
+      itpActions.getAllTradeCode()
     ]).then((values) => {
       const countryHandler = values[0]?.map((r: any) => {
         return {

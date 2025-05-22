@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { allProjectsAtom, defectCodesAtom, ItpManagementListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { allProjectsAtom, AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
-import { Project } from "@/lib/interface";
+import { ItpLocation, Project } from "@/lib/interface";
 import TaskTable from "./itp-table";
 
 export default function ITPTaskManagement() {
@@ -23,6 +23,9 @@ export default function ITPTaskManagement() {
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
+    const itpLocations = useRecoilValue(ITPLocationListAtom);
+    const allCategory = useRecoilValue(AllTradeCodesAtom);
+    const taskList = useRecoilValue(ItpTaskListAtom);
 
     useEffect(() => {
         orgAction.getOrganizations();
@@ -31,29 +34,17 @@ export default function ITPTaskManagement() {
     }, []);
 
     useEffect(() => {
-        if (isType) {
-            const params =
-                isType === "project"
-                    ? `?projectId=${selectedId}`
-                    : isType === "organization"
-                        ? `?organizationId=${selectedId}`
-                        : isType === "region"
-                            ? `?regionId=${selectedId}`
-                            : "";
-            if (selectedId || isType === "default") {
-                // setIsLoading(true);
-                setItpList([]);
-                Promise.all([
-                    itpAction.getItpTemplates(params),
-                    itpAction.getTradeCode(params)]).then(() => {
-                        // setTimeout(() => {
-                        //     setIsLoading(false)
-                        // }, 1000);
-
-                    })
-            }
+        if (isType && selectedId) {
+            itpAction.getItpTemplates("");
         }
-    }, [isType, selectedId]);
+    }, [isType, selectedId])
+
+    useEffect(() => {
+        if (isType && selectedTemplate && selectedId) {
+            const params = `?locationId=${isType}&tradeId=${selectedId}&templateId=${selectedTemplate}`
+            itpAction.getItpTasks(params);
+        }
+    }, [isType, selectedId, selectedTemplate]);
 
     useEffect(() => {
         setItpList([]);
@@ -72,13 +63,15 @@ export default function ITPTaskManagement() {
             setSortedList(copyList);
         }
     }, [defectCodeList]);
+
+
     return (
         <div>
             <div className="flex items-end justify-between flex-wrap gap-1">
-                <div className="flex flex-row items-center gap-5 w-[80%] flex-wrap">
+                <div className="flex flex-col gap-5 w-[80%] flex-wrap">
                     <div className="w-[45%]">
                         <Label>
-                            Select Type<span className="text-error-500">*</span>
+                            Select Location<span className="text-error-500">*</span>
                         </Label>
                         <select
                             id="timeslot"
@@ -91,20 +84,25 @@ export default function ITPTaskManagement() {
                             }}
                             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         >
-                            <option value="" selected>
+                            <option value="" selected disabled>
                                 Please Select
                             </option>
-                            <option value="default">Default</option>
-                            <option value="project">Project</option>
-                            <option value="organization">Organization</option>
-                            <option value="region">Region</option>
+                            {
+                                itpLocations?.map((location: ItpLocation, index: any) => {
+                                    return (
+                                        <option key={index} value={location?.key}>
+                                            {location?.name}
+                                        </option>
+                                    )
+                                })
+                            }
                         </select>
                     </div>
                     <div className="w-[45%]">
-                        {isType === "project" && (
+                        {isType && (
                             <div className="flex flex-col">
                                 <Label>
-                                    Select Project<span className="text-error-500">*</span>
+                                    Select Trade Category<span className="text-error-500">*</span>
                                 </Label>
                                 <select
                                     id="project"
@@ -116,70 +114,20 @@ export default function ITPTaskManagement() {
                                     <option value="" selected>
                                         Please Select
                                     </option>
-                                    {projectList?.map((project) => {
-                                        return <option value={project?.id}>{project.name}</option>;
+                                    {allCategory?.map((trade) => {
+                                        return <option value={trade?.id}>{`${trade?.tradeCode} - ${trade?.tradeName}`}</option>;
                                     })}
-                                </select>
-                            </div>
-                        )}
-                        {isType === "organization" && (
-                            <div className="flex flex-col">
-                                <Label>
-                                    Select Organization<span className="text-error-500">*</span>
-                                </Label>
-                                <select
-                                    id="organization"
-                                    name="organization"
-                                    value={selectedId}
-                                    onChange={(e) => setSelectedId(e.target.value)}
-                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                >
-                                    <option value="" selected>
-                                        Please Select
-                                    </option>
-                                    {orglist?.map(
-                                        (organization: any) => {
-                                            return (
-                                                <option value={organization?.id}>
-                                                    {organization?.name}
-                                                </option>
-                                            );
-                                        }
-                                    )}
                                 </select>
                             </div>
                         )}
 
-                        {isType === "region" && (
-                            <div className="flex flex-col">
-                                <Label>
-                                    Select Region<span className="text-error-500">*</span>
-                                </Label>
-                                <select
-                                    id="region"
-                                    name="region"
-                                    value={selectedId}
-                                    onChange={(e) => setSelectedId(e.target.value)}
-                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                >
-                                    <option value="" selected>
-                                        Please Select
-                                    </option>
-                                    {regionList?.map((region) => {
-                                        return (
-                                            <option value={region?.id}>{region.regionName}</option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
-                        )}
 
                     </div>
-                    <div>
+                    <div className="w-[45%]">
                         {
                             ItpTemplatesList?.length > 0 && <div className="flex flex-col">
                                 <Label>
-                                    Select ITP Category<span className="text-error-500">*</span>
+                                    Select ITP Template<span className="text-error-500">*</span>
                                 </Label>
                                 <select
                                     id="project"
@@ -204,7 +152,7 @@ export default function ITPTaskManagement() {
             </div>
 
             <TaskTable
-                tableData={[]}
+                tableData={taskList ?? []}
                 isType={isType}
             />
 

@@ -5,7 +5,8 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef } from "react";
 import Input from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
+import { FolderClosed, Pencil, SearchIcon } from "lucide-react";
+import { ITPTask } from "@/lib/interface";
 export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
     const onSearch = (value: any) => {
@@ -35,7 +36,18 @@ export default function TaskTable({ tableData }: any) {
                 <DataTable
                     ref={tableRef}
                     className="compact stripe"
-                    data={tableData || []}
+                    data={tableData?.map((tasks: ITPTask) => {
+                        return [
+                            tasks?.inspectionWorkActivity,
+                            tasks?.timingFrequency?.label,
+                            tasks?.method?.label,
+                            tasks?.acceptanceCriteria,
+                            tasks?.reference,
+                            tasks?.comments,
+                            tasks?.status || "Pending",
+                            tasks
+                        ]
+                    }) || []}
                     options={{
                         // order: [[1, "asc"]],
                         destroy: true,
@@ -60,6 +72,28 @@ export default function TaskTable({ tableData }: any) {
                             },
                             bottomEnd: "paging",
                         },
+                    }}
+                    slots={{
+                        7: (_data: any, _row: any) => (
+                            <div className="flex flex-row gap-4">
+
+                                <Pencil
+                                    //   onClick={() => setOpenModal(_data)}
+                                    className="size-5 text-gray-200 cursor-pointer"
+                                    data-tooltip-id="tooltip"
+                                    data-tooltip-content="Edit"
+                                    data-tooltip-place="top"
+                                />
+                                <FolderClosed
+                                    //   onClick={() => setOpenModal(_data)}
+                                    className="size-5 text-blue-700 cursor-pointer"
+                                    data-tooltip-id="tooltip"
+                                    data-tooltip-content="View"
+                                    data-tooltip-place="top"
+                                />
+
+                            </div>
+                        ),
                     }}
 
                 >
@@ -99,6 +133,12 @@ export default function TaskTable({ tableData }: any) {
 
                             <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                 Comments/Record Type
+                            </th>
+                            <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                                Status
+                            </th>
+                            <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                                Actions
                             </th>
                         </tr>
                     </thead>
