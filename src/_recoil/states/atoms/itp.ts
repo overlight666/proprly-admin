@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ITPList, ITPTask, LocationItem } from "@/lib/interface";
+import { ITPList, ITPOption, ITPTask, LocationItem } from "@/lib/interface";
 import { atom } from "recoil";
 
 const ItpManagementListAtom = atom<ITPList[]>({
@@ -11,7 +11,6 @@ const ItpTaskListAtom = atom<ITPTask[]>({
     key: "ItpTaskListAtom",
     default: undefined,
 });
-
 
 const LocationListAtom = atom<LocationItem[]>({
     key: "LocationListAtom",
@@ -29,4 +28,9 @@ const ITPMenuAtom = atom<any>({
 });
 
 
-export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom };
+const TIPOptionsAtom = atom<ITPOption[]>({
+    key: "TIPOptionsAtom",
+    default: undefined,
+});
+
+export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom };
