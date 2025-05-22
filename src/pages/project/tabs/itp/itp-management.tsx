@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { allProjectsAtom, AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, organizationsAtom, regionsAtom } from "@/_recoil/states";
+import { AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
-import { ItpLocation, Project } from "@/lib/interface";
+import { ItpLocation } from "@/lib/interface";
 import TaskTable from "./itp-table";
 
 export default function ITPTaskManagement() {
@@ -17,9 +17,6 @@ export default function ITPTaskManagement() {
     const [selectedId, setSelectedId] = useState<any>();
     const [_sortedList, setSortedList] = useState<any[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState<any>();
-    const projectList: Project[] = useRecoilValue(allProjectsAtom);
-    const orglist: any = useRecoilValue(organizationsAtom);
-    const regionList: any[] = useRecoilValue(regionsAtom);
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
