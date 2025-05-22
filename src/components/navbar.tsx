@@ -17,17 +17,14 @@ import {
   HiEye,
   HiInbox,
   HiLogout,
-  HiMenuAlt1,
   HiOutlineTicket,
   HiSearch,
   HiShoppingBag,
   HiUserCircle,
   HiUsers,
   HiViewGrid,
-  HiX,
 } from "react-icons/hi";
 import { useSidebarContext } from "../context/SidebarContext";
-import isSmallScreen from "../helpers/is-small-screen";
 import { useUserActions } from "@/_recoil/actions";
 import { useNavigate } from "react-router";
 import logoIcon from "~/images/default-user.png";
