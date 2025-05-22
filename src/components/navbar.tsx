@@ -60,7 +60,7 @@ const ExampleNavbar: FC = function () {
               </span>
             </Navbar.Brand>
             {isPageWithSidebar && (
-              <div className="ml-28 mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline" />
+              <div className="ml-28 mr-3 rounded p-2 text-gray-600 dark:text-gray-400 lg:inline" />
               // <button
               //   onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
               //   className="ml-20 mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline"
