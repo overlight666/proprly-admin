@@ -10,16 +10,20 @@ import { PlusIcon, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BulkIcon } from "@/icons";
 import { ITPTask } from "@/lib/interface";
+import AddItpModal from "./AddItpModal";
 
-export default function TaskTable({ tableData, isType }: any) {
+export default function TaskTable({ tableData, isType, selectedTemplate, tempParams }: any) {
     const tableRef = useRef<any>(null);
-    const { openModal } = useModal();
+    const { openModal, isOpen, closeModal } = useModal();
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
     return (
         <>
-
+            <AddItpModal isOpen={isOpen}
+                selectedTemplate={selectedTemplate}
+                tempParams={tempParams}
+                closeModal={closeModal} />
             <div
                 className="flex w-full flex-row mt-5 justify-between
       "
@@ -38,7 +42,7 @@ export default function TaskTable({ tableData, isType }: any) {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => openModal()}
-                        disabled={!isType}
+                        disabled={!isType || !selectedTemplate}
                         type="button"
                     >
                         <div className="flex items-center gap-2">
@@ -50,7 +54,7 @@ export default function TaskTable({ tableData, isType }: any) {
                         onClick={() => openModal()}
                         type="button"
                         variant="outline"
-                        disabled={!isType}
+                        disabled={!isType || !selectedTemplate}
                     >
                         <div className="flex items-center gap-2">
                             <PlusIcon />

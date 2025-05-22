@@ -12,7 +12,7 @@ import {
 import { useSidebarContext } from "../context/SidebarContext";
 import isSmallScreen from "../helpers/is-small-screen";
 import { EarthIcon, GroupIcon, PlusIcon, SettingsIcon, TicketIcon } from "lucide-react";
-import { useAppointments, useCountriesAction, useOrganization, useProject, useProperties, useReports, useUserActions } from "@/_recoil/actions";
+import { useAppointments, useCountriesAction, useITPAction, useOrganization, useProject, useProperties, useReports, useUserActions } from "@/_recoil/actions";
 import { usePersistor } from "@/helpers/persistor";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, projectsAtom, regionOptionsAtom, selectedOrgAtom, sidebarIndexAtom } from "@/_recoil/states";
@@ -47,6 +47,7 @@ const ExampleSidebar: FC = function () {
   const userAction = useUserActions();
   const appointmentAction = useAppointments();
   const reportAction = useReports();
+  const itpActions = useITPAction();
   const navigate = useNavigate();
 
   const { id, project_id, property_id } = params;
@@ -82,7 +83,8 @@ const ExampleSidebar: FC = function () {
       countriesAction.getRegions(),
       userAction.getConfig(),
       userAction.getAllRegions(),
-      userAction.getSupportTikets()
+      userAction.getSupportTikets(),
+      itpActions.getItpOptions()
     ]).then((values) => {
       const countryHandler = values[0]?.map((r: any) => {
         return {

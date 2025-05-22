@@ -44,6 +44,23 @@ export const itpTemplateValidattion = yup.object({
 
 });
 
+export const itpTaskValidattion = yup.object({
+    itpTemplateId: yup
+        .number()
+        .required('ITP Template not selected'),
+    methodId: yup.number()
+        .required('Method is required'),
+    timingFrequencyId: yup.number()
+        .required('Timing/Frequency is required'),
+    inspectionWorkActivity: yup.string()
+        .required('Inspection Work Activity is required'),
+    verificationTypeId: yup.number()
+        .required('Verification Type is required'),
+    acceptanceCriteria: yup.string()
+        .required('Acceptance Criteria is required'),
+
+});
+
 export const signinValidattion = yup.object({
     email: yup
         .string()

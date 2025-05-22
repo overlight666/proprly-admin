@@ -23,7 +23,7 @@ export default function ITPTaskManagement() {
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
-
+    const [tempParams, setTempParams] = useState("");
     const taskList = useRecoilValue(ItpTaskListAtom);
 
     useEffect(() => {
@@ -70,6 +70,7 @@ export default function ITPTaskManagement() {
 
             if (selectedId || isType === "default") {
                 const templateParams = params ? `${params}&itpTemplatesId=${selectedTemplate}` : `?itpTemplatesId=${selectedTemplate}`;
+                setTempParams(templateParams);
                 itpAction.getItpTasks(templateParams);
             }
         }
@@ -227,6 +228,8 @@ export default function ITPTaskManagement() {
             <TaskTable
                 tableData={taskList ?? []}
                 isType={isType}
+                tempParams={tempParams}
+                selectedTemplate={selectedTemplate}
             />
 
         </div>

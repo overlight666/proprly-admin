@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "@/helpers";
-import { ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TradeCodesByRegionAtom } from "../states";
+import { ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -13,6 +13,7 @@ function useITPAction() {
     const setTradeCode = useSetRecoilState(TradeCodesByRegionAtom); // Replace with the correct atom for Trade Codes
     const setLocationList = useSetRecoilState(LocationListAtom); // Replace with the correct atom for Locations
     const setITPTaskList = useSetRecoilState(ItpTaskListAtom);
+    const setITPOptions = useSetRecoilState(TIPOptionsAtom);
 
     return {
         getItpTemplates,
@@ -21,8 +22,18 @@ function useITPAction() {
         addITPTemplate,
         deleteITPTemplate,
         updateITPTemplate,
-        getItpTasks
+        getItpTasks,
+        getItpOptions,
+        addITPTask
     };
+
+    function getItpOptions() {
+        return fetchWrapper
+            .get(`${baseUrl}/itp_task_option_config`)
+            .then((response: any) => {
+                setITPOptions(response && response.data ? response.data : response);
+            });
+    }
 
     function getItpTemplates(params: any) {
         return fetchWrapper
@@ -83,6 +94,32 @@ function useITPAction() {
     function addITPTemplate(params: any, urlParams: any) {
         return fetchWrapper
             .post(`${baseUrl}/itp_templates${urlParams}`, params)
+            .then((response: any) => {
+                if (response) {
+                    return response && response.data ? response.data : response
+                }
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
+    function addITPTask(params: any) {
+        return fetchWrapper
+            .post(`${baseUrl}/itp_task`, params)
             .then((response: any) => {
                 if (response) {
                     return response && response.data ? response.data : response

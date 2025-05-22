@@ -9,7 +9,17 @@ export interface signUpForm {
     organizationTimezone: string;
 }
 
-
+export interface ITPOption {
+    id: number;
+    types: string;
+    label: string;
+    isDefault: boolean;
+    isActive: boolean;
+    isVisible: boolean;
+    createdAt: string;
+    updatedAt: string;
+    description: any;
+}
 
 export interface LocationItem {
     key: string;
@@ -102,6 +112,18 @@ export interface ITPList {
     locations: any[];
 }
 
+export interface itpTaskForm {
+    id?: any;
+    itpTemplateId: any;
+    methodId: any;
+    timingFrequencyId: any;
+    inspectionWorkActivity: any;
+    verificationTypeId: any;
+    acceptanceCriteria: any;
+    reference: any;
+    comments: any;
+    isFinal: any;
+}
 export interface itpTemplateForm {
     id?: any;
     name: string;
