@@ -24,7 +24,7 @@ export default function AddItpModal({
     const itpOption = useRecoilValue(TIPOptionsAtom);
     const setLoading = useSetRecoilState(isLoadingAtom);
     const itpAction = useITPAction();
-    const [initialValues, setInitialValues] = useState<itpTaskForm>({
+    const [initialValues, _setInitialValues] = useState<itpTaskForm>({
         itpTemplateId: undefined,
         methodId: undefined,
         timingFrequencyId: undefined,
