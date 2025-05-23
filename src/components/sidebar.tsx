@@ -49,6 +49,7 @@ const ExampleSidebar: FC = function () {
   const reportAction = useReports();
   const itpActions = useITPAction();
   const navigate = useNavigate();
+  const [projectOptions, setProjectOptions] = useState<any>([])
 
   const { id, project_id, property_id } = params;
 
@@ -69,6 +70,7 @@ const ExampleSidebar: FC = function () {
     }
 
   }, [])
+
 
 
   useEffect(() => {
@@ -149,6 +151,19 @@ const ExampleSidebar: FC = function () {
       setIsLoading(false);
     })
   }, [id, project_id, property_id])
+
+  useEffect(() => {
+    if (projects && projects?.length > 0) {
+      const opt = projects?.map((project: Project) => {
+        return {
+          label: project.name,
+          value: project.id
+        }
+      })
+      setProjectOptions(opt)
+    }
+
+  }, [projects]);
 
   return (
     <div
@@ -261,21 +276,14 @@ const ExampleSidebar: FC = function () {
                 || currentPage.includes("/property/view")
                 || currentPage.includes("/common-area/view")
                 || currentPage.includes("/appointments/view")
-                || currentPage.includes("/itp/view")) && <Sidebar.ItemGroup>
+                || currentPage.includes("/itp/view")) && !isLoading && <Sidebar.ItemGroup>
                   <Select className="my-react-select-container"
                     classNamePrefix="my-react-select"
-                    defaultValue={{
-                      label: projects?.find((project) => project?.id === project_id)?.name,
-                      value: projects?.find((project) => project?.id === project_id)?.id,
-                    }}
+                    defaultValue={projectOptions.filter(option => option?.value == project_id)}
+                    inputValue={projectOptions.filter(option => option?.value == project_id)?.name}
                     isSearchable onChange={(selected: any) => {
                       navigate(`/organization/${id}/project/view/${selected.value}`)
-                    }} options={projects?.map((project: Project) => {
-                      return {
-                        label: project.name,
-                        value: project.id
-                      }
-                    }) as any || []}
+                    }} options={projectOptions}
                     placeholder="Select Project"
                   />
                   {
