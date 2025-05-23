@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "@/helpers";
-import { AllTradeCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
+import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -17,6 +17,7 @@ function useITPAction() {
     const setITPLocations = useSetRecoilState(ITPLocationListAtom);
     const setAllTradeCode = useSetRecoilState(AllTradeCodesAtom);
     const setITPTaskSubmissionList = useSetRecoilState(ItpTaskSubmissionListAtom);
+    const setAllTradeCodeByKey = useSetRecoilState(AllTradeCodesByKeyAtom);
 
     return {
         getItpTemplates,
@@ -30,7 +31,8 @@ function useITPAction() {
         addITPTask,
         getITPLocations,
         getAllTradeCode,
-        getItpTasksSubmission
+        getItpTasksSubmission,
+        getAllTradeCodeByKey
     };
 
     function getITPLocations() {
@@ -80,6 +82,15 @@ function useITPAction() {
                 setAllTradeCode(response && response.data ? response.data : response);
             });
     }
+
+    function getAllTradeCodeByKey(locationKey: any, project_id: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp_templates/itp_template_tradecode?locationKey=${locationKey}&projectId=${project_id}`)
+            .then((response: any) => {
+                setAllTradeCodeByKey(response && response.data ? response.data : response);
+            });
+    }
+
 
     function getTradeCode(params: any) {
         return fetchWrapper

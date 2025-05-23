@@ -38,6 +38,11 @@ const ITPLocationListAtom = atom<ItpLocation[]>({
     default: undefined,
 });
 
+const AllTradeCodesByKeyAtom = atom<any[]>({
+    key: "AllTradeCodesByKeyAtom",
+    default: undefined,
+});
+
 const AllTradeCodesAtom = atom<any[]>({
     key: "AllTradeCodesAtom",
     default: undefined,
@@ -50,4 +55,4 @@ const ItpTaskSubmissionListAtom = atom<any[]>({
 
 
 
-export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom };
+export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom, AllTradeCodesByKeyAtom };
