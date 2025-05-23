@@ -41,6 +41,7 @@ export const itpTemplateValidattion = yup.object({
         .required('Trade code is required'),
     locations: yup.array()
         .required('Location is required'),
+    isDefault: yup.boolean().optional()
 
 });
 

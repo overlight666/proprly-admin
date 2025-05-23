@@ -54,6 +54,9 @@ export default function AddITP({
                             : "";
 
             if (!isEdit) {
+                if (params !== "") {
+                    delete values.isDefault
+                }
                 itpAction.addITPTemplate(values, params).then((e: any) => {
                     if (e) {
                         if (!e?.error) {
