@@ -133,7 +133,7 @@ export interface itpTaskForm {
 export interface itpTemplateForm {
     id?: any;
     name: string;
-    isDefault: boolean;
+    isDefault?: boolean;
     tradeCodes: any[];
     locations: LocationFormItem[]
 }
