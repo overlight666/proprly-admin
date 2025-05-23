@@ -96,7 +96,7 @@ export default function TaskTable({ tableData }: any) {
 
                                 <Pencil
                                     //   onClick={() => setOpenModal(_data)}
-                                    className="size-5 text-gray-200 cursor-pointer"
+                                    className="size-5 dark:text-gray-200 cursor-pointer"
                                     data-tooltip-id="tooltip"
                                     data-tooltip-content="Edit"
                                     data-tooltip-place="top"
