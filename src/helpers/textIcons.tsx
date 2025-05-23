@@ -14,6 +14,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
+    defectSubStatus?.toLowerCase() == "approved" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
@@ -155,6 +156,7 @@ export const getIcons = (defectSubStatus) => {
     );
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
+    defectSubStatus?.toLowerCase() == "approved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||
     defectSubStatus == "Defect Resolved" ||

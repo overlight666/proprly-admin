@@ -8,6 +8,8 @@ import Input from "@/components/ui/input";
 import { FolderClosed, Pencil, SearchIcon } from "lucide-react";
 import { useRecoilValue } from "recoil";
 import { TIPOptionsAtom } from "@/_recoil/states";
+import { getIcons, ticketColoring } from "@/helpers/textIcons";
+import { ucword } from "@/helpers";
 export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
     const optionList = useRecoilValue(TIPOptionsAtom);
@@ -77,6 +79,18 @@ export default function TaskTable({ tableData }: any) {
                         },
                     }}
                     slots={{
+                        6: (_data: any, _row: any) => (
+                            <div className="flex items-center flex-nowrap">
+                                <div
+                                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all text-nowrap whitespace-nowrap
+                                            ${ticketColoring(_data, true)}
+                                            `}
+                                >
+                                    {getIcons(_data)}
+                                    <span className="text-[12px]">{ucword(_data)}</span>
+                                </div>
+                            </div>
+                        ),
                         7: (_data: any, _row: any) => (
                             <div className="flex flex-row gap-4">
 
