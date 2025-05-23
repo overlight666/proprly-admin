@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
 import { ItpLocation } from "@/lib/interface";
 import TaskTable from "./itp-table";
+import { useParams } from "react-router";
 
 export default function ITPTaskManagement() {
     const [isType, setIsType] = useState("");
@@ -21,8 +22,10 @@ export default function ITPTaskManagement() {
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
     const itpLocations = useRecoilValue(ITPLocationListAtom);
-    const allCategory = useRecoilValue(AllTradeCodesAtom);
+    const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
     const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
+    const params = useParams();
+    const { project_id } = params;
 
     useEffect(() => {
         orgAction.getOrganizations();
@@ -45,6 +48,11 @@ export default function ITPTaskManagement() {
 
     useEffect(() => {
         setItpList([]);
+        if (isType) {
+            setAllCategory([]);
+            itpAction.getAllTradeCodeByKey(isType, project_id)
+        }
+
     }, [isType])
 
     function dynamicSort(property) {
