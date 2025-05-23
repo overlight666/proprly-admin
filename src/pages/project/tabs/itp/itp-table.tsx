@@ -6,12 +6,15 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef } from "react";
 import Input from "@/components/ui/input";
 import { FolderClosed, Pencil, SearchIcon } from "lucide-react";
-import { ITPTask } from "@/lib/interface";
+import { useRecoilValue } from "recoil";
+import { TIPOptionsAtom } from "@/_recoil/states";
 export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
+    const optionList = useRecoilValue(TIPOptionsAtom);
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
+
     return (
         <>
 
@@ -36,14 +39,14 @@ export default function TaskTable({ tableData }: any) {
                 <DataTable
                     ref={tableRef}
                     className="compact stripe"
-                    data={tableData?.map((tasks: ITPTask) => {
+                    data={tableData?.map((tasks: any) => {
                         return [
-                            tasks?.inspectionWorkActivity,
-                            tasks?.timingFrequency?.label,
-                            tasks?.method?.label,
-                            tasks?.acceptanceCriteria,
-                            tasks?.reference,
-                            tasks?.comments,
+                            tasks?.itpTasks?.inspectionWorkActivity,
+                            optionList?.find((list) => list.id == tasks?.itpTasks?.timingFrequencyId)?.label,
+                            optionList?.find((list) => list.id == tasks?.itpTasks?.methodId)?.label,
+                            tasks?.itpTasks?.acceptanceCriteria,
+                            tasks?.itpTasks?.reference,
+                            tasks?.comment,
                             tasks?.status || "Pending",
                             tasks
                         ]
