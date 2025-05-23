@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom } from "@/_recoil/states";
+import { AllTradeCodesAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
 import { ItpLocation } from "@/lib/interface";
@@ -22,7 +22,7 @@ export default function ITPTaskManagement() {
     const setItpList = useSetRecoilState(ItpManagementListAtom);
     const itpLocations = useRecoilValue(ITPLocationListAtom);
     const allCategory = useRecoilValue(AllTradeCodesAtom);
-    const taskList = useRecoilValue(ItpTaskListAtom);
+    const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
 
     useEffect(() => {
         orgAction.getOrganizations();
@@ -39,7 +39,7 @@ export default function ITPTaskManagement() {
     useEffect(() => {
         if (isType && selectedTemplate && selectedId) {
             const params = `?locationId=${isType}&tradeId=${selectedId}&templateId=${selectedTemplate}`
-            itpAction.getItpTasks(params);
+            itpAction.getItpTasksSubmission(params);
         }
     }, [isType, selectedId, selectedTemplate]);
 

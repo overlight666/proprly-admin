@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { useFetchWrapper } from "@/helpers";
-import { AllTradeCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
+import { AllTradeCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -16,6 +16,7 @@ function useITPAction() {
     const setITPOptions = useSetRecoilState(TIPOptionsAtom);
     const setITPLocations = useSetRecoilState(ITPLocationListAtom);
     const setAllTradeCode = useSetRecoilState(AllTradeCodesAtom);
+    const setITPTaskSubmissionList = useSetRecoilState(ItpTaskSubmissionListAtom);
 
     return {
         getItpTemplates,
@@ -29,6 +30,7 @@ function useITPAction() {
         addITPTask,
         getITPLocations,
         getAllTradeCode,
+        getItpTasksSubmission
     };
 
     function getITPLocations() {
@@ -60,6 +62,14 @@ function useITPAction() {
             .get(`${baseUrl}/itp_task${params}`)
             .then((response: any) => {
                 setITPTaskList(response && response.data ? response.data : response);
+            });
+    }
+
+    function getItpTasksSubmission(params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp_task_submission${params}`)
+            .then((response: any) => {
+                setITPTaskSubmissionList(response && response.data ? response.data : response);
             });
     }
 
