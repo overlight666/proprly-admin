@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
+import { AllTradeCodesByKeyAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
 import { ItpLocation } from "@/lib/interface";
