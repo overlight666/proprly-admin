@@ -45,6 +45,7 @@ function useProject() {
     removeProjectTower,
     attachUser,
     getAllProjects,
+    updateProjectTower
   };
 
   function attachUser(project_id: any, params: any) {
@@ -66,6 +67,46 @@ function useProject() {
           const res = response && response.data ? response.data : response;
           setProjectTowerResponse(res);
         }
+      }).catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Unknown error, please contact admin");
+          }
+        }
+      });
+  }
+
+  function updateProjectTower(params: any, id: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/project_towers/${id}`, params)
+      .then((response: any) => {
+        return response && response.data ? response.data : response;
+      }).catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Unknown error, please contact admin");
+          }
+        }
       });
   }
 
@@ -77,10 +118,26 @@ function useProject() {
           const res = response && response.data ? response.data : response;
           setProjectTowerResponse(res);
         }
+      }).catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Unknown error, please contact admin");
+          }
+        }
       });
   }
 
-  function updateProject(params: any, id: any, toast: any) {
+  function updateProject(params: any, id: any) {
     return fetchWrapper
       .put(`${baseUrl}/projects/${id}`, params)
       .then((response: any) => {
@@ -89,6 +146,22 @@ function useProject() {
             response && response.data ? response.data : response
           );
           toast.info("Project Updated!");
+        }
+      }).catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Unknown error, please contact admin");
+          }
         }
       });
   }

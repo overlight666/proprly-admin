@@ -677,6 +677,7 @@ export interface Config {
     signupLeadStatusList: ValueList[];
     appointmentStatus: AppointmentStatus;
     appointmentStatusList: ValueList[];
+    towerStatusOptions: OptionType[];
 }
 
 export interface AppointmentStatus {

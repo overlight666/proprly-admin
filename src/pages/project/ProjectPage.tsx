@@ -27,12 +27,13 @@ import { Users } from "./tabs/users/pages/Users";
 import { Reports } from "./tabs/reports/pages/Reports";
 import PropertiesPage from "./pages/properties/PropertiesPage";
 import ITPTaskManagement from "./tabs/itp/itp-management";
+import { Edit } from "lucide-react";
 
 
 export const ProjectPage: FC = function () {
     const params = useParams();
     const [dashboardMenu, setProjectMenu] = useRecoilState(projectMenuAtom)
-    const { id } = params;
+    const { id, project_id } = params;
     const dashboardData = useRecoilValue(projectDashboardAtom);
     const navigate = useNavigate();
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
@@ -111,8 +112,11 @@ export const ProjectPage: FC = function () {
                         </div>
                     </div>
                     <div className="flex justify-between">
-                        <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                            {selectedProject?.name}
+                        <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl flex items-center gap-5">
+                            {selectedProject?.name} <Edit data-tooltip-id="tooltip"
+                                data-tooltip-content="Edit Project" className="cursor-pointer" onClick={() => {
+                                    navigate(`/organization/${id}/project/edit/${project_id}`)
+                                }} />
                         </h1>
                     </div>
 
