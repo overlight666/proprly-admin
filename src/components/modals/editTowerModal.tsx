@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 import { Modal } from "../ui/modal";
@@ -14,16 +14,22 @@ import { useProject } from "@/_recoil/actions";
 import { useParams } from "react-router";
 
 
-export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
+export default function EditTowerModal({ isOpen, closeModal, currentTower }: any) {
     const [name, setName] = useState<any>("");
     const [floor, setFloor] = useState<any>("");
     const [status, setStatus] = useState<any>("");
     const globalConfig = useRecoilValue(globalConfigAtom);
     const [nameError, setNameError] = useState<any>("");
-    const currentPage = window.location.pathname;
     const projectAction = useProject();
     const params = useParams();
     const { project_id } = params;
+    useEffect(() => {
+        if (currentTower) {
+            setName(currentTower.name);
+            setFloor(currentTower.numFloors);
+            setStatus(currentTower.status);
+        }
+    }, [currentTower])
     const towerOptions: any = [
         {
             label: 1,
@@ -76,17 +82,14 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
         if (!floor) {
             toast.error("Floor must be selected");
         }
-        if (currentPage.includes("/project/edit")) {
-            const towerParams = {
-                projectId: project_id,
-                name: name,
-                numFloors: floor,
-                status: status,
-            }
-            projectAction.addProjectTower(towerParams)
-        }
+
         if (name.trim().length > 0 && floor.trim().length > 0) {
-            addTower(name, floor, status);
+            projectAction.updateProjectTower({ name, floor, status }, currentTower.id).then((res: any) => {
+                if (res) {
+                    toast.success("Tower updated successfully");
+                    projectAction.getSelectedProject(project_id);
+                }
+            })
             closeModal();
         }
     }
@@ -101,7 +104,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
                         <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
-                            Add New Tower
+                            Edit Tower
                         </h5>
                     </div>
                     <div className="mt-8 space-y-3">
@@ -109,6 +112,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                             <Label htmlFor="input">Tower Name</Label>
                             <Input
                                 type="text"
+                                value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Enter name"
                                 error={nameError !== ""}
@@ -120,6 +124,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                                 Floors <span className="text-red-500">*</span>{" "}
                             </Label>
                             <Select
+                                defaultValue={floor}
                                 options={towerOptions}
                                 placeholder="Select floors"
                                 className="dark:bg-dark-900"
@@ -131,6 +136,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                                 Status <span className="text-red-500">*</span>{" "}
                             </Label>
                             <Select
+                                defaultValue={status}
                                 options={globalConfig?.towerStatusOptions ?? [
                                     {
                                         label: "Under Construction",

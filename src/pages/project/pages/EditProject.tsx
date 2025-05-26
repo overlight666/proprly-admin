@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
-import { dropZoneAtom, globalConfigAtom, isLoadingAtom, selectedOrgAtom, uploadResponseAtom } from "@/_recoil/states";
+import { dropZoneAtom, globalConfigAtom, isLoadingAtom, selectedOrgAtom, selectedProjectAtom, uploadResponseAtom } from "@/_recoil/states";
 import { ImageType, Project, ProjectForm } from "@/lib/interface";
 import { useModal } from "@/helpers/useModal";
 import { useProject } from "@/_recoil/actions";
@@ -24,14 +24,13 @@ import { FormikHelpers, useFormik } from "formik";
 import { projectValidation } from "@/lib/validations";
 import FileUploader2 from "@/components/ui/fileupload2";
 
-export default function NewProject() {
+export default function EditProject() {
     const uploadResponse: any = useRecoilValue(uploadResponseAtom);
     const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     const selectedOrganization = useRecoilValue(selectedOrgAtom);
     const globalConfig = useRecoilValue(globalConfigAtom);
     const [projectTypeOptions, setProjectTypeOptions] = useState<any>([]);
     const [msTypeOptions, setMsTypeOptions] = useState<any>([]);
-    const setImage = useSetRecoilState(dropZoneAtom);
     const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
     const uploadedImage = useRecoilValue(dropZoneAtom);
     const [page, setPage] = useState(1);
@@ -43,7 +42,8 @@ export default function NewProject() {
     const projectAction = useProject();
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(isLoadingAtom);
-
+    const selectedProject = useRecoilValue(selectedProjectAtom);
+    const setImage = useSetRecoilState(dropZoneAtom)
 
     const initialValues = {
         type: undefined,
@@ -60,6 +60,7 @@ export default function NewProject() {
         organizationId: undefined
     }
 
+
     const formik = useFormik<ProjectForm>({
         enableReinitialize: true,
         initialValues,
@@ -70,9 +71,30 @@ export default function NewProject() {
             _values: ProjectForm,
             _formikHelpers: FormikHelpers<ProjectForm>,
         ) => {
-            onSubmit2();
+            onSubmit2(_values);
         },
     });
+
+    useEffect(() => {
+        if (selectedProject) {
+            const address = selectedProject?.address?.split(", ");
+            formik.setFieldValue("name", selectedProject?.name);
+            formik.setFieldValue("type", selectedProject?.type);
+            formik.setFieldValue("maintenanceServiceType", selectedProject?.maintenanceServiceType);
+            formik.setFieldValue("address0", address[0]);
+            formik.setFieldValue("address1", address[1]);
+            formik.setFieldValue("address2", address[2]);
+            formik.setFieldValue("imageId", selectedProject?.imageId);
+            setUploadQueue(selectedProject?.documents || []);
+            setImage(selectedProject?.image);
+            setTowers(selectedProject?.projectTower || []);
+            formik.setFieldValue("numBasementLevels", selectedProject?.numBasementLevels);
+            formik.setFieldValue("organizationId", id);
+            formik.setFieldValue("towers", towers);
+            formik.setFieldValue("documents", selectedProject?.documents?.map((docs) => docs.id) || []);
+            formik.setFieldValue("address", `${formik.values.address0}, ${formik.values.address1}, ${formik.values.address2}`);
+        }
+    }, [selectedProject])
 
     const basementOptions: any = [
         {
@@ -166,6 +188,8 @@ export default function NewProject() {
             towers.length > 0 &&
             towers.filter((t) => t.name !== tower.name);
         setTowers(filteredTower);
+        formik.setFieldValue("towers", filteredTower);
+        projectAction.removeProjectTower(tower.id);
     };
 
     const addTower = (name: any, floor: any, status?: string) => {
@@ -177,19 +201,21 @@ export default function NewProject() {
         setTowers((oldArray: any) => [...oldArray, t]);
     };
 
-    function onSubmit2() {
+    function onSubmit2(_values) {
         if (towers.length === 0) {
             toast.error("Please add a tower!");
         } else {
-
-            formik.setFieldValue("organizationId", id)
-            formik.setFieldValue("towers", towers)
+            formik.setFieldValue("organizationId", id);
+            formik.setFieldValue("towers", towers);
+            const holder = formik.values;
+            holder.towers = towers;
 
             setIsLoading(true);
-            projectAction.addProject(formik.values).then((res: Project) => {
+            projectAction.updateProject(holder, id).then((res: Project) => {
                 setIsLoading(false);
                 if (res?.id) {
                     navigate(`/organization/${id}/project/view/${res?.id}`);
+                    toast.success("Project updated successfully!");
                 }
 
             }).catch((error: any) => {
@@ -214,10 +240,10 @@ export default function NewProject() {
                             <Breadcrumb.Item href="/">
                                 <span className="dark:text-white">{selectedOrganization?.name}</span>
                             </Breadcrumb.Item>
-                            <Breadcrumb.Item >Add Project</Breadcrumb.Item>
+                            <Breadcrumb.Item >Edit Project</Breadcrumb.Item>
                         </Breadcrumb>
                         <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                            New Project
+                            Edit Project
                         </h1>
                     </div>
 
@@ -228,7 +254,6 @@ export default function NewProject() {
                         closeModal={closeModal}
                         addTower={addTower}
                     />
-
                     {page == 1 && (
                         <div className="grid grid-cols-1">
                             <form
@@ -244,6 +269,7 @@ export default function NewProject() {
                                             <Input
                                                 type="text"
                                                 name="name"
+                                                value={formik.values.name}
                                                 onChange={formik.handleChange}
                                                 error={formik.errors.name}
                                                 hint={formik.errors.name}
@@ -256,6 +282,7 @@ export default function NewProject() {
                                             </Label>
                                             <Select
                                                 options={projectTypeOptions}
+                                                defaultValue={formik.values.type}
                                                 placeholder="Select type"
                                                 className="dark:bg-dark-900"
                                                 onChange={(e) => formik.setFieldValue("type", e)}
@@ -270,6 +297,7 @@ export default function NewProject() {
                                             </Label>
                                             <Select
                                                 options={msTypeOptions}
+                                                defaultValue={formik.values.maintenanceServiceType}
                                                 placeholder="Select Maintenance and Service type"
                                                 className="dark:bg-dark-900"
                                                 onChange={(e) => formik.setFieldValue("maintenanceServiceType", e)}
@@ -291,6 +319,7 @@ export default function NewProject() {
                                         <Input
                                             type="text"
                                             name="address0"
+                                            value={formik.values.address0}
                                             onChange={formik.handleChange}
                                             error={formik.errors.address0}
                                             hint={formik.errors.address0}
@@ -302,6 +331,7 @@ export default function NewProject() {
                                         <Input
                                             type="text"
                                             name="address1"
+                                            value={formik.values.address1}
                                             onChange={formik.handleChange}
                                             error={formik.errors.address1}
                                             hint={formik.errors.address1}
@@ -313,6 +343,7 @@ export default function NewProject() {
                                         <Input
                                             type="text"
                                             name="address2"
+                                            value={formik.values.address2}
                                             onChange={formik.handleChange}
                                             error={formik.errors.address2}
                                             hint={formik.errors.address2}
@@ -388,6 +419,7 @@ export default function NewProject() {
                                             options={basementOptions || []}
                                             placeholder="Select type"
                                             className="dark:bg-dark-900"
+                                            defaultValue={formik.values.numBasementLevels}
                                             onChange={(e) => formik.setFieldValue("numBasementLevels", e)}
                                             error={formik.errors.numBasementLevels}
                                             hint={formik.errors.numBasementLevels}
@@ -406,7 +438,7 @@ export default function NewProject() {
                                     type="submit"
                                     form="projectForm2"
                                 >
-                                    Create Project
+                                    Update Project
                                 </Button>
                             </div>
                         </div>

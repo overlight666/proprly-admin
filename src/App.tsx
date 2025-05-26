@@ -49,6 +49,7 @@ import { Properties } from "./pages/project/pages/properties/Properties";
 import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage";
 import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
+import EditProject from "./pages/project/pages/EditProject";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -141,6 +142,11 @@ const App: FC = function () {
               <NewProject />
             </PrivateRoutes>
           } />
+          <Route path="/organization/:id/project/edit/:project_id" element={
+            <PrivateRoutes>
+              <EditProject />
+            </PrivateRoutes>
+          } />
           <Route path="/organization/:id/project/view/:project_id" element={
             <PrivateRoutes>
               <ProjectPage />
@@ -151,6 +157,7 @@ const App: FC = function () {
               <AddProperty />
             </PrivateRoutes>
           } />
+
           <Route path="/organization/:id/project/:project_id/property/view/:property_id" element={
             <PrivateRoutes>
               <EditProperty />
