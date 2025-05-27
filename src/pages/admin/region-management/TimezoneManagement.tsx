@@ -40,7 +40,7 @@ export default function TimezoneManagement() {
           </header>
 
           <div className="flex items-center justify-between pb-5 border-b w-full">
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-3">
               {/* SearchIcon bar with button */}
               <div className="flex h-[35px] w-[30vw] items-center">
                 <div className="relative flex-1">

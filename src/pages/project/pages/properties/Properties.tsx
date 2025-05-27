@@ -59,7 +59,7 @@ export const Properties: FC = function () {
         <NavbarSidebarLayout>
             <main className="flex flex-col w-full gap-[22px] pb-5 px-5">
                 {/* Header */}
-                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-4">
+                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-3">
                     <div className="col-span-full flex items-center justify-between">
                         <Breadcrumb className="mb-4">
                             <Breadcrumb.Item href="/">

@@ -90,7 +90,7 @@ const EditOrganization: FC = function () {
     return (
         <NavbarSidebarLayout>
             <>
-                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-4">
+                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-3">
                     <div className="col-span-full">
                         <Breadcrumb className="mb-4">
                             <Breadcrumb.Item href="/">
@@ -107,7 +107,7 @@ const EditOrganization: FC = function () {
                     </div>
 
                 </div>
-                <div className="grid grid-cols-1 gap-y-6 px-4 pt-4 xl:grid-cols-2 xl:gap-4">
+                <div className="grid grid-cols-1 gap-y-6 px-4 pt-4 xl:grid-cols-2 xl:gap-3">
                     <GeneralInformationCard
                         organization={formik.values}
                         handleChange={formik.handleChange}

@@ -65,7 +65,7 @@ const MainContentFooter: FC = function () {
             <Footer.Link href="#">Contact</Footer.Link>
           </Footer.LinkGroup>
           <Footer.LinkGroup>
-            <div className="flex gap-4 md:gap-0">
+            <div className="flex gap-3 md:gap-0">
               <Footer.Link
                 href="#"
                 className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"

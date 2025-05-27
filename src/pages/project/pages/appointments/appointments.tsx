@@ -180,7 +180,7 @@ const Appointments = () => {
                                 </p>
                             </div>
                             <div className="mt-6">
-                                <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+                                <div className="flex flex-wrap items-center gap-3 sm:gap-5">
                                     <Radio
                                         disabled={eventHandler}
                                         id="radio1"
@@ -230,7 +230,7 @@ const Appointments = () => {
                                 />
                             </div>
 
-                            <div className="flex flex-row justify-center items-center gap-4 row-start-3 col-span-8 col-start-3">
+                            <div className="flex flex-row justify-center items-center gap-3 row-start-3 col-span-8 col-start-3">
                                 <Button
                                     variant="default"
                                     onClick={() => {
