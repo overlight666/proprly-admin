@@ -131,12 +131,18 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                                 Status <span className="text-red-500">*</span>{" "}
                             </Label>
                             <Select
-                                options={globalConfig?.towerStatusOptions ?? [
-                                    {
-                                        label: "Under Construction",
-                                        value: "under_construction",
-                                    },
-                                ]}
+                                defaultValue={status}
+                                options={globalConfig?.towerStatusOptions ?? globalConfig?.propertyStatusList?.map((pros) => {
+                                    return {
+                                        label: pros.value,
+                                        value: pros.key,
+                                    };
+                                }) ?? [
+                                        {
+                                            label: "Under Construction",
+                                            value: "under_construction",
+                                        },
+                                    ]}
                                 placeholder="Select status"
                                 className="dark:bg-dark-900"
                                 onChange={(e) => setStatus(e)}
