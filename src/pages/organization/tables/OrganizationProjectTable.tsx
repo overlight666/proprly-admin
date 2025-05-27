@@ -50,7 +50,7 @@ export default function OrganizationProjectTable({ tableRef }: any) {
     return (
         <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="flex items-center justify-between pb-5 w-full">
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                     {/* SearchIcon bar with button */}
                     <div className="flex h-[35px] w-[30vw] items-center">
                         <div className="relative flex-1">
@@ -115,7 +115,7 @@ export default function OrganizationProjectTable({ tableRef }: any) {
                         }}
                         slots={{
                             5: (_data: any, _row: any) => (
-                                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
+                                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[14px]">
                                     <div className="flex flex-row gap-5">
                                         <FolderIcon
                                             className="size-5 cursor-pointer"

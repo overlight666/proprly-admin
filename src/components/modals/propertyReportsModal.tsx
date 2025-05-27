@@ -59,7 +59,7 @@ export default function PropertyReportModal({
                 { searchable: true, targets: [0, 1, 2, 3] },
                 {
                   className:
-                    "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]",
+                    "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[14px]",
                   targets: "_all",
                 },
               ],
@@ -77,7 +77,7 @@ export default function PropertyReportModal({
             }}
             slots={{
               3: (_data: any, _row: any) => (
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-row gap-3">
                   <a
                     href={_row[3]?.reportUrl}
                     target="_blank"

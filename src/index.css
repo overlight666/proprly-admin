@@ -366,7 +366,7 @@ span.flatpickr-weekday,
   border-left-width: 0;
 }
 .fc .fc-toolbar.fc-header-toolbar {
-  @apply flex-col gap-4 px-6 pt-6 sm:flex-row;
+  @apply flex-col gap-3 px-6 pt-6 sm:flex-row;
 }
 .fc-button-group {
   @apply gap-2;

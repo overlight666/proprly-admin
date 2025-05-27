@@ -286,7 +286,7 @@ export const CommonAreaEventRegistration = function ({
             </>
           ) : appointmentTypeValue == "defect" ? (
             <>
-              <div className="flex flex-wrap items-center gap-4 sm:gap-5 col-span-4">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-5 col-span-4">
                 <Radio
                   disabled={event}
                   id="usertype1"

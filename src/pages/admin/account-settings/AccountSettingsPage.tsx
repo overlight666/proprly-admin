@@ -18,7 +18,7 @@ const AccountSettingsPage: FC = function () {
 
     return (
         <NavbarSidebarLayout>
-            <div className="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4">
+            <div className="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-3">
                 <div className="col-span-full mb-4 xl:mb-2">
                     <Breadcrumb className="mb-4">
                         <Breadcrumb.Item href="/">

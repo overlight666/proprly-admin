@@ -87,7 +87,7 @@ export const ProjectPage: FC = function () {
                     openModal={openModal}
                     closeModal={closeModal}
                 />
-                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-4">
+                <div className="grid grid-cols-1 gap-y-6 px-4 pt-6 dark:bg-gray-900 xl:grid-cols-2 xl:gap-3">
                     <div className="col-span-full flex items-center justify-between">
                         <Breadcrumb className="mb-4">
                             <Breadcrumb.Item href="/">
@@ -126,7 +126,7 @@ export const ProjectPage: FC = function () {
                     {dashboardMenu == 'dashboard' ? <>
                         <MetricCardsSection />
                         <TimelineDefectsSection openModal={openModal} />
-                        <div className="grid grid-cols-12 gap-4 md:gap-6">
+                        <div className="grid grid-cols-12 gap-3 md:gap-6">
                             <div className="col-span-12 space-y-6 xl:col-span-6">
                                 <DefectsChart
                                     title={"Property Defects by Trade"}

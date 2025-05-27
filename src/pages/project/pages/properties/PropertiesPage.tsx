@@ -43,7 +43,7 @@ export default function PropertiesPage({ setShowBulk, selected, setSelected }: a
         <div className="overflow-hidden rounded-md p-5 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="flex items-center justify-between pb-5 w-full">
                 <div className="flex gap-2">
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3">
                         {/* SearchIcon bar with button */}
                         <div className="flex h-[35px] w-[30vw] items-center">
                             <div className="relative flex-1">
