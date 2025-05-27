@@ -137,12 +137,17 @@ export default function EditTowerModal({ isOpen, closeModal, currentTower }: any
                             </Label>
                             <Select
                                 defaultValue={status}
-                                options={globalConfig?.towerStatusOptions ?? [
-                                    {
-                                        label: "Under Construction",
-                                        value: "under_construction",
-                                    },
-                                ]}
+                                options={globalConfig?.towerStatusOptions ?? globalConfig?.propertyStatusList?.map((pros) => {
+                                    return {
+                                        label: pros.value,
+                                        value: pros.key,
+                                    };
+                                }) ?? [
+                                        {
+                                            label: "Under Construction",
+                                            value: "under_construction",
+                                        },
+                                    ]}
                                 placeholder="Select status"
                                 className="dark:bg-dark-900"
                                 onChange={(e) => setStatus(e)}
