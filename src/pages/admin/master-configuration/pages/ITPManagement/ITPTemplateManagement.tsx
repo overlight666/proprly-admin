@@ -199,6 +199,7 @@ export default function TemplateManagement() {
                 openModal={openModal}
                 setInitialValues={setInitialValues}
                 setIsEdit={setIsEdit}
+                currentParams={currentParams}
             />
 
             <AddITP
