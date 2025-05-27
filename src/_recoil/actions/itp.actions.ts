@@ -110,7 +110,7 @@ function useITPAction() {
 
     function deleteITPTemplate(id: any) {
         return fetchWrapper
-            .delete(`${baseUrl}/itp_category/${id}`)
+            .delete(`${baseUrl}/itp_templates/${id}`)
             .then((response: any) => {
                 return response && response.data ? response.data : response;
             }).catch((e: any) => {

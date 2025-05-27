@@ -12,7 +12,7 @@ import { TrashBinIcon } from "@/icons";
 import { confirm } from "@/components/ui/confirm-dialog";
 import { toast } from "react-toastify";
 
-export default function TemplateTable({ tableData, openModal, setInitialValues, setIsEdit }: any) {
+export default function TemplateTable({ tableData, openModal, setInitialValues, setIsEdit, currentParams }: any) {
     const tableRef = useRef<any>(null);
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
@@ -123,6 +123,7 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                                                             toast.warning(
                                                                 `${_data.name} has been deleted!`
                                                             );
+                                                            itpAction.getItpTemplates(currentParams);
                                                         }
 
                                                     })
