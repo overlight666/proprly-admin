@@ -6,6 +6,7 @@ import {
   NotificationType,
   Organization,
   Region,
+  SettingItem,
   userInterface,
 } from "@/lib/interface";
 
@@ -64,6 +65,11 @@ const organizationMenuAtom = atom<any>({
   default: undefined,
 });
 
+const organizationSettingsAtom = atom<SettingItem[]>({
+  key: "organizationSettingsAtom",
+  default: [],
+});
+
 export {
   organizationMenuAtom,
   organizationsBuilderAtom,
@@ -76,4 +82,5 @@ export {
   organizationDashboardAtom,
   organizationTimelineAtom,
   organizationPropertyOwnerAtom,
+  organizationSettingsAtom,
 };

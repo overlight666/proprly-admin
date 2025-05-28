@@ -10,11 +10,13 @@ import {
   organizationPropertyOwnerAtom,
   organizationsAtom,
   organizationsBuilderAtom,
+  organizationSettingsAtom,
   organizationTimelineAtom,
   regionAtom,
   selectedOrgAtom,
 } from "@/_recoil/states";
 import { usePersistor } from "@/helpers/persistor";
+import { SettingItem } from "@/lib/interface";
 import { toast } from "react-toastify";
 
 export { useOrganization };
@@ -32,6 +34,7 @@ function useOrganization() {
   const setDefectSubmission = useSetRecoilState(organizationDefectAtom);
   const setOrgOwners = useSetRecoilState(organizationPropertyOwnerAtom);
   const setOrganizationBuilder = useSetRecoilState(organizationsBuilderAtom);
+  const setOrganizationSettings = useSetRecoilState(organizationSettingsAtom);
 
   const persist = usePersistor();
 
@@ -49,6 +52,7 @@ function useOrganization() {
     getDefectSubmission,
     getDefectSubmissionResult,
     attachBuilder,
+    getOrganizationSettings,
   };
 
   function attachBuilder(id: any, params: any) {
@@ -220,5 +224,13 @@ function useOrganization() {
   function setOrganizationHeaderOutline(value: string) {
     persist.putValues("organizationOutline", value);
     setOrganizationOutline(value);
+  }
+
+  function getOrganizationSettings(id: number) {
+    return fetchWrapper
+      .get(`${baseUrl}/admin/organization-settings/${id}`)
+      .then((response: SettingItem[]) => {
+        setOrganizationSettings(response);
+      });
   }
 }

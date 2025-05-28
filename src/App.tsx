@@ -50,6 +50,7 @@ import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage
 import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 import EditProject from "./pages/project/pages/EditProject";
+import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -187,6 +188,15 @@ const App: FC = function () {
               <AppointmentsPage />
             </PrivateRoutes>
           } />
+
+          <Route
+            path="/organization-settings/:id"
+            element={
+              <PrivateRoutes>
+                <OrganizationSetting />
+              </PrivateRoutes>
+            }
+          />
 
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-in/admin" element={<SignIn />} />
