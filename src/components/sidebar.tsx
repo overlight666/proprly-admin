@@ -110,7 +110,8 @@ const ExampleSidebar: FC = function () {
         commonAreaAction.getProjectSalesAgent(id),
         userAction.getProjectAdminUsers(id),
         commonAreaAction.getProjectSubContractor(id),
-        userAction.getAllUsers(id)
+        userAction.getAllUsers(id),
+        organizationAction.getOrganizationSettings(Number(id)),
       ]).then((values) => {
         const countryHandler = values[0]?.map((r: any) => {
           return {
@@ -529,13 +530,9 @@ const BottomMenu: FC = function () {
       </button>
       <div>
         <Tooltip content="Settings page">
-          <a
-            href="/users/settings"
-            className="inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            <span className="sr-only">Settings page</span>
-            <HiCog className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
-          </a>
+          <div className="hidden lg:block">
+            <BottomBarSettingDropdown />
+          </div>
         </Tooltip>
       </div>
       <div>
@@ -734,4 +731,29 @@ const LanguageDropdown: FC = function () {
   );
 };
 
+const BottomBarSettingDropdown: FC = function () {
+  const { id } = useParams();
+  return (
+    <Dropdown
+      arrowIcon={false}
+      inline
+      label={
+        <span>
+          <span className="sr-only">Settings page</span>
+          <HiCog className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
+        </span>
+      }
+    >
+      {id ? (
+        <Dropdown.Item href={`/organization-settings/${id}`}>
+          Organization Settings
+        </Dropdown.Item>
+      ) : (
+        ""
+      )}
+      <Dropdown.Item href={`/`}>New Settings</Dropdown.Item>
+      <Dropdown.Divider />
+    </Dropdown>
+  );
+};
 export default ExampleSidebar;

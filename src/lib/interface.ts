@@ -232,13 +232,13 @@ export interface SignUpLeadResponseType {
 }
 
 export interface SignUpLeadPayloadType {
-    email: string;
-    fullName: string;
-    mobileNumber: string;
-    organizationCountryCode: string;
-    organizationName: string;
-    organizationTimezone: string;
-    password: string;
+  email: string;
+  fullName: string;
+  mobileNumber: string;
+  organizationCountryCode: string;
+  organizationName: string;
+  organizationTimezone: string;
+  password: string;
 }
 
 export interface OTPType {
@@ -908,3 +908,35 @@ export interface TradeCode {
     updatedAt: string;
     defectCode: DefectCode[];
 }
+
+// Start: Organization Setting Interface
+
+export type InputType = "string" | "number" | "boolean" | "select";
+
+export interface FieldGroup {
+  inputType: InputType;
+  multiple: boolean;
+  filedKey: string;
+  options?: string[];
+  optionsFromConfigApiKey?: string;
+}
+
+export interface Result {
+  value: string;
+  roleId: number | null;
+  projectId: number | null;
+  organizationId: number;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+}
+
+export interface SettingItem {
+  key: string;
+  label: string;
+  multipleFieldsGroups: boolean;
+  fieldsGroup: FieldGroup[];
+  results: Result[];
+}
+
+// End: Organization Setting Interface
