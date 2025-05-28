@@ -6,7 +6,7 @@ import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef } from "react";
 import { useITPAction } from "@/_recoil/actions";
 import Input from "@/components/ui/input";
-import { PencilIcon, SearchIcon } from "lucide-react";
+import { CheckIcon, PencilIcon, SearchIcon } from "lucide-react";
 import { TableCell } from "@/components/ui/table";
 import { TrashBinIcon } from "@/icons";
 import { confirm } from "@/components/ui/confirm-dialog";
@@ -77,6 +77,11 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                         },
                     }}
                     slots={{
+                        1: (_data: any, _row: any) => (
+                            <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
+                                <span className={!_row[4]?.isActive && "line-through" || ""}>{_data}</span>
+                            </TableCell>
+                        ),
                         4: (_data: any, _row: any) => (
                             <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
                                 <div className="flex gap-3">
@@ -102,18 +107,18 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                                         }}
                                     />
 
-                                    <TrashBinIcon
+                                    {_data?.isActive && <TrashBinIcon
                                         className="size-5 text-red-700 cursor-pointer"
                                         data-tooltip-id="tooltip"
-                                        data-tooltip-content="Delete"
+                                        data-tooltip-content="Deactivate"
                                         data-tooltip-place="top"
                                         onClick={async () => {
                                             if (
                                                 await confirm({
-                                                    confirmText: "Delete",
+                                                    confirmText: "Deactivate",
                                                     confirmVariant: "destructive",
                                                     confirmation:
-                                                        "You are about to delete this ITP template. Please confirm to continue!",
+                                                        "You are about to deactivate this ITP template. Please confirm to continue!",
                                                 })
                                             ) {
                                                 itpAction
@@ -121,7 +126,7 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                                                     .then((res) => {
                                                         if (res && !res?.message) {
                                                             toast.warning(
-                                                                `${_data.name} has been deleted!`
+                                                                `${_data.name} has been deactivated!`
                                                             );
                                                             itpAction.getItpTemplates(currentParams);
                                                         }
@@ -132,8 +137,38 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                                                     });
                                             }
                                         }}
-                                    />
+                                    />}
+                                    {!_data?.isActive && <CheckIcon
+                                        className="size-5 text-green-700 cursor-pointer"
+                                        data-tooltip-id="tooltip"
+                                        data-tooltip-content="Restore"
+                                        data-tooltip-place="top"
+                                        onClick={async () => {
+                                            if (
+                                                await confirm({
+                                                    confirmText: "Restore",
+                                                    confirmVariant: "default",
+                                                    confirmation:
+                                                        "You are about to restore this ITP template. Please confirm to continue!",
+                                                })
+                                            ) {
+                                                itpAction
+                                                    .restoreITPTemplate(_data.id)
+                                                    .then((res) => {
+                                                        if (res && !res?.message) {
+                                                            toast.success(
+                                                                `${_data.name} has been restored!`
+                                                            );
+                                                            itpAction.getItpTemplates(currentParams);
+                                                        }
 
+                                                    })
+                                                    .catch((e) => {
+                                                        toast.error(e);
+                                                    });
+                                            }
+                                        }}
+                                    />}
 
                                 </div>
                             </TableCell>

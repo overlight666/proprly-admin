@@ -26,8 +26,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     hasLabel = true,
 }) => {
     const [fullOption, setFullOption] = useState<any>([]);
+    const [selectedValuesText, setSelectedValuesText] = useState<any>([]);
     const [selectedOptions, setSelectedOptions] =
         useState<any[]>(defaultSelected);
+
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible(false);
 
@@ -64,9 +66,19 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         onChange?.(newSelectedOptions);
     };
 
-    const selectedValuesText = selectedOptions.map(
-        (value) => options.find((option: any) => option.value === value)?.text || ""
-    );
+    useEffect(() => {
+        if (defaultSelected?.length > 0) {
+            setSelectedOptions(defaultSelected)
+        }
+    }, [defaultSelected]);
+
+    useEffect(() => {
+        const selectedValuesTextHolder = selectedOptions.map(
+            (value) => options.find((option: any) => option.value === value)?.text || ""
+        );
+        setSelectedValuesText(selectedValuesTextHolder)
+
+    }, [selectedOptions])
 
     return (
         <div className="w-full">
