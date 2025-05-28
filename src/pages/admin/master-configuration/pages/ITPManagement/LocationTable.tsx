@@ -24,7 +24,7 @@ export default function LocationTable({ selectedLocations, setFieldValue }: any)
                     className="compact stripe"
                     data={selectedLocations?.map((data) => {
                         return [
-                            data?.name,
+                            data?.name || "undefined",
                             data?.type || "N/A",
                             data,
                             selectedLocations,

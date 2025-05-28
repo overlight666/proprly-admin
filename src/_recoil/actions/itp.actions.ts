@@ -32,7 +32,8 @@ function useITPAction() {
         getITPLocations,
         getAllTradeCode,
         getItpTasksSubmission,
-        getAllTradeCodeByKey
+        getAllTradeCodeByKey,
+        restoreITPTemplate
     };
 
     function getITPLocations() {
@@ -111,6 +112,30 @@ function useITPAction() {
     function deleteITPTemplate(id: any) {
         return fetchWrapper
             .delete(`${baseUrl}/itp_templates/${id}`)
+            .then((response: any) => {
+                return response && response.data ? response.data : response;
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
+    function restoreITPTemplate(id: any) {
+        return fetchWrapper
+            .put(`${baseUrl}/itp_templates/restore/${id}`)
             .then((response: any) => {
                 return response && response.data ? response.data : response;
             }).catch((e: any) => {

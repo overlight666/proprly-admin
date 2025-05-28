@@ -6,7 +6,7 @@ import { Modal } from "@/components/ui/modal";
 import MultiSelect from "@/components/ui/multiselect";
 import Select from "@/components/ui/select";
 import { Label } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import LocationTable from "./LocationTable";
 import { FormikHelpers, useFormik } from "formik";
@@ -29,11 +29,27 @@ export default function AddITP({
     const [_nameError, setNameError] = useState<any>("");
     const tradeCodes = useRecoilValue(TradeCodesByRegionAtom);
     const locationList = useRecoilValue(LocationListAtom);
-
+    const [codeList, setCodeList] = useState([])
     const [selectedLocations, setSelectedLocations] = useState<any>("");
     const itpAction = useITPAction();
     const setIsLoading = useSetRecoilState(isLoadingAtom);
+    const [isInit, setIsInit] = useState(false)
 
+    useEffect(() => {
+        if (tradeCodes) {
+            const promise = tradeCodes?.map((tradeCode: any) => {
+                return {
+                    text: `${tradeCode?.tradeCode} - ${tradeCode?.tradeName}`,
+                    value: tradeCode?.id,
+                };
+            })
+            Promise.all([promise]).then((value: any) => {
+                setCodeList(value[0]);
+                setIsInit(true);
+            })
+        }
+
+    }, [tradeCodes])
 
     const formik = useFormik<itpTemplateForm>({
         enableReinitialize: true,
@@ -109,22 +125,16 @@ export default function AddITP({
                         </h5>
                     </div>
                     <div className="mt-8 space-y-3">
-                        <div className="space-y-2">
+                        {isInit && <div className="space-y-2">
                             <Label htmlFor="input">Select Trade Category<span className="text-error-500">*</span></Label>
                             <MultiSelect
                                 label=""
                                 hasLabel={false}
-                                defaultSelected={formik.values.tradeCodes}
-                                options={tradeCodes?.map((tradeCode: any) => {
-                                    return {
-                                        text: `${tradeCode?.tradeCode} - ${tradeCode?.tradeName}`,
-                                        value: tradeCode?.id,
-                                    };
-                                }) ?? []}
+                                defaultSelected={formik.values.tradeCodes ?? []}
+                                options={codeList}
                                 onChange={(values: any) => formik.setFieldValue("tradeCodes", values)}
                             />
-
-                        </div>
+                        </div>}
                         <div className="space-y-2">
                             <Label htmlFor="input">Enter ITP Template Name<span className="text-error-500">*</span></Label>
                             <Input
