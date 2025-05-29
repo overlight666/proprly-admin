@@ -46,7 +46,7 @@ export const TableHeader = (): JSX.Element => {
                                     }`}>
                                     {item.icon}
                                     <div
-                                        className={`relative w-fit text-lg font-medium whitespace-nowrap ${organizationMenu == item?.id
+                                        className={`relative w-fit !text-[1rem] font-medium whitespace-nowrap ${organizationMenu == item?.id
                                             ? "text-primary-600"
                                             : "dark:text-gray-300 text-gray-600"
                                             }`}
