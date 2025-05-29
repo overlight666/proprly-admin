@@ -17,6 +17,7 @@ export default function LocationTable({ selectedLocations, setFieldValue }: any)
             )
         );
     }
+
     return (
         <>
             <div className="mt-8 space-y-3">
