@@ -60,9 +60,9 @@ function useITPAction() {
             });
     }
 
-    function getItpTasks(params: any) {
+    function getItpTasks(id: any, params: any) {
         return fetchWrapper
-            .get(`${baseUrl}/itp_task${params}`)
+            .get(`${baseUrl}/itp/template/${id}/tasks${params}`)
             .then((response: any) => {
                 setITPTaskList(response && response.data ? response.data : response);
             });
