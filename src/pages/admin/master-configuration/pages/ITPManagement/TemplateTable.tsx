@@ -98,7 +98,7 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                                                 return {
                                                     ...location,
                                                     key: location?.locationKey,
-                                                    name: location?.locationName,
+                                                    name: location?.locationName || location?.name,
                                                 }
                                             });
 
