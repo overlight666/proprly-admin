@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import PhotoViewer from 'photoviewer';
+import { toast } from 'react-toastify';
 
 export const hasViewDetails = (str: string) => {
   const statuses = [
@@ -85,4 +86,22 @@ export const expandPhoto = (img: any) => {
 
   // Initialize the plugin
   new PhotoViewer(items, options);
+}
+export const errorMessage = (e) => {
+  console.log(e)
+  if (e?.messages) {
+    if (e?.messages?.length > 0) {
+      e?.messages?.map((m: any) => {
+        return toast.error(m?.message);
+      });
+    } else {
+      toast.error(e);
+    }
+  } else {
+    if (e) {
+      toast.error(e);
+    } else {
+      toast.error("Unknown error, please contact admin");
+    }
+  }
 }
