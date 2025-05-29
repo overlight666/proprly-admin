@@ -69,9 +69,8 @@ export default function ITPTaskManagement() {
                             : "";
 
             if (selectedId || isType === "default") {
-                const templateParams = params ? `${params}&itpTemplatesId=${selectedTemplate}` : `?itpTemplatesId=${selectedTemplate}`;
-                setTempParams(templateParams);
-                itpAction.getItpTasks(templateParams);
+                setTempParams(params);
+                itpAction.getItpTasks(selectedTemplate, params);
             }
         }
     }, [selectedTemplate])

@@ -48,7 +48,7 @@ export default function AddItpModal({
             await itpAction.addITPTask(values).then((res) => {
                 if (res) {
                     setLoading(false);
-                    itpAction.getItpTasks(tempParams);
+                    itpAction.getItpTasks(selectedTemplate, tempParams);
                     toast.success("ITP Task has been added!");
                     closeModal();
                 }
