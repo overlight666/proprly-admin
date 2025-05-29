@@ -12,7 +12,7 @@ import { BulkIcon } from "@/icons";
 import { ITPTask } from "@/lib/interface";
 import AddItpModal from "./AddItpModal";
 
-export default function TaskTable({ tableData, isType, selectedTemplate, tempParams }: any) {
+export default function TaskTable({ tableData, isType, selectedTemplate, tempParams, selectedId }: any) {
     const tableRef = useRef<any>(null);
     const { openModal, isOpen, closeModal } = useModal();
     const onSearch = (value: any) => {
@@ -23,6 +23,8 @@ export default function TaskTable({ tableData, isType, selectedTemplate, tempPar
             <AddItpModal isOpen={isOpen}
                 selectedTemplate={selectedTemplate}
                 tempParams={tempParams}
+                isType={isType}
+                selectedId={selectedId}
                 closeModal={closeModal} />
             <div
                 className="flex w-full flex-row mt-5 justify-between

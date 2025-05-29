@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
-import { useFetchWrapper } from "@/helpers";
+import { errorMessage, useFetchWrapper } from "@/helpers";
 import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
@@ -41,6 +41,22 @@ function useITPAction() {
             .get(`${baseUrl}/itp_templates/locations`)
             .then((response: any) => {
                 setITPLocations(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -49,6 +65,22 @@ function useITPAction() {
             .get(`${baseUrl}/itp_task_option_config`)
             .then((response: any) => {
                 setITPOptions(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -57,6 +89,22 @@ function useITPAction() {
             .get(`${baseUrl}/itp_templates${params}`)
             .then((response: any) => {
                 setITPList(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -65,6 +113,22 @@ function useITPAction() {
             .get(`${baseUrl}/itp/template/${id}/tasks${params}`)
             .then((response: any) => {
                 setITPTaskList(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -72,7 +136,14 @@ function useITPAction() {
         return fetchWrapper
             .get(`${baseUrl}/itp_task_submission${params}`)
             .then((response: any) => {
-                setITPTaskSubmissionList(response && response.data ? response.data : response);
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    setITPTaskSubmissionList(response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
             });
     }
 
@@ -81,6 +152,22 @@ function useITPAction() {
             .get(`${baseUrl}/trade-code`)
             .then((response: any) => {
                 setAllTradeCode(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -88,7 +175,14 @@ function useITPAction() {
         return fetchWrapper
             .get(`${baseUrl}/itp_templates/itp_template_tradecode?locationKey=${locationKey}&projectId=${project_id}`)
             .then((response: any) => {
-                setAllTradeCodeByKey(response && response.data ? response.data : response);
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    setAllTradeCodeByKey(response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
             });
     }
 
@@ -98,6 +192,22 @@ function useITPAction() {
             .get(`${baseUrl}/trade-code${params}`)
             .then((response: any) => {
                 setTradeCode(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -106,6 +216,22 @@ function useITPAction() {
             .get(`${baseUrl}/itp_templates/locations`)
             .then((response: any) => {
                 setLocationList(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
             });
     }
 
@@ -183,9 +309,9 @@ function useITPAction() {
             });
     }
 
-    function addITPTask(params: any) {
+    function addITPTask(params: any, urlParams: any) {
         return fetchWrapper
-            .post(`${baseUrl}/itp_task`, params)
+            .post(`${baseUrl}/itp_task${urlParams}`, params)
             .then((response: any) => {
                 if (response) {
                     return response && response.data ? response.data : response

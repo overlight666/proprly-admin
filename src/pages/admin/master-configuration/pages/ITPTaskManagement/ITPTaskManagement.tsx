@@ -228,6 +228,7 @@ export default function ITPTaskManagement() {
                 tableData={taskList ?? []}
                 isType={isType}
                 tempParams={tempParams}
+                selectedId={selectedId}
                 selectedTemplate={selectedTemplate}
             />
 

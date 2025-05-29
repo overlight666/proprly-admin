@@ -19,7 +19,9 @@ export default function AddItpModal({
     isOpen,
     closeModal,
     selectedTemplate,
-    tempParams
+    tempParams,
+    isType,
+    selectedId
 }: any) {
     const itpOption = useRecoilValue(TIPOptionsAtom);
     const setLoading = useSetRecoilState(isLoadingAtom);
@@ -45,7 +47,16 @@ export default function AddItpModal({
             _formikHelpers: FormikHelpers<itpTaskForm>,
         ) => {
             setLoading(true);
-            await itpAction.addITPTask(values).then((res) => {
+            const params =
+                isType === "project"
+                    ? `?projectId=${selectedId}`
+                    : isType === "organization"
+                        ? `?organizationId=${selectedId}`
+                        : isType === "region"
+                            ? `?regionId=${selectedId}`
+                            : "";
+
+            await itpAction.addITPTask(values, params).then((res) => {
                 if (res) {
                     setLoading(false);
                     itpAction.getItpTasks(selectedTemplate, tempParams);
@@ -54,6 +65,7 @@ export default function AddItpModal({
                 }
             })
         }
+
     })
 
     useEffect(() => {
