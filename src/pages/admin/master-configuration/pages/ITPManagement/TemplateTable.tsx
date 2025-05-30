@@ -47,7 +47,7 @@ export default function TemplateTable({ tableData, openModal, setInitialValues, 
                             index + 1,
                             data?.name,
                             data?.tradeCodes?.map((trade: any) => trade?.tradeName).join(", "),
-                            data?.locations?.map((location: any) => location?.locationName).join(", "),
+                            data?.locations?.map((location: any) => location?.name).join(", "),
                             data,
                         ];
                     }) || []}
