@@ -181,6 +181,12 @@ export default function TemplateManagement() {
                 </div>
                 <Button
                     onClick={() => {
+                        setInitialValues({
+                            name: "",
+                            isDefault: true,
+                            tradeCodes: [],
+                            locations: []
+                        })
                         openModal();
                         setIsEdit(false);
                     }}
@@ -203,6 +209,7 @@ export default function TemplateManagement() {
             />
 
             <AddITP
+                setInitialValues={setInitialValues}
                 isEdit={isEdit}
                 initialValues={initialValues}
                 currentParams={currentParams}

@@ -22,7 +22,8 @@ export default function AddITP({
     isOpen,
     closeModal,
     initialValues,
-    isEdit
+    isEdit,
+    setInitialValues
 }: any) {
     const [_defectName, setDefectName] = useState<any>("");
     const [_defectCode, setDefectCode] = useState<any>("");
@@ -115,7 +116,16 @@ export default function AddITP({
         <>
             <Modal
                 isOpen={isOpen}
-                onClose={closeModal}
+                onClose={() => {
+                    setInitialValues({
+                        name: "",
+                        isDefault: true,
+                        tradeCodes: [],
+                        locations: []
+                    })
+                    formik.setFieldValue("tradeCodes", [])
+                    closeModal();
+                }}
                 className="max-w-[700px] p-6 lg:p-10"
             >
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
@@ -168,7 +178,6 @@ export default function AddITP({
                                 </div>
 
                                 <Button disabled={!selectedLocations} className="basis-[10%]" variant="secondary" onClick={() => {
-                                    console.log(JSON.parse(selectedLocations)?.key)
                                     formik.values.locations?.find((location: any) => location?.key == JSON.parse(selectedLocations)?.key) ? toast.error("Location already added") : formik.setFieldValue("locations", [...formik.values.locations, JSON.parse(selectedLocations)])
                                     setSelectedLocations("")
                                 }}>Add</Button>
@@ -186,6 +195,13 @@ export default function AddITP({
                                 setDefectName("");
                                 setDefectCode("");
                                 closeModal();
+                                setInitialValues({
+                                    name: "",
+                                    isDefault: true,
+                                    tradeCodes: [],
+                                    locations: []
+                                });
+                                formik.setFieldValue("tradeCodes", [])
                             }}
                             type="button"
                             variant="outline"
