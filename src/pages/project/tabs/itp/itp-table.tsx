@@ -7,16 +7,20 @@ import { useRef, useState } from "react";
 import Input from "@/components/ui/input";
 import { FolderClosed, SearchIcon } from "lucide-react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
+import { SelectedItpTaskAtom, TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
 import { SubmitIcon } from "@/icons";
 import SubmitTaskModal from "../modals/submit-task-modals";
 import { useModal } from "@/helpers/useModal";
+import PreviewModal from "../modals/preview-modal";
 export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
     const optionList = useRecoilValue(TIPOptionsAtom);
     const [selectedTask, setSelectedTask] = useState();
+    const [modalType, setModalType] = useState(0);
+    const setSelectedItp = useSetRecoilState(SelectedItpTaskAtom);
+
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
@@ -25,7 +29,8 @@ export default function TaskTable({ tableData }: any) {
     const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     return (
         <>
-            <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} />
+            {modalType == 1 && <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} />}
+            {modalType == 2 && <PreviewModal isOpen={isOpen} closeModal={closeModal} />}
             <div
                 className="flex w-full flex-row mt-5 justify-between
       "
@@ -102,6 +107,7 @@ export default function TaskTable({ tableData }: any) {
 
                                 {(_data.status.toLowerCase() == "pending" || _data.status.toLowerCase() == "rejected" || _data.status.toLowerCase() == "reopened") && <SubmitIcon
                                     onClick={() => {
+                                        setModalType(1);
                                         setSelectedTask(_data);
                                         setUploadResponse(undefined);
                                         openModal();
@@ -112,7 +118,11 @@ export default function TaskTable({ tableData }: any) {
                                     data-tooltip-place="top"
                                 />}
                                 {(_data.status.toLowerCase() == "submitted" || _data.status.toLowerCase() == "accepted" || _data.status.toLowerCase() == "approved" || _data.status.toLowerCase() == "in_progress") && <FolderClosed
-                                    //   onClick={() => setOpenModal(_data)}
+                                    onClick={() => {
+                                        setSelectedItp(_data);
+                                        setModalType(2);
+                                        openModal();
+                                    }}
                                     className="size-5 text-blue-700 cursor-pointer"
                                     data-tooltip-id="tooltip"
                                     data-tooltip-content="View"

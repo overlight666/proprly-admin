@@ -156,6 +156,7 @@ export const getIcons = (defectSubStatus) => {
     );
   } else if (
     defectSubStatus?.toLowerCase() == "resolved" ||
+    defectSubStatus?.toLowerCase() == "submitted" ||
     defectSubStatus?.toLowerCase() == "approved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||

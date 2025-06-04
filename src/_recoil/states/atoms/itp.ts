@@ -63,4 +63,9 @@ const ItpTaskSubmissionNewListAtom = atom<any[]>({
     default: undefined,
 });
 
-export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom, AllTradeCodesByKeyAtom, ItpTaskConstructionDataAtom, ItpTaskSubmissionNewListAtom };
+const SelectedItpTaskAtom = atom<any[]>({
+    key: "SelectedItpTaskAtom",
+    default: undefined,
+});
+
+export { ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom, AllTradeCodesByKeyAtom, ItpTaskConstructionDataAtom, ItpTaskSubmissionNewListAtom, SelectedItpTaskAtom };

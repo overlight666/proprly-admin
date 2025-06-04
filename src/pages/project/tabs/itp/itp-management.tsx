@@ -35,7 +35,7 @@ export default function ITPTaskManagement() {
     const [dataHolder, setDataHolder] = useState<any>();
     const params = useParams();
     const { project_id } = params;
-    console.log(taskList)
+
     useEffect(() => {
         orgAction.getOrganizations();
         projectAction.getAllProjects();
