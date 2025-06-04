@@ -109,7 +109,7 @@ export default function SubmitTaskModal({
             <Modal
                 isOpen={isOpen}
                 onClose={closeModal}
-                className="max-w-[700px] p-6 lg:p-10"
+                className="max-w-[700px] max-h-[600px] p-6 lg:p-10 overflow-auto"
             >
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
