@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { authAtom, SelectedItpTaskAtom, selectedTicketAtom, TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
+import { useRecoilValue } from "recoil";
+import { SelectedItpTaskAtom, TIPOptionsAtom } from "@/_recoil/states";
 import { Modal } from "@/components/ui/modal";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
-import ComponentCard from "@/components/ui/component-card";
 import { PDFIcon } from "@/icons";
 import PhotoViewer from "photoviewer";
 import moment from "moment";
