@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ITPList, ItpLocation, ITPOption, ITPTask, LocationItem } from "@/lib/interface";
+import { ITPList, ITPOption, ITPTask, LocationItem } from "@/lib/interface";
 import { atom } from "recoil";
 
 const ItpManagementListAtom = atom<ITPList[]>({

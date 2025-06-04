@@ -5,7 +5,7 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef, useState } from "react";
 import Input from "@/components/ui/input";
-import { FolderClosed, Pencil, SearchIcon } from "lucide-react";
+import { FolderClosed, SearchIcon } from "lucide-react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
