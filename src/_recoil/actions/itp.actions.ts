@@ -35,7 +35,10 @@ function useITPAction() {
         getAllTradeCodeByKey,
         restoreITPTemplate,
         taskSubmission,
-        getItpConstructionData
+        getItpConstructionData,
+        getItpTasksSubmissionByKey,
+        getItpTasksSubmissionByCommonArea,
+        getItpTasksSubmissionByProperty
     };
 
     function getITPLocations(project_id: any) {
@@ -149,6 +152,50 @@ function useITPAction() {
             });
     }
 
+    function getItpTasksSubmissionByKey(project_id: any, locationKey: any, params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp/project/${project_id}/${locationKey}/submissions${params}`)
+            .then((response: any) => {
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    return (response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
+            });
+    }
+
+    function getItpTasksSubmissionByCommonArea(project_id: any, commonAreaId: any, params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp/project/${project_id}/commonarea/${commonAreaId}/submissions${params}`)
+            .then((response: any) => {
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    return (response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
+            });
+    }
+
+    function getItpTasksSubmissionByProperty(project_id: any, propertyId: any, params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp/project/${project_id}/property/${propertyId}/submissions${params}`)
+            .then((response: any) => {
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    return (response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
+            });
+    }
 
     function getItpConstructionData(project_id: any, key_from_construction_option: any) {
         return fetchWrapper
