@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { errorMessage, useFetchWrapper } from "@/helpers";
-import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
+import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskConstructionDataAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -18,7 +18,7 @@ function useITPAction() {
     const setAllTradeCode = useSetRecoilState(AllTradeCodesAtom);
     const setITPTaskSubmissionList = useSetRecoilState(ItpTaskSubmissionListAtom);
     const setAllTradeCodeByKey = useSetRecoilState(AllTradeCodesByKeyAtom);
-
+    const setItpTaskConstructionData = useSetRecoilState(ItpTaskConstructionDataAtom);
     return {
         getItpTemplates,
         getTradeCode,
@@ -34,7 +34,8 @@ function useITPAction() {
         getItpTasksSubmission,
         getAllTradeCodeByKey,
         restoreITPTemplate,
-        taskSubmission
+        taskSubmission,
+        getItpConstructionData
     };
 
     function getITPLocations(project_id: any) {
@@ -141,6 +142,23 @@ function useITPAction() {
                     errorMessage(response)
                 } else {
                     setITPTaskSubmissionList(response && response.data ? response.data : response);
+                }
+
+            }).catch((e: any) => {
+                errorMessage(e)
+            });
+    }
+
+
+    function getItpConstructionData(project_id: any, key_from_construction_option: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp/location-mapping-by-project/${project_id}?locationListKey=${key_from_construction_option}`)
+            .then((response: any) => {
+                if (response?.status) {
+                    errorMessage(response)
+                } else {
+                    setItpTaskConstructionData(response && response.data ? response.data : response);
+                    return response && response.data ? response.data : response;
                 }
 
             }).catch((e: any) => {
