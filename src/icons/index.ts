@@ -68,9 +68,10 @@ import { ReactComponent as AppointmentIcon } from "./appointment.svg?react";
 import { ReactComponent as DefectResolutionIcon } from "./defect-resolution.svg?react";
 import { ReactComponent as ReportsIcon } from "./reports.svg?react";
 import { ReactComponent as ItpTaskIcon } from "./itpTask.svg?react";
-
+import { ReactComponent as SubmitIcon } from "./submit.svg?react";
 
 export {
+  SubmitIcon,
   DefectResolutionIcon,
   ReportsIcon,
   ItpTaskIcon,

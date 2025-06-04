@@ -3,23 +3,29 @@
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Input from "@/components/ui/input";
 import { FolderClosed, Pencil, SearchIcon } from "lucide-react";
-import { useRecoilValue } from "recoil";
-import { TIPOptionsAtom } from "@/_recoil/states";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
+import { SubmitIcon } from "@/icons";
+import SubmitTaskModal from "../modals/submit-task-modals";
+import { useModal } from "@/helpers/useModal";
 export default function TaskTable({ tableData }: any) {
     const tableRef = useRef<any>(null);
     const optionList = useRecoilValue(TIPOptionsAtom);
+    const [selectedTask, setSelectedTask] = useState();
     const onSearch = (value: any) => {
         tableRef?.current?.dt().search(value).draw();
     };
 
+    const { isOpen, openModal, closeModal } = useModal();
+    const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     return (
         <>
-
+            <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} />
             <div
                 className="flex w-full flex-row mt-5 justify-between
       "
@@ -43,13 +49,13 @@ export default function TaskTable({ tableData }: any) {
                     className="compact stripe"
                     data={tableData?.map((tasks: any) => {
                         return [
-                            tasks?.itpTasks?.inspectionWorkActivity,
-                            optionList?.find((list) => list.id == tasks?.itpTasks?.timingFrequencyId)?.label,
-                            optionList?.find((list) => list.id == tasks?.itpTasks?.methodId)?.label,
-                            tasks?.itpTasks?.acceptanceCriteria,
-                            tasks?.itpTasks?.reference,
-                            tasks?.comment,
-                            tasks?.status || "Pending",
+                            tasks?.itpTask?.inspectionWorkActivity || "n/a",
+                            optionList?.find((list) => list.id == tasks?.itpTask?.timingFrequencyId)?.label || "n/a",
+                            optionList?.find((list) => list.id == tasks?.itpTask?.methodId)?.label || "n/a",
+                            tasks?.itpTask?.acceptanceCriteria || "n/a",
+                            tasks?.itpTask?.reference || "n/a",
+                            tasks?.comment || "n/a",
+                            tasks?.status || "Pending" || "n/a",
                             tasks
                         ]
                     }) || []}
@@ -92,22 +98,26 @@ export default function TaskTable({ tableData }: any) {
                             </div>
                         ),
                         7: (_data: any, _row: any) => (
-                            <div className="flex flex-row gap-3">
+                            <div className="flex flex-row gap-3 justify-center">
 
-                                <Pencil
-                                    //   onClick={() => setOpenModal(_data)}
-                                    className="size-5 dark:text-gray-200 cursor-pointer"
+                                {(_data.status.toLowerCase() == "pending" || _data.status.toLowerCase() == "rejected" || _data.status.toLowerCase() == "reopened") && <SubmitIcon
+                                    onClick={() => {
+                                        setSelectedTask(_data);
+                                        setUploadResponse(undefined);
+                                        openModal();
+                                    }}
+                                    className="size-5 text-green-600 dark:text-gray-200 cursor-pointer"
                                     data-tooltip-id="tooltip"
-                                    data-tooltip-content="Edit"
+                                    data-tooltip-content="Submit"
                                     data-tooltip-place="top"
-                                />
-                                <FolderClosed
+                                />}
+                                {(_data.status.toLowerCase() == "submitted" || _data.status.toLowerCase() == "accepted" || _data.status.toLowerCase() == "approved" || _data.status.toLowerCase() == "in_progress") && <FolderClosed
                                     //   onClick={() => setOpenModal(_data)}
                                     className="size-5 text-blue-700 cursor-pointer"
                                     data-tooltip-id="tooltip"
                                     data-tooltip-content="View"
                                     data-tooltip-place="top"
-                                />
+                                />}
 
                             </div>
                         ),
