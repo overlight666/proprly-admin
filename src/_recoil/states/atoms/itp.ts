@@ -33,7 +33,7 @@ const TIPOptionsAtom = atom<ITPOption[]>({
     default: undefined,
 });
 
-const ITPLocationListAtom = atom<ItpLocation[]>({
+const ITPLocationListAtom = atom<any[]>({
     key: "ITPLocationListAtom",
     default: undefined,
 });

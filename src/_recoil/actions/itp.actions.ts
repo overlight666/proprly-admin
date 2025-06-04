@@ -33,12 +33,13 @@ function useITPAction() {
         getAllTradeCode,
         getItpTasksSubmission,
         getAllTradeCodeByKey,
-        restoreITPTemplate
+        restoreITPTemplate,
+        taskSubmission
     };
 
-    function getITPLocations() {
+    function getITPLocations(project_id: any) {
         return fetchWrapper
-            .get(`${baseUrl}/itp_templates/locations`)
+            .get(`${baseUrl}/project/${project_id}/properties_common_areas`)
             .then((response: any) => {
                 setITPLocations(response && response.data ? response.data : response);
             }).catch((e: any) => {
@@ -173,7 +174,7 @@ function useITPAction() {
 
     function getAllTradeCodeByKey(locationKey: any, project_id: any) {
         return fetchWrapper
-            .get(`${baseUrl}/itp_templates/itp_template_tradecode?locationKey=${locationKey}&projectId=${project_id}`)
+            .get(`${baseUrl}/itp/tradecodes-by-location-by-project/${project_id}?locationKey=${locationKey}`)
             .then((response: any) => {
                 if (response?.status) {
                     errorMessage(response)
@@ -286,6 +287,33 @@ function useITPAction() {
     function addITPTemplate(params: any, urlParams: any) {
         return fetchWrapper
             .post(`${baseUrl}/itp_templates${urlParams}`, params)
+            .then((response: any) => {
+                if (response) {
+                    return response && response.data ? response.data : response
+                }
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
+
+    function taskSubmission(params: any) {
+        return fetchWrapper
+            .post(`${baseUrl}/itp_task_submission`, params)
             .then((response: any) => {
                 if (response) {
                     return response && response.data ? response.data : response

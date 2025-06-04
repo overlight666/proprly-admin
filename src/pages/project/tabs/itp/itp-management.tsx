@@ -4,7 +4,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { AllTradeCodesByKeyAtom, defectCodesAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskSubmissionListAtom } from "@/_recoil/states";
 import { useCountriesAction, useITPAction, useOrganization, useProject } from "@/_recoil/actions";
 import { Label } from "flowbite-react";
-import { ItpLocation } from "@/lib/interface";
 import TaskTable from "./itp-table";
 import { useParams } from "react-router";
 
@@ -21,7 +20,7 @@ export default function ITPTaskManagement() {
     const itpAction = useITPAction();
     const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
-    const itpLocations = useRecoilValue(ITPLocationListAtom);
+    const itpLocations: any = useRecoilValue(ITPLocationListAtom);
     const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
     const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
     const params = useParams();
@@ -41,7 +40,8 @@ export default function ITPTaskManagement() {
 
     useEffect(() => {
         if (isType && selectedTemplate && selectedId) {
-            const params = `?locationId=${isType}&tradeId=${selectedId}&templateId=${selectedTemplate}`
+            const submissionParams = JSON.parse(isType);
+            const params = `?locationId=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${selectedTemplate}`
             itpAction.getItpTasksSubmission(params);
         }
     }, [isType, selectedId, selectedTemplate]);
@@ -50,7 +50,8 @@ export default function ITPTaskManagement() {
         setItpList([]);
         if (isType) {
             setAllCategory([]);
-            itpAction.getAllTradeCodeByKey(isType, project_id)
+            const submissionParams = JSON.parse(isType);
+            itpAction.getAllTradeCodeByKey(submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || '', project_id)
         }
 
     }, [isType])
@@ -93,10 +94,10 @@ export default function ITPTaskManagement() {
                                 Please Select
                             </option>
                             {
-                                itpLocations?.map((location: ItpLocation, index: any) => {
+                                itpLocations.locationList.map((location: any, index: number) => {
                                     return (
-                                        <option key={index} value={location?.key}>
-                                            {location?.name}
+                                        <option key={index} value={JSON.stringify(location)}>
+                                            {location?.title}
                                         </option>
                                     )
                                 })

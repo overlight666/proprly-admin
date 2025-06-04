@@ -62,6 +62,17 @@ export default function AddItpModal({
                     itpAction.getItpTasks(selectedTemplate, tempParams);
                     toast.success("ITP Task has been added!");
                     closeModal();
+                    _setInitialValues({
+                        itpTemplateId: undefined,
+                        methodId: undefined,
+                        timingFrequencyId: undefined,
+                        inspectionWorkActivity: undefined,
+                        verificationTypeId: undefined,
+                        acceptanceCriteria: undefined,
+                        reference: undefined,
+                        comments: undefined,
+                        isFinal: "true"
+                    })
                 }
             })
         }
