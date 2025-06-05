@@ -63,6 +63,7 @@ export default function ITPTaskManagement() {
                 setTaskList(res?.data || res)
             })
         }
+        console.log(isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower)
         // get itp by common area
         if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             const ca = JSON.parse(selectedCommonArea);
@@ -80,7 +81,7 @@ export default function ITPTaskManagement() {
             })
         }
 
-    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower]);
+    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty]);
 
     useEffect(() => {
         if (isType) {
@@ -181,10 +182,11 @@ export default function ITPTaskManagement() {
                                 setCommonAreaList([]);
                                 setPropertyList([]);
                                 setSelectedCommonArea("");
-                                selectedProperty("");
-                                selectedFoor("");
+                                setSelectedProperty("");
+                                setSelectedFloor("");
                                 setDataHolder(undefined);
                                 setSelectedTemplate("");
+                                setSelectedTower("");
                             }}
                             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                         >
