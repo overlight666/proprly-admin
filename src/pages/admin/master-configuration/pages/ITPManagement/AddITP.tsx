@@ -28,6 +28,7 @@ export default function AddITP({
     const [_defectName, setDefectName] = useState<any>("");
     const [_defectCode, setDefectCode] = useState<any>("");
     const [_nameError, setNameError] = useState<any>("");
+    const [type, setType] = useState<any>("");
     const tradeCodes = useRecoilValue(TradeCodesByRegionAtom);
     const locationList = useRecoilValue(LocationListAtom);
     const [codeList, setCodeList] = useState([])
@@ -136,7 +137,7 @@ export default function AddITP({
                     </div>
                     <div className="mt-8 space-y-3">
                         {isInit && <div className="space-y-2">
-                            <Label htmlFor="input">Select Trade Category<span className="text-error-500">*</span></Label>
+                            <Label htmlFor="input">Select Trade Category<span className="text-red-500">*</span></Label>
                             <MultiSelect
                                 label=""
                                 hasLabel={false}
@@ -146,7 +147,7 @@ export default function AddITP({
                             />
                         </div>}
                         <div className="space-y-2">
-                            <Label htmlFor="input">Enter ITP Template Name<span className="text-error-500">*</span></Label>
+                            <Label htmlFor="input">Enter ITP Template Name<span className="text-red-500">*</span></Label>
                             <Input
                                 name="name"
                                 type="text"
@@ -157,32 +158,65 @@ export default function AddITP({
                                 hint={formik.errors.name}
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="input">Select Location<span className="text-error-500">*</span></Label>
-                            <div className="flex justify-between items-center gap-1 w-full">
-                                <div className="basis-[90%]">
-                                    <Select
-                                        placeholder="Select location"
-                                        options={locationList?.map((location: any) => {
-                                            return {
-                                                label: location?.name,
-                                                value: JSON.stringify({
-                                                    ...location, isMandatory: true,
-                                                    locationKey: location?.key
-                                                }),
-                                            };
-                                        }
-                                        )}
-                                        onChange={(values: any) => setSelectedLocations(values)}
-                                    />
-                                </div>
+                        <div className="grid grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="input">Select Location<span className="text-red-500">*</span></Label>
+                                <div className="flex justify-between items-center gap-1 w-full">
+                                    <div className="basis-[90%]">
+                                        <Select
+                                            placeholder="Select location"
+                                            options={locationList?.map((location: any) => {
+                                                return {
+                                                    label: location?.name,
+                                                    value: JSON.stringify({
+                                                        ...location,
+                                                        locationKey: location?.key
+                                                    }),
+                                                };
+                                            }
+                                            )}
+                                            onChange={(values: any) => setSelectedLocations(values)}
+                                        />
+                                    </div>
 
-                                <Button disabled={!selectedLocations} className="basis-[10%]" variant="secondary" onClick={() => {
-                                    formik.values.locations?.find((location: any) => location?.key == JSON.parse(selectedLocations)?.key) ? toast.error("Location already added") : formik.setFieldValue("locations", [...formik.values.locations, JSON.parse(selectedLocations)])
+
+                                </div>
+                            </div>
+                            <div className="flex items-end">
+                                <div className="space-y-2 basis-[80%]">
+                                    <Label htmlFor="input">Select Type<span className="text-red-500">*</span></Label>
+                                    <div className="flex justify-between items-center gap-1 w-full">
+                                        <div className="basis-[90%]">
+                                            <Select
+                                                placeholder="Select Tyoe"
+                                                options={[
+                                                    {
+                                                        label: "Mandatory",
+                                                        value: "mandatory"
+                                                    },
+                                                    {
+                                                        label: "Optional",
+                                                        value: "optional"
+                                                    }
+                                                ]
+                                                }
+                                                onChange={(values: any) => setType(values)}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <Button type="button" disabled={!selectedLocations && !type} className="mb-1" variant="secondary" onClick={() => {
+                                    const myLocation = JSON.parse(selectedLocations);
+                                    myLocation.isMandatory = type == "mandatory" ? true : false;
+                                    formik.values.locations?.find((location: any) => location?.key == JSON.parse(selectedLocations)?.key) ? toast.error("Location already added") : formik.setFieldValue("locations", [...formik.values.locations, myLocation])
                                     setSelectedLocations("")
                                 }}>Add</Button>
                             </div>
+
                         </div>
+
                         <div className="space-y-2">
                             <LocationTable selectedLocations={formik.values.locations || []} setFieldValue={formik.setFieldValue} values={formik.values} />
                         </div>

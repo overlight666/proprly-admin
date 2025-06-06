@@ -26,7 +26,7 @@ export default function LocationTable({ selectedLocations, setFieldValue }: any)
                     data={selectedLocations?.map((data) => {
                         return [
                             data?.name || "undefined",
-                            data?.type || "N/A",
+                            data?.isMandatory ? "Mandatory" : "Optional",
                             data,
                             selectedLocations,
                         ];
