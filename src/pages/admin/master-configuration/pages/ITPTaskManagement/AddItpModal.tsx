@@ -3,6 +3,7 @@
 import { useITPAction } from "@/_recoil/actions";
 import { isLoadingAtom, TIPOptionsAtom } from "@/_recoil/states";
 import { Button } from "@/components/ui/button";
+import Checkbox2 from "@/components/ui/checkbox2";
 import Input from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import Select from "@/components/ui/select";
@@ -35,7 +36,7 @@ export default function AddItpModal({
         acceptanceCriteria: undefined,
         reference: undefined,
         comments: undefined,
-        isFinal: "true"
+        isFinal: false
     })
 
     const formik = useFormik<itpTaskForm>({
@@ -71,7 +72,7 @@ export default function AddItpModal({
                         acceptanceCriteria: undefined,
                         reference: undefined,
                         comments: undefined,
-                        isFinal: "true"
+                        isFinal: false
                     })
                 }
             })
@@ -182,6 +183,15 @@ export default function AddItpModal({
                                 rows={4}
                                 onChange={(e) => formik.setFieldValue("comments", e)}
                                 placeholder="Enter Comments/Record Type"
+                            />
+                        </div>
+                        <div className="mt-1 space-y-2">
+                            <Checkbox2
+                                checked={formik.values.isFinal == "true" || formik.values.isFinal == true}
+                                onChange={(e) => {
+                                    formik.setFieldValue("isFinal", e);
+                                }}
+                                label="Final Task"
                             />
                         </div>
                     </div>
