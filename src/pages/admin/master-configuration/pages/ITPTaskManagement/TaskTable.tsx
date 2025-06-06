@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { BulkIcon } from "@/icons";
 import { ITPTask } from "@/lib/interface";
 import AddItpModal from "./AddItpModal";
+import { TableCell } from "@/components/ui/table";
 
 export default function TaskTable({ tableData, isType, selectedTemplate, tempParams, selectedId }: any) {
     const tableRef = useRef<any>(null);
@@ -76,7 +77,8 @@ export default function TaskTable({ tableData, isType, selectedTemplate, tempPar
                             tasks?.method?.label,
                             tasks?.acceptanceCriteria,
                             tasks?.reference,
-                            tasks?.comments
+                            tasks?.comments,
+                            // tasks?.isFinal
                         ]
                     }) || []}
                     options={{
@@ -104,6 +106,13 @@ export default function TaskTable({ tableData, isType, selectedTemplate, tempPar
                             bottomEnd: "paging",
                         },
                     }}
+                // slots={{
+                //     6: (_data: any, _row: any) => (
+                //         <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
+                //             <span>{_data == "true" || _data == true ? "YES" : "NO"}</span>
+                //         </TableCell>
+                //     )
+                // }}
 
                 >
                     <thead className="border-b border-gray-100 dark:border-white/[0.05]">
@@ -143,6 +152,9 @@ export default function TaskTable({ tableData, isType, selectedTemplate, tempPar
                             <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                 Comments/Record Type
                             </th>
+                            {/* <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                                Final Task
+                            </th> */}
                         </tr>
                     </thead>
                 </DataTable>

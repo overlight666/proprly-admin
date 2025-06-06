@@ -173,7 +173,7 @@ export default function PreviewModal({
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         References
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light whitespace-pre-line">{itp?.itpTask?.reference}</span>
+                                    <pre className="dark:text-gray-100 text-gray-600 font-light whitespace-pre-line">{itp?.itpTask?.reference}</pre>
 
                                 </div>
                             </div>
