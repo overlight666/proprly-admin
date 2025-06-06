@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { BulkIcon } from "@/icons";
 import { ITPTask } from "@/lib/interface";
 import AddItpModal from "./AddItpModal";
-import { TableCell } from "@/components/ui/table";
 
 export default function TaskTable({ tableData, isType, selectedTemplate, tempParams, selectedId }: any) {
     const tableRef = useRef<any>(null);

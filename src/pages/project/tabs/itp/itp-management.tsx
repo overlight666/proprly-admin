@@ -32,6 +32,7 @@ export default function ITPTaskManagement() {
     const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
     const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
     const setTaskList = useSetRecoilState(ItpTaskSubmissionListAtom);
+    const [reload, setReload] = useState("");
     const [dataHolder, setDataHolder] = useState<any>();
     const params = useParams();
     const { project_id } = params;
@@ -98,7 +99,7 @@ export default function ITPTaskManagement() {
             })
         }
 
-    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty]);
+    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload]);
 
     useEffect(() => {
         if (isType) {
@@ -357,6 +358,7 @@ export default function ITPTaskManagement() {
             </div>
 
             <TaskTable
+                setReload={setReload}
                 tableData={taskList ?? []}
                 isType={isType}
             />

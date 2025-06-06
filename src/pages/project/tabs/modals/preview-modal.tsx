@@ -8,15 +8,30 @@ import { ucword } from "@/helpers";
 import { PDFIcon } from "@/icons";
 import PhotoViewer from "photoviewer";
 import moment from "moment";
+import { Button } from "@/components/ui/button";
+import { useITPAction } from "@/_recoil/actions";
+import { toast } from "react-toastify";
 
 export default function PreviewModal({
     isOpen,
     closeModal,
     openModal,
+    setReload
 }: any) {
 
     const itp: any = useRecoilValue(SelectedItpTaskAtom);
     const itpOption = useRecoilValue(TIPOptionsAtom);
+    const itpAction = useITPAction();
+
+    const makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
 
     const viewImage = (img: any) => {
         const items = [
@@ -44,21 +59,19 @@ export default function PreviewModal({
         new PhotoViewer(items, options);
     };
 
-    console.log(itp)
-
     return (
         <>
             <Modal
                 isOpen={isOpen}
                 onClose={closeModal}
-                className="max-w-[90%] max-h-[90%] p-6 lg:p-10 relative overflow-auto"
+                className="max-w-[70%] max-h-[80%] p-6 lg:p-10 relative overflow-auto"
             >
                 <div className="flex flex-col px-2">
                     <div className="flex gap-3">
                         <b className="dark:text-gray-200 text-xl">{itp?.itpTemplate?.name}</b>
                     </div>
                     <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-3 gap-2">
-                        <div className="col-span-2">
+                        <div className="col-span-1">
                             <span className="dark:text-gray-200">Activity Logs</span>
                             <div className="gap-2 mt-5 max-h-[50vh] overflow-auto custom-scrollbar">
                                 <ol className="relative border-s border-gray-200 dark:border-gray-700 ml-2">
@@ -124,9 +137,9 @@ export default function PreviewModal({
                                 </ol>
                             </div>
                         </div>
-                        <div className="flex flex-col pl-2">
+                        <div className="flex flex-col col-span-2 !mt-0">
                             <span className="dark:text-gray-200 mb-5">Task Information</span>
-                            <div className="flex flex-col gap-5 bg-gray-200 dark:bg-gray-700 p-2 rounded-md  max-h-[50vh] overflow-auto">
+                            <div className="flex flex-col gap-5 bg-gray-200 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Task
@@ -179,6 +192,36 @@ export default function PreviewModal({
                             </div>
                         </div>
                     </div>
+
+                    {
+                        itp?.approvalOptions?.length > 0 && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                            <hr className="mt-5" />
+
+                            {
+                                itp?.approvalOptions?.find((approval) => approval?.key == "reopen") && <Button variant="default"
+                                    onClick={() => {
+                                        itpAction
+                                            .taskSubmissionReopen(itp?.id, {
+                                                feedback: "reopen",
+                                            }).then(() => {
+                                                toast.success("Task submission has been re-opened");
+                                                setReload(makeid(10));
+                                                closeModal();
+                                            })
+                                            .catch((e) => {
+                                                toast.error(e);
+                                            });
+
+                                    }}
+                                    type="button"
+                                    className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                                >
+                                    Re-open Task
+                                </Button>
+                            }
+
+                        </div>
+                    }
                 </div>
             </Modal>
         </>

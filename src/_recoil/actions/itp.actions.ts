@@ -38,7 +38,8 @@ function useITPAction() {
         getItpConstructionData,
         getItpTasksSubmissionByKey,
         getItpTasksSubmissionByCommonArea,
-        getItpTasksSubmissionByProperty
+        getItpTasksSubmissionByProperty,
+        taskSubmissionReopen
     };
 
     function getITPLocations(project_id: any) {
@@ -375,6 +376,32 @@ function useITPAction() {
             });
     }
 
+
+    function taskSubmissionReopen(id: any, params: any) {
+        return fetchWrapper
+            .post(`${baseUrl}/itp-submissions/${id}/feedback`, params)
+            .then((response: any) => {
+                if (response) {
+                    return response && response.data ? response.data : response
+                }
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
 
     function taskSubmission(params: any) {
         return fetchWrapper
