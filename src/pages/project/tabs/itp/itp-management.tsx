@@ -292,7 +292,7 @@ export default function ITPTaskManagement() {
                         {isType && allCategory?.length > 0 && (
                             <div className="flex flex-col">
                                 <Label>
-                                    Select Trade Category<span className="text-error-500">*</span>
+                                    Select Trade Category<span className="text-red-500">*</span>
                                 </Label>
                                 <select
                                     id="project"
@@ -313,7 +313,7 @@ export default function ITPTaskManagement() {
                         {
                             ItpTemplatesList?.length > 0 && <div className="flex flex-col">
                                 <Label>
-                                    Select ITP Template<span className="text-error-500">*</span>
+                                    Select ITP Template<span className="text-red-500">*</span>
                                 </Label>
                                 <select
                                     id="selectedTemplate"
