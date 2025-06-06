@@ -163,48 +163,48 @@ export default function ITPTaskManagement() {
     return (
         <div>
             <div className="flex items-end justify-between flex-wrap gap-1">
-                <div className="flex flex-col gap-5 w-[80%] flex-wrap">
-                    <div className="w-[45%]">
-                        <Label>
-                            Select Location<span className="text-red-500">*</span>
-                        </Label>
-                        <select
-                            id="timeslot"
-                            name="timeslot"
-                            value={isType}
-                            onChange={(e) => {
-                                setIsType(e.target.value);
-                                setTaskList([]);
-                                setSelectedId("");
-                                setDefectCodes([]);
-                                setTowerList([]);
-                                setFloorList([]);
-                                setCommonAreaList([]);
-                                setPropertyList([]);
-                                setSelectedCommonArea("");
-                                setSelectedProperty("");
-                                setSelectedFloor("");
-                                setDataHolder(undefined);
-                                setSelectedTemplate("");
-                                setSelectedTower("");
-                            }}
-                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        >
-                            <option value="" selected disabled>
-                                Please Select
-                            </option>
-                            {
-                                itpLocations.locationList.map((location: any, index: number) => {
-                                    return (
-                                        <option key={index} value={JSON.stringify(location)}>
-                                            {location?.title}
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="w-[45%] flex flex-col gap-4">
+                <div className="flex flex-col gap-5 w-full flex-wrap">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                        <div className="flex flex-col">
+                            <Label>
+                                Select Location<span className="text-red-500">*</span>
+                            </Label>
+                            <select
+                                id="timeslot"
+                                name="timeslot"
+                                value={isType}
+                                onChange={(e) => {
+                                    setIsType(e.target.value);
+                                    setTaskList([]);
+                                    setSelectedId("");
+                                    setDefectCodes([]);
+                                    setTowerList([]);
+                                    setFloorList([]);
+                                    setCommonAreaList([]);
+                                    setPropertyList([]);
+                                    setSelectedCommonArea("");
+                                    setSelectedProperty("");
+                                    setSelectedFloor("");
+                                    setDataHolder(undefined);
+                                    setSelectedTemplate("");
+                                    setSelectedTower("");
+                                }}
+                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                            >
+                                <option value="" selected disabled>
+                                    Please Select
+                                </option>
+                                {
+                                    itpLocations.locationList.map((location: any, index: number) => {
+                                        return (
+                                            <option key={index} value={JSON.stringify(location)}>
+                                                {location?.title}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
                         {isType && propertyList?.length > 0 && (
                             <div className="flex flex-col">
                                 <Label>
@@ -310,10 +310,6 @@ export default function ITPTaskManagement() {
                                 </select>
                             </div>
                         )}
-
-
-                    </div>
-                    <div className="w-[45%]">
                         {
                             ItpTemplatesList?.length > 0 && <div className="flex flex-col">
                                 <Label>
@@ -336,7 +332,9 @@ export default function ITPTaskManagement() {
                                 </select>
                             </div>
                         }
+
                     </div>
+
                 </div>
 
             </div>
