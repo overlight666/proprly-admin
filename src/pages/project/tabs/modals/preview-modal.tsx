@@ -55,7 +55,7 @@ export default function PreviewModal({
             >
                 <div className="flex flex-col px-2">
                     <div className="flex gap-3">
-                        {/* <span className="dark:text-gray-200">{defect?.property ? `Unit No ${defect?.property?.unitNo}, ${defect?.property?.projectTower?.name} - ${defect?.property?.floor == 0 ? "Ground Floor" : `Floor ${defect?.property?.floor}`}` : `CA Lot No ${defect?.commonArea?.lotNo}, ${defect?.projectTower?.name}, ${defect?.floor == 0 ? "Ground Floor" : `Floor ${defect?.floor}`}`}</span> */}
+                        <b className="dark:text-gray-200 text-xl">{itp?.itpTemplate?.name}</b>
                     </div>
                     <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-3 gap-2">
                         <div className="col-span-2">
@@ -173,7 +173,7 @@ export default function PreviewModal({
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         References
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itp?.itpTask?.reference}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light whitespace-pre-line">{itp?.itpTask?.reference}</span>
 
                                 </div>
                             </div>

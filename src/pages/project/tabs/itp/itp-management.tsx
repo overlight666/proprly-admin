@@ -37,6 +37,23 @@ export default function ITPTaskManagement() {
     const { project_id } = params;
 
     useEffect(() => {
+        setIsType("")
+        setTaskList([]);
+        setSelectedId("");
+        setDefectCodes([]);
+        setTowerList([]);
+        setFloorList([]);
+        setCommonAreaList([]);
+        setPropertyList([]);
+        setSelectedCommonArea("");
+        setSelectedProperty("");
+        setSelectedFloor("");
+        setDataHolder(undefined);
+        setSelectedTemplate("");
+        setSelectedTower("");
+    }, [project_id])
+
+    useEffect(() => {
         orgAction.getOrganizations();
         projectAction.getAllProjects();
         regionAction.getRegions();
@@ -63,7 +80,7 @@ export default function ITPTaskManagement() {
                 setTaskList(res?.data || res)
             })
         }
-        console.log(isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower)
+
         // get itp by common area
         if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             const ca = JSON.parse(selectedCommonArea);
