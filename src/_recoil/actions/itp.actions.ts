@@ -39,7 +39,8 @@ function useITPAction() {
         getItpTasksSubmissionByKey,
         getItpTasksSubmissionByCommonArea,
         getItpTasksSubmissionByProperty,
-        taskSubmissionReopen
+        taskSubmissionReopen,
+        getItpTemplatesReports
     };
 
     function getITPLocations(project_id: any) {
@@ -95,6 +96,30 @@ function useITPAction() {
             .get(`${baseUrl}/itp_templates${params}`)
             .then((response: any) => {
                 setITPList(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
+    function getItpTemplatesReports(project_id: any, template_id: any, location_key: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/report/itp_task_submission/project/${project_id}/template/${template_id}/location/${location_key}`)
+            .then((response: any) => {
+                return (response && response.data ? response.data : response);
             }).catch((e: any) => {
                 if (e?.messages) {
                     if (e?.messages?.length > 0) {
