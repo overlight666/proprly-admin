@@ -8,6 +8,7 @@ import PropertyReportsHeader from "../headers/propertyReportsHeader";
 import PropertyReportsTable from "../tables/propertyReportsTable";
 import CommonAreaReportsHeader from "../headers/commonAreaReportsHeader";
 import CommonAreaReportsTable from "../tables/commonAreaReportsTable";
+import ITPReportsTable from "../tables/itpReportsTable";
 
 
 export const Reports = () => {
@@ -60,6 +61,9 @@ export const Reports = () => {
                         tableRef={tableRefCommonArea}
                         headerValue={selectedCommonAreaValue}
                     />
+                </AccordionItem>
+                <AccordionItem header="ITP Reports">
+                    <ITPReportsTable />
                 </AccordionItem>
             </Accordion>
         </div>
