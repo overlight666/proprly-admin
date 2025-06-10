@@ -26,11 +26,13 @@ export default function ITPTaskManagement() {
     const [commonAreaList, setCommonAreaList] = useState<any[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState<any>();
     const itpAction = useITPAction();
-    const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
+    // const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
+
     const itpLocations: any = useRecoilValue(ITPLocationListAtom);
+    const [myTemplates, setMytemplates] = useState<any[]>([]);
     const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
-    const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
+    // const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
     const setTaskList = useSetRecoilState(ItpTaskSubmissionListAtom);
     const [reload, setReload] = useState("");
     const [dataHolder, setDataHolder] = useState<any>();
@@ -38,7 +40,8 @@ export default function ITPTaskManagement() {
     const { project_id } = params;
 
     useEffect(() => {
-        setIsType("")
+        setMytemplates([]);
+        setIsType("");
         setTaskList([]);
         setSelectedId("");
         setDefectCodes([]);
@@ -61,22 +64,51 @@ export default function ITPTaskManagement() {
     }, []);
 
     useEffect(() => {
-        if (isType && selectedId) {
-            itpAction.getItpTemplates("");
+        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
+            const submissionParams = JSON.parse(isType);
+            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}`
+            itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
+                setMytemplates(tempaltes)
+            });
+
         }
-    }, [isType, selectedId])
+        if (isType && !selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
+            const floor = JSON.parse(selectedFoor);
+            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}`
+            itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
+                setMytemplates(tempaltes)
+            });
+        }
+        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
+            const submissionParams = JSON.parse(isType);
+            const ca = JSON.parse(selectedCommonArea);
+            const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeCategoryId=${selectedId}`
+            itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
+                setMytemplates(tempaltes)
+            });
+        }
+        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
+            const property = JSON.parse(selectedProperty);
+            const submissionParams = JSON.parse(isType);
+            const params = `?locationKey=${submissionParams.key}&tradeCategoryId=${selectedId}&propertyId=${property.id}`
+            itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
+                setMytemplates(tempaltes)
+            });
+        }
+    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload])
 
     useEffect(() => {
         //get itp with location
         if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
             const submissionParams = JSON.parse(isType);
             const params = `?locationId=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${selectedTemplate}`
-            itpAction.getItpTasksSubmission(params);
+            itpAction.getItpTasksSubmission(project_id, dataHolder?.key, params);
+
         }
         // get itp by construction
         if (isType && selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
             const floor = JSON.parse(selectedFoor);
-            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${selectedTemplate}`
+            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
             itpAction.getItpTasksSubmissionByKey(project_id, dataHolder?.key, params).then((res) => {
                 setTaskList(res?.data || res)
             })
@@ -85,7 +117,7 @@ export default function ITPTaskManagement() {
         // get itp by common area
         if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             const ca = JSON.parse(selectedCommonArea);
-            const params = `?tradeId=${selectedId}&templateId=${selectedTemplate}`
+            const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
             itpAction.getItpTasksSubmissionByCommonArea(project_id, ca?.id, params).then((res) => {
                 setTaskList(res?.data || res)
             })
@@ -93,7 +125,7 @@ export default function ITPTaskManagement() {
         // get itp by property
         if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
             const property = JSON.parse(selectedProperty);
-            const params = `?tradeId=${selectedId}&templateId=${selectedTemplate}`
+            const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
             itpAction.getItpTasksSubmissionByProperty(project_id, property?.id, params).then((res) => {
                 setTaskList(res?.data || res)
             })
@@ -206,6 +238,7 @@ export default function ITPTaskManagement() {
                                     setDataHolder(undefined);
                                     setSelectedTemplate("");
                                     setSelectedTower("");
+                                    setMytemplates([]);
                                 }}
                                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                             >
@@ -329,6 +362,28 @@ export default function ITPTaskManagement() {
                             </div>
                         )}
                         {
+                            myTemplates?.length > 0 && <div className="flex flex-col">
+                                <Label>
+                                    Select ITP Template<span className="text-red-500">*</span>
+                                </Label>
+                                <select
+                                    id="selectedTemplate"
+                                    name="selectedTemplate"
+                                    value={selectedTemplate}
+                                    onChange={(e) => setSelectedTemplate(e.target.value)}
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                >
+                                    <option value="" selected>
+                                        Please Select
+                                    </option>
+                                    {myTemplates?.map((project) => {
+                                        return <option value={JSON.stringify(project)}>{project.name}</option>;
+                                    })}
+
+                                </select>
+                            </div>
+                        }
+                        {/* {
                             ItpTemplatesList?.length > 0 && <div className="flex flex-col">
                                 <Label>
                                     Select ITP Template<span className="text-red-500">*</span>
@@ -349,7 +404,7 @@ export default function ITPTaskManagement() {
 
                                 </select>
                             </div>
-                        }
+                        } */}
 
                     </div>
 
@@ -359,7 +414,7 @@ export default function ITPTaskManagement() {
 
             <TaskTable
                 setReload={setReload}
-                tableData={taskList ?? []}
+                tableData={selectedTemplate ? JSON.parse(selectedTemplate).tasks : []}
                 isType={isType}
             />
 
