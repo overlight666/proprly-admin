@@ -40,7 +40,8 @@ function useITPAction() {
         getItpTasksSubmissionByCommonArea,
         getItpTasksSubmissionByProperty,
         taskSubmissionReopen,
-        getItpTemplatesReports
+        getItpTemplatesReports,
+        getItpTemplatesByLocation
     };
 
     function getITPLocations(project_id: any) {
@@ -72,6 +73,31 @@ function useITPAction() {
             .get(`${baseUrl}/itp_task_option_config`)
             .then((response: any) => {
                 setITPOptions(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
+
+    function getItpTemplatesByLocation(project_id: any, params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/itp/templates-with-submission-by-project/${project_id}${params}`)
+            .then((response: any) => {
+                return response && response.data ? response.data : response;
             }).catch((e: any) => {
                 if (e?.messages) {
                     if (e?.messages?.length > 0) {
@@ -163,9 +189,9 @@ function useITPAction() {
             });
     }
 
-    function getItpTasksSubmission(params: any) {
+    function getItpTasksSubmission(project_id: any, locationKey: any, params: any) {
         return fetchWrapper
-            .get(`${baseUrl}/itp_task_submission${params}`)
+            .get(`${baseUrl}/itp/project/${project_id}/${locationKey}/submissions${params}`)
             .then((response: any) => {
                 if (response?.status) {
                     errorMessage(response)

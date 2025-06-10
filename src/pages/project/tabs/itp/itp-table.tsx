@@ -55,13 +55,13 @@ export default function TaskTable({ tableData, setReload }: any) {
                     className="compact stripe"
                     data={tableData?.map((tasks: any) => {
                         return [
-                            tasks?.itpTask?.inspectionWorkActivity || "n/a",
-                            optionList?.find((list) => list.id == tasks?.itpTask?.timingFrequencyId)?.label || "n/a",
-                            optionList?.find((list) => list.id == tasks?.itpTask?.methodId)?.label || "n/a",
-                            tasks?.itpTask?.acceptanceCriteria || "n/a",
-                            tasks?.itpTask?.reference || "n/a",
-                            tasks?.comment || "n/a",
-                            tasks?.status || "Pending" || "n/a",
+                            tasks?.inspectionWorkActivity || "n/a",
+                            optionList?.find((list) => list.id == tasks?.timingFrequency?.timingFrequencyId)?.label || "n/a",
+                            optionList?.find((list) => list.id == tasks?.method?.methodId)?.label || "n/a",
+                            tasks?.acceptanceCriteria || "n/a",
+                            tasks?.reference || "n/a",
+                            tasks?.comments || "n/a",
+                            tasks?.subStatus || "Pending" || "n/a",
                             tasks
                         ]
                     }) || []}
@@ -106,7 +106,7 @@ export default function TaskTable({ tableData, setReload }: any) {
                         7: (_data: any, _row: any) => (
                             <div className="flex flex-row gap-3 justify-center">
 
-                                {(_data.status.toLowerCase() == "pending" || _data.status.toLowerCase() == "rejected" || _data.status.toLowerCase() == "reopened") && <SubmitIcon
+                                {(_data.subStatus.toLowerCase() == "pending" || _data.subStatus.toLowerCase() == "rejected" || _data.subStatus.toLowerCase() == "reopened") && <SubmitIcon
                                     onClick={() => {
                                         setModalType(1);
                                         setSelectedTask(_data);
@@ -118,7 +118,7 @@ export default function TaskTable({ tableData, setReload }: any) {
                                     data-tooltip-content="Submit"
                                     data-tooltip-place="top"
                                 />}
-                                {(_data.status.toLowerCase() == "submitted" || _data.status.toLowerCase() == "accepted" || _data.status.toLowerCase() == "approved" || _data.status.toLowerCase() == "in_progress") && <FolderClosed
+                                {(_data.subStatus.toLowerCase() == "submitted" || _data.subStatus.toLowerCase() == "accepted" || _data.subStatus.toLowerCase() == "approved" || _data.subStatus.toLowerCase() == "in_progress") && <FolderClosed
                                     onClick={() => {
                                         setSelectedItp(_data);
                                         setModalType(2);
