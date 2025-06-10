@@ -82,7 +82,7 @@ export default function ITPTaskManagement() {
         if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             const submissionParams = JSON.parse(isType);
             const ca = JSON.parse(selectedCommonArea);
-            const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeCategoryId=${selectedId}`
+            const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
             });
@@ -90,7 +90,7 @@ export default function ITPTaskManagement() {
         if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
             const property = JSON.parse(selectedProperty);
             const submissionParams = JSON.parse(isType);
-            const params = `?locationKey=${submissionParams.key}&tradeCategoryId=${selectedId}&propertyId=${property.id}`
+            const params = `?locationKey=${submissionParams.key}&tradeId=${selectedId}&propertyId=${property.id}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
             });
