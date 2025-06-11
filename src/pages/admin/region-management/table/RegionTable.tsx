@@ -16,6 +16,7 @@ import { allRegionAtom } from "@/_recoil/states";
 import { useModal } from "@/helpers/useModal";
 import { useUserActions } from "@/_recoil/actions";
 import { confirm } from "@/components/ui/confirm-dialog";
+import { getIcons, textColoring } from "@/helpers/textIcons";
 DataTable.use(DT);
 
 // Define the table data using the interface
@@ -32,7 +33,7 @@ export default function RegionTable({ tableRef }: any) {
   useEffect(() => {
     if (regionList) {
       const regions = regionList?.map((region, index) => {
-        return [index + 1, region?.regionName, "n/a", region];
+        return [index + 1, region?.regionName, region?.currency, region?.isActive, region];
       });
       setTableData(regions);
     }
@@ -100,7 +101,7 @@ export default function RegionTable({ tableRef }: any) {
               paging: true,
               searching: true,
               columnDefs: [
-                { searchable: true, targets: [0, 1, 2] },
+                { searchable: true, targets: [0, 1, 2, 3] },
                 {
                   className:
                     "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]",
@@ -128,6 +129,25 @@ export default function RegionTable({ tableRef }: any) {
                 </span>
               ),
               3: (_data: any, _row: any) => (
+                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
+                  <div className="flex items-center">
+                    <div
+                      className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all
+                                  ${textColoring(
+                        _data?.isActive ? "Active" : "Inactive",
+                        true
+                      )}
+                                  `}
+                    >
+                      {getIcons(_data?.isActive ? "Active" : "Inactive")}
+                      <span className="text-[12px]">
+                        {_data?.isActive ? "Active" : "Inactive"}
+                      </span>
+                    </div>
+                  </div>
+                </TableCell>
+              ),
+              4: (_data: any, _row: any) => (
                 <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]">
                   <div className="flex flex-row gap-5">
                     <FolderIcon
@@ -182,7 +202,12 @@ export default function RegionTable({ tableRef }: any) {
                 >
                   Country
                 </th>
-
+                <th
+                  scope="col"
+                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                >
+                  Currency
+                </th>
                 <th
                   scope="col"
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
