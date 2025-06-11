@@ -35,9 +35,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
                 return [
                     index + 1,
                     ticket?.ticketNo,
-                    ticket?.user?.fullName,
-                    ticket?.user?.mobile,
-                    ticket?.user?.email,
+                    ticket?.supportsIssuesTypes?.title,
                     ticket?.status?.toUpperCase(),
                     moment(ticket?.createdAt).format("ll"),
                     ticket,
@@ -66,7 +64,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
                                 paging: true,
                                 searching: true,
                                 columnDefs: [
-                                    { searchable: true, targets: [0, 1, 2, 3, 4, 5, 6] },
+                                    { searchable: true, targets: [0, 1, 2, 3, 4] },
                                     {
                                         className:
                                             "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400",
@@ -85,7 +83,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
                                 },
                             }}
                             slots={{
-                                5: (_data: any, _row: any) => (
+                                3: (_data: any, _row: any) => (
                                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                         <div className="flex">
                                             <div
@@ -101,7 +99,7 @@ export default function SupportTicketsTable({ tableRef }: any) {
                                         </div>
                                     </TableCell>
                                 ),
-                                7: (_data: any, _row: any) => (
+                                5: (_data: any, _row: any) => (
                                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                         <div className="flex flex-row gap-5">
                                             <PencilIcon
@@ -137,20 +135,9 @@ export default function SupportTicketsTable({ tableRef }: any) {
                                         scope="col"
                                         className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                                     >
-                                        Full Name
+                                        Issue Type
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
-                                        Phone
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                                    >
-                                        Email Address
-                                    </th>
+
                                     <th
                                         scope="col"
                                         className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
