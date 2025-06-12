@@ -35,7 +35,7 @@ export default function ITPTaskManagement() {
     // const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
     const setTaskList = useSetRecoilState(ItpTaskSubmissionListAtom);
     const [reload, setReload] = useState("");
-    const [dataHolder, setDataHolder] = useState<any>();
+    // const [dataHolder, setDataHolder] = useState<any>();
     const params = useParams();
     const { project_id } = params;
 
@@ -52,7 +52,7 @@ export default function ITPTaskManagement() {
         setSelectedCommonArea("");
         setSelectedProperty("");
         setSelectedFloor("");
-        setDataHolder(undefined);
+        // setDataHolder(undefined);
         setSelectedTemplate("");
         setSelectedTower("");
     }, [project_id])
@@ -138,7 +138,7 @@ export default function ITPTaskManagement() {
             setTaskList([]);
             setSelectedTemplate("");
             const params = JSON.parse(isType);
-            setDataHolder(params)
+            // setDataHolder(params)
             if (params?.data?.length == 0 && (!params?.taskParataskSubmitionParams || params?.taskSubmitionParams)) {
                 itpAction.getItpConstructionData(project_id, params?.key).then((res) => {
                     setTowerList(res)
@@ -235,7 +235,7 @@ export default function ITPTaskManagement() {
                                     setSelectedCommonArea("");
                                     setSelectedProperty("");
                                     setSelectedFloor("");
-                                    setDataHolder(undefined);
+                                    // setDataHolder(undefined);
                                     setSelectedTemplate("");
                                     setSelectedTower("");
                                     setMytemplates([]);
