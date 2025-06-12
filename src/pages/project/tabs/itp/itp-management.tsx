@@ -97,41 +97,41 @@ export default function ITPTaskManagement() {
         }
     }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload])
 
-    useEffect(() => {
-        //get itp with location
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
-            const submissionParams = JSON.parse(isType);
-            const params = `?locationId=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${selectedTemplate}`
-            itpAction.getItpTasksSubmission(project_id, dataHolder?.key, params);
+    // useEffect(() => {
+    //     //get itp with location
+    //     if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
+    //         const submissionParams = JSON.parse(isType);
+    //         const params = `?locationId=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${selectedTemplate}`
+    //         itpAction.getItpTasksSubmission(project_id, dataHolder?.key, params);
 
-        }
-        // get itp by construction
-        if (isType && selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
-            const floor = JSON.parse(selectedFoor);
-            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
-            itpAction.getItpTasksSubmissionByKey(project_id, dataHolder?.key, params).then((res) => {
-                setTaskList(res?.data || res)
-            })
-        }
+    //     }
+    //     // get itp by construction
+    //     if (isType && selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
+    //         const floor = JSON.parse(selectedFoor);
+    //         const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
+    //         itpAction.getItpTasksSubmissionByKey(project_id, dataHolder?.key, params).then((res) => {
+    //             setTaskList(res?.data || res)
+    //         })
+    //     }
 
-        // get itp by common area
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
-            const ca = JSON.parse(selectedCommonArea);
-            const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
-            itpAction.getItpTasksSubmissionByCommonArea(project_id, ca?.id, params).then((res) => {
-                setTaskList(res?.data || res)
-            })
-        }
-        // get itp by property
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
-            const property = JSON.parse(selectedProperty);
-            const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
-            itpAction.getItpTasksSubmissionByProperty(project_id, property?.id, params).then((res) => {
-                setTaskList(res?.data || res)
-            })
-        }
+    //     // get itp by common area
+    //     if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
+    //         const ca = JSON.parse(selectedCommonArea);
+    //         const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
+    //         itpAction.getItpTasksSubmissionByCommonArea(project_id, ca?.id, params).then((res) => {
+    //             setTaskList(res?.data || res)
+    //         })
+    //     }
+    //     // get itp by property
+    //     if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
+    //         const property = JSON.parse(selectedProperty);
+    //         const params = `?tradeId=${selectedId}&templateId=${JSON.parse(selectedTemplate).id}`
+    //         itpAction.getItpTasksSubmissionByProperty(project_id, property?.id, params).then((res) => {
+    //             setTaskList(res?.data || res)
+    //         })
+    //     }
 
-    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload]);
+    // }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload]);
 
     useEffect(() => {
         if (isType) {
