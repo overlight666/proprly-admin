@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
-import { ItpSubmissionPreviewAtom, SelectedItpTaskAtom, TIPOptionsAtom } from "@/_recoil/states";
+import { ItpSubmissionPreviewAtom, SelectedItpTaskAtom } from "@/_recoil/states";
 import { Modal } from "@/components/ui/modal";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
@@ -21,7 +21,6 @@ export default function PreviewModal({
 }: any) {
 
     const itp: any = useRecoilValue(SelectedItpTaskAtom);
-    const itpOption = useRecoilValue(TIPOptionsAtom);
     const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
     const itpAction = useITPAction();
 
