@@ -106,7 +106,7 @@ export default function TaskTable({ tableData, setReload }: any) {
                         7: (_data: any, _row: any) => (
                             <div className="flex flex-row gap-3 justify-center">
 
-                                {(_data.subStatus.toLowerCase() == "pending" || _data.subStatus.toLowerCase() == "rejected" || _data.subStatus.toLowerCase() == "reopened") && <SubmitIcon
+                                {(_data.subStatus.toLowerCase() == "pending" || _data.subStatus.toLowerCase() == "rejected" || _data.subStatus.toLowerCase() == "itp reopened") && <SubmitIcon
                                     onClick={() => {
                                         setModalType(1);
                                         setSelectedTask(_data);
@@ -118,7 +118,7 @@ export default function TaskTable({ tableData, setReload }: any) {
                                     data-tooltip-content="Submit"
                                     data-tooltip-place="top"
                                 />}
-                                {(_data.subStatus.toLowerCase() == "submitted" || _data.subStatus.toLowerCase() == "accepted" || _data.subStatus.toLowerCase() == "approved" || _data.subStatus.toLowerCase() == "in_progress") && <FolderClosed
+                                {(_data.subStatus.toLowerCase() == "submitted" || _data.subStatus.toLowerCase() == "accepted" || _data.subStatus.toLowerCase() == "itp approved" || _data.subStatus.toLowerCase() == "in_progress") && <FolderClosed
                                     onClick={() => {
                                         setSelectedItp(_data);
                                         setModalType(2);
