@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
-import { SelectedItpTaskAtom, TIPOptionsAtom } from "@/_recoil/states";
+import { ItpSubmissionPreviewAtom, SelectedItpTaskAtom } from "@/_recoil/states";
 import { Modal } from "@/components/ui/modal";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
@@ -11,6 +11,7 @@ import moment from "moment";
 import { Button } from "@/components/ui/button";
 import { useITPAction } from "@/_recoil/actions";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function PreviewModal({
     isOpen,
@@ -20,7 +21,7 @@ export default function PreviewModal({
 }: any) {
 
     const itp: any = useRecoilValue(SelectedItpTaskAtom);
-    const itpOption = useRecoilValue(TIPOptionsAtom);
+    const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
     const itpAction = useITPAction();
 
     const makeid = (length) => {
@@ -59,6 +60,14 @@ export default function PreviewModal({
         new PhotoViewer(items, options);
     };
 
+    useEffect(() => {
+        if (itp?.itpTaskSubmission) {
+            itpAction.getItpSubmission(itp?.itpTaskSubmission?.id);
+        }
+    }, [itp?.itpTaskSubmission]);
+
+    console.log(taskSubmission)
+
     return (
         <>
             <Modal
@@ -66,7 +75,7 @@ export default function PreviewModal({
                 onClose={closeModal}
                 className="max-w-[70%] max-h-[80%] p-6 lg:p-10 relative overflow-auto"
             >
-                <div className="flex flex-col px-2">
+                {taskSubmission && <div className="flex flex-col px-2">
                     <div className="flex gap-3">
                         <b className="dark:text-gray-200 text-xl">{itp?.itpTemplate?.name}</b>
                     </div>
@@ -75,8 +84,8 @@ export default function PreviewModal({
                             <span className="dark:text-gray-200">Activity Logs</span>
                             <div className="gap-2 mt-5 max-h-[50vh] overflow-auto custom-scrollbar">
                                 <ol className="relative border-s border-gray-200 dark:border-gray-700 ml-2">
-                                    {itp?.activityLogs &&
-                                        itp?.activityLogs.map((activity, index) => {
+                                    {taskSubmission?.activityLogs &&
+                                        taskSubmission?.activityLogs.map((activity, index) => {
                                             return (
                                                 <li className="mb-4 ms-4" key={index}>
                                                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
@@ -140,53 +149,53 @@ export default function PreviewModal({
                         <div className="flex flex-col col-span-2 !mt-0">
                             <span className="dark:text-gray-200 mb-5">Task Information</span>
                             <div className="flex flex-col gap-5 bg-gray-200 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
-                                <div className="flex flex-col gap-1">
+                                {/* <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Task
                                     </span>
                                     <span className="dark:text-gray-100 text-gray-600 font-light"> {ucword(itp?.itpTask?.inspectionWorkActivity)}</span>
 
-                                </div>
+                                </div> */}
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Timing/Frequency
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itpOption?.find((option) => option?.id == itp?.itpTask?.timingFrequencyId)?.label}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {taskSubmission?.itpTask?.timingFrequency?.label}</span>
 
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Method
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itpOption?.find((option) => option?.id == itp?.itpTask?.methodId)?.label}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {taskSubmission?.itpTask?.method?.label}</span>
 
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Inpection/Verification done by
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itp?.user?.fullName}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {taskSubmission?.user?.fullName}</span>
 
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Verification type
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itpOption?.find((option) => option?.id == itp?.itpTask?.verificationTypeId)?.label}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {taskSubmission?.itpTask?.verificationType?.label}</span>
 
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Acceptance Criteria
                                     </span>
-                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {itp?.itpTask?.acceptanceCriteria}</span>
+                                    <span className="dark:text-gray-100 text-gray-600 font-light"> {taskSubmission?.itpTask?.acceptanceCriteria}</span>
 
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         References
                                     </span>
-                                    <pre className="dark:text-gray-100 text-gray-600 font-light whitespace-pre-line">{itp?.itpTask?.reference}</pre>
+                                    <pre className="dark:text-gray-100 text-gray-600 font-light whitespace-pre-line">{taskSubmission?.itpTask?.reference}</pre>
 
                                 </div>
                             </div>
@@ -194,11 +203,11 @@ export default function PreviewModal({
                     </div>
 
                     {
-                        itp?.approvalOptions?.length > 0 && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        taskSubmission?.approvalOptions?.length > 0 && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <hr className="mt-5" />
 
                             {
-                                itp?.approvalOptions?.find((approval) => approval?.key == "reopen") && <Button variant="default"
+                                taskSubmission?.approvalOptions?.find((approval) => approval?.key == "reopen") && <Button variant="default"
                                     onClick={() => {
                                         itpAction
                                             .taskSubmissionReopen(itp?.id, {
@@ -222,7 +231,46 @@ export default function PreviewModal({
 
                         </div>
                     }
-                </div>
+                </div> ||
+                    <div role="status" className="w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded-sm shadow-sm animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                        </div>
+                        <div className="flex items-center justify-between pt-4">
+                            <div>
+                                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                        </div>
+                        <div className="flex items-center justify-between pt-4">
+                            <div>
+                                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                        </div>
+                        <div className="flex items-center justify-between pt-4">
+                            <div>
+                                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                        </div>
+                        <div className="flex items-center justify-between pt-4">
+                            <div>
+                                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            </div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                        </div>
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                }
             </Modal>
         </>
     );

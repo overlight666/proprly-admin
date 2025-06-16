@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
 import { errorMessage, useFetchWrapper } from "@/helpers";
-import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpTaskConstructionDataAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
+import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpSubmissionPreviewAtom, ItpTaskConstructionDataAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
 
 export { useITPAction };
@@ -19,6 +19,8 @@ function useITPAction() {
     const setITPTaskSubmissionList = useSetRecoilState(ItpTaskSubmissionListAtom);
     const setAllTradeCodeByKey = useSetRecoilState(AllTradeCodesByKeyAtom);
     const setItpTaskConstructionData = useSetRecoilState(ItpTaskConstructionDataAtom);
+    const setItpSubmissionPreview = useSetRecoilState(ItpSubmissionPreviewAtom);
+
     return {
         getItpTemplates,
         getTradeCode,
@@ -41,8 +43,34 @@ function useITPAction() {
         getItpTasksSubmissionByProperty,
         taskSubmissionReopen,
         getItpTemplatesReports,
-        getItpTemplatesByLocation
+        getItpTemplatesByLocation,
+        getItpSubmission
     };
+
+    function getItpSubmission(id: any) {
+        setItpSubmissionPreview(undefined);
+        return fetchWrapper
+            .get(`${baseUrl}/itp_task_submission/${id}`)
+            .then((response: any) => {
+                setItpSubmissionPreview(response && response.data ? response.data : response);
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
 
     function getITPLocations(project_id: any) {
         return fetchWrapper
