@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
-  if (defectSubStatus == "pending") {
+  if (defectSubStatus == "pending" || defectSubStatus == "ITP reopened") {
     return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
   } else if (
     defectSubStatus == "Defect Logged" ||
@@ -20,6 +20,7 @@ export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
     defectSubStatus == "Defect Closed" ||
+    defectSubStatus == "ITP approved" ||
     defectSubStatus == "Aactive"
   ) {
     return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
@@ -50,6 +51,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Defect Re-opened By Auditor" ||
     defectSubStatus == "Pending Owner feedback" ||
     defectSubStatus == "Defect Re-opened" ||
+    defectSubStatus == "ITP reopened" ||
     defectSubStatus == "Owner not at home" ||
     defectSubStatus == "Defect Accepted by Admin"
   ) {
@@ -69,6 +71,7 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
     defectSubStatus == "Defect Closed" ||
+    defectSubStatus == "ITP approved" ||
     defectSubStatus == "Active"
   ) {
     return hasBg ? "text-green-800 bg-green-100" : "text-green-400";
@@ -99,6 +102,7 @@ export const getIcons = (defectSubStatus) => {
     defectSubStatus == "Defect Re-opened By Auditor" ||
     defectSubStatus == "Pending Owner feedback" ||
     defectSubStatus == "Defect Re-opened" ||
+    defectSubStatus == "ITP reopened" ||
     defectSubStatus == "Owner not at home" ||
     defectSubStatus == "Defect Accepted by Admin"
   ) {
@@ -160,6 +164,7 @@ export const getIcons = (defectSubStatus) => {
     defectSubStatus?.toLowerCase() == "approved" ||
     defectSubStatus?.toLowerCase() == "accepted" ||
     defectSubStatus?.toLowerCase() == "uploaded" ||
+    defectSubStatus == "ITP approved" ||
     defectSubStatus == "Defect Resolved" ||
     defectSubStatus == "Resolution Accepted by Auditor" ||
     defectSubStatus == "Resolution Accepted By Owner" ||
