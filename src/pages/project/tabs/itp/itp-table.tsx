@@ -15,7 +15,7 @@ import SubmitTaskModal from "../modals/submit-task-modals";
 import { useModal } from "@/helpers/useModal";
 import PreviewModal from "../modals/preview-modal";
 
-export default function TaskTable({ tableData, setReload }: any) {
+export default function TaskTable({ tableData, setReload, locationKey, tradeId }: any) {
     const tableRef = useRef<any>(null);
     const optionList = useRecoilValue(TIPOptionsAtom);
     const [selectedTask, setSelectedTask] = useState();
@@ -30,7 +30,7 @@ export default function TaskTable({ tableData, setReload }: any) {
     const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     return (
         <>
-            {modalType == 1 && <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} />}
+            {modalType == 1 && <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} locationKey={locationKey} tradeId={tradeId} />}
             {modalType == 2 && <PreviewModal isOpen={isOpen} closeModal={closeModal} setReload={setReload} />}
             <div
                 className="flex w-full flex-row mt-5 justify-between

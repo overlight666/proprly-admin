@@ -13,11 +13,14 @@ import { uploadResponseAtom } from "@/_recoil/states";
 import { useITPAction } from "@/_recoil/actions";
 import SignatureCanvas from 'react-signature-canvas'
 import { useUploadForm } from "@/helpers/uploadLoader";
+import { useParams } from "react-router";
 
 export default function SubmitTaskModal({
     isOpen,
     closeModal,
-    selectedTask
+    selectedTask,
+    locationKey,
+    tradeId
 }: any) {
     const [imageId, updateImageId] = useState("");
     const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
@@ -29,6 +32,8 @@ export default function SubmitTaskModal({
     const sigCanvas = useRef<any>(null);
     const { uploadForm, uploadedFile } = useUploadForm();
     const [signature, setSignature] = useState<any>();
+    const params = useParams();
+    const { project_id } = params;
 
     useEffect(() => {
         if (uploadedFile) {
@@ -88,11 +93,12 @@ export default function SubmitTaskModal({
             const params = {
                 "comment": comment || "",
                 "documentIds": fileContainer.map((file) => file.id),
-                "itpTaskId": selectedTask?.itpTaskId,
-                "projectId": selectedTask?.projectId,
-                "tradeCodeId": selectedTask?.tradeCodeId,
+                "itpTaskId": selectedTask?.id,
+                "projectId": project_id,
+                "imageId": imageId,
+                "tradeCodeId": tradeId,
                 "signatureImageId": signature?.id,
-                "locationKey": selectedTask?.locationKey
+                "locationKey": locationKey
             }
             itpAction.taskSubmission(params).then((res) => {
                 if (res) {
@@ -103,6 +109,7 @@ export default function SubmitTaskModal({
         }
 
     }
+
 
     return (
         <>
