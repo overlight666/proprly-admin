@@ -99,13 +99,13 @@ export default function PreviewModal({
                                         taskSubmission?.activityLogs.map((activity, index) => {
                                             return (
                                                 <li className="mb-4 ms-4" key={index}>
-                                                    <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                                                    <div className="absolute w-3 h-3 bg-gray-50 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                                                     <div className="mb-1 text-sm font-normal leading-none text-gray-800 dark:text-gray-200">
                                                         <span>{ucword(activity?.user?.fullName)}</span>
                                                     </div>
                                                     {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Documents</span>}
                                                     {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && (
-                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2 custom-scrollbar">
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-50 dark:bg-gray-800 rounded-md p-2 my-2 custom-scrollbar">
                                                             {activity.itpSubmissionDocument.map((img, index) => {
                                                                 return img?.url?.includes(".pdf") ? (
                                                                     <div className="flex flex-col items-center">
@@ -139,7 +139,7 @@ export default function PreviewModal({
                                                     {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Image</span>}
 
                                                     {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && (
-                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-50 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
                                                             {activity.itpSubmissionImage.map((img, index) => {
                                                                 return img?.url?.includes(".pdf") ? (
                                                                     <div className="flex flex-col items-center">
@@ -171,7 +171,7 @@ export default function PreviewModal({
                                                     )}
                                                     {activity?.signatureImage && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Signature</span>}
                                                     {activity?.signatureImage && (
-                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-50 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
                                                             <img
                                                                 key={activity?.signatureImage?.url}
                                                                 src={activity?.signatureImage?.url}
@@ -204,7 +204,7 @@ export default function PreviewModal({
                         </div>
                         <div className="flex flex-col col-span-1 !mt-0">
                             <span className="dark:text-gray-200 mb-5">Task Information</span>
-                            <div className="flex flex-col gap-5 bg-gray-200 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
+                            <div className="flex flex-col gap-5 bg-gray-50 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
                                 {/* <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Task
@@ -382,35 +382,35 @@ export default function PreviewModal({
                         <div className="flex items-center justify-between">
                             <div>
                                 <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                <div className="w-32 h-2 bg-gray-50 rounded-full dark:bg-gray-700"></div>
                             </div>
                             <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
                         <div className="flex items-center justify-between pt-4">
                             <div>
                                 <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                <div className="w-32 h-2 bg-gray-50 rounded-full dark:bg-gray-700"></div>
                             </div>
                             <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
                         <div className="flex items-center justify-between pt-4">
                             <div>
                                 <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                <div className="w-32 h-2 bg-gray-50 rounded-full dark:bg-gray-700"></div>
                             </div>
                             <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
                         <div className="flex items-center justify-between pt-4">
                             <div>
                                 <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                <div className="w-32 h-2 bg-gray-50 rounded-full dark:bg-gray-700"></div>
                             </div>
                             <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
                         <div className="flex items-center justify-between pt-4">
                             <div>
                                 <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-                                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                <div className="w-32 h-2 bg-gray-50 rounded-full dark:bg-gray-700"></div>
                             </div>
                             <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
