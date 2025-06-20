@@ -260,7 +260,7 @@ export default function PreviewModal({
 
                     </div>
                     <SubmitTaskModal setReload={setReload} isOpen={subModal.isOpen} closeModal={subModal.closeModal} selectedTask={itp} locationKey={locationKey} tradeId={tradeId} status={status} submissionType={submissionType} closeParent={closeModal} />
-                    {itp?.subStatus == "ITP reopened" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                    {itp?.itpTaskSubmission?.canReSubmit && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
 
                         <Button variant="default"
                             onClick={() => {
@@ -278,7 +278,7 @@ export default function PreviewModal({
 
                     </div>}
                     {
-                        itp?.subStatus == "ITP approved" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        !itp?.itpTaskSubmission?.canReSubmit && !itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <div>
                                 <Label htmlFor="inputTwo">
                                     Change Status <span className="text-red-500">*</span>{" "}
@@ -303,7 +303,7 @@ export default function PreviewModal({
                         </div>
                     }
                     {
-                        itp?.subStatus == "ITP submitted" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <Button variant="default"
                                 onClick={() => {
                                     itpAction
