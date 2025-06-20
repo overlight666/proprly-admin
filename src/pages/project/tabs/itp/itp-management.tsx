@@ -54,7 +54,7 @@ export default function ITPTaskManagement() {
         setSelectedProperty("");
         setSelectedFloor("");
         // setDataHolder(undefined);
-        setSelectedTemplate("");
+        // setSelectedTemplate("");
         setSelectedTower("");
     }, [project_id])
 
@@ -65,7 +65,8 @@ export default function ITPTaskManagement() {
     }, []);
 
     useEffect(() => {
-        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
+            console.log('resubmit')
             const submissionParams = JSON.parse(isType);
             setLocationKey(submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || '');
             const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}`
@@ -74,7 +75,7 @@ export default function ITPTaskManagement() {
             });
 
         }
-        if (isType && !selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
             const floor = JSON.parse(selectedFoor);
             setLocationKey(floor?.taskSubmitionParams?.locationKey || '');
             const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}`
@@ -82,7 +83,7 @@ export default function ITPTaskManagement() {
                 setMytemplates(tempaltes)
             });
         }
-        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             const submissionParams = JSON.parse(isType);
             const ca = JSON.parse(selectedCommonArea);
 
@@ -92,7 +93,7 @@ export default function ITPTaskManagement() {
                 setMytemplates(tempaltes)
             });
         }
-        if (isType && !selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
             const property = JSON.parse(selectedProperty);
             const submissionParams = JSON.parse(isType);
             setLocationKey(submissionParams.key);
@@ -102,7 +103,7 @@ export default function ITPTaskManagement() {
             });
         }
 
-    }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload])
+    }, [isType, selectedId, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload])
 
     // useEffect(() => {
     //     //get itp with location
@@ -143,7 +144,7 @@ export default function ITPTaskManagement() {
     useEffect(() => {
         if (isType) {
             setTaskList([]);
-            setSelectedTemplate("");
+            // setSelectedTemplate("");
             const params = JSON.parse(isType);
             // setDataHolder(params)
             if (params?.data?.length == 0 && (!params?.taskParataskSubmitionParams || params?.taskSubmitionParams)) {
@@ -243,7 +244,7 @@ export default function ITPTaskManagement() {
                                     setSelectedProperty("");
                                     setSelectedFloor("");
                                     // setDataHolder(undefined);
-                                    setSelectedTemplate("");
+                                    // setSelectedTemplate("");
                                     setSelectedTower("");
                                     setMytemplates([]);
                                 }}
