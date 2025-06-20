@@ -77,7 +77,7 @@ export default function PreviewModal({
         return result;
     }
 
-
+    console.log("itp", itp);
 
     return (
         <>
@@ -204,7 +204,7 @@ export default function PreviewModal({
                         </div>
                         <div className="flex flex-col col-span-1 !mt-0">
                             <span className="dark:text-gray-200 mb-5">Task Information</span>
-                            <div className="flex flex-col gap-5 bg-gray-50 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
+                            <div className="flex flex-col gap-5 bg-gray-50 dark:bg-gray-700 p-2 rounded-md overflow-auto">
                                 {/* <div className="flex flex-col gap-1">
                                     <span className="font-normal text-gray-800 dark:text-gray-400">
                                         Task
@@ -260,7 +260,7 @@ export default function PreviewModal({
 
                     </div>
                     <SubmitTaskModal setReload={setReload} isOpen={subModal.isOpen} closeModal={subModal.closeModal} selectedTask={itp} locationKey={locationKey} tradeId={tradeId} status={status} submissionType={submissionType} closeParent={closeModal} />
-                    {itp?.itpTaskSubmission?.canReSubmit && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                    {itp?.canSubmit && itp?.itpTaskSubmission?.canReSubmit && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
 
                         <Button variant="default"
                             onClick={() => {
@@ -278,7 +278,7 @@ export default function PreviewModal({
 
                     </div>}
                     {
-                        !itp?.itpTaskSubmission?.canReSubmit && !itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        itp?.canSubmit && !itp?.itpTaskSubmission?.canReSubmit && !itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <div>
                                 <Label htmlFor="inputTwo">
                                     Change Status <span className="text-red-500">*</span>{" "}
@@ -303,7 +303,7 @@ export default function PreviewModal({
                         </div>
                     }
                     {
-                        itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        itp?.canSubmit && itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <Button variant="default"
                                 onClick={() => {
                                     itpAction
