@@ -74,4 +74,9 @@ const ItpSubmissionPreviewAtom = atom<any>({
     default: undefined,
 });
 
-export { ItpSubmissionPreviewAtom, ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom, AllTradeCodesByKeyAtom, ItpTaskConstructionDataAtom, ItpTaskSubmissionNewListAtom, SelectedItpTaskAtom };
+const ItpSubmissionSubStatusAtom = atom<any>({
+    key: "ItpSubmissionSubStatusAtom",
+    default: undefined,
+});
+
+export { ItpSubmissionSubStatusAtom, ItpSubmissionPreviewAtom, ItpManagementListAtom, TradeCodesByRegionAtom, LocationListAtom, ITPMenuAtom, ItpTaskListAtom, TIPOptionsAtom, ITPLocationListAtom, AllTradeCodesAtom, ItpTaskSubmissionListAtom, AllTradeCodesByKeyAtom, ItpTaskConstructionDataAtom, ItpTaskSubmissionNewListAtom, SelectedItpTaskAtom };

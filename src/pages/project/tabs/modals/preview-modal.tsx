@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRecoilValue } from "recoil";
-import { ItpSubmissionPreviewAtom, SelectedItpTaskAtom } from "@/_recoil/states";
+import { ItpSubmissionPreviewAtom, ItpSubmissionSubStatusAtom, SelectedItpTaskAtom } from "@/_recoil/states";
 import { Modal } from "@/components/ui/modal";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
 import { ucword } from "@/helpers";
@@ -26,6 +26,7 @@ export default function PreviewModal({
 }: any) {
     const itp: any = useRecoilValue(SelectedItpTaskAtom);
     const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
+    const taskSubStatus = useRecoilValue(ItpSubmissionSubStatusAtom)
     const itpAction = useITPAction();
     const subModal = useModal();
 
@@ -61,6 +62,7 @@ export default function PreviewModal({
     useEffect(() => {
         if (itp?.itpTaskSubmission) {
             itpAction.getItpSubmission(itp?.itpTaskSubmission?.id);
+            itpAction.getItpSubmissionSubStatus(itp?.itpTaskSubmission?.id);
         }
     }, [itp?.itpTaskSubmission]);
 
@@ -75,7 +77,7 @@ export default function PreviewModal({
         return result;
     }
 
-
+    console.log(taskSubStatus)
     return (
         <>
             <Modal
@@ -262,7 +264,7 @@ export default function PreviewModal({
                         <Button variant="default"
                             onClick={() => {
                                 subModal.openModal();
-                                setStatus("ITP006");
+                                setStatus(taskSubStatus?.find((task) => task.text == "ITP resubmitted")?.code);
                                 setSubmissionType("resubmit");
                                 // closeModal();
                             }}
@@ -281,12 +283,12 @@ export default function PreviewModal({
                                     Change Status <span className="text-red-500">*</span>{" "}
                                 </Label>
                                 <Select
-                                    options={[
-                                        {
-                                            label: "ITP Re-open",
-                                            value: "ITP005",
-                                        },
-                                    ]}
+                                    options={taskSubStatus?.map((task) => {
+                                        return {
+                                            label: task?.text,
+                                            value: task?.code,
+                                        };
+                                    }) || []}
                                     placeholder="Select status"
                                     className="dark:bg-dark-900"
                                     onChange={(e) => {
