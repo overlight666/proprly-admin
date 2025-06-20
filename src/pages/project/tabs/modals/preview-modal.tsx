@@ -10,29 +10,27 @@ import PhotoViewer from "photoviewer";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
 import { useITPAction } from "@/_recoil/actions";
+import { useEffect, useState } from "react";
+import SubmitTaskModal from "./submit-task-modals";
+import { useModal } from "@/helpers/useModal";
+import { Label } from "flowbite-react";
+import Select from "@/components/ui/select";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 
 export default function PreviewModal({
     isOpen,
     closeModal,
-    openModal,
+    locationKey,
+    tradeId,
     setReload
 }: any) {
-
     const itp: any = useRecoilValue(SelectedItpTaskAtom);
     const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
     const itpAction = useITPAction();
+    const subModal = useModal();
 
-    const makeid = (length) => {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
+    const [submissionType, setSubmissionType] = useState("");
+    const [status, setStatus] = useState("");
 
     const viewImage = (img: any) => {
         const items = [
@@ -47,12 +45,12 @@ export default function PreviewModal({
 
             callbacks: {
                 beforeOpen: function (_context) {
-                    closeModal();
+                    // closeModal();
                     // Will fire before modal is opened
                 },
 
                 beforeClose: function (_context) {
-                    openModal();
+                    // openModal();
                 },
             },
         };
@@ -67,6 +65,18 @@ export default function PreviewModal({
     }, [itp?.itpTaskSubmission]);
 
 
+    const makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
+    console.log("itp", taskSubmission);
+
     return (
         <>
             <Modal
@@ -79,7 +89,7 @@ export default function PreviewModal({
                         <b className="dark:text-gray-200 text-xl">{itp?.itpTemplate?.name}</b>
                     </div>
                     <div className="mt-8 space-y-3 grid grid-cols-1 md:grid-cols-3 gap-2">
-                        <div className="col-span-1">
+                        <div className="col-span-2">
                             <span className="dark:text-gray-200">Activity Logs</span>
                             <div className="gap-2 mt-5 max-h-[50vh] overflow-auto custom-scrollbar">
                                 <ol className="relative border-s border-gray-200 dark:border-gray-700 ml-2">
@@ -91,9 +101,43 @@ export default function PreviewModal({
                                                     <div className="mb-1 text-sm font-normal leading-none text-gray-800 dark:text-gray-200">
                                                         <span>{ucword(activity?.user?.fullName)}</span>
                                                     </div>
+                                                    {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Documents</span>}
+                                                    {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && (
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2 custom-scrollbar">
+                                                            {activity.itpSubmissionDocument.map((img, index) => {
+                                                                return img?.url?.includes(".pdf") ? (
+                                                                    <div className="flex flex-col items-center">
+                                                                        <a
+                                                                            href={img?.url}
+                                                                            target="_blank"
+                                                                            download={img?.url}
+                                                                            rel="noreferrer"
+                                                                            className="cursor-pointer"
+                                                                            data-tooltip-id="tooltip"
+                                                                            data-tooltip-content={img?.key}
+                                                                        >
+                                                                            <PDFIcon className="size-10" />
+                                                                        </a>
+                                                                        <span className="text-black dark:text-gray-200 text-[12px]">
+                                                                            {img.name}
+                                                                        </span>
+                                                                    </div>
+                                                                ) : (
+                                                                    <img
+                                                                        key={index}
+                                                                        src={img.url}
+                                                                        onClick={() => viewImage(img)}
+                                                                        className="object-scale-down object-center cursor-pointer w-[20%]"
+                                                                    />
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    )}
 
-                                                    {activity.images && activity.images.length > 0 && (
-                                                        <div className="relative grid auto-rows-auto grid-cols-3 bg-gray-200 dark:bg-gray-800 rounded-md p-2">
+                                                    {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Image</span>}
+
+                                                    {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && (
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
                                                             {activity.itpSubmissionImage.map((img, index) => {
                                                                 return img?.url?.includes(".pdf") ? (
                                                                     <div className="flex flex-col items-center">
@@ -117,10 +161,21 @@ export default function PreviewModal({
                                                                         key={index}
                                                                         src={img.url}
                                                                         onClick={() => viewImage(img)}
-                                                                        className="object-scale-down object-center cursor-pointer"
+                                                                        className="object-scale-down object-center cursor-pointer w-[20%]"
                                                                     />
                                                                 );
                                                             })}
+                                                        </div>
+                                                    )}
+                                                    {activity?.signatureImage && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Signature</span>}
+                                                    {activity?.signatureImage && (
+                                                        <div className="relative flex flex-wrap gap-2 bg-gray-200 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
+                                                            <img
+                                                                key={activity?.signatureImage?.url}
+                                                                src={activity?.signatureImage?.url}
+                                                                onClick={() => viewImage(activity?.signatureImage)}
+                                                                className="object-scale-down object-center cursor-pointer w-[20%]"
+                                                            />
                                                         </div>
                                                     )}
 
@@ -145,7 +200,7 @@ export default function PreviewModal({
                                 </ol>
                             </div>
                         </div>
-                        <div className="flex flex-col col-span-2 !mt-0">
+                        <div className="flex flex-col col-span-1 !mt-0">
                             <span className="dark:text-gray-200 mb-5">Task Information</span>
                             <div className="flex flex-col gap-5 bg-gray-200 dark:bg-gray-700 p-2 rounded-md  max-h-[40vh] overflow-auto">
                                 {/* <div className="flex flex-col gap-1">
@@ -199,37 +254,127 @@ export default function PreviewModal({
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
+                    <SubmitTaskModal setReload={setReload} isOpen={subModal.isOpen} closeModal={subModal.closeModal} selectedTask={itp} locationKey={locationKey} tradeId={tradeId} status={status} submissionType={submissionType} closeParent={closeModal} />
+                    {itp?.subStatus == "ITP reopened" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
 
+                        <Button variant="default"
+                            onClick={() => {
+                                subModal.openModal();
+                                setStatus("ITP006");
+                                setSubmissionType("resubmit");
+                                // closeModal();
+                            }}
+                            type="button"
+                            className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                        >
+                            Re-submit Task
+                        </Button>
+
+
+                    </div>}
                     {
-                        taskSubmission?.approvalOptions?.length > 0 && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
-                            <hr className="mt-5" />
-
-                            {
-                                taskSubmission?.approvalOptions?.find((approval) => approval?.key == "reopen") && <Button variant="default"
-                                    onClick={() => {
-                                        itpAction
-                                            .taskSubmissionReopen(itp?.id, {
-                                                feedback: "reopen",
-                                            }).then(() => {
-                                                toast.success("Task submission has been re-opened");
-                                                setReload(makeid(10));
-                                                closeModal();
-                                            })
-                                            .catch((e) => {
-                                                toast.error(e);
-                                            });
-
+                        itp?.subStatus == "ITP approved" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                            <div>
+                                <Label htmlFor="inputTwo">
+                                    Change Status <span className="text-red-500">*</span>{" "}
+                                </Label>
+                                <Select
+                                    options={[
+                                        {
+                                            label: "ITP Re-open",
+                                            value: "ITP005",
+                                        },
+                                    ]}
+                                    placeholder="Select status"
+                                    className="dark:bg-dark-900"
+                                    onChange={(e) => {
+                                        setStatus(e);
+                                        setSubmissionType("statusChange");
+                                        subModal.openModal();
+                                        // closeModal();
                                     }}
-                                    type="button"
-                                    className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
-                                >
-                                    Re-open Task
-                                </Button>
-                            }
-
+                                />
+                            </div>
                         </div>
                     }
+                    {
+                        itp?.subStatus == "ITP submitted" && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                            <Button variant="default"
+                                onClick={() => {
+                                    itpAction
+                                        .taskSubmissionReopen(taskSubmission?.id, {
+                                            feedback: "accept",
+                                        }).then((res) => {
+                                            if (res) {
+                                                toast.success("Task submission has been accepted");
+                                                setTimeout(() => {
+                                                    setReload(makeid(10));
+                                                }, 1000);
+
+                                                closeModal();
+                                            }
+
+                                        })
+                                        .catch((e) => {
+                                            toast.error(e);
+                                        });
+                                }}
+                                type="button"
+                                className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                            >
+                                Accept Task
+                            </Button>
+                            <Button variant="destructive"
+                                onClick={() => {
+                                    itpAction
+                                        .taskSubmissionReopen(taskSubmission?.id, {
+                                            feedback: "reject",
+                                        }).then((res) => {
+                                            if (res) {
+                                                toast.info("Task submission has been rejected");
+                                                setTimeout(() => {
+                                                    setReload(makeid(10));
+                                                }, 1000);
+
+                                                closeModal();
+                                            }
+
+                                        })
+                                        .catch((e) => {
+                                            toast.error(e);
+                                        });
+                                }}
+                                type="button"
+                                className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                            >
+                                Reject Task
+                            </Button>
+                        </div>
+                    }
+                    {/* <Button variant="default"
+                        onClick={() => {
+                            itpAction
+                                .taskSubmissionReopen(taskSubmission?.id, {
+                                    feedback: "reopen",
+                                }).then(() => {
+                                    toast.success("Task submission has been re-opened");
+                                    setReload(makeid(10));
+                                    closeModal();
+                                })
+                                .catch((e) => {
+                                    toast.error(e);
+                                });
+
+                        }}
+                        type="button"
+                        className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                    >
+                        Re-open Task
+                    </Button> */}
+
                 </div> ||
                     <div role="status" className="w-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded-sm shadow-sm animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
                         <div className="flex items-center justify-between">

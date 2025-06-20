@@ -3,8 +3,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const ticketColoring = (defectSubStatus: any, hasBg: any) => {
-  if (defectSubStatus == "pending" || defectSubStatus == "ITP reopened") {
+  if (defectSubStatus == "pending") {
     return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
+  } else if (defectSubStatus == "ITP reopened") {
+    return hasBg ? "text-orange-800 bg-orange-100" : "text-orange-400";
   } else if (
     defectSubStatus == "Defect Logged" ||
     defectSubStatus == "Pending Admin Approval" ||
@@ -51,11 +53,14 @@ export const textColoring = (defectSubStatus: any, hasBg: any) => {
     defectSubStatus == "Defect Re-opened By Auditor" ||
     defectSubStatus == "Pending Owner feedback" ||
     defectSubStatus == "Defect Re-opened" ||
-    defectSubStatus == "ITP reopened" ||
     defectSubStatus == "Owner not at home" ||
     defectSubStatus == "Defect Accepted by Admin"
   ) {
     return hasBg ? "text-yellow-800 bg-yellow-100" : "text-yellow-400";
+  } else if (
+    defectSubStatus == "ITP reopened"
+  ) {
+    return hasBg ? "text-orange-800 bg-orange-100" : "text-orange-400";
   } else if (
     defectSubStatus == "rejected" ||
     defectSubStatus == "Defect Logged" ||

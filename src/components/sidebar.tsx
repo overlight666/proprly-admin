@@ -110,7 +110,7 @@ const ExampleSidebar: FC = function () {
         userAction.getProjectAdminUsers(id),
         commonAreaAction.getProjectSubContractor(id),
         userAction.getAllUsers(id),
-        organizationAction.getOrganizationSettings(Number(id)),
+        isAdmin && organizationAction.getOrganizationSettings(Number(id)),
       ]).then((values) => {
         const countryHandler = values[0]?.map((r: any) => {
           return {

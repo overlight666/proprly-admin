@@ -2,25 +2,25 @@
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import FileUploader from "@/components/ui/filteupload";
-import FileUploader2 from "@/components/ui/fileupload2";
 import { ImageType } from "@/lib/interface";
-import { Label } from "flowbite-react";
-import TextArea from "@/components/ui/text-area";
 import { toast } from "react-toastify";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { uploadResponseAtom } from "@/_recoil/states";
+import { ItpSubmissionPreviewAtom, uploadResponseAtom } from "@/_recoil/states";
 import { useITPAction } from "@/_recoil/actions";
-import SignatureCanvas from 'react-signature-canvas'
 import { useUploadForm } from "@/helpers/uploadLoader";
 import { useParams } from "react-router";
+import SubmissionComponent from "./submission-component";
 
 export default function SubmitTaskModal({
     isOpen,
     closeModal,
     selectedTask,
     locationKey,
-    tradeId
+    tradeId,
+    status,
+    submissionType,
+    closeParent,
+    setReload
 }: any) {
     const [imageId, updateImageId] = useState("");
     const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
@@ -34,6 +34,7 @@ export default function SubmitTaskModal({
     const [signature, setSignature] = useState<any>();
     const params = useParams();
     const { project_id } = params;
+    const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
 
     useEffect(() => {
         if (uploadedFile) {
@@ -52,15 +53,6 @@ export default function SubmitTaskModal({
         }
     }, [uploadResponse]);
 
-    const makeid = (length) => {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
 
     const dataURLtoFile = (dataurl: string, filename: string) => {
         var arr: any = dataurl.split(","),
@@ -82,30 +74,87 @@ export default function SubmitTaskModal({
         setFileContainer(newFiles);
     };
 
+    const makeid = (length) => {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
     const onSubmit = () => {
-        if (!imageId) {
+        if (!imageId && submissionType != "statusChange") {
             toast.error("Please upload an image")
         } else if (fileContainer?.length == 0) {
             toast.error("Please upload at least 1 file")
-        } else if (!signature) {
+        } else if (!signature && submissionType != "statusChange") {
             toast.error("Please upload your signature")
         } else {
-            const params = {
-                "comment": comment || "",
-                "documentIds": fileContainer.map((file) => file.id),
-                "itpTaskId": selectedTask?.id,
-                "projectId": project_id,
-                "imageId": imageId,
-                "tradeCodeId": tradeId,
-                "signatureImageId": signature?.id,
-                "locationKey": locationKey
-            }
-            itpAction.taskSubmission(params).then((res) => {
-                if (res) {
-                    toast.success("Task has been successfully submitted")
-                    closeModal();
+
+            if (submissionType === "resubmit") {
+                const params = {
+                    "subStatusCode": status,
+                    "comment": comment || "",
+                    "documentIds": fileContainer.map((file) => file.id),
+                    "imageIds": [imageId],
+                    "signatureImageId": signature?.id,
                 }
-            })
+                itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
+                    if (res) {
+                        toast.success("Task has been successfully submitted");
+                        setTimeout(() => {
+                            setReload(makeid(10));
+                        }, 1000);
+
+                        closeModal();
+                        closeParent();
+
+                    }
+                })
+            } else if (submissionType === "statusChange") {
+                const params = {
+                    "subStatusCode": status,
+                    "comment": comment || "",
+                    "documentIds": fileContainer.map((file) => file.id),
+                }
+                itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
+                    if (res) {
+                        toast.success("Task has been successfully submitted");
+                        setTimeout(() => {
+                            setReload(makeid(10));
+                        }, 1000);
+
+                        closeModal();
+                        closeParent();
+
+                    }
+                })
+            } else {
+                const params = {
+                    "comment": comment || "",
+                    "documentIds": fileContainer.map((file) => file.id),
+                    "itpTaskId": selectedTask?.id,
+                    "projectId": project_id,
+                    "imageId": imageId,
+                    "tradeCodeId": tradeId,
+                    "signatureImageId": signature?.id,
+                    "locationKey": locationKey
+                }
+                itpAction.taskSubmission(params).then((res) => {
+                    if (res) {
+                        toast.success("Task has been successfully submitted")
+                        setTimeout(() => {
+                            setReload(makeid(10));
+                        }, 1000);
+
+                        closeModal();
+
+                    }
+                })
+            }
+
         }
 
     }
@@ -121,38 +170,25 @@ export default function SubmitTaskModal({
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
                         <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
-                            Submit Task
+                            {submissionType === "statusChange" ? "Change Status" : "Submit Task"}
                         </h5>
                     </div>
                     <div className="mt-1 space-y-3">
                         <div className="space-y-2">
-                            <FileUploader isDrop={true} currentImage={null} updateImageId={updateImageId} />
-                        </div>
-                        <div className="space-y-2">
-                            <FileUploader2
-                                title="Upload file"
+                            <SubmissionComponent
                                 removeFile={removeFile}
                                 setUploadQueue={setUploadQueue}
                                 uploadQueue={uploadQueue}
-                                accept="*"
+                                updateImageId={updateImageId}
+                                comment={comment}
+                                setComment={setComment}
+                                sigCanvas={sigCanvas}
+                                uploadForm={uploadForm}
+                                dataURLtoFile={dataURLtoFile}
+                                submissionType={submissionType}
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label>Add Comment</Label>
-                            <TextArea
-                                value={comment}
-                                rows={2}
-                                onChange={(e) => setComment(e)}
-                                placeholder="Comment"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Signature</Label>
-                            <SignatureCanvas penColor='green'
-                                canvasProps={{ width: 500, height: 200, className: 'sigCanvas w-full border-dotted border-2' }} ref={sigCanvas} onEnd={() => {
-                                    uploadForm(dataURLtoFile(sigCanvas?.current?.toDataURL(), makeid(20)))
-                                }} />
-                        </div>
+
                         <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <Button
                                 onClick={() => onSubmit()}

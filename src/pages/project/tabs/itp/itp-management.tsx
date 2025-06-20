@@ -35,7 +35,7 @@ export default function ITPTaskManagement() {
     const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
     // const taskList = useRecoilValue(ItpTaskSubmissionListAtom);
     const setTaskList = useSetRecoilState(ItpTaskSubmissionListAtom);
-    const [reload, setReload] = useState("");
+    const [reload, setReload] = useState<any>("");
     // const [dataHolder, setDataHolder] = useState<any>();
     const params = useParams();
     const { project_id } = params;
@@ -101,6 +101,7 @@ export default function ITPTaskManagement() {
                 setMytemplates(tempaltes)
             });
         }
+
     }, [isType, selectedId, selectedTemplate, selectedFoor, selectedTower, selectedCommonArea, selectedProperty, reload])
 
     // useEffect(() => {

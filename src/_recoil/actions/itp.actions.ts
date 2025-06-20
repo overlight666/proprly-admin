@@ -44,7 +44,8 @@ function useITPAction() {
         taskSubmissionReopen,
         getItpTemplatesReports,
         getItpTemplatesByLocation,
-        getItpSubmission
+        getItpSubmission,
+        taskResubmission
     };
 
     function getItpSubmission(id: any) {
@@ -507,6 +508,33 @@ function useITPAction() {
                 }
             });
     }
+
+    function taskResubmission(id: any, params: any) {
+        return fetchWrapper
+            .post(`${baseUrl}/itp-task-submissions/${id}/sub-status/change`, params)
+            .then((response: any) => {
+                if (response) {
+                    return response && response.data ? response.data : response
+                }
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
 
     function addITPTask(params: any, urlParams: any) {
         return fetchWrapper

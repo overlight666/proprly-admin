@@ -5,7 +5,7 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef, useState } from "react";
 import Input from "@/components/ui/input";
-import { FolderClosed, SearchIcon } from "lucide-react";
+import { FileWarning, FolderClosed, SearchIcon } from "lucide-react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { SelectedItpTaskAtom, TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
@@ -30,8 +30,8 @@ export default function TaskTable({ tableData, setReload, locationKey, tradeId }
     const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     return (
         <>
-            {modalType == 1 && <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} locationKey={locationKey} tradeId={tradeId} />}
-            {modalType == 2 && <PreviewModal isOpen={isOpen} closeModal={closeModal} setReload={setReload} />}
+            {modalType == 1 && <SubmitTaskModal isOpen={isOpen} closeModal={closeModal} selectedTask={selectedTask} locationKey={locationKey} tradeId={tradeId} status={""} submissionType={"submit"} setReload={setReload} />}
+            {modalType == 2 && <PreviewModal isOpen={isOpen} closeModal={closeModal} setReload={setReload} locationKey={locationKey} tradeId={tradeId} />}
             <div
                 className="flex w-full flex-row mt-5 justify-between
       "
@@ -99,14 +99,14 @@ export default function TaskTable({ tableData, setReload, locationKey, tradeId }
                                             `}
                                 >
                                     {getIcons(_data)}
-                                    <span className="text-[12px]">{ucword(_data)}</span>
+                                    <span className="text-[12px]">{ucword(_data).replace("Itp", "ITP")}</span>
                                 </div>
                             </div>
                         ),
                         7: (_data: any, _row: any) => (
                             <div className="flex flex-row gap-3 justify-center">
 
-                                {(_data.subStatus.toLowerCase() == "pending" || _data.subStatus.toLowerCase() == "rejected" || _data.subStatus.toLowerCase() == "itp reopened") && <SubmitIcon
+                                {(_data.subStatus.toLowerCase() == "pending" || _data.subStatus.toLowerCase() == "rejected") && <SubmitIcon
                                     onClick={() => {
                                         setModalType(1);
                                         setSelectedTask(_data);
@@ -118,6 +118,7 @@ export default function TaskTable({ tableData, setReload, locationKey, tradeId }
                                     data-tooltip-content="Submit"
                                     data-tooltip-place="top"
                                 />}
+
                                 {(_data.subStatus.toLowerCase() == "submitted" || _data.subStatus.toLowerCase() == "accepted" || _data.subStatus.toLowerCase() == "itp approved" || _data.subStatus.toLowerCase() == "in_progress") && <FolderClosed
                                     onClick={() => {
                                         setSelectedItp(_data);
@@ -129,6 +130,19 @@ export default function TaskTable({ tableData, setReload, locationKey, tradeId }
                                     data-tooltip-content="View"
                                     data-tooltip-place="top"
                                 />}
+
+                                {(_data.subStatus.toLowerCase() == "itp reopened") && <FileWarning
+                                    onClick={() => {
+                                        setSelectedItp(_data);
+                                        setModalType(2);
+                                        openModal();
+                                    }}
+                                    className="size-5 text-yellow-600 dark:text-gray-200 cursor-pointer"
+                                    data-tooltip-id="tooltip"
+                                    data-tooltip-content="Submit"
+                                    data-tooltip-place="top"
+                                />}
+
 
                             </div>
                         ),

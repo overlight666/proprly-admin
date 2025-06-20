@@ -59,7 +59,7 @@ export const SignUp = (): JSX.Element => {
 
     const verify = (otpString: any, id: any) => {
         registrationAction.verifyOtp({ otp: otpString }, id).then((e: any) => {
-            if (e && e?.data && e?.data?.verified) {
+            if (e && e?.verified) {
                 const stepNum = Math.min(activeStep + 1, 3);
                 setActiveStep(stepNum);
             } else {
