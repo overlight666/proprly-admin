@@ -189,7 +189,7 @@ export default function PreviewModal({
                                                         >
                                                             {getIcons(activity?.status)}
                                                             <span className="text-[12px]">
-                                                                {ucword(activity?.status)}
+                                                                {ucword(activity?.subStatus).replace("Itp", "ITP")}
                                                             </span>
                                                         </div>
                                                     </div>
