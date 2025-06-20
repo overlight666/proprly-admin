@@ -77,7 +77,8 @@ export default function PreviewModal({
         return result;
     }
 
-    console.log(taskSubStatus)
+    console.log("itp", itp);
+
     return (
         <>
             <Modal
