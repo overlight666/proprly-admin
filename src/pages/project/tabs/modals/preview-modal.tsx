@@ -77,7 +77,7 @@ export default function PreviewModal({
         return result;
     }
 
-    console.log("itp", itp);
+
 
     return (
         <>
