@@ -83,7 +83,7 @@ export default function ITPTaskManagement() {
         if (isType && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
             const floor = JSON.parse(selectedFoor);
             setLocationKey(floor?.taskSubmitionParams?.locationKey || '');
-            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}`
+            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeCodeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
                 if (reload && selectedTemplate) {
@@ -99,7 +99,7 @@ export default function ITPTaskManagement() {
             const ca = JSON.parse(selectedCommonArea);
 
             setLocationKey(submissionParams.key);
-            const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeId=${selectedId}`
+            const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeCodeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
                 if (reload && selectedTemplate) {
@@ -114,7 +114,7 @@ export default function ITPTaskManagement() {
             const property = JSON.parse(selectedProperty);
             const submissionParams = JSON.parse(isType);
             setLocationKey(submissionParams.key);
-            const params = `?locationKey=${submissionParams.key}&tradeId=${selectedId}&propertyId=${property.id}`
+            const params = `?locationKey=${submissionParams.key}&tradeCodeId=${selectedId}&propertyId=${property.id}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
                 if (reload && selectedTemplate) {
