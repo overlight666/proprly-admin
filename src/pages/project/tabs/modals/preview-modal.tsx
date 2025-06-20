@@ -77,7 +77,7 @@ export default function PreviewModal({
         return result;
     }
 
-    console.log("itp", itp);
+    console.log("itp", taskSubmission);
 
     return (
         <>
@@ -260,7 +260,7 @@ export default function PreviewModal({
 
                     </div>
                     <SubmitTaskModal setReload={setReload} isOpen={subModal.isOpen} closeModal={subModal.closeModal} selectedTask={itp} locationKey={locationKey} tradeId={tradeId} status={status} submissionType={submissionType} closeParent={closeModal} />
-                    {itp?.canSubmit && itp?.itpTaskSubmission?.canReSubmit && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                    {itp?.canSubmit && taskSubmission?.canReSubmit && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
 
                         <Button variant="default"
                             onClick={() => {
@@ -278,7 +278,7 @@ export default function PreviewModal({
 
                     </div>}
                     {
-                        itp?.canSubmit && !itp?.itpTaskSubmission?.canReSubmit && !itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                        itp?.canSubmit && !taskSubmission?.canReSubmit && !taskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
                             <div>
                                 <Label htmlFor="inputTwo">
                                     Change Status <span className="text-red-500">*</span>{" "}
@@ -303,57 +303,39 @@ export default function PreviewModal({
                         </div>
                     }
                     {
-                        itp?.canSubmit && itp?.itpTaskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
-                            <Button variant="default"
-                                onClick={() => {
-                                    itpAction
-                                        .taskSubmissionReopen(taskSubmission?.id, {
-                                            feedback: "accept",
-                                        }).then((res) => {
-                                            if (res) {
-                                                toast.success("Task submission has been accepted");
-                                                setTimeout(() => {
-                                                    setReload(makeid(10));
-                                                }, 1000);
+                        itp?.canSubmit && taskSubmission?.approvalNeededBy && <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-start">
+                            {
+                                taskSubmission?.approvalOptions?.map((option: any) => {
+                                    return (
+                                        <Button variant={option?.key == "accept" ? "default" : "destructive"}
+                                            onClick={() => {
+                                                itpAction
+                                                    .taskSubmissionReopen(taskSubmission?.id, {
+                                                        feedback: option?.key,
+                                                    }).then((res) => {
+                                                        if (res) {
+                                                            toast.success(`Task submission has been ${option?.key}`);
+                                                            setTimeout(() => {
+                                                                setReload(makeid(10));
+                                                            }, 1000);
 
-                                                closeModal();
-                                            }
+                                                            closeModal();
+                                                        }
 
-                                        })
-                                        .catch((e) => {
-                                            toast.error(e);
-                                        });
-                                }}
-                                type="button"
-                                className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
-                            >
-                                Accept Task
-                            </Button>
-                            <Button variant="destructive"
-                                onClick={() => {
-                                    itpAction
-                                        .taskSubmissionReopen(taskSubmission?.id, {
-                                            feedback: "reject",
-                                        }).then((res) => {
-                                            if (res) {
-                                                toast.info("Task submission has been rejected");
-                                                setTimeout(() => {
-                                                    setReload(makeid(10));
-                                                }, 1000);
+                                                    })
+                                                    .catch((e) => {
+                                                        toast.error(e);
+                                                    });
+                                            }}
+                                            type="button"
+                                            className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
+                                        >
+                                            {`${ucword(option?.key)} Task`}
+                                        </Button>
+                                    )
+                                })
+                            }
 
-                                                closeModal();
-                                            }
-
-                                        })
-                                        .catch((e) => {
-                                            toast.error(e);
-                                        });
-                                }}
-                                type="button"
-                                className="btn btn-success btn-update-event flex w-full justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 sm:w-auto"
-                            >
-                                Reject Task
-                            </Button>
                         </div>
                     }
                     {/* <Button variant="default"
