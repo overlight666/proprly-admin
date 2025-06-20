@@ -66,12 +66,17 @@ export default function ITPTaskManagement() {
 
     useEffect(() => {
         if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
-            console.log('resubmit')
             const submissionParams = JSON.parse(isType);
             setLocationKey(submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || '');
             const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
-                setMytemplates(tempaltes)
+                setMytemplates(tempaltes);
+                if (reload && selectedTemplate) {
+                    const template = JSON.parse(selectedTemplate);
+                    const newSelectedTemplate = tempaltes.find((temp: any) => temp.name === template.name);
+                    setSelectedTemplate(JSON.stringify(newSelectedTemplate));
+                    setReload("");
+                }
             });
 
         }
@@ -81,6 +86,12 @@ export default function ITPTaskManagement() {
             const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey || ''}&tradeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
+                if (reload && selectedTemplate) {
+                    const template = JSON.parse(selectedTemplate);
+                    const newSelectedTemplate = tempaltes.find((temp: any) => temp.name === template.name);
+                    setSelectedTemplate(JSON.stringify(newSelectedTemplate));
+                    setReload("");
+                }
             });
         }
         if (isType && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
@@ -91,6 +102,12 @@ export default function ITPTaskManagement() {
             const params = `?locationKey=${submissionParams.key}&commonAreaCategoryId=${ca.id}&tradeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
+                if (reload && selectedTemplate) {
+                    const template = JSON.parse(selectedTemplate);
+                    const newSelectedTemplate = tempaltes.find((temp: any) => temp.name === template.name);
+                    setSelectedTemplate(JSON.stringify(newSelectedTemplate));
+                    setReload("");
+                }
             });
         }
         if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
@@ -100,6 +117,12 @@ export default function ITPTaskManagement() {
             const params = `?locationKey=${submissionParams.key}&tradeId=${selectedId}&propertyId=${property.id}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes)
+                if (reload && selectedTemplate) {
+                    const template = JSON.parse(selectedTemplate);
+                    const newSelectedTemplate = tempaltes.find((temp: any) => temp.name === template.name);
+                    setSelectedTemplate(JSON.stringify(newSelectedTemplate));
+                    setReload("");
+                }
             });
         }
 
@@ -144,7 +167,7 @@ export default function ITPTaskManagement() {
     useEffect(() => {
         if (isType) {
             setTaskList([]);
-            // setSelectedTemplate("");
+            setSelectedTemplate("");
             const params = JSON.parse(isType);
             // setDataHolder(params)
             if (params?.data?.length == 0 && (!params?.taskParataskSubmitionParams || params?.taskSubmitionParams)) {
@@ -244,7 +267,7 @@ export default function ITPTaskManagement() {
                                     setSelectedProperty("");
                                     setSelectedFloor("");
                                     // setDataHolder(undefined);
-                                    // setSelectedTemplate("");
+                                    setSelectedTemplate("");
                                     setSelectedTower("");
                                     setMytemplates([]);
                                 }}
