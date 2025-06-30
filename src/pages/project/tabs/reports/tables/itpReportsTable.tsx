@@ -8,9 +8,9 @@ import { useParams } from "react-router";
 import DataTable from "datatables.net-react";
 
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
-import { getIcons, ticketColoring } from "@/helpers/textIcons";
-import { ucword } from "@/helpers";
-import { toast } from "react-toastify";
+// import { getIcons, ticketColoring } from "@/helpers/textIcons";
+// import { ucword } from "@/helpers";
+// import { toast } from "react-toastify";
 import { DownloadIcon } from "@/icons";
 
 export default function ITPReportsTable() {
@@ -28,16 +28,17 @@ export default function ITPReportsTable() {
     const [_sortedList, setSortedList] = useState<any[]>([]);
     const [towerList, setTowerList] = useState<any[]>([]);
     const [floorList, setFloorList] = useState<any[]>([]);
+    const [reports, setReports] = useState<any[]>([]);
     const [propertyList, setPropertyList] = useState<any[]>([]);
     const [commonAreaList, setCommonAreaList] = useState<any[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState<any>();
     const itpAction = useITPAction();
-    const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
+    // const ItpTemplatesList = useRecoilValue(ItpManagementListAtom);
     const setItpList = useSetRecoilState(ItpManagementListAtom);
     const itpLocations: any = useRecoilValue(ITPLocationListAtom);
     const [allCategory, setAllCategory] = useRecoilState(AllTradeCodesByKeyAtom);
     const setTaskList = useSetRecoilState(ItpTaskSubmissionListAtom);
-    const [dataHolder, setDataHolder] = useState<any>();
+    // const [dataHolder, setDataHolder] = useState<any>();
     const params = useParams();
     const { project_id } = params;
 
@@ -53,7 +54,7 @@ export default function ITPReportsTable() {
         setSelectedCommonArea("");
         setSelectedProperty("");
         setSelectedFloor("");
-        setDataHolder(undefined);
+        // setDataHolder(undefined);
         setSelectedTemplate("");
         setSelectedTower("");
     }, [project_id])
@@ -72,41 +73,51 @@ export default function ITPReportsTable() {
 
     useEffect(() => {
         //get itp with location
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
             const submissionParams = JSON.parse(isType);
-            itpAction.getItpTemplatesReports(project_id, selectedTemplate, submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey).then((res) => {
+            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey}&tradeCodeId=${selectedId}`;
+            setReports([]);
+            itpAction.getITPReports(project_id, params).then((res) => {
                 if (res) {
-                    setDataHolder(res)
+                    setReports(res);
                 }
             });
         }
         // get itp by construction
-        if (isType && selectedTemplate && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && selectedFoor && selectedTower && !selectedCommonArea && !selectedProperty) {
             const floor = JSON.parse(selectedFoor);
-            itpAction.getItpTemplatesReports(project_id, selectedTemplate, floor?.taskSubmitionParams?.locationKey || '').then((res) => {
+            const params = `?locationKey=${floor?.taskSubmitionParams?.locationKey}&tradeCodeId=${selectedId}`;
+            setReports([]);
+            itpAction.getITPReports(project_id, params).then((res) => {
                 if (res) {
-                    setDataHolder(res)
+                    setReports(res);
                 }
             });
+
         }
 
         // get itp by common area
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && selectedCommonArea && !selectedProperty) {
             // const ca = JSON.parse(selectedCommonArea);
             const submissionParams = JSON.parse(isType);
-            itpAction.getItpTemplatesReports(project_id, selectedTemplate, submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey).then((res) => {
+            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey}&tradeCodeId=${selectedId}`;
+            setReports([]);
+            itpAction.getITPReports(project_id, params).then((res) => {
                 if (res) {
-                    setDataHolder(res)
+                    setReports(res);
                 }
             });
+
         }
         // get itp by property
-        if (isType && selectedTemplate && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
+        if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && selectedProperty) {
             // const property = JSON.parse(selectedProperty);
             const submissionParams = JSON.parse(isType);
-            itpAction.getItpTemplatesReports(project_id, selectedTemplate, submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey).then((res) => {
+            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey}&tradeCodeId=${selectedId}`;
+            setReports([]);
+            itpAction.getITPReports(project_id, params).then((res) => {
                 if (res) {
-                    setDataHolder(res)
+                    setReports(res);
                 }
             });
         }
@@ -213,7 +224,7 @@ export default function ITPReportsTable() {
                                     setSelectedCommonArea("");
                                     setSelectedProperty("");
                                     setSelectedFloor("");
-                                    setDataHolder(undefined);
+                                    // setDataHolder(undefined);
                                     setSelectedTemplate("");
                                     setSelectedTower("");
                                 }}
@@ -338,7 +349,7 @@ export default function ITPReportsTable() {
                                 </select>
                             </div>
                         )}
-                        {
+                        {/* {
                             ItpTemplatesList?.length > 0 && <div className="flex flex-col">
                                 <Label>
                                     Select ITP Template<span className="text-red-500">*</span>
@@ -359,7 +370,7 @@ export default function ITPReportsTable() {
 
                                 </select>
                             </div>
-                        }
+                        } */}
 
                     </div>
 
@@ -370,16 +381,11 @@ export default function ITPReportsTable() {
             <div className="mt-8 space-y-3">
                 <DataTable
                     className="compact stripe"
-                    data={dataHolder?.template?.tasks?.map((item) => {
+                    data={reports?.map((item, index) => {
                         return [
-                            item?.inspectionWorkActivity || "n/a",
-                            item?.timingFrequency?.label || "n/a",
-                            item?.method?.label || "n/a",
-                            item?.acceptanceCriteria || "n/a",
-                            item?.comments || "n/a",
-                            item?.subStatus || "",
+                            index + 1,
+                            item?.itpTemplate?.name || "n/a",
                             item
-
                         ]
                     }) || []}
                     options={{
@@ -388,7 +394,7 @@ export default function ITPReportsTable() {
                         paging: true,
                         searching: true,
                         columnDefs: [
-                            { searchable: true, targets: [0, 1, 2, 3, 4, 5, 6] },
+                            { searchable: true, targets: [0, 1, 2] },
                             {
                                 className:
                                     "px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 text-[13px]",
@@ -408,31 +414,21 @@ export default function ITPReportsTable() {
                         },
                     }}
                     slots={{
-                        5: (_data: any, _row: any) => (
-                            <div className="flex items-center flex-nowrap">
-                                <div
-                                    className={`my-1 mr-2 flex items-center rounded-md border border-transparent px-2.5 py-0.5 text-sm shadow-sm transition-all text-nowrap whitespace-nowrap
-                                            ${ticketColoring(_data, true)}
-                                            `}
-                                >
-                                    {getIcons(_data)}
-                                    <span className="text-[12px]">{ucword(_data)}</span>
-                                </div>
-                            </div>
-                        ),
-                        6: (_data: any, _row: any) => (
+                        2: (_data: any, _row: any) => (
                             <div className="flex flex-row gap-3 justify-center">
-
-                                <DownloadIcon
-                                    onClick={() => {
-                                        toast.warning("Under Construction")
-                                    }}
-                                    className="size-5 text-green-600 dark:text-gray-200 cursor-pointer"
-                                    data-tooltip-id="tooltip"
-                                    data-tooltip-content="Download"
-                                    data-tooltip-place="top"
-                                />
-
+                                <a
+                                    href={_row[2]?.reportUrl}
+                                    target="_blank"
+                                    download={`${_row[2]?.reportName}`}
+                                    rel="noreferrer"
+                                >
+                                    <DownloadIcon
+                                        className="size-5 text-green-600 dark:text-gray-200 cursor-pointer"
+                                        data-tooltip-id="tooltip"
+                                        data-tooltip-content="Download"
+                                        data-tooltip-place="top"
+                                    />
+                                </a>
                             </div>
                         ),
                     }}
@@ -444,40 +440,21 @@ export default function ITPReportsTable() {
                                 scope="col"
                                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                             >
-                                Inspection Work Activity
+                                SR No
                             </th>
                             <th
                                 scope="col"
                                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                             >
-                                Timing/Frequency
+                                ITP Template
                             </th>
                             <th
                                 scope="col"
                                 className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                             >
-                                Method
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                            >
-                                Acceptance Criteria
-                            </th>
-
-                            <th
-                                scope="col"
-                                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                            >
-                                Comments
-                            </th>
-
-                            <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
-                                Status
-                            </th>
-                            <th className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                                 Actions
                             </th>
+
                         </tr>
                     </thead>
                 </DataTable>
