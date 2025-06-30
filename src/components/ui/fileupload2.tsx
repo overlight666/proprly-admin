@@ -11,6 +11,9 @@ interface UploadTypes {
     getUploadedFile?: any;
     group?: string;
     accept?: string;
+    setWhatType?: any;
+    fileType?: string;
+    limit?: number;
 }
 export default function FileUploader2({
     title,
@@ -20,9 +23,13 @@ export default function FileUploader2({
     getUploadedFile,
     group,
     accept = "application/pdf",
+    setWhatType,
+    fileType = "file",
+    limit = 0
 }: UploadTypes) {
     const [value, setValue] = useState<any>();
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setWhatType(fileType)
         const file = event.target.files?.[0];
         if (file) {
             setUploadQueue((oldArray: any) => [...oldArray, file]);
@@ -34,11 +41,11 @@ export default function FileUploader2({
         const fileHandler: File =
             uploadQueue &&
             uploadQueue.length > 0 &&
-            uploadQueue.find((q: any) => q.name === name && q?.id === file?.id);
+            uploadQueue.find((q: any) => q.name == name && q?.id == file?.id);
         const newQue =
             uploadQueue &&
             uploadQueue.length > 0 &&
-            uploadQueue.filter((q: any) => q?.id !== file?.id);
+            uploadQueue.filter((q: any) => q?.name !== file?.name);
         setUploadQueue(newQue);
         removeFile(fileHandler);
     };
@@ -51,6 +58,7 @@ export default function FileUploader2({
                 onChange={handleFileChange}
                 className="custom-class"
                 accept={accept}
+                disabled={limit > 0 && (uploadQueue && uploadQueue.length >= limit)}
             />
             <div className="max-h-[250px] overflow-auto">
                 {uploadQueue &&

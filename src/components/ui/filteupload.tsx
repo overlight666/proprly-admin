@@ -4,7 +4,14 @@ import { useRecoilValue } from 'recoil';
 import { Card, FileInput, Label, Progress } from "flowbite-react";
 import axios from "axios";
 
-function FileUploader({ isDrop, currentImage, updateImageId }: any) {
+interface UploadTypes {
+    updateImageId?: any;
+    currentImage?: any;
+    isDrop?: any;
+    setIsSignature?: any;
+}
+
+function FileUploader({ isDrop, currentImage, updateImageId, setIsSignature }: UploadTypes) {
 
     // const [file, setFile] = useState<any>(null);
     const [loader, setLoader] = useState(0);
@@ -23,6 +30,7 @@ function FileUploader({ isDrop, currentImage, updateImageId }: any) {
     };
 
     const handleUpload = async (file: any) => {
+        setIsSignature(false);
         const formData = new FormData();
         formData.append('files', file);
 
@@ -92,7 +100,7 @@ function FileUploader({ isDrop, currentImage, updateImageId }: any) {
                                     className='w-full object-cover'
                                 />
                             </div>}
-                        <FileInput id="dropzone-file" className="hidden" onChange={handleFileChange} />
+                        <FileInput id="dropzone-file" className="hidden" onChange={handleFileChange} accept='image/*' />
                     </Label>
                 </div>
             </Card> : <>

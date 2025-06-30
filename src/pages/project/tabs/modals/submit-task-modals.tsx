@@ -5,9 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { ImageType } from "@/lib/interface";
 import { toast } from "react-toastify";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { ItpSubmissionPreviewAtom, uploadResponseAtom } from "@/_recoil/states";
+import { ItpSubmissionPreviewAtom, tokenAtom, uploadResponseAtom } from "@/_recoil/states";
 import { useITPAction } from "@/_recoil/actions";
-import { useUploadForm } from "@/helpers/uploadLoader";
 import { useParams } from "react-router";
 import SubmissionComponent from "./submission-component";
 
@@ -22,36 +21,39 @@ export default function SubmitTaskModal({
     closeParent,
     setReload
 }: any) {
-    const [imageId, updateImageId] = useState("");
+    // const [imageId, updateImageId] = useState("");
     const [fileContainer, setFileContainer] = useState<ImageType[]>([]);
     const [uploadQueue, setUploadQueue] = useState<any>([]);
+    const [uploadQueue2, setUploadQueue2] = useState<any>([]);
+    const [imageContainer, setImageContainer] = useState<ImageType[]>([]);
     const [comment, setComment] = useState("");
     const uploadResponse: any = useRecoilValue(uploadResponseAtom);
+    const [whatType, setWhatType] = useState("");
     const setUploadResponse = useSetRecoilState(uploadResponseAtom);
     const itpAction = useITPAction();
     const sigCanvas = useRef<any>(null);
-    const { uploadForm, uploadedFile } = useUploadForm();
-    const [signature, setSignature] = useState<any>();
+    const token = useRecoilValue<any>(tokenAtom);
     const params = useParams();
     const { project_id } = params;
     const taskSubmission = useRecoilValue(ItpSubmissionPreviewAtom)
 
     useEffect(() => {
-        if (uploadedFile) {
-            setSignature(uploadedFile);
-        }
-    }, [uploadedFile])
-
-    useEffect(() => {
-        if (uploadResponse) {
+        if (uploadResponse && whatType === "file") {
             if (fileContainer && fileContainer.length > 0) {
                 setFileContainer((oldArray: any) => [...oldArray, uploadResponse]);
             } else {
                 setFileContainer([uploadResponse]);
             }
             setUploadResponse(undefined);
+        } else if (uploadResponse && whatType === "image") {
+            if (imageContainer && imageContainer.length > 0) {
+                setImageContainer((oldArray: any) => [...oldArray, uploadResponse]);
+            } else {
+                setImageContainer([uploadResponse]);
+            }
+            setUploadResponse(undefined);
         }
-    }, [uploadResponse]);
+    }, [uploadResponse, whatType]);
 
 
     const dataURLtoFile = (dataurl: string, filename: string) => {
@@ -74,6 +76,14 @@ export default function SubmitTaskModal({
         setFileContainer(newFiles);
     };
 
+    const removeFile2 = (file: File) => {
+        const newFiles: any =
+            imageContainer &&
+            imageContainer.length > 0 &&
+            imageContainer.filter((e) => e.name !== file.name);
+        setImageContainer(newFiles);
+    };
+
     const makeid = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -85,39 +95,50 @@ export default function SubmitTaskModal({
     }
 
     const onSubmit = () => {
-        if (!imageId && submissionType != "statusChange") {
+        if (imageContainer?.length == 0 && submissionType != "statusChange") {
             toast.error("Please upload an image")
         } else if (fileContainer?.length == 0) {
             toast.error("Please upload at least 1 file")
-        } else if (!signature && submissionType != "statusChange") {
-            toast.error("Please upload your signature")
-        } else {
+        }
+        // else if (!signature && submissionType != "statusChange") {
+        //     toast.error("Please upload your signature")
+        // } 
+        else {
 
             if (submissionType === "resubmit") {
-                const params = {
-                    "subStatusCode": status,
-                    "comment": comment || "",
-                    "documentIds": fileContainer.map((file) => file.id),
-                    "imageIds": [imageId],
-                    "signatureImageId": signature?.id,
-                }
-                itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
+                itpAction.uploadSignature(dataURLtoFile(sigCanvas?.current?.toDataURL(), makeid(20)), token).then((res: any) => {
                     if (res) {
-                        toast.success("Task has been successfully submitted");
-                        setTimeout(() => {
-                            setReload(makeid(10));
-                        }, 1000);
+                        const params = {
+                            "subStatusCode": status,
+                            "comment": comment || "",
+                            "documentIds": fileContainer.map((file) => file.id),
+                            "imageIds": imageContainer.map((file) => file.id),
+                            "signatureImageId": res?.id,
+                        }
+                        itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
+                            if (res) {
+                                toast.success("Task has been successfully submitted");
+                                setTimeout(() => {
+                                    setReload(makeid(10));
+                                }, 1000);
 
-                        closeModal();
-                        closeParent();
+                                closeModal();
+                                closeParent();
 
+                            }
+                        })
+                    } else {
+                        toast.error("Failed to upload signature");
                     }
+
                 })
+
             } else if (submissionType === "statusChange") {
                 const params = {
                     "subStatusCode": status,
                     "comment": comment || "",
                     "documentIds": fileContainer.map((file) => file.id),
+                    "imageIds": imageContainer.map((file) => file.id),
                 }
                 itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
                     if (res) {
@@ -132,27 +153,34 @@ export default function SubmitTaskModal({
                     }
                 })
             } else {
-                const params = {
-                    "comment": comment || "",
-                    "documentIds": fileContainer.map((file) => file.id),
-                    "itpTaskId": selectedTask?.id,
-                    "projectId": project_id,
-                    "imageId": imageId,
-                    "tradeCodeId": tradeId,
-                    "signatureImageId": signature?.id,
-                    "locationKey": locationKey
-                }
-                itpAction.taskSubmission(params).then((res) => {
+                itpAction.uploadSignature(dataURLtoFile(sigCanvas?.current?.toDataURL(), makeid(20)), token).then((res: any) => {
                     if (res) {
-                        toast.success("Task has been successfully submitted")
-                        setTimeout(() => {
-                            setReload(makeid(10));
-                        }, 1000);
+                        const params = {
+                            "comment": comment || "",
+                            "documentIds": fileContainer.map((file) => file.id),
+                            "itpTaskId": selectedTask?.id,
+                            "projectId": project_id,
+                            "imageId": imageContainer.map((file) => file.id),
+                            "tradeCodeId": tradeId,
+                            "signatureImageId": res?.id,
+                            "locationKey": locationKey
+                        }
+                        itpAction.taskSubmission(params).then((res) => {
+                            if (res) {
+                                toast.success("Task has been successfully submitted")
+                                setTimeout(() => {
+                                    setReload(makeid(10));
+                                }, 1000);
 
-                        closeModal();
+                                closeModal();
 
+                            }
+                        })
+                    } else {
+                        toast.error("Failed to upload signature");
                     }
                 })
+
             }
 
         }
@@ -165,7 +193,7 @@ export default function SubmitTaskModal({
             <Modal
                 isOpen={isOpen}
                 onClose={closeModal}
-                className="max-w-[700px] max-h-[600px] p-6 lg:p-10 overflow-auto"
+                className="max-w-[700px] max-h-[500px] p-6 lg:p-10 mt-[5vh] overflow-auto"
             >
                 <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
                     <div>
@@ -176,14 +204,17 @@ export default function SubmitTaskModal({
                     <div className="mt-1 space-y-3">
                         <div className="space-y-2">
                             <SubmissionComponent
+                                setWhatType={setWhatType}
                                 removeFile={removeFile}
+                                removeFile2={removeFile2}
                                 setUploadQueue={setUploadQueue}
                                 uploadQueue={uploadQueue}
-                                updateImageId={updateImageId}
+                                setUploadQueue2={setUploadQueue2}
+                                uploadQueue2={uploadQueue2}
+                                // updateImageId={updateImageId}
                                 comment={comment}
                                 setComment={setComment}
                                 sigCanvas={sigCanvas}
-                                uploadForm={uploadForm}
                                 dataURLtoFile={dataURLtoFile}
                                 submissionType={submissionType}
                             />
