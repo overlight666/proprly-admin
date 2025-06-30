@@ -47,7 +47,8 @@ function useITPAction() {
         getItpSubmission,
         taskResubmission,
         getItpSubmissionSubStatus,
-        uploadSignature
+        uploadSignature,
+        getITPReports
     };
 
     async function uploadSignature(file: any, token: any) {
@@ -139,6 +140,31 @@ function useITPAction() {
                 }
             });
     }
+
+    function getITPReports(project_id: any, params: any) {
+        return fetchWrapper
+            .get(`${baseUrl}/reports/project/${project_id}${params}`)
+            .then((response: any) => {
+                return response && response.data ? response.data : response;
+            }).catch((e: any) => {
+                if (e?.messages) {
+                    if (e?.messages?.length > 0) {
+                        e?.messages?.map((m: any) => {
+                            return toast.error(m?.message);
+                        });
+                    } else {
+                        toast.error(e);
+                    }
+                } else {
+                    if (e) {
+                        toast.error(e);
+                    } else {
+                        toast.error("Unknown error, please contact admin");
+                    }
+                }
+            });
+    }
+
 
     function getItpOptions() {
         return fetchWrapper
