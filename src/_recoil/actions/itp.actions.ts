@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 import { errorMessage, useFetchWrapper } from "@/helpers";
 import { AllTradeCodesAtom, AllTradeCodesByKeyAtom, ITPLocationListAtom, ItpManagementListAtom, ItpSubmissionPreviewAtom, ItpSubmissionSubStatusAtom, ItpTaskConstructionDataAtom, ItpTaskListAtom, ItpTaskSubmissionListAtom, LocationListAtom, TIPOptionsAtom, TradeCodesByRegionAtom } from "../states";
 import { toast } from "react-toastify";
-
+import axios from "axios";
 export { useITPAction };
 
 function useITPAction() {
@@ -46,9 +46,26 @@ function useITPAction() {
         getItpTemplatesByLocation,
         getItpSubmission,
         taskResubmission,
-        getItpSubmissionSubStatus
+        getItpSubmissionSubStatus,
+        uploadSignature
     };
 
+    async function uploadSignature(file: any, token: any) {
+        const formData = new FormData();
+        formData.append("files", file);
+        return axios({
+            method: "post",
+            url: `${baseUrl}/upload`,
+            data: formData,
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then((response: any) => {
+                return response.data[0];
+            })
+            .catch((error: any) => {
+                return error;
+            });
+    }
 
     function getItpSubmissionSubStatus(id: any) {
         return fetchWrapper

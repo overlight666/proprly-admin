@@ -103,7 +103,7 @@ export default function PreviewModal({
                                                     <div className="mb-1 text-sm font-normal leading-none text-gray-800 dark:text-gray-200">
                                                         <span>{ucword(activity?.user?.fullName)}</span>
                                                     </div>
-                                                    {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Documents</span>}
+                                                    {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submitted Documents</span>}
                                                     {activity?.itpSubmissionDocument && activity?.itpSubmissionDocument.length > 0 && (
                                                         <div className="relative flex flex-wrap gap-2 bg-gray-50 dark:bg-gray-800 rounded-md p-2 my-2 custom-scrollbar">
                                                             {activity.itpSubmissionDocument.map((img, index) => {
@@ -136,7 +136,7 @@ export default function PreviewModal({
                                                         </div>
                                                     )}
 
-                                                    {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submission Image</span>}
+                                                    {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && <span className="text-gray-600 dark:text-gray-400 text-sm mt-2">Submitted Image</span>}
 
                                                     {activity?.itpSubmissionImage && activity?.itpSubmissionImage.length > 0 && (
                                                         <div className="relative flex flex-wrap gap-2 bg-gray-50 dark:bg-gray-800 rounded-md p-2 my-2  custom-scrollbar">
