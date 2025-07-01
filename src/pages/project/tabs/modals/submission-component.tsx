@@ -4,6 +4,7 @@ import FileUploader2 from "@/components/ui/fileupload2";
 import { Label } from "flowbite-react";
 import TextArea from "@/components/ui/text-area";
 import SignatureCanvas from 'react-signature-canvas'
+import FileUploader3 from "@/components/ui/fileupload3";
 
 
 export default function SubmissionComponent({
@@ -25,8 +26,10 @@ export default function SubmissionComponent({
         <>
 
             <div className="space-y-2">
-                {/* <FileUploader isDrop={true} currentImage={null} updateImageId={updateImageId} setIsSignature={setIsSignature} /> */}
-                <FileUploader2
+                <FileUploader3 isDrop={true} removeFile={removeFile2}
+                    setUploadQueue={setUploadQueue2}
+                    uploadQueue={uploadQueue2} accept="image/*" limit={6} />
+                {/* <FileUploader2
                     title="Upload images"
                     removeFile={removeFile2}
                     setUploadQueue={setUploadQueue2}
@@ -35,7 +38,7 @@ export default function SubmissionComponent({
                     fileType="image"
                     accept="image/*"
                     limit={6}
-                />
+                /> */}
             </div>
             <div className="space-y-2">
                 <FileUploader2
