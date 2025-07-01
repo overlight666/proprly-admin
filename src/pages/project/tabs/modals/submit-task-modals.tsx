@@ -112,7 +112,7 @@ export default function SubmitTaskModal({
                             "subStatusCode": status,
                             "comment": comment || "",
                             "documentIds": fileContainer.map((file) => file.id),
-                            "imageIds": imageContainer.map((file) => file.id),
+                            "imageIds": uploadQueue2.map((file) => file.id),
                             "signatureImageId": res?.id,
                         }
                         itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
@@ -138,7 +138,7 @@ export default function SubmitTaskModal({
                     "subStatusCode": status,
                     "comment": comment || "",
                     "documentIds": fileContainer.map((file) => file.id),
-                    "imageIds": imageContainer.map((file) => file.id),
+                    "imageIds": uploadQueue2.map((file) => file.id),
                 }
                 itpAction.taskResubmission(taskSubmission?.id, params).then((res) => {
                     if (res) {
@@ -154,13 +154,14 @@ export default function SubmitTaskModal({
                 })
             } else {
                 itpAction.uploadSignature(dataURLtoFile(sigCanvas?.current?.toDataURL(), makeid(20)), token).then((res: any) => {
+                    console.log("Signature Response", res);
                     if (res) {
                         const params = {
                             "comment": comment || "",
                             "documentIds": fileContainer.map((file) => file.id),
                             "itpTaskId": selectedTask?.id,
                             "projectId": project_id,
-                            "imageId": imageContainer.map((file) => file.id),
+                            "imageIds": uploadQueue2.map((file) => file.id),
                             "tradeCodeId": tradeId,
                             "signatureImageId": res?.id,
                             "locationKey": locationKey

@@ -118,7 +118,7 @@ export default function PreviewModal({
                                                                             data-tooltip-id="tooltip"
                                                                             data-tooltip-content={img?.key}
                                                                         >
-                                                                            <PDFIcon className="size-10" />
+                                                                            <PDFIcon className='w-16 h-16 object-cover' />
                                                                         </a>
                                                                         <span className="text-black dark:text-gray-200 text-[12px]">
                                                                             {img.name}
@@ -129,7 +129,8 @@ export default function PreviewModal({
                                                                         key={index}
                                                                         src={img.url}
                                                                         onClick={() => viewImage(img)}
-                                                                        className="object-scale-down object-center cursor-pointer w-[20%]"
+                                                                        className='w-16 h-16 object-cover'
+                                                                    // className="object-scale-down object-center cursor-pointer w-[20%]"
                                                                     />
                                                                 );
                                                             })}
@@ -152,18 +153,19 @@ export default function PreviewModal({
                                                                             data-tooltip-id="tooltip"
                                                                             data-tooltip-content={img?.key}
                                                                         >
-                                                                            <PDFIcon className="size-10" />
+                                                                            <PDFIcon className='w-16 h-16 object-cover' />
                                                                         </a>
-                                                                        <span className="text-black dark:text-gray-200 text-[12px]">
+                                                                        {/* <span className="text-black dark:text-gray-200 text-[12px]">
                                                                             {img.name}
-                                                                        </span>
+                                                                        </span> */}
                                                                     </div>
                                                                 ) : (
                                                                     <img
                                                                         key={index}
                                                                         src={img.url}
                                                                         onClick={() => viewImage(img)}
-                                                                        className="object-scale-down object-center cursor-pointer w-[20%]"
+                                                                        className='w-16 h-16 object-cover'
+                                                                    // className="object-scale-down object-center cursor-pointer w-[20%]"
                                                                     />
                                                                 );
                                                             })}
@@ -176,7 +178,8 @@ export default function PreviewModal({
                                                                 key={activity?.signatureImage?.url}
                                                                 src={activity?.signatureImage?.url}
                                                                 onClick={() => viewImage(activity?.signatureImage)}
-                                                                className="object-scale-down object-center cursor-pointer w-[20%]"
+                                                                // className='w-16 h-16 object-cover'
+                                                                className=" object-center cursor-pointer h-20"
                                                             />
                                                         </div>
                                                     )}

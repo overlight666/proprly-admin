@@ -5,7 +5,7 @@ import DataTable from "datatables.net-react";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { useRef, useState } from "react";
 import Input from "@/components/ui/input";
-import { FileWarning, FolderClosed, SearchIcon } from "lucide-react";
+import { FileWarning, FolderCheck, FolderClosed, SearchIcon } from "lucide-react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { SelectedItpTaskAtom, TIPOptionsAtom, uploadResponseAtom } from "@/_recoil/states";
 import { getIcons, ticketColoring } from "@/helpers/textIcons";
@@ -126,6 +126,18 @@ export default function TaskTable({ tableData, setReload, locationKey, tradeId }
                                         openModal();
                                     }}
                                     className="size-5 text-blue-700 cursor-pointer"
+                                    data-tooltip-id="tooltip"
+                                    data-tooltip-content="View"
+                                    data-tooltip-place="top"
+                                />}
+
+                                {!_data?.canSubmit && _data?.itpTaskSubmission && !_data?.itpTaskSubmission?.canReSubmit && <FolderCheck
+                                    onClick={() => {
+                                        setSelectedItp(_data);
+                                        setModalType(2);
+                                        openModal();
+                                    }}
+                                    className="size-5 text-green-700 cursor-pointer"
                                     data-tooltip-id="tooltip"
                                     data-tooltip-content="View"
                                     data-tooltip-place="top"
