@@ -68,7 +68,7 @@ export default function ITPTaskManagement() {
         if (isType && selectedId && !selectedFoor && !selectedTower && !selectedCommonArea && !selectedProperty) {
             const submissionParams = JSON.parse(isType);
             setLocationKey(submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || '');
-            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}`
+            const params = `?locationKey=${submissionParams?.taskParataskSubmitionParams?.locationKey || submissionParams?.taskSubmitionParams?.locationKey || ''}&tradeCodeId=${selectedId}`
             itpAction.getItpTemplatesByLocation(project_id, params).then((tempaltes) => {
                 setMytemplates(tempaltes);
                 if (reload && selectedTemplate) {
