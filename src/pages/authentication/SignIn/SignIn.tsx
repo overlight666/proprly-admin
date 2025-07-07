@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from "../../../components/ui/card";
 import { Checkbox } from "../../../components/ui/checkbox";
-import { Alert, AlertDescription } from "../../../components/ui/alert";
+
 import Input from "../../../components/ui/input";
 import { useState } from "react";
 import { PublicWrapper } from "@/components/public-wrapper";
@@ -83,13 +83,23 @@ export const SignIn = (): JSX.Element => {
                     </CardHeader>
 
                     <CardContent className="space-y-4">
-                        {/* Error Alert */}
+                        {/* Error Message */}
                         {authError && (
-                            <Alert variant="destructive" className="border-red-200 bg-red-50">
-                                <AlertDescription className="text-red-800 text-sm">
+                            <div className="bg-red-500 text-white px-4 py-3 rounded-md flex items-center justify-between">
+                                <span className="text-sm font-medium">
                                     {authError}
-                                </AlertDescription>
-                            </Alert>
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => setAuthError("")}
+                                    className="ml-4 text-white hover:text-red-200 transition-colors"
+                                    aria-label="Close error message"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
                         )}
 
                         <form onSubmit={formik.handleSubmit} className="space-y-4">
