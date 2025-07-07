@@ -48,7 +48,7 @@ export const SignIn = (): JSX.Element => {
 
     return (
         <div className="min-h-screen bg-cover bg-center bg-no-repeat relative" 
-             style={{ backgroundImage: "url('/images/authentication/login.jpg')" }}>
+             style={{ backgroundImage: "url('/images/Background.png')" }}>
             {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             
