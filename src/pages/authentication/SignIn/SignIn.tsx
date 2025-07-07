@@ -85,14 +85,14 @@ export const SignIn = (): JSX.Element => {
                     <CardContent className="space-y-4">
                         {/* Error Message */}
                         {authError && (
-                            <div className="bg-red-500 text-white px-4 py-3 rounded-md flex items-center justify-between">
+                            <div className="bg-red-200 text-red-600 px-4 py-3 rounded-md flex items-center justify-between">
                                 <span className="text-sm font-medium">
                                     {authError}
                                 </span>
                                 <button
                                     type="button"
                                     onClick={() => setAuthError("")}
-                                    className="ml-4 text-white hover:text-red-200 transition-colors"
+                                    className="ml-4 text-red-500 hover:text-red-200 transition-colors"
                                     aria-label="Close error message"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -351,22 +351,6 @@ function useUserActions() {
         };
         navigate(from);
         // history.push(from);
-      }).catch((e: any) => {
-        if (e?.messages) {
-          if (e?.messages?.length > 0) {
-            e?.messages?.map((m: any) => {
-              return toast.error(m?.message);
-            });
-          } else {
-            toast.error(e);
-          }
-        } else {
-          if (e) {
-            toast.error(e);
-          } else {
-            toast.error("Unknown error, please contact admin");
-          }
-        }
       });
   }
 
