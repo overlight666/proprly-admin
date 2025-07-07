@@ -2,14 +2,25 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/nav
 import { Button } from "./ui/button";
 import { LogInIcon } from "lucide-react";
 import { useNavigate } from "react-router";
+import { FC, ReactNode } from "react";
 
-export const PublicWrapper = ({ children }: any): JSX.Element => {
+interface PublicWrapperProps {
+    children: ReactNode;
+    fullScreen?: boolean;
+}
+
+export const PublicWrapper: FC<PublicWrapperProps> = ({ children, fullScreen = false }) => {
     const navigate = useNavigate();
     const navItems = [
         { label: "Home", href: "#" },
         { label: "Proprly", href: "#" },
         { label: "Contact Us", href: "#" },
     ];
+
+    if (fullScreen) {
+        return <>{children}</>;
+    }
+
     return (
         <div className="bg-white flex flex-row justify-center w-full min-h-screen">
             <div className="relative w-full">
@@ -65,5 +76,5 @@ export const PublicWrapper = ({ children }: any): JSX.Element => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
