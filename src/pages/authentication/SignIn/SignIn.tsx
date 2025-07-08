@@ -123,7 +123,7 @@ export const SignIn = (): JSX.Element => {
                                     htmlFor="email"
                                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
-                                    Email*
+                                    Email<span className="text-red-500">*</span>
                                 </label>
                                 <Input
                                     value={formik.values.email}
@@ -142,7 +142,7 @@ export const SignIn = (): JSX.Element => {
                                     htmlFor="password"
                                     className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
-                                    Password*
+                                    Password<span className="text-red-500">*</span>
                                 </label>
                                 <div className="relative">
                                     <Input

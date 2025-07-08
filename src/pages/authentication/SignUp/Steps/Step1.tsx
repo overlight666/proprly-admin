@@ -68,7 +68,7 @@ export const Step1 = ({
                 {/* User Type */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        User Type*
+                        User Type<span className="text-red-500">*</span>
                     </label>
                     <Select
                         options={userTypeOptions}
@@ -84,7 +84,7 @@ export const Step1 = ({
                 {/* Company Name */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Company Name*
+                        Company Name<span className="text-red-500">*</span>
                     </label>
                     <Input
                         value={values.organizationName}
@@ -100,7 +100,7 @@ export const Step1 = ({
                 {/* Unique ID */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Unique ID*
+                        Unique ID<span className="text-red-500">*</span>
                     </label>
                     <Input
                         value={values.uniqueId}
@@ -116,7 +116,7 @@ export const Step1 = ({
                 {/* Country */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Country*
+                        Country<span className="text-red-500">*</span>
                     </label>
                     <Select
                         options={countryOptions}
@@ -132,7 +132,7 @@ export const Step1 = ({
                 {/* Address */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Address*
+                        Address<span className="text-red-500">*</span>
                     </label>
                     <Input
                         value={values.address}

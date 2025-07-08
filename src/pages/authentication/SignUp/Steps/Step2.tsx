@@ -51,7 +51,7 @@ export const Step2 = ({
                 {/* Full Name */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Full Name*
+                        Full Name<span className="text-red-500">*</span>
                     </label>
                     <Input
                         value={values.fullName}
@@ -67,7 +67,7 @@ export const Step2 = ({
                 {/* Mobile Number */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Mobile Number*
+                        Mobile Number<span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
                         country={"au"}
@@ -83,7 +83,7 @@ export const Step2 = ({
                 {/* Email Address */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Email Address*
+                        Email Address<span className="text-red-500">*</span>
                     </label>
                     <Input
                         value={values.email}
@@ -100,7 +100,7 @@ export const Step2 = ({
                 {/* Password */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Password*
+                        Password<span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                         <Input
@@ -126,7 +126,7 @@ export const Step2 = ({
                 {/* Confirm Password */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Confirm Password*
+                        Confirm Password<span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                         <Input
