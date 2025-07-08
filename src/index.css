@@ -584,6 +584,19 @@ span.flatpickr-weekday,
   @apply opacity-100;
 }
 
+/* Global styling for required field asterisks */
+.text-red-500,
+.text-red-600,
+span[class*="text-red"] {
+  @apply text-red-500 !important;
+}
+
+/* Ensure all asterisks in labels are red */
+label span:contains("*"),
+label > span {
+  @apply text-red-500;
+}
+
 .dt-input {
   width: 50px !important;
   @apply dark:text-white !important;
