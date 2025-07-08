@@ -52,7 +52,7 @@ export const Step1 = ({
     ];
 
     return (
-        <div className="w-full max-w-[400px]">
+        <div className="w-full min-w-[500px]">
             {/* Heading */}
             <div className="text-center mb-6">
                 <h1 className="text-2xl font-semibold text-gray-900 mb-2">

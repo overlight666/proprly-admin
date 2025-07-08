@@ -57,11 +57,11 @@ export const SignIn = (): JSX.Element => {
     });
 
     return (
-        <div className="min-h-screen bg-cover bg-center bg-no-repeat relative" 
-             style={{ backgroundImage: "url('/images/Background.png')" }}>
+        <div className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+            style={{ backgroundImage: "url('/images/Background.png')" }}>
             {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-            
+
             {/* Header */}
             <div className="relative z-10 flex justify-between items-center p-6">
                 <div className="flex items-center gap-2">
@@ -71,8 +71,8 @@ export const SignIn = (): JSX.Element => {
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Home</a>
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Proprly</a>
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Contact Us</a>
-                    <Button 
-                        onClick={() => navigate("/sign-up")} 
+                    <Button
+                        onClick={() => navigate("/sign-up")}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
                     >
                         Sign Up
@@ -84,10 +84,10 @@ export const SignIn = (): JSX.Element => {
             <div className="relative z-10 flex justify-center items-center min-h-[calc(100vh-120px)] px-6">
                 <Card className="w-full max-w-md bg-white shadow-2xl rounded-lg">
                     <CardHeader className="text-center space-y-2 pb-4">
-                        <CardTitle className="text-2xl font-bold text-gray-900">
+                        <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                             Sign In
                         </CardTitle>
-                        <CardDescription className="text-gray-600">
+                        <CardDescription className="text-gray-600 dark:text-gray-300">
                             Enter your email and password to sign in!
                         </CardDescription>
                     </CardHeader>
@@ -121,7 +121,7 @@ export const SignIn = (): JSX.Element => {
                             <div className="space-y-2">
                                 <label
                                     htmlFor="email"
-                                    className="block text-sm font-medium text-gray-700"
+                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     Email*
                                 </label>
@@ -140,7 +140,7 @@ export const SignIn = (): JSX.Element => {
                             <div className="space-y-2">
                                 <label
                                     htmlFor="password"
-                                    className="block text-sm font-medium text-gray-700"
+                                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                                 >
                                     Password*
                                 </label>
@@ -175,7 +175,7 @@ export const SignIn = (): JSX.Element => {
                                     />
                                     <label
                                         htmlFor="keep-logged-in"
-                                        className="text-sm text-gray-600"
+                                        className="text-sm text-gray-600 dark:text-gray-300"
                                     >
                                         Keep me logged in
                                     </label>
@@ -199,7 +199,7 @@ export const SignIn = (): JSX.Element => {
                             </Button>
 
                             <div className="text-center pt-2">
-                                <span className="text-sm text-gray-600">
+                                <span className="text-sm text-gray-600 dark:text-gray-300">
                                     Not registered yet?{" "}
                                 </span>
                                 <a
