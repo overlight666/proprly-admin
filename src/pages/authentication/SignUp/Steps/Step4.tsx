@@ -57,15 +57,15 @@ export const Step4 = ({
     };
 
     return (
-        <div className="w-full max-w-[400px]">
+        <div className="w-full min-w-[500px] max-w-[500px]">
             {/* Heading */}
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+                <h1 className="text-2xl font-semibold text-gray-900 mb-4 dark:text-gray-200">
                     Verify your Mobile Number
                 </h1>
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-500 text-sm dark:text-gray-400">
                     We sent you a six-digit code to{" "}
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-gray-900 dark:text-gray-200">
                         xxxxx{values.mobileNumber?.substring(values.mobileNumber.length - 3)}
                     </span>. Enter the code to confirm your mobile number.
                 </p>
@@ -111,7 +111,7 @@ export const Step4 = ({
             {/* OTP Section */}
             <div className="space-y-6">
                 <div className="space-y-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         OTP
                     </label>
                     
@@ -122,14 +122,14 @@ export const Step4 = ({
                                     <InputOTPSlot
                                         index={index}
                                         onChange={(value) => handleOTPChange(index, value)}
-                                        className="w-12 h-12 text-center border-2 border-gray-300 rounded-lg text-lg font-semibold focus:border-blue-600 focus:outline-none"
+                                        className="w-12 h-12 text-center border-2 border-gray-300 rounded-lg text-lg font-semibold focus:border-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                                     />
                                 </InputOTPGroup>
                             ))}
                         </InputOTP>
                     </div>
 
-                    <p className="text-center text-sm text-gray-500">
+                    <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                         Enter a number between 0 and 9
                     </p>
                 </div>
@@ -148,7 +148,7 @@ export const Step4 = ({
                     <button
                         type="button"
                         onClick={handleResendOTP}
-                        className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                        className="text-blue-600 hover:text-blue-800 font-medium text-sm dark:text-blue-400 dark:hover:text-blue-300"
                     >
                         Resend OTP
                     </button>

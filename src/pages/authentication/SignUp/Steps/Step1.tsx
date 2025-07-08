@@ -55,10 +55,10 @@ export const Step1 = ({
         <div className="w-full min-w-[500px]">
             {/* Heading */}
             <div className="text-center mb-6">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                <h1 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-200">
                     Let's get started
                 </h1>
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-500 text-sm dark:text-gray-400">
                     Fill in your basic details
                 </p>
             </div>
@@ -67,7 +67,7 @@ export const Step1 = ({
             <div className="space-y-4">
                 {/* User Type */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         User Type*
                     </label>
                     <Select
@@ -83,7 +83,7 @@ export const Step1 = ({
 
                 {/* Company Name */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Company Name*
                     </label>
                     <Input
@@ -99,7 +99,7 @@ export const Step1 = ({
 
                 {/* Unique ID */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Unique ID*
                     </label>
                     <Input
@@ -115,7 +115,7 @@ export const Step1 = ({
 
                 {/* Country */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Country*
                     </label>
                     <Select
@@ -131,7 +131,7 @@ export const Step1 = ({
 
                 {/* Address */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Address*
                     </label>
                     <Input
@@ -147,7 +147,7 @@ export const Step1 = ({
 
                 {/* Building No./Block No. */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Building No./Block No.
                     </label>
                     <Input
@@ -170,10 +170,10 @@ export const Step1 = ({
 
                 {/* Login Link */}
                 <div className="text-center text-sm mt-4">
-                    <span className="text-gray-600">
+                    <span className="text-gray-600 dark:text-gray-400">
                         Already registered?{" "}
                     </span>
-                    <a href="/sign-in" className="text-blue-600 font-medium hover:text-blue-800">
+                    <a href="/sign-in" className="text-blue-600 font-medium hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                         Click here to Log In
                     </a>
                 </div>

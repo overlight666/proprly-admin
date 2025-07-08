@@ -175,7 +175,7 @@ export const SignUp = (): JSX.Element => {
 
             {/* Main Content */}
             <div className="relative z-10 flex justify-center items-center min-h-[calc(100vh-120px)] px-6">
-                <Card className="w-auto shadow-2xl rounded-lg bg-white">
+                <Card className="w-auto min-w-[500px] shadow-2xl rounded-lg bg-white dark:bg-gray-800">
                     <CardContent className="p-8">
                         <div className="flex flex-col items-center justify-center gap-8">
                             {/* Progress Steps */}

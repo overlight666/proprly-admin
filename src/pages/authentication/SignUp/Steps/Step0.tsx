@@ -26,7 +26,7 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
         <div className="w-full min-w-[500px] justify-center items-center flex flex-col">
             {/* Heading */}
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-300">
+                <h1 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-200">
                     Select type
                 </h1>
             </div>
@@ -35,37 +35,37 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
             <div className="space-y-4 mb-8 w-[300px]">
                 {/* Company Option */}
                 <div
-                    className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all`}
+                    className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
                     onClick={() => handleTypeSelect("Company")}
                 >
                     <div className="flex items-center">
                         <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Company"
                             ? "border-blue-600 bg-blue-600"
-                            : "border-gray-300"
+                            : "border-gray-300 dark:border-gray-500"
                             }`}>
                             {selectedType === "Company" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>
-                        <span className={`text-gray-900 font-medium dark:text-gray-200`}>Company</span>
+                        <span className="text-gray-900 font-medium dark:text-gray-200">Company</span>
                     </div>
                 </div>
 
                 {/* Individual Option */}
                 <div
-                    className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all`}
+                    className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
                     onClick={() => handleTypeSelect("Individual")}
                 >
                     <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center dark:text-gray-300 ${selectedType === "Individual"
+                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Individual"
                             ? "border-blue-600 bg-blue-600"
-                            : "border-gray-300"
+                            : "border-gray-300 dark:border-gray-500"
                             }`}>
                             {selectedType === "Individual" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>
-                        <span className={`text-gray-900 font-medium dark:text-gray-200`}>Individual</span>
+                        <span className="text-gray-900 font-medium dark:text-gray-200">Individual</span>
                     </div>
                 </div>
             </div>
@@ -81,10 +81,10 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
 
             {/* Login Link */}
             <div className="text-center text-sm mt-6">
-                <span className="text-gray-600">
+                <span className="text-gray-600 dark:text-gray-400">
                     Already registered?{" "}
                 </span>
-                <a href="/sign-in" className="text-blue-600 font-medium hover:text-blue-800">
+                <a href="/sign-in" className="text-blue-600 font-medium hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                     Click here to Log In
                 </a>
             </div>

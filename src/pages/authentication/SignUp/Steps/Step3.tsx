@@ -32,15 +32,15 @@ export const Step3 = ({ values, verifyEmail, resendEmailOTP }: Step3Props) => {
     };
 
     return (
-        <div className="w-full max-w-[400px]">
+        <div className="w-full min-w-[500px] max-w-[500px]">
             {/* Heading */}
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+                <h1 className="text-2xl font-semibold text-gray-900 mb-4 dark:text-gray-200">
                     Verify your Email Address
                 </h1>
-                <p className="text-gray-500 text-sm">
+                <p className="text-gray-500 text-sm dark:text-gray-400">
                     We emailed you a six-digit code to{" "}
-                    <span className="font-medium text-gray-900">{values.email}</span>. Enter
+                    <span className="font-medium text-gray-900 dark:text-gray-200">{values.email}</span>. Enter
                     the code below to confirm your email address.
                 </p>
             </div>
@@ -48,7 +48,7 @@ export const Step3 = ({ values, verifyEmail, resendEmailOTP }: Step3Props) => {
             {/* OTP Section */}
             <div className="space-y-6">
                 <div className="space-y-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         OTP
                     </label>
                     
@@ -66,7 +66,7 @@ export const Step3 = ({ values, verifyEmail, resendEmailOTP }: Step3Props) => {
                         </InputOTP>
                     </div>
 
-                    <p className="text-center text-sm text-gray-500">
+                    <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                         Enter a number between 0 and 9
                     </p>
                 </div>
@@ -85,7 +85,7 @@ export const Step3 = ({ values, verifyEmail, resendEmailOTP }: Step3Props) => {
                     <button
                         type="button"
                         onClick={handleResendOTP}
-                        className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                        className="text-blue-600 hover:text-blue-800 font-medium text-sm dark:text-blue-400 dark:hover:text-blue-300"
                     >
                         Resend OTP
                     </button>
