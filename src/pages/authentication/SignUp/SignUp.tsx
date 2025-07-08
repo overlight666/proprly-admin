@@ -1,20 +1,25 @@
+
 import { PublicWrapper } from "@/components/public-wrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-
 import { FormikHelpers, useFormik } from 'formik';
 import { signUpForm } from "@/lib/interface";
 import { signUpValidattion } from "@/lib/validations";
+import { Step0 } from "./Steps/Step0";
 import { Step1 } from "./Steps/Step1";
 import { Step2 } from "./Steps/Step2";
-import { useCountriesAction } from "@/_recoil/actions/countries.actions";
 import { Step3 } from "./Steps/Step3";
+import { Step4 } from "./Steps/Step4";
+import { Step5 } from "./Steps/Step5";
+import { useCountriesAction } from "@/_recoil/actions/countries.actions";
 import { useRegistration } from "@/_recoil/actions";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 export const SignUp = (): JSX.Element => {
     const [activeStep, setActiveStep] = useState<number>(0);
+    const [successMessage, setSuccessMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
     const countriesAction = useCountriesAction();
     const registrationAction = useRegistration();
     const navigate = useNavigate();
@@ -23,16 +28,21 @@ export const SignUp = (): JSX.Element => {
         countriesAction.getCountries();
     }, []);
 
-
     const initialValues: signUpForm = {
-        agreed: false,
+        userType: 'Company',
+        userRole: '',
+        organizationName: '',
+        uniqueId: '',
+        organizationCountryCode: '',
+        organizationTimezone: '',
+        address: '',
+        buildingNumber: '',
         fullName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         mobileNumber: '',
-        organizationName: '',
-        organizationCountryCode: '',
-        organizationTimezone: '',
+        agreed: true,
     }
 
     const formik = useFormik<signUpForm>({
@@ -45,210 +55,204 @@ export const SignUp = (): JSX.Element => {
         ) => {
             registrationAction.registerLead(values).then((e: any) => {
                 if (e?.id) {
-                    const stepNum = Math.min(activeStep + 1, 3);
-                    setActiveStep(stepNum);
+                    setActiveStep(3); // Move to email verification
                 }
-            })
-            // if (requestId) {
-            //     updateRequestType(requestId, values)
-            // } else {
-            //     newRequestType(values)
-            // }
+            }).catch((error) => {
+                toast.error("Registration failed. Please try again.");
+            });
         },
     });
 
-    const verify = (otpString: any, id: any) => {
-        registrationAction.verifyOtp({ otp: otpString }, id).then((e: any) => {
-            if (e && e?.verified) {
-                const stepNum = Math.min(activeStep + 1, 3);
-                setActiveStep(stepNum);
-            } else {
-                toast.error("Verification Failed, Wrong OTP!")
-            }
-        })
-    }
-
-    const validateStepField = (fieldName: string) => {
-        switch (fieldName) {
-            case 'fullName': {
-                formik.validateField(fieldName);
-                return formik.errors.fullName;
-            }
-            case 'email': {
-                formik.validateField(fieldName);
-                return formik.errors.email;
-            }
-            case 'mobileNumber': {
-                formik.validateField(fieldName);
-                return formik.errors.mobileNumber;
-            }
-            case 'organizationCountryCode': {
-                formik.validateField(fieldName);
-                return formik.errors.organizationCountryCode;
-            }
-            case 'organizationName': {
-                formik.validateField(fieldName);
-                return formik.errors.organizationName;
-            }
-            case 'organizationTimezone': {
-                formik.validateField(fieldName);
-                return formik.errors.organizationTimezone;
-            }
-            case 'password': {
-                formik.validateField(fieldName);
-                return formik.errors.password;
-            }
-            default:
-                return undefined;
-        }
+    const verifyEmail = (otpString: string) => {
+        // Mock email verification - replace with actual API call
+        setSuccessMessage("Email verified successfully!");
+        setTimeout(() => {
+            setSuccessMessage("");
+            setActiveStep(4); // Move to mobile verification
+        }, 1500);
     };
 
-    const handleNext = (fieldName?: string) => {
-        const error = fieldName && validateStepField(fieldName);
-        if (!fieldName || !error) {
-            formik.setErrors({});
-            const stepNum = Math.min(activeStep + 1, 3);
-            setActiveStep(stepNum);
-        }
+    const verifyMobile = (otpString: string, id: any) => {
+        registrationAction.verifyOtp({ otp: otpString }, id).then((e: any) => {
+            if (e && e?.verified) {
+                setSuccessMessage("OTP sent successfully!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                    setActiveStep(5); // Move to success screen
+                }, 1500);
+            } else {
+                setErrorMessage("Incorrect OTP!");
+            }
+        }).catch(() => {
+            setErrorMessage("Verification failed. Please try again.");
+        });
+    };
+
+    const resendEmailOTP = () => {
+        // Mock resend email OTP - replace with actual API call
+        toast.success("Email OTP sent successfully!");
+    };
+
+    const clearMessage = () => {
+        setSuccessMessage("");
+        setErrorMessage("");
+    };
+
+    const handleNext = () => {
+        const stepNum = Math.min(activeStep + 1, 5);
+        setActiveStep(stepNum);
+    };
+
+    const renderProgressSteps = () => {
+        if (activeStep === 0 || activeStep === 5) return null;
+
+        const steps = [
+            { number: 1, label: "Basic Info", key: "basic" },
+            { number: 2, label: "Personal Info", key: "personal" },
+            { number: 3, label: "Verify", key: "verify" }
+        ];
+
+        return (
+            <div className="flex items-center justify-between w-full mb-8">
+                {steps.map((step, index) => (
+                    <div key={step.key} className="flex items-center">
+                        <div className="flex flex-col items-center justify-center gap-2">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                activeStep > index + 1 
+                                    ? "bg-blue-600 text-white" 
+                                    : activeStep === index + 1 
+                                        ? "bg-blue-600 text-white" 
+                                        : "bg-gray-200 text-gray-500"
+                            }`}>
+                                {activeStep > index + 1 ? (
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                ) : (
+                                    step.number
+                                )}
+                            </div>
+                            <div className={`text-xs font-medium ${
+                                activeStep >= index + 1 ? "text-blue-600" : "text-gray-500"
+                            }`}>
+                                {step.label}
+                            </div>
+                        </div>
+                        {index < steps.length - 1 && (
+                            <div className={`flex-1 h-0.5 mx-4 ${
+                                activeStep > index + 1 ? "bg-blue-600" : "bg-gray-200"
+                            }`} />
+                        )}
+                    </div>
+                ))}
+            </div>
+        );
     };
 
     return (
-        <PublicWrapper>
-            <div className="flex justify-center items-center h-full mb-5 ">
-                <Card className="w-auto shadow-shadow rounded-lg px-10 bg-white">
+        <div className="min-h-screen bg-cover bg-center bg-no-repeat relative" 
+             style={{ backgroundImage: "url('/images/Background.png')" }}>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            
+            {/* Header */}
+            <div className="relative z-10 flex justify-between items-center p-6">
+                <div className="flex items-center gap-2">
+                    <div className="text-white text-2xl font-bold">Proprly.</div>
+                </div>
+                <div className="flex items-center gap-6">
+                    <a href="#" className="text-white hover:text-gray-300 transition-colors">Home</a>
+                    <a href="#" className="text-white hover:text-gray-300 transition-colors">Proprly</a>
+                    <a href="#" className="text-white hover:text-gray-300 transition-colors">Contact Us</a>
+                    <button 
+                        onClick={() => navigate("/sign-in")} 
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors font-medium"
+                    >
+                        Login
+                    </button>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <div className="relative z-10 flex justify-center items-center min-h-[calc(100vh-120px)] px-6">
+                <Card className="w-auto shadow-2xl rounded-lg bg-white">
                     <CardContent className="p-8">
-                        {activeStep <= 2 ? <div className="flex flex-col items-center justify-center gap-[30px]">
+                        <div className="flex flex-col items-center justify-center gap-8">
                             {/* Progress Steps */}
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex flex-col items-center justify-center gap-[6px] w-[30%]">
-                                    <div className="w-5 h-5 flex items-center justify-center">
-                                        <img
-                                            className="w-5 h-5"
-                                            alt="Badge check"
-                                            src="https://c.animaapp.com/TkEj6uxX/img/badge-check.svg"
-                                        />
-                                    </div>
-                                    <div className="font-medium text-[#1a56db] text-xs">
-                                        Personal Info
-                                    </div>
-                                </div>
-
-                                <img
-                                    className="w-10 h-[1.02px]"
-                                    alt="Line"
-                                    src="https://c.animaapp.com/TkEj6uxX/img/line-1.svg"
-                                />
-
-                                <div className="flex flex-col items-center justify-center gap-[6px] w-[40%]">
-                                    {
-                                        activeStep >= 1 ?
-                                            <div className="w-5 h-5 flex items-center justify-center">
-                                                <img
-                                                    className="w-5 h-5"
-                                                    alt="Badge check"
-                                                    src="https://c.animaapp.com/TkEj6uxX/img/badge-check.svg"
-                                                />
-                                            </div>
-                                            :
-                                            <div className="font-medium text-gray-500 text-sm">
-                                                2
-                                            </div>
-                                    }
-                                    <div className="font-medium text-gray-500 text-xs text-center">
-                                        Organization Info
-                                    </div>
-                                </div>
-
-                                <img
-                                    className="w-10 h-[1.02px]"
-                                    alt="Line"
-                                    src="https://c.animaapp.com/TkEj6uxX/img/line-1.svg"
-                                />
-
-                                <div className="flex flex-col items-center justify-center gap-[6px] w-[30%]">
-                                    {
-                                        activeStep > 1 ?
-                                            <div className="w-5 h-5 flex items-center justify-center">
-                                                <img
-                                                    className="w-5 h-5"
-                                                    alt="Badge check"
-                                                    src="https://c.animaapp.com/TkEj6uxX/img/badge-check.svg"
-                                                />
-                                            </div>
-                                            :
-                                            <div className="font-medium text-gray-500 text-sm">
-                                                3
-                                            </div>
-                                    }
-                                    <div className="font-medium text-gray-500 text-xs">
-                                        Verify
-                                    </div>
-                                </div>
-                            </div>
+                            {renderProgressSteps()}
 
                             {/* Form Content */}
-                            {
-                                activeStep == 0 && <Step1 canNext={!formik.values.fullName ||
-                                    !formik.values.email ||
-                                    !formik.values.mobileNumber ||
-                                    !formik.values.agreed ||
-                                    !formik.values.password}
+                            {activeStep === 0 && (
+                                <Step0
+                                    values={formik.values}
+                                    setFieldValue={formik.setFieldValue}
+                                    handleNext={handleNext}
+                                />
+                            )}
+                            
+                            {activeStep === 1 && (
+                                <Step1
+                                    canNext={!formik.values.organizationName || 
+                                             !formik.values.userRole ||
+                                             !formik.values.uniqueId ||
+                                             !formik.values.organizationCountryCode ||
+                                             !formik.values.address}
                                     values={formik.values}
                                     handleChange={formik.handleChange}
                                     setFieldValue={formik.setFieldValue}
                                     errors={formik.errors}
                                     handleNext={handleNext}
                                 />
-                            }
-                            {
-                                activeStep == 1 && <Step2
-                                    canNext={!formik.values.organizationCountryCode ||
-                                        !formik.values.organizationName ||
-                                        !formik.values.organizationTimezone}
+                            )}
+                            
+                            {activeStep === 2 && (
+                                <Step2
+                                    canNext={!formik.values.fullName ||
+                                             !formik.values.email ||
+                                             !formik.values.mobileNumber ||
+                                             !formik.values.password ||
+                                             !formik.values.confirmPassword}
                                     values={formik.values}
                                     handleChange={formik.handleChange}
                                     setFieldValue={formik.setFieldValue}
                                     errors={formik.errors}
-                                    handleNext={handleNext}
                                     onSubmit={formik.handleSubmit}
                                 />
-                            }
-                            {
-                                activeStep == 2 && <Step3 canNext={!formik.values.organizationCountryCode ||
-                                    !formik.values.organizationName ||
-                                    !formik.values.organizationTimezone}
+                            )}
+                            
+                            {activeStep === 3 && (
+                                <Step3
+                                    values={formik.values}
+                                    verifyEmail={verifyEmail}
+                                    resendEmailOTP={resendEmailOTP}
+                                    canNext={false}
+                                />
+                            )}
+                            
+                            {activeStep === 4 && (
+                                <Step4
+                                    verify={verifyMobile}
                                     values={formik.values}
                                     handleChange={formik.handleChange}
                                     setFieldValue={formik.setFieldValue}
                                     errors={formik.errors}
-                                    verify={verify}
+                                    canNext={false}
+                                    successMessage={successMessage}
+                                    errorMessage={errorMessage}
+                                    onClearMessage={clearMessage}
                                 />
-                            }
+                            )}
+                            
+                            {activeStep === 5 && <Step5 />}
                         </div>
-                            :
-                            <div className="flex flex-col items-center justify-center gap-[30px] max-w-[400px]">
-                                <div className="flex justify-center items-center w-full">
-                                    <img src="../images/big_check.png" />
-                                </div>
-                                <div className="text-center mb-2">
-                                    <h1 className="text-3xl font-bold text-blue-900 mb-2 dark:text-blue-400">
-                                        Thank you for Signing Up!
-                                    </h1>
-                                    <p className="text-gray-500-duplicate dark:text-gray-200">
-                                        One of our team members will contact you shortly.
-                                        Please check your email for further updates
-                                    </p>
-
-                                </div>
-                                <span className="cursor-pointer text-blue-400" onClick={() => {
-                                    navigate("/sign-in")
-                                }}>Back to Login</span>
-                            </div>
-                        }
                     </CardContent>
                 </Card>
             </div>
-        </PublicWrapper>
 
+            {/* Footer */}
+            <div className="relative z-10 text-center text-white text-sm py-4">
+                © 2024 Proprly. All Rights Reserved.
+            </div>
+        </div>
     );
 };

@@ -1,22 +1,18 @@
-import { countriesAtom } from "@/_recoil/states";
+
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import Select from "@/components/ui/select";
-import { OptionType, signUpForm } from "@/lib/interface";
+import { signUpForm } from "@/lib/interface";
 import { FormikErrors } from "formik";
-import { useEffect, useState } from "react";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import { useState } from "react";
+import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { useNavigate } from "react-router";
-import { useRecoilValue } from "recoil";
 
-type RoleDetailsFormProps = {
-    onSubmit: any;
+type Step2Props = {
+    onSubmit: () => void;
     errors: FormikErrors<signUpForm>;
     canNext: boolean;
     values: signUpForm;
-    description?: string;
-    handleNext: any;
-    nameError?: string;
     handleChange: React.ChangeEventHandler<
         HTMLTextAreaElement | HTMLInputElement
     >;
@@ -34,122 +30,144 @@ export const Step2 = ({
     values,
     handleChange,
     setFieldValue,
-}: RoleDetailsFormProps) => {
-    const [options, setOption] = useState<OptionType[]>();
-    const [timezoneOption, setTimezoneOption] = useState<OptionType[]>();
-    const countries = useRecoilValue(countriesAtom);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (countries) {
-            const countryOptions = countries.map((country) => {
-                return {
-                    label: country.countryName,
-                    value: country.countryCode,
-                };
-            });
-            setOption(countryOptions);
-        }
-    }, [countries]);
-
-    useEffect(() => {
-        if (values.organizationCountryCode) {
-            const selectedCountry = countries.find((c) => c.countryCode === values.organizationCountryCode);
-            const zoneHandler = selectedCountry?.timezone.map((tz: any) => {
-                return {
-                    value: tz.name,
-                    label: tz.name,
-                };
-            });
-            setTimezoneOption(zoneHandler);
-        }
-    }, [values]);
+}: Step2Props) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     return (
-        <div className="w-full max-w-[364px]">
+        <div className="w-full max-w-[400px]">
             {/* Heading */}
-            <div className="text-center mb-5">
-                <h1 className="text-3xl font-bold text-blue-900 mb-2 dark:text-blue-400">
-                    Organization Info
+            <div className="text-center mb-6">
+                <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                    Personal Info
                 </h1>
-                <p className="text-gray-500-duplicate dark:text-gray-200">
-                    Sign Up for your new account!
+                <p className="text-gray-500 text-sm">
+                    Fill in your personal details
                 </p>
             </div>
 
             {/* Form Fields */}
-            <div className="space-y-5">
-                {/* Country */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-blue-900 dark:text-blue-400">
-                        Select Country*
-                    </label>
-                    <Select
-                        options={options && options.length ? options : []}
-                        // defaultValue={values.organizationCountryCode}
-                        // name="organizationCountryCode"
-                        className="bg-colors-gray-50 border-colors-gray-300 placeholder:text-gray-500-duplicate"
-                        placeholder="Select country"
-                        onChange={(e) => setFieldValue("organizationCountryCode", e)}
-                        error={errors.organizationCountryCode}
-                        hint={errors.organizationCountryCode}
-                    />
-                </div>
-
-                {/* Timezone */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-blue-900 dark:text-blue-400">
-                        Select Time-Zone*
-                    </label>
-                    <Select
-                        options={
-                            timezoneOption && timezoneOption.length ? timezoneOption : []
-                        }
-                        placeholder="Select Time-Zone"
-                        className="dark:bg-dark-900"
-                        onChange={(e) => setFieldValue("organizationTimezone", e)}
-                        error={errors.organizationTimezone}
-                        hint={errors.organizationTimezone}
-                    />
-                </div>
-
+            <div className="space-y-4">
                 {/* Full Name */}
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-blue-900 dark:text-blue-400">
-                        Organization Name*
+                    <label className="text-sm font-medium text-gray-700">
+                        Full Name*
                     </label>
                     <Input
-                        value={values.organizationName}
-                        name="organizationName"
-                        className="bg-colors-gray-50 border-colors-gray-300 placeholder:text-gray-500-duplicate"
-                        placeholder="Please enter organization name"
+                        value={values.fullName}
+                        name="fullName"
+                        className="w-full"
+                        placeholder="John"
                         onChange={handleChange}
-                        error={errors.organizationName}
-                        hint={errors.organizationName}
+                        error={errors.fullName}
+                        hint={errors.fullName}
                     />
                 </div>
 
+                {/* Mobile Number */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                        Mobile Number*
+                    </label>
+                    <PhoneInput
+                        country={"au"}
+                        containerClass="w-full"
+                        inputClass="!h-11 !w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-none focus:ring  dark:!bg-gray-900 dark:!text-white/90 dark:!placeholder:text-white/30 dark:!border-gray-700"
+                        value={values.mobileNumber}
+                        onChange={(phone) => {
+                            setFieldValue("mobileNumber", `+${phone}`)
+                        }}
+                    />
+                </div>
 
-                {/* Submit Button */}
+                {/* Email Address */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                        Email Address*
+                    </label>
+                    <Input
+                        value={values.email}
+                        onChange={handleChange}
+                        name="email"
+                        type="email"
+                        className="w-full"
+                        placeholder="test@test.com"
+                        error={errors.email}
+                        hint={errors.email}
+                    />
+                </div>
+
+                {/* Password */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                        Password*
+                    </label>
+                    <div className="relative">
+                        <Input
+                            name="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            type={!showPassword ? "password" : "text"}
+                            className="w-full pr-10"
+                            placeholder="xxxxxxxxxxxxx"
+                            error={errors.password}
+                            hint={errors.password}
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <EyeIcon className="w-5 h-5" /> : <EyeClosedIcon className="w-5 h-5" />}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Confirm Password */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                        Confirm Password*
+                    </label>
+                    <div className="relative">
+                        <Input
+                            name="confirmPassword"
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                            type={!showConfirmPassword ? "password" : "text"}
+                            className="w-full pr-10"
+                            placeholder="xxxxxxxxxxxxx"
+                            error={errors.confirmPassword}
+                            hint={errors.confirmPassword}
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            {showConfirmPassword ? <EyeIcon className="w-5 h-5" /> : <EyeClosedIcon className="w-5 h-5" />}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Get Started Button */}
                 <Button
                     disabled={canNext}
-                    onClick={() => onSubmit()}
-                    className="w-full bg-[#1a56db] hover:bg-[#1a56db]/90 text-white py-3">
-                    Next
+                    onClick={onSubmit}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium mt-6"
+                >
+                    Get Started
                 </Button>
 
                 {/* Login Link */}
-                <div className="text-center text-xs mt-4">
-                    <span className="text-[#233876] dark:text-blue-400">
+                <div className="text-center text-sm mt-4">
+                    <span className="text-gray-600">
                         Already registered?{" "}
                     </span>
-                    <span className="text-[#1a56db] font-semibold dark:text-blue-200 cursor-pointer" onClick={() => {
-                        navigate("/sign-in")
-                    }}>
+                    <a href="/sign-in" className="text-blue-600 font-medium hover:text-blue-800">
                         Click here to Log In
-                    </span>
+                    </a>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
