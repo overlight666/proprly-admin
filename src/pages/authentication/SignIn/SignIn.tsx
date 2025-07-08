@@ -35,13 +35,23 @@ export const SignIn = (): JSX.Element => {
         validationSchema: signinValidattion,
         onSubmit: async (
             values: signInForm,
-            _formikHelpers: FormikHelpers<signInForm>,
+            formikHelpers: FormikHelpers<signInForm>,
         ) => {
             try {
                 setAuthError("");
+                formikHelpers.setSubmitting(true);
                 await userAction.login(values.email, values.password, navigate);
-            } catch (error) {
-                setAuthError("Incorrect username or password");
+            } catch (error: any) {
+                console.error("Login error:", error);
+                if (error?.message) {
+                    setAuthError(error.message);
+                } else if (error?.messages && error.messages.length > 0) {
+                    setAuthError(error.messages[0].message || "Login failed");
+                } else {
+                    setAuthError("Incorrect username or password");
+                }
+            } finally {
+                formikHelpers.setSubmitting(false);
             }
         },
     });
@@ -182,10 +192,10 @@ export const SignIn = (): JSX.Element => {
 
                             <Button
                                 type="submit"
-                                disabled={!formik.values.email || !formik.values.password || Object.keys(formik.errors).length > 0}
+                                disabled={!formik.values.email || !formik.values.password || Object.keys(formik.errors).length > 0 || formik.isSubmitting}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Sign In
+                                {formik.isSubmitting ? "Signing In..." : "Sign In"}
                             </Button>
 
                             <div className="text-center pt-2">

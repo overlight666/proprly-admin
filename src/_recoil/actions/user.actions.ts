@@ -351,6 +351,10 @@ function useUserActions() {
         };
         navigate(from);
         // history.push(from);
+      })
+      .catch((error: any) => {
+        // Re-throw the error so it can be caught by the calling component
+        throw error;
       });
   }
 
