@@ -585,9 +585,7 @@ span.flatpickr-weekday,
 }
 
 /* Global styling for required field asterisks */
-.text-red-500,
-.text-red-600,
-span[class*="text-red"] {
+.required-asterisk {
   @apply text-red-500 !important;
 }
 
