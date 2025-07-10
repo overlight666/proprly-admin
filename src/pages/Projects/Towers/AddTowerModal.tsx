@@ -2,12 +2,12 @@
 import { Modal } from "../../../components/ui/modal";
 import { Label } from "flowbite-react/components/Label";
 import Input from "../../../components/form/input/InputField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select2 from "../../../components/form/Select2";
 import { toast } from "react-toastify";
 import React from "react";
 
-export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
+export default function AddTowerModal({ isOpen, closeModal, addTower, editTowerData, submitEdit }: any) {
   const [name, setName] = useState<any>("");
   const [floor, setFloor] = useState<any>("");
 
@@ -18,6 +18,12 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
     value: index + 1,
   }));
 
+  useEffect(() => {
+    if (editTowerData) {
+      setName(editTowerData?.name);
+      setFloor(editTowerData?.numFloors);
+    }
+  }, [editTowerData])
 
   function onSubmit() {
     setNameError("");
@@ -29,7 +35,12 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
       toast.error("Floor must be selected");
     }
     if (name.trim().length > 0 && floor.trim().length > 0) {
-      addTower(name, floor);
+      if (!editTowerData) {
+        addTower(name, floor);
+      } else {
+        submitEdit(name, floor, editTowerData);
+      }
+
       closeModal();
     }
   }
@@ -44,7 +55,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
         <div className="flex flex-col px-2 overflow-y-auto custom-scrollbar">
           <div>
             <h5 className="mb-2 font-semibold text-gray-800 modal-title text-theme-xl dark:text-white/90 lg:text-2xl">
-              Add New Tower
+              {`${!editTowerData ? "Add New Tower" : `Edit Tower - ${editTowerData?.name}`}`}
             </h5>
           </div>
           <div className="mt-8 space-y-3">
@@ -52,6 +63,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
               <Label htmlFor="input">Tower Name</Label>
               <Input
                 type="text"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter name"
                 error={nameError !== ""}
@@ -63,6 +75,7 @@ export default function AddTowerModal({ isOpen, closeModal, addTower }: any) {
                 Floors <span className="text-error-500">*</span>{" "}
               </Label>
               <Select2
+                defaultValue={floor}
                 options={towerOptions}
                 placeholder="Select floors"
                 className="dark:bg-dark-900"

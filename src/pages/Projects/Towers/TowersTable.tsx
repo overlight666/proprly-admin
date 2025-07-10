@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/ui/table";
-import { TrashBinIcon } from "../../../icons";
+import { PencilIcon, TrashBinIcon } from "../../../icons";
 
-export default function TowersTable({ towers, removeTower }: any) {
+export default function TowersTable({ towers, removeTower, editTower }: any) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
       <div className="max-w-full overflow-x-auto">
@@ -54,15 +54,27 @@ export default function TowersTable({ towers, removeTower }: any) {
                     </TableCell>
 
                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                      <div
-                        className="!text-[red]"
-                        onClick={() => removeTower(tower)}
-                      >
-                        <TrashBinIcon
-                          className="size-5 cursor-pointer"
-                          data-tooltip-id="tooltip"
-                          data-tooltip-content="Delete"
-                        />
+                      <div className="flex gap-2">
+                        <div
+                          className="!text-[red]"
+                          onClick={() => removeTower(tower)}
+                        >
+                          <TrashBinIcon
+                            className="size-5 cursor-pointer"
+                            data-tooltip-id="tooltip"
+                            data-tooltip-content="Delete"
+                          />
+                        </div>
+                        <div
+                          className="!text-[green]"
+                          onClick={() => editTower(tower)}
+                        >
+                          <PencilIcon
+                            className="size-5 cursor-pointer"
+                            data-tooltip-id="tooltip"
+                            data-tooltip-content="Edit"
+                          />
+                        </div>
                       </div>
                     </TableCell>
                   </TableRow>

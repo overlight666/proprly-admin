@@ -43,6 +43,7 @@ export default function AddProject() {
   const uploadedImage = useRecoilValue(dropZoneAtom);
   const [page, setPage] = useState(1);
   const { isOpen, openModal, closeModal } = useModal();
+  const [editTowerData, setEditTowerData] = useState<any>(null);
   const [towers, setTowers] = useState<any[]>([]);
   const [fieldHolder, setFieldHolder] = useState<any>({});
   const [uploadQueue, setUploadQueue] = useState<any>([]);
@@ -180,6 +181,27 @@ export default function AddProject() {
     setTowers((oldArray: any) => [...oldArray, t]);
   };
 
+  const editTower = (tower: any) => {
+    setEditTowerData(tower);
+    openModal();
+  };
+
+  const submitEdit = (name, floor, oldTower) => {
+    const filteredTower: any =
+      towers &&
+      towers.length > 0 &&
+      towers.map((t) => {
+        if (t.name == oldTower.name && t.numFloors == oldTower.numFloors) {
+          t.name = name;
+          t.numFloors = floor;
+        }
+        return t
+      });
+    setTowers(filteredTower);
+
+    setEditTowerData(null);
+  }
+
   function onSubmit2(props: any) {
     if (towers.length === 0) {
       toast.error("Please add a tower!");
@@ -206,6 +228,8 @@ export default function AddProject() {
         isOpen={isOpen}
         closeModal={closeModal}
         addTower={addTower}
+        editTowerData={editTowerData}
+        submitEdit={submitEdit}
       />
       <PageMeta title="Proprly | Admin" description="New Project" />
       <PageBreadcrumb
@@ -356,14 +380,17 @@ export default function AddProject() {
                   size="sm"
                   type="button"
                   variant="primary"
-                  onClick={() => openModal()}
+                  onClick={() => {
+                    setEditTowerData(null)
+                    openModal()
+                  }}
                 >
                   Add Tower
                 </Button>
               }
             >
               <div>
-                <TowersTable towers={towers} removeTower={removeTower} />
+                <TowersTable towers={towers} removeTower={removeTower} editTower={editTower} />
               </div>
             </ComponentCard>
             <ComponentCard title="Basement Information">
