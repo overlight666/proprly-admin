@@ -44,6 +44,7 @@ function useProject() {
     removeProjectTower,
     attachUser,
     getAllProjects,
+    editProjectTower
   };
 
   function attachUser(project_id: any, params: any) {
@@ -64,6 +65,17 @@ function useProject() {
         if (response) {
           const res = response && response.data ? response.data : response;
           setProjectTowerResponse(res);
+        }
+      });
+  }
+
+  function editProjectTower(params: any, id: any) {
+    return fetchWrapper
+      .put(`${baseUrl}/project_towers/${id}`, params)
+      .then((response: any) => {
+        if (response) {
+          const res = response && response.data ? response.data : response;
+          return res;
         }
       });
   }
