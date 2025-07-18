@@ -72,7 +72,7 @@ export const Step1 = ({
                     </label>
                     <Select
                         options={userTypeOptions}
-                        placeholder="Builder"
+                        placeholder="Please Select"
                         value={values.userRole}
                         onChange={(value) => setFieldValue("userRole", value)}
                         className="w-full"
@@ -151,7 +151,7 @@ export const Step1 = ({
                     </label>
                     <Select
                         options={countryOptions}
-                        placeholder="Australia"
+                        placeholder="Please Select"
                         value={values.organizationCountryCode}
                         onChange={(value) => setFieldValue("organizationCountryCode", value)}
                         className="w-full"
