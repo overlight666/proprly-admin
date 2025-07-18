@@ -46,7 +46,10 @@ export const Step2 = ({
             </div>
 
             {/* Form Fields */}
-            <div className="space-y-4">
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                onSubmit();
+            }} className="space-y-4">
                 {/* Full Name */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -154,7 +157,7 @@ export const Step2 = ({
                 {/* Get Started Button */}
                 <Button
                     disabled={canNext}
-                    onClick={onSubmit}
+                    type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium mt-6"
                 >
                     Get Started
@@ -169,7 +172,7 @@ export const Step2 = ({
                         Click here to Log In
                     </a>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
