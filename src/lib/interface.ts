@@ -5,6 +5,7 @@ export interface signUpForm {
     userRole?: string;
     organizationName: string;
     uniqueId?: string;
+    companyLogo?: File | null;
     organizationCountryCode: string;
     organizationTimezone: string;
     address?: string;

@@ -113,6 +113,43 @@ export const Step1 = ({
                     />
                 </div>
 
+                {/* Company Logo */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Company Logo<span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex items-center space-x-3">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0] || null;
+                                setFieldValue("companyLogo", file);
+                            }}
+                            className="hidden"
+                            id="company-logo-upload"
+                        />
+                        <label
+                            htmlFor="company-logo-upload"
+                            className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            Choose file
+                        </label>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                            {values.companyLogo ? values.companyLogo.name : "No file chosen"}
+                        </span>
+                    </div>
+                    {values.companyLogo && (
+                        <div className="mt-2">
+                            <img
+                                src={URL.createObjectURL(values.companyLogo)}
+                                alt="Company Logo Preview"
+                                className="w-20 h-20 object-cover rounded-md border border-gray-300 dark:border-gray-600"
+                            />
+                        </div>
+                    )}
+                </div>
+
                 {/* Country */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">

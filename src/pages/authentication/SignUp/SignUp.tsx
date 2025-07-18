@@ -33,6 +33,7 @@ export const SignUp = (): JSX.Element => {
         userRole: '',
         organizationName: '',
         uniqueId: '',
+        companyLogo: null,
         organizationCountryCode: '',
         organizationTimezone: '',
         address: '',
@@ -195,6 +196,7 @@ export const SignUp = (): JSX.Element => {
                                     canNext={!formik.values.organizationName || 
                                              !formik.values.userRole ||
                                              !formik.values.uniqueId ||
+                                             !formik.values.companyLogo ||
                                              !formik.values.organizationCountryCode ||
                                              !formik.values.address}
                                     values={formik.values}
