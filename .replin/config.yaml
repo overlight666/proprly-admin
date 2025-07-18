@@ -1,1 +1,2 @@
-commitMessage: "feat: updated {{files}} on {{date}}"
+commitMessage: "feat: {{files}} at {{date}} — summary: {{summary}}"
+autoPush: true
