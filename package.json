@@ -22,6 +22,7 @@
     "@fullcalendar/interaction": "^6.1.17",
     "@fullcalendar/react": "^6.1.17",
     "@fullcalendar/timegrid": "^6.1.17",
+    "@googlemaps/google-maps-services-js": "^3.4.2",
     "@hookform/resolvers": "^5.0.1",
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
@@ -68,6 +69,7 @@
     "sortablejs": "^1.15.0",
     "svgmap": "^2.10.1",
     "tailwind-merge": "^3.3.0",
+    "use-places-autocomplete": "^4.0.1",
     "xlsx": "^0.18.5",
     "yup": "^1.6.1"
   },
