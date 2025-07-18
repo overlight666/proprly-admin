@@ -25,6 +25,9 @@ import { SignIn } from "./pages/authentication/SignIn";
 import { SignUp } from "./pages/authentication/SignUp";
 import { ForgotPassword } from "./pages/authentication/ForgotPassword";
 import NotFoundPage from "./pages/pages/404";
+import { Dashboard } from "./pages/dashboard";
+import { UsersPage } from "./pages/users";
+import { ReportsPage } from "./pages/reports";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
 import PrivateRoutes from "./helpers/privateRoute";
 import { OrganizationPage } from "./pages/organization";
@@ -70,12 +73,27 @@ const App: FC = function () {
         <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={
             <PrivateRoutes>
-              <OrganizationPage />
+              <Dashboard />
             </PrivateRoutes>
           } index />
           <Route path="/dashboard" element={
             <PrivateRoutes>
-              <DashboardPage />
+              <Dashboard />
+            </PrivateRoutes>
+          } />
+          <Route path="/organizations" element={
+            <PrivateRoutes>
+              <OrganizationPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/users" element={
+            <PrivateRoutes>
+              <UsersPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/reports" element={
+            <PrivateRoutes>
+              <ReportsPage />
             </PrivateRoutes>
           } />
           <Route path="/signup-leads" element={
