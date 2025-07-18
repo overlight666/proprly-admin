@@ -33,6 +33,9 @@ export const signUpValidattion = yup.object({
     signupType: yup
         .string()
         .required('Signup type is required'),
+    companyImageId: yup
+        .string()
+        .required('Company logo is required'),
 });
 
 export const forgotValidattion = yup.object({

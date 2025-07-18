@@ -202,9 +202,9 @@ export const SignUp = (): JSX.Element => {
                             {activeStep === 1 && (
                                 <Step1
                                     canNext={!formik.values.organizationName || 
-                                             !formik.values.userRole ||
+                                             !formik.values.userType ||
                                              !formik.values.organizationUniqueCode ||
-                                             !formik.values.companyLogo ||
+                                             !formik.values.companyImageId ||
                                              !formik.values.organizationCountryCode ||
                                              !formik.values.address}
 

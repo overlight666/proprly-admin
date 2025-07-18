@@ -122,10 +122,13 @@ export const Step1 = ({
     }, [isGoogleLoaded, setFieldValue]);
 
     const userTypeOptions = [
-        { label: "Builder", value: "Builder" },
-        { label: "Developer", value: "Developer" },
-        { label: "Contractor", value: "Contractor" },
-        { label: "Consultant", value: "Consultant" }
+        { label: "Builder", value: "builder" },
+        { label: "Developer", value: "developer" },
+        { label: "Strata", value: "strata" },
+        { label: "Subcontractor", value: "subcontractor" },
+        { label: "Sales Agent", value: "salesAgent" },
+        { label: "Consultant", value: "consultant" },
+        { label: "Auditor", value: "auditor" }
     ];
 
     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,11 +157,11 @@ export const Step1 = ({
                     <Select
                         options={userTypeOptions}
                         placeholder="Please Select"
-                        value={values.userRole}
-                        onChange={(value) => setFieldValue("userRole", value)}
+                        value={values.userType}
+                        onChange={(value) => setFieldValue("userType", value)}
                         className="w-full"
-                        error={errors.userRole}
-                        hint={errors.userRole}
+                        error={errors.userType}
+                        hint={errors.userType}
                     />
                 </div>
 
@@ -208,8 +211,8 @@ export const Step1 = ({
                             setIsSignature={() => {}}
                         />
                     </div>
-                    {errors.companyLogo && (
-                        <p className="text-sm text-red-500">{errors.companyLogo}</p>
+                    {errors.companyImageId && (
+                        <p className="text-sm text-red-500">{errors.companyImageId}</p>
                     )}
                 </div>
 

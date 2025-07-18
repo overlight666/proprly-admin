@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { signUpForm } from "@/lib/interface";
 import { FormikErrors } from "formik";
@@ -31,71 +30,37 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
                 </h1>
             </div>
 
-            {/* User Type Options */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-                {[
-                    { key: 'builder', label: 'Builder' },
-                    { key: 'developer', label: 'Developer' },
-                    { key: 'strata', label: 'Strata' },
-                    { key: 'subcontractor', label: 'Subcontractor' },
-                    { key: 'salesAgent', label: 'Sales Agent' },
-                    { key: 'consultant', label: 'Consultant' },
-                    { key: 'auditor', label: 'Auditor' }
-                ].map((type) => (
-                    <button
-                        key={type.key}
-                        type="button"
-                        onClick={() => handleTypeSelect(type.key)}
-                        className={`p-4 rounded-lg border-2 transition-colors ${
-                            selectedType === type.key
-                                ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'
-                                : 'border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500'
-                        }`}
-                    >
-                        <div className="text-sm font-medium dark:text-gray-200">{type.label}</div>
-                    </button>
-                ))}
-            </div>
-
-            {/* Continue Button */}
-            <Button
-                onClick={handleNext}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium"
-            >
-                Continue
-            </Button>
-
-            {/* Type Selection */}
+            {/* Signup Type Options */}
             <div className="space-y-4 mb-8 w-[300px]">
-                {/* Company Option */}
+                {/* Organization Option */}
                 <div
                     className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
-                    onClick={() => handleTypeSelect("Company")}
+                    onClick={() => handleTypeSelect("organization")}
                 >
                     <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Company"
+                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "organization"
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 dark:border-gray-500"
                             }`}>
-                            {selectedType === "Company" && (
+                            {selectedType === "organization" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>
-                        <span className="text-gray-900 font-medium dark:text-gray-200">Company</span>
+                        <span className="text-gray-900 font-medium dark:text-gray-200">Organization</span>
                     </div>
                 </div>
 
                 {/* Individual Option */}
                 <div
                     className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
-                    onClick={() => handleTypeSelect("Individual")}
+                    onClick={() => handleTypeSelect("individual")}
                 >
                     <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Individual"
+                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "individual"
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 dark:border-gray-500"
                             }`}>
-                            {selectedType === "Individual" && (
+                            {selectedType === "individual" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>
