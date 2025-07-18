@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from "classnames";
-import { Dropdown, Sidebar, TextInput, Tooltip } from "flowbite-react";
+import { Dropdown, Sidebar, TextInput } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import {
   HiAdjustments,
   HiCog,
   HiSearch,
+  HiChevronDown,
+  HiChevronRight,
 } from "react-icons/hi";
 
 import { useSidebarContext } from "../context/SidebarContext";
@@ -20,15 +22,9 @@ import { useNavigate, useParams } from "react-router";
 import { Project } from "@/lib/interface";
 import { useCommonArea } from "@/_recoil/actions/commonArea.actions";
 import { AppointmentIcon, BuildingIcon, CommonAreaIcon, ItpIcon } from "@/icons";
-import Select from 'react-select';
 import {
-  BuildingIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  GearIcon,
   HomeIcon,
-  PlusIcon,
-  ProjectIcon,
+  GearIcon,
   ReportsIcon,
   UsersIcon,
 } from "@/icons";
@@ -38,6 +34,7 @@ const ExampleSidebar: FC = function () {
     useSidebarContext();
   const params = useParams();
   const [currentPage, setCurrentPage] = useState("");
+  const [isProjectsExpanded, setIsProjectsExpanded] = useState(true);
 
   const persist = usePersistor();
   const isAdmin = persist.getValues("isAdmin");
@@ -65,10 +62,8 @@ const ExampleSidebar: FC = function () {
 
   useEffect(() => {
     const newPage = window.location.pathname;
-
     setCurrentPage(newPage);
   }, [setCurrentPage]);
-
 
   useEffect(() => {
     const newPage = window.location.pathname;
@@ -78,9 +73,7 @@ const ExampleSidebar: FC = function () {
         setIsLoading(false);
       });
     }
-
   }, [])
-
 
   useEffect(() => {
     setIsLoading(true);
@@ -106,7 +99,6 @@ const ExampleSidebar: FC = function () {
       });
       setRegionOptions(countryHandler);
     });
-
 
     if (id) {
       promise2 = Promise.all([
@@ -162,6 +154,8 @@ const ExampleSidebar: FC = function () {
     })
   }, [id, project_id, property_id])
 
+  const currentProject = projects?.find((project) => project?.id == project_id);
+
   return (
     <div
       className={classNames("lg:!block", {
@@ -169,404 +163,194 @@ const ExampleSidebar: FC = function () {
       })}
     >
       <Sidebar
-        className={`${sidebarIndex}`}
+        className={`${sidebarIndex} bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700`}
         collapsed={isSidebarOpenOnSmallScreens && !isSmallScreen()}
       >
-        <div className="flex h-full flex-col justify-between py-2">
+        <div className="flex h-full flex-col justify-between py-4">
           <div>
-            <form className="pb-3 md:hidden">
-              <TextInput
-                icon={HiSearch}
-                type="search"
-                placeholder="Search"
-                required
-                size={32}
-              />
-            </form>
+            {/* Organization Dropdown */}
+            <div className="px-4 mb-4">
+              <div className="relative">
+                <select className="w-full px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white appearance-none">
+                  <option>{selectedOrganization?.name || "ABA Group"}</option>
+                </select>
+                <HiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+            </div>
+
             <Sidebar.Items>
-              <Sidebar.ItemGroup>
-                {(currentPage.includes("/organization/view")
-                  || currentPage.includes("/project/new")
-                  || currentPage.includes("/project/edit")
-                  || currentPage.includes("/project/view")
-                  || currentPage.includes("/property/new")) ?
-                  !isLoading && <Sidebar.Item
-                    href={`/organization/view/${selectedOrganization?.id}`}
-                    label={`${selectedOrganization?.name?.charAt(0).toUpperCase()}${selectedOrganization?.name?.charAt(1).toUpperCase()}`}
-                    className={
-                      (currentPage.includes("/organization/view") || currentPage.includes("/project/new") || currentPage.includes("/project/edit")) ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                    }
-                  >
-                    {selectedOrganization?.name}
+              {/* Projects Section */}
+              <div className="px-4 mb-2">
+                <button
+                  onClick={() => setIsProjectsExpanded(!isProjectsExpanded)}
+                  className="flex items-center justify-between w-full text-left text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                >
+                  <div className="flex items-center gap-2">
+                    {isProjectsExpanded ? (
+                      <HiChevronDown className="w-4 h-4" />
+                    ) : (
+                      <HiChevronRight className="w-4 h-4" />
+                    )}
+                    <span>Projects</span>
+                  </div>
+                </button>
+              </div>
 
-                  </Sidebar.Item> || <Sidebar.Item
-                    href="/"
+              {isProjectsExpanded && (
+                <div className="ml-6 mb-4">
+                  {/* Current Project */}
+                  {currentProject && (
+                    <div className="mb-2">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white px-3 py-1">
+                        {currentProject.name}
+                      </div>
+
+                      {/* Project Menu Items */}
+                      <div className="ml-3 space-y-1">
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/view/${project_id}`}
+                          icon={HomeIcon}
+                          className={
+                            currentPage === `/organization/${id}/project/view/${project_id}` 
+                              ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Dashboard
+                        </Sidebar.Item>
+
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/${project_id}/defects`}
+                          className={
+                            currentPage.includes("/defects") 
+                              ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Defects
+                        </Sidebar.Item>
+
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/${project_id}/inspection-test-plans`}
+                          className={
+                            currentPage.includes("/inspection-test-plans") 
+                              ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Inspection Test Plans
+                        </Sidebar.Item>
+
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/${project_id}/calendar`}
+                          className={
+                            currentPage.includes("/calendar") 
+                              ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Calendar
+                        </Sidebar.Item>
+
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/${project_id}/reports`}
+                          icon={ReportsIcon}
+                          className={
+                            currentPage.includes("/reports") 
+                              ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Reports
+                        </Sidebar.Item>
+
+                        <Sidebar.Item
+                          href={`/organization/${id}/project/${project_id}/configure`}
+                          icon={GearIcon}
+                          className={
+                            currentPage.includes("/configure") 
+                              ? "bg-purple-600 text-white font-medium" 
+                              : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }
+                        >
+                          Configure Project
+                        </Sidebar.Item>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* All Projects Link */}
+                  <Sidebar.Item
+                    href="/projects/all"
                     className={
-                      "/" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
+                      currentPage === "/projects/all" 
+                        ? "bg-gray-100 dark:bg-gray-700 text-blue-600" 
+                        : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }
                   >
-                    Loading...
+                    All Projects
                   </Sidebar.Item>
-                  :
+                </div>
+              )}
 
-                  <>
-                    <Sidebar.Item
-                      href="/"
-                      icon={PlusIcon}
-                      className={
-                        "/" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                      }
-                    >
-                      Organizations
-                    </Sidebar.Item>
-                    <Sidebar.Item
-                      href="/projects/all"
-                      icon={BuildingIcon}
-                      className={
-                        "/projects/all" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                      }
-                    >
-                      All Projects
-                    </Sidebar.Item>
-                  </>
-                }
-              </Sidebar.ItemGroup>
-              {
-                isAdmin && <Sidebar.ItemGroup>
+              {/* Admin Section */}
+              {isAdmin && (
+                <Sidebar.ItemGroup>
+                  <div className="px-4 mb-2 mt-6">
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Administration
+                    </span>
+                  </div>
+
                   <Sidebar.Item
                     href="/signup-leads"
                     icon={GroupIcon}
                     className={
                       "/signup-leads" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
+                        ? "bg-gray-100 dark:bg-gray-700 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }
                   >
                     Sign-up Leads
                   </Sidebar.Item>
+
                   <Sidebar.Item
                     href="/master-configuration"
                     icon={SettingsIcon}
                     className={
                       "/master-configuration" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
+                        ? "bg-gray-100 dark:bg-gray-700 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }
                   >
                     Master Configuration
                   </Sidebar.Item>
+
                   <Sidebar.Item
                     href="/support-tickets"
                     icon={TicketIcon}
                     className={
                       "/support-tickets" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
+                        ? "bg-gray-100 dark:bg-gray-700 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }
                   >
                     Support Tickets
                   </Sidebar.Item>
+
                   <Sidebar.Item
                     href="/region-management"
                     icon={EarthIcon}
                     className={
                       "/region-management" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
+                        ? "bg-gray-100 dark:bg-gray-700 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }
                   >
                     Region Management
                   </Sidebar.Item>
                 </Sidebar.ItemGroup>
-              }
-              {(currentPage.includes("/organization/view")
-                || currentPage.includes("/project/new")
-                || currentPage.includes("/project/edit")
-                || currentPage.includes("/project/view")
-                || currentPage.includes("/property/new")
-                || currentPage.includes("/property/view")
-                || currentPage.includes("/common-area/view")
-                || currentPage.includes("/appointments/view")
-                || currentPage.includes("/itp/view")) && <Sidebar.ItemGroup>
-                  {!isLoading &&
-                    <Select className="my-react-select-container"
-                      classNamePrefix="my-react-select"
-                      defaultValue={{
-                        label: projects?.find((project) => project?.id == project_id)?.name,
-                        value: projects?.find((project) => project?.id == project_id)?.id,
-                      }}
-                      isSearchable onChange={(selected: any) => {
-                        navigate(`/organization/${id}/project/view/${selected.value}`)
-                      }} options={projects?.map((project: Project) => {
-                        return {
-                          label: project.name,
-                          value: project.id
-                        }
-                      }) as any || []}
-                      placeholder="Select Project"
-                    /> || <Sidebar.Item
-                      href="/"
-                      className={
-                        "/" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                      }
-                    >
-                      Loading...
-                    </Sidebar.Item>}
-                  {
-                    project_id && <div>
-                      const currentProjectId = window.location.pathname.split('/')[4];
-                      const currentOrgId = window.location.pathname.split('/')[2];
-                      const isProjectPageActive = window.location.pathname.includes('/project/view/');
-
-                      return (
-                        <>
-                          <Sidebar.Item
-                            href={`/organization/${currentOrgId}/project/view/${currentProjectId}`}
-                            icon={HomeIcon}
-                            className={
-                              window.location.pathname === `/organization/${currentOrgId}/project/view/${currentProjectId}` ? "bg-gray-100 dark:bg-gray-700" : ""
-                            }
-                          >
-                            Dashboard
-                          </Sidebar.Item>
-                          <Sidebar.Item
-                            href={`/organization/${currentOrgId}/project/${currentProjectId}/configure`}
-                            icon={GearIcon}
-                            className={
-                              window.location.pathname === `/organization/${currentOrgId}/project/${currentProjectId}/configure` ? "bg-gray-100 dark:bg-gray-700" : ""
-                            }
-                          >
-                            Configure Project
-                          </Sidebar.Item>
-                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/property/view`} icon={BuildingIcon} className={currentPage.includes("/property/view") && "bg-blue-100 dark:bg-gray-900"}>
-                        Properties
-                      </Sidebar.Item>
-                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/common-area/view`} icon={CommonAreaIcon} className={currentPage.includes("/common-area/view") && "bg-blue-100 dark:bg-gray-900"}>
-                        Common Areas
-                      </Sidebar.Item>
-                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/itp/view`} icon={ItpIcon} className={currentPage.includes("/itp/view") && "bg-blue-100 dark:bg-gray-900"}>
-                        ITPs
-                      </Sidebar.Item>
-                      <Sidebar.Item href={`/organization/${id}/project/${project_id}/appointments/view`} icon={AppointmentIcon} className={currentPage.includes("/appointments/view") && "bg-blue-100 dark:bg-gray-900"}>
-                        Appointments
-                      </Sidebar.Item>
-                    </div>
-                  }
-                </Sidebar.ItemGroup>}
-              {/* <Sidebar.ItemGroup>
-                {(currentPage.includes("/organization/view")
-                  || currentPage.includes("/project/new")
-                  || currentPage.includes("/project/view")
-                  || currentPage.includes("/property/new")
-                  || currentPage.includes("/property/view")
-                  || currentPage.includes("/common-area/view")
-                  || currentPage.includes("/appointments/view")
-                  || currentPage.includes("/itp/view")) && projects?.map((project: Project, index: any) => {
-                    return (
-                      project?.id == project_id ? <Sidebar.Collapse icon={FolderOpenIcon}
-                        label={truncateMenuString(project?.name, 15)}
-                        key={index} open={true}
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content={project?.name}
-                        className="bg-gray-200 dark:bg-gray-700">
-                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/property/view`} icon={BuildingIcon} className={currentPage.includes("/property/view") && "bg-blue-100 dark:bg-gray-900"}>
-                          Properties
-                        </Sidebar.Item>
-                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/common-area/view`} icon={CommonAreaIcon} className={currentPage.includes("/common-area/view") && "bg-blue-100 dark:bg-gray-900"}>
-                          Common Areas
-                        </Sidebar.Item>
-                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/itp/view`} icon={ItpIcon} className={currentPage.includes("/itp/view") && "bg-blue-100 dark:bg-gray-900"}>
-                          ITPs
-                        </Sidebar.Item>
-                        <Sidebar.Item href={`/organization/${id}/project/${project_id}/appointments/view`} icon={AppointmentIcon} className={currentPage.includes("/appointments/view") && "bg-blue-100 dark:bg-gray-900"}>
-                          Appointments
-                        </Sidebar.Item>
-
-                      </Sidebar.Collapse> : <Sidebar.Item
-                        key={index}
-                        href={`/organization/${id}/project/view/${project?.id}`}
-                        icon={FolderClosedIcon}
-                        // label={`${project?.name?.charAt(0).toUpperCase()}${project?.name?.charAt(1).toUpperCase()}`}
-                        className={
-                          (currentPage.includes("/project/view") || currentPage.includes("/property/new")) && project?.id == project_id ? "bg-gray-100 dark:bg-gray-700" : ""
-                        }
-                        data-tooltip-id="tooltip"
-                        data-tooltip-content={project?.name}
-                      >
-                        {truncateMenuString(project?.name, 15)}
-                      </Sidebar.Item>
-                    )
-                  })
-
-                }
-
-              </Sidebar.ItemGroup> */}
-
-              {/* <Sidebar.ItemGroup>
-                <Sidebar.Item
-                  href="/dashboard"
-                  icon={HiChartPie}
-                  className={
-                    "/organizations" === currentPage ? "bg-gray-100 dark:bg-gray-700" : ""
-                  }
-
-                >
-                  Dashboard
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="/kanban"
-                  icon={HiViewGrid}
-                  className={
-                    "/kanban" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  Kanban
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="/mailing/inbox"
-                  icon={HiInboxIn}
-                  label="3"
-                  className={
-                    "/mailing/inbox" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  Inbox
-                </Sidebar.Item>
-                <Sidebar.Collapse
-                  icon={HiShoppingBag}
-                  label="E-commerce"
-                  open={isEcommerceOpen}
-                >
-                  <Sidebar.Item
-                    href="/e-commerce/products"
-                    className={
-                      "/e-commerce/products" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Products
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/e-commerce/billing"
-                    className={
-                      "/e-commerce/billing" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Billing
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/e-commerce/invoice"
-                    className={
-                      "/e-commerce/invoice" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Invoice
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse
-                  icon={HiUsers}
-                  label="Users"
-                  open={isUsersOpen}
-                >
-                  <Sidebar.Item
-                    href="/users/list"
-                    className={
-                      "/users/list" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Users list
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/profile"
-                    className={
-                      "/users/profile" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Profile
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/feed"
-                    className={
-                      "/users/feed" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Feed
-                  </Sidebar.Item>
-                  <Sidebar.Item
-                    href="/users/settings"
-                    className={
-                      "/users/settings" === currentPage
-                        ? "bg-gray-100 dark:bg-gray-700"
-                        : ""
-                    }
-                  >
-                    Settings
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse icon={HiChartSquareBar} label="Pages">
-                  <Sidebar.Item href="/pages/pricing">Pricing</Sidebar.Item>
-                  <Sidebar.Item href="/pages/maintenance">
-                    Maintenace
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/pages/404">404 not found</Sidebar.Item>
-                  <Sidebar.Item href="/pages/500">
-                    500 server error
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-                <Sidebar.Collapse icon={HiLockClosed} label="Authentication">
-                  <Sidebar.Item href="/authentication/sign-in">
-                    Sign in
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/sign-up">
-                    Sign up
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/forgot-password">
-                    Forgot password
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/reset-password">
-                    Reset password
-                  </Sidebar.Item>
-                  <Sidebar.Item href="/authentication/profile-lock">
-                    Profile lock
-                  </Sidebar.Item>
-                </Sidebar.Collapse>
-              </Sidebar.ItemGroup>
-              <Sidebar.ItemGroup>
-                <Sidebar.Item
-                  href="https://github.com/themesberg/flowbite-react/"
-                  icon={HiClipboard}
-                >
-                  Docs
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="https://flowbite-react.com/"
-                  icon={HiCollection}
-                >
-                  Components
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="https://github.com/themesberg/flowbite-react/issues"
-                  icon={HiInformationCircle}
-                >
-                  Help
-                </Sidebar.Item>
-              </Sidebar.ItemGroup> */}
-
+              )}
             </Sidebar.Items>
           </div>
           <BottomMenu />
@@ -578,17 +362,15 @@ const ExampleSidebar: FC = function () {
 
 const BottomMenu: FC = function () {
   return (
-    <div className="flex items-center justify-center gap-x-5">
+    <div className="flex items-center justify-center gap-x-5 px-4">
       <button className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700">
         <span className="sr-only">Tweaks</span>
         <HiAdjustments className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white " />
       </button>
       <div>
-        <Tooltip content="Settings page">
-          <div className="hidden lg:block">
-            <BottomBarSettingDropdown />
-          </div>
-        </Tooltip>
+        <div className="hidden lg:block">
+          <BottomBarSettingDropdown />
+        </div>
       </div>
       <div>
         <LanguageDropdown />
@@ -684,100 +466,6 @@ const LanguageDropdown: FC = function () {
                 </g>
               </svg>
               <span className="whitespace-nowrap">English (US)</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <div className="inline-flex items-center">
-              <svg
-                className="mr-2 h-4 w-4 rounded-full"
-                xmlns="http://www.w3.org/2000/svg"
-                id="flag-icon-css-de"
-                viewBox="0 0 512 512"
-              >
-                <path fill="#ffce00" d="M0 341.3h512V512H0z" />
-                <path d="M0 0h512v170.7H0z" />
-                <path fill="#d00" d="M0 170.7h512v170.6H0z" />
-              </svg>
-              Deutsch
-            </div>
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <div className="inline-flex items-center">
-              <svg
-                className="mr-2 h-4 w-4 rounded-full"
-                xmlns="http://www.w3.org/2000/svg"
-                id="flag-icon-css-it"
-                viewBox="0 0 512 512"
-              >
-                <g fillRule="evenodd" strokeWidth="1pt">
-                  <path fill="#fff" d="M0 0h512v512H0z" />
-                  <path fill="#009246" d="M0 0h170.7v512H0z" />
-                  <path fill="#ce2b37" d="M341.3 0H512v512H341.3z" />
-                </g>
-              </svg>
-              Italiano
-            </div>
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <div className="inline-flex items-center">
-              <svg
-                className="mr-2 h-4 w-4 rounded-full"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                id="flag-icon-css-cn"
-                viewBox="0 0 512 512"
-              >
-                <defs>
-                  <path id="a" fill="#ffde00" d="M1-.3L-.7.8 0-1 .6.8-1-.3z" />
-                </defs>
-                <path fill="#de2910" d="M0 0h512v512H0z" />
-                <use
-                  width="30"
-                  height="20"
-                  transform="matrix(76.8 0 0 76.8 128 128)"
-                  xlinkHref="#a"
-                />
-                <use
-                  width="30"
-                  height="20"
-                  transform="rotate(-121 142.6 -47) scale(25.5827)"
-                  xlinkHref="#a"
-                />
-                <use
-                  width="30"
-                  height="20"
-                  transform="rotate(-98.1 198 -82) scale(25.6)"
-                  xlinkHref="#a"
-                />
-                <use
-                  width="30"
-                  height="20"
-                  transform="rotate(-74 272.4 -114) scale(25.6137)"
-                  xlinkHref="#a"
-                />
-                <use
-                  width="30"
-                  height="20"
-                  transform="matrix(16 -19.968 19.968 16 256 230.4)"
-                  xlinkHref="#a"
-                />
-              </svg>
-              <span className="whitespace-nowrap">中文 (繁體)</span>
             </div>
           </a>
         </li>
