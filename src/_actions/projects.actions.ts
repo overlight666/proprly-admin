@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSetRecoilState } from "recoil";
-
+import { toast } from "react-toastify";
 import { useFetchWrapper } from "../_helpers";
 import {
   allProjectsAtom,
@@ -76,6 +76,22 @@ function useProject() {
         if (response) {
           const res = response && response.data ? response.data : response;
           return res;
+        }
+      }).catch((e: any) => {
+        if (e?.messages) {
+          if (e?.messages?.length > 0) {
+            e?.messages?.map((m: any) => {
+              return toast.error(m?.message);
+            });
+          } else {
+            toast.error(e);
+          }
+        } else {
+          if (e) {
+            toast.error(e);
+          } else {
+            toast.error("Unknown error, please contact admin");
+          }
         }
       });
   }
