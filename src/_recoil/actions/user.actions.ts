@@ -345,9 +345,9 @@ function useUserActions() {
         persist.putValues("isAdmin", isAdmin);
         setToken(user.token);
         setAuth(JSON.stringify(user));
-        // get return url from location state or default to dashboard
+        // get return url from location state or default to home page
         const { from }: any = history.location.state || {
-          from: { pathname: "/dashboard" },
+          from: { pathname: "/" },
         };
         navigate(from);
         // history.push(from);
