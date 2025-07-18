@@ -50,7 +50,8 @@ import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage
 import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 import EditProject from "./pages/project/pages/EditProject";
-import ConfigureProject from "./pages/project/pages/ConfigureProject";
+import { ConfigureProject } from "./pages/project/pages/ConfigureProject";
+import { DocumentsPage } from "./pages/project/pages/DocumentsPage";
 import AllProjects from "./pages/project/pages/AllProjects";
 import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
 
@@ -226,7 +227,7 @@ const App: FC = function () {
           <Route path="/pages/maintenance" element={<MaintenancePage />} />
 
           <Route path="/pages/500" element={<ServerErrorPage />} />
-          
+
           <Route
             path="/forgot-password/admin"
             element={<ForgotPassword />}
