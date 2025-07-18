@@ -197,7 +197,7 @@ export default function AddProperty() {
         name: t.name.replace(/ /g, "_"),
       };
     });
-
+    console.log(selectedProject?.projectTower)
     const towerName: any = selectedProject?.projectTower?.map(
       (t: TowerData) => t.name
     );
@@ -293,11 +293,23 @@ export default function AddProperty() {
       formulae: ["Towers"],
     });
 
-    ws.dataValidations.add("E2:E99999", {
-      type: "list",
-      allowBlank: false,
-      formulae: ["INDIRECT(D2)"],
-    });
+    let lastRow = 2;
+    for (let row = 2; row <= 99999; row++) {
+      const cellValue = ws.getCell(`D${row}`).value;
+      if (!cellValue) {
+        break;
+      }
+      lastRow = row;
+    }
+
+    // Dynamically apply data validation for dependent list in column E
+    for (let row = 2; row <= lastRow; row++) {
+      ws.dataValidations.add(`E${row}`, {
+        type: "list",
+        allowBlank: false,
+        formulae: [`INDIRECT(D${row})`],
+      });
+    }
 
     ws.getRow(1).fill = {
       type: "pattern",
