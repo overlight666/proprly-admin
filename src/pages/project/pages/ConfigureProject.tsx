@@ -31,8 +31,11 @@ const mockUsers: User[] = [
 ];
 
 export const ConfigureProject: React.FC = () => {
-  const { organizationId, projectId } = useParams();
+  const { organizationId, projectId, id } = useParams();
   const navigate = useNavigate();
+  
+  // Handle both route patterns: /organization/:organizationId/project/:projectId/configure and /projects/:id/configure
+  const currentProjectId = projectId || id;
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('users');
 

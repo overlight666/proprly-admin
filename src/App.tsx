@@ -166,6 +166,36 @@ const App: FC = function () {
               <AllProjects />
             </PrivateRoutes>
           } />
+          <Route path="/projects/:id/configure" element={
+            <PrivateRoutes>
+              <ConfigureProject />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/documents" element={
+            <PrivateRoutes>
+              <DocumentsPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/properties" element={
+            <PrivateRoutes>
+              <Properties />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/common-area" element={
+            <PrivateRoutes>
+              <CommonAreaPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/itp" element={
+            <PrivateRoutes>
+              <ItpPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/appointments" element={
+            <PrivateRoutes>
+              <AppointmentsPage />
+            </PrivateRoutes>
+          } />
           <Route path="/organization/:id/project/:project_id/property/new" element={
             <PrivateRoutes>
               <AddProperty />

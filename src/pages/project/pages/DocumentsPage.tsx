@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import NavbarSidebarLayout from '@/layouts/navbar-sidebar';
@@ -25,17 +24,20 @@ const mockDocuments: Document[] = [
 ];
 
 export const DocumentsPage: React.FC = () => {
-  const { organizationId, projectId } = useParams();
+  const { organizationId, projectId, id } = useParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('documents');
+
+  // Handle both route patterns
+  const currentProjectId = projectId || id;
+  const currentOrgId = organizationId;
 
   const DocumentSection = ({ title, category }: { title: string; category: string }) => {
     const categoryDocs = mockDocuments.filter(doc => doc.category === category);
-    
+
     return (
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{title}*</h3>
-        
+
         {/* Upload Area */}
         <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 mb-4 text-center">
           <Button className="bg-gray-600 hover:bg-gray-700 text-white mb-2">
@@ -117,7 +119,7 @@ export const DocumentsPage: React.FC = () => {
                 <DocumentSection title="Project Plan" category="project" />
                 <DocumentSection title="Draft Status Plan" category="draft" />
                 <DocumentSection title="Miscellaneous" category="miscellaneous" />
-                
+
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-4 mt-8">
                   <Button className="bg-gray-600 hover:bg-gray-700">
@@ -209,9 +211,12 @@ const mockDocuments: { [key: string]: Document[] } = {
 };
 
 export const DocumentsPage: React.FC = () => {
-  const { organizationId, projectId } = useParams();
+  const { organizationId, projectId, id } = useParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('documents');
+
+  // Handle both route patterns
+  const currentProjectId = projectId || id;
+  const currentOrgId = organizationId;
 
   const handleFileUpload = (category: string) => {
     // Handle file upload logic
@@ -220,7 +225,7 @@ export const DocumentsPage: React.FC = () => {
 
   const renderDocumentSection = (title: string, category: string) => {
     const documents = mockDocuments[category] || [];
-    
+
     return (
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4">{title}</h3>
@@ -234,7 +239,7 @@ export const DocumentsPage: React.FC = () => {
             </Button>
             <p className="text-sm text-gray-500 mt-2">No file chosen</p>
           </div>
-          
+
           {documents.map((doc) => (
             <div key={doc.id} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-md mb-2">
               <div className="flex items-center space-x-3">
@@ -280,7 +285,7 @@ export const DocumentsPage: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <ProjectSidebar />
-      
+
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
@@ -313,7 +318,7 @@ export const DocumentsPage: React.FC = () => {
                   {renderDocumentSection('Project Plan*', 'project-plan')}
                   {renderDocumentSection('Draft Strata Plan*', 'draft-strata-plan')}
                   {renderDocumentSection('Miscellaneous*', 'miscellaneous')}
-                  
+
                   <div className="flex justify-end space-x-4 mt-8">
                     <Button variant="outline">
                       Cancel
