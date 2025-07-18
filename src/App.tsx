@@ -50,6 +50,8 @@ import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage
 import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 import EditProject from "./pages/project/pages/EditProject";
+import ConfigureProject from "./pages/project/pages/ConfigureProject";
+import AllProjects from "./pages/project/pages/AllProjects";
 import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
 
 const App: FC = function () {
@@ -151,6 +153,16 @@ const App: FC = function () {
           <Route path="/organization/:id/project/view/:project_id" element={
             <PrivateRoutes>
               <ProjectPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/organization/:organizationId/project/:projectId/configure" element={
+            <PrivateRoutes>
+              <ConfigureProject />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/all" element={
+            <PrivateRoutes>
+              <AllProjects />
             </PrivateRoutes>
           } />
           <Route path="/organization/:id/project/:project_id/property/new" element={

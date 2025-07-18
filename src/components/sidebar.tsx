@@ -206,6 +206,15 @@ const ExampleSidebar: FC = function () {
                     }
                   >
                     Organizations
+                  </Sidebar.Item>
+                  <Sidebar.Item
+                    href="/projects/all"
+                    icon={BuildingIcon}
+                    className={
+                      "/projects/all" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
+                    }
+                  >
+                    All Projects
                   </Sidebar.Item>}
               </Sidebar.ItemGroup>
               {
