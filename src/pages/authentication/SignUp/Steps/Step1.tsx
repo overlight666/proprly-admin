@@ -1,7 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
+import FileUploader from "@/components/ui/filteupload";
 import { signUpForm, OptionType } from "@/lib/interface";
 import { FormikErrors } from "formik";
 import { useEffect, useState, useRef } from "react";
@@ -93,16 +93,16 @@ export const Step1 = ({
                 const place = autocompleteRef.current.getPlace();
                 if (place && place.formatted_address) {
                     setFieldValue('address', place.formatted_address);
-                    
+
                     // Extract additional address components if needed
                     if (place.address_components) {
                         const components = place.address_components;
-                        
+
                         // You can extract specific components like building number
                         const streetNumber = components.find((comp: any) => 
                             comp.types.includes('street_number')
                         );
-                        
+
                         if (streetNumber && streetNumber.long_name) {
                             setFieldValue('buildingNumber', streetNumber.long_name);
                         }
@@ -111,7 +111,7 @@ export const Step1 = ({
                         const country = components.find((comp: any) => 
                             comp.types.includes('country')
                         );
-                        
+
                         if (country && country.short_name) {
                             setFieldValue('organizationCountryCode', country.short_name);
                         }
@@ -184,13 +184,13 @@ export const Step1 = ({
                         Unique ID<span className="text-red-500">*</span>
                     </label>
                     <Input
-                        value={values.uniqueId}
-                        name="uniqueId"
+                        value={values.organizationUniqueCode}
+                        name="organizationUniqueCode"
                         className="w-full"
                         placeholder="Enter ID"
                         onChange={handleChange}
-                        error={errors.uniqueId}
-                        hint={errors.uniqueId}
+                        error={errors.organizationUniqueCode}
+                        hint={errors.organizationUniqueCode}
                     />
                 </div>
 
@@ -199,26 +199,14 @@ export const Step1 = ({
                     <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                         Company Logo<span className="text-red-500">*</span>
                     </label>
-                    <div className="flex">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0] || null;
-                                setFieldValue("companyLogo", file);
+                    <div className="h-32">
+                        <FileUploader
+                            isDrop={true}
+                            updateImageId={(imageId: string) => {
+                                setFieldValue("companyImageId", imageId);
                             }}
-                            className="hidden"
-                            id="company-logo-upload"
+                            setIsSignature={() => {}}
                         />
-                        <label
-                            htmlFor="company-logo-upload"
-                            className="cursor-pointer inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
-                        >
-                            Choose file
-                        </label>
-                        <div className="flex-1 px-3 py-2 border-t border-r border-b border-gray-300 dark:border-gray-600 rounded-r-md bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400">
-                            {values.companyLogo ? values.companyLogo.name : "No file chosen"}
-                        </div>
                     </div>
                     {errors.companyLogo && (
                         <p className="text-sm text-red-500">{errors.companyLogo}</p>

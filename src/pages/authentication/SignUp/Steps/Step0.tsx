@@ -15,7 +15,7 @@ type Step0Props = {
 };
 
 export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
-    const [selectedType, setSelectedType] = useState<string>(values.userType || "Company");
+    const [selectedType, setSelectedType] = useState<string>(values.userType || "builder");
 
     const handleTypeSelect = (type: string) => {
         setSelectedType(type);
@@ -27,9 +27,43 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
             {/* Heading */}
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-200">
-                    Select type
+                    Select Organization Type
                 </h1>
             </div>
+
+            {/* User Type Options */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+                {[
+                    { key: 'builder', label: 'Builder' },
+                    { key: 'developer', label: 'Developer' },
+                    { key: 'strata', label: 'Strata' },
+                    { key: 'subcontractor', label: 'Subcontractor' },
+                    { key: 'salesAgent', label: 'Sales Agent' },
+                    { key: 'consultant', label: 'Consultant' },
+                    { key: 'auditor', label: 'Auditor' }
+                ].map((type) => (
+                    <button
+                        key={type.key}
+                        type="button"
+                        onClick={() => handleTypeSelect(type.key)}
+                        className={`p-4 rounded-lg border-2 transition-colors ${
+                            selectedType === type.key
+                                ? 'border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'
+                                : 'border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-500'
+                        }`}
+                    >
+                        <div className="text-sm font-medium dark:text-gray-200">{type.label}</div>
+                    </button>
+                ))}
+            </div>
+
+            {/* Continue Button */}
+            <Button
+                onClick={handleNext}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium"
+            >
+                Continue
+            </Button>
 
             {/* Type Selection */}
             <div className="space-y-4 mb-8 w-[300px]">
