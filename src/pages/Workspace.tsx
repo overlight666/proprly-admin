@@ -11,8 +11,6 @@ interface Project {
   address: string;
   location: string;
   imageUrl: string;
-  progress: number;
-  dueDate: string;
   properties: string;
   commonAreas: string;
 }
@@ -24,21 +22,8 @@ const mockProjects: Project[] = [
     address: '25 Church Street West',
     location: 'Toronto, Ontario',
     imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300&h=200&fit=crop&crop=building',
-    progress: 75,
-    dueDate: '2024-12-15',
     properties: '5',
     commonAreas: '3'
-  },
-  {
-    id: '2', 
-    name: 'The Heights',
-    address: '123 Main Street',
-    location: 'Vancouver, BC',
-    imageUrl: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=300&h=200&fit=crop&crop=building',
-    progress: 60,
-    dueDate: '2024-11-30',
-    properties: '8',
-    commonAreas: '4'
   }
 ];
 
@@ -72,8 +57,11 @@ const Workspace: React.FC = () => {
           <nav className="space-y-2">
             <a
               href="#"
-              className="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md"
+              className="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md w-full"
             >
+              <svg className="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
               Projects
             </a>
           </nav>
@@ -96,8 +84,9 @@ const Workspace: React.FC = () => {
                   <input
                     type="text"
                     placeholder="Search"
-                    className="bg-transparent border-none outline-none text-white placeholder-white placeholder-opacity-70 text-sm"
-                    style={{ width: '120px' }}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent border-none outline-none text-white placeholder-white placeholder-opacity-70 text-sm w-32"
                   />
                 </div>
               </div>
@@ -107,7 +96,7 @@ const Workspace: React.FC = () => {
               {/* Notification Bell */}
               <button className="p-1 hover:bg-white hover:bg-opacity-20 rounded-md">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5-5 5-5M4 17h5l-5-5 5-5" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM15 17H9a2 2 0 01-2-2V9a2 2 0 012-2h6l5 5v5z" />
                 </svg>
               </button>
               
@@ -198,7 +187,7 @@ const Workspace: React.FC = () => {
                 {filteredProjects.map((project) => (
                   <Card 
                     key={project.id} 
-                    className="cursor-pointer hover:shadow-lg transition-all duration-200 border border-gray-200 rounded-lg overflow-hidden bg-white"
+                    className="cursor-pointer hover:shadow-lg transition-all duration-200 border border-gray-200 rounded-lg overflow-hidden bg-white max-w-sm"
                     onClick={() => handleProjectClick(project.id)}
                   >
                     <CardContent className="p-0">
