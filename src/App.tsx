@@ -51,6 +51,7 @@ import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 import EditProject from "./pages/project/pages/EditProject";
 import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
+import Workspace from "./pages/Workspace";
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -68,6 +69,13 @@ const App: FC = function () {
       />
       <Routes>
         <Route element={<FlowbiteWrapper />}>
+          <Route path="/" element={<Workspace />} index />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-in/admin" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Route>
+        {/* <Route element={<FlowbiteWrapper />}>
           <Route path="/" element={
             <PrivateRoutes>
               <OrganizationPage />
@@ -204,8 +212,8 @@ const App: FC = function () {
           <Route
             path="/forgot-password"
             element={<ForgotPassword />}
-          />
-          {/* <Route path="/mailing/compose" element={<MailingComposePage />} />
+          /> */}
+        {/* <Route path="/mailing/compose" element={<MailingComposePage />} />
           <Route path="/mailing/inbox" element={<MailingInboxPage />} />
           <Route path="/mailing/read" element={<MailingReadPage />} />
           <Route path="/mailing/reply" element={<MailingReplyPage />} />
@@ -244,8 +252,8 @@ const App: FC = function () {
           <Route path="/users/profile" element={<UserProfilePage />} />
           <Route path="/users/settings" element={<UserSettingsPage />} /> */}
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
+        {/* <Route path="*" element={<NotFoundPage />} />
+        </Route> */}
       </Routes>
     </BrowserRouter>
   );
