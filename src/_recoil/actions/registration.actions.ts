@@ -23,7 +23,7 @@ function useRegistration() {
 
   function registerLead(params: SignUpLeadPayloadType) {
     return fetchWrapper
-      .post(`${baseUrl}/signup-leads`, params)
+      .post(`${baseUrl}/public/signup-leads`, params)
       .then((response: any) => {
         if (response) {
           setSignupLeads(response && response.data ? response.data : response);

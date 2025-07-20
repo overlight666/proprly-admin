@@ -1,21 +1,23 @@
 import { Dayjs } from "dayjs";
 
 export interface signUpForm {
-    userType?: string;
-    userRole?: string;
+    userType: 'builder' | 'developer' | 'strata' | 'subcontractor' | 'salesAgent' | 'consultant' | 'auditor';
+    userRole: string;
     organizationName: string;
-    uniqueId?: string;
-    companyLogo?: File | null;
+    organizationUniqueCode: string;
+    companyLogo: File | null;
+    companyImageId?: string;
     organizationCountryCode: string;
     organizationTimezone: string;
-    address?: string;
-    buildingNumber?: string;
+    address: string;
+    buildingNumber: string;
     fullName: string;
     email: string;
     password: string;
-    confirmPassword?: string;
+    confirmPassword: string;
     mobileNumber: string;
     agreed: boolean;
+    signupType: string;
 }
 
 export interface signInForm {

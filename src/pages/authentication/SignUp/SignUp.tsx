@@ -29,11 +29,12 @@ export const SignUp = (): JSX.Element => {
     }, []);
 
     const initialValues: signUpForm = {
-        userType: 'Company',
+        userType: 'builder',
         userRole: '',
         organizationName: '',
-        uniqueId: '',
+        organizationUniqueCode: '',
         companyLogo: null,
+        companyImageId: '',
         organizationCountryCode: '',
         organizationTimezone: '',
         address: '',
@@ -44,6 +45,7 @@ export const SignUp = (): JSX.Element => {
         confirmPassword: '',
         mobileNumber: '',
         agreed: true,
+        signupType: 'organization',
     }
 
     const formik = useFormik<signUpForm>({
@@ -64,6 +66,15 @@ export const SignUp = (): JSX.Element => {
         },
     });
 
+    const customSubmit = () => {
+        registrationAction.registerLead(formik.values).then((e: any) => {
+            if (e?.id) {
+                setActiveStep(3); // Move to email verification
+            }
+        }).catch((error) => {
+            toast.error("Registration failed. Please try again.");
+        });
+    }
     const verifyEmail = (otpString: string) => {
         // Mock email verification - replace with actual API call
         setSuccessMessage("Email verified successfully!");
@@ -118,13 +129,12 @@ export const SignUp = (): JSX.Element => {
                 {steps.map((step, index) => (
                     <div key={step.key} className="flex items-center">
                         <div className="flex flex-col items-center justify-center gap-2">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                                activeStep > index + 1 
-                                    ? "bg-blue-600 text-white" 
-                                    : activeStep === index + 1 
-                                        ? "bg-blue-600 text-white" 
-                                        : "bg-gray-200 text-gray-500"
-                            }`}>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${activeStep > index + 1
+                                ? "bg-blue-600 text-white"
+                                : activeStep === index + 1
+                                    ? "bg-blue-600 text-white"
+                                    : "bg-gray-200 text-gray-500"
+                                }`}>
                                 {activeStep > index + 1 ? (
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -133,16 +143,14 @@ export const SignUp = (): JSX.Element => {
                                     step.number
                                 )}
                             </div>
-                            <div className={`text-xs font-medium ${
-                                activeStep >= index + 1 ? "text-blue-600" : "text-gray-500"
-                            }`}>
+                            <div className={`text-xs font-medium ${activeStep >= index + 1 ? "text-blue-600" : "text-gray-500"
+                                }`}>
                                 {step.label}
                             </div>
                         </div>
                         {index < steps.length - 1 && (
-                            <div className={`flex-1 h-0.5 mx-4 ${
-                                activeStep > index + 1 ? "bg-blue-600" : "bg-gray-200"
-                            }`} />
+                            <div className={`flex-1 h-0.5 mx-4 ${activeStep > index + 1 ? "bg-blue-600" : "bg-gray-200"
+                                }`} />
                         )}
                     </div>
                 ))}
@@ -151,11 +159,11 @@ export const SignUp = (): JSX.Element => {
     };
 
     return (
-        <div className="min-h-screen bg-cover bg-center bg-no-repeat relative" 
-             style={{ backgroundImage: "url('/images/Background.png')" }}>
+        <div className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+            style={{ backgroundImage: "url('/images/Background.png')" }}>
             {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-            
+
             {/* Header */}
             <div className="relative z-10 flex justify-between items-center p-6">
                 <div className="flex items-center gap-2">
@@ -165,8 +173,8 @@ export const SignUp = (): JSX.Element => {
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Home</a>
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Proprly</a>
                     <a href="#" className="text-white hover:text-gray-300 transition-colors">Contact Us</a>
-                    <button 
-                        onClick={() => navigate("/sign-in")} 
+                    <button
+                        onClick={() => navigate("/sign-in")}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors font-medium"
                     >
                         Login
@@ -189,16 +197,17 @@ export const SignUp = (): JSX.Element => {
                                     setFieldValue={formik.setFieldValue}
                                     handleNext={handleNext}
                                 />
-                            )}
-                            
+                            )}s
+
                             {activeStep === 1 && (
                                 <Step1
                                     canNext={!formik.values.organizationName || 
-                                             !formik.values.userRole ||
-                                             !formik.values.uniqueId ||
-                                             !formik.values.companyLogo ||
+                                             !formik.values.userType ||
+                                             !formik.values.organizationUniqueCode ||
+                                             !formik.values.companyImageId ||
                                              !formik.values.organizationCountryCode ||
                                              !formik.values.address}
+
                                     values={formik.values}
                                     handleChange={formik.handleChange}
                                     setFieldValue={formik.setFieldValue}
@@ -206,22 +215,22 @@ export const SignUp = (): JSX.Element => {
                                     handleNext={handleNext}
                                 />
                             )}
-                            
+
                             {activeStep === 2 && (
                                 <Step2
                                     canNext={!formik.values.fullName ||
-                                             !formik.values.email ||
-                                             !formik.values.mobileNumber ||
-                                             !formik.values.password ||
-                                             !formik.values.confirmPassword}
+                                        !formik.values.email ||
+                                        !formik.values.mobileNumber ||
+                                        !formik.values.password ||
+                                        !formik.values.confirmPassword}
                                     values={formik.values}
                                     handleChange={formik.handleChange}
                                     setFieldValue={formik.setFieldValue}
                                     errors={formik.errors}
-                                    onSubmit={formik.handleSubmit}
+                                    onSubmit={customSubmit}
                                 />
                             )}
-                            
+
                             {activeStep === 3 && (
                                 <Step3
                                     values={formik.values}
@@ -230,7 +239,7 @@ export const SignUp = (): JSX.Element => {
                                     canNext={false}
                                 />
                             )}
-                            
+
                             {activeStep === 4 && (
                                 <Step4
                                     verify={verifyMobile}
@@ -244,7 +253,7 @@ export const SignUp = (): JSX.Element => {
                                     onClearMessage={clearMessage}
                                 />
                             )}
-                            
+
                             {activeStep === 5 && <Step5 />}
                         </div>
                     </CardContent>

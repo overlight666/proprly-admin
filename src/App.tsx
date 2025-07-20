@@ -50,6 +50,9 @@ import { CommonAreaPage } from "./pages/project/pages/common-area/CommonAreaPage
 import { ItpPage } from "./pages/project/pages/itp/ItpPage";
 import { AppointmentsPage } from "./pages/project/pages/appointments/AppointmentsPage";
 import EditProject from "./pages/project/pages/EditProject";
+import { ConfigureProject } from "./pages/project/pages/ConfigureProject";
+import { DocumentsPage } from "./pages/project/pages/DocumentsPage";
+import AllProjects from "./pages/project/pages/AllProjects";
 import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
 
 const App: FC = function () {
@@ -153,6 +156,46 @@ const App: FC = function () {
               <ProjectPage />
             </PrivateRoutes>
           } />
+          <Route path="/organization/:organizationId/project/:projectId/configure" element={
+            <PrivateRoutes>
+              <ConfigureProject />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/all" element={
+            <PrivateRoutes>
+              <AllProjects />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/configure" element={
+            <PrivateRoutes>
+              <ConfigureProject />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/documents" element={
+            <PrivateRoutes>
+              <DocumentsPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/properties" element={
+            <PrivateRoutes>
+              <Properties />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/common-area" element={
+            <PrivateRoutes>
+              <CommonAreaPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/itp" element={
+            <PrivateRoutes>
+              <ItpPage />
+            </PrivateRoutes>
+          } />
+          <Route path="/projects/:id/appointments" element={
+            <PrivateRoutes>
+              <AppointmentsPage />
+            </PrivateRoutes>
+          } />
           <Route path="/organization/:id/project/:project_id/property/new" element={
             <PrivateRoutes>
               <AddProperty />
@@ -214,7 +257,7 @@ const App: FC = function () {
           <Route path="/pages/maintenance" element={<MaintenancePage />} />
 
           <Route path="/pages/500" element={<ServerErrorPage />} />
-          
+
           <Route
             path="/forgot-password/admin"
             element={<ForgotPassword />}

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { signUpForm } from "@/lib/interface";
 import { FormikErrors } from "formik";
@@ -15,7 +14,7 @@ type Step0Props = {
 };
 
 export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
-    const [selectedType, setSelectedType] = useState<string>(values.userType || "Company");
+    const [selectedType, setSelectedType] = useState<string>(values.userType || "builder");
 
     const handleTypeSelect = (type: string) => {
         setSelectedType(type);
@@ -27,41 +26,41 @@ export const Step0 = ({ values, setFieldValue, handleNext }: Step0Props) => {
             {/* Heading */}
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-semibold text-gray-900 mb-2 dark:text-gray-200">
-                    Select type
+                    Select Organization Type
                 </h1>
             </div>
 
-            {/* Type Selection */}
+            {/* Signup Type Options */}
             <div className="space-y-4 mb-8 w-[300px]">
-                {/* Company Option */}
+                {/* Organization Option */}
                 <div
                     className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
-                    onClick={() => handleTypeSelect("Company")}
+                    onClick={() => handleTypeSelect("organization")}
                 >
                     <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Company"
+                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "organization"
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 dark:border-gray-500"
                             }`}>
-                            {selectedType === "Company" && (
+                            {selectedType === "organization" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>
-                        <span className="text-gray-900 font-medium dark:text-gray-200">Company</span>
+                        <span className="text-gray-900 font-medium dark:text-gray-200">Organization</span>
                     </div>
                 </div>
 
                 {/* Individual Option */}
                 <div
                     className={`w-full p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-blue-500 dark:border-gray-600 dark:hover:border-blue-400`}
-                    onClick={() => handleTypeSelect("Individual")}
+                    onClick={() => handleTypeSelect("individual")}
                 >
                     <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "Individual"
+                        <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${selectedType === "individual"
                             ? "border-blue-600 bg-blue-600"
                             : "border-gray-300 dark:border-gray-500"
                             }`}>
-                            {selectedType === "Individual" && (
+                            {selectedType === "individual" && (
                                 <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
                             )}
                         </div>

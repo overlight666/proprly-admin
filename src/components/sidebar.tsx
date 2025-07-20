@@ -198,15 +198,27 @@ const ExampleSidebar: FC = function () {
                   </Sidebar.Item>
                   :
 
-                  <Sidebar.Item
-                    href="/"
-                    icon={PlusIcon}
-                    className={
-                      "/" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
-                    }
-                  >
-                    Organizations
-                  </Sidebar.Item>}
+                  <>
+                    <Sidebar.Item
+                      href="/"
+                      icon={PlusIcon}
+                      className={
+                        "/" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
+                      }
+                    >
+                      Organizations
+                    </Sidebar.Item>
+                    <Sidebar.Item
+                      href="/projects/all"
+                      icon={BuildingIcon}
+                      className={
+                        "/projects/all" === currentPage ? "bg-gray-100 dark:bg-gray-700 reverse-label" : "reverse-label"
+                      }
+                    >
+                      All Projects
+                    </Sidebar.Item>
+                  </>
+                }
               </Sidebar.ItemGroup>
               {
                 isAdmin && <Sidebar.ItemGroup>

@@ -17,12 +17,25 @@ export const signUpValidattion = yup.object({
     organizationName: yup
         .string()
         .required('Organization is required'),
+    organizationUniqueCode: yup
+        .string()
+        .required('Organization unique code is required'),
     organizationCountryCode: yup
         .string()
         .required('Country code is required'),
     organizationTimezone: yup
         .string()
         .required('Timezone is required'),
+    userType: yup
+        .string()
+        .oneOf(['builder', 'developer', 'strata', 'subcontractor', 'salesAgent', 'consultant', 'auditor'])
+        .required('User type is required'),
+    signupType: yup
+        .string()
+        .required('Signup type is required'),
+    companyImageId: yup
+        .string()
+        .required('Company logo is required'),
 });
 
 export const forgotValidattion = yup.object({
