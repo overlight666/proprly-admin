@@ -12,10 +12,12 @@ const NavbarSidebarLayout: FC<PropsWithChildren<NavbarSidebarLayoutProps>> =
   function ({ children, isFooter = true }) {
     return (
       <SidebarProvider>
-        <Navbar />
-        <div className="flex items-start pt-16">
-          <Sidebar />
-          <MainContent isFooter={isFooter}>{children}</MainContent>
+        <div className="flex flex-col h-screen">
+          <Navbar />
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <MainContent isFooter={isFooter}>{children}</MainContent>
+          </div>
         </div>
       </SidebarProvider>
     );
@@ -30,16 +32,18 @@ const MainContent: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function ({
   return (
     <main
       className={classNames(
-        "overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900",
-        isSidebarOpen ? "lg:ml-16" : "lg:ml-64"
+        "flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900",
+        "transition-all duration-300"
       )}
     >
-      {children}
-      {isFooter && (
-        <div className="mx-4 mt-4">
-          <MainContentFooter />
-        </div>
-      )}
+      <div className="h-full">
+        {children}
+        {isFooter && (
+          <div className="mx-4 mt-4">
+            <MainContentFooter />
+          </div>
+        )}
+      </div>
     </main>
   );
 };
@@ -47,59 +51,6 @@ const MainContent: FC<PropsWithChildren<NavbarSidebarLayoutProps>> = function ({
 const MainContentFooter: FC = function () {
   return (
     <>
-      {/* <Footer container>
-        <div className="flex w-full flex-col gap-y-6 lg:flex-row lg:justify-between lg:gap-y-0">
-          <Footer.LinkGroup>
-            <Footer.Link href="#" className="mr-3 mb-3 lg:mb-0">
-              Terms and conditions
-            </Footer.Link>
-            <Footer.Link href="#" className="mr-3 mb-3 lg:mb-0">
-              Privacy Policy
-            </Footer.Link>
-            <Footer.Link href="#" className="mr-3">
-              Licensing
-            </Footer.Link>
-            <Footer.Link href="#" className="mr-3">
-              Cookie Policy
-            </Footer.Link>
-            <Footer.Link href="#">Contact</Footer.Link>
-          </Footer.LinkGroup>
-          <Footer.LinkGroup>
-            <div className="flex gap-3 md:gap-0">
-              <Footer.Link
-                href="#"
-                className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"
-              >
-                <MdFacebook className="text-lg" />
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"
-              >
-                <FaInstagram className="text-lg" />
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"
-              >
-                <FaTwitter className="text-lg" />
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"
-              >
-                <FaGithub className="text-lg" />
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="hover:[&>*]:text-black dark:hover:[&>*]:text-gray-300"
-              >
-                <FaDribbble className="text-lg" />
-              </Footer.Link>
-            </div>
-          </Footer.LinkGroup>
-        </div>
-      </Footer> */}
       <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
         &copy; 2021-2025 proprly. All rights reserved.
       </p>
