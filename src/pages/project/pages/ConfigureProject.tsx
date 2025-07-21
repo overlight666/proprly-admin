@@ -10,6 +10,8 @@ import TextArea from '@/components/ui/text-area';
 import Select from '@/components/ui/select';
 import { HiChevronDown, HiBell } from 'react-icons/hi';
 import { Dropdown } from 'flowbite-react';
+import { Accordion } from "@szhsin/react-accordion";
+import { AccordionItem } from '@/pages/project/tabs/reports/components/accordionItem';
 
 // Mock project data
 const mockProjectData = {
@@ -582,96 +584,75 @@ const ConfigureProject = (): JSX.Element => {
 
                   {/* Project Details Tab */}
                   <TabsContent value="details" className="space-y-6">
-                    <Card>
-                      <CardContent className="p-6 space-y-6">
-                        {/* Tower/Basement Configuration - Expanded */}
-                        <div className="space-y-6">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                              Tower/Basement Configuration
-                            </h3>
-                            <button className="p-2 hover:bg-gray-100 rounded">
-                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
-                            </button>
-                          </div>
+                    <div className="mx-2">
+                      <Accordion transition transitionTimeout={200}>
+                        {/* Tower/Basement Configuration */}
+                        <AccordionItem header="Tower/Basement Configuration" initialEntered>
+                          <div className="space-y-6">
+                            {/* Add New Tower Button */}
+                            <div className="mb-4">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Add New Tower
+                              </Button>
+                            </div>
 
-                          {/* Add New Tower Button */}
-                          <div className="mb-4">
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
-                            >
-                              + Add New Tower
-                            </Button>
-                          </div>
-
-                          {/* Tower Table */}
-                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                            <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                TOWER NAME
+                            {/* Tower Table */}
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  TOWER NAME
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  NO. OF FLOORS
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  STATUS
+                                </div>
                               </div>
-                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                NO. OF FLOORS
-                              </div>
-                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                STATUS
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No data available
+                                </div>
                               </div>
                             </div>
-                            <div className="p-8">
-                              <div className="text-center text-gray-500 text-sm">
-                                No data available
-                              </div>
-                            </div>
-                          </div>
 
-                          {/* Add Basement Levels Button */}
-                          <div className="mt-6 mb-4">
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
-                            >
-                              + Add Basement Levels
-                            </Button>
-                          </div>
-
-                          {/* Basement Table */}
-                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                BASEMENT LEVELS
-                              </div>
-                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                STATUS
-                              </div>
+                            {/* Add Basement Levels Button */}
+                            <div className="mt-6 mb-4">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Add Basement Levels
+                              </Button>
                             </div>
-                            <div className="p-8">
-                              <div className="text-center text-gray-500 text-sm">
-                                No data available
+
+                            {/* Basement Table */}
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  BASEMENT LEVELS
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  STATUS
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No data available
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </AccordionItem>
 
-                        {/* Property Configuration - Expanded */}
-                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
-                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                              Property Configuration
-                            </h3>
-                            <button className="p-2 hover:bg-gray-100 rounded">
-                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
-                            </button>
-                          </div>
-                          
-                          {/* Property Configuration Content */}
-                          <div className="p-6 space-y-6">
+                        {/* Property Configuration */}
+                        <AccordionItem header="Property Configuration">
+                          <div className="space-y-6">
                             {/* Enable Toggle */}
                             <div className="flex items-center space-x-3">
                               <div className="relative">
@@ -722,7 +703,7 @@ const ConfigureProject = (): JSX.Element => {
 
                             {/* Properties Table */}
                             <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                              <div className="grid grid-cols-5 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                              <div className="grid grid-cols-6 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                                 <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                                   LOT NO.
                                 </div>
@@ -749,23 +730,11 @@ const ConfigureProject = (): JSX.Element => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </AccordionItem>
 
-                        {/* Common Area Configuration - Expanded */}
-                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
-                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                              Common Area Configuration
-                            </h3>
-                            <button className="p-2 hover:bg-gray-100 rounded">
-                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
-                            </button>
-                          </div>
-                          
-                          {/* Common Area Configuration Content */}
-                          <div className="p-6 space-y-6">
+                        {/* Common Area Configuration */}
+                        <AccordionItem header="Common Area Configuration">
+                          <div className="space-y-6">
                             {/* Enable Toggle */}
                             <div className="flex items-center space-x-3">
                               <div className="relative">
@@ -912,23 +881,11 @@ const ConfigureProject = (): JSX.Element => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </AccordionItem>
 
-                        {/* ITP Configuration - Expanded */}
-                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
-                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                              ITP Configuration
-                            </h3>
-                            <button className="p-2 hover:bg-gray-100 rounded">
-                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
-                            </button>
-                          </div>
-                          
-                          {/* ITP Configuration Content */}
-                          <div className="p-6 space-y-6">
+                        {/* ITP Configuration */}
+                        <AccordionItem header="ITP Configuration">
+                          <div className="space-y-6">
                             {/* Enable Toggle */}
                             <div className="flex items-center space-x-3">
                               <div className="relative">
@@ -1030,15 +987,15 @@ const ConfigureProject = (): JSX.Element => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </AccordionItem>
+                      </Accordion>
 
-                        {/* Action Buttons */}
-                        <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-                          <Button variant="outline" className="px-6 py-2">Cancel</Button>
-                          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">Save</Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+                      {/* Action Buttons */}
+                      <div className="flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
+                        <Button variant="outline" className="px-6 py-2">Cancel</Button>
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">Save</Button>
+                      </div>
+                    </div>
                   </TabsContent>
 
                   {/* Users Tab */}
