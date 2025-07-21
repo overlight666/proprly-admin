@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProjectSidebar from '@/components/project-sidebar';
 import TextArea from '@/components/ui/text-area';
 import Select from '@/components/ui/select';
-import ExampleNavbar from '@/components/navbar';
 
 // Mock project data
 const mockProjectData = {
@@ -47,13 +46,26 @@ const ConfigureProject = (): JSX.Element => {
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      <ExampleNavbar />
       <ProjectSidebar />
 
-      <div className="flex-1 flex flex-col pt-12">
-        {/* Breadcrumb Header */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+              <span>Projects</span>
+              <span>/</span>
+              <span>The Atrium</span>
+              <span>/</span>
+              <span className="text-blue-600">Configure Project</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-6 overflow-auto">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
             <span>📁</span>
             <span>Projects</span>
             <span>/</span>
@@ -61,11 +73,6 @@ const ConfigureProject = (): JSX.Element => {
             <span>/</span>
             <span className="text-blue-600">Configure Project</span>
           </div>
-        </div></div>
-      </div>
-
-        {/* Main Content */}
-        <div className="flex-1 p-6 overflow-auto">
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Custom Tab Navigation */}
