@@ -36,19 +36,20 @@ export const ProjectSidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-64 bg-white h-screen flex flex-col shadow-sm border-r border-gray-200" style={{ paddingTop: '48px' }}>
+    <div className="w-full bg-white h-screen flex flex-col shadow-sm border-r border-gray-200" style={{ paddingTop: '48px' }}>
       {/* Projects Section */}
       <div className="p-0">
-        <button
-          onClick={handleProjectClick}
-          className="flex items-center space-x-2 text-gray-700 hover:text-purple-700 transition-colors w-full text-left group px-4 py-3 border-b border-gray-100"
-        >
-          <span className="text-xs transform group-hover:rotate-90 transition-transform duration-200">▶</span>
-          <span className="font-medium text-sm">Projects</span>
-        </button>
+        <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
+          <div className="flex items-center space-x-3 pl-4">
+            <span className="text-xs text-gray-400">P</span>
+            <div className="flex-1">
+              <h2 className="font-medium text-sm text-gray-900">Projects</h2>
+            </div>
+          </div>
+        </div>
 
         {/* The Atrium Project */}
-        <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
+        <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 mt-6">
           <div className="flex items-center space-x-3 pl-4">
             <span className="text-xs text-gray-400">T</span>
             <div className="flex-1">
@@ -84,8 +85,8 @@ export const ProjectSidebar: React.FC = () => {
               <span className="text-xs font-semibold text-blue-600">25%</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-1.5">
-              <div 
-                className="bg-blue-500 h-1.5 rounded-full transition-all duration-300" 
+              <div
+                className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
                 style={{ width: '25%' }}
               ></div>
             </div>
@@ -133,7 +134,7 @@ export const ProjectSidebar: React.FC = () => {
       {/* Footer Section */}
       <div className="p-4 border-t border-gray-100 bg-gray-50">
         <div className="flex items-center justify-center space-x-3">
-          <button 
+          <button
             className="p-2 rounded-lg hover:bg-gray-200 transition-colors group"
             title="Settings"
           >
@@ -142,7 +143,7 @@ export const ProjectSidebar: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </button>
-          <button 
+          <button
             className="p-2 rounded-lg hover:bg-gray-200 transition-colors group"
             title="Help"
           >
