@@ -1535,38 +1535,277 @@ const ConfigureProject = (): JSX.Element => {
 
                   {/* Project Settings Tab */}
                   <TabsContent value="settings" className="space-y-6">
-                    <Card>
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                          Project Settings
-                        </h3>
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between p-4 border rounded-lg">
-                            <div>
-                              <h4 className="font-medium text-gray-900 dark:text-white">Project Visibility</h4>
-                              <p className="text-sm text-gray-500">Control who can see this project</p>
+                    <div className="mx-2">
+                      <Accordion transition transitionTimeout={200}>
+                        {/* Builder */}
+                        <AccordionItem header="Builder" initialEntered>
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
                             </div>
-                            <Select defaultValue="private">
-                              <option value="private">Private</option>
-                              <option value="public">Public</option>
-                              <option value="restricted">Restricted</option>
-                            </Select>
-                          </div>
-                          <div className="flex items-center justify-between p-4 border rounded-lg">
-                            <div>
-                              <h4 className="font-medium text-gray-900 dark:text-white">Notifications</h4>
-                              <p className="text-sm text-gray-500">Enable project notifications</p>
-                            </div>
-                            <input type="checkbox" className="h-4 w-4 text-blue-600" defaultChecked />
-                          </div>
-                        </div>
 
-                        <div className="flex justify-end space-x-3 pt-6">
-                          <Button variant="outline">Cancel</Button>
-                          <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+                            {/* Contact Table */}
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+
+                              {/* Sample Data */}
+                              <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-sm text-gray-900 dark:text-white">John</div>
+                                <div className="text-sm text-gray-900 dark:text-white">61 2 1234 5678</div>
+                                <div className="text-sm text-gray-900 dark:text-white">lorem@gmail.com</div>
+                                <div>
+                                  <button className="p-1 hover:bg-gray-100 rounded">
+                                    <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-sm text-gray-900 dark:text-white">Sam</div>
+                                <div className="text-sm text-gray-900 dark:text-white">61 2 1234 5678</div>
+                                <div className="text-sm text-gray-900 dark:text-white">lorem@gmail.com</div>
+                                <div>
+                                  <button className="p-1 hover:bg-gray-100 rounded">
+                                    <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-4 gap-4 p-4">
+                                <div className="text-sm text-gray-900 dark:text-white">Mark</div>
+                                <div className="text-sm text-gray-900 dark:text-white">61 2 1234 5678</div>
+                                <div className="text-sm text-gray-900 dark:text-white">lorem@gmail.com</div>
+                                <div>
+                                  <button className="p-1 hover:bg-gray-100 rounded">
+                                    <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="text-blue-600 text-sm cursor-pointer hover:underline">
+                              ADD NEW BUILDER CONTACT →
+                            </div>
+                          </div>
+                        </AccordionItem>
+
+                        {/* Developer */}
+                        <AccordionItem header="Developer">
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
+                            </div>
+
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No contacts found
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionItem>
+
+                        {/* Sales Agent */}
+                        <AccordionItem header="Sales Agent">
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
+                            </div>
+
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No contacts found
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionItem>
+
+                        {/* Auditor */}
+                        <AccordionItem header="Auditor">
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
+                            </div>
+
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No contacts found
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionItem>
+
+                        {/* Sub-Contractor */}
+                        <AccordionItem header="Sub-Contractor">
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
+                            </div>
+
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No contacts found
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionItem>
+
+                        {/* Strata */}
+                        <AccordionItem header="Strata">
+                          <div className="space-y-4">
+                            <div className="mb-4">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
+                              >
+                                + Attach Contact
+                              </Button>
+                            </div>
+
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                              <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  FULL NAME ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  PHONE
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  EMAIL ADDRESS ↑
+                                </div>
+                                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                  ACTION
+                                </div>
+                              </div>
+                              <div className="p-8">
+                                <div className="text-center text-gray-500 text-sm">
+                                  No contacts found
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionItem>
+                      </Accordion>
+
+                      {/* Action Buttons */}
+                      <div className="flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
+                        <Button variant="outline" className="px-6 py-2">Cancel</Button>
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">Save</Button>
+                      </div>
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
