@@ -37,32 +37,27 @@ export const ProjectSidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-64 bg-white h-full flex flex-col shadow-lg">
-      {/* Purple Header Section */}
-      <div className="bg-gradient-to-b from-purple-700 to-purple-800">
-        {/* Projects Button */}
-        <div className="p-4">
-          <button
-            onClick={handleProjectClick}
-            className="flex items-center space-x-2 text-white hover:text-purple-200 transition-colors w-full text-left group"
-          >
-            <span className="text-sm transform group-hover:rotate-90 transition-transform duration-200">▶</span>
-            <span className="font-medium text-sm">Projects</span>
-          </button>
-        </div>
-
-        {/* The Atrium Section */}
-        <div className="px-4 pb-4">
-          <div className="flex items-center space-x-3 text-white">
-            <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center border border-white border-opacity-30">
-              <span className="text-sm font-semibold">2</span>
-            </div>
-            <div className="flex-1">
-              <h2 className="font-semibold text-base">The Atrium</h2>
-              <p className="text-xs text-purple-200 opacity-90 mt-0.5">
-                Active Project
-              </p>
-            </div>
+    <div className="w-64 bg-white h-screen flex flex-col shadow-lg pt-12">
+      {/* Projects Section - moved to top, simplified */}
+      <div className="p-4 bg-gray-50 border-b border-gray-200">
+        <button
+          onClick={handleProjectClick}
+          className="flex items-center space-x-2 text-gray-700 hover:text-purple-700 transition-colors w-full text-left group"
+        >
+          <span className="text-sm transform group-hover:rotate-90 transition-transform duration-200">▶</span>
+          <span className="font-medium text-sm">Projects</span>
+        </button>
+        
+        {/* The Atrium Project Title */}
+        <div className="mt-3 flex items-center space-x-3">
+          <div className="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center border border-purple-200">
+            <span className="text-xs font-semibold text-purple-700">2</span>
+          </div>
+          <div className="flex-1">
+            <h2 className="font-semibold text-sm text-gray-900">The Atrium</h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Active Project
+            </p>
           </div>
         </div>
       </div>
