@@ -51,7 +51,7 @@ const ConfigureProject = (): JSX.Element => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <div className='w-full flex flex-col'>
-        <div className="bg-purple-800 text-white h-12 px-4">
+        <div className="bg-[#0F0059] text-white h-12 px-4 py-3">
           <div className="flex items-center justify-between h-full">
             {/* Left side - Group Dropdown */}
             <div className="flex items-center">
@@ -591,8 +591,8 @@ const ConfigureProject = (): JSX.Element => {
                           <div className="space-y-6">
                             {/* Add New Tower Button */}
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -622,8 +622,8 @@ const ConfigureProject = (): JSX.Element => {
 
                             {/* Add Basement Levels Button */}
                             <div className="mt-6 mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -690,7 +690,7 @@ const ConfigureProject = (): JSX.Element => {
                                   Search
                                 </Button>
                               </div>
-                              
+
                               <div className="flex items-center space-x-4">
                                 <span className="text-sm text-gray-500">Bulk Upload Warranties</span>
                                 <Button
@@ -768,7 +768,7 @@ const ConfigureProject = (): JSX.Element => {
                               <h4 className="text-lg font-medium text-gray-900 dark:text-white">
                                 Configure Common Areas for Tower
                               </h4>
-                              
+
                               <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                                 <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                                   <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
@@ -784,7 +784,7 @@ const ConfigureProject = (): JSX.Element => {
                                     ACTION
                                   </div>
                                 </div>
-                                
+
                                 {/* Tower A */}
                                 <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
                                   <div className="text-sm text-gray-900 dark:text-white">Tower A</div>
@@ -848,7 +848,7 @@ const ConfigureProject = (): JSX.Element => {
                               <h4 className="text-lg font-medium text-gray-900 dark:text-white">
                                 Configure Common Areas for Basement
                               </h4>
-                              
+
                               <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                                 <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                                   <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
@@ -861,7 +861,7 @@ const ConfigureProject = (): JSX.Element => {
                                     ACTION
                                   </div>
                                 </div>
-                                
+
                                 {/* Basement Level */}
                                 <div className="grid grid-cols-3 gap-4 p-4">
                                   <div className="text-sm text-gray-900 dark:text-white">B1, B2, B3</div>
@@ -923,7 +923,7 @@ const ConfigureProject = (): JSX.Element => {
                               <h4 className="text-lg font-medium text-gray-900 dark:text-white">
                                 Trade
                               </h4>
-                              
+
                               <div className="grid grid-cols-1 gap-3 max-w-md">
                                 <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                                   <span className="text-sm font-medium text-blue-900 dark:text-blue-100">Demolisher</span>
@@ -951,7 +951,7 @@ const ConfigureProject = (): JSX.Element => {
                               <h4 className="text-lg font-medium text-gray-900 dark:text-white">
                                 Inspection Test Plans
                               </h4>
-                              
+
                               <div className="space-y-4">
                                 {/* ITP Demolisher */}
                                 <div className="flex items-center justify-between">
@@ -1024,7 +1024,7 @@ const ConfigureProject = (): JSX.Element => {
                               🔍 Filter
                             </Button>
                           </div>
-                          
+
                           <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                             Invite User
                           </Button>
@@ -1069,7 +1069,7 @@ const ConfigureProject = (): JSX.Element => {
                               ACTION
                             </div>
                           </div>
-                          
+
                           {/* User Rows */}
                           <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
                             <div className="text-sm text-gray-900 dark:text-white">John</div>
@@ -1266,8 +1266,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Builder" initialEntered>
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -1291,7 +1291,7 @@ const ConfigureProject = (): JSX.Element => {
                                   ACTION
                                 </div>
                               </div>
-                              
+
                               {/* Sample Data */}
                               <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
                                 <div className="text-sm text-gray-900 dark:text-white">John</div>
@@ -1343,8 +1343,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Developer">
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -1380,8 +1380,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Sales Agent">
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -1417,8 +1417,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Auditor">
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -1454,8 +1454,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Sub-Contractor">
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
@@ -1491,8 +1491,8 @@ const ConfigureProject = (): JSX.Element => {
                         <AccordionItem header="Strata">
                           <div className="space-y-4">
                             <div className="mb-4">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                               >
