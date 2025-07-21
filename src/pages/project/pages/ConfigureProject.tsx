@@ -77,84 +77,92 @@ const ConfigureProject = (): JSX.Element => {
             {/* Project Information Tab */}
             <TabsContent value="information" className="space-y-6">
               <Card>
-                <CardContent className="p-6 space-y-6">
+                <CardContent className="p-8 space-y-8">
                   {/* Project Type */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Type*
                     </label>
-                    <Select
+                    <select
                       value={formData.type}
-                      onValueChange={(value) => handleInputChange('type', value)}
+                      onChange={(e) => handleInputChange('type', e.target.value)}
+                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     >
+                      <option value="">Select project type</option>
                       <option value="Apartment">Apartment</option>
                       <option value="House">House</option>
                       <option value="Commercial">Commercial</option>
                       <option value="Townhouse">Townhouse</option>
-                    </Select>
+                    </select>
                   </div>
 
                   {/* Project Name */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Name*
                     </label>
                     <Input
                       type="text"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="Enter project name"
+                      placeholder="The Atrium"
+                      className="w-full"
                     />
                   </div>
 
                   {/* Project Status */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Status*
                     </label>
-                    <Select
+                    <select
                       value={formData.status}
-                      onValueChange={(value) => handleInputChange('status', value)}
+                      onChange={(e) => handleInputChange('status', e.target.value)}
+                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     >
+                      <option value="">Select project status</option>
                       <option value="Under Development">Under Development</option>
                       <option value="Planning">Planning</option>
                       <option value="Construction">Construction</option>
                       <option value="Completed">Completed</option>
-                    </Select>
+                    </select>
                   </div>
 
                   {/* Country */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Country
                     </label>
-                    <Select
+                    <select
                       value={formData.country}
-                      onValueChange={(value) => handleInputChange('country', value)}
+                      onChange={(e) => handleInputChange('country', e.target.value)}
+                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     >
+                      <option value="">Select country</option>
                       <option value="Australia">Australia</option>
                       <option value="United States">United States</option>
                       <option value="United Kingdom">United Kingdom</option>
                       <option value="Canada">Canada</option>
-                    </Select>
+                    </select>
                   </div>
 
                   {/* Address */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Address*
                     </label>
                     <TextArea
                       value={formData.address}
-                      onChange={(e) => handleInputChange('address', e.target.value)}
+                      onChange={(value) => handleInputChange('address', value)}
                       placeholder="70 Ocean Street, NSW"
                       rows={3}
+                      className="w-full resize-none"
                     />
                   </div>
 
                   {/* Building No/Street No */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Building No/Street No
                     </label>
                     <Input
@@ -162,12 +170,13 @@ const ConfigureProject = (): JSX.Element => {
                       value={formData.buildingNo}
                       onChange={(e) => handleInputChange('buildingNo', e.target.value)}
                       placeholder="Enter Building No/Street No"
+                      className="w-full"
                     />
                   </div>
 
                   {/* Password */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Password*
                     </label>
                     <Input
@@ -175,56 +184,60 @@ const ConfigureProject = (): JSX.Element => {
                       value={formData.password}
                       onChange={(e) => handleInputChange('password', e.target.value)}
                       placeholder="AQJH 1298 12849"
+                      className="w-full"
                     />
                   </div>
 
                   {/* Upload Image */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Upload Image
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                    <div className="w-full">
                       {formData.uploadImage ? (
-                        <div className="relative">
+                        <div className="relative inline-block">
                           <img
                             src={formData.uploadImage}
                             alt="Project"
-                            className="w-full h-48 object-cover rounded-lg"
+                            className="w-64 h-40 object-cover rounded-lg border border-gray-300"
                           />
                           <Button
                             variant="outline"
                             size="sm"
-                            className="absolute top-2 right-2 bg-white"
+                            className="absolute top-2 right-2 bg-white hover:bg-gray-50 text-gray-700 border-gray-300"
                             onClick={() => handleInputChange('uploadImage', '')}
                           >
                             Remove
                           </Button>
                         </div>
                       ) : (
-                        <div className="text-center py-8">
-                          <div className="text-gray-400 mb-2">
-                            <svg className="mx-auto h-12 w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                        <div className="w-64 h-40 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+                          <div className="text-center">
+                            <div className="text-gray-400 mb-2">
+                              <svg className="mx-auto h-8 w-8" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
+                            <p className="text-sm text-gray-500">Click to upload</p>
+                            <p className="text-xs text-gray-400">PNG, JPG</p>
                           </div>
-                          <p className="text-gray-500">Click to upload or drag and drop</p>
-                          <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
                         </div>
                       )}
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex justify-end space-x-3 pt-6">
+                  <div className="flex justify-end space-x-3 pt-8 border-t border-gray-200 dark:border-gray-700">
                     <Button
                       variant="outline"
                       onClick={handleCancel}
+                      className="px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-50"
                     >
                       Cancel
                     </Button>
                     <Button
                       onClick={handleSave}
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white"
                     >
                       Update
                     </Button>
