@@ -123,35 +123,62 @@ export const OrganizationPage: FC = function () {
                                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
                                     {/* Dummy Project Card */}
                                     <div className="mb-6">
-                                        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 max-w-sm cursor-pointer hover:shadow-md transition-shadow">
-                                            <div className="mb-3">
-                                                <h3 className="font-semibold text-gray-900 text-base">The Atrium</h3>
-                                                <p className="text-sm text-gray-600 mt-1">25 Ocean Street VIC</p>
-                                                <p className="text-xs text-gray-500 mt-0.5">MOT • PVG • PVJI</p>
-                                                <p className="text-xs text-gray-400 mt-0.5">Under Warranty</p>
+                                        <div className="bg-white border border-gray-200 rounded-xl shadow-sm max-w-sm cursor-pointer hover:shadow-md transition-shadow overflow-hidden">
+                                            {/* Header */}
+                                            <div className="p-4 pb-3">
+                                                <div className="flex justify-between items-start mb-3">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-semibold text-gray-900 text-lg mb-1">The Atrium</h3>
+                                                        <p className="text-sm text-gray-600 mb-0.5">70 Church Street, NSW</p>
+                                                        <p className="text-xs text-gray-500 mb-1">AEST; UTC+10:00</p>
+                                                        <p className="text-xs text-gray-600 font-medium">Under Warranty</p>
+                                                    </div>
+                                                    <button className="text-gray-400 hover:text-gray-600 p-1">
+                                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                
+                                                {/* Project Setup Progress */}
+                                                <div className="mb-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="text-sm text-gray-600">Project Setup</span>
+                                                        <span className="text-sm text-gray-600 font-medium">15%</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '15%' }}></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             
-                                            <div className="mb-4">
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300&h=160&fit=crop&crop=building"
-                                                    alt="The Atrium"
-                                                    className="w-full h-32 object-cover rounded-lg"
-                                                />
+                                            {/* Project Image */}
+                                            <div className="px-4 pb-4">
+                                                <div className="relative">
+                                                    <img
+                                                        src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=240&fit=crop&crop=building"
+                                                        alt="The Atrium"
+                                                        className="w-full h-48 object-cover rounded-lg"
+                                                    />
+                                                </div>
                                             </div>
                                             
-                                            <div className="flex flex-wrap gap-2">
-                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">
-                                                    Requested Defects: 0
-                                                </span>
-                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">
-                                                    Resolved Defects: 0
-                                                </span>
-                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
-                                                    Properties: 0
-                                                </span>
-                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                    Open Defects: 0
-                                                </span>
+                                            {/* Status Cards */}
+                                            <div className="px-4 pb-4">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div className="bg-red-50 border border-red-200 rounded-lg p-2">
+                                                        <span className="text-xs font-medium text-red-800">Requested Defects: 0</span>
+                                                    </div>
+                                                    <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+                                                        <span className="text-xs font-medium text-green-800">Resolved Defects: 0</span>
+                                                    </div>
+                                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
+                                                        <span className="text-xs font-medium text-blue-800">Properties: 5</span>
+                                                    </div>
+                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2">
+                                                        <span className="text-xs font-medium text-yellow-800">Open Defects: 8</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
