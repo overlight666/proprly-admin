@@ -584,8 +584,8 @@ const ConfigureProject = (): JSX.Element => {
                   <TabsContent value="details" className="space-y-6">
                     <Card>
                       <CardContent className="p-6 space-y-6">
-                        {/* Tower/Basement Configuration */}
-                        <div className="space-y-4">
+                        {/* Tower/Basement Configuration - Expanded */}
+                        <div className="space-y-6">
                           <div className="flex items-center justify-between">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                               Tower/Basement Configuration
@@ -602,62 +602,62 @@ const ConfigureProject = (): JSX.Element => {
                             <Button 
                               variant="outline" 
                               size="sm"
-                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                             >
                               + Add New Tower
                             </Button>
                           </div>
 
                           {/* Tower Table */}
-                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                             <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                                 TOWER NAME
                               </div>
-                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                                 NO. OF FLOORS
                               </div>
-                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                                 STATUS
                               </div>
                             </div>
-                            <div className="p-4">
-                              <div className="text-center text-gray-500 py-8">
+                            <div className="p-8">
+                              <div className="text-center text-gray-500 text-sm">
                                 No data available
                               </div>
                             </div>
                           </div>
 
                           {/* Add Basement Levels Button */}
-                          <div className="mt-6">
+                          <div className="mt-6 mb-4">
                             <Button 
                               variant="outline" 
                               size="sm"
-                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600 px-4 py-2"
                             >
                               + Add Basement Levels
                             </Button>
                           </div>
 
                           {/* Basement Table */}
-                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                             <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                                BASEMENT LEVEL
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                BASEMENT LEVELS
                               </div>
-                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                                 STATUS
                               </div>
                             </div>
-                            <div className="p-4">
-                              <div className="text-center text-gray-500 py-8">
+                            <div className="p-8">
+                              <div className="text-center text-gray-500 text-sm">
                                 No data available
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Property Configuration */}
+                        {/* Property Configuration - Collapsed */}
                         <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -671,7 +671,7 @@ const ConfigureProject = (): JSX.Element => {
                           </div>
                         </div>
 
-                        {/* Common Area Configuration */}
+                        {/* Common Area Configuration - Collapsed */}
                         <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -685,7 +685,7 @@ const ConfigureProject = (): JSX.Element => {
                           </div>
                         </div>
 
-                        {/* ITP Configuration */}
+                        {/* ITP Configuration - Collapsed */}
                         <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -701,8 +701,8 @@ const ConfigureProject = (): JSX.Element => {
 
                         {/* Action Buttons */}
                         <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-                          <Button variant="outline">Cancel</Button>
-                          <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
+                          <Button variant="outline" className="px-6 py-2">Cancel</Button>
+                          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">Save</Button>
                         </div>
                       </CardContent>
                     </Card>
