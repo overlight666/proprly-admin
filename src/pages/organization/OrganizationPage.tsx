@@ -47,20 +47,20 @@ export const OrganizationPage: FC = function () {
                         {/* Tabs */}
                         <Tabs defaultValue="projects" className="w-full">
                             <TabsList className="bg-transparent border-b border-gray-200 dark:border-gray-700 h-auto p-0 rounded-none">
-                                <TabsTrigger 
-                                    value="projects" 
+                                <TabsTrigger
+                                    value="projects"
                                     className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
                                 >
                                     Projects
                                 </TabsTrigger>
-                                <TabsTrigger 
-                                    value="invitations" 
+                                <TabsTrigger
+                                    value="invitations"
                                     className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
                                 >
                                     Invitations
                                 </TabsTrigger>
-                                <TabsTrigger 
-                                    value="users" 
+                                <TabsTrigger
+                                    value="users"
                                     className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
                                 >
                                     Users
@@ -91,16 +91,16 @@ export const OrganizationPage: FC = function () {
 
                                         {/* View Toggle Buttons */}
                                         <div className="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                                            <Button 
-                                                variant="ghost" 
-                                                className={`h-10 w-10 rounded-none border-0 ${isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`} 
+                                            <Button
+                                                variant="ghost"
+                                                className={`h-10 w-10 rounded-none border-0 ${isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`}
                                                 onClick={() => setIsGrid(true)}
                                             >
                                                 <GridIcon className="w-4 h-4" />
                                             </Button>
-                                            <Button 
-                                                variant="ghost" 
-                                                className={`h-10 w-10 rounded-none border-0 border-l border-gray-300 dark:border-gray-600 ${!isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`} 
+                                            <Button
+                                                variant="ghost"
+                                                className={`h-10 w-10 rounded-none border-0 border-l border-gray-300 dark:border-gray-600 ${!isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`}
                                                 onClick={() => setIsGrid(false)}
                                             >
                                                 <OrderedListIcon className="w-4 h-4" />
@@ -109,8 +109,8 @@ export const OrganizationPage: FC = function () {
                                     </div>
 
                                     {/* Add Project Button */}
-                                    <Button 
-                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2" 
+                                    <Button
+                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2"
                                         onClick={() => navigate("/organization/new", { replace: true })}
                                     >
                                         <Plus className="w-4 h-4" />
@@ -134,7 +134,7 @@ export const OrganizationPage: FC = function () {
                                                     </div>
                                                     <button className="text-gray-400 hover:text-gray-600 p-1">
                                                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                                                         </svg>
                                                     </button>
                                                 </div>
@@ -164,17 +164,17 @@ export const OrganizationPage: FC = function () {
 
                                             {/* Status Badges */}
                                             <div className="px-4 pb-4">
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                                                <div className="flex gap-2 flex-wrap">
+                                                    <div className="bg-red-50 border border-red-200 rounded-full px-3 py-2 flex items-center">
                                                         <span className="text-xs font-medium text-red-700">Requested Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                                                    <div className="bg-green-50 border border-green-200 rounded-full px-3 py-2 flex items-center">
                                                         <span className="text-xs font-medium text-green-700">Resolved Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                                                    <div className="bg-blue-50 border border-blue-200 rounded-full px-3 py-2 flex items-center">
                                                         <span className="text-xs font-medium text-blue-700">Properties: 5</span>
                                                     </div>
-                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
+                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-full px-3 py-2 flex items-center">
                                                         <span className="text-xs font-medium text-yellow-700">Open Defects: 8</span>
                                                     </div>
                                                 </div>
