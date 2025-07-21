@@ -751,7 +751,7 @@ const ConfigureProject = (): JSX.Element => {
                           </div>
                         </div>
 
-                        {/* Common Area Configuration - Collapsed */}
+                        {/* Common Area Configuration - Expanded */}
                         <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -759,9 +759,158 @@ const ConfigureProject = (): JSX.Element => {
                             </h3>
                             <button className="p-2 hover:bg-gray-100 rounded">
                               <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                               </svg>
                             </button>
+                          </div>
+                          
+                          {/* Common Area Configuration Content */}
+                          <div className="p-6 space-y-6">
+                            {/* Enable Toggle */}
+                            <div className="flex items-center space-x-3">
+                              <div className="relative">
+                                <input
+                                  type="checkbox"
+                                  className="sr-only"
+                                  defaultChecked
+                                />
+                                <div className="w-12 h-6 bg-blue-600 rounded-full shadow-inner"></div>
+                                <div className="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow transform translate-x-6 transition-transform"></div>
+                              </div>
+                              <label className="text-sm font-medium text-gray-900 dark:text-white">
+                                Enable
+                              </label>
+                            </div>
+
+                            {/* Strata plan no. */}
+                            <div className="space-y-2 w-[50%]">
+                              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                                Strata plan no. *
+                              </label>
+                              <Input
+                                type="text"
+                                placeholder="Enter strata plan no."
+                                className="w-full"
+                              />
+                            </div>
+
+                            {/* Configure Common Areas for Tower */}
+                            <div className="space-y-4">
+                              <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+                                Configure Common Areas for Tower
+                              </h4>
+                              
+                              <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                <div className="grid grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    TOWER NAME ↑
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    FLOOR/LEVEL ↑
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    CONFIG STATUS
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    ACTION
+                                  </div>
+                                </div>
+                                
+                                {/* Tower A */}
+                                <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                                  <div className="text-sm text-gray-900 dark:text-white">Tower A</div>
+                                  <div className="text-sm text-gray-900 dark:text-white">6</div>
+                                  <div>
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                      Pending
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                                    >
+                                      Update
+                                    </Button>
+                                  </div>
+                                </div>
+
+                                {/* Tower B */}
+                                <div className="grid grid-cols-4 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                                  <div className="text-sm text-gray-900 dark:text-white">Tower B</div>
+                                  <div className="text-sm text-gray-900 dark:text-white">5</div>
+                                  <div>
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                      Configured
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <button className="p-1 hover:bg-gray-100 rounded">
+                                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Tower C */}
+                                <div className="grid grid-cols-4 gap-4 p-4">
+                                  <div className="text-sm text-gray-900 dark:text-white">Tower C</div>
+                                  <div className="text-sm text-gray-900 dark:text-white">3</div>
+                                  <div>
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                      Pending
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <button className="p-1 hover:bg-gray-100 rounded">
+                                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Configure Common Areas for Basement */}
+                            <div className="space-y-4">
+                              <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+                                Configure Common Areas for Basement
+                              </h4>
+                              
+                              <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                                <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    BASEMENT LEVELS ↑
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    CONFIG STATUS
+                                  </div>
+                                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                    ACTION
+                                  </div>
+                                </div>
+                                
+                                {/* Basement Level */}
+                                <div className="grid grid-cols-3 gap-4 p-4">
+                                  <div className="text-sm text-gray-900 dark:text-white">B1, B2, B3</div>
+                                  <div>
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                      Pending
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <button className="p-1 hover:bg-gray-100 rounded">
+                                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
