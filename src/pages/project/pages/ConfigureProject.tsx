@@ -357,12 +357,12 @@ const ConfigureProject = (): JSX.Element => {
                           <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                             Project Plan*
                           </h3>
-                          
+
                           {/* Upload Area */}
-                          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
+                          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800 w-[50%]">
                             <div className="flex items-center justify-between">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
                               >
@@ -373,7 +373,7 @@ const ConfigureProject = (): JSX.Element => {
                           </div>
 
                           {/* Uploaded Files */}
-                          <div className="space-y-2">
+                          <div className="space-y-2  w-[50%]">
                             <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
                               <div className="flex items-center space-x-3">
                                 <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
@@ -426,16 +426,16 @@ const ConfigureProject = (): JSX.Element => {
                         </div>
 
                         {/* Draft Strata Plan Section */}
-                        <div className="space-y-4">
+                        <div className="space-y-4  w-[50%]">
                           <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                             Draft Strata Plan*
                           </h3>
-                          
+
                           {/* Upload Area */}
                           <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
                             <div className="flex items-center justify-between">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
                               >
@@ -499,16 +499,16 @@ const ConfigureProject = (): JSX.Element => {
                         </div>
 
                         {/* Miscellaneous Section */}
-                        <div className="space-y-4">
+                        <div className="space-y-4  w-[50%]">
                           <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                             Miscellaneous*
                           </h3>
-                          
+
                           {/* Upload Area */}
                           <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
                             <div className="flex items-center justify-between">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 size="sm"
                                 className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
                               >
