@@ -1002,21 +1002,257 @@ const ConfigureProject = (): JSX.Element => {
                   <TabsContent value="users" className="space-y-6">
                     <Card>
                       <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                            Project Users
-                          </h3>
+                        {/* Search and Filter Section */}
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center space-x-4">
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                              </div>
+                              <Input
+                                type="text"
+                                placeholder="Search Name, Phone, Email Address..."
+                                className="pl-10 w-80"
+                              />
+                            </div>
+                            <Button
+                              variant="outline"
+                              className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                            >
+                              🔍 Filter
+                            </Button>
+                          </div>
+                          
                           <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                            Add User
+                            Invite User
                           </Button>
                         </div>
-                        <div className="text-gray-600 dark:text-gray-400">
-                          <p>Manage users who have access to this project.</p>
+
+                        {/* Show only filter */}
+                        <div className="flex items-center space-x-4 mb-4">
+                          <span className="text-sm text-gray-600">Show only:</span>
+                          <div className="flex items-center space-x-2">
+                            <input type="radio" id="all" name="userFilter" defaultChecked className="text-blue-600" />
+                            <label htmlFor="all" className="text-sm text-gray-700">All</label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <input type="radio" id="company" name="userFilter" className="text-blue-600" />
+                            <label htmlFor="company" className="text-sm text-gray-700">Company Users</label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <input type="radio" id="project" name="userFilter" className="text-blue-600" />
+                            <label htmlFor="project" className="text-sm text-gray-700">Project Users</label>
+                          </div>
                         </div>
 
-                        <div className="flex justify-end space-x-3 pt-6">
-                          <Button variant="outline">Cancel</Button>
-                          <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
+                        {/* Users Table */}
+                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                          <div className="grid grid-cols-6 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              FULL NAME ↑
+                            </div>
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              ROLE ↑
+                            </div>
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              UNIT NO.
+                            </div>
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              TRADE CATEGORIES ↑
+                            </div>
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              STATUS
+                            </div>
+                            <div className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                              ACTION
+                            </div>
+                          </div>
+                          
+                          {/* User Rows */}
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Builder</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">Test Pilot</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Sales Agent</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Invite Sent
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Subcontractor</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">Painter</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Invite Sent
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">Chicago Prelegal</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Strata</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Developer</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Auditor</div>
+                            <div className="text-sm text-gray-500">All</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Invite Sent
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4 border-b border-gray-200 dark:border-gray-700">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Owner</div>
+                            <div className="text-sm text-gray-500">101</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-6 gap-4 p-4">
+                            <div className="text-sm text-gray-900 dark:text-white">John</div>
+                            <div className="text-sm text-gray-900 dark:text-white">Owner</div>
+                            <div className="text-sm text-gray-500">102, 103</div>
+                            <div className="text-sm text-gray-500">N/A</div>
+                            <div>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            </div>
+                            <div>
+                              <button className="p-1 hover:bg-gray-100 rounded">
+                                <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Pagination */}
+                        <div className="flex items-center justify-between mt-4">
+                          <div className="text-sm text-gray-500">
+                            Showing 1-10 of 1000 Rows
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <select className="text-sm border border-gray-300 rounded px-2 py-1">
+                              <option value="20">20</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                            </select>
+                            <div className="flex items-center space-x-1">
+                              <button className="p-2 text-gray-400 hover:text-gray-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                              </button>
+                              <button className="px-3 py-1 text-sm bg-blue-600 text-white rounded">1</button>
+                              <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">2</button>
+                              <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">3</button>
+                              <span className="px-2 text-gray-400">...</span>
+                              <button className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">100</button>
+                              <button className="p-2 text-gray-400 hover:text-gray-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
