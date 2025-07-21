@@ -95,11 +95,10 @@ export const ProjectSidebar: React.FC = () => {
               <li key={item.id}>
                 <Link
                   to={`/organization/${organizationId}/project/${projectId}/${item.id}`}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors block ${
-                    isActive
-                      ? 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors block ${isActive
+                    ? 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -112,7 +111,7 @@ export const ProjectSidebar: React.FC = () => {
       {/* Footer */}
       <div className="p-4 border-t border-gray-200 dark:border-gray-700">
         <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-          © 2024 Proprly. All rights reserved.
+          {/* © 2024 Proprly. All rights reserved. */}
         </p>
       </div>
     </div>

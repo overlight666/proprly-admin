@@ -20,6 +20,20 @@ export const OrganizationPage: FC = function () {
     const [isGrid, setIsGrid] = useState(true);
     const navigate = useNavigate();
 
+    const mockProject = {
+        id: 1,
+        name: "The Artisan",
+        subtitle: "70 Ocean Drive, NSW",
+        location: "Perth, AUSTRALIA",
+        status: "Active",
+        projectStatus: "11%",
+        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300&h=200&fit=crop&crop=center",
+        resolvedDefects: 0,
+        minorDefects: 0,
+        properties: 3,
+        openDefects: 6
+    };
+
     useEffect(() => {
         if (search.trim().length > 0) {
             const filtered = organizationsList?.filter((org: Organization) => JSON.stringify(org).toLowerCase().includes(search))
@@ -28,6 +42,15 @@ export const OrganizationPage: FC = function () {
             setFilteredOrganizations(organizationsList)
         }
     }, [search, organizationsList])
+
+    const handleProjectClick = (projectId: number) => {
+        navigate(`/projects/${projectId}/configure`);
+    };
+
+    const handleAddNewProject = () => {
+        navigate('/projects/new');
+    };
+
 
     return (
         <NavbarSidebarLayout>
@@ -122,7 +145,7 @@ export const OrganizationPage: FC = function () {
                                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
                                     {/* Dummy Project Card */}
                                     <div className="mb-6">
-                                        <div className="bg-white border border-gray-200 rounded-xl shadow-sm max-w-sm cursor-pointer hover:shadow-md transition-shadow overflow-hidden">
+                                        <div onClick={() => handleProjectClick(mockProject.id)} className="bg-white border border-gray-200 rounded-xl shadow-sm max-w-sm cursor-pointer hover:shadow-md transition-shadow overflow-hidden">
                                             {/* Header */}
                                             <div className="p-4 pb-3">
                                                 <div className="flex justify-between items-start mb-3">

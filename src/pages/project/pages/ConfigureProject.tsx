@@ -4,9 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Select } from '@/components/ui/select';
-import { TextArea } from '@/components/ui/text-area';
 import ProjectSidebar from '@/components/project-sidebar';
+import Select from '@/components/ui/select';
+import TextArea from '@/components/ui/text-area';
 
 // Mock project data
 const mockProjectData = {
@@ -45,7 +45,7 @@ const ConfigureProject = (): JSX.Element => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <ProjectSidebar />
-      
+
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">

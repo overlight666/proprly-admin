@@ -52,7 +52,7 @@ const MainContentFooter: FC = function () {
   return (
     <>
       <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
-        &copy; 2021-2025 proprly. All rights reserved.
+        {/* &copy; 2021-2025 proprly. All rights reserved. */}
       </p>
     </>
   );

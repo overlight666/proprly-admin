@@ -200,7 +200,7 @@ const App: FC = function () {
               </PrivateRoutes>
             }
           />
-           <Route path="/organization/:id/project/:project_id/configure" element={
+          <Route path="projects/:project_id/configure" element={
             <PrivateRoutes>
               <ConfigureProject />
             </PrivateRoutes>

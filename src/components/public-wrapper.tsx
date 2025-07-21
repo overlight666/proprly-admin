@@ -69,7 +69,7 @@ export const PublicWrapper: FC<PublicWrapperProps> = ({ children, fullScreen = f
                     {/* Footer */}
                     <footer className="absolute bottom-6 w-full text-center">
                         <p className="text-xs font-leading-none-text-xs-font-medium text-white">
-                            © 2024 Proprly. All Rights Reserved.
+                            {/* © 2024 Proprly. All Rights Reserved. */}
                         </p>
                     </footer>
 
