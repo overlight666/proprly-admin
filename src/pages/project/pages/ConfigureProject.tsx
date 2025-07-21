@@ -583,37 +583,124 @@ const ConfigureProject = (): JSX.Element => {
                   {/* Project Details Tab */}
                   <TabsContent value="details" className="space-y-6">
                     <Card>
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                          Additional Project Details
-                        </h3>
+                      <CardContent className="p-6 space-y-6">
+                        {/* Tower/Basement Configuration */}
                         <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              Project Description
-                            </label>
-                            <TextArea
-                              placeholder="Enter project description"
-                              rows={4}
-                            />
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                              Tower/Basement Configuration
+                            </h3>
+                            <button className="p-2 hover:bg-gray-100 rounded">
+                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                              </svg>
+                            </button>
                           </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Start Date
-                              </label>
-                              <Input type="date" />
+
+                          {/* Add New Tower Button */}
+                          <div className="mb-4">
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+                            >
+                              + Add New Tower
+                            </Button>
+                          </div>
+
+                          {/* Tower Table */}
+                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                            <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                TOWER NAME
+                              </div>
+                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                NO. OF FLOORS
+                              </div>
+                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                STATUS
+                              </div>
                             </div>
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Expected Completion
-                              </label>
-                              <Input type="date" />
+                            <div className="p-4">
+                              <div className="text-center text-gray-500 py-8">
+                                No data available
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Add Basement Levels Button */}
+                          <div className="mt-6">
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+                            >
+                              + Add Basement Levels
+                            </Button>
+                          </div>
+
+                          {/* Basement Table */}
+                          <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                            <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                BASEMENT LEVEL
+                              </div>
+                              <div className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                                STATUS
+                              </div>
+                            </div>
+                            <div className="p-4">
+                              <div className="text-center text-gray-500 py-8">
+                                No data available
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex justify-end space-x-3 pt-6">
+                        {/* Property Configuration */}
+                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                              Property Configuration
+                            </h3>
+                            <button className="p-2 hover:bg-gray-100 rounded">
+                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Common Area Configuration */}
+                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                              Common Area Configuration
+                            </h3>
+                            <button className="p-2 hover:bg-gray-100 rounded">
+                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* ITP Configuration */}
+                        <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                              ITP Configuration
+                            </h3>
+                            <button className="p-2 hover:bg-gray-100 rounded">
+                              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700">
                           <Button variant="outline">Cancel</Button>
                           <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
                         </div>
