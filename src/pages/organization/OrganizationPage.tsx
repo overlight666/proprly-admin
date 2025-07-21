@@ -125,25 +125,31 @@ export const OrganizationPage: FC = function () {
                                     <div className="mb-6">
                                         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 max-w-sm cursor-pointer hover:shadow-md transition-shadow">
                                             <div className="mb-3">
-                                                <h3 className="font-semibold text-gray-900 text-lg">The Atrium</h3>
-                                                <p className="text-sm text-gray-600">25 Ocean Street VIC</p>
-                                                <p className="text-xs text-gray-500">South Yarra</p>
-                                                <p className="text-xs text-gray-400">Melbourne, AUSTRALIA</p>
+                                                <h3 className="font-semibold text-gray-900 text-base">The Atrium</h3>
+                                                <p className="text-sm text-gray-600 mt-1">25 Ocean Street VIC</p>
+                                                <p className="text-xs text-gray-500 mt-0.5">MOT • PVG • PVJI</p>
+                                                <p className="text-xs text-gray-400 mt-0.5">Under Warranty</p>
                                             </div>
                                             
                                             <div className="mb-4">
                                                 <img
                                                     src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300&h=160&fit=crop&crop=building"
                                                     alt="The Atrium"
-                                                    className="w-full h-40 object-cover rounded-lg"
+                                                    className="w-full h-32 object-cover rounded-lg"
                                                 />
                                             </div>
                                             
                                             <div className="flex flex-wrap gap-2">
                                                 <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">
-                                                    Resolved Defects: 0
+                                                    Requested Defects: 0
                                                 </span>
                                                 <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                                                    Resolved Defects: 0
+                                                </span>
+                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                                                    Properties: 0
+                                                </span>
+                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
                                                     Open Defects: 0
                                                 </span>
                                             </div>
