@@ -41,57 +41,63 @@ export const ProjectSidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full flex flex-col">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-purple-800">
+    <div className="w-64 bg-gray-100 dark:bg-gray-900 h-full flex flex-col">
+      {/* Header with Projects */}
+      <div className="p-4 bg-purple-800">
         <button
           onClick={handleProjectClick}
-          className="flex items-center space-x-2 text-sm text-white hover:text-gray-200 transition-colors w-full"
+          className="flex items-center space-x-2 text-white hover:text-gray-200 transition-colors w-full text-left"
         >
-          <span>▶</span>
-          <span className="font-medium">Projects</span>
+          <span className="text-sm">▶</span>
+          <span className="font-medium text-sm">Projects</span>
         </button>
       </div>
 
-      {/* Project Card */}
-      <div className="p-4 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm">
-          <div className="flex items-start space-x-3">
-            <div className="w-8 h-8 bg-gray-300 rounded flex items-center justify-center text-xs text-gray-600 font-medium">
-              1
+      {/* The Atrium Header */}
+      <div className="px-4 py-3 bg-purple-800 border-b border-purple-700">
+        <div className="flex items-center space-x-2">
+          <div className="w-6 h-6 bg-white bg-opacity-20 rounded flex items-center justify-center">
+            <span className="text-xs text-white font-medium">2</span>
+          </div>
+          <span className="text-white font-medium text-sm">The Atrium</span>
+        </div>
+      </div>
+
+      {/* Project Details Card */}
+      <div className="p-4 bg-gray-100 dark:bg-gray-900">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+          <div className="mb-3">
+            <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
+              The Atrium
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              30 Church Street, NSW<br />
+              2000, 12 Church St, Brighton
+            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mt-2">
+              Under Warranty
+            </p>
+          </div>
+
+          {/* Project Setup Progress */}
+          <div className="mb-3">
+            <div className="text-xs text-gray-600 dark:text-gray-300 mb-2">
+              Project Setup
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                The Atrium
-              </h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                30 Church Street, NSW
-                <br />
-                2000, 12 Church St, Brighton
-              </p>
-              <p className="text-xs text-gray-600 dark:text-gray-300 mt-2">
-                Under Warranty
-              </p>
-              <div className="mt-2">
-                <div className="text-xs text-gray-600 dark:text-gray-300 mb-1">
-                  Project Setup
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                  <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: '25%' }}></div>
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  25%
-                </div>
-              </div>
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+              <div className="bg-blue-500 h-2 rounded-full" style={{ width: '25%' }}></div>
+            </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              25%
             </div>
           </div>
           
           {/* Project Image */}
-          <div className="mt-3">
+          <div className="w-full">
             <img
-              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=200&fit=crop&crop=building"
-              alt="Project"
-              className="w-full h-20 object-cover rounded"
+              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=120&fit=crop&crop=building"
+              alt="The Atrium Project"
+              className="w-full h-24 object-cover rounded"
             />
           </div>
         </div>
@@ -106,9 +112,9 @@ export const ProjectSidebar: React.FC = () => {
               <li key={item.id}>
                 <Link
                   to={`/organization/${organizationId}/project/${projectId}/${item.id}`}
-                  className={`w-full text-left px-4 py-3 text-sm font-medium transition-colors border-b border-gray-200 dark:border-gray-700 block ${
+                  className={`w-full text-left px-4 py-3 text-sm transition-colors border-b border-gray-200 dark:border-gray-700 block ${
                     isActive
-                      ? 'bg-purple-800 text-white'
+                      ? 'bg-purple-800 text-white font-medium'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 bg-white dark:bg-gray-800'
                   }`}
                 >
