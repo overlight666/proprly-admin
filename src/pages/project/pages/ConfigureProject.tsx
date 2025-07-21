@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Select } from '@/components/ui/select';
-import { TextArea } from '@/components/ui/text-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProjectSidebar from '@/components/project-sidebar';
+import TextArea from '@/components/ui/text-area';
+import Select from '@/components/ui/select';
 
 // Mock project data
 const mockProjectData = {
@@ -47,7 +47,7 @@ const ConfigureProject = (): JSX.Element => {
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <ProjectSidebar />
-      
+
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
@@ -281,7 +281,7 @@ const ConfigureProject = (): JSX.Element => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-3 pt-6">
                     <Button variant="outline">Cancel</Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
@@ -322,7 +322,7 @@ const ConfigureProject = (): JSX.Element => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-3 pt-6">
                     <Button variant="outline">Cancel</Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
@@ -346,7 +346,7 @@ const ConfigureProject = (): JSX.Element => {
                   <div className="text-gray-600 dark:text-gray-400">
                     <p>Manage users who have access to this project.</p>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-3 pt-6">
                     <Button variant="outline">Cancel</Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
@@ -392,7 +392,7 @@ const ConfigureProject = (): JSX.Element => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-3 pt-6">
                     <Button variant="outline">Cancel</Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
@@ -428,7 +428,7 @@ const ConfigureProject = (): JSX.Element => {
                       <input type="checkbox" className="h-4 w-4 text-blue-600" defaultChecked />
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-3 pt-6">
                     <Button variant="outline">Cancel</Button>
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
