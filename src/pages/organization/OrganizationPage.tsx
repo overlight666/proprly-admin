@@ -1,4 +1,3 @@
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
@@ -41,10 +40,10 @@ export const OrganizationPage: FC = function () {
                             <span>Projects</span>
                             <span className="mx-2">/</span>
                         </div>
-                        
+
                         {/* Page Title */}
                         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Projects</h1>
-                        
+
                         {/* Tabs */}
                         <Tabs defaultValue="projects" className="w-full">
                             <TabsList className="bg-transparent border-b border-gray-200 dark:border-gray-700 h-auto p-0 rounded-none">
@@ -67,7 +66,7 @@ export const OrganizationPage: FC = function () {
                                     Users
                                 </TabsTrigger>
                             </TabsList>
-                            
+
                             <TabsContent value="projects" className="mt-6">
                                 {/* Controls Bar */}
                                 <div className="flex items-center justify-between mb-6">
@@ -139,7 +138,7 @@ export const OrganizationPage: FC = function () {
                                                         </svg>
                                                     </button>
                                                 </div>
-                                                
+
                                                 {/* Project Setup Progress */}
                                                 <div className="mb-4">
                                                     <div className="flex justify-between items-center mb-2">
@@ -151,7 +150,7 @@ export const OrganizationPage: FC = function () {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Project Image */}
                                             <div className="px-4 pb-4">
                                                 <div className="relative">
@@ -162,21 +161,21 @@ export const OrganizationPage: FC = function () {
                                                     />
                                                 </div>
                                             </div>
-                                            
-                                            {/* Status Cards */}
+
+                                            {/* Status Badges */}
                                             <div className="px-4 pb-4">
                                                 <div className="grid grid-cols-2 gap-2">
-                                                    <div className="bg-red-50 border border-red-200 rounded-lg p-2">
-                                                        <span className="text-xs font-medium text-red-800">Requested Defects: 0</span>
+                                                    <div className="bg-red-100 rounded-md px-3 py-2">
+                                                        <span className="text-sm font-medium text-red-800">Requested Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-green-50 border border-green-200 rounded-lg p-2">
-                                                        <span className="text-xs font-medium text-green-800">Resolved Defects: 0</span>
+                                                    <div className="bg-green-100 rounded-md px-3 py-2">
+                                                        <span className="text-sm font-medium text-green-800">Resolved Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
-                                                        <span className="text-xs font-medium text-blue-800">Properties: 5</span>
+                                                    <div className="bg-blue-100 rounded-md px-3 py-2">
+                                                        <span className="text-sm font-medium text-blue-800">Properties: 5</span>
                                                     </div>
-                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2">
-                                                        <span className="text-xs font-medium text-yellow-800">Open Defects: 8</span>
+                                                    <div className="bg-yellow-100 rounded-md px-3 py-2">
+                                                        <span className="text-sm font-medium text-yellow-800">Open Defects: 8</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -191,13 +190,13 @@ export const OrganizationPage: FC = function () {
                                     )}
                                 </div>
                             </TabsContent>
-                            
+
                             <TabsContent value="invitations" className="mt-6">
                                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
                                     <p className="text-gray-500 dark:text-gray-400">Invitations content coming soon...</p>
                                 </div>
                             </TabsContent>
-                            
+
                             <TabsContent value="users" className="mt-6">
                                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
                                     <p className="text-gray-500 dark:text-gray-400">Users content coming soon...</p>
