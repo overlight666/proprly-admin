@@ -1,3 +1,4 @@
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, type FC } from "react";
 import NavbarSidebarLayout from "@/layouts/navbar-sidebar";
@@ -11,6 +12,7 @@ import Input from "@/components/ui/input";
 import OrgGrid from "./components/orgGrid";
 import OrgTable from "./tables/orgTable";
 import { useNavigate } from "react-router";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 export const OrganizationPage: FC = function () {
     const organizationsList = useRecoilValue(organizationsAtom);
@@ -30,85 +32,125 @@ export const OrganizationPage: FC = function () {
 
     return (
         <NavbarSidebarLayout>
-            <main className="flex flex-col w-full gap-[22px] pb-5 px-5">
-                <section className="flex flex-col gap-6 pt-6 rounded-t-lg">
-                    <header className="flex items-center w-full">
-                        <h1 className="text-[24px] font-bold text-[#111928] dark:text-gray-100 leading-[24px]">
-                            Organizations
-                        </h1>
-                    </header>
-
-                    <div className="flex items-center justify-between pb-5 border-b w-full">
-                        <div className="flex items-start gap-3">
-                            {/* SearchIcon bar with button */}
-                            <div className="flex h-[35px] w-[30vw] items-center">
-                                <div className="relative flex-1">
-                                    <Input
-                                        type="text"
-                                        placeholder="Search..."
-                                        className="h-[35px] py-3 px-4 rounded-l-lg rounded-r-none border-r-0 bg-gray-50 text-gray-500 text-sm focus:!ring-0"
-                                        onChange={(e) => setSearch(e.target.value)}
-                                    />
-                                </div>
-                                <Button
-                                    type="submit"
-                                    className="h-full w-[46px] rounded-l-none rounded-r-lg bg-[#1a56db]"
-                                >
-                                    <SearchIcon className="w-4 h-4 text-white" />
-                                </Button>
-                            </div>
-
-                            {/* Filter button */}
-                            <Button
-                                variant="outline"
-                                className="flex items-center gap-2 py-2 px-3"
-                            >
-                                <FilterIcon className="text-blue-800 size-6 dark:text-white/90" />
-                                <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                    Filter
-                                </span>
-                            </Button>
-
-                            {/* Export CSV button */}
-                            <Button
-                                variant="outline"
-                                className="flex items-center gap-2 py-2 px-3"
-                            >
-                                <FileExport className="text-blue-800 size-6 dark:text-white/90" />
-                                <span className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                    Export CSV
-                                </span>
-                            </Button>
-
-                            {/* Grid view toggle */}
-                            <Button variant="outline" className={`p-3 ${isGrid && 'bg-blue-700'}`} onClick={() => setIsGrid(true)}>
-                                <GridIcon className={`${isGrid ? 'text-blue-100' : 'text-blue-800'} size-6 dark:text-white/90`} />
-                            </Button>
-
-                            {/* List view toggle */}
-                            <Button variant="outline" className={`p-3 ${!isGrid && 'bg-blue-700'}`} onClick={() => setIsGrid(false)}>
-                                <OrderedListIcon className={`${!isGrid ? 'text-blue-100' : 'text-blue-800'} size-5 dark:text-white/90`} />
-                            </Button>
+            <main className="flex flex-col w-full h-full bg-gray-50 dark:bg-gray-900">
+                {/* Header Section */}
+                <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <div className="px-6 py-4">
+                        {/* Breadcrumb */}
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                            <span>Projects</span>
+                            <span className="mx-2">/</span>
                         </div>
+                        
+                        {/* Page Title */}
+                        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Projects</h1>
+                        
+                        {/* Tabs */}
+                        <Tabs defaultValue="projects" className="w-full">
+                            <TabsList className="bg-transparent border-b border-gray-200 dark:border-gray-700 h-auto p-0 rounded-none">
+                                <TabsTrigger 
+                                    value="projects" 
+                                    className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
+                                >
+                                    Projects
+                                </TabsTrigger>
+                                <TabsTrigger 
+                                    value="invitations" 
+                                    className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
+                                >
+                                    Invitations
+                                </TabsTrigger>
+                                <TabsTrigger 
+                                    value="users" 
+                                    className="border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none bg-transparent px-6 py-3"
+                                >
+                                    Users
+                                </TabsTrigger>
+                            </TabsList>
+                            
+                            <TabsContent value="projects" className="mt-6">
+                                {/* Controls Bar */}
+                                <div className="flex items-center justify-between mb-6">
+                                    <div className="flex items-center gap-3">
+                                        {/* Search Bar */}
+                                        <div className="flex h-10 w-80">
+                                            <div className="relative flex-1">
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    className="h-10 py-2 px-4 rounded-l-lg rounded-r-none border-r-0 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:!ring-0 border-gray-300 dark:border-gray-600"
+                                                    onChange={(e) => setSearch(e.target.value)}
+                                                />
+                                            </div>
+                                            <Button
+                                                type="submit"
+                                                className="h-10 w-12 rounded-l-none rounded-r-lg bg-blue-600 hover:bg-blue-700"
+                                            >
+                                                <SearchIcon className="w-4 h-4 text-white" />
+                                            </Button>
+                                        </div>
 
-                        {/* Add Organization button */}
-                        <Button className="flex items-center gap-2 py-2 px-3 bg-[#1a56db]" onClick={() => navigate("/organization/new", { replace: true })}>
-                            <Plus className="text-white size-6 dark:text-white/90" />
-                            <span className="text-sm font-medium text-white">
-                                Add Organization
-                            </span>
-                        </Button>
+                                        {/* View Toggle Buttons */}
+                                        <div className="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
+                                            <Button 
+                                                variant="ghost" 
+                                                className={`h-10 w-10 rounded-none border-0 ${isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`} 
+                                                onClick={() => setIsGrid(true)}
+                                            >
+                                                <GridIcon className="w-4 h-4" />
+                                            </Button>
+                                            <Button 
+                                                variant="ghost" 
+                                                className={`h-10 w-10 rounded-none border-0 border-l border-gray-300 dark:border-gray-600 ${!isGrid ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'}`} 
+                                                onClick={() => setIsGrid(false)}
+                                            >
+                                                <OrderedListIcon className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    {/* Add Project Button */}
+                                    <Button 
+                                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2" 
+                                        onClick={() => navigate("/organization/new", { replace: true })}
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                        Add New Project
+                                    </Button>
+                                </div>
+
+                                {/* Content Area */}
+                                <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
+                                    {isGrid ? (
+                                        <OrgGrid filteredOrganizations={filteredOrganizations} />
+                                    ) : (
+                                        <OrgTable filteredOrganizations={filteredOrganizations} />
+                                    )}
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="invitations" className="mt-6">
+                                <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
+                                    <p className="text-gray-500 dark:text-gray-400">Invitations content coming soon...</p>
+                                </div>
+                            </TabsContent>
+                            
+                            <TabsContent value="users" className="mt-6">
+                                <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
+                                    <p className="text-gray-500 dark:text-gray-400">Users content coming soon...</p>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
                     </div>
+                </div>
 
-                </section>
-
-                {/* Organization Card */}
-                {
-                    isGrid ? <OrgGrid filteredOrganizations={filteredOrganizations} /> : <OrgTable filteredOrganizations={filteredOrganizations} />
-                }
-
+                {/* Footer */}
+                <div className="mt-auto py-4 text-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        © 2024 Proprly. All rights reserved.
+                    </p>
+                </div>
             </main>
         </NavbarSidebarLayout>
     );
 };
-
