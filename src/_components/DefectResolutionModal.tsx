@@ -24,7 +24,10 @@ import * as apIcon from '@mdi/js';
 import { ucword } from "../_helpers";
 import { useOrganization, useProject } from "../_actions";
 import { useParams } from "react-router";
-
+import { confirmAlert } from 'react-confirm-alert'; // or useConfirm from react-confirm
+import { useModal } from "../hooks/useModal";
+import ConfirmReason from "../components/dialog/ConfirmReason";
+import { set } from "react-hook-form";
 export default function DefectResolutionModal({
   isOpen,
   closeModal,
@@ -39,7 +42,10 @@ export default function DefectResolutionModal({
   const orgAction = useOrganization();
   const projectAction = useProject();
   const setIsReload = useSetRecoilState(reloadDefectsAtom);
-
+  const confirmModal = useModal();
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
+  const [action, setAction] = useState("");
 
   useEffect(() => {
     if (defectFeedback) {
@@ -140,6 +146,84 @@ export default function DefectResolutionModal({
   }
 
 
+  const submitAction = () => {
+    if (action === "accept") {
+      defectAction
+        .pushDefectFeedback(defect?.id, {
+          feedback: "accept",
+          comment: comment,
+        }).then(() => {
+          setIsReload(true);
+          setDefectMessage("Defect has been accepted");
+          orgAction.getTimeline(id);
+          projectAction.getTimeline(project_id);
+          // orgAction.getDefectSubmissionResult(defect?.id);
+
+          closeModal();
+        })
+        .catch((e) => {
+          toast.error(e);
+          closeModal();
+        });
+    } else if (action === "reject") {
+      defectAction.pushDefectFeedback(defect?.id, {
+        comment: comment,
+        feedback: "reject",
+      }).then(() => {
+        setIsReload(true);
+        setDefectMessage("Defect has been rejected");
+        orgAction.getTimeline(id);
+        projectAction.getTimeline(project_id);
+        // orgAction.getDefectSubmissionResult(defect?.id);
+        closeModal();
+
+      }).catch((e) => {
+        toast.error(e);
+        closeModal();
+      });
+    } else if (action === "reopen") {
+
+      defectAction
+        .pushDefectFeedback(defect?.id, {
+          feedback: "reopen",
+          comment: comment,
+        }).then(() => {
+          setIsReload(true);
+          setDefectMessage("Defect has been reopened");
+          orgAction.getTimeline(id);
+          projectAction.getTimeline(project_id);
+          // orgAction.getDefectSubmissionResult(defect?.id);
+
+          closeModal();
+
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    } else if (action === "close") {
+      defectAction
+        .pushDefectFeedback(defect?.id, {
+          feedback: "close",
+          comment: comment,
+        }).then(() => {
+          setIsReload(true);
+          setDefectMessage("Defect has been closed");
+          orgAction.getTimeline(id);
+          projectAction.getTimeline(project_id);
+          // orgAction.getDefectSubmissionResult(defect?.id);
+
+          closeModal();
+
+        })
+        .catch((e) => {
+          toast.error(e);
+        });
+    }
+    setComment("");
+    setAction("");
+    setTitle("");
+
+  }
   return (
     <>
       <Modal
@@ -147,6 +231,7 @@ export default function DefectResolutionModal({
         onClose={closeModal}
         className="max-w-[80%] p-6 lg:p-10 max-h-[90%] relative overflow-hidden"
       >
+        <ConfirmReason isOpen={confirmModal.isOpen} closeModal={confirmModal.closeModal} title={title} setComment={setComment} comment={comment} submitAction={submitAction} />
         <div className="flex flex-col px-2">
           <div className="flex gap-3">
             <span className="dark:text-gray-200">{defect?.property ? `Unit No ${defect?.property?.unitNo}, ${defect?.property?.projectTower?.name} - ${defect?.property?.floor == 0 ? "Ground Floor" : `Floor ${defect?.property?.floor}`}` : `CA Lot No ${defect?.commonArea?.lotNo}, ${defect?.projectTower?.name}, ${defect?.floor == 0 ? "Ground Floor" : `Floor ${defect?.floor}`}`}</span>
@@ -280,17 +365,10 @@ export default function DefectResolutionModal({
               {
                 defect?.approvalOptions?.find((approval) => approval?.key == "close") && <button
                   onClick={() => {
-                    defectAction.pushDefectFeedback(defect?.id, {
-                      feedback: "close",
-                    }).then(() => {
-                      setIsReload(true);
-                      setDefectMessage("Defect has been closed");
-                      orgAction.getTimeline(id);
-                      projectAction.getTimeline(project_id);
-                      // orgAction.getDefectSubmissionResult(defect?.id);
+                    setTitle("Reason for Closing Defect");
+                    setAction("close");
+                    confirmModal.openModal();
 
-                      closeModal();
-                    });
 
                   }}
                   type="button"
@@ -302,22 +380,10 @@ export default function DefectResolutionModal({
               {
                 defect?.approvalOptions?.find((approval) => approval?.key == "reopen") && <button
                   onClick={() => {
-                    defectAction
-                      .pushDefectFeedback(defect?.id, {
-                        feedback: "reopen",
-                      }).then(() => {
-                        setIsReload(true);
-                        setDefectMessage("Defect has been reopened");
-                        orgAction.getTimeline(id);
-                        projectAction.getTimeline(project_id);
-                        // orgAction.getDefectSubmissionResult(defect?.id);
+                    setTitle("Reason for Reopening Defect");
+                    setAction("reopen");
+                    confirmModal.openModal();
 
-                        closeModal();
-
-                      })
-                      .catch((e) => {
-                        toast.error(e);
-                      });
 
                   }}
                   type="button"
@@ -329,20 +395,10 @@ export default function DefectResolutionModal({
               {
                 defect?.approvalOptions?.find((approval) => approval?.key == "reject") && <button
                   onClick={() => {
-                    defectAction.pushDefectFeedback(defect?.id, {
-                      feedback: "reject",
-                    }).then(() => {
-                      setIsReload(true);
-                      setDefectMessage("Defect has been rejected");
-                      orgAction.getTimeline(id);
-                      projectAction.getTimeline(project_id);
-                      // orgAction.getDefectSubmissionResult(defect?.id);
-                      closeModal();
+                    setTitle("Reason for Rejecting Defect");
+                    setAction("reject");
+                    confirmModal.openModal();
 
-                    }).catch((e) => {
-                      toast.error(e);
-                      closeModal();
-                    });;
 
                   }}
                   type="button"
@@ -354,22 +410,9 @@ export default function DefectResolutionModal({
               {
                 defect?.approvalOptions?.find((approval) => approval?.key == "accept") && <button
                   onClick={() => {
-                    defectAction
-                      .pushDefectFeedback(defect?.id, {
-                        feedback: "accept",
-                      }).then(() => {
-                        setIsReload(true);
-                        setDefectMessage("Defect has been accepted");
-                        orgAction.getTimeline(id);
-                        projectAction.getTimeline(project_id);
-                        // orgAction.getDefectSubmissionResult(defect?.id);
-
-                        closeModal();
-                      })
-                      .catch((e) => {
-                        toast.error(e);
-                        closeModal();
-                      });
+                    setTitle("Reason for Accepting Defect");
+                    setAction("accept");
+                    confirmModal.openModal();
 
                   }}
                   type="button"
