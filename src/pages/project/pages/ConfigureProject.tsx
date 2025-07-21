@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProjectSidebar from '@/components/project-sidebar';
 import TextArea from '@/components/ui/text-area';
 import Select from '@/components/ui/select';
-import ExampleNavbar from '@/components/navbar';
 
 // Mock project data
 const mockProjectData = {
@@ -46,14 +45,22 @@ const ConfigureProject = (): JSX.Element => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <ExampleNavbar />
-      
-      <div className="flex flex-1">
-        <ProjectSidebar />
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      <ProjectSidebar />
 
-        <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+              <span>Projects</span>
+              <span>/</span>
+              <span>The Atrium</span>
+              <span>/</span>
+              <span className="text-blue-600">Configure Project</span>
+            </div>
+          </div>
+        </div>
 
         {/* Main Content */}
         <div className="flex-1 p-6 overflow-auto">
@@ -484,6 +491,7 @@ const ConfigureProject = (): JSX.Element => {
           </Tabs>
         </div>
       </div>
+    </div>
   );
 };
 
