@@ -64,89 +64,148 @@ const ConfigureProject = (): JSX.Element => {
 
         {/* Main Content */}
         <div className="flex-1 p-6 overflow-auto">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
+            <span>📁</span>
+            <span>Projects</span>
+            <span>/</span>
+            <span>The Atrium</span>
+            <span>/</span>
+            <span className="text-blue-600">Configure Project</span>
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-6">
-              <TabsTrigger value="information">Project Information</TabsTrigger>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
-              <TabsTrigger value="details">Project Details</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
-              <TabsTrigger value="contact">Contact Details</TabsTrigger>
-              <TabsTrigger value="settings">Project Settings</TabsTrigger>
-            </TabsList>
+            {/* Custom Tab Navigation */}
+            <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+              <nav className="flex space-x-8">
+                <button
+                  onClick={() => setActiveTab('information')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'information'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Project Information
+                </button>
+                <button
+                  onClick={() => setActiveTab('documents')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'documents'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Documents List
+                </button>
+                <button
+                  onClick={() => setActiveTab('details')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'details'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Project Details
+                </button>
+                <button
+                  onClick={() => setActiveTab('users')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'users'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Assign Users
+                </button>
+                <button
+                  onClick={() => setActiveTab('contact')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'contact'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Contact Details
+                </button>
+              </nav>
+            </div>
 
             {/* Project Information Tab */}
             <TabsContent value="information" className="space-y-6">
               <Card>
                 <CardContent className="p-8 space-y-8">
-                  {/* Project Type */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Project Type*
-                    </label>
-                    <select
-                      value={formData.type}
-                      onChange={(e) => handleInputChange('type', e.target.value)}
-                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    >
-                      <option value="">Select project type</option>
-                      <option value="Apartment">Apartment</option>
-                      <option value="House">House</option>
-                      <option value="Commercial">Commercial</option>
-                      <option value="Townhouse">Townhouse</option>
-                    </select>
+                  {/* Row 1: Project Type and Project Name */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Project Type*
+                      </label>
+                      <select
+                        value={formData.type}
+                        onChange={(e) => handleInputChange('type', e.target.value)}
+                        className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                      >
+                        <option value="">Apartment</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="House">House</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Townhouse">Townhouse</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Project Name*
+                      </label>
+                      <Input
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        placeholder="The Atrium"
+                        className="w-full"
+                      />
+                    </div>
                   </div>
 
-                  {/* Project Name */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Project Name*
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="The Atrium"
-                      className="w-full"
-                    />
+                  {/* Row 2: Project Status and Country */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Project Status*
+                      </label>
+                      <select
+                        value={formData.status}
+                        onChange={(e) => handleInputChange('status', e.target.value)}
+                        className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                      >
+                        <option value="">Under Security</option>
+                        <option value="Under Development">Under Development</option>
+                        <option value="Planning">Planning</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Country
+                      </label>
+                      <select
+                        value={formData.country}
+                        onChange={(e) => handleInputChange('country', e.target.value)}
+                        className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                      >
+                        <option value="">Select country</option>
+                        <option value="Australia">Australia</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Canada">Canada</option>
+                      </select>
+                    </div>
                   </div>
 
-                  {/* Project Status */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Project Status*
-                    </label>
-                    <select
-                      value={formData.status}
-                      onChange={(e) => handleInputChange('status', e.target.value)}
-                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    >
-                      <option value="">Select project status</option>
-                      <option value="Under Development">Under Development</option>
-                      <option value="Planning">Planning</option>
-                      <option value="Construction">Construction</option>
-                      <option value="Completed">Completed</option>
-                    </select>
-                  </div>
-
-                  {/* Country */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Country
-                    </label>
-                    <select
-                      value={formData.country}
-                      onChange={(e) => handleInputChange('country', e.target.value)}
-                      className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    >
-                      <option value="">Select country</option>
-                      <option value="Australia">Australia</option>
-                      <option value="United States">United States</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="Canada">Canada</option>
-                    </select>
-                  </div>
-
-                  {/* Address */}
+                  {/* Address - Full Width */}
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Address*
@@ -160,32 +219,33 @@ const ConfigureProject = (): JSX.Element => {
                     />
                   </div>
 
-                  {/* Building No/Street No */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Building No/Street No
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.buildingNo}
-                      onChange={(e) => handleInputChange('buildingNo', e.target.value)}
-                      placeholder="Enter Building No/Street No"
-                      className="w-full"
-                    />
-                  </div>
+                  {/* Row 3: Building No and Password */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Building No/Street No
+                      </label>
+                      <Input
+                        type="text"
+                        value={formData.buildingNo}
+                        onChange={(e) => handleInputChange('buildingNo', e.target.value)}
+                        placeholder="Enter Building No/Street No"
+                        className="w-full"
+                      />
+                    </div>
 
-                  {/* Password */}
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Password*
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.password}
-                      onChange={(e) => handleInputChange('password', e.target.value)}
-                      placeholder="AQJH 1298 12849"
-                      className="w-full"
-                    />
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Password*
+                      </label>
+                      <Input
+                        type="text"
+                        value={formData.password}
+                        onChange={(e) => handleInputChange('password', e.target.value)}
+                        placeholder="AQJH 1298 12849"
+                        className="w-full"
+                      />
+                    </div>
                   </div>
 
                   {/* Upload Image */}
