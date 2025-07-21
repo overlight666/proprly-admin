@@ -169,44 +169,40 @@ const ExampleSidebar: FC = function () {
               <div className="space-y-1 mb-4">
                 <button
                   onClick={() => navigate("/signup-leads")}
-                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    "/signup-leads" === currentPage
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${"/signup-leads" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   <GroupIcon className="w-4 h-4 mr-3" />
                   Sign-up Leads
                 </button>
                 <button
                   onClick={() => navigate("/master-configuration")}
-                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    "/master-configuration" === currentPage
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${"/master-configuration" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   <SettingsIcon className="w-4 h-4 mr-3" />
                   Master Configuration
                 </button>
                 <button
                   onClick={() => navigate("/support-tickets")}
-                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    "/support-tickets" === currentPage
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${"/support-tickets" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   <TicketIcon className="w-4 h-4 mr-3" />
                   Support Tickets
                 </button>
                 <button
                   onClick={() => navigate("/region-management")}
-                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    "/region-management" === currentPage
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${"/region-management" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
+                    }`}
                 >
                   <EarthIcon className="w-4 h-4 mr-3" />
                   Region Management
@@ -224,113 +220,107 @@ const ExampleSidebar: FC = function () {
               currentPage.includes("/common-area/view") ||
               currentPage.includes("/appointments/view") ||
               currentPage.includes("/itp/view")) && (
-              <div className="space-y-3">
-                {!isLoading && selectedOrganization && (
-                  <button
-                    onClick={() => navigate(`/organization/view/${selectedOrganization?.id}`)}
-                    className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      currentPage.includes("/organization/view")
-                        ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                    }`}
-                  >
-                    <div className="w-6 h-6 mr-3 bg-blue-500 rounded text-white text-xs flex items-center justify-center">
-                      {selectedOrganization?.name?.charAt(0).toUpperCase()}
+                <div className="space-y-3">
+                  {!isLoading && selectedOrganization && (
+                    <button
+                      onClick={() => navigate(`/organization/view/${selectedOrganization?.id}`)}
+                      className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage.includes("/organization/view")
+                          ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        }`}
+                    >
+                      <div className="w-6 h-6 mr-3 bg-blue-500 rounded text-white text-xs flex items-center justify-center">
+                        {selectedOrganization?.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="truncate">{selectedOrganization?.name}</span>
+                    </button>
+                  )}
+
+                  {project_id && !isLoading && (
+                    <div className="ml-4 space-y-1">
+                      <Select
+                        className="my-react-select-container mb-3"
+                        classNamePrefix="my-react-select"
+                        defaultValue={{
+                          label: projects?.find((project) => project?.id == project_id)?.name,
+                          value: projects?.find((project) => project?.id == project_id)?.id,
+                        }}
+                        isSearchable
+                        onChange={(selected: any) => {
+                          navigate(`/organization/${id}/project/view/${selected.value}`)
+                        }}
+                        options={projects?.map((project: Project) => {
+                          return {
+                            label: project.name,
+                            value: project.id
+                          }
+                        }) as any || []}
+                        placeholder="Select Project"
+                      />
+
+                      <button
+                        onClick={() => navigate(`/organization/${id}/project/${project_id}/property/view`)}
+                        className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage.includes("/property/view")
+                            ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }`}
+                      >
+                        <BuildingIcon className="w-4 h-4 mr-3" />
+                        Properties
+                      </button>
+                      <button
+                        onClick={() => navigate(`/organization/${id}/project/${project_id}/common-area/view`)}
+                        className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage.includes("/common-area/view")
+                            ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }`}
+                      >
+                        <CommonAreaIcon className="w-4 h-4 mr-3" />
+                        Common Areas
+                      </button>
+                      <button
+                        onClick={() => navigate(`/organization/${id}/project/${project_id}/itp/view`)}
+                        className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage.includes("/itp/view")
+                            ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }`}
+                      >
+                        <ItpIcon className="w-4 h-4 mr-3" />
+                        ITPs
+                      </button>
+                      <button
+                        onClick={() => navigate(`/organization/${id}/project/${project_id}/appointments/view`)}
+                        className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage.includes("/appointments/view")
+                            ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                          }`}
+                      >
+                        <AppointmentIcon className="w-4 h-4 mr-3" />
+                        Appointments
+                      </button>
                     </div>
-                    <span className="truncate">{selectedOrganization?.name}</span>
-                  </button>
-                )}
-
-                {project_id && !isLoading && (
-                  <div className="ml-4 space-y-1">
-                    <Select
-                      className="my-react-select-container mb-3"
-                      classNamePrefix="my-react-select"
-                      defaultValue={{
-                        label: projects?.find((project) => project?.id == project_id)?.name,
-                        value: projects?.find((project) => project?.id == project_id)?.id,
-                      }}
-                      isSearchable
-                      onChange={(selected: any) => {
-                        navigate(`/organization/${id}/project/view/${selected.value}`)
-                      }}
-                      options={projects?.map((project: Project) => {
-                        return {
-                          label: project.name,
-                          value: project.id
-                        }
-                      }) as any || []}
-                      placeholder="Select Project"
-                    />
-
-                    <button
-                      onClick={() => navigate(`/organization/${id}/project/${project_id}/property/view`)}
-                      className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        currentPage.includes("/property/view")
-                          ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <BuildingIcon className="w-4 h-4 mr-3" />
-                      Properties
-                    </button>
-                    <button
-                      onClick={() => navigate(`/organization/${id}/project/${project_id}/common-area/view`)}
-                      className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        currentPage.includes("/common-area/view")
-                          ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <CommonAreaIcon className="w-4 h-4 mr-3" />
-                      Common Areas
-                    </button>
-                    <button
-                      onClick={() => navigate(`/organization/${id}/project/${project_id}/itp/view`)}
-                      className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        currentPage.includes("/itp/view")
-                          ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <ItpIcon className="w-4 h-4 mr-3" />
-                      ITPs
-                    </button>
-                    <button
-                      onClick={() => navigate(`/organization/${id}/project/${project_id}/appointments/view`)}
-                      className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        currentPage.includes("/appointments/view")
-                          ? "bg-blue-100 dark:bg-gray-900 text-blue-900 dark:text-blue-300"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <AppointmentIcon className="w-4 h-4 mr-3" />
-                      Appointments
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
 
             {/* Default Organizations Link */}
             {!currentPage.includes("/organization/view") &&
-             !currentPage.includes("/project/") &&
-             !currentPage.includes("/property/") &&
-             !currentPage.includes("/common-area/") &&
-             !currentPage.includes("/appointments/") &&
-             !currentPage.includes("/itp/") && (
-              <button
-                onClick={() => navigate("/")}
-                className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  "/" === currentPage
-                    ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-                }`}
-              >
-                <PlusIcon className="w-4 h-4 mr-3" />
-                Organizations
-              </button>
-            )}
+              !currentPage.includes("/project/") &&
+              !currentPage.includes("/property/") &&
+              !currentPage.includes("/common-area/") &&
+              !currentPage.includes("/appointments/") &&
+              !currentPage.includes("/itp/") && (
+                <button
+                  onClick={() => navigate("/")}
+                  className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${"/" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    }`}
+                >
+                  <PlusIcon className="w-4 h-4 mr-3" />
+                  Projects
+                </button>
+              )}
           </div>
         </div>
 
