@@ -90,15 +90,16 @@ export const ProjectSidebar: React.FC = () => {
       <nav className="flex-1">
         <ul className="space-y-1 px-4">
           {sidebarItems.map((item) => {
-            const isActive = item.id === 'configure-project';
+            const isActive = window.location.pathname.includes(item.id);
             return (
               <li key={item.id}>
                 <Link
                   to={`/organization/${organizationId}/project/${projectId}/${item.id}`}
-                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors block ${isActive
-                    ? 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
+                  className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors block ${
+                    isActive
+                      ? 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
                 >
                   {item.label}
                 </Link>
