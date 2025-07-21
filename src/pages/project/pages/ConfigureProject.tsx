@@ -80,51 +80,46 @@ const ConfigureProject = (): JSX.Element => {
               <nav className="flex space-x-8">
                 <button
                   onClick={() => setActiveTab('information')}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === 'information'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'information'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   Project Information
                 </button>
                 <button
                   onClick={() => setActiveTab('documents')}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === 'documents'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'documents'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   Documents List
                 </button>
                 <button
                   onClick={() => setActiveTab('details')}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === 'details'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'details'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   Project Details
                 </button>
                 <button
                   onClick={() => setActiveTab('users')}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === 'users'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'users'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   Assign Users
                 </button>
                 <button
                   onClick={() => setActiveTab('contact')}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === 'contact'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'contact'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   Contact Details
                 </button>
@@ -136,7 +131,7 @@ const ConfigureProject = (): JSX.Element => {
               <Card>
                 <CardContent className="p-8 space-y-8">
                   {/* Project Type */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Type*
                     </label>
@@ -154,7 +149,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Project Name */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Name*
                     </label>
@@ -168,7 +163,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Project Status */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Project Status*
                     </label>
@@ -186,7 +181,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Country */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Country
                     </label>
@@ -204,7 +199,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Address - Full Width */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Address*
                     </label>
@@ -218,7 +213,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Building No/Street No */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Building No/Street No
                     </label>
@@ -232,7 +227,7 @@ const ConfigureProject = (): JSX.Element => {
                   </div>
 
                   {/* Password */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-[50%]">
                     <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
                       Password*
                     </label>
