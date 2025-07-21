@@ -191,6 +191,81 @@ const AllProjects = (): JSX.Element => {
                 </div>
               </div>
             </div>
+
+            {/* Second Project Card */}
+            <div 
+              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => handleProjectClick(2)}
+            >
+              {/* Project Image */}
+              <div className="aspect-video relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300&h=200&fit=crop&crop=center"
+                  alt="Skyline Residences"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/300x200/e5e7eb/6b7280?text=Project+Image';
+                  }}
+                />
+                <div className="absolute top-3 right-3">
+                  <button className="text-gray-400 hover:text-gray-600">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Project Content */}
+              <div className="p-4">
+                {/* Project Name and Location */}
+                <div className="mb-3">
+                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                    Skyline Residences
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-1">
+                    125 King Street, VIC
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Melbourne, AUSTRALIA
+                  </p>
+                </div>
+
+                {/* Project Status */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-gray-600">Project Status</span>
+                    <span className="text-xs text-gray-600">67%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full" 
+                      style={{ width: "67%" }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Defect Status Badges */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-800">
+                    Resolved Defects: 12
+                  </span>
+                  <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                    Minor Defects: 3
+                  </span>
+                </div>
+
+                {/* Additional Info */}
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
+                    Properties: 8
+                  </span>
+                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                    Open Defects: 2
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
