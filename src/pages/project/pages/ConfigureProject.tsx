@@ -351,40 +351,228 @@ const ConfigureProject = (): JSX.Element => {
                   {/* Documents Tab */}
                   <TabsContent value="documents" className="space-y-6">
                     <Card>
-                      <CardContent className="p-6">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                          Project Documents
-                        </h3>
+                      <CardContent className="p-6 space-y-8">
+                        {/* Project Plan Section */}
                         <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              Project Plan*
-                            </label>
-                            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
-                              <div className="text-center">
-                                <p className="text-gray-500">Upload project plan documents</p>
-                                <Button variant="outline" className="mt-2">
-                                  Choose Files
-                                </Button>
-                              </div>
+                          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            Project Plan*
+                          </h3>
+                          
+                          {/* Upload Area */}
+                          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
+                            <div className="flex items-center justify-between">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
+                              >
+                                Choose file
+                              </Button>
+                              <span className="text-sm text-gray-500">No file chosen</span>
                             </div>
                           </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              Draft Strata Plan*
-                            </label>
-                            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
-                              <div className="text-center">
-                                <p className="text-gray-500">Upload draft strata plan documents</p>
-                                <Button variant="outline" className="mt-2">
-                                  Choose Files
-                                </Button>
+
+                          {/* Uploaded Files */}
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">flowbite-pro-v.2.2.0.pdf</p>
+                                  <p className="text-xs text-gray-500">4.1 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Project Plan for The Atrium.pdf</p>
+                                  <p className="text-xs text-gray-500">8.7 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-1">
+                                  <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                    <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: '76%' }}></div>
+                                  </div>
+                                  <span className="text-xs text-gray-500">76%</span>
+                                </div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex justify-end space-x-3 pt-6">
+                        {/* Draft Strata Plan Section */}
+                        <div className="space-y-4">
+                          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            Draft Strata Plan*
+                          </h3>
+                          
+                          {/* Upload Area */}
+                          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
+                            <div className="flex items-center justify-between">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
+                              >
+                                Choose file
+                              </Button>
+                              <span className="text-sm text-gray-500">No file chosen</span>
+                            </div>
+                          </div>
+
+                          {/* Uploaded Files */}
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">flowbite-pro-v.2.2.0.pdf</p>
+                                  <p className="text-xs text-gray-500">4.1 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">General Information.pdf</p>
+                                  <p className="text-xs text-gray-500">8.7 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-1">
+                                  <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                    <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: '76%' }}></div>
+                                  </div>
+                                  <span className="text-xs text-gray-500">76%</span>
+                                </div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Miscellaneous Section */}
+                        <div className="space-y-4">
+                          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            Miscellaneous*
+                          </h3>
+                          
+                          {/* Upload Area */}
+                          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
+                            <div className="flex items-center justify-between">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="bg-gray-600 text-white hover:bg-gray-700 border-gray-600"
+                              >
+                                Choose file
+                              </Button>
+                              <span className="text-sm text-gray-500">No file chosen</span>
+                            </div>
+                          </div>
+
+                          {/* Uploaded Files */}
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">flowbite-pro-v.2.2.0.pdf</p>
+                                  <p className="text-xs text-gray-500">4.1 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-red-100 rounded flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V6H8a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">General Information.pdf</p>
+                                  <p className="text-xs text-gray-500">8.7 MB</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-1">
+                                  <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                    <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: '76%' }}></div>
+                                  </div>
+                                  <span className="text-xs text-gray-500">76%</span>
+                                </div>
+                                <button className="p-1 hover:bg-gray-100 rounded">
+                                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-end space-x-3 pt-8 border-t border-gray-200 dark:border-gray-700">
                           <Button variant="outline">Cancel</Button>
                           <Button className="bg-blue-600 hover:bg-blue-700 text-white">Save</Button>
                         </div>
