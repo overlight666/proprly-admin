@@ -165,17 +165,17 @@ export const OrganizationPage: FC = function () {
                                             {/* Status Badges */}
                                             <div className="px-4 pb-4">
                                                 <div className="grid grid-cols-2 gap-2">
-                                                    <div className="bg-red-100 rounded-md px-3 py-2">
-                                                        <span className="text-sm font-medium text-red-800">Requested Defects: 0</span>
+                                                    <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                                                        <span className="text-xs font-medium text-red-700">Requested Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-green-100 rounded-md px-3 py-2">
-                                                        <span className="text-sm font-medium text-green-800">Resolved Defects: 0</span>
+                                                    <div className="bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                                                        <span className="text-xs font-medium text-green-700">Resolved Defects: 0</span>
                                                     </div>
-                                                    <div className="bg-blue-100 rounded-md px-3 py-2">
-                                                        <span className="text-sm font-medium text-blue-800">Properties: 5</span>
+                                                    <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                                                        <span className="text-xs font-medium text-blue-700">Properties: 5</span>
                                                     </div>
-                                                    <div className="bg-yellow-100 rounded-md px-3 py-2">
-                                                        <span className="text-sm font-medium text-yellow-800">Open Defects: 8</span>
+                                                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
+                                                        <span className="text-xs font-medium text-yellow-700">Open Defects: 8</span>
                                                     </div>
                                                 </div>
                                             </div>
