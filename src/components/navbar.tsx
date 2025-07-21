@@ -1,4 +1,3 @@
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { type FC, useState } from "react";
 import {
@@ -41,17 +40,17 @@ const ExampleNavbar: FC = function () {
   const [selectedGroup, setSelectedGroup] = useState("AXA Group");
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-purple-800 text-white h-12">
-      <div className="flex items-center justify-between px-4 h-full">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-purple-800 text-white">
+      <div className="flex items-center justify-between px-4 py-2 h-12">
         {/* Left side - Group Dropdown */}
-        <div className="flex items-center">
+        <div className="flex items-center space-x-4">
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <div className="flex items-center space-x-2 bg-white text-purple-800 px-3 py-1.5 rounded text-sm hover:bg-gray-100 transition-colors font-medium">
+              <div className="flex items-center space-x-2 bg-purple-900 px-3 py-1 rounded text-sm hover:bg-purple-700 transition-colors">
                 <span>{selectedGroup}</span>
-                <HiChevronDown className="h-3 w-3" />
+                <HiChevronDown className="h-4 w-4" />
               </div>
             }
           >
@@ -65,16 +64,16 @@ const ExampleNavbar: FC = function () {
         </div>
 
         {/* Center - Logo */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <span className="text-lg font-semibold tracking-wide">Proprly.</span>
+        <div className="flex-1 flex justify-center">
+          <span className="text-xl font-semibold">Proprly.</span>
         </div>
 
         {/* Right side - Icons */}
         <div className="flex items-center space-x-3">
           <NotificationBellDropdown />
-          <button className="p-1.5 hover:bg-purple-700 rounded transition-colors">
-            <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
-              <span className="text-xs text-purple-800 font-medium">U</span>
+          <button className="p-1 hover:bg-purple-700 rounded">
+            <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
+              <span className="text-xs text-gray-700">U</span>
             </div>
           </button>
           <UserDropdown />
@@ -92,10 +91,10 @@ const NotificationBellDropdown: FC = function () {
       arrowIcon={false}
       inline
       label={
-        <span className="p-1.5 hover:bg-purple-700 rounded transition-colors">
+        <span className="p-1 hover:bg-purple-700 rounded">
           <span className="sr-only">Notifications</span>
           <div className="relative">
-            <HiBell className="text-lg text-white hover:text-gray-200" />
+            <HiBell className="text-xl text-white hover:text-gray-200" />
             {!notifications?.isRead && (
               <div className="absolute w-2 h-2 bg-red-500 -top-0.5 -right-0.5 rounded-full"></div>
             )}
@@ -246,7 +245,7 @@ const UserDropdown: FC = function () {
       arrowIcon={false}
       inline
       label={
-        <span className="p-1 hover:bg-purple-700 rounded transition-colors">
+        <span className="p-1 hover:bg-purple-700 rounded">
           <span className="sr-only">User menu</span>
           <Avatar alt="" img={logoIcon} rounded size="sm" />
         </span>
