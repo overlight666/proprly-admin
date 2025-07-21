@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 
@@ -37,45 +36,42 @@ export const ProjectSidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-64 bg-white h-screen flex flex-col shadow-lg pt-12">
-      {/* Projects Section - moved to top, simplified */}
-      <div className="p-4 bg-gray-50 border-b border-gray-200">
+    <div className="w-64 bg-white h-screen flex flex-col shadow-sm border-r border-gray-200" style={{ paddingTop: '48px' }}>
+      {/* Projects Section */}
+      <div className="p-0">
         <button
           onClick={handleProjectClick}
-          className="flex items-center space-x-2 text-gray-700 hover:text-purple-700 transition-colors w-full text-left group"
+          className="flex items-center space-x-2 text-gray-700 hover:text-purple-700 transition-colors w-full text-left group px-4 py-3 border-b border-gray-100"
         >
-          <span className="text-sm transform group-hover:rotate-90 transition-transform duration-200">▶</span>
+          <span className="text-xs transform group-hover:rotate-90 transition-transform duration-200">▶</span>
           <span className="font-medium text-sm">Projects</span>
         </button>
-        
-        {/* The Atrium Project Title */}
-        <div className="mt-3 flex items-center space-x-3">
-          <div className="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center border border-purple-200">
-            <span className="text-xs font-semibold text-purple-700">2</span>
-          </div>
-          <div className="flex-1">
-            <h2 className="font-semibold text-sm text-gray-900">The Atrium</h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              Active Project
-            </p>
+
+        {/* The Atrium Project */}
+        <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
+          <div className="flex items-center space-x-3 pl-4">
+            <span className="text-xs text-gray-400">T</span>
+            <div className="flex-1">
+              <h2 className="font-medium text-sm text-gray-900">The Atrium</h2>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Project Details Card */}
-      <div className="p-4 bg-gray-50 border-b border-gray-100">
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          {/* Project Info */}
+      <div className="px-4 py-4 bg-white border-b border-gray-100">
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          {/* Project Header */}
           <div className="mb-4">
-            <h3 className="font-semibold text-gray-900 text-sm mb-2">
+            <h3 className="font-semibold text-gray-900 text-sm mb-1">
               The Atrium
             </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              30 Church Street, NSW<br />
+            <p className="text-xs text-gray-500 mb-2">
+              70 Church Street, NSW<br />
               2000, 12 Church St, Brighton
             </p>
-            <div className="mt-3">
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <div className="mb-3">
+              <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800">
                 Under Warranty
               </span>
             </div>
@@ -87,20 +83,20 @@ export const ProjectSidebar: React.FC = () => {
               <span className="text-xs font-medium text-gray-700">Project Setup</span>
               <span className="text-xs font-semibold text-blue-600">25%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
               <div 
-                className="bg-blue-500 h-2 rounded-full transition-all duration-300 ease-out" 
+                className="bg-blue-500 h-1.5 rounded-full transition-all duration-300" 
                 style={{ width: '25%' }}
               ></div>
             </div>
           </div>
-          
+
           {/* Project Image */}
           <div className="w-full">
             <img
-              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=120&fit=crop&crop=building"
+              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=100&fit=crop&crop=building"
               alt="The Atrium Project"
-              className="w-full h-24 object-cover rounded-lg border border-gray-100"
+              className="w-full h-20 object-cover rounded border border-gray-200"
             />
           </div>
         </div>
@@ -119,7 +115,7 @@ export const ProjectSidebar: React.FC = () => {
                     w-full text-left px-4 py-3 text-sm transition-all duration-200 
                     border-b border-gray-50 block group hover:bg-gray-50
                     ${isActive
-                      ? 'bg-purple-50 text-purple-700 font-medium border-r-2 border-r-purple-500'
+                      ? 'bg-purple-50 text-purple-700 font-medium border-r-3 border-r-purple-600'
                       : 'text-gray-700 hover:text-gray-900'
                     }
                   `}
