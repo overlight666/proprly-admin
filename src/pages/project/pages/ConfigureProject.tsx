@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProjectSidebar from '@/components/project-sidebar';
 import TextArea from '@/components/ui/text-area';
 import Select from '@/components/ui/select';
+import { HiChevronDown, HiBell } from 'react-icons/hi';
+import { Dropdown } from 'flowbite-react';
 
 // Mock project data
 const mockProjectData = {
@@ -49,23 +51,53 @@ const ConfigureProject = (): JSX.Element => {
       <ProjectSidebar />
 
       <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-              <span>Projects</span>
-              <span>/</span>
-              <span>The Atrium</span>
-              <span>/</span>
-              <span className="text-blue-600">Configure Project</span>
+        {/* Top Purple Header */}
+        <div className="bg-purple-800 text-white h-12 px-4">
+          <div className="flex items-center justify-between h-full">
+            {/* Left side - Group Dropdown */}
+            <div className="flex items-center">
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <div className="flex items-center space-x-2 bg-white text-purple-800 px-3 py-1.5 rounded text-sm hover:bg-gray-100 transition-colors font-medium">
+                    <span>AXA Group</span>
+                    <HiChevronDown className="h-3 w-3" />
+                  </div>
+                }
+              >
+                <Dropdown.Item>AXA Group</Dropdown.Item>
+                <Dropdown.Item>Other Group</Dropdown.Item>
+              </Dropdown>
+            </div>
+
+            {/* Center - Logo */}
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <span className="text-lg font-semibold tracking-wide">Proprly.</span>
+            </div>
+
+            {/* Right side - Icons */}
+            <div className="flex items-center space-x-3">
+              <button className="p-1.5 hover:bg-purple-700 rounded transition-colors">
+                <HiBell className="h-5 w-5" />
+              </button>
+              <button className="p-1.5 hover:bg-purple-700 rounded transition-colors">
+                <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
+                  <span className="text-xs text-purple-800 font-medium">U</span>
+                </div>
+              </button>
+              <button className="p-1.5 hover:bg-purple-700 rounded transition-colors">
+                <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
+                  <span className="text-xs text-purple-800 font-medium">A</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 p-6 overflow-auto">
-          {/* Breadcrumb Navigation */}
-          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
+        {/* Breadcrumb Section */}
+        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-3">
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
             <span>📁</span>
             <span>Projects</span>
             <span>/</span>
@@ -73,6 +105,10 @@ const ConfigureProject = (): JSX.Element => {
             <span>/</span>
             <span className="text-blue-600">Configure Project</span>
           </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-6 overflow-auto">
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Custom Tab Navigation */}
@@ -122,6 +158,15 @@ const ConfigureProject = (): JSX.Element => {
                     }`}
                 >
                   Contact Details
+                </button>
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'settings'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                >
+                  Project Settings
                 </button>
               </nav>
             </div>
