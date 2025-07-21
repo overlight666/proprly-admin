@@ -1,54 +1,45 @@
 
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import Input from '@/components/ui/input';
-import { SearchIcon, FilterIcon, MoreDotIcon } from '@/icons';
+import { Select } from '@/components/ui/select';
+import { TextArea } from '@/components/ui/text-area';
 import ProjectSidebar from '@/components/project-sidebar';
 
-interface User {
-  id: string;
-  fullName: string;
-  role: string;
-  unitNo: string;
-  trades: string;
-  status: 'Active' | 'Invite Sent';
-}
+// Mock project data
+const mockProjectData = {
+  id: 1,
+  name: "The Atrium",
+  type: "Apartment",
+  status: "Under Development",
+  country: "Australia",
+  address: "70 Ocean Street, NSW",
+  buildingNo: "Enter Building No/Street No",
+  password: "AQJH 1298 12849",
+  uploadImage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop&crop=building"
+};
 
-const mockUsers: User[] = [
-  { id: '1', fullName: 'John', role: 'Builder', unitNo: 'All', trades: 'N/A', status: 'Active' },
-  { id: '2', fullName: 'Test Pilot', role: 'Sales Agent', unitNo: 'All', trades: 'N/A', status: 'Invite Sent' },
-  { id: '3', fullName: 'John', role: 'Subcontractor', unitNo: 'All', trades: 'Painter', status: 'Invite Sent' },
-  { id: '4', fullName: 'Chicago Prologis', role: 'Strata', unitNo: 'All', trades: 'N/A', status: 'Active' },
-  { id: '5', fullName: 'John', role: 'Developer', unitNo: 'All', trades: 'N/A', status: 'Active' },
-  { id: '6', fullName: 'John', role: 'Auditor', unitNo: 'All', trades: 'N/A', status: 'Invite Sent' },
-  { id: '7', fullName: 'John', role: 'Owner', unitNo: '101', trades: 'N/A', status: 'Active' },
-  { id: '8', fullName: 'John', role: 'Owner', unitNo: '102, 103', trades: 'N/A', status: 'Active' },
-];
-
-export const ConfigureProject: React.FC = () => {
-  const { organizationId, projectId, id } = useParams();
+const ConfigureProject = (): JSX.Element => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  
-  // Handle both route patterns: /organization/:organizationId/project/:projectId/configure and /projects/:id/configure
-  const currentProjectId = projectId || id;
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState('users');
+  const [formData, setFormData] = useState(mockProjectData);
 
-  const filteredUsers = mockUsers.filter(user =>
-    user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.role.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
-  const getStatusBadge = (status: string) => {
-    if (status === 'Active') {
-      return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Active</Badge>;
-    }
-    return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Invite Sent</Badge>;
+  const handleSave = () => {
+    console.log('Saving project data:', formData);
+    // Add save logic here
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
   };
 
   return (
@@ -69,170 +60,169 @@ export const ConfigureProject: React.FC = () => {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 p-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-6">
-              <TabsTrigger value="information">Project Information</TabsTrigger>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
-              <TabsTrigger value="details">Project Details</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
-              <TabsTrigger value="contact">Contact Details</TabsTrigger>
-              <TabsTrigger value="settings">Project Settings</TabsTrigger>
-            </TabsList>
+        {/* Main Content */}
+        <div className="flex-1 p-6 overflow-auto">
+          <div className="max-w-2xl">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+              Configure Project
+            </h1>
 
-            {/* Users Tab Content */}
-            <TabsContent value="users" className="space-y-6">
-              <Card>
-                <CardContent className="p-6">
-                  {/* Search and Actions */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-4">
+            <Card>
+              <CardContent className="p-6 space-y-6">
+                {/* Project Type */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Project Type*
+                  </label>
+                  <Select
+                    value={formData.type}
+                    onValueChange={(value) => handleInputChange('type', value)}
+                  >
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Townhouse">Townhouse</option>
+                  </Select>
+                </div>
+
+                {/* Project Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Project Name*
+                  </label>
+                  <Input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    placeholder="Enter project name"
+                  />
+                </div>
+
+                {/* Project Status */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Project Status*
+                  </label>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value) => handleInputChange('status', value)}
+                  >
+                    <option value="Under Development">Under Development</option>
+                    <option value="Planning">Planning</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Completed">Completed</option>
+                  </Select>
+                </div>
+
+                {/* Country */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Country
+                  </label>
+                  <Select
+                    value={formData.country}
+                    onValueChange={(value) => handleInputChange('country', value)}
+                  >
+                    <option value="Australia">Australia</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                  </Select>
+                </div>
+
+                {/* Address */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Address*
+                  </label>
+                  <TextArea
+                    value={formData.address}
+                    onChange={(e) => handleInputChange('address', e.target.value)}
+                    placeholder="Enter full address"
+                    rows={3}
+                  />
+                </div>
+
+                {/* Building No/Street No */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Building No/Street No
+                  </label>
+                  <Input
+                    type="text"
+                    value={formData.buildingNo}
+                    onChange={(e) => handleInputChange('buildingNo', e.target.value)}
+                    placeholder="Enter Building No/Street No"
+                  />
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Password*
+                  </label>
+                  <Input
+                    type="text"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange('password', e.target.value)}
+                    placeholder="Auto-generated password"
+                  />
+                </div>
+
+                {/* Upload Image */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Upload Image
+                  </label>
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                    {formData.uploadImage ? (
                       <div className="relative">
-                        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input
-                          placeholder="Search Name, Phone, Email Address..."
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="pl-10 w-80"
+                        <img
+                          src={formData.uploadImage}
+                          alt="Project"
+                          className="w-full h-48 object-cover rounded-lg"
                         />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="absolute top-2 right-2 bg-white"
+                          onClick={() => handleInputChange('uploadImage', '')}
+                        >
+                          Remove
+                        </Button>
                       </div>
-                      <Button variant="outline" className="flex items-center space-x-2">
-                        <FilterIcon className="h-4 w-4" />
-                        <span>Filter</span>
-                      </Button>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Button className="bg-blue-600 hover:bg-blue-700">
-                        + Invite User
-                      </Button>
-                    </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="text-gray-400 mb-2">
+                          <svg className="mx-auto h-12 w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                        <p className="text-gray-500">Click to upload or drag and drop</p>
+                        <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
+                      </div>
+                    )}
                   </div>
+                </div>
 
-                  {/* Users Table */}
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="border-b border-gray-200 dark:border-gray-700">
-                          <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                            FULL NAME ↕
-                          </th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                            ROLE ↕
-                          </th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                            UNIT NO.
-                          </th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                            TRADES/CATEGORIES ↕
-                          </th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                            STATUS
-                          </th>
-                          <th className="w-12"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredUsers.map((user) => (
-                          <tr key={user.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td className="py-4 px-4 text-gray-900 dark:text-white">
-                              {user.fullName}
-                            </td>
-                            <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                              {user.role}
-                            </td>
-                            <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                              {user.unitNo}
-                            </td>
-                            <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                              {user.trades}
-                            </td>
-                            <td className="py-4 px-4">
-                              {getStatusBadge(user.status)}
-                            </td>
-                            <td className="py-4 px-4">
-                              <Button variant="ghost" size="sm">
-                                <MoreDotIcon className="h-4 w-4" />
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Pagination */}
-                  <div className="flex items-center justify-between mt-6">
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      Showing 1-10 of 1000 Rows: 20 ↕
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Button variant="outline" size="sm" disabled>
-                        ←
-                      </Button>
-                      <Button variant="outline" size="sm" className="bg-blue-600 text-white">
-                        1
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        2
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        3
-                      </Button>
-                      <span className="text-gray-500">...</span>
-                      <Button variant="outline" size="sm">
-                        100
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        →
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Other tabs content - placeholder */}
-            <TabsContent value="information">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-gray-600">Project Information content would go here...</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="documents">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-gray-600">Documents content would go here...</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="details">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-gray-600">Project Details content would go here...</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="contact">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-gray-600">Contact Details content would go here...</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="settings">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-gray-600">Project Settings content would go here...</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+                {/* Action Buttons */}
+                <div className="flex justify-end space-x-3 pt-6">
+                  <Button
+                    variant="outline"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleSave}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Update
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

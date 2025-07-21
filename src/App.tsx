@@ -52,6 +52,8 @@ import { AppointmentsPage } from "./pages/project/pages/appointments/Appointment
 import EditProject from "./pages/project/pages/EditProject";
 import OrganizationSetting from "./pages/admin/organization-settings/OrganizationSettingPage";
 import Workspace from "./pages/Workspace";
+import DocumentsPage from './pages/project/pages/DocumentsPage';
+import ConfigureProject from './pages/project/pages/ConfigureProject';
 
 const App: FC = function () {
   // if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -198,6 +200,11 @@ const App: FC = function () {
               </PrivateRoutes>
             }
           />
+           <Route path="/organization/:id/project/:project_id/configure" element={
+            <PrivateRoutes>
+              <ConfigureProject />
+            </PrivateRoutes>
+          } />
 
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-in/admin" element={<SignIn />} />
@@ -215,7 +222,7 @@ const App: FC = function () {
           <Route path="/pages/maintenance" element={<MaintenancePage />} />
 
           <Route path="/pages/500" element={<ServerErrorPage />} />
-          
+
           <Route
             path="/forgot-password/admin"
             element={<ForgotPassword />}
