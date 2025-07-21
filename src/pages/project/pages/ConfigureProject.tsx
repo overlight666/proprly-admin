@@ -914,7 +914,7 @@ const ConfigureProject = (): JSX.Element => {
                           </div>
                         </div>
 
-                        {/* ITP Configuration - Collapsed */}
+                        {/* ITP Configuration - Expanded */}
                         <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                           <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -922,9 +922,113 @@ const ConfigureProject = (): JSX.Element => {
                             </h3>
                             <button className="p-2 hover:bg-gray-100 rounded">
                               <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                               </svg>
                             </button>
+                          </div>
+                          
+                          {/* ITP Configuration Content */}
+                          <div className="p-6 space-y-6">
+                            {/* Enable Toggle */}
+                            <div className="flex items-center space-x-3">
+                              <div className="relative">
+                                <input
+                                  type="checkbox"
+                                  className="sr-only"
+                                  defaultChecked
+                                />
+                                <div className="w-12 h-6 bg-blue-600 rounded-full shadow-inner"></div>
+                                <div className="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow transform translate-x-6 transition-transform"></div>
+                              </div>
+                              <label className="text-sm font-medium text-gray-900 dark:text-white">
+                                Enable
+                              </label>
+                            </div>
+
+                            {/* Select location */}
+                            <div className="space-y-2 w-[50%]">
+                              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100">
+                                Select location*
+                              </label>
+                              <select
+                                className="w-full h-11 px-4 py-2.5 text-sm border border-gray-300 rounded-lg bg-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                defaultValue="B1+ Basement"
+                              >
+                                <option value="B1+ Basement">B1+ Basement</option>
+                                <option value="Tower A">Tower A</option>
+                                <option value="Tower B">Tower B</option>
+                                <option value="Common Areas">Common Areas</option>
+                              </select>
+                            </div>
+
+                            {/* Trade Section */}
+                            <div className="space-y-4">
+                              <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+                                Trade
+                              </h4>
+                              
+                              <div className="grid grid-cols-1 gap-3 max-w-md">
+                                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                                  <span className="text-sm font-medium text-blue-900 dark:text-blue-100">Demolisher</span>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">Excavator</span>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">Scaffolder</span>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">Concreter</span>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">Electrician</span>
+                                </div>
+                                <div className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                  <span className="text-sm text-gray-700 dark:text-gray-300">Builder</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Inspection Test Plans Section */}
+                            <div className="space-y-4">
+                              <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+                                Inspection Test Plans
+                              </h4>
+                              
+                              <div className="space-y-4">
+                                {/* ITP Demolisher */}
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                    ITP Demolisher
+                                  </span>
+                                  <div className="relative">
+                                    <input
+                                      type="checkbox"
+                                      className="sr-only"
+                                      defaultChecked
+                                    />
+                                    <div className="w-12 h-6 bg-blue-600 rounded-full shadow-inner"></div>
+                                    <div className="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow transform translate-x-6 transition-transform"></div>
+                                  </div>
+                                </div>
+
+                                {/* ITP Test (Optional) */}
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                    ITP Test (Optional)
+                                  </span>
+                                  <div className="relative">
+                                    <input
+                                      type="checkbox"
+                                      className="sr-only"
+                                      defaultChecked
+                                    />
+                                    <div className="w-12 h-6 bg-blue-600 rounded-full shadow-inner"></div>
+                                    <div className="absolute inset-y-0 left-0 w-6 h-6 bg-white rounded-full shadow transform translate-x-6 transition-transform"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
