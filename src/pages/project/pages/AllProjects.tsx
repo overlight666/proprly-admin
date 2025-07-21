@@ -1,212 +1,205 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavbarSidebarLayout from '@/layouts/navbar-sidebar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import Input from '@/components/ui/input';
-import { SearchIcon, FilterIcon, MoreDotIcon, GridIcon, OrderedListIcon } from '@/icons';
+import { Input } from '@/components/ui/input';
+import { SearchIcon, GridIcon, ListIcon } from '@/icons';
 
-interface Project {
-  id: string;
-  name: string;
-  invitedBy: string;
-  dateCreated: string;
-  roleType: string;
-  status: 'Rejected' | 'Pending';
-}
+// Mock data for the project
+const mockProject = {
+  id: 1,
+  name: "The Artisan",
+  subtitle: "70 Ocean Drive, NSW",
+  location: "Perth, AUSTRALIA",
+  status: "Active",
+  projectStatus: "11%",
+  image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300&h=200&fit=crop&crop=center",
+  resolvedDefects: 0,
+  minorDefects: 0,
+  properties: 3,
+  openDefects: 6
+};
 
-const mockProjects: Project[] = [
-  { id: '1', name: 'The Atrium', invitedBy: 'Chris Hua', dateCreated: '12-06-2025', roleType: 'Builder', status: 'Rejected' },
-  { id: '2', name: 'Project#1', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Sales Agent', status: 'Pending' },
-  { id: '3', name: 'Project#2', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Subcontractor', status: 'Pending' },
-  { id: '4', name: 'Project#2', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Strata', status: 'Pending' },
-  { id: '5', name: 'Project#2', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Developer', status: 'Pending' },
-  { id: '6', name: 'Project#2', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Auditor', status: 'Pending' },
-  { id: '7', name: 'Project#3', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Auditor', status: 'Pending' },
-  { id: '8', name: 'Project#4', invitedBy: 'Justin', dateCreated: '12-06-2025', roleType: 'Auditor', status: 'Pending' },
-];
-
-export const AllProjects: React.FC = () => {
+const AllProjects = (): JSX.Element => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  const filteredProjects = mockProjects.filter(project =>
-    project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.invitedBy.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleProjectClick = (projectId: number) => {
+    navigate(`/projects/${projectId}/configure`);
+  };
 
-  const getStatusBadge = (status: string) => {
-    if (status === 'Rejected') {
-      return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Rejected</Badge>;
-    }
-    return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">Pending</Badge>;
+  const handleAddNewProject = () => {
+    navigate('/projects/new');
   };
 
   return (
     <NavbarSidebarLayout>
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        {/* Breadcrumb */}
+        <div className="px-6 py-4">
+          <div className="flex items-center space-x-2 text-sm text-gray-500">
+            <span>📁</span>
             <span>Projects</span>
-            <span>/</span>
-            <span className="text-blue-600">All Project</span>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => navigate('/')}
-            className="text-gray-600 border-gray-300"
-          >
-            Back
-          </Button>
         </div>
 
-        <Card>
-          <CardContent className="p-6">
-            {/* Title and Search */}
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">All Projects</h1>
-              <div className="flex items-center space-x-4">
-                <div className="relative">
-                  <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 w-64"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant={viewMode === 'grid' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('grid')}
-                  >
-                    <GridIcon className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === 'list' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('list')}
-                  >
-                    <OrderedListIcon className="h-4 w-4" />
-                  </Button>
-                </div>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  Add New Project
+        {/* Header Section */}
+        <div className="px-6 pb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              {/* Tab Navigation */}
+              <div className="flex space-x-6">
+                <button className="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">
+                  Projects
+                </button>
+                <button className="text-gray-500 pb-2 font-medium hover:text-gray-700">
+                  Appointments
+                </button>
+                <button className="text-gray-500 pb-2 font-medium hover:text-gray-700">
+                  Reports
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Search and Controls */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {/* Search Bar */}
+              <div className="relative flex">
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-80 pr-10 rounded-r-none border-r-0"
+                />
+                <Button 
+                  variant="outline" 
+                  className="rounded-l-none bg-blue-600 hover:bg-blue-700 text-white border-blue-600 hover:border-blue-700"
+                >
+                  <SearchIcon className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" className="text-blue-600 border-blue-600">
-                  Add New Project
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex border rounded-md">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  className="rounded-r-none"
+                >
+                  <GridIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className="rounded-l-none"
+                >
+                  <ListIcon className="h-4 w-4" />
                 </Button>
               </div>
             </div>
 
-            {viewMode === 'list' && (
-              <>
-                {/* Projects Table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="border-b border-gray-200 dark:border-gray-700">
-                        <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                          PROJECTS ↕
-                        </th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                          INVITED BY ↕
-                        </th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                          DATE CREATED ↕
-                        </th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                          ROLE TYPE ↕
-                        </th>
-                        <th className="text-left py-3 px-4 font-medium text-gray-900 dark:text-white">
-                          STATUS
-                        </th>
-                        <th className="w-12"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredProjects.map((project) => (
-                        <tr key={project.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                          <td className="py-4 px-4 text-blue-600 font-medium cursor-pointer" 
-                              onClick={() => navigate(`/projects/${project.id}/configure`)}>
-                            {project.name}
-                          </td>
-                          <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                            {project.invitedBy}
-                          </td>
-                          <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                            {project.dateCreated}
-                          </td>
-                          <td className="py-4 px-4 text-gray-600 dark:text-gray-400">
-                            {project.roleType}
-                          </td>
-                          <td className="py-4 px-4">
-                            {getStatusBadge(project.status)}
-                          </td>
-                          <td className="py-4 px-4">
-                            <Button variant="ghost" size="sm">
-                              <MoreDotIcon className="h-4 w-4" />
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+            {/* Add New Project Button */}
+            <Button 
+              onClick={handleAddNewProject}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              + Add New Project
+            </Button>
+          </div>
+        </div>
 
-                {/* Pagination */}
-                <div className="flex items-center justify-between mt-6">
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Showing 1 of 10000 Rows: 20 ↕
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm" disabled>
-                      ←
-                    </Button>
-                    <Button variant="outline" size="sm" className="bg-blue-600 text-white">
-                      1
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      2
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      3
-                    </Button>
-                    <span className="text-gray-500">...</span>
-                    <Button variant="outline" size="sm">
-                      100
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      →
-                    </Button>
-                  </div>
+        {/* Project Cards */}
+        <div className="px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div 
+              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => handleProjectClick(mockProject.id)}
+            >
+              {/* Project Image */}
+              <div className="aspect-video relative">
+                <img 
+                  src={mockProject.image}
+                  alt={mockProject.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://via.placeholder.com/300x200/e5e7eb/6b7280?text=Project+Image';
+                  }}
+                />
+                <div className="absolute top-3 right-3">
+                  <button className="text-gray-400 hover:text-gray-600">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                  </button>
                 </div>
-              </>
-            )}
-
-            {viewMode === 'grid' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProjects.map((project) => (
-                  <Card key={project.id} className="hover:shadow-lg transition-shadow cursor-pointer"
-                      onClick={() => navigate(`/projects/${project.id}/configure`)}>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg mb-2 text-blue-600">{project.name}</h3>
-                      <p className="text-sm text-gray-600 mb-1">Invited by: {project.invitedBy}</p>
-                      <p className="text-sm text-gray-600 mb-1">Created: {project.dateCreated}</p>
-                      <p className="text-sm text-gray-600 mb-3">Role: {project.roleType}</p>
-                      {getStatusBadge(project.status)}
-                    </CardContent>
-                  </Card>
-                ))}
               </div>
-            )}
-          </CardContent>
-        </Card>
+
+              {/* Project Content */}
+              <div className="p-4">
+                {/* Project Name and Location */}
+                <div className="mb-3">
+                  <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                    {mockProject.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-1">
+                    {mockProject.subtitle}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {mockProject.location}
+                  </p>
+                </div>
+
+                {/* Project Status */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-gray-600">Project Status</span>
+                    <span className="text-xs text-gray-600">{mockProject.projectStatus}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full" 
+                      style={{ width: mockProject.projectStatus }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Defect Status Badges */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-800">
+                    Resolved Defects: {mockProject.resolvedDefects}
+                  </span>
+                  <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                    Minor Defects: {mockProject.minorDefects}
+                  </span>
+                </div>
+
+                {/* Additional Info */}
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
+                    Properties: {mockProject.properties}
+                  </span>
+                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                    Open Defects: {mockProject.openDefects}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-auto">
+          <div className="text-center text-sm text-gray-500 py-8">
+            © 2024 Proprly. All rights reserved.
+          </div>
+        </div>
       </div>
     </NavbarSidebarLayout>
   );
